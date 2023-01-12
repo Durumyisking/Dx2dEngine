@@ -162,14 +162,23 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="druMath.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicDevice.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Resources.h" />
+    <ClInclude Include="TimeMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="druMath.cpp" />
-    <ClCompile Include="Engine_SOURCE.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="TimeMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="druMath.ini" />

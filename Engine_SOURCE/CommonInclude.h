@@ -8,5 +8,11 @@
 #include <Windows.h>
 
 #include <vector>
-#include <map>
 #include <list>
+#include <map>
+
+#include <cmath>
+#include <algorithm>
+#include <limits>
+#include <memory>
+
