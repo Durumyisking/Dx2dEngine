@@ -18,7 +18,8 @@ namespace dru::graphics
 
 		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC* _Desc);
 		bool CreateTexture(D3D11_TEXTURE2D_DESC* _Desc, ID3D11Texture2D** _ppTexture2D);
-
+		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
+		bool CreateShader();
 
 		void Draw();
 	private:
@@ -42,4 +43,10 @@ namespace dru::graphics
 		//텍스처 로딩할때 사용된다.
 		//ID3D11SamplerState* mSampler[];
 	};
+
+	inline CGraphicDevice*& GetDevice()
+	{
+		static CGraphicDevice* device = nullptr; // static이라서 처음 한번만 초기화 하고 담에는 안지나감
+		return device;
+	}
 }

@@ -34,7 +34,7 @@ namespace dru::graphics
 
 		swapChainDesc.OutputWindow = hwnd; // 렌더될 윈도우의 핸들
 		swapChainDesc.Windowed = true; // 창모드 전체화면
-		swapChainDesc.BufferCount = 2; // 사용할 렌더링 버퍼개수
+		swapChainDesc.BufferCount = 2; // 사용할 렌더링 버퍼개수 최대 8개
 
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 버퍼 렌더타겟으로 쓸거임
 		swapChainDesc.BufferDesc.Width = application.GetWidth();
@@ -57,6 +57,7 @@ namespace dru::graphics
 			return;
 
 		// Get rendertarget for swapchain
+		//						0번 버퍼가 렌더타겟	도화지니까텍스처			목적지
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mRenderTarget.GetAddressOf());
 
 		// Create Rendertarget View
@@ -88,16 +89,17 @@ namespace dru::graphics
 
 	bool CGraphicDevice::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* _Desc)
 	{
-		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
-		Microsoft::WRL::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
+		Microsoft::WRL::ComPtr<IDXGIDevice> pDXGIDevice = nullptr; 
+		Microsoft::WRL::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr; 
+		Microsoft::WRL::ComPtr<IDXGIFactory> pDXGIFactory = nullptr; 
 
+													// hwnd같이 gpu접근객체
 		if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
 			return false;
-
+													// 내 그래픽 카드 정보가져옴
 		if (FAILED(pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pDXGIAdapter.GetAddressOf())))
 			return false;
-
+													// 전체화면 전환 관리 (swapchain 만들기 위해 필요)
 		if (FAILED(pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pDXGIFactory.GetAddressOf())))
 			return false;
 
@@ -115,12 +117,29 @@ namespace dru::graphics
 		return true;
 	}
 
+	bool CGraphicDevice::CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer)
+	{
+		// ram -> gpu 
+		// input assembly 단계로 버퍼 넘겨주는행위
+
+		if (FAILED(mDevice->CreateBuffer(_DESC, _Data, _Buffer)))
+			return false;
+
+		return true;
+	}
+
+
+	bool CGraphicDevice::CreateShader()
+	{
+		return true;
+	}
+
 	void CGraphicDevice::Draw()
 	{
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
 
-		mSwapChain->Present(1, 0); // 두번째 인자는 윈도우가 표시되지않을때 렌더링 할까말까 고르는거
+		mSwapChain->Present(1, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
 	}
 
 }

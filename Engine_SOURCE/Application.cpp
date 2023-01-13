@@ -1,8 +1,9 @@
 #include "Application.h"
-
+#include "Renderer.h"
 namespace dru
 {
 	using namespace graphics;
+
 	CApplication::CApplication()
 	{
 	}
@@ -17,6 +18,7 @@ namespace dru
 	}
 	void CApplication::init()
 	{
+		renderer::init();
 	}
 	void CApplication::update()
 	{
@@ -38,6 +40,7 @@ namespace dru
 
 			eValidationMode vaildationMode = eValidationMode::Disabled;
 			graphicDevice = std::make_unique<CGraphicDevice>();
+			graphics::GetDevice() = graphicDevice.get();
 		}
 
 		RECT rt = { 0, 0, (LONG)_width , (LONG)_height };

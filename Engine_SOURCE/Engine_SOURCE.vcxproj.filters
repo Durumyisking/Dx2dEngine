@@ -29,6 +29,9 @@
     <Filter Include="Time">
       <UniqueIdentifier>{e511b595-67e6-4863-b5df-87e0da6184d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Renderer">
+      <UniqueIdentifier>{3e66ee10-c4f4-4349-8a9a-9b592176b121}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -61,6 +64,9 @@
     <ClInclude Include="TimeMgr.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -86,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="TimeMgr.cpp">
       <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Graphics\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
