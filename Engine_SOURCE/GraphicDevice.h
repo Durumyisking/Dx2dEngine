@@ -15,6 +15,10 @@ namespace dru::graphics
 		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
 		bool CreateShader();
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
+		void BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
+
+								// 어떤쉐이더			//어떤타입
+		void SetConstantBuffer(eShaderStage _eStage, eCBType _eType, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void Draw();
 	private:

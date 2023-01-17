@@ -9,6 +9,12 @@ namespace dru::renderer
 	// vertex buffer
 	ID3D11Buffer*		triangleBuffer = nullptr;
 	ID3DBlob*			errorBlob = nullptr; // dx 내부에서 생긴 에러를 알려주는 친구
+
+	// idx buffer
+	ID3D11Buffer* triangleIndexBuffer = nullptr;
+
+	// idx buffer
+	ID3D11Buffer* triangleConstantBuffer = nullptr;
 	
 	// VS
 	ID3DBlob*			triangleVSBlob = nullptr; // VS bytecode 저장
@@ -49,18 +55,54 @@ namespace dru::renderer
 
 	void LoadBuffer()
 	{
+		// Vertex Buffer
 		// 디폴트 버퍼 : 타입 지정 해조야대;
 		// 이중 하나만 빠져도 망함
 		D3D11_BUFFER_DESC triangleDesc = {}; // 초기화 안하면 쓰레기값 들어감! 0아님!
 		triangleDesc.ByteWidth = sizeof(Vertex) * 4; // 데이터 크기
 		triangleDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER; // 버퍼타입지정
 		triangleDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		triangleDesc.CPUAccessFlags = D3D10_CPU_ACCESS_FLAG::D3D10_CPU_ACCESS_WRITE; // cpu접근 여부 : 우리는 당연히 쓸꺼니까 write
+		triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE; // cpu접근 여부 : 우리는 당연히 쓸꺼니까 write
 
 		D3D11_SUBRESOURCE_DATA triangleData = {};
 		triangleData.pSysMem = arrVertex;
 
 		GetDevice()->CreateBuffer(&triangleDesc, &triangleData, &triangleBuffer);
+
+
+		// Idx Buffer
+		std::vector<UINT> vecIndex;
+		vecIndex.push_back(0);
+		vecIndex.push_back(1);
+		vecIndex.push_back(2);
+
+		vecIndex.push_back(0);
+		vecIndex.push_back(2);
+		vecIndex.push_back(3);
+
+		D3D11_BUFFER_DESC idxDesc = {}; 
+		idxDesc.ByteWidth = vecIndex.size() * sizeof(UINT);
+		idxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER; 
+		idxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT; // 설정 후에 바뀔 일이 없음
+		idxDesc.CPUAccessFlags = 0; // cpu에서 접근할 이유 없음
+
+		D3D11_SUBRESOURCE_DATA idxData = {};
+		idxData.pSysMem = vecIndex.data();
+
+		GetDevice()->CreateBuffer(&idxDesc, &idxData, &triangleIndexBuffer);
+
+
+		// Const Buffer
+		D3D11_BUFFER_DESC constDesc = {};
+		constDesc.ByteWidth = sizeof(Vector4); // 들고있을 데이터 크기만큼 (일단은 위치 정보만)
+		constDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+		constDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+		constDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+
+		GetDevice()->CreateBuffer(&constDesc, nullptr, &triangleConstantBuffer);
+
+		Vector4 pos(0.2f, 0.2f, 0.f, 0.f);
+		GetDevice()->BindConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
 	}
 
 	void LoadShader()
@@ -72,13 +114,17 @@ namespace dru::renderer
 	{
 		// 중앙이 0, 0, 0이고 높이가 1인 정삼각형
 
-		arrVertex[0].pos = Vector3(0.0f, 0.5f, 0.5f);
-//		arrVertex[0].color = Vector4(1.f, 0.f, 0.f, 1.f); // RGB 비율좌표임
+		arrVertex[0].pos = Vector3(-0.5f, 0.5f, 0.5f);
+		arrVertex[0].color = Vector4(1.f, 0.f, 0.f, 1.f); // RGB 비율좌표임
 
-		arrVertex[1].pos = Vector3(0.5f, 0.f, 0.5f);
-//		arrVertex[1].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		arrVertex[1].pos = Vector3(0.5f, 0.5f, 0.5f);
+		arrVertex[1].color = Vector4(0.f, 1.f, 0.f, 1.f);
 
+		arrVertex[2].pos = Vector3(0.5f, -0.5f, 0.5f);
+		arrVertex[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
 
+		arrVertex[3].pos = Vector3(-0.5f, -0.5f, 0.5f);
+		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
 
 
 		LoadShader();
@@ -89,6 +135,17 @@ namespace dru::renderer
 
 	void release()
 	{
+		triangleBuffer->Release();
 
+		triangleIndexBuffer->Release();
+		triangleConstantBuffer->Release();
+
+		triangleVSBlob->Release();
+		triangleVS->Release();
+
+		trianglePSBlob->Release();
+		trianglePS->Release();
+
+		triangleLayout->Release();
 	}
 }

@@ -14,10 +14,15 @@ struct VTX_OUT
     float4 vColor : COLOR;
 };
 
+cbuffer Transform : register(b0) // 그래픽카드 레지스터의 b0을 상수버퍼로 쓸거임
+{
+    float4 cbPos;
+}
+
 VTX_OUT VS(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.0f; // 초기화
-    output.vPos = float4(_in.vPos, 1.f); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
+    output.vPos = float4(_in.vPos + cbPos.xyz, 1.f); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
     output.vColor = _in.vColor;
 
     return output; // 얘를 레스터라이저에 보내줌

@@ -21,6 +21,12 @@ namespace dru::renderer
 	extern ID3D11Buffer* triangleBuffer;
 	extern ID3DBlob* errorBlob;
 
+	// idx buffer
+	extern ID3D11Buffer* triangleIndexBuffer;
+
+	// idx buffer
+	extern ID3D11Buffer* triangleConstantBuffer;
+
 	// VS
 	extern ID3DBlob* triangleVSBlob;
 	extern ID3D11VertexShader* triangleVS;

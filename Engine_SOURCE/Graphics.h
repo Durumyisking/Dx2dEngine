@@ -20,8 +20,13 @@ namespace dru::graphics
 	enum class eShaderStage
 	{
 		VS,
+		HS,
+		DS,
+		GS,
 		PS,
-		Count,
+		CS,
+
+		End,
 
 	};
 

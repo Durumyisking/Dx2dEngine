@@ -4,8 +4,12 @@
 namespace dru
 {
 	CEntity::CEntity()
-		: mName(L"")
-		, mID((UINT32)this)
+		: mID(reinterpret_cast<UINT32>(this))
+	{
+	}
+	CEntity::CEntity(const CEntity& other)
+		: mID(reinterpret_cast<UINT32>(this))
+		, mName(other.mName)
 	{
 	}
 	CEntity::~CEntity()

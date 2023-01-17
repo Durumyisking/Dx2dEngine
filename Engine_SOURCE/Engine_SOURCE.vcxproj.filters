@@ -32,6 +32,24 @@
     <Filter Include="Graphics\Renderer">
       <UniqueIdentifier>{3e66ee10-c4f4-4349-8a9a-9b592176b121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{ada16d80-48ba-4677-8e21-4c7d78667cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj">
+      <UniqueIdentifier>{ccd15fdd-31ba-4ced-8ea7-a2e5acfb3e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{95a2fee9-d057-402b-acd1-f65f5ba2eb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Shader">
+      <UniqueIdentifier>{ee87d9d2-0f0b-4256-aedf-8c620ec6a880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Manager">
+      <UniqueIdentifier>{f5f2cb9f-e7c9-494a-8dc9-9717435bb70f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Component">
+      <UniqueIdentifier>{62eecbab-450d-4710-9651-1fce21aeebd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -52,9 +70,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Common\Entity</Filter>
     </ClInclude>
@@ -73,6 +88,33 @@
     <ClInclude Include="Engine.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObj.h">
+      <Filter>GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Resource\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>GameObj\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -87,9 +129,6 @@
     <ClCompile Include="Resource.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Resources.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Common\Entity</Filter>
     </ClCompile>
@@ -101,6 +140,33 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObj.cpp">
+      <Filter>GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Resource\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>GameObj\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

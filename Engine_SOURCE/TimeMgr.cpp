@@ -5,48 +5,55 @@ extern dru::CApplication application;
 
 namespace dru
 {
-	LARGE_INTEGER CTimeMgr::mCpuFrequency;
-	LARGE_INTEGER CTimeMgr::mPrevFrequency;
-	LARGE_INTEGER CTimeMgr::mCurFrequency;
-	float CTimeMgr::mDeltaTime = 0.0f;
-	float CTimeMgr::mTime = 0.0f;
+    LARGE_INTEGER	CTimeMgr::mCpuFrequency = {};
+    LARGE_INTEGER   CTimeMgr::mPrevFrequency = {};
+    LARGE_INTEGER	CTimeMgr::mCurFrequency = {};
+    float			CTimeMgr::mDeltaTime = 0.0f;
+    float			CTimeMgr::mOneSecond = 0.0f;
 
-	void CTimeMgr::Initialize()
-	{
-		// Sleep();
-		// CPU 초당 반복되는 진동수를 얻어오는 함수
-		QueryPerformanceFrequency(&mCpuFrequency);
+    void CTimeMgr::Initialize()
+    {
+        //CPU 의 초당 반복되는 주파수를 얻어온다.
+        QueryPerformanceFrequency(&mCpuFrequency);
 
-		// 프로그램 시작 했을때 cpu의 클럿 수
-		QueryPerformanceCounter(&mPrevFrequency);
-	}
+        //프로그램을 시작했을때의 CPU 클럭 수
+        QueryPerformanceCounter(&mPrevFrequency);
+    }
 
-	void CTimeMgr::Tick()
-	{
-		QueryPerformanceCounter(&mCurFrequency);
+    void CTimeMgr::update()
+    {
+        QueryPerformanceCounter(&mCurFrequency);
 
-		float differenceFrequency
-			= static_cast<float>(mCurFrequency.QuadPart - mPrevFrequency.QuadPart);
-		mDeltaTime = differenceFrequency / static_cast<float>(mCpuFrequency.QuadPart);
+        float differenceInFrequancy
+            = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
-		// 다시 이전의 값을 새로운 지금 값으로 세팅
-		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
-	}
+        mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
+        mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
+    }
 
-	void CTimeMgr::Render(HDC hdc)
-	{
-		mTime += CTimeMgr::DeltaTime();
-		if (mTime > 1.0f)
-		{
-			wchar_t szFloat[50] = {};
-			float fps = 1.0f / mDeltaTime;
-			swprintf_s(szFloat, 50, L"fps : %f", fps);
+    void CTimeMgr::Render(HDC hdc)
+    {
+        static int iCount = 0;
+        ++iCount;
 
-			HWND hWnd = application.GetHwnd();
 
-			SetWindowText(hWnd, szFloat);
-			mTime = 0.0f;
-		}
-	}
+        // 1 초에 한번
+        mOneSecond += mDeltaTime;
+        if (1.0f < mOneSecond)
+        {
+            HWND hWnd = application.GetHwnd();
 
+            wchar_t szFloat[50] = {};
+            float FPS = 1.f / mDeltaTime;
+            swprintf_s(szFloat, 50, L"DeltaTime : %d", iCount);
+            int iLen = wcsnlen_s(szFloat, 50);
+            //TextOut(_dc, 10, 10, szFloat, iLen);
+
+            SetWindowText(hWnd, szFloat);
+
+            // 누적시간, 카운트 초기화
+            mOneSecond = 0.f;
+            iCount = 0;
+        }
+    }
 }

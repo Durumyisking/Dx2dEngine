@@ -1,29 +1,18 @@
 #pragma once
 #include "Engine.h"
-#include "Resource.h"
 
 namespace dru
 {
+	class CResource;
 	class CResources
 	{
 	public:
-		typedef std::map<std::wstring, CResource*>::iterator ResourceIter;
-
-		template <typename T>
-		static void Insert(const std::wstring& key, T* resource)
-		{
-			if (resource == nullptr
-				|| key == L"")
-				return;
-
-			mResources.insert(std::make_pair(key, resource));
-		}
-
 		template <typename T>
 		static T* Find(const std::wstring& key)
 		{
-			ResourceIter iter = mResources.find(key);
-			// 리소스가 이미 map안에 존재한다
+			std::map<std::wstring, CResource*>::iterator iter = mResources.find(key);
+
+			// 이미 동일한 키값으로 다른 리소스가 먼저 등록되어 있었다.
 			if (iter != mResources.end())
 			{
 				return dynamic_cast<T*>(iter->second);
@@ -35,39 +24,40 @@ namespace dru
 		template <typename T>
 		static T* Load(const std::wstring& key, const std::wstring& path)
 		{
+			// 키값으로 탐색
 			T* resource = CResources::Find<T>(key);
-			// 해당 키로 이미 로딩된게 있으면 리소스를 반환
-			if (resource != nullptr)
+			if (nullptr != resource)
+			{
+				// 해당키로 이미 로딩된게 있으면 해당 리소스를 반환
 				return resource;
+			}
 
-			// 리소스가 없다
+			// 해당 키로 로딩된 리소스가 없다.
 			resource = new T();
 			if (FAILED(resource->Load(path)))
 			{
-				MessageBox(nullptr, L"Image Load Failed!!!", L"Error", MB_OK);
+				MessageBox(nullptr, L"Image Load Failed!", L"Error", MB_OK);
 				return nullptr;
 			}
 
 			resource->SetKey(key);
 			resource->SetPath(path);
-
-			mResources.insert(std::make_pair(key, resource));
+			mResources.insert(make_pair(key, dynamic_cast<CResource*>(resource)));
 
 			return dynamic_cast<T*>(resource);
 		}
 
-		static void Release(void)
+		template <typename T>
+		static void Insert(const std::wstring& key, T* resource)
 		{
-			ResourceIter iter = mResources.begin();
-			for (; iter != mResources.end(); ++iter)
-			{
-				if (iter->second == nullptr)
-					continue;
-
-				delete (iter->second);
-				iter->second = nullptr;
-			}
+			mResources.insert(make_pair(key, dynamic_cast<CResource*>(resource)));
 		}
+
+		static void Release();
+
+	private:
+		CResources() = delete;
+		~CResources() = delete;
 
 	private:
 		static std::map<std::wstring, CResource*> mResources;

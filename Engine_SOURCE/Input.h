@@ -23,12 +23,12 @@ namespace dru
 		NUM_9,
 
 		//Num Line
-		N_0, N_1, N_2, N_3, N_4, N_5, N_6, N_7, N_8, N_9,
+		N_0, N_1, N_2, N_3, N_4, N_5,
+		N_6, N_7, N_8, N_9,
 
-		End,
+		END,
 	};
-
-	enum class eKeyState
+	enum eKeyState
 	{
 		DOWN,
 		PRESSED,
@@ -41,24 +41,31 @@ namespace dru
 	public:
 		struct Key
 		{
-			// 나의 키 종류
-			eKeyCode keyCode;
-			// 키보드 상태
-			eKeyState state;
-			bool bPressed;
+			eKeyCode  eType;
+			eKeyState eState;
+			bool	  bPressed;
 		};
 
-	public:
 		static void Initialize();
-		static void Tick();
-		static void Render(HDC hdc);
-		static eKeyState GetKeyState(eKeyCode keyCode);
-		static math::Vector2 GetMousePos() { return mMousePos; }
-		static math::Vector2 GetMousePos(HWND hWnd);
+		static void update();
+
+		static __forceinline eKeyState GetKeyState(eKeyCode keyCode)
+		{
+			return mKeys[static_cast<UINT>(keyCode)].eState;
+		}
+
+		static __forceinline math::Vector2 GetMousPosition()
+		{
+			return mMousPosition;
+		}
+
+	private:
+		Input() = delete;
+		~Input() = delete;
 
 	private:
 		static std::vector<Key> mKeys;
-		static math::Vector2 mMousePos;
+		static math::Vector2 mMousPosition;
 	};
 }
 

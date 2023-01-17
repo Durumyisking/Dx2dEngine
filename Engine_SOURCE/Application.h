@@ -36,6 +36,7 @@ namespace dru
 		std::unique_ptr<graphics::CGraphicDevice> graphicDevice;
 
 		HWND mHwnd;
+		HDC	 mHdc;
 		UINT mWidth;
 		UINT mHeight;
 	};

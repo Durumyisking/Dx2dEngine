@@ -1,5 +1,8 @@
 #include "Application.h"
 #include "Renderer.h"
+#include "TimeMgr.h"
+#include "Input.h"
+
 namespace dru
 {
 	using namespace graphics;
@@ -18,16 +21,22 @@ namespace dru
 	}
 	void CApplication::init()
 	{
+		CTimeMgr::Initialize();
+		Input::Initialize();
+
 		renderer::init();
 	}
 	void CApplication::update()
 	{
+		CTimeMgr::update();
+		Input::update();
 	}
 	void CApplication::fixedupdate()
 	{
 	}
 	void CApplication::render()
 	{
+		CTimeMgr::Render(mHdc);
 		graphicDevice->Draw();
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
@@ -35,6 +44,7 @@ namespace dru
 		if (graphicDevice == nullptr)
 		{
 			mHwnd = _hwnd;
+			mHdc = GetDC(mHwnd);
 			mWidth = _width;
 			mHeight = _height;
 

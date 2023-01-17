@@ -180,13 +180,11 @@ namespace dru::graphics
 			errorBlob = nullptr;
 		}
 
-
-
 		// Pixel Shader
 		std::wstring psPath(shaderPath.c_str());
-		psPath += L"PSTriangle.hlsl"; // hlsli는 inline 함수로 쓰는것들 모아놓으려고 만든것
+		psPath += L"PSTriangle.hlsl"; 
 		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "PS", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &errorBlob); // hlsl파일의 코드를 그래픽카드 언어로 컴파일 해줌
+			, "PS", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &errorBlob); 
 		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
 			, renderer::trianglePSBlob->GetBufferSize()
 			, nullptr, &renderer::trianglePS);
@@ -196,8 +194,7 @@ namespace dru::graphics
 			errorBlob->Release();
 			errorBlob = nullptr;
 		}
-			
-
+		
 		return true;
 	}
 
@@ -206,21 +203,62 @@ namespace dru::graphics
 		mContext->RSSetViewports(1, _ViewPort);
 	}
 
+	void CGraphicDevice::BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
+	{
+		// gpu에 값 줄거니까 데이터 바꿔서 보내야해
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+		memcpy(sub.pData, _Data, _Size);
+		mContext->Unmap(_Buffer, 0);
+	}
+
+	
+	void CGraphicDevice::SetConstantBuffer(eShaderStage _eStage, eCBType _eType, ID3D11Buffer* _Buffer)
+	{
+		switch (_eStage)
+		{
+		case dru::graphics::eShaderStage::VS:
+			mContext->VSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::HS:
+			mContext->HSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::DS:
+			mContext->DSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::GS:
+			mContext->GSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::PS:
+			mContext->PSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::CS:
+			mContext->CSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			break;
+		default:
+			break;
+		}
+	}
+
 	void CGraphicDevice::Draw()
 	{
 		// bind resource
 		D3D11_MAPPED_SUBRESOURCE sub = {};
-		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub); // renderer::triangleBuffer에 동적할당해서 데이터를 생성후 sub에 전달 
+		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub); // renderer::triangleBuffer와 sub를 연결 후
+																				// D3D11_MAPPED_SUBRESOURCE 타입으로 데이터를 매핑한다.
 		memcpy(sub.pData, renderer::arrVertex, sizeof(renderer::Vertex) * 4); // sub에 arrVertex 데이터 복사
-		mContext->Unmap(renderer::triangleBuffer, 0); // renderer::triangleBuffer 메모리 해제
+		mContext->Unmap(renderer::triangleBuffer, 0); // 매핑 해제
 
 		// clear target
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
 
+		// 상수버퍼를 쉐이더에 전달
+		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer);
+
 		// resize viewport
-		RECT winRect;
+		RECT winRect;	
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
 		BindViewports(&mViewPort);
@@ -230,7 +268,8 @@ namespace dru::graphics
 		// input assembler 버텍스정보를 지정
 		UINT vertexSize = sizeof(renderer::Vertex);
 		UINT offset = 0;
-		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
+		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset); // vertex buffer set
+		mContext->IASetIndexBuffer(renderer::triangleIndexBuffer, DXGI_FORMAT_R32_UINT, 0); // index buffer set
 		mContext->IASetInputLayout(renderer::triangleLayout);
 		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -238,7 +277,7 @@ namespace dru::graphics
 		mContext->VSSetShader(renderer::triangleVS, 0, 0);
 		mContext->PSSetShader(renderer::trianglePS, 0, 0);
 
-		mContext->Draw(4, 0);
+		mContext->DrawIndexed(6, 0, 0);
 
 		// Draw!!
 		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
