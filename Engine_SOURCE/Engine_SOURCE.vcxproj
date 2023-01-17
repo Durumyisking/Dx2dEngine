@@ -161,7 +161,9 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="druEnums.h" />
     <ClInclude Include="druMath.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />

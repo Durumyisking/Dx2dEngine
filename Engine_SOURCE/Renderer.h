@@ -1,8 +1,10 @@
 #pragma once
 #include "CommonInclude.h"
 #include "druMath.h"
+#include "GraphicDevice.h"
 
 using namespace dru::math;
+using namespace dru::graphics;
 
 namespace dru::renderer
 {
@@ -12,9 +14,24 @@ namespace dru::renderer
 		Vector4	color;
 	};
 
-	void SetUpState();
-	void LoadBuffer();
-	void LoadShader();
+	// vertex data
+	extern Vertex	arrVertex[4];
+
+	// vertex buffer
+	extern ID3D11Buffer* triangleBuffer;
+	extern ID3DBlob* errorBlob;
+
+	// VS
+	extern ID3DBlob* triangleVSBlob;
+	extern ID3D11VertexShader* triangleVS;
+	 
+	 // PS
+	extern ID3DBlob* trianglePSBlob;
+	extern ID3D11PixelShader* trianglePS;
+		
+	// Input Layout
+	extern ID3D11InputLayout* triangleLayout; // 정점 버퍼에 정점정보 세팅해주는애
+
 
 	void init();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라

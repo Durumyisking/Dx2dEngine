@@ -1,5 +1,6 @@
 #include "GraphicDevice.h"
 #include "Application.h"
+#include "Renderer.h"
 
 extern dru::CApplication application;
 
@@ -34,7 +35,8 @@ namespace dru::graphics
 
 		swapChainDesc.OutputWindow = hwnd; // 렌더될 윈도우의 핸들
 		swapChainDesc.Windowed = true; // 창모드 전체화면
-		swapChainDesc.BufferCount = 2; // 사용할 렌더링 버퍼개수 최대 8개
+		swapChainDesc.BufferCount = 2; // 사용할 렌더링 버퍼개수 최대 8
+		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // 버퍼 렌더타겟으로 쓸거임
 		swapChainDesc.BufferDesc.Width = application.GetWidth();
@@ -63,16 +65,20 @@ namespace dru::graphics
 		// Create Rendertarget View
 		hr = mDevice->CreateRenderTargetView(mRenderTarget.Get(), nullptr, mRenderTargetView.GetAddressOf());
 
+		// Depth/Stencil Buffer
 		D3D11_TEXTURE2D_DESC depthBuffer = {};
 		depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
-		depthBuffer.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
 		depthBuffer.Usage = D3D11_USAGE_DEFAULT;
 		depthBuffer.CPUAccessFlags = 0;
+
+		depthBuffer.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
 		depthBuffer.Width = application.GetWidth();
 		depthBuffer.Height = application.GetHeight();
 		depthBuffer.ArraySize = 1; // 깊이버퍼 하나만 쓸거니까
+
 		depthBuffer.SampleDesc.Count = 1;
 		depthBuffer.SampleDesc.Quality = 0;
+
 		depthBuffer.MipLevels = 1;
 		depthBuffer.MiscFlags = 0;
 
@@ -81,6 +87,18 @@ namespace dru::graphics
 
 		if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf())))
 			return;
+
+		
+		// Setting Viewport
+		
+		// ndc -> window
+		RECT winRect;
+		GetClientRect(application.GetHwnd(), &winRect);
+		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
+		BindViewports(&mViewPort);
+
+		// RenderTarget Set
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
 	}
 
 	CGraphicDevice::~CGraphicDevice()
@@ -117,6 +135,17 @@ namespace dru::graphics
 		return true;
 	}
 
+	bool CGraphicDevice::CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements, const void* _Bytecode, SIZE_T _BytecodeLength, ID3D11InputLayout** _ppInputLayout)
+	{
+		if (FAILED(mDevice->CreateInputLayout(_Desc, _NumElements, _Bytecode, _BytecodeLength, _ppInputLayout)))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
 	bool CGraphicDevice::CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer)
 	{
 		// ram -> gpu 
@@ -131,15 +160,88 @@ namespace dru::graphics
 
 	bool CGraphicDevice::CreateShader()
 	{
+		ID3DBlob* errorBlob = nullptr;
+
+		std::filesystem::path shaderPath = std::filesystem::current_path().parent_path(); // 현재 path의 부모 path 얻기
+		shaderPath += "\\SHADER_SOURCE\\";
+
+		// Vertex Shader
+		std::wstring vsPath(shaderPath.c_str());
+		vsPath += L"VSTriangle.hlsl"; // hlsli는 inline 함수로 쓰는것들 모아놓으려고 만든것
+		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+			, "VS", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &errorBlob); // hlsl파일의 코드를 그래픽카드 언어로 컴파일 해줌
+		mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
+			, renderer::triangleVSBlob->GetBufferSize()
+			, nullptr, &renderer::triangleVS);
+		if (errorBlob)
+		{
+			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+			errorBlob->Release();
+			errorBlob = nullptr;
+		}
+
+
+
+		// Pixel Shader
+		std::wstring psPath(shaderPath.c_str());
+		psPath += L"PSTriangle.hlsl"; // hlsli는 inline 함수로 쓰는것들 모아놓으려고 만든것
+		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+			, "PS", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &errorBlob); // hlsl파일의 코드를 그래픽카드 언어로 컴파일 해줌
+		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
+			, renderer::trianglePSBlob->GetBufferSize()
+			, nullptr, &renderer::trianglePS);
+		if (errorBlob)
+		{
+			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+			errorBlob->Release();
+			errorBlob = nullptr;
+		}
+			
+
 		return true;
+	}
+
+	void CGraphicDevice::BindViewports(D3D11_VIEWPORT* _ViewPort)
+	{
+		mContext->RSSetViewports(1, _ViewPort);
 	}
 
 	void CGraphicDevice::Draw()
 	{
+		// bind resource
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub); // renderer::triangleBuffer에 동적할당해서 데이터를 생성후 sub에 전달 
+		memcpy(sub.pData, renderer::arrVertex, sizeof(renderer::Vertex) * 4); // sub에 arrVertex 데이터 복사
+		mContext->Unmap(renderer::triangleBuffer, 0); // renderer::triangleBuffer 메모리 해제
+
+		// clear target
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
+		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
 
-		mSwapChain->Present(1, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+		// resize viewport
+		RECT winRect;
+		GetClientRect(application.GetHwnd(), &winRect);
+		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
+		BindViewports(&mViewPort);
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+
+
+		// input assembler 버텍스정보를 지정
+		UINT vertexSize = sizeof(renderer::Vertex);
+		UINT offset = 0;
+		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
+		mContext->IASetInputLayout(renderer::triangleLayout);
+		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// 생성한 쉐이더 세팅
+		mContext->VSSetShader(renderer::triangleVS, 0, 0);
+		mContext->PSSetShader(renderer::trianglePS, 0, 0);
+
+		mContext->Draw(4, 0);
+
+		// Draw!!
+		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
 	}
 
 }

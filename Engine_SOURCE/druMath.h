@@ -1,10 +1,6 @@
 #pragma once
-#include "CommonInclude.h"
+#include "Engine.h"
 
-#include <cmath>
-#include <algorithm>
-#include <limits>
-#include <Windows.h>
 
 
 #if __has_include("DirectXMath.h")

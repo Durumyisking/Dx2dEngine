@@ -67,6 +67,12 @@
     <ClInclude Include="Renderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="druEnums.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">

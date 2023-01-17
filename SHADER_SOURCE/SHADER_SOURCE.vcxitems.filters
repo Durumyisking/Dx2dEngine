@@ -9,8 +9,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)TriangleVS.hlsli">
+    <FxCompile Include="$(MSBuildThisFileDirectory)VSTriangle.hlsl">
       <Filter>VS</Filter>
-    </None>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PSTriangle.hlsl">
+      <Filter>PS</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
