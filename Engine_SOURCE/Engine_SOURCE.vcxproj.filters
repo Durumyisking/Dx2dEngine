@@ -50,6 +50,9 @@
     <Filter Include="GameObj\Component">
       <UniqueIdentifier>{62eecbab-450d-4710-9651-1fce21aeebd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\Material">
+      <UniqueIdentifier>{f5dbc21b-39bf-46fe-8fd6-6a267aa2a30d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -115,6 +118,15 @@
     <ClInclude Include="Component.h">
       <Filter>GameObj\Component</Filter>
     </ClInclude>
+    <ClInclude Include="SceneMain.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Resource\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -167,6 +179,15 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>GameObj\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMain.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTitle.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Resource\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

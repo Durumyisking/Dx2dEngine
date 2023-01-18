@@ -37,7 +37,7 @@ namespace dru
 	void CApplication::render()
 	{
 		CTimeMgr::Render(mHdc);
-		graphicDevice->Draw();
+		graphicDevice->Render();
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{

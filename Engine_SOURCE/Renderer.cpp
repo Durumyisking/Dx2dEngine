@@ -1,31 +1,17 @@
 #include "Renderer.h"
-
+#include "Resources.h"
 
 namespace dru::renderer
 {
 	// vertex data
 	Vertex				arrVertex[4] = {};
 
-	// vertex buffer
-	ID3D11Buffer*		triangleBuffer = nullptr;
-	ID3DBlob*			errorBlob = nullptr; // dx 내부에서 생긴 에러를 알려주는 친구
 
+
+	Microsoft::WRL::ComPtr <ID3DBlob>			errorBlob = nullptr; // dx 내부에서 생긴 에러를 알려주는 친구
+		
 	// idx buffer
-	ID3D11Buffer* triangleIndexBuffer = nullptr;
-
-	// idx buffer
-	ID3D11Buffer* triangleConstantBuffer = nullptr;
-	
-	// VS
-	ID3DBlob*			triangleVSBlob = nullptr; // VS bytecode 저장
-	ID3D11VertexShader* triangleVS = nullptr;
-
-	// PS
-	ID3DBlob*			trianglePSBlob = nullptr; // PS bytecode 저장
-	ID3D11PixelShader*	trianglePS = nullptr;
-
-	// Input Layout
-	ID3D11InputLayout*	triangleLayout = nullptr; // 정점 버퍼에 정점정보 세팅해주는애
+	Microsoft::WRL::ComPtr <ID3D11Buffer> triangleConstantBuffer = nullptr;
 
 
 	void SetUpState()
@@ -55,42 +41,21 @@ namespace dru::renderer
 
 	void LoadBuffer()
 	{
-		// Vertex Buffer
-		// 디폴트 버퍼 : 타입 지정 해조야대;
-		// 이중 하나만 빠져도 망함
-		D3D11_BUFFER_DESC triangleDesc = {}; // 초기화 안하면 쓰레기값 들어감! 0아님!
-		triangleDesc.ByteWidth = sizeof(Vertex) * 4; // 데이터 크기
-		triangleDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER; // 버퍼타입지정
-		triangleDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE; // cpu접근 여부 : 우리는 당연히 쓸꺼니까 write
+		Mesh = new CMesh();
+		CResources::Insert<CMesh>(L"RectMesh", Mesh);
 
-		D3D11_SUBRESOURCE_DATA triangleData = {};
-		triangleData.pSysMem = arrVertex;
+		Mesh->CreateVertexBuffer(arrVertex, 4);
 
-		GetDevice()->CreateBuffer(&triangleDesc, &triangleData, &triangleBuffer);
+		std::vector<UINT> vecIdx = {};
 
+		vecIdx.push_back(0);
+		vecIdx.push_back(1);
+		vecIdx.push_back(3);
+		vecIdx.push_back(0);
+		vecIdx.push_back(3);
+		vecIdx.push_back(2);
 
-		// Idx Buffer
-		std::vector<UINT> vecIndex;
-		vecIndex.push_back(0);
-		vecIndex.push_back(1);
-		vecIndex.push_back(2);
-
-		vecIndex.push_back(0);
-		vecIndex.push_back(2);
-		vecIndex.push_back(3);
-
-		D3D11_BUFFER_DESC idxDesc = {}; 
-		idxDesc.ByteWidth = vecIndex.size() * sizeof(UINT);
-		idxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER; 
-		idxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT; // 설정 후에 바뀔 일이 없음
-		idxDesc.CPUAccessFlags = 0; // cpu에서 접근할 이유 없음
-
-		D3D11_SUBRESOURCE_DATA idxData = {};
-		idxData.pSysMem = vecIndex.data();
-
-		GetDevice()->CreateBuffer(&idxDesc, &idxData, &triangleIndexBuffer);
-
+		Mesh->CreateIndexBuffer(&vecIdx, 6);
 
 		// Const Buffer
 		D3D11_BUFFER_DESC constDesc = {};
@@ -98,11 +63,10 @@ namespace dru::renderer
 		constDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
 		constDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 		constDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
-
-		GetDevice()->CreateBuffer(&constDesc, nullptr, &triangleConstantBuffer);
+		GetDevice()->CreateBuffer(&constDesc, nullptr, triangleConstantBuffer.GetAddressOf());
 
 		Vector4 pos(0.2f, 0.2f, 0.f, 0.f);
-		GetDevice()->BindConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
+		GetDevice()->BindConstantBuffer(triangleConstantBuffer.Get(), &pos, sizeof(Vector4));
 	}
 
 	void LoadShader()
@@ -135,17 +99,7 @@ namespace dru::renderer
 
 	void release()
 	{
-		triangleBuffer->Release();
+		delete Mesh;
 
-		triangleIndexBuffer->Release();
-		triangleConstantBuffer->Release();
-
-		triangleVSBlob->Release();
-		triangleVS->Release();
-
-		trianglePSBlob->Release();
-		trianglePS->Release();
-
-		triangleLayout->Release();
 	}
 }

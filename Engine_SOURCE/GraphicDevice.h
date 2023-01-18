@@ -13,7 +13,10 @@ namespace dru::graphics
 		bool CreateTexture(D3D11_TEXTURE2D_DESC* _Desc, ID3D11Texture2D** _ppTexture2D);
 		bool CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements, const void* _Bytecode, SIZE_T _BytecodeLength, ID3D11InputLayout** _ppInputLayout);
 		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
-		bool CreateShader();
+		
+
+		void BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer *const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets);
+		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset);
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
 		void BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 
@@ -21,6 +24,17 @@ namespace dru::graphics
 		void SetConstantBuffer(eShaderStage _eStage, eCBType _eType, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void Draw();
+		void DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation = 0);
+
+		void Clear();
+		void AdjustViewPorts();
+		void Present();
+		void Render();
+
+		Microsoft::WRL::ComPtr <ID3D11Device>		 GetdxDevice() const { return mDevice; }
+		Microsoft::WRL::ComPtr <ID3D11DeviceContext> GetDeviceContext() const { return mContext; }
+
+
 	private:
 		// GPU 객체 생성 그래픽카드와 연결되는 기본적인 객체 
 		Microsoft::WRL::ComPtr <ID3D11Device> mDevice; // ComPtr : 이 멤버를 가지고 있는 클래스의 소멸자가 호출될때 해당 멤버의 타입의 소멸자가 자동으로 호출된다.

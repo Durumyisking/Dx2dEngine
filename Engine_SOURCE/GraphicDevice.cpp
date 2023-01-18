@@ -1,6 +1,7 @@
 #include "GraphicDevice.h"
 #include "Application.h"
 #include "Renderer.h"
+#include "Mesh.h"
 
 extern dru::CApplication application;
 
@@ -158,44 +159,15 @@ namespace dru::graphics
 	}
 
 
-	bool CGraphicDevice::CreateShader()
+
+	void CGraphicDevice::BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets)
 	{
-		ID3DBlob* errorBlob = nullptr;
+		mContext->IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets); // vertex buffer set
+	}
 
-		std::filesystem::path shaderPath = std::filesystem::current_path().parent_path(); // 현재 path의 부모 path 얻기
-		shaderPath += "\\SHADER_SOURCE\\";
-
-		// Vertex Shader
-		std::wstring vsPath(shaderPath.c_str());
-		vsPath += L"VSTriangle.hlsl"; // hlsli는 inline 함수로 쓰는것들 모아놓으려고 만든것
-		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "VS", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &errorBlob); // hlsl파일의 코드를 그래픽카드 언어로 컴파일 해줌
-		mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
-			, renderer::triangleVSBlob->GetBufferSize()
-			, nullptr, &renderer::triangleVS);
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
-
-		// Pixel Shader
-		std::wstring psPath(shaderPath.c_str());
-		psPath += L"PSTriangle.hlsl"; 
-		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "PS", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &errorBlob); 
-		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
-			, renderer::trianglePSBlob->GetBufferSize()
-			, nullptr, &renderer::trianglePS);
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
-		
-		return true;
+	void CGraphicDevice::BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset)
+	{
+		mContext->IASetIndexBuffer(pIndexBuffer, Format, Offset); // index buffer set
 	}
 
 	void CGraphicDevice::BindViewports(D3D11_VIEWPORT* _ViewPort)
@@ -242,45 +214,54 @@ namespace dru::graphics
 
 	void CGraphicDevice::Draw()
 	{
-		// bind resource
-		D3D11_MAPPED_SUBRESOURCE sub = {};
-		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub); // renderer::triangleBuffer와 sub를 연결 후
-																				// D3D11_MAPPED_SUBRESOURCE 타입으로 데이터를 매핑한다.
-		memcpy(sub.pData, renderer::arrVertex, sizeof(renderer::Vertex) * 4); // sub에 arrVertex 데이터 복사
-		mContext->Unmap(renderer::triangleBuffer, 0); // 매핑 해제
+		mContext->Draw(0, 0);
+	}
 
+
+	void CGraphicDevice::DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
+	{
+		mContext->DrawIndexed(_IndexCount, 0, 0);
+	}
+
+	void CGraphicDevice::Clear()
+	{
 		// clear target
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
+	}
 
-		// 상수버퍼를 쉐이더에 전달
-		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer);
-
-		// resize viewport
-		RECT winRect;	
+	void CGraphicDevice::AdjustViewPorts()
+	{
+		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
 		BindViewports(&mViewPort);
 		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+	}
+
+	void CGraphicDevice::Present()
+	{
+		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+	}
 
 
-		// input assembler 버텍스정보를 지정
-		UINT vertexSize = sizeof(renderer::Vertex);
-		UINT offset = 0;
-		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset); // vertex buffer set
-		mContext->IASetIndexBuffer(renderer::triangleIndexBuffer, DXGI_FORMAT_R32_UINT, 0); // index buffer set
-		mContext->IASetInputLayout(renderer::triangleLayout);
-		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void CGraphicDevice::Render()
+	{
+		Clear();
+
+		// 상수버퍼를 쉐이더에 전달
+		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
+
+		// resize viewport
+		AdjustViewPorts();
+
+		// 메시 버퍼 바인딩
+		renderer::Mesh->BindBuffer();
 
 		// 생성한 쉐이더 세팅
-		mContext->VSSetShader(renderer::triangleVS, 0, 0);
-		mContext->PSSetShader(renderer::trianglePS, 0, 0);
 
-		mContext->DrawIndexed(6, 0, 0);
-
-		// Draw!!
-		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+		renderer::Mesh->Render();
 	}
 
 }

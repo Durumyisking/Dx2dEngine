@@ -3,6 +3,8 @@
 #include "druMath.h"
 #include "GraphicDevice.h"
 
+#include "Mesh.h"
+
 using namespace dru::math;
 using namespace dru::graphics;
 
@@ -17,26 +19,16 @@ namespace dru::renderer
 	// vertex data
 	extern Vertex	arrVertex[4];
 
-	// vertex buffer
-	extern ID3D11Buffer* triangleBuffer;
-	extern ID3DBlob* errorBlob;
+	extern CMesh*	Mesh;
+
+	extern Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
 
 	// idx buffer
-	extern ID3D11Buffer* triangleIndexBuffer;
+	extern Microsoft::WRL::ComPtr<ID3D11Buffer> triangleConstantBuffer;
 
-	// idx buffer
-	extern ID3D11Buffer* triangleConstantBuffer;
-
-	// VS
-	extern ID3DBlob* triangleVSBlob;
-	extern ID3D11VertexShader* triangleVS;
-	 
-	 // PS
-	extern ID3DBlob* trianglePSBlob;
-	extern ID3D11PixelShader* trianglePS;
 		
 	// Input Layout
-	extern ID3D11InputLayout* triangleLayout; // 정점 버퍼에 정점정보 세팅해주는애
+	extern Microsoft::WRL::ComPtr<ID3D11InputLayout> triangleLayout; // 정점 버퍼에 정점정보 세팅해주는애
 
 
 	void init();
