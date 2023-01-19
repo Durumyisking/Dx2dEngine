@@ -17,10 +17,10 @@ namespace dru
 	{
 		return E_NOTIMPL;
 	}
-	bool CMesh::CreateVertexBuffer(void* _Data, UINT _Size)
+	bool CMesh::CreateVertexBuffer(void* _Data, UINT _Count)
 	{
 		mVBDesc = {};
-		mVBDesc.ByteWidth = sizeof(renderer::Vertex) * 4;
+		mVBDesc.ByteWidth = sizeof(renderer::Vertex) * _Count;
 		mVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 		mVBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 		mVBDesc.CPUAccessFlags = 0; // 상수버퍼 통해서 값 변경할꺼임
@@ -29,15 +29,15 @@ namespace dru
 		triangleData.pSysMem = _Data;
 
 		if (!GetDevice()->CreateBuffer(&mVBDesc, &triangleData, mVertexBuffer.GetAddressOf()))
-			return true;
+			return false;
 		
-		return false;
+		return true;
 	}
 
-	bool CMesh::CreateIndexBuffer(void* _Data, UINT _Size)
+	bool CMesh::CreateIndexBuffer(void* _Data, UINT _Count)
 	{
-
-		mIBDesc.ByteWidth = _Size * sizeof(UINT);
+		mIndexCount = _Count;
+		mIBDesc.ByteWidth = sizeof(UINT) * _Count;
 		mIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 		mIBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 		mIBDesc.CPUAccessFlags = 0; 
@@ -46,8 +46,7 @@ namespace dru
 		idxData.pSysMem = _Data;
 
 		if (!GetDevice()->CreateBuffer(&mIBDesc, &idxData, mIndexBuffer.GetAddressOf()))
-			return true;
-
+			return false;
 
 		return true;
 	}

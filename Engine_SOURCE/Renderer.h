@@ -4,6 +4,7 @@
 #include "GraphicDevice.h"
 
 #include "Mesh.h"
+#include "Shader.h"
 
 using namespace dru::math;
 using namespace dru::graphics;
@@ -16,10 +17,12 @@ namespace dru::renderer
 		Vector4	color;
 	};
 
+
 	// vertex data
 	extern Vertex	arrVertex[4];
 
 	extern CMesh*	Mesh;
+	extern CShader* Shader;
 
 	extern Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
 

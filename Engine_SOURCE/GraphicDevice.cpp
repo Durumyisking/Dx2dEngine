@@ -2,8 +2,10 @@
 #include "Application.h"
 #include "Renderer.h"
 #include "Mesh.h"
+#include "Shader.h"
 
 extern dru::CApplication application;
+
 
 namespace dru::graphics
 {
@@ -160,6 +162,16 @@ namespace dru::graphics
 
 
 
+	void CGraphicDevice::BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology)
+	{
+		mContext->IASetPrimitiveTopology(_Topology);
+	}
+
+	void CGraphicDevice::BindInputLayout(Microsoft::WRL::ComPtr <ID3D11InputLayout> _InputLayout)
+	{
+		mContext->IASetInputLayout(_InputLayout.Get());
+	}
+
 	void CGraphicDevice::BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets)
 	{
 		mContext->IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets); // vertex buffer set
@@ -168,6 +180,28 @@ namespace dru::graphics
 	void CGraphicDevice::BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset)
 	{
 		mContext->IASetIndexBuffer(pIndexBuffer, Format, Offset); // index buffer set
+	}
+
+	void CGraphicDevice::BindVS(Microsoft::WRL::ComPtr < ID3D11VertexShader> _VS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+		mContext->VSSetShader(_VS.Get(), _ClassInst, NumClassInst);
+	}
+
+	void CGraphicDevice::BindHS(Microsoft::WRL::ComPtr < ID3D11HullShader> _HS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+	}
+
+	void CGraphicDevice::BindDS(Microsoft::WRL::ComPtr < ID3D11DomainShader> _DS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+	}
+
+	void CGraphicDevice::BindGS(Microsoft::WRL::ComPtr < ID3D11GeometryShader> _GS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+	}
+
+	void CGraphicDevice::BindPS(Microsoft::WRL::ComPtr < ID3D11PixelShader> _PS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+		mContext->PSSetShader(_PS.Get(), _ClassInst, NumClassInst);
 	}
 
 	void CGraphicDevice::BindViewports(D3D11_VIEWPORT* _ViewPort)
@@ -185,7 +219,7 @@ namespace dru::graphics
 	}
 
 	
-	void CGraphicDevice::SetConstantBuffer(eShaderStage _eStage, eCBType _eType, ID3D11Buffer* _Buffer)
+	void CGraphicDevice::SetConstantBuffer(eShaderStage _eStage, enums::eCBType _eType, ID3D11Buffer* _Buffer)
 	{
 		switch (_eStage)
 		{
@@ -251,7 +285,7 @@ namespace dru::graphics
 		Clear();
 
 		// 상수버퍼를 쉐이더에 전달
-		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
+		SetConstantBuffer(eShaderStage::VS, enums::eCBType::Transform, renderer::triangleConstantBuffer.Get());
 
 		// resize viewport
 		AdjustViewPorts();
@@ -260,8 +294,11 @@ namespace dru::graphics
 		renderer::Mesh->BindBuffer();
 
 		// 생성한 쉐이더 세팅
+		renderer::Shader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		renderer::Shader->Update();
 
 		renderer::Mesh->Render();
+		Present();
 	}
 
 }

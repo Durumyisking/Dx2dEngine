@@ -15,13 +15,20 @@ namespace dru::graphics
 		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
 		
 
+		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology);
+		void BindInputLayout(Microsoft::WRL::ComPtr <ID3D11InputLayout> _InputLayout);
 		void BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer *const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets);
 		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset);
+		void BindVS(Microsoft::WRL::ComPtr <ID3D11VertexShader> _VS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
+		void BindHS(Microsoft::WRL::ComPtr <ID3D11HullShader> _HS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
+		void BindDS(Microsoft::WRL::ComPtr <ID3D11DomainShader> _DS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
+		void BindGS(Microsoft::WRL::ComPtr <ID3D11GeometryShader> _GS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
+		void BindPS(Microsoft::WRL::ComPtr <ID3D11PixelShader> _PS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
 		void BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 
 								// 어떤쉐이더			//어떤타입
-		void SetConstantBuffer(eShaderStage _eStage, eCBType _eType, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
+		void SetConstantBuffer(eShaderStage _eStage, enums::eCBType _eType, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void Draw();
 		void DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation = 0);

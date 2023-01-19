@@ -1,8 +1,9 @@
 #pragma once
+#include "Component.h"
 
 namespace dru
 {
-	class CTransform
+	class CTransform : public CComponent
 	{
 	};
 

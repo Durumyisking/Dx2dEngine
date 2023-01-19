@@ -1,10 +1,20 @@
 #pragma once
 
-
-enum class eCBType
+namespace dru::enums
 {
-	Transform,
-	End,
+	enum class eCBType
+	{
+		Transform,
+		End,
 
-};
+	};
 
+	enum class eLayerType
+	{
+		None,
+		Background,
+		Player,
+
+		End,
+	};
+}

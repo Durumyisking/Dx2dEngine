@@ -53,6 +53,9 @@
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{f5dbc21b-39bf-46fe-8fd6-6a267aa2a30d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Component\TransForm">
+      <UniqueIdentifier>{4c9ad2ce-12b6-4cc6-9c11-5c908eabbe8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -127,6 +130,9 @@
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>GameObj\Component\TransForm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -188,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>GameObj\Component\TransForm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

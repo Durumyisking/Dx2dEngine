@@ -6,9 +6,8 @@ namespace dru::renderer
 	// vertex data
 	Vertex				arrVertex[4] = {};
 
-
-
-	Microsoft::WRL::ComPtr <ID3DBlob>			errorBlob = nullptr; // dx 내부에서 생긴 에러를 알려주는 친구
+	CMesh* Mesh = nullptr;
+	CShader* Shader = nullptr;
 		
 	// idx buffer
 	Microsoft::WRL::ComPtr <ID3D11Buffer> triangleConstantBuffer = nullptr;
@@ -33,10 +32,8 @@ namespace dru::renderer
 		arrLayout[1].SemanticName = "COLOR";
 		arrLayout[1].SemanticIndex = 0;
 
-		GetDevice()->CreateInputLayout(arrLayout, 2
-			, triangleVSBlob->GetBufferPointer()
-			, triangleVSBlob->GetBufferSize()
-			, &triangleLayout);
+		Shader->CreateInputLayout(arrLayout, 2);
+
 	}
 
 	void LoadBuffer()
@@ -50,12 +47,12 @@ namespace dru::renderer
 
 		vecIdx.push_back(0);
 		vecIdx.push_back(1);
-		vecIdx.push_back(3);
-		vecIdx.push_back(0);
-		vecIdx.push_back(3);
 		vecIdx.push_back(2);
+		vecIdx.push_back(0);
+		vecIdx.push_back(2);
+		vecIdx.push_back(3);
 
-		Mesh->CreateIndexBuffer(&vecIdx, 6);
+		Mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
 		// Const Buffer
 		D3D11_BUFFER_DESC constDesc = {};
@@ -71,7 +68,9 @@ namespace dru::renderer
 
 	void LoadShader()
 	{
-		GetDevice()->CreateShader();
+		Shader = new CShader();
+		Shader->Create(graphics::eShaderStage::VS, L"VSTriangle.hlsl", "VS");
+		Shader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "PS");
 	}
 
 	void init()
@@ -100,6 +99,6 @@ namespace dru::renderer
 	void release()
 	{
 		delete Mesh;
-
+		delete Shader;
 	}
 }

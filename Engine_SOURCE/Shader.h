@@ -4,33 +4,36 @@
 
 namespace dru
 {
-	class CShader : CResource
+	class CShader : public CResource
 	{
 	public:
 		CShader();
-		~CShader();
+		virtual ~CShader();
 
-	public:
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		bool Create(graphics::eShaderStage _eStage, const std::wstring& _Path, const std::wstring& _funcName);
-
-		void CreateVS(const std::wstring& _Path, const std::wstring& _funcName);
-		void CreateHS(const std::wstring& _Path, const std::wstring& _funcName);
-		void CreateDS(const std::wstring& _Path, const std::wstring& _funcName);
-		void CreateGS(const std::wstring& _Path, const std::wstring& _funcName);
-		void CreatePS(const std::wstring& _Path, const std::wstring& _funcName);
-
+		void CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements);
+		void Create(graphics::eShaderStage _eStage, const std::wstring& _Path, const std::string& _funcName);
 		void Update();
-
 		ID3D11InputLayout* GetInputLayOut() const { return mInputLayout.Get(); }
-//		ID3D11InputLayout** GetInputLayOutAddr() const { return mInputLayout.GetAddressOf(); }
+		ID3D11InputLayout** GetInputLayOutAddr()  { return mInputLayout.GetAddressOf(); }
+		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { mTopology = _Topology; }
 
 	private:
+		void CreateVS(const std::wstring& _Path, const std::string& _funcName);
+		void CreateHS(const std::wstring& _Path, const std::string& _funcName);
+		void CreateDS(const std::wstring& _Path, const std::string& _funcName);
+		void CreateGS(const std::wstring& _Path, const std::string& _funcName);
+		void CreatePS(const std::wstring& _Path, const std::string& _funcName);
+		
+
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout;
+
 		D3D11_PRIMITIVE_TOPOLOGY mTopology;
 		graphics::eShaderStage mCurrentStage;
 
-		Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout;
 
 		Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob;
 

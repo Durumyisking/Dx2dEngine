@@ -8,12 +8,12 @@ namespace dru
 	{
 	public:
 		CMesh();
-		~CMesh();
+		virtual ~CMesh();
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		bool CreateVertexBuffer(void* _Data, UINT _Size);
-		bool CreateIndexBuffer(void* _Data, UINT _Size);
+		bool CreateVertexBuffer(void* _Data, UINT _Count);
+		bool CreateIndexBuffer(void* _Data, UINT _Count);
 		void BindBuffer();
 		void Render();
 

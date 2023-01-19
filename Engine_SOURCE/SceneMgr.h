@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine.h"
-
+#include "GameObj.h"
 namespace dru
 {
 	class CScene;
