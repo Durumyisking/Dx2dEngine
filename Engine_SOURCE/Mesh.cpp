@@ -51,6 +51,19 @@ namespace dru
 		return true;
 	}
 
+	bool CMesh::CreateConstantBuffer(UINT _Count)
+	{
+		mCBDesc.ByteWidth = sizeof(Vector4) * _Count; // 들고있을 데이터 크기만큼 (일단은 위치 정보만)
+		mCBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
+		mCBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+		mCBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+
+		if (!GetDevice()->CreateBuffer(&mCBDesc, nullptr, mConstantBuffer.GetAddressOf()))
+			return false;
+
+		return true;
+	}
+
 	void CMesh::BindBuffer()
 	{
 		UINT vertexSize = sizeof(renderer::Vertex);
@@ -60,9 +73,38 @@ namespace dru
 		GetDevice()->BindIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
 
+	void CMesh::BindConstantBuffer(void* _Data)
+	{
+		GetDevice()->BindConstantBuffer(mConstantBuffer.Get(), _Data, sizeof(Vector4));
+	}
+
 	void CMesh::Render()
 	{
 		GetDevice()->DrawIndexed(mIndexCount, 0, 0);
+	}
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> CMesh::GetBuffer(graphics::eBufferStage _eStage)
+	{
+
+		switch (_eStage)
+		{
+		case dru::graphics::eBufferStage::VB:
+			return mVertexBuffer;
+			break;
+		case dru::graphics::eBufferStage::IB:
+			return mIndexBuffer;
+			break;
+		case dru::graphics::eBufferStage::CB:
+			return mConstantBuffer;
+			break;
+		case dru::graphics::eBufferStage::End:
+			break;
+		default:
+			break;
+		}
+
+
+		return nullptr;
 	}
 
 }

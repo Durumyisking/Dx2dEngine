@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Mesh.h"
 #include "Shader.h"
-
+#include "Input.h"
 extern dru::CApplication application;
 
 
@@ -284,14 +284,32 @@ namespace dru::graphics
 	{
 		Clear();
 
+		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
+		{
+			*(renderer::mpos) += {0.f, -0.01f, 0.f, 0.f};
+		}
+		if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
+		{
+			*(renderer::mpos) += {0.f, 0.01f, 0.f, 0.f};
+		}
+		if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
+		{
+			*(renderer::mpos) += {-0.01f, 0.f, 0.f, 0.f};
+		}
+		if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
+		{
+			*(renderer::mpos) += {0.01f, 0.f, 0.f, 0.f};
+		}
+
 		// 상수버퍼를 쉐이더에 전달
-		SetConstantBuffer(eShaderStage::VS, enums::eCBType::Transform, renderer::triangleConstantBuffer.Get());
+		SetConstantBuffer(eShaderStage::VS, enums::eCBType::Transform,  renderer::Mesh->GetBuffer(eBufferStage::CB).Get());
 
 		// resize viewport
 		AdjustViewPorts();
 
 		// 메시 버퍼 바인딩
 		renderer::Mesh->BindBuffer();
+		renderer::Mesh->BindConstantBuffer(renderer::mpos);
 
 		// 생성한 쉐이더 세팅
 		renderer::Shader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

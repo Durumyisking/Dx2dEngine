@@ -30,4 +30,14 @@ namespace dru::graphics
 
 	};
 
+	enum class eBufferStage
+	{
+		VB,
+		IB,
+		CB,
+
+		End,
+
+	};
+
 }

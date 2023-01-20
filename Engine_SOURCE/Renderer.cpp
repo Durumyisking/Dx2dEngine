@@ -8,7 +8,7 @@ namespace dru::renderer
 
 	CMesh* Mesh = nullptr;
 	CShader* Shader = nullptr;
-		
+	Vector4* mpos = {};
 	// idx buffer
 	Microsoft::WRL::ComPtr <ID3D11Buffer> triangleConstantBuffer = nullptr;
 
@@ -39,6 +39,7 @@ namespace dru::renderer
 	void LoadBuffer()
 	{
 		Mesh = new CMesh();
+		mpos = new Vector4();
 		CResources::Insert<CMesh>(L"RectMesh", Mesh);
 
 		Mesh->CreateVertexBuffer(arrVertex, 4);
@@ -55,15 +56,9 @@ namespace dru::renderer
 		Mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
 		// Const Buffer
-		D3D11_BUFFER_DESC constDesc = {};
-		constDesc.ByteWidth = sizeof(Vector4); // 들고있을 데이터 크기만큼 (일단은 위치 정보만)
-		constDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
-		constDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		constDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
-		GetDevice()->CreateBuffer(&constDesc, nullptr, triangleConstantBuffer.GetAddressOf());
+		Mesh->CreateConstantBuffer(vecIdx.size());
 
-		Vector4 pos(0.2f, 0.2f, 0.f, 0.f);
-		GetDevice()->BindConstantBuffer(triangleConstantBuffer.Get(), &pos, sizeof(Vector4));
+		*mpos = { 0.f, 0.f, 0.f, 0.f };
 	}
 
 	void LoadShader()
@@ -100,5 +95,6 @@ namespace dru::renderer
 	{
 		delete Mesh;
 		delete Shader;
+		delete mpos;
 	}
 }

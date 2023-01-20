@@ -23,16 +23,11 @@ namespace dru::renderer
 
 	extern CMesh*	Mesh;
 	extern CShader* Shader;
+	extern Vector4* mpos;
+
 
 	extern Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
-
-	// idx buffer
-	extern Microsoft::WRL::ComPtr<ID3D11Buffer> triangleConstantBuffer;
-
-		
-	// Input Layout
-	extern Microsoft::WRL::ComPtr<ID3D11InputLayout> triangleLayout; // 정점 버퍼에 정점정보 세팅해주는애
-
+	
 
 	void init();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라
