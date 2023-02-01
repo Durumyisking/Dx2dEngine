@@ -2,7 +2,8 @@
 
 namespace dru
 {
-	CResource::CResource()
+	CResource::CResource(eResourceType _Type)
+		: mType(_Type)
 	{
 	}
 

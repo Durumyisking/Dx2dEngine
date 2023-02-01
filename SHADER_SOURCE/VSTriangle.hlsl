@@ -14,7 +14,7 @@ struct VTX_OUT
     float4 vColor : COLOR;
 };
 
-cbuffer Transform : register(b1) // 그래픽카드 레지스터(상수버퍼)의  b0을 상수버퍼로 쓸거임
+cbuffer Transform : register(b0) // 그래픽카드 레지스터(상수버퍼)의  b0을 상수버퍼로 쓸거임
 {
     float4 cbPos;
 }

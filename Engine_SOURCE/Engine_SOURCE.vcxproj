@@ -183,6 +183,7 @@
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -207,6 +208,7 @@
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>

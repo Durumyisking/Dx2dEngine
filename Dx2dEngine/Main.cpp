@@ -3,10 +3,13 @@
 
 #include "framework.h"
 #include "Dx2dEngine.h"
-
-#pragma comment(lib, "../x64/Debug/lib/Engine_SOURCE.lib")
 #include "Application.h"
 
+#ifdef _DEBUG
+#pragma comment(lib, "../x64/Debug/lib/Engine_SOURCE.lib")
+#else
+#pragma comment(lib, "../x64/Release/lib/Engine_SOURCE.lib")
+#endif
 
 #define MAX_LOADSTRING 100
 

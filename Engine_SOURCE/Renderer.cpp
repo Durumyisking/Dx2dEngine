@@ -5,8 +5,8 @@ namespace dru::renderer
 {
 	// vertex data
 	Vertex	arrVertex[4] = {};
-	CMesh* Mesh = nullptr;
 	CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)] = {};
+	CMesh* Mesh = nullptr;
 	CShader* Shader = nullptr;
 
 	void SetUpState()

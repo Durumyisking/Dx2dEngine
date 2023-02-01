@@ -4,7 +4,8 @@
 namespace dru
 {
 	CShader::CShader()
-		: mTopology (D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+		: CResource(eResourceType::GraphicShader)
+		, mTopology (D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	{
 	}
 	CShader::~CShader()

@@ -5,7 +5,8 @@
 namespace dru
 {
 	CMesh::CMesh()
-		: mVBDesc{}
+		: CResource(eResourceType::Mesh)
+		, mVBDesc{}
 		, mIBDesc{}
 		, mIndexCount(0)
 	{

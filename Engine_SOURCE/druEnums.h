@@ -4,7 +4,6 @@ namespace dru::enums
 {
 	enum class eCBType
 	{
-		None,
 		Transform,
 		End,
 
@@ -32,6 +31,23 @@ namespace dru::enums
 		Decal,
 		Collider,
 		UI,
+		Script,
+		End,
+
+	};
+
+	enum class eResourceType
+	{
+		Mesh,
+		Texture,
+		Material,
+		Sound,
+		//Font,
+		Prefab,
+		MeshData,
+		GraphicShader,
+		ComputeShader,
+		
 		Script,
 		End,
 

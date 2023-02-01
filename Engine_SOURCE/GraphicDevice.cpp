@@ -220,10 +220,37 @@ namespace dru::graphics
 		mContext->Unmap(_Buffer, 0);
 	}
 
-	
-	void CGraphicDevice::SetConstantBuffer(eShaderStage _eStage, enums::eCBType _eType, ID3D11Buffer* _Buffer)
+	void CGraphicDevice::SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews)
 	{
-		switch (_eStage)
+		switch (_Stage)
+		{
+		case dru::graphics::eShaderStage::VS:
+			mContext->VSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		case dru::graphics::eShaderStage::HS:
+			mContext->HSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		case dru::graphics::eShaderStage::DS:
+			mContext->DSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		case dru::graphics::eShaderStage::GS:
+			mContext->GSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		case dru::graphics::eShaderStage::PS:
+			mContext->PSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		case dru::graphics::eShaderStage::CS:
+			mContext->CSSetShaderResources(_Slot, 1, _ppShaderResourceViews);
+			break;
+		default:
+			break;
+		}
+	}
+
+	
+	void CGraphicDevice::SetConstantBuffer(eShaderStage _Stage, enums::eCBType _eType, ID3D11Buffer* _Buffer)
+	{
+		switch (_Stage)
 		{
 		case dru::graphics::eShaderStage::VS:
 			mContext->VSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
