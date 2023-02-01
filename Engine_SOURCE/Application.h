@@ -15,7 +15,7 @@ namespace dru
 		// engine loop
 		void Run();
 
-		virtual void init();
+		virtual void Initialize();
 		// 캐릭터 / 로직 업데이트
 		virtual void update();
 		// gpu 업데이트

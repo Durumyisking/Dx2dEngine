@@ -4,14 +4,10 @@
 namespace dru::renderer
 {
 	// vertex data
-	Vertex				arrVertex[4] = {};
-
+	Vertex	arrVertex[4] = {};
 	CMesh* Mesh = nullptr;
+	CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)] = {};
 	CShader* Shader = nullptr;
-	Vector4* mpos = {};
-	// idx buffer
-	Microsoft::WRL::ComPtr <ID3D11Buffer> triangleConstantBuffer = nullptr;
-
 
 	void SetUpState()
 	{
@@ -39,7 +35,6 @@ namespace dru::renderer
 	void LoadBuffer()
 	{
 		Mesh = new CMesh();
-		mpos = new Vector4();
 		CResources::Insert<CMesh>(L"RectMesh", Mesh);
 
 		Mesh->CreateVertexBuffer(arrVertex, 4);
@@ -55,10 +50,14 @@ namespace dru::renderer
 
 		Mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
+		Vector4 pos;
+		pos = { 0.2f, 0.2f, 0.f, 0.0f };
 		// Const Buffer
-		Mesh->CreateConstantBuffer(vecIdx.size());
+		UINT i = (UINT)eCBType::Transform;
 
-		*mpos = { 0.f, 0.f, 0.f, 0.f };
+		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer();
+		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Create(sizeof(Vector4));
+		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Bind(&pos);
 	}
 
 	void LoadShader()
@@ -68,7 +67,7 @@ namespace dru::renderer
 		Shader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "PS");
 	}
 
-	void init()
+	void Initialize()
 	{
 		// 중앙이 0, 0, 0이고 높이가 1인 정삼각형
 
@@ -95,6 +94,11 @@ namespace dru::renderer
 	{
 		delete Mesh;
 		delete Shader;
-		delete mpos;
+		for (size_t i = 0; i < (UINT)eCBType::End; i++)
+		{
+			delete constantBuffers[i];
+			constantBuffers[i] = nullptr;
+
+		}
 	}
 }

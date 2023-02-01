@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "TimeMgr.h"
 #include "Input.h"
+#include "SceneMgr.h"
 
 namespace dru
 {
@@ -19,25 +20,34 @@ namespace dru
 		fixedupdate();
 		render();
 	}
-	void CApplication::init()
+	void CApplication::Initialize()
 	{
 		CTimeMgr::Initialize();
 		Input::Initialize();
 
-		renderer::init();
+		renderer::Initialize();
+		CSceneMgr::Initialize();
 	}
 	void CApplication::update()
 	{
 		CTimeMgr::update();
 		Input::update();
+		CSceneMgr::update();
 	}
 	void CApplication::fixedupdate()
 	{
+		CSceneMgr::fixedupdate();
 	}
 	void CApplication::render()
 	{
 		CTimeMgr::Render(mHdc);
-		graphicDevice->Render();
+
+		graphicDevice->Clear();
+		graphicDevice->AdjustViewPorts();
+
+		CSceneMgr::render();
+
+		graphicDevice->Present();
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{

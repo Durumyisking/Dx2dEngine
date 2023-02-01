@@ -133,6 +133,9 @@
     <ClInclude Include="Transform.h">
       <Filter>GameObj\Component\TransForm</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -197,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>GameObj\Component\TransForm</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

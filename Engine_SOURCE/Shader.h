@@ -14,7 +14,7 @@ namespace dru
 
 		void CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements);
 		void Create(graphics::eShaderStage _eStage, const std::wstring& _Path, const std::string& _funcName);
-		void Update();
+		void Bind();
 		ID3D11InputLayout* GetInputLayOut() const { return mInputLayout.Get(); }
 		ID3D11InputLayout** GetInputLayOutAddr()  { return mInputLayout.GetAddressOf(); }
 		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { mTopology = _Topology; }

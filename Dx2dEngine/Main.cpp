@@ -123,7 +123,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
    
    application.SetWindow(hWnd, 1600, 900);
-   application.init();
+   application.Initialize();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 

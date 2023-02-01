@@ -18,7 +18,7 @@ namespace dru
 		CGameObj();
 		virtual ~CGameObj();
 
-		virtual void init();
+		virtual void Initialize();
 		virtual void update();
 		virtual void fixedupdate();
 		virtual void render();

@@ -5,15 +5,17 @@ namespace dru
 {
 	CScene::CScene()
 	{
+		mLayers.resize((UINT)eLayerType::End);
 	}
 	CScene::~CScene()
 	{
 	}
-	void CScene::init()
+	void CScene::Initialize()
 	{
+		mLayers.resize((UINT)eLayerType::End);
 		for (CLayer& layer : mLayers)
 		{
-			layer.init();
+			layer.Initialize();
 		}
 	}
 
@@ -22,11 +24,6 @@ namespace dru
 		for (CLayer& layer : mLayers)
 		{
 			layer.update();
-		}
-
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
-		{
-			return;
 		}
 	}
 

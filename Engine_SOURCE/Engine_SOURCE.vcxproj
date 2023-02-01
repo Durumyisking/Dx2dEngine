@@ -162,6 +162,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="druEnums.h" />
     <ClInclude Include="druMath.h" />
     <ClInclude Include="Engine.h" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="druMath.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameObj.cpp" />

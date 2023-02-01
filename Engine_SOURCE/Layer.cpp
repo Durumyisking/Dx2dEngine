@@ -11,11 +11,13 @@ namespace dru
 	{
 	}
 
-	void CLayer::init()
+	void CLayer::Initialize()
 	{
 		for (CGameObj* Obj : mGameObjs)
 		{
-			Obj->init();
+			if (nullptr == Obj)
+				continue;
+			Obj->Initialize();
 		}
 	}
 
@@ -23,6 +25,8 @@ namespace dru
 	{
 		for (CGameObj* Obj : mGameObjs)
 		{
+			if (nullptr == Obj)
+				continue;
 			Obj->update();
 		}
 	}
@@ -31,6 +35,8 @@ namespace dru
 	{
 		for (CGameObj* Obj : mGameObjs)
 		{
+			if (nullptr == Obj)
+				continue;
 			Obj->fixedupdate();
 		}
 	}
@@ -39,12 +45,19 @@ namespace dru
 	{
 		for (CGameObj* Obj : mGameObjs)
 		{
+			if (nullptr == Obj)
+				continue;
 			Obj->render();
 		}
 	}
 
-	void CLayer::AddGameObject(const CGameObj* _GameObj)
+	void CLayer::AddGameObject(CGameObj* _GameObj)
 	{
-	}
+		if (nullptr == _GameObj)	
+			return;
+		
+
+		mGameObjs.push_back(_GameObj);
+ 	}
 
 }

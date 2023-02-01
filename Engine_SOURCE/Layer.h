@@ -3,18 +3,18 @@
 
 namespace dru
 {
-	class CLayer
+	class CLayer : public CEntity
 	{
 	public:
 		CLayer();
 		virtual ~CLayer();
 
-		virtual void init();
+		virtual void Initialize();
 		virtual void update();
 		virtual void fixedupdate();
 		virtual void render();
 
-		void AddGameObject(const CGameObj* _GameObj);
+		void AddGameObject(CGameObj* _GameObj);
 
 	private:
 		std::vector<CGameObj*> mGameObjs;

@@ -37,6 +37,24 @@ namespace dru::graphics
 		CB,
 
 		End,
+	};
+
+	struct GpuBuffer
+	{
+		enum class eType
+		{
+			Buffer,
+			Texture,
+			UnknownType,
+		} type = eType::UnknownType;
+
+		D3D11_BUFFER_DESC Desc = {};
+		Microsoft::WRL::ComPtr<ID3D11Buffer> Buffer;
+
+
+		GpuBuffer() = default;
+		virtual ~GpuBuffer() = default;
+
 
 	};
 

@@ -1,7 +1,13 @@
 #include "SceneMain.h"
 namespace dru
 {
-	void CSceneMain::init()
+	CSceneMain::CSceneMain()
+	{
+	}
+	CSceneMain::~CSceneMain()
+	{
+	}
+	void CSceneMain::Initialize()
 	{
 	}
 
