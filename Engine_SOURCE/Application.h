@@ -14,13 +14,13 @@ namespace dru
 
 		// engine loop
 		void Run();
-
 		virtual void Initialize();
 		// 캐릭터 / 로직 업데이트
 		virtual void update();
 		// gpu 업데이트
 		virtual void fixedupdate();
 		virtual void render();
+		void Release();
 
 		void SetWindow(HWND _hwnd, UINT _width, UINT _height);
 

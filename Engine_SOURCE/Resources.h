@@ -53,7 +53,17 @@ namespace dru
 			mResources.insert(make_pair(key, dynamic_cast<CResource*>(resource)));
 		}
 
-		static void Release();
+		static void Release()
+		{
+			{
+				std::map<std::wstring, CResource*>::iterator iter = mResources.begin();
+				for (; iter != mResources.end(); ++iter)
+				{
+					delete iter->second;
+					iter->second = nullptr;
+				}
+			}
+		}
 
 	private:
 		CResources() = delete;

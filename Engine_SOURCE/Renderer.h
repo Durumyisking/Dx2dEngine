@@ -17,13 +17,14 @@ namespace dru::renderer
 	{
 		Vector3 pos;
 		Vector4	color;
+		Vector2 uv;
 	};
 
 
 	// vertex data
 	extern Vertex	arrVertex[4];
-	extern CMesh*	Mesh;
-	extern CShader* Shader;
+	
+	
 	extern CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)];
 
 

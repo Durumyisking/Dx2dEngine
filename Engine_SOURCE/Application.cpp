@@ -3,6 +3,7 @@
 #include "TimeMgr.h"
 #include "Input.h"
 #include "SceneMgr.h"
+#include "Resources.h"
 
 namespace dru
 {
@@ -13,6 +14,7 @@ namespace dru
 	}
 	CApplication::~CApplication()
 	{
+		
 	}
 	void CApplication::Run()
 	{
@@ -48,6 +50,11 @@ namespace dru
 		CSceneMgr::render();
 
 		graphicDevice->Present();
+	}
+	void CApplication::Release()
+	{
+		CResources::Release();
+
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{

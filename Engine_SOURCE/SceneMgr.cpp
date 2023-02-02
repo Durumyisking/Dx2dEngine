@@ -10,6 +10,8 @@
 
 #include "Renderer.h"
 
+#include "Texture.h"
+
 namespace dru
 {
 	CScene* CSceneMgr::mScenes[(static_cast<UINT>(CSceneMgr::eSceneType::End))] = {};
@@ -42,8 +44,14 @@ namespace dru
 		CMeshRenderer* meshRenderer = new CMeshRenderer();
 		gameobj->AddComponent(meshRenderer);
 
-		meshRenderer->SetShader(renderer::Shader);
-		meshRenderer->SetMesh(renderer::Mesh);
+		CShader* shader = CResources::Find<CShader>(L"RectShader");
+		CMesh* mesh = CResources::Find<CMesh>(L"RectMesh");
+
+		meshRenderer->SetShader(shader);
+		meshRenderer->SetMesh(mesh);
+
+		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Test.png");
+		texture->BindShader(eShaderStage::PS, 0);
 
 		mPlayScene->AddGameObject(gameobj, eLayerType::Player);
 		

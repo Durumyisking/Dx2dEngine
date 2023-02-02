@@ -39,6 +39,14 @@ namespace dru::graphics
 		End,
 	};
 
+	enum class eSamplerType
+	{
+		Point,
+		Linear,
+		Anisotropic,
+		End,
+	};
+
 	struct GpuBuffer
 	{
 		enum class eType

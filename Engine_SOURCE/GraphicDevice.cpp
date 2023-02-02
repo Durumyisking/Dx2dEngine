@@ -163,6 +163,14 @@ namespace dru::graphics
 	}
 
 
+	bool CGraphicDevice::CreateSampler(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState)
+	{
+		if (FAILED(mDevice->CreateSamplerState(_pSamplerDesc, _ppSamplerState)))
+			return false;
+
+		return true;
+	}
+
 
 	void CGraphicDevice::BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology)
 	{
@@ -247,28 +255,61 @@ namespace dru::graphics
 		}
 	}
 
-	
-	void CGraphicDevice::SetConstantBuffer(eShaderStage _Stage, enums::eCBType _eType, ID3D11Buffer* _Buffer)
+	void CGraphicDevice::BindSamplers(eShaderStage _Stage, UINT _Slot, UINT _NumSamplers, ID3D11SamplerState** _ppSamplerState)
 	{
 		switch (_Stage)
 		{
 		case dru::graphics::eShaderStage::VS:
-			mContext->VSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->VSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 			break;
 		case dru::graphics::eShaderStage::HS:
-			mContext->HSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->HSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 			break;
 		case dru::graphics::eShaderStage::DS:
-			mContext->DSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->DSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 			break;
 		case dru::graphics::eShaderStage::GS:
-			mContext->GSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->GSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 			break;
 		case dru::graphics::eShaderStage::PS:
-			mContext->PSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->PSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
+			break;
+		default:
+			break;
+		}
+	}
+
+	void CGraphicDevice::BindSamplers(UINT _Slot, UINT _NumSamplers, ID3D11SamplerState** _ppSamplerState)
+	{
+		mContext->VSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
+		mContext->HSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
+		mContext->DSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
+		mContext->GSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
+		mContext->PSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);		
+	}
+
+
+	void CGraphicDevice::SetConstantBuffer(eShaderStage _Stage, enums::eCBType _Type, ID3D11Buffer* _Buffer)
+	{
+		switch (_Stage)
+		{
+		case dru::graphics::eShaderStage::VS:
+			mContext->VSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::HS:
+			mContext->HSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::DS:
+			mContext->DSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::GS:
+			mContext->GSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
+			break;
+		case dru::graphics::eShaderStage::PS:
+			mContext->PSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
 			break;
 		case dru::graphics::eShaderStage::CS:
-			mContext->CSSetConstantBuffers((UINT)_eType, 1, &_Buffer);
+			mContext->CSSetConstantBuffers((UINT)_Type, 1, &_Buffer);
 			break;
 		default:
 			break;
@@ -309,9 +350,5 @@ namespace dru::graphics
 	}
 
 
-	void CGraphicDevice::Render()
-	{
-		Present();
-	}
 
 }

@@ -13,7 +13,8 @@ namespace dru::graphics
 		bool CreateTexture(D3D11_TEXTURE2D_DESC* _Desc, ID3D11Texture2D** _ppTexture2D);
 		bool CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements, const void* _Bytecode, SIZE_T _BytecodeLength, ID3D11InputLayout** _ppInputLayout);
 		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
-		
+		bool CreateSampler(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState);
+
 
 		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology);
 		void BindInputLayout(Microsoft::WRL::ComPtr <ID3D11InputLayout> _InputLayout);
@@ -28,7 +29,11 @@ namespace dru::graphics
 		void BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 		void SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews);
 								// 어떤쉐이더			//어떤타입
-		void SetConstantBuffer(eShaderStage _eStage, enums::eCBType _eType, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
+		void BindSamplers(eShaderStage _Stage, UINT _Slot, UINT _NumSamplers, ID3D11SamplerState** _ppSamplerState);
+		void BindSamplers(UINT _Slot, UINT _NumSamplers, ID3D11SamplerState** _ppSamplerState);
+
+
+		void SetConstantBuffer(eShaderStage _Stage, enums::eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void Draw();
 		void DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation = 0);
@@ -36,7 +41,6 @@ namespace dru::graphics
 		void Clear();
 		void AdjustViewPorts();
 		void Present();
-		void Render();
 
 		Microsoft::WRL::ComPtr <ID3D11Device>		 GetdxDevice() const { return mDevice; }
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> GetDeviceContext() const { return mContext; }
