@@ -41,7 +41,7 @@ namespace dru::graphics
 		}
 
 	}
-	void CMaterial::BindConstantBuffer()
+	void CMaterial::Bind()
 	{
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 

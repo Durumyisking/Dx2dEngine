@@ -38,13 +38,13 @@ namespace dru
 		CMeshRenderer* meshRenderer = new CMeshRenderer();
 		gameobj->AddComponent(meshRenderer);
 
-		CShader* shader = CResources::Find<CShader>(L"RectShader");
 		CMesh* mesh = CResources::Find<CMesh>(L"RectMesh");
+		CMaterial* material = CResources::Find<CMaterial>(L"DefaultMaterial");
 
-		meshRenderer->SetShader(shader);
+		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
 
-		CTexture* texture = CResources::Load<CTexture>(L"Test", L"zz.png");
+		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Smile.png");
 		texture->BindShader(eShaderStage::PS, 0);
 
 		mPlayScene->AddGameObject(gameobj, eLayerType::Player);

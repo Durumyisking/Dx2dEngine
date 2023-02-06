@@ -32,7 +32,7 @@ namespace dru::graphics
 		void BindPS(ID3D11PixelShader* _PS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
 		
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
-		void BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
+		void Bind(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 		void SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews);

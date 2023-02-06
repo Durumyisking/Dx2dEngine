@@ -240,7 +240,7 @@ namespace dru::graphics
 		mContext->RSSetViewports(1, _ViewPort);
 	}
 
-	void CGraphicDevice::BindConstantBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
+	void CGraphicDevice::Bind(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
 	{
 		// gpu에 값 줄거니까 데이터 바꿔서 보내야해
 		D3D11_MAPPED_SUBRESOURCE sub = {};

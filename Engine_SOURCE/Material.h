@@ -10,13 +10,14 @@ namespace dru::graphics
 {
 	class CMaterial : public CResource
 	{
+	public:
 		CMaterial();
 		virtual ~CMaterial();
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void SetData(eGPUParam _Param, void* _Data);
-		void BindConstantBuffer();
+		void Bind();
 
 		void SetShader(CShader* _Shader) { mShader = _Shader; }
 		CShader* GetShader() const { return mShader; }

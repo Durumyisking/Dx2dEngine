@@ -38,7 +38,7 @@ namespace dru::graphics
 
 	void CConstantBuffer::Bind(void* _Data)
 	{
-		GetDevice()->BindConstantBuffer(Buffer.Get(), _Data, Desc.ByteWidth);
+		GetDevice()->Bind(Buffer.Get(), _Data, Desc.ByteWidth);
 	}
 
 	void CConstantBuffer::SetPipeline(eShaderStage _Stage)

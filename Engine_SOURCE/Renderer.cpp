@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Resources.h"
+#include "Material.h"
 
 namespace dru::renderer
 {
@@ -44,9 +45,9 @@ namespace dru::renderer
 
 		// Sampler State
 		D3D11_SAMPLER_DESC samplerDesc = {};
-		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
-		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
+		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
+		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
 
 		samplerDesc.Filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
 		GetDevice()->CreateSampler(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
@@ -85,12 +86,10 @@ namespace dru::renderer
 	
 		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer(eCBType::Transform);
 		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Create(sizeof(TransformCB));
-		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Bind(&pos);
-
+	
 		constantBuffers[static_cast<UINT>(eCBType::Material)] = new CConstantBuffer(eCBType::Material);
 		constantBuffers[static_cast<UINT>(eCBType::Material)]->Create(sizeof(MaterialCB));
-		constantBuffers[static_cast<UINT>(eCBType::Material)]->Bind(&pos);
-
+		
 	}
 
 	void LoadShader()
@@ -99,6 +98,16 @@ namespace dru::renderer
 		Shader->Create(graphics::eShaderStage::VS, L"VSTriangle.hlsl", "VS");
 		Shader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "PS");
 		CResources::Insert<CShader>(L"RectShader", Shader);
+	}
+
+	void LoadMaterial()
+	{
+		CShader* shader = CResources::Find<CShader>(L"RectShader");
+
+		CMaterial* Material = new CMaterial();
+		Material->SetShader(shader);
+		CResources::Insert<CMaterial>(L"DefaultMaterial", Material);
+
 	}
 
 	void Initialize()
@@ -111,21 +120,21 @@ namespace dru::renderer
 
 		arrVertex[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.f);
 		arrVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		arrVertex[1].uv = Vector2(1.f, 0.f);
+		arrVertex[1].uv = Vector2(2.f, 0.f);
 
 		arrVertex[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.f);
 		arrVertex[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		arrVertex[2].uv = Vector2(1.f, 1.f);
+		arrVertex[2].uv = Vector2(2.f, 2.f);
 
 		arrVertex[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.f);
 		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
-		arrVertex[3].uv = Vector2(0.f, 1.f);
+		arrVertex[3].uv = Vector2(0.f, 2.f);
 
 
 		LoadShader();
 		SetUpState();
 		LoadBuffer();
-
+		LoadMaterial();
 	}
 
 	void release()

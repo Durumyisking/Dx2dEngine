@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Mesh.h"
 #include "Shader.h"
-
+#include "Material.h"
 
 namespace dru
 {
@@ -19,10 +19,10 @@ namespace dru
 		virtual void render() override;
 
 		void SetMesh(CMesh* _Mesh) { mMesh = _Mesh; }
-		void SetShader(CShader* _Shader) { mShader = _Shader; }
+		void SetMaterial(CMaterial* _Material) { mMaterial = _Material; }
 
 	private:
 		CMesh* mMesh;
-		CShader* mShader;
+		CMaterial* mMaterial;
 	};
 }
