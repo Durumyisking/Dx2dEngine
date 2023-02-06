@@ -16,12 +16,7 @@ namespace dru
 	{
 		
 	}
-	void CApplication::Run()
-	{
-		update();
-		fixedupdate();
-		render();
-	}
+
 	void CApplication::Initialize()
 	{
 		CTimeMgr::Initialize();
@@ -51,10 +46,15 @@ namespace dru
 
 		graphicDevice->Present();
 	}
+	void CApplication::Run()
+	{
+		update();
+		fixedupdate();
+		render();
+	}
 	void CApplication::Release()
 	{
 		CResources::Release();
-
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{
@@ -64,7 +64,7 @@ namespace dru
 			mHdc = GetDC(mHwnd);
 			mWidth = _width;
 			mHeight = _height;
-
+			
 			eValidationMode vaildationMode = eValidationMode::Disabled;
 			graphicDevice = std::make_unique<CGraphicDevice>();
 			graphics::GetDevice() = graphicDevice.get();

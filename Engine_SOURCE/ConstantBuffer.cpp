@@ -8,7 +8,7 @@ namespace dru::graphics
 {
 
 	CConstantBuffer::CConstantBuffer()
-		: mType(eCBType::Transform)
+		: mType(eCBType::End)
 	{
 	}
 

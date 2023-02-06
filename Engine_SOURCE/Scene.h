@@ -19,7 +19,7 @@ namespace dru
 		virtual void fixedupdate();
 		virtual void render();
 
-		void AddGameObject(CGameObj* _GameObj, eLayerType _eLayer);
+		void AddGameObject(CGameObj* _GameObj, const eLayerType _eLayer);
 
 		void SetType(CSceneMgr::eSceneType _eType) { mType = _eType; }
 

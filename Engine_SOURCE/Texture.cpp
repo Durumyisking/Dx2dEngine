@@ -21,7 +21,7 @@ namespace dru::graphics
 
 
 		wchar_t szExtension[256] = {};
-		_wsplitpath_s(fullPath.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256); // 경로에서 확장자만 뽑아오는 녀석
+		_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256); // 경로에서 확장자만 뽑아오는 녀석
 
 		std::wstring extension(szExtension);
 
@@ -41,7 +41,13 @@ namespace dru::graphics
 				return S_FALSE;
 		}
 
-		CreateShaderResourceView(GetDevice()->GetdxDevice().Get(), mImage.GetImages(), mImage.GetImageCount(), mImage.GetMetadata(), mShaderResourceView.GetAddressOf());
+		CreateShaderResourceView(
+			GetDevice()->GetID3D11Device()
+			, mImage.GetImages()
+			, mImage.GetImageCount()
+			, mImage.GetMetadata()
+			, mShaderResourceView.GetAddressOf()
+		);
 
 		mShaderResourceView->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
 

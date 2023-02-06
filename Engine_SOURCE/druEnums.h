@@ -2,33 +2,23 @@
 
 namespace dru::enums
 {
-	enum class eCBType
-	{
-		Transform,
-		End,
-
-	};
 
 	enum class eLayerType
 	{
 		None = 0,
-		Background = 1,
-		Player = 2,
+		Monster,
+		Player,
 
-		End,
+		End = 16,
 	};
 
 
 	enum class eComponentType
 	{
 		None,
-		Transform,
+		Transform, // 위치 데이터 수정하는 컴포넌트
 		Camera,
-
-		// render
-		Mesh, // 정점정보 저장되어있음
-		SkyBox,
-		Decal,
+		Mesh,
 		Collider,
 		UI,
 		Script,

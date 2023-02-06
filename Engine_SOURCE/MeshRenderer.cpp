@@ -32,10 +32,9 @@ namespace dru
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 
 		mShader->Bind();
-		mShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//		mShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		mMesh->BindBuffer();
-
 		mMesh->Render();
 	}
 

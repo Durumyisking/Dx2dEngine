@@ -1,7 +1,6 @@
-
 struct VTX_IN
 {
-    float3 vPos : POSITION; // 오른쪽에 오는놈은 시멘틱이라고 해요
+    float4 vPos : POSITION; // 오른쪽에 오는놈은 시멘틱이라고 해요
                             // 태그같은거임
                             // 외부에서 태그 적으면 해당 바이트 크기(12) 만큼 보내겠다~
     float4 vColor : COLOR;
@@ -22,15 +21,29 @@ cbuffer Transform : register(b0) // 그래픽카드 레지스터(상수버퍼)의  b0을 상수버
     float4 cbPos;
 }
 
-SamplerState anisotropicSampler : register(s0);
-SamplerState pointSampler : register(s1);
+cbuffer Material : register(b1)
+{
+    int iData;
+    float fData;
+    float2 xy;
+    float3 xyz;
+    float4 xyzw;
+    matrix mat;
+}
+
+
+SamplerState pointSampler : register(s0);
+SamplerState linearSampler : register(s1);
+SamplerState anisotropicSampler : register(s2);
 
 VTX_OUT VS(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.0f; // 초기화
-    output.vPos = float4(_in.vPos + cbPos.xyz, 1.f); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
+//    vColor = defaultTexture.Sample(samplerState, _in.vUV);
+    
+    output.vPos = float4(_in.vPos + cbPos); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
     output.vColor = _in.vColor;
-    output.vUV - _in.vUV;
+    output.vUV = _in.vUV;
 
     return output; // 얘를 레스터라이저에 보내줌
 }

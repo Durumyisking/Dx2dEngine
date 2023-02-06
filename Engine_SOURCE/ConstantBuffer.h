@@ -7,6 +7,8 @@ namespace dru::graphics
 {
 	class CConstantBuffer : GpuBuffer
 	{
+		friend class CMaterial;
+
 	public:
 		CConstantBuffer();
 		CConstantBuffer(eCBType _Type);
@@ -16,8 +18,10 @@ namespace dru::graphics
 		void Bind(void* _Data);
 		void SetPipeline(eShaderStage _Stage);
 
+
 	private:
 		const eCBType mType;
+		int iData;
 	};
 
 

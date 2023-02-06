@@ -15,22 +15,31 @@ namespace dru::renderer
 {
 	struct Vertex
 	{
-		Vector3 pos;
+		Vector4 pos;
 		Vector4	color;
 		Vector2 uv;
+	};
+
+	CBUFFER(TransformCB, CBSLOT_TRANSFORM) // 구조체 만드는거임
+	{
+		Vector4 pos;
+	};
+
+	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
+	{
+		int iData;
+		float fData;
+		Vector2 xy;
+		Vector3 xyz;
+		Vector4 xyzw;
+		Matrix matrix;
 	};
 
 
 	// vertex data
 	extern Vertex	arrVertex[4];
-	
-	
-	extern CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)];
-
-
-	extern Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
-	
-
+	extern CConstantBuffer* constantBuffers[];	
+	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 
 
 	void Initialize();

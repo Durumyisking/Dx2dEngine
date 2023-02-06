@@ -21,17 +21,17 @@ namespace dru
 
 		void SetConstantBuffer();
 
-		void SetPosition(Vector4 _Value) { mPosition = _Value; }
-		void SetRotation(Vector4 _Value) { mRotation = _Value; }
-		void SetScale(Vector4 _Value) { mScale = _Value; }
+		void SetPosition(Vector3 _Value) { mPosition = _Value; }
+		void SetRotation(Vector3 _Value) { mRotation = _Value; }
+		void SetScale(Vector3 _Value) { mScale = _Value; }
 
-		Vector4 GetPosition() { return mPosition; }
-		Vector4 GetRotation() { return mRotation; }
-		Vector4 GetScale() { return mScale; }
+		Vector3 GetPosition() { return mPosition; }
+		Vector3 GetRotation() { return mRotation; }
+		Vector3 GetScale() { return mScale; }
 	private:
-		Vector4 mPosition;
-		Vector4 mRotation;
-		Vector4 mScale;
+		Vector3 mPosition;
+		Vector3 mRotation;
+		Vector3 mScale;
 
 
 	};

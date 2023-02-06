@@ -12,7 +12,7 @@ namespace dru
 	}
 	void CScene::Initialize()
 	{
-		mLayers.resize((UINT)eLayerType::End);
+//		mLayers.resize((UINT)eLayerType::End);
 		for (CLayer& layer : mLayers)
 		{
 			layer.Initialize();

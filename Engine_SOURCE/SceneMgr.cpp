@@ -14,31 +14,25 @@
 
 namespace dru
 {
-	CScene* CSceneMgr::mScenes[(static_cast<UINT>(CSceneMgr::eSceneType::End))] = {};
+//	CScene* CSceneMgr::mScenes[(static_cast<UINT>(CSceneMgr::eSceneType::End))] = {};
 	CScene* CSceneMgr::mPlayScene = nullptr;
 
-	CSceneMgr::CSceneMgr()
-	{
-	}
-	CSceneMgr::~CSceneMgr()
-	{
-	}
 
 	void CSceneMgr::Initialize()
 	{
 
-		mScenes[static_cast<UINT>(eSceneType::Title)] = new CSceneTitle;
-		mScenes[static_cast<UINT>(eSceneType::Title)]->SetType(eSceneType::Title);
-		mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
-		mScenes[static_cast<UINT>(eSceneType::Main)]->SetType(eSceneType::Main);
+		//mScenes[static_cast<UINT>(eSceneType::Title)] = new CSceneTitle;
+		//mScenes[static_cast<UINT>(eSceneType::Title)]->SetType(eSceneType::Title);
+		//mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
+		//mScenes[static_cast<UINT>(eSceneType::Main)]->SetType(eSceneType::Main);
 
-		mPlayScene = mScenes[static_cast<UINT>(eSceneType::Title)];
+//		mPlayScene = mScenes[static_cast<UINT>(eSceneType::Title)];
+		mPlayScene = new CScene();
 		mPlayScene->Initialize();
 
 		CGameObj* gameobj = new CGameObj();
-
 		CTransform* transform = new CTransform();
-		transform->SetPosition(Vector4(0.2f, 0.2f, 0.f, 0.f));
+		transform->SetPosition(Vector3(0.2f, 0.2f, 0.f));
 		gameobj->AddComponent(transform);
 
 		CMeshRenderer* meshRenderer = new CMeshRenderer();
@@ -50,7 +44,7 @@ namespace dru
 		meshRenderer->SetShader(shader);
 		meshRenderer->SetMesh(mesh);
 
-		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Test.png");
+		CTexture* texture = CResources::Load<CTexture>(L"Test", L"zz.png");
 		texture->BindShader(eShaderStage::PS, 0);
 
 		mPlayScene->AddGameObject(gameobj, eLayerType::Player);

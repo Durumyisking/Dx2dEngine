@@ -1,6 +1,6 @@
 #pragma once
 #include "Resource.h"
-#include "GraphicDevice.h"
+#include "Graphics.h"
 
 namespace dru
 {
@@ -12,11 +12,15 @@ namespace dru
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		void CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements);
+
 		void Create(graphics::eShaderStage _eStage, const std::wstring& _Path, const std::string& _funcName);
 		void Bind();
-		ID3D11InputLayout* GetInputLayOut() const { return mInputLayout.Get(); }
-		ID3D11InputLayout** GetInputLayOutAddr()  { return mInputLayout.GetAddressOf(); }
+		ID3D11InputLayout* GetInputLayOut() { return mInputLayout.Get(); }
+		ID3D11InputLayout** GetInputLayoutAddr()  { return mInputLayout.GetAddressOf(); }
+
+		void* GetVSBlobBufferPointer() { return mVSBlob->GetBufferPointer(); }
+		SIZE_T GetVSBlobBufferSize() { return mVSBlob->GetBufferSize(); }
+
 		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { mTopology = _Topology; }
 
 	private:
