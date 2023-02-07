@@ -9,6 +9,13 @@ namespace dru
 
 	CGameObj::~CGameObj()
 	{
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+
+			delete comp;
+		}
 	}
 
 	void CGameObj::Initialize()

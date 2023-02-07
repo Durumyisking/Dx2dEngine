@@ -9,6 +9,7 @@ namespace dru
 
 	CLayer::~CLayer()
 	{
+
 	}
 
 	void CLayer::Initialize()
@@ -48,6 +49,17 @@ namespace dru
 			if (nullptr == Obj)
 				continue;
 			Obj->render();
+		}
+	}
+
+	void CLayer::Release()
+	{
+		for (CGameObj* Obj : mGameObjs)
+		{
+			if (nullptr == Obj)
+				continue;
+
+			delete Obj;
 		}
 	}
 

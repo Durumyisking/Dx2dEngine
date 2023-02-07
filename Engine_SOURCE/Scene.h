@@ -2,7 +2,13 @@
 #include "Entity.h"
 #include "Layer.h"
 #include "SceneMgr.h"
-#include "GameObj.h"
+
+#include "Transform.h"
+#include "MeshRenderer.h"
+#include "Renderer.h"
+#include "Texture.h"
+
+#include "PlayerScript.h"
 
 namespace dru
 {

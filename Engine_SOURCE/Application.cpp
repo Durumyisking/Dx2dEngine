@@ -54,7 +54,7 @@ namespace dru
 	}
 	void CApplication::Release()
 	{
-		CResources::Release();
+		CSceneMgr::release();
 	}
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{

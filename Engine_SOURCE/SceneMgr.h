@@ -22,10 +22,11 @@ namespace dru
 		static void update();
 		static void fixedupdate();
 		static void render();
+		static void release();
 
 
 	public:
-//		static CScene* mScenes[(static_cast<UINT>(eSceneType::End))];	// 葛电 纠 格废
+		static CScene* mScenes[(static_cast<UINT>(eSceneType::End))];	// 葛电 纠 格废
 		static CScene* mPlayScene;
 
 	};

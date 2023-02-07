@@ -108,6 +108,7 @@ namespace dru::graphics
 
 	CGraphicDevice::~CGraphicDevice()
 	{
+		renderer::release();
 	}
 
 	bool CGraphicDevice::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* _Desc)

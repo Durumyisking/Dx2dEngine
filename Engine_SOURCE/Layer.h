@@ -14,10 +14,13 @@ namespace dru
 		virtual void fixedupdate();
 		virtual void render();
 
+		virtual void Release();
+
 		void AddGameObject(CGameObj* _GameObj);
 
+
 	private:
-		std::vector<CGameObj*> mGameObjs;
+		std::vector<CGameObj*>	mGameObjs;
 
 	};
 }

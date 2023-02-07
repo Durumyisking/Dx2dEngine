@@ -43,6 +43,8 @@ namespace dru
 		eState mState;
 		std::vector<CComponent*> mComponents;
 		std::vector<CComponent*> mScripts;
+
+
 	};
 
 }

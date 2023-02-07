@@ -35,7 +35,7 @@ namespace dru::renderer
 		arrLayout[2].SemanticName = "TEXCOORD";
 		arrLayout[2].SemanticIndex = 0;
 
-		CShader* shader = CResources::Find<CShader>(L"RectShader");
+		CShader* shader = CResources::Find<CShader>(L"RectShader").get();
 
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, shader->GetVSBlobBufferPointer()
@@ -64,7 +64,7 @@ namespace dru::renderer
 
 	void LoadBuffer()
 	{
-		CMesh* mesh = new CMesh();
+		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"RectMesh", mesh);
 
 		mesh->CreateVertexBuffer(arrVertex, 4);
@@ -94,7 +94,7 @@ namespace dru::renderer
 
 	void LoadShader()
 	{
-		CShader* Shader = new CShader();
+		std::shared_ptr<CShader> Shader = std::make_shared<CShader>();
 		Shader->Create(graphics::eShaderStage::VS, L"VSTriangle.hlsl", "VS");
 		Shader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "PS");
 		CResources::Insert<CShader>(L"RectShader", Shader);
@@ -102,9 +102,9 @@ namespace dru::renderer
 
 	void LoadMaterial()
 	{
-		CShader* shader = CResources::Find<CShader>(L"RectShader");
+		CShader* shader = CResources::Find<CShader>(L"RectShader").get();
 
-		CMaterial* Material = new CMaterial();
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>();
 		Material->SetShader(shader);
 		CResources::Insert<CMaterial>(L"DefaultMaterial", Material);
 
@@ -139,7 +139,6 @@ namespace dru::renderer
 
 	void release()
 	{
-
 		for (size_t i = 0; i < (UINT)eCBType::End; i++)
 		{
 			delete constantBuffers[i];
