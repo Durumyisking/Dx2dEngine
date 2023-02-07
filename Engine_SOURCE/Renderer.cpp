@@ -45,9 +45,9 @@ namespace dru::renderer
 
 		// Sampler State
 		D3D11_SAMPLER_DESC samplerDesc = {};
-		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
-		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
-		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_BORDER;
+		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 
 		samplerDesc.Filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
 		GetDevice()->CreateSampler(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
@@ -81,7 +81,7 @@ namespace dru::renderer
 
 		mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
-		Vector4 pos( 0.2f, 0.2f, 0.f, 0.0f );
+		Vector4 pos( 0.f, 0.f, 0.f, 0.f );
 		// Const Buffer
 	
 		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer(eCBType::Transform);
@@ -120,15 +120,15 @@ namespace dru::renderer
 
 		arrVertex[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.f);
 		arrVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		arrVertex[1].uv = Vector2(2.f, 0.f);
+		arrVertex[1].uv = Vector2(1.f, 0.f);
 
 		arrVertex[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.f);
 		arrVertex[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		arrVertex[2].uv = Vector2(2.f, 2.f);
+		arrVertex[2].uv = Vector2(1.f, 1.f);
 
 		arrVertex[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.f);
 		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
-		arrVertex[3].uv = Vector2(0.f, 2.f);
+		arrVertex[3].uv = Vector2(0.f, 1.f);
 
 
 		LoadShader();

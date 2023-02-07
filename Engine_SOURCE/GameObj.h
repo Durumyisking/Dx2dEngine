@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Component.h"
-
+#include "Script.h"
 namespace dru
 {
 	class CGameObj
@@ -40,10 +40,9 @@ namespace dru
 		}
 
 	private:
-		std::vector<CComponent*> mComponents;
-
 		eState mState;
+		std::vector<CComponent*> mComponents;
+		std::vector<CComponent*> mScripts;
 	};
-
 
 }

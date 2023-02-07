@@ -36,7 +36,7 @@ namespace dru
 		NONE,
 	};
 
-	class Input
+	class CInput
 	{
 	public:
 		struct Key
@@ -60,8 +60,8 @@ namespace dru
 		}
 
 	private:
-		Input() = delete;
-		~Input() = delete;
+		CInput() = delete;
+		~CInput() = delete;
 
 	private:
 		static std::vector<Key> mKeys;

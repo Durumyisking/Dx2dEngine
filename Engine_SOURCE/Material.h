@@ -24,7 +24,7 @@ namespace dru::graphics
 
 	private:
 		CShader*			mShader;
-		CConstantBuffer*	mConstantBuffer;
+		MaterialCB			mConstantBuffer;
 
 
 	};

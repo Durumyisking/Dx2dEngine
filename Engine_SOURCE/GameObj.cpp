@@ -17,7 +17,14 @@ namespace dru
 		{
 			if (nullptr == comp)
 				continue;
-			comp->Initialize();
+			comp->Initialize();		
+		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
 		}
 	}
 
@@ -29,6 +36,12 @@ namespace dru
 				continue;			
 			comp->update();
 		}
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->update();
+		}
 	}
 
 	void CGameObj::fixedupdate()
@@ -38,6 +51,13 @@ namespace dru
 			if (nullptr == comp)
 				continue;
 			comp->fixedupdate();
+		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->fixedupdate();
 		}
 	}
 
@@ -49,13 +69,32 @@ namespace dru
 				continue;
 			comp->render();
 		}
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->render();
+		}
 	}
 
 	void CGameObj::AddComponent(CComponent* _Component)
 	{
-		int order = _Component->GetOrder();
-		mComponents[order] = _Component;
-		mComponents[order]->SetOwner(this);
+
+		eComponentType order = _Component->GetOrder();
+
+
+		if (order != eComponentType::Script)
+		{
+			mComponents[(UINT)order] = _Component;
+			mComponents[(UINT)order]->SetOwner(this);
+		}
+		else
+		{
+			mScripts.push_back(_Component);
+			_Component->SetOwner(this);
+		}
+
+
 
 	}
 

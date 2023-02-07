@@ -5,8 +5,8 @@ extern dru::CApplication application;
 
 namespace dru
 {
-	std::vector<Input::Key> Input::mKeys;
-	math::Vector2 Input::mMousPosition;
+	std::vector<CInput::Key> CInput::mKeys;
+	math::Vector2 CInput::mMousPosition;
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
@@ -31,7 +31,7 @@ namespace dru
 	};
 
 
-	void Input::Initialize()
+	void CInput::Initialize()
 	{
 		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 		{
@@ -44,7 +44,7 @@ namespace dru
 		}
 	}
 
-	void Input::update()
+	void CInput::update()
 	{
 		if (GetFocus())
 		{

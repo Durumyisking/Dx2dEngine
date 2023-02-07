@@ -20,7 +20,7 @@ namespace dru
 		virtual void fixedupdate() = 0;
 		virtual void render() = 0;
 
-		UINT GetOrder() { return static_cast<UINT>(mType); }
+		eComponentType GetOrder() { return mType; }
 
 		void SetOwner(CGameObj* _Owner) { mOwner = _Owner; }
 		CGameObj* GetOwner() { return mOwner; }

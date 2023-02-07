@@ -12,12 +12,27 @@ SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
 
+cbuffer Material : register(b1)
+{
+    int cbiData;
+    float cbfData;
+    float2 cbxy;
+    float3 cbxyz;
+    float4 cbxyzw;
+    matrix cbmat;
+}
+
 
 float4 PS(VTX_OUT _in) : SV_Target
 {
-    float4 color = (float) 0.0f;
+    float4 color = (float) 0.f;
+    
+    //if (cbxy.x == 1.f)
+    //{
+    //    return float4(1.f, 1.f, 0.f, 1.f);
+    //}
      
-    color = defaultTexture.Sample(anisotropicSampler, _in.vUV);
+    color = defaultTexture.Sample(pointSampler, _in.vUV);
     
     return color;
 }

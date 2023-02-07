@@ -1,16 +1,15 @@
 #include "SceneMgr.h"
 
 #include "Scene.h"
-
 #include "SceneTitle.h"
 #include "SceneMain.h"
 
 #include "Transform.h"
 #include "MeshRenderer.h"
-
 #include "Renderer.h"
-
 #include "Texture.h"
+
+#include "PlayerScript.h"
 
 namespace dru
 {
@@ -46,6 +45,9 @@ namespace dru
 
 		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Smile.png");
 		texture->BindShader(eShaderStage::PS, 0);
+
+		CPlayerScript* script = new CPlayerScript();
+		gameobj->AddComponent(script);
 
 		mPlayScene->AddGameObject(gameobj, eLayerType::Player);
 		

@@ -23,14 +23,13 @@ cbuffer Transform : register(b0) // 그래픽카드 레지스터(상수버퍼)의  b0을 상수버
 
 cbuffer Material : register(b1)
 {
-    int iData;
-    float fData;
-    float2 xy;
-    float3 xyz;
-    float4 xyzw;
-    matrix mat;
+    int cbiData;
+    float cbfData;
+    float2 cbxy;
+    float3 cbxyz;
+    float4 cbxyzw;
+    matrix cbmat;
 }
-
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
@@ -38,8 +37,7 @@ SamplerState anisotropicSampler : register(s2);
 
 VTX_OUT VS(VTX_IN _in)
 {
-    VTX_OUT output = (VTX_OUT) 0.0f; // 초기화
-//    vColor = defaultTexture.Sample(samplerState, _in.vUV);
+    VTX_OUT output = (VTX_OUT) 0.f; // 초기화
     
     output.vPos = float4(_in.vPos + cbPos); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
     output.vColor = _in.vColor;

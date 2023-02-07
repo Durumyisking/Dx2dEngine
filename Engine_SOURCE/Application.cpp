@@ -20,7 +20,7 @@ namespace dru
 	void CApplication::Initialize()
 	{
 		CTimeMgr::Initialize();
-		Input::Initialize();
+		CInput::Initialize();
 
 		renderer::Initialize();
 		CSceneMgr::Initialize();
@@ -28,7 +28,7 @@ namespace dru
 	void CApplication::update()
 	{
 		CTimeMgr::update();
-		Input::update();
+		CInput::update();
 		CSceneMgr::update();
 	}
 	void CApplication::fixedupdate()
