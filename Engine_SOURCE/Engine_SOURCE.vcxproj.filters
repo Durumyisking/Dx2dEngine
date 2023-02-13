@@ -68,6 +68,9 @@
     <Filter Include="GameObj\Player">
       <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Component\Camera">
+      <UniqueIdentifier>{eda891fd-0c41-4e10-8f39-73c0a24c3f84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -157,6 +160,9 @@
     <ClInclude Include="PlayerScript.h">
       <Filter>GameObj\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>GameObj\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -233,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
       <Filter>GameObj\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>GameObj\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

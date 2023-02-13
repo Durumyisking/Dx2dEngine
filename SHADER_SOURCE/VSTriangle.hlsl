@@ -1,45 +1,15 @@
-struct VTX_IN
-{
-    float4 vPos : POSITION; // 오른쪽에 오는놈은 시멘틱이라고 해요
-                            // 태그같은거임
-                            // 외부에서 태그 적으면 해당 바이트 크기(12) 만큼 보내겠다~
-    float4 vColor : COLOR;
-    float2 vUV : TEXCOORD; // 텍스처 UV좌표 (픽셀쉐이더에서 할 수 있지민 U*V만큼 연산해줘야되니까 버텍스 쉐이더에서 넘겨줘서 보간하게끔 한다)
-                            
-    
-};
+#include "global.hlsli"
 
-struct VTX_OUT
-{
-    float4 vPos : SV_Position;
-    float4 vColor : COLOR;
-    float2 vUV : TEXCOORD;
-};
-
-cbuffer Transform : register(b0) // 그래픽카드 레지스터(상수버퍼)의  b0을 상수버퍼로 쓸거임
-{
-    float4 cbPos;
-}
-
-cbuffer Material : register(b1)
-{
-    int cbiData;
-    float cbfData;
-    float2 cbxy;
-    float3 cbxyz;
-    float4 cbxyzw;
-    matrix cbmat;
-}
-
-SamplerState pointSampler : register(s0);
-SamplerState linearSampler : register(s1);
-SamplerState anisotropicSampler : register(s2);
 
 VTX_OUT VS(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f; // 초기화
+  
+    float4 worldPosition = mul(_in.vPos,  world);
+    float4 viewPosition = mul(_in.vPos, view);
+    float4 projectionPosition = mul(_in.vPos, projection);
     
-    output.vPos = float4(_in.vPos + cbPos); // float 3까지는 vpos쓰고 w로는 1.f 쓸거임
+    output.vPos = projectionPosition;
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
 

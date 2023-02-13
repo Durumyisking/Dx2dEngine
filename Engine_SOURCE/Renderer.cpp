@@ -114,20 +114,20 @@ namespace dru::renderer
 	{
 		// 중앙이 0, 0, 0이고 높이가 1인 정삼각형
 
-		arrVertex[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.f); // 사각형의 lefttop
-		arrVertex[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
+		arrVertex[0].pos = Vector4(-1.f, 1.f, 0.5f, 1.f); // 사각형의 lefttop
+//		arrVertex[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
 		arrVertex[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
 
-		arrVertex[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.f);
-		arrVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		arrVertex[1].pos = Vector4(1.f, 1.f, 0.5f, 1.f);
+//		arrVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
 		arrVertex[1].uv = Vector2(1.f, 0.f);
 
-		arrVertex[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.f);
-		arrVertex[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		arrVertex[2].pos = Vector4(1.f, -1.f, 0.5f, 1.f);
+//		arrVertex[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
 		arrVertex[2].uv = Vector2(1.f, 1.f);
 
-		arrVertex[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.f);
-		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
+		arrVertex[3].pos = Vector4(-1.f, -1.f, 0.5f, 1.f);
+//		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
 		arrVertex[3].uv = Vector2(0.f, 1.f);
 
 

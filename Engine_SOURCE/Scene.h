@@ -7,6 +7,8 @@
 #include "MeshRenderer.h"
 #include "Renderer.h"
 #include "Texture.h"
+#include "Camera.h"
+
 
 #include "PlayerScript.h"
 

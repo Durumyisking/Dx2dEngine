@@ -22,7 +22,9 @@ namespace dru::renderer
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM) // 구조체 만드는거임
 	{
-		Vector4 pos;
+		Matrix world;
+		Matrix view;
+		Matrix projection;
 	};
 
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)

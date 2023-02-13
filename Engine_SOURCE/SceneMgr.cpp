@@ -39,11 +39,11 @@ namespace dru
 
 	void CSceneMgr::release()
 	{
-		//for (CScene* scene : mScenes)
-		//{
-		//	if (nullptr != scene)
-		//		delete scene;
-		//}
+		for (CScene* scene : mScenes)
+		{
+			if (nullptr != scene)
+				delete scene;
+		}
 	}
 
 }

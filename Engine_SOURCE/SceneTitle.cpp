@@ -27,13 +27,26 @@ namespace dru
 		meshRenderer->SetMaterial(material);
 		meshRenderer->SetMesh(mesh);
 
-		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Smile.png").get();
+		CTexture* texture = CResources::Load<CTexture>(L"Test", L"Test.png").get();
 		texture->BindShader(eShaderStage::PS, 0);
 
 		CPlayerScript* script = new CPlayerScript();
 		gameobj->AddComponent(script);
 
 		this->AddGameObject(gameobj, eLayerType::Player);
+
+
+
+		CGameObj* camera = new CGameObj();
+		CTransform* cameraTR = new CTransform();
+		cameraTR->SetPosition(Vector3(0.f, 0.f, 0.f));
+		camera->AddComponent(cameraTR);
+
+		CCamera* cameraComp = new CCamera();
+		camera->AddComponent(cameraComp);
+
+		this->AddGameObject(gameobj, eLayerType::Camera);
+
 
 		CScene::Initialize();
 	}

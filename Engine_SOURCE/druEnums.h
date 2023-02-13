@@ -8,7 +8,7 @@ namespace dru::enums
 		None = 0,
 		Monster,
 		Player,
-
+		Camera,
 		End = 16,
 	};
 
