@@ -14,7 +14,6 @@ namespace dru
 		virtual void fixedupdate();
 		virtual void render();
 
-		virtual void Release();
 
 		void AddGameObject(CGameObj* _GameObj);
 

@@ -62,14 +62,17 @@
     <Filter Include="GameObj\Component\Script">
       <UniqueIdentifier>{5159e036-2e59-4ee5-8350-3ceee37140b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Component\MeshRenderer">
-      <UniqueIdentifier>{efaa299c-5103-47ef-a951-a1d79c071d26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObj\Player">
       <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObj\Component\Camera">
       <UniqueIdentifier>{eda891fd-0c41-4e10-8f39-73c0a24c3f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Component\Camera\Script">
+      <UniqueIdentifier>{097773b2-133e-409e-a687-127f52ad60f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Component\Renderer">
+      <UniqueIdentifier>{efaa299c-5103-47ef-a951-a1d79c071d26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -155,13 +158,19 @@
       <Filter>GameObj\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>GameObj\Component\MeshRenderer</Filter>
+      <Filter>GameObj\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScript.h">
       <Filter>GameObj\Player</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>GameObj\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraScript.h">
+      <Filter>GameObj\Component\Camera\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>GameObj\Component\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,13 +244,19 @@
       <Filter>GameObj\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>GameObj\Component\MeshRenderer</Filter>
+      <Filter>GameObj\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
       <Filter>GameObj\Player</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>GameObj\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraScript.cpp">
+      <Filter>GameObj\Component\Camera\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>GameObj\Component\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

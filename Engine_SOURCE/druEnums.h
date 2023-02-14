@@ -6,7 +6,8 @@ namespace dru::enums
 	enum class eLayerType
 	{
 		None = 0,
-		Camera, 
+		Camera,
+		BackGround,
 		Monster,
 		Player,
 		End = 16,
@@ -20,6 +21,8 @@ namespace dru::enums
 		Camera,
 		Mesh,
 		Collider,
+		MeshRenderer,
+		SpriteRenderer,
 		UI,
 		Script,
 		End,

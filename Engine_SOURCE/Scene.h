@@ -5,10 +5,11 @@
 
 #include "Transform.h"
 #include "MeshRenderer.h"
+#include "SpriteRenderer.h"
 #include "Renderer.h"
 #include "Texture.h"
 #include "Camera.h"
-
+#include "CameraScript.h"
 
 #include "PlayerScript.h"
 

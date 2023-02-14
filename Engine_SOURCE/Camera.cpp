@@ -12,7 +12,7 @@ namespace dru
 
 	CCamera::CCamera()
 		: CComponent(eComponentType::Camera)
-		, mType(eProjectionType::Perspective)
+		, mType(eProjectionType::Orthographic)
 		, mAspectRatio(1.f)
 		, mNear(1.f)
 		, mFar(1000.f)
@@ -86,7 +86,7 @@ namespace dru
 		}
 		else // (mType == eProjectionType::Orthographic)
 		{
-			mProjection = Matrix::CreateOrthographic(width, height, mNear, mFar);
+			mProjection = Matrix::CreateOrthographic(width / 100.f, height / 100.f, mNear, mFar);
 		}
 
 	}

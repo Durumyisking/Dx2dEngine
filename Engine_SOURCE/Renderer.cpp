@@ -11,7 +11,8 @@ namespace dru::renderer
 
 	void SetUpState()
 	{
-		// input Layout (정점 구조 정보)
+		
+		#pragma region InputLayout
 		D3D11_INPUT_ELEMENT_DESC arrLayout[3] = {}; // pos, color, uv
 
 		arrLayout[0].AlignedByteOffset = 0; // 배열의 0바이트부터 삽입하겠다.
@@ -35,15 +36,23 @@ namespace dru::renderer
 		arrLayout[2].SemanticName = "TEXCOORD";
 		arrLayout[2].SemanticIndex = 0;
 
-		std::shared_ptr<CShader> shader = CResources::Find<CShader>(L"RectShader");
+		std::shared_ptr<CShader> Meshshader = CResources::Find<CShader>(L"MeshShader");
 
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
-			, shader->GetVSBlobBufferPointer()
-			, shader->GetVSBlobBufferSize()
-			, shader->GetInputLayoutAddr());
+			, Meshshader->GetVSBlobBufferPointer()
+			, Meshshader->GetVSBlobBufferSize()
+			, Meshshader->GetInputLayoutAddr());
 
 
-		// Sampler State
+		std::shared_ptr<CShader> Spriteshader = CResources::Find<CShader>(L"SpriteShader");
+
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, Spriteshader->GetVSBlobBufferPointer()
+			, Spriteshader->GetVSBlobBufferSize()
+			, Spriteshader->GetInputLayoutAddr());
+#pragma endregion
+
+		#pragma region SamplerState
 		D3D11_SAMPLER_DESC samplerDesc = {};
 		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
@@ -59,8 +68,10 @@ namespace dru::renderer
 		GetDevice()->BindSamplers((UINT)eSamplerType::Point, 1, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Linear, 1, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Anisotropic, 1, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+#pragma endregion
 
 	}
+
 
 	void LoadBuffer()
 	{
@@ -94,19 +105,38 @@ namespace dru::renderer
 
 	void LoadShader()
 	{
-		std::shared_ptr<CShader> Shader = std::make_shared<CShader>();
-		Shader->Create(graphics::eShaderStage::VS, L"VSTriangle.hlsl", "VS");
-		Shader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "PS");
-		CResources::Insert<CShader>(L"RectShader", Shader);
+		std::shared_ptr<CShader> MeshShader = std::make_shared<CShader>();
+		MeshShader->Create(graphics::eShaderStage::VS, L"VSTriangle.hlsl", "main");
+		MeshShader->Create(graphics::eShaderStage::PS, L"PSTriangle.hlsl", "main");
+		CResources::Insert<CShader>(L"MeshShader", MeshShader);
+
+
+		std::shared_ptr<CShader> SpriteShader = std::make_shared<CShader>();
+		SpriteShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		SpriteShader->Create(graphics::eShaderStage::PS, L"SpritePS.hlsl", "main");
+		CResources::Insert<CShader>(L"SpriteShader", SpriteShader);
+
 	}
 
 	void LoadMaterial()
 	{
-		std::shared_ptr<CShader> shader = CResources::Find<CShader>(L"RectShader");
+		std::shared_ptr<CTexture> Meshtexture = CResources::Load<CTexture>(L"Default", L"default.png");
 
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>();
-		Material->SetShader(shader.get());
-		CResources::Insert<CMaterial>(L"DefaultMaterial", Material);
+
+		std::shared_ptr<CShader> MeshShader = CResources::Find<CShader>(L"MeshShader");
+		std::shared_ptr<CMaterial> MeshMaterial = std::make_shared<CMaterial>();
+		MeshMaterial->SetShader(MeshShader);
+		MeshMaterial->SetTexture(Meshtexture);
+		CResources::Insert<CMaterial>(L"MeshMaterial", MeshMaterial);
+
+
+		std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Default");
+
+		std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+		std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+		SpriteMaterial->SetShader(SpriteShader);
+		SpriteMaterial->SetTexture(Spritetexture);
+		CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
 
 	}
 

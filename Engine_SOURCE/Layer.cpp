@@ -9,6 +9,14 @@ namespace dru
 
 	CLayer::~CLayer()
 	{
+		for (CGameObj* Obj : mGameObjs)
+		{
+			if (nullptr == Obj)
+				continue;
+
+			delete Obj;
+			Obj = nullptr;
+		}
 
 	}
 
@@ -52,16 +60,7 @@ namespace dru
 		}
 	}
 
-	void CLayer::Release()
-	{
-		for (CGameObj* Obj : mGameObjs)
-		{
-			if (nullptr == Obj)
-				continue;
 
-			delete Obj;
-		}
-	}
 
 	void CLayer::AddGameObject(CGameObj* _GameObj)
 	{

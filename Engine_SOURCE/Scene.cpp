@@ -9,10 +9,6 @@ namespace dru
 	}
 	CScene::~CScene()
 	{
-		for (UINT i = 0; i < (UINT)eLayerType::End; ++i)
-		{
-			mLayers[i].Release();
-		}
 	}
 	void CScene::Initialize()
 	{

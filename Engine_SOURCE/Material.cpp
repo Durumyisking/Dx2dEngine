@@ -43,6 +43,8 @@ namespace dru::graphics
 	}
 	void CMaterial::Bind()
 	{
+		mTexture->BindShader(eShaderStage::PS, 0);
+
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 
 		pCB->Bind(&mConstantBuffer);
@@ -50,5 +52,9 @@ namespace dru::graphics
 		pCB->SetPipeline(eShaderStage::PS);
 
 		mShader->Bind();
+	}
+	void CMaterial::Clear()
+	{
+		mTexture->Clear();
 	}
 }

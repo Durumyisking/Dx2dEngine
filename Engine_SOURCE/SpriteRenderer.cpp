@@ -1,33 +1,34 @@
-#include "MeshRenderer.h"
+#include "SpriteRenderer.h"
 #include "GameObj.h"
 #include "Transform.h"
 
 namespace dru
 {
-	CMeshRenderer::CMeshRenderer()
-		: CComponent(eComponentType::MeshRenderer)
+	CSpriteRenderer::CSpriteRenderer()
+		: CComponent(eComponentType::SpriteRenderer)
 		, mMesh(nullptr)
 		, mMaterial(nullptr)
+
 	{
 	}
 
-	CMeshRenderer::~CMeshRenderer()
+	CSpriteRenderer::~CSpriteRenderer()
 	{
 	}
 
-	void CMeshRenderer::Initialize()
+	void CSpriteRenderer::Initialize()
 	{
 	}
 
-	void CMeshRenderer::update()
+	void CSpriteRenderer::update()
 	{
 	}
 
-	void CMeshRenderer::fixedupdate()
+	void CSpriteRenderer::fixedupdate()
 	{
 	}
 
-	void CMeshRenderer::render()
+	void CSpriteRenderer::render()
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 

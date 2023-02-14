@@ -14,7 +14,7 @@ namespace dru
 	}
 	CApplication::~CApplication()
 	{
-		
+		CSceneMgr::release();
 	}
 
 	void CApplication::Initialize()
@@ -52,10 +52,7 @@ namespace dru
 		fixedupdate();
 		render();
 	}
-	void CApplication::Release()
-	{
-		CSceneMgr::release();
-	}
+
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{
 		if (graphicDevice == nullptr)

@@ -22,6 +22,7 @@ namespace dru::graphics
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void BindShader(eShaderStage _Stage, UINT _Slot);
+		void Clear();
 
 
 	private:
