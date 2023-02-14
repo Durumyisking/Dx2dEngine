@@ -6,9 +6,9 @@ namespace dru::enums
 	enum class eLayerType
 	{
 		None = 0,
+		Camera, 
 		Monster,
 		Player,
-		Camera,
 		End = 16,
 	};
 

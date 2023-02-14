@@ -29,7 +29,7 @@ namespace dru
 		void SetConstantBuffer();
 
 
-		Vector3 Foward() { return mFoward; }
+		Vector3 Forward() { return mForward; }
 		Vector3 Right() { return mRight; }
 		Vector3 Up() { return mUp; }
 
@@ -37,7 +37,7 @@ namespace dru
 		Vector3 GetRotation() { return mRotation; }
 		Vector3 GetScale() { return mScale; }
 	private:
-		Vector3	mFoward;
+		Vector3	mForward;
 		Vector3 mRight;
 		Vector3 mUp;
 

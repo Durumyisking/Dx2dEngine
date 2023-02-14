@@ -26,10 +26,12 @@ namespace dru
 
 	void CCamera::Initialize()
 	{
+
 	}
 
 	void CCamera::update()
 	{
+
 	}
 
 	void CCamera::fixedupdate()
@@ -40,7 +42,8 @@ namespace dru
 
 	void CCamera::render()
 	{
-	}
+
+	}	
 
 	void CCamera::CreateViewMatrix()
 	{
@@ -52,11 +55,11 @@ namespace dru
 		// create view translation matrix
 		mView = Matrix::Identity;
 		mView *= Matrix::CreateTranslation(-translation);
-
+		
 		// 회전정보
-		Vector3 up = translation.Up;
-		Vector3 right = translation.Right;
-		Vector3 foward = translation.Forward;
+		Vector3 up = transform->Up();
+		Vector3 right = transform->Right();
+		Vector3 foward = transform->Forward();
 
 		Matrix viewRotate;
 		viewRotate._11 = right.x; 		viewRotate._12 = up.x;		 viewRotate._13 = foward.x;
@@ -79,7 +82,7 @@ namespace dru
 
 		if (mType == eProjectionType::Perspective)
 		{
-			mProjection = Matrix::CreatePerspectiveFieldOfView(XM_PI / 6.f, mAspectRatio, mNear, mFar);
+			mProjection = Matrix::CreatePerspectiveFieldOfView(XM_2PI / 6.f, mAspectRatio, mNear, mFar);
 		}
 		else // (mType == eProjectionType::Orthographic)
 		{
