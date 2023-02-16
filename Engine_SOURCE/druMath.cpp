@@ -146,87 +146,87 @@ namespace dru::math
 	*
 	****************************************************************************/
 
-#if defined(__d3d11_h__) || defined(__d3d11_x_h__)
-	static_assert(sizeof(DirectX::SimpleMath::Viewport) == sizeof(D3D11_VIEWPORT), "Size mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, x) == offsetof(D3D11_VIEWPORT, TopLeftX), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, y) == offsetof(D3D11_VIEWPORT, TopLeftY), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, width) == offsetof(D3D11_VIEWPORT, Width), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, height) == offsetof(D3D11_VIEWPORT, Height), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, minDepth) == offsetof(D3D11_VIEWPORT, MinDepth), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, maxDepth) == offsetof(D3D11_VIEWPORT, MaxDepth), "Layout mismatch");
-#endif
-
-#if defined(__d3d12_h__) || defined(__d3d12_x_h__) || defined(__XBOX_D3D12_X__)
-	static_assert(sizeof(DirectX::SimpleMath::Viewport) == sizeof(D3D12_VIEWPORT), "Size mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, x) == offsetof(D3D12_VIEWPORT, TopLeftX), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, y) == offsetof(D3D12_VIEWPORT, TopLeftY), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, width) == offsetof(D3D12_VIEWPORT, Width), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, height) == offsetof(D3D12_VIEWPORT, Height), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, minDepth) == offsetof(D3D12_VIEWPORT, MinDepth), "Layout mismatch");
-	static_assert(offsetof(DirectX::SimpleMath::Viewport, maxDepth) == offsetof(D3D12_VIEWPORT, MaxDepth), "Layout mismatch");
-#endif
-
-#if defined(__dxgi1_2_h__) || defined(__d3d11_x_h__) || defined(__d3d12_x_h__) || defined(__XBOX_D3D12_X__)
-	RECT Viewport::ComputeDisplayArea(DXGI_SCALING scaling, UINT backBufferWidth, UINT backBufferHeight, int outputWidth, int outputHeight) noexcept
-	{
-		RECT rct = {};
-
-		switch (int(scaling))
-		{
-		case DXGI_SCALING_STRETCH:
-			// Output fills the entire window area
-			rct.top = 0;
-			rct.left = 0;
-			rct.right = outputWidth;
-			rct.bottom = outputHeight;
-			break;
-
-		case 2 /*DXGI_SCALING_ASPECT_RATIO_STRETCH*/:
-			// Output fills the window area but respects the original aspect ratio, using pillar boxing or letter boxing as required
-			// Note: This scaling option is not supported for legacy Win32 windows swap chains
-		{
-			assert(backBufferHeight > 0);
-			const float aspectRatio = float(backBufferWidth) / float(backBufferHeight);
-
-			// Horizontal fill
-			float scaledWidth = float(outputWidth);
-			float scaledHeight = float(outputWidth) / aspectRatio;
-			if (scaledHeight >= float(outputHeight))
-			{
-				// Do vertical fill
-				scaledWidth = float(outputHeight) * aspectRatio;
-				scaledHeight = float(outputHeight);
-			}
-
-			const float offsetX = (float(outputWidth) - scaledWidth) * 0.5f;
-			const float offsetY = (float(outputHeight) - scaledHeight) * 0.5f;
-
-			rct.left = static_cast<LONG>(offsetX);
-			rct.top = static_cast<LONG>(offsetY);
-			rct.right = static_cast<LONG>(offsetX + scaledWidth);
-			rct.bottom = static_cast<LONG>(offsetY + scaledHeight);
-
-			// Clip to display window
-			rct.left = std::max<LONG>(0, rct.left);
-			rct.top = std::max<LONG>(0, rct.top);
-			rct.right = std::min<LONG>(outputWidth, rct.right);
-			rct.bottom = std::min<LONG>(outputHeight, rct.bottom);
-		}
-		break;
-
-		case DXGI_SCALING_NONE:
-		default:
-			// Output is displayed in the upper left corner of the window area
-			rct.top = 0;
-			rct.left = 0;
-			rct.right = std::min<LONG>(static_cast<LONG>(backBufferWidth), outputWidth);
-			rct.bottom = std::min<LONG>(static_cast<LONG>(backBufferHeight), outputHeight);
-			break;
-		}
-
-		return rct;
-	}
-#endif
+//#if defined(__d3d11_h__) || defined(__d3d11_x_h__)
+//	static_assert(sizeof(DirectX::SimpleMath::Viewport) == sizeof(D3D11_VIEWPORT), "Size mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, x) == offsetof(D3D11_VIEWPORT, TopLeftX), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, y) == offsetof(D3D11_VIEWPORT, TopLeftY), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, width) == offsetof(D3D11_VIEWPORT, Width), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, height) == offsetof(D3D11_VIEWPORT, Height), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, minDepth) == offsetof(D3D11_VIEWPORT, MinDepth), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, maxDepth) == offsetof(D3D11_VIEWPORT, MaxDepth), "Layout mismatch");
+//#endif
+//
+//#if defined(__d3d12_h__) || defined(__d3d12_x_h__) || defined(__XBOX_D3D12_X__)
+//	static_assert(sizeof(DirectX::SimpleMath::Viewport) == sizeof(D3D12_VIEWPORT), "Size mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, x) == offsetof(D3D12_VIEWPORT, TopLeftX), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, y) == offsetof(D3D12_VIEWPORT, TopLeftY), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, width) == offsetof(D3D12_VIEWPORT, Width), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, height) == offsetof(D3D12_VIEWPORT, Height), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, minDepth) == offsetof(D3D12_VIEWPORT, MinDepth), "Layout mismatch");
+//	static_assert(offsetof(DirectX::SimpleMath::Viewport, maxDepth) == offsetof(D3D12_VIEWPORT, MaxDepth), "Layout mismatch");
+//#endif
+//
+//#if defined(__dxgi1_2_h__) || defined(__d3d11_x_h__) || defined(__d3d12_x_h__) || defined(__XBOX_D3D12_X__)
+//	RECT Viewport::ComputeDisplayArea(DXGI_SCALING scaling, UINT backBufferWidth, UINT backBufferHeight, int outputWidth, int outputHeight) noexcept
+//	{
+//		RECT rct = {};
+//
+//		switch (int(scaling))
+//		{
+//		case DXGI_SCALING_STRETCH:
+//			// Output fills the entire window area
+//			rct.top = 0;
+//			rct.left = 0;
+//			rct.right = outputWidth;
+//			rct.bottom = outputHeight;
+//			break;
+//
+//		case 2 /*DXGI_SCALING_ASPECT_RATIO_STRETCH*/:
+//			// Output fills the window area but respects the original aspect ratio, using pillar boxing or letter boxing as required
+//			// Note: This scaling option is not supported for legacy Win32 windows swap chains
+//		{
+//			assert(backBufferHeight > 0);
+//			const float aspectRatio = float(backBufferWidth) / float(backBufferHeight);
+//
+//			// Horizontal fill
+//			float scaledWidth = float(outputWidth);
+//			float scaledHeight = float(outputWidth) / aspectRatio;
+//			if (scaledHeight >= float(outputHeight))
+//			{
+//				// Do vertical fill
+//				scaledWidth = float(outputHeight) * aspectRatio;
+//				scaledHeight = float(outputHeight);
+//			}
+//
+//			const float offsetX = (float(outputWidth) - scaledWidth) * 0.5f;
+//			const float offsetY = (float(outputHeight) - scaledHeight) * 0.5f;
+//
+//			rct.left = static_cast<LONG>(offsetX);
+//			rct.top = static_cast<LONG>(offsetY);
+//			rct.right = static_cast<LONG>(offsetX + scaledWidth);
+//			rct.bottom = static_cast<LONG>(offsetY + scaledHeight);
+//
+//			// Clip to display window
+//			rct.left = std::max<LONG>(0, rct.left);
+//			rct.top = std::max<LONG>(0, rct.top);
+//			rct.right = std::min<LONG>(outputWidth, rct.right);
+//			rct.bottom = std::min<LONG>(outputHeight, rct.bottom);
+//		}
+//		break;
+//
+//		case DXGI_SCALING_NONE:
+//		default:
+//			// Output is displayed in the upper left corner of the window area
+//			rct.top = 0;
+//			rct.left = 0;
+//			rct.right = std::min<LONG>(static_cast<LONG>(backBufferWidth), outputWidth);
+//			rct.bottom = std::min<LONG>(static_cast<LONG>(backBufferHeight), outputHeight);
+//			break;
+//		}
+//
+//		return rct;
+//	}
+//#endif
 
 	RECT Viewport::ComputeTitleSafeArea(UINT backBufferWidth, UINT backBufferHeight) noexcept
 	{

@@ -1,12 +1,15 @@
 #include "Shader.h"
 #include "GraphicDevice.h"
-
+#include "Renderer.h"
 
 namespace dru
 {
 	CShader::CShader()
 		: CResource(eResourceType::GraphicShader)
 		, mTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+		, mRSType(eRasterizerType::SolidBack)
+		, mDSType(eDepthStencilType::Less)
+		, mBSType(eBlendStateType::AlphaBlend)
 	{
 	}
 	CShader::~CShader()
@@ -53,12 +56,12 @@ namespace dru
 			break;
 		}
 
-		//if (mErrorBlob)
-		//{
-		//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-		//	mErrorBlob->Release();
-		//	mErrorBlob = nullptr;
-		//}
+		if (mErrorBlob)
+		{
+			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			mErrorBlob->Release();
+			mErrorBlob = nullptr;
+		}
 
 	}
 
@@ -105,6 +108,15 @@ namespace dru
 	{
 		graphics::GetDevice()->BindPrimitiveTopology(mTopology);
 		graphics::GetDevice()->BindInputLayout(mInputLayout.Get());
+
+
+		Microsoft::WRL::ComPtr<ID3D11RasterizerState>	rs = renderer::rasterizerState[(UINT)mRSType];
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState>	ds = renderer::DepthStencilState[(UINT)mDSType];
+		Microsoft::WRL::ComPtr<ID3D11BlendState>		bs = renderer::BlendState[(UINT)mBSType];
+
+		GetDevice()->BindRasterizerState(rs.Get());
+		GetDevice()->BindDepthStencilState(ds.Get());
+		GetDevice()->BindBlendState(bs.Get());
 
 		graphics::GetDevice()->BindVS(mVS.Get(), nullptr, 0);
 		graphics::GetDevice()->BindPS(mPS.Get(), nullptr, 0);

@@ -27,50 +27,28 @@ namespace dru
 		this->AddGameObject(camera, eLayerType::Camera);
 
 		{
-			// 배경
-			CGameObj* Background = new CGameObj();
-			CTransform* transform = new CTransform();
-			transform->SetPosition(Vector3(1.f, 0.f, 1.f));
-			transform->SetRotation(Vector3(0.f, 0.f, 0.f));
-
-			Background->AddComponent(transform);
-
-			CMeshRenderer* meshRenderer = new CMeshRenderer();
-			Background->AddComponent(meshRenderer);
-
-			std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
-			std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"MeshMaterial");
-
-			meshRenderer->SetMaterial(material);
-			meshRenderer->SetMesh(mesh);
-
-
-			this->AddGameObject(Background, eLayerType::BackGround);
-		}
-
-
-		{
 			// 플레이어
 			CGameObj* gameobj = new CGameObj();
 			CTransform* transform = new CTransform();
-			transform->SetPosition(Vector3(0.f, 0.f, 1.f));
-			transform->SetRotation(Vector3(0.f, 0.f, 0.f));
-			//transform->SetScale(Vector3(1.f, 1.f, 0.f));
+			transform->SetPosition(Vector3(0.f, 0.f, 1.f));			
+			//transform->SetScale(Vector3(0.f, 0.f, 0.f));
 
 			gameobj->AddComponent(transform);
 
 
-			CSpriteRenderer* meshRenderer = new CSpriteRenderer();
-			gameobj->AddComponent(meshRenderer);
+			CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
+			gameobj->AddComponent(SpriteRenderer);
+
 
 			std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
 			std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"SpriteMaterial");
 
-			meshRenderer->SetMaterial(material);
-			meshRenderer->SetMesh(mesh);
+			std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Steel", L"TitleScene/bgBlack.png");
+			material->SetTexture(texture);
 
-			CPlayerScript* script = new CPlayerScript();
-			gameobj->AddComponent(script);
+			SpriteRenderer->SetMaterial(material);
+			SpriteRenderer->SetMesh(mesh);
+
 
 			this->AddGameObject(gameobj, eLayerType::Player);
 		}

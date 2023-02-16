@@ -17,8 +17,11 @@ namespace dru::graphics
 		bool CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader);
 		bool CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader);
 
-		bool CreateSampler(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState);
-
+		bool CreateSamplerState(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState);
+		bool CreateRasterizerState(const D3D11_RASTERIZER_DESC* _pRasterizerDesc, ID3D11RasterizerState** _ppRasterizerState);
+		bool CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* _pDepthStencilDesc, ID3D11DepthStencilState** _ppDepthStencilState);
+		bool CreateBlendState(const D3D11_BLEND_DESC* _pBlendStateDesc, ID3D11BlendState** _ppBlendState);
+	
 
 		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology);
 		void BindInputLayout(ID3D11InputLayout* _InputLayout);
@@ -39,6 +42,11 @@ namespace dru::graphics
 								// 어떤쉐이더			//어떤타입
 		void BindSamplers(eShaderStage _Stage, UINT _Slot, UINT _NumSamplers, ID3D11SamplerState* const* _ppSamplerState);
 		void BindSamplers(UINT _Slot, UINT _NumSamplers, ID3D11SamplerState* const* _ppSamplerState);
+
+		void BindRasterizerState(ID3D11RasterizerState* _pRasterizerState);
+		void BindDepthStencilState(ID3D11DepthStencilState* _pDepthStencilState);
+		void BindBlendState(ID3D11BlendState* _pBlendState);
+
 
 
 		void Clear();

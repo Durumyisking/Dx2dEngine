@@ -8,6 +8,10 @@ namespace dru::renderer
 	Vertex	arrVertex[4] = {};
 	CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)graphics::eSamplerType::End];
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[(UINT)graphics::eRasterizerType::End];
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)graphics::eDepthStencilType::End];
+	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
+
 
 	void SetUpState()
 	{
@@ -59,16 +63,94 @@ namespace dru::renderer
 		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 
 		samplerDesc.Filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
-		GetDevice()->CreateSampler(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
+		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		samplerDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
-		GetDevice()->CreateSampler(&samplerDesc, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
+		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
 		samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-		GetDevice()->CreateSampler(&samplerDesc, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 
 		GetDevice()->BindSamplers((UINT)eSamplerType::Point, 1, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Linear, 1, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Anisotropic, 1, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 #pragma endregion
+
+		#pragma region RasterizerState
+		D3D11_RASTERIZER_DESC  reDesc = {};
+
+		reDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		reDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		GetDevice()->CreateRasterizerState(&reDesc, rasterizerState[(UINT)graphics::eRasterizerType::SolidBack].GetAddressOf());
+
+		reDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		reDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_FRONT;
+		GetDevice()->CreateRasterizerState(&reDesc, rasterizerState[(UINT)graphics::eRasterizerType::SolidFront].GetAddressOf());
+
+		reDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		reDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		GetDevice()->CreateRasterizerState(&reDesc, rasterizerState[(UINT)graphics::eRasterizerType::SolidNone].GetAddressOf());
+
+		reDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+		reDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		GetDevice()->CreateRasterizerState(&reDesc, rasterizerState[(UINT)graphics::eRasterizerType::WireframeNone].GetAddressOf());
+
+		#pragma endregion
+
+		#pragma region DepthStencilState
+
+		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.StencilEnable = false;	
+		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::Less].GetAddressOf());
+
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.StencilEnable = false;
+		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::Greater].GetAddressOf());
+
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = false;
+		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::NoWrite].GetAddressOf());
+
+		dsDesc.DepthEnable = false;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.StencilEnable = false;
+		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::None].GetAddressOf());
+
+		#pragma endregion
+
+		#pragma region BlendState
+
+		D3D11_BLEND_DESC bsDesc = {};
+		bsDesc.AlphaToCoverageEnable = false;
+		bsDesc.IndependentBlendEnable = false;
+		bsDesc.RenderTarget[0].BlendEnable = true;
+		bsDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		bsDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
+		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL;
+		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		bsDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+		GetDevice()->CreateBlendState(&bsDesc, BlendState[(UINT)graphics::eBlendStateType::AlphaBlend].GetAddressOf());	
+
+		bsDesc.AlphaToCoverageEnable = false;
+		bsDesc.IndependentBlendEnable = false;
+		bsDesc.RenderTarget[0].BlendEnable = true;
+		bsDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL;
+		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+		GetDevice()->CreateBlendState(&bsDesc, BlendState[(UINT)graphics::eBlendStateType::OneOne].GetAddressOf());
+
+
+		#pragma endregion
+
 
 	}
 

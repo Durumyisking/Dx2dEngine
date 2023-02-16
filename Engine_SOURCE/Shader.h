@@ -4,6 +4,7 @@
 
 namespace dru
 {
+	using namespace graphics;
 	class CShader : public CResource
 	{
 	public:
@@ -22,6 +23,10 @@ namespace dru
 		SIZE_T GetVSBlobBufferSize() { return mVSBlob->GetBufferSize(); }
 
 		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { mTopology = _Topology; }
+
+		void SetRSState(eRasterizerType _state) { mRSType = _state; }
+		void SetRSState(eDepthStencilType _state) { mDSType = _state; }
+		void SetRSState(eBlendStateType _state) { mBSType = _state; }
 
 	private:
 		void CreateVS(const std::wstring& _Path, const std::string& _funcName);
@@ -53,6 +58,10 @@ namespace dru
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> mDS;
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> mGS;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> mPS;
+
+		eRasterizerType		mRSType;
+		eDepthStencilType	mDSType;
+		eBlendStateType		mBSType;
 
 	};
 

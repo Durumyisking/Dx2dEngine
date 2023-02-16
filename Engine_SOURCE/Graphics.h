@@ -53,6 +53,32 @@ namespace dru::graphics
 		End,
 	};
 
+	enum class eRasterizerType
+	{
+		SolidBack,
+		SolidFront,
+		SolidNone, // 컬링 안함
+		WireframeNone, // 선으로만 그리기 Topology랑 같은데 그냥 gpu에서 처리해주는거
+		End,
+	};
+
+	enum class eDepthStencilType
+	{
+		Less, // 일반적인 원근
+		Greater, // 원근 거꾸로
+		NoWrite, // 겹치면 아예 안그림
+		None, // 깊이버퍼 사용 안함
+		End,
+	};
+
+	enum class eBlendStateType
+	{
+		Default,
+		AlphaBlend,
+		OneOne, // 알파값 없이 물체에 색 섞음
+		End,
+	};
+
 	struct GpuBuffer
 	{
 		enum class eType

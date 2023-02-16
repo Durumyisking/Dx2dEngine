@@ -180,9 +180,33 @@ namespace dru::graphics
 	}
 
 
-	bool CGraphicDevice::CreateSampler(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState)
+	bool CGraphicDevice::CreateSamplerState(const D3D11_SAMPLER_DESC* _pSamplerDesc, ID3D11SamplerState** _ppSamplerState)
 	{
 		if (FAILED(mDevice->CreateSamplerState(_pSamplerDesc, _ppSamplerState)))
+			return false;
+
+		return true;
+	}
+
+	bool CGraphicDevice::CreateRasterizerState(const D3D11_RASTERIZER_DESC* _pRasterizerDesc, ID3D11RasterizerState** _ppRasterizerState)
+	{
+		if (FAILED(mDevice->CreateRasterizerState(_pRasterizerDesc, _ppRasterizerState)))
+			return false;
+
+		return true;
+	}
+
+	bool CGraphicDevice::CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* _pDepthStencilDesc, ID3D11DepthStencilState** _ppDepthStencilState)
+	{
+		if (FAILED(mDevice->CreateDepthStencilState(_pDepthStencilDesc, _ppDepthStencilState)))
+			return false;
+
+		return true;
+	}
+
+	bool CGraphicDevice::CreateBlendState(const D3D11_BLEND_DESC* _pBlendStateDesc, ID3D11BlendState** _ppBlendState)
+	{
+		if (FAILED(mDevice->CreateBlendState(_pBlendStateDesc, _ppBlendState)))
 			return false;
 
 		return true;
@@ -335,6 +359,21 @@ namespace dru::graphics
 		mContext->DSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 		mContext->GSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);
 		mContext->PSSetSamplers(_Slot, _NumSamplers, _ppSamplerState);		
+	}
+
+	void CGraphicDevice::BindRasterizerState(ID3D11RasterizerState* _pRasterizerState)
+	{
+		mContext->RSSetState(_pRasterizerState);
+	}
+
+	void CGraphicDevice::BindDepthStencilState(ID3D11DepthStencilState* _pDepthStencilState)
+	{
+		mContext->OMSetDepthStencilState(_pDepthStencilState, 0);
+	}
+
+	void CGraphicDevice::BindBlendState(ID3D11BlendState* _pBlendState)
+	{
+		mContext->OMSetBlendState(_pBlendState, nullptr, 0xffffff);
 	}
 
 
