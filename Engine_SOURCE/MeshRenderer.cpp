@@ -5,9 +5,7 @@
 namespace dru
 {
 	CMeshRenderer::CMeshRenderer()
-		: CComponent(eComponentType::MeshRenderer)
-		, mMesh(nullptr)
-		, mMaterial(nullptr)
+		: CBaseRenderer(eComponentType::MeshRenderer)
 	{
 	}
 
@@ -31,12 +29,12 @@ namespace dru
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 
-		mMaterial->Bind();
+		GetMaterial()->Bind();
 
-		mMesh->BindBuffer();
-		mMesh->Render();
+		GetMesh()->BindBuffer();
+		GetMesh()->Render();
 
-		mMaterial->Clear();
+		GetMaterial()->Clear();
 	}
 
 }

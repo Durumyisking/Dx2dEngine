@@ -12,6 +12,7 @@ namespace dru::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)graphics::eDepthStencilType::End];
 	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
 
+	std::vector<CCamera*> Cameras;
 
 	void SetUpState()
 	{
@@ -257,5 +258,18 @@ namespace dru::renderer
 			constantBuffers[i] = nullptr;
 
 		}
+	}
+
+	void Render()
+	{
+		for (CCamera* cam : Cameras)
+		{
+			if (nullptr == cam)
+				continue;
+
+			cam->render();
+		}
+
+		Cameras.clear();
 	}
 }

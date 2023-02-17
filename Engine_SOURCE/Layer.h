@@ -16,10 +16,13 @@ namespace dru
 
 
 		void AddGameObject(CGameObj* _GameObj);
+		const std::vector<CGameObj*>& GetGameObjects() { return mGameObjs; }
 
 
 	private:
 		std::vector<CGameObj*>	mGameObjs;
 
 	};
+
+	typedef const std::vector<CGameObj*>& GameObjects;
 }

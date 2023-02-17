@@ -4,7 +4,7 @@
 #include "Script.h"
 namespace dru
 {
-	class CGameObj
+	class CGameObj : public CEntity
 	{
 	public:
 		enum class eState

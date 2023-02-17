@@ -6,6 +6,7 @@ namespace dru
 	using namespace math;
 	class CCamera : public CComponent
 	{
+	public:
 		enum class eProjectionType
 		{
 			Perspective,
@@ -13,9 +14,8 @@ namespace dru
 			End,
 		};
 
-	public:
-		__forceinline static Matrix& GetViewMatrix() { return mView; }
-		__forceinline static Matrix& GetProjectionMatrix() { return mProjection; }
+		__forceinline static Matrix& GetViewMatrix() { return View; }
+		__forceinline static Matrix& GetProjectionMatrix() { return Projection; }
 
 		CCamera();
 		virtual ~CCamera();
@@ -27,11 +27,26 @@ namespace dru
 
 		void CreateViewMatrix();
 		void CreateProjectionMatrix();
+		
+		void RegisterCameraInRenderer();
+
+		void TurnLayerMask(eLayerType _layer, bool _enable = true);
+		void EnableLayerMasks() { mLayerMask.set(); } // 전부다 true로 }
+		void DisableLayerMasks() { mLayerMask.reset(); }
 
 
 	private:
-		static Matrix mView;
-		static Matrix mProjection; // 모든 obj들의 해당 행렬은 동일함
+		void sortGameObjects();
+		void renderOpaque();
+		void renderCutout();
+		void renderTransparent();
+
+	private:
+		static Matrix View;
+		static Matrix Projection; // 모든 obj들의 해당 행렬은 동일함
+
+		Matrix mView;
+		Matrix mProjection;
 
 
 		eProjectionType mType;
@@ -40,6 +55,13 @@ namespace dru
 		float mNear;
 		float mFar;
 		float mScale;
+
+		std::bitset<(UINT)eLayerType::End> mLayerMask;
+		std::vector<CGameObj*> mOpaqueGameObjects;
+		std::vector<CGameObj*> mCutoutGameObjects;
+		std::vector<CGameObj*> mTransparentGameObjects;
+
+
 	};
 
 

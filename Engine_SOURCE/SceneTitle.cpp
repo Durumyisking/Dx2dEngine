@@ -26,32 +26,53 @@ namespace dru
 
 		this->AddGameObject(camera, eLayerType::Camera);
 
-		{
-			// 플레이어
-			CGameObj* gameobj = new CGameObj();
-			CTransform* transform = new CTransform();
-			transform->SetPosition(Vector3(0.f, 0.f, 1.f));			
-			//transform->SetScale(Vector3(0.f, 0.f, 0.f));
+		// Light Object
+		CGameObj* spriteObj = new CGameObj();
+		spriteObj->SetName(L"LIGHT");
+		CTransform* spriteTr = new CTransform();
+		spriteTr->SetPosition(Vector3(1.0f, 0.0f, 11.0f));
+		spriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		spriteObj->AddComponent(spriteTr);
 
-			gameobj->AddComponent(transform);
+		CSpriteRenderer* sr = new CSpriteRenderer();
+		spriteObj->AddComponent(sr);
+
+		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
+		std::shared_ptr<CMaterial> spriteMaterial = CResources::Find<CMaterial>(L"SpriteMaterial");
+
+		std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Light", L"Light.png");	
+		spriteMaterial->SetTexture(texture);
+
+		sr->SetMaterial(spriteMaterial);
+		sr->SetMesh(mesh);
+
+		AddGameObject(spriteObj, eLayerType::Player);
+
+		//SMILE RECT
+		CGameObj* obj = new CGameObj();
+		obj->SetName(L"SMILE");
+		CTransform* tr = new CTransform();
+		tr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+		tr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		obj->AddComponent(tr);
+
+		CSpriteRenderer* mr = new CSpriteRenderer();
+		obj->AddComponent(mr);
+
+		std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"MeshMaterial");
+
+		std::shared_ptr<CTexture> texture2 = CResources::Load<CTexture>(L"Smile", L"Smile.png");
+		mateiral->SetTexture(texture2);
+
+		Vector2 vec2(1.0f, 1.0f);
+		mateiral->SetData(eGPUParam::Vector2, &vec2);
 
 
-			CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
-			gameobj->AddComponent(SpriteRenderer);
+		mr->SetMaterial(mateiral);
+		mr->SetMesh(mesh);
 
+		AddGameObject(obj, eLayerType::Player);
 
-			std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
-			std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"SpriteMaterial");
-
-			std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Steel", L"TitleScene/bgBlack.png");
-			material->SetTexture(texture);
-
-			SpriteRenderer->SetMaterial(material);
-			SpriteRenderer->SetMesh(mesh);
-
-
-			this->AddGameObject(gameobj, eLayerType::Player);
-		}
 
 		CScene::Initialize();
 	}

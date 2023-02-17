@@ -2,13 +2,18 @@
 #include "Transform.h"
 #include "GameObj.h"
 #include "Application.h"
+#include "Renderer.h"
+#include "Scene.h"
+#include "SceneMgr.h"
+#include "Material.h"
+#include "BaseRenderer.h"
 
 extern dru::CApplication application;
 
 namespace dru
 {
-	Matrix CCamera::mView = Matrix::Identity;
-	Matrix CCamera::mProjection = Matrix::Identity;
+	Matrix CCamera::View = Matrix::Identity;
+	Matrix CCamera::Projection = Matrix::Identity;
 
 	CCamera::CCamera()
 		: CComponent(eComponentType::Camera)
@@ -17,6 +22,8 @@ namespace dru
 		, mNear(1.f)
 		, mFar(1000.f)
 		, mScale(1.f)
+		, mView(Matrix::Identity)
+		, mProjection(Matrix::Identity)
 	{
 	}
 
@@ -26,6 +33,8 @@ namespace dru
 
 	void CCamera::Initialize()
 	{
+		EnableLayerMasks();
+		RegisterCameraInRenderer();
 
 	}
 
@@ -42,7 +51,15 @@ namespace dru
 
 	void CCamera::render()
 	{
+		View = mView;
+		Projection = mProjection;
 
+
+		sortGameObjects();
+
+		renderOpaque();
+		renderCutout();
+		renderTransparent();
 	}	
 
 	void CCamera::CreateViewMatrix()
@@ -89,6 +106,101 @@ namespace dru
 			mProjection = Matrix::CreateOrthographic(width / 100.f, height / 100.f, mNear, mFar);
 		}
 
+	}
+
+	void CCamera::RegisterCameraInRenderer()
+	{
+		renderer::Cameras.push_back(this);
+	}
+
+	void CCamera::TurnLayerMask(eLayerType _layer, bool _enable)
+	{
+		mLayerMask.set((UINT)_layer, _enable);
+	}
+
+
+	void CCamera::sortGameObjects()
+	{
+		mOpaqueGameObjects.clear();
+		mCutoutGameObjects.clear();
+		mTransparentGameObjects.clear();
+
+		CScene* scene = CSceneMgr::mActiveScene;
+
+		for (size_t i = 0; i < (UINT)eLayerType::End; i++)
+		{
+			if (true == mLayerMask[i])
+			{
+				CLayer& layer = scene->GetLayer((eLayerType)i);
+
+				GameObjects gameObjects = layer.GetGameObjects();
+
+				if (0 == gameObjects.size())
+					continue;
+
+				for (CGameObj* obj : gameObjects)
+				{
+
+					CBaseRenderer* renderer = obj->GetComponent<CBaseRenderer>();
+
+					if (nullptr == renderer)
+						continue;
+
+					std::shared_ptr<CMaterial> material = renderer->GetMaterial();
+					dru::graphics::eRenderingMode mode = material->GetRenderingMode();
+
+					switch (mode)
+					{
+					case dru::graphics::eRenderingMode::Opaque:
+						mOpaqueGameObjects.push_back(obj);
+						break;
+					case dru::graphics::eRenderingMode::Cutout:
+						mCutoutGameObjects.push_back(obj);
+						break;
+					case dru::graphics::eRenderingMode::Transparent:
+						mTransparentGameObjects.push_back(obj);
+						break;
+					default:
+						break;
+					}
+
+				}
+			}
+		}
+
+	}
+
+	void CCamera::renderOpaque()
+	{
+		for (CGameObj* obj : mOpaqueGameObjects)
+		{
+			if(nullptr == obj)
+				continue;
+			obj->render();
+
+		}
+	}
+
+	void CCamera::renderCutout()
+	{
+		for (CGameObj* obj : mCutoutGameObjects)
+		{
+			if (nullptr == obj)
+				continue;
+			obj->render();
+
+		}
+	}
+
+	void CCamera::renderTransparent()
+	{
+		for (CGameObj* obj : mTransparentGameObjects)
+		{
+			if (nullptr == obj)
+				continue;
+			obj->render();
+
+		}
 	}
 
 }

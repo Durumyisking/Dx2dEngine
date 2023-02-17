@@ -76,6 +76,7 @@ namespace dru
 				continue;
 			comp->render();
 		}
+		\
 		for (CComponent* script : mScripts)
 		{
 			if (nullptr == script)

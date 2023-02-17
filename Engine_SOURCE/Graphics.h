@@ -79,6 +79,14 @@ namespace dru::graphics
 		End,
 	};
 
+	enum class eRenderingMode
+	{
+		Opaque, // 불투명
+		Cutout, // 일부만 투명
+		Transparent,
+		End,
+	};
+
 	struct GpuBuffer
 	{
 		enum class eType

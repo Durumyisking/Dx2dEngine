@@ -4,7 +4,8 @@ namespace dru::graphics
 {
 	CMaterial::CMaterial()
 		:CResource(eResourceType::Material)
-//		, mConstantBuffer(eCBType::Material)
+		, mMode(eRenderingMode::Transparent)
+
 	{
 	}
 	CMaterial::~CMaterial()

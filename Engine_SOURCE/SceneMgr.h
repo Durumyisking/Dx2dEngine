@@ -24,10 +24,12 @@ namespace dru
 		static void render();
 		static void release();
 
+//		CScene* GetActiveScene() const { return mActiveScene; }
+
 
 	public:
 		static CScene* mScenes[(static_cast<UINT>(eSceneType::End))];	// ¸ðµç ¾À ¸ñ·Ï
-		static CScene* mPlayScene;
+		static CScene* mActiveScene;
 
 	};
 }

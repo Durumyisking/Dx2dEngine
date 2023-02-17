@@ -26,11 +26,14 @@ namespace dru::graphics
 		void SetTexture(std::shared_ptr<CTexture> _Texture) { mTexture = _Texture; }
 		std::shared_ptr<CTexture> GetTexture() const { return mTexture; }
 
+		eRenderingMode GetRenderingMode() const { return mMode; }
+		void SetRenderingMode(eRenderingMode _Mode) { mMode = _Mode; }
 
 	private:
 		std::shared_ptr<CShader>			mShader;
 		std::shared_ptr<CTexture>			mTexture;
-		MaterialCB			mConstantBuffer;
+		MaterialCB							mConstantBuffer;
+		eRenderingMode						mMode;
 
 
 	};

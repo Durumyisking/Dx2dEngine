@@ -7,7 +7,7 @@
 namespace dru
 {
 	CScene* CSceneMgr::mScenes[(static_cast<UINT>(CSceneMgr::eSceneType::End))] = {};
-	CScene* CSceneMgr::mPlayScene = nullptr;
+	CScene* CSceneMgr::mActiveScene = nullptr;
 
 	void CSceneMgr::Initialize()
 	{
@@ -17,24 +17,24 @@ namespace dru
 		mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
 		mScenes[static_cast<UINT>(eSceneType::Main)]->SetType(eSceneType::Main);
 
-		mPlayScene = mScenes[static_cast<UINT>(eSceneType::Title)];
-		mPlayScene->Initialize();
+		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Title)];
+		mActiveScene->Initialize();
 		
 	}
 
 	void CSceneMgr::update()
 	{
-		mPlayScene->update();
+		mActiveScene->update();
 	}
 
 	void CSceneMgr::fixedupdate()
 	{
-		mPlayScene->fixedupdate();
+		mActiveScene->fixedupdate();
 	}
 
 	void CSceneMgr::render()
 	{
-		mPlayScene->render();
+		mActiveScene->render();
 	}
 
 	void CSceneMgr::release()

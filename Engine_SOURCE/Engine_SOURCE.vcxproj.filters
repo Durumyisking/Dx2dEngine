@@ -74,6 +74,15 @@
     <Filter Include="GameObj\Component\Renderer">
       <UniqueIdentifier>{efaa299c-5103-47ef-a951-a1d79c071d26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Component\Renderer\Mesh">
+      <UniqueIdentifier>{bb99c478-e3ba-4303-9eed-168d722681c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Component\Renderer\Sprite">
+      <UniqueIdentifier>{ce9056db-6a9e-406d-9b7d-cee1aeef4e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\BackGround">
+      <UniqueIdentifier>{e3c7e62e-16a7-4266-a737-24ba6ea7a768}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -157,9 +166,6 @@
     <ClInclude Include="Script.h">
       <Filter>GameObj\Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>GameObj\Component\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerScript.h">
       <Filter>GameObj\Player</Filter>
     </ClInclude>
@@ -169,8 +175,17 @@
     <ClInclude Include="CameraScript.h">
       <Filter>GameObj\Component\Camera\Script</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
+    <ClInclude Include="BaseRenderer.h">
       <Filter>GameObj\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>GameObj\Component\Renderer\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>GameObj\Component\Renderer\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>GameObj\BackGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +258,6 @@
     <ClCompile Include="Script.cpp">
       <Filter>GameObj\Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>GameObj\Component\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
       <Filter>GameObj\Player</Filter>
     </ClCompile>
@@ -255,8 +267,17 @@
     <ClCompile Include="CameraScript.cpp">
       <Filter>GameObj\Component\Camera\Script</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
+    <ClCompile Include="BaseRenderer.cpp">
       <Filter>GameObj\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>GameObj\Component\Renderer\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>GameObj\Component\Renderer\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>GameObj\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

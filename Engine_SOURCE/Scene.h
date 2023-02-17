@@ -32,6 +32,8 @@ namespace dru
 
 		void SetType(CSceneMgr::eSceneType _eType) { mType = _eType; }
 
+		CLayer& GetLayer(eLayerType _Type)  { return mLayers[(UINT)_Type]; }
+
 	private:
 		std::vector<CLayer> mLayers;
 		CSceneMgr::eSceneType mType;
