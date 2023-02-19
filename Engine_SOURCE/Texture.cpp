@@ -18,7 +18,7 @@ namespace dru::graphics
 	{
 		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
 		std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
-
+			
 
 		wchar_t szExtension[256] = {};
 		_wsplitpath_s(path.c_str(), nullptr, 0, nullptr, 0, nullptr, 0, szExtension, 256); // 경로에서 확장자만 뽑아오는 녀석

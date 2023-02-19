@@ -1,4 +1,5 @@
 #include "SceneTitle.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -26,53 +27,70 @@ namespace dru
 
 		this->AddGameObject(camera, eLayerType::Camera);
 
-		// Light Object
-		CGameObj* spriteObj = new CGameObj();
-		spriteObj->SetName(L"LIGHT");
-		CTransform* spriteTr = new CTransform();
-		spriteTr->SetPosition(Vector3(1.0f, 0.0f, 11.0f));
-		spriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
-		spriteObj->AddComponent(spriteTr);
+		{
+			{
+				// 배경 black
+				mbgBlack = new CGameObj();
+				CTransform* transform = new CTransform();
+				transform->SetPosition(Vector3(0.f, -4.f, 1.1f));
+				transform->SetScale(Vector3(10.f, 10.f, 1.f));
 
-		CSpriteRenderer* sr = new CSpriteRenderer();
-		spriteObj->AddComponent(sr);
-
-		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
-		std::shared_ptr<CMaterial> spriteMaterial = CResources::Find<CMaterial>(L"SpriteMaterial");
-
-		std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Light", L"Light.png");	
-		spriteMaterial->SetTexture(texture);
-
-		sr->SetMaterial(spriteMaterial);
-		sr->SetMesh(mesh);
-
-		AddGameObject(spriteObj, eLayerType::Player);
-
-		//SMILE RECT
-		CGameObj* obj = new CGameObj();
-		obj->SetName(L"SMILE");
-		CTransform* tr = new CTransform();
-		tr->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
-		tr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
-		obj->AddComponent(tr);
-
-		CSpriteRenderer* mr = new CSpriteRenderer();
-		obj->AddComponent(mr);
-
-		std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"MeshMaterial");
-
-		std::shared_ptr<CTexture> texture2 = CResources::Load<CTexture>(L"Smile", L"Smile.png");
-		mateiral->SetTexture(texture2);
-
-		Vector2 vec2(1.0f, 1.0f);
-		mateiral->SetData(eGPUParam::Vector2, &vec2);
+				mbgBlack->AddComponent(transform);
 
 
-		mr->SetMaterial(mateiral);
-		mr->SetMesh(mesh);
+				CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
+				mbgBlack->AddComponent(SpriteRenderer);
 
-		AddGameObject(obj, eLayerType::Player);
 
+				std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
+
+				std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
+
+				std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+				SpriteMaterial->SetShader(SpriteShader);
+				SpriteMaterial->SetTexture(texture);
+				CResources::Insert<CMaterial>(L"BlackMaterial", SpriteMaterial);
+
+				SpriteRenderer->SetMaterial(SpriteMaterial);
+				SpriteRenderer->SetMesh(mesh);
+
+				this->AddGameObject(mbgBlack, eLayerType::BackGround);
+			}
+
+			{
+				// 배경 Steel
+				mbgSteel = new CGameObj();
+				CTransform* transform = new CTransform();
+				transform->SetPosition(Vector3(0.f, -4.f, 1.f));
+				transform->SetScale(Vector3(2.5f, 2.5f, 1.f));
+
+				mbgSteel->AddComponent(transform);
+
+
+				CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
+				mbgSteel->AddComponent(SpriteRenderer);
+
+
+				std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"RectMesh");
+				std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"SpriteMaterial");
+
+				std::shared_ptr<CTexture> texture = CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
+
+
+
+				std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+				SpriteMaterial->SetShader(SpriteShader);
+				SpriteMaterial->SetTexture(texture);
+				CResources::Insert<CMaterial>(L"SteelMaterial", SpriteMaterial);
+
+				SpriteRenderer->SetMaterial(SpriteMaterial);
+				SpriteRenderer->SetMesh(mesh);
+
+				this->AddGameObject(mbgSteel, eLayerType::BackGround);
+			}
+		}
 
 		CScene::Initialize();
 	}
@@ -84,6 +102,10 @@ namespace dru
 
 	void CSceneTitle::fixedupdate()
 	{
+		Vector3 pos = mbgSteel->GetComponent<CTransform>()->GetPosition();
+		pos.y += 3.f * CTimeMgr::DeltaTime();
+		mbgSteel->GetComponent<CTransform>()->SetPosition(pos);
+
 		CScene::fixedupdate();
 	}
 

@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <numeric>
 #include <limits>
 #include <memory>
 #include <filesystem>

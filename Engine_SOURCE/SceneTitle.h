@@ -17,7 +17,9 @@ namespace dru
 		virtual void render();
 
 
-
+	private:
+		CGameObj* mbgBlack;
+		CGameObj* mbgSteel;
     };
 
 }

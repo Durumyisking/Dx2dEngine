@@ -18,10 +18,14 @@ namespace dru
 		virtual void render() override;
 
 		void SetMesh(std::shared_ptr <CMesh> _Mesh) { mMesh = _Mesh; }
-		void SetMaterial(std::shared_ptr <CMaterial> _Material) { mMaterial = _Material; }
+		void SetMaterial(std::shared_ptr <CMaterial> _Material);
 
 		std::shared_ptr<CMesh> GetMesh() { return mMesh; }
 		std::shared_ptr<CMaterial> GetMaterial() { return mMaterial; }
+
+	private:
+		void adjustTexture();
+
 
 	private:
 		std::shared_ptr <CMesh> mMesh;

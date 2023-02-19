@@ -35,6 +35,8 @@ namespace dru
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
+
 	}
+
 
 }

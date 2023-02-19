@@ -24,6 +24,8 @@ namespace dru::graphics
 		void BindShader(eShaderStage _Stage, UINT _Slot);
 		void Clear();
 
+		ScratchImage& GetScratchImage() { return mImage; }
+
 
 	private:
 		ScratchImage									mImage;
