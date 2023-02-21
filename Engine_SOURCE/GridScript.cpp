@@ -1,0 +1,69 @@
+#include "GridScript.h"
+#include "Transform.h"
+#include "GameObj.h"
+#include "Application.h"
+#include "ConstantBuffer.h"
+#include "Renderer.h"
+
+
+extern dru::CApplication application;
+
+namespace dru
+{
+	CGridScript::CGridScript()
+		: CScript()
+		, mCamera(nullptr)
+	{
+		
+	}
+
+	CGridScript::~CGridScript()
+	{
+	}
+
+	void CGridScript::Initialize()
+	{
+		mCamera = renderer::Cameras[0];
+	}
+
+	void CGridScript::update()
+	{
+		if (nullptr == mCamera)
+			return;
+
+		CGameObj* gameobj = mCamera->GetOwner();
+		CTransform* tr = gameobj->GetComponent<CTransform>();
+
+		Vector3 campos = tr->GetPosition();
+
+		Vector4 pos = Vector4(campos.x, campos.y, campos.z, 1.f);
+		float scale = mCamera->GetScale();;
+
+		RECT winRect;
+		GetClientRect(application.GetHwnd(), &winRect);
+		float w = winRect.right - winRect.left;
+		float h = winRect.top - winRect.bottom;
+		Vector2 resolution(w, h);
+
+
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Grid];
+		renderer::GridCB data;
+
+		data.cameraPosition = pos;
+		data.cameraScale = Vector2(scale, scale);
+		data.resolution = resolution;
+
+		cb->Bind(&data);
+		cb->SetPipeline(eShaderStage::VS);
+		cb->SetPipeline(eShaderStage::PS);
+	}
+
+	void CGridScript::fixedupdate()
+	{
+	}
+
+	void CGridScript::render()
+	{
+	}
+
+}

@@ -15,5 +15,12 @@ namespace dru
 		virtual void render();
 
 
+	private:
+		CSpriteRenderer*			mSpriteRenderer;
+
+		std::shared_ptr<CMesh>		mMesh;
+//		std::shared_ptr<CShader>	mSpriteShader;
+
+
     };
 }

@@ -28,7 +28,7 @@ namespace dru
 	{
 		mMaterial = _Material;
 
-		adjustTexture();
+//		adjustTexture();
 	}
 	void CBaseRenderer::adjustTexture()
 	{

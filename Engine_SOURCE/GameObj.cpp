@@ -5,6 +5,9 @@ namespace dru
 		:mState(eState::Active)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
+
+		mTransform = new CTransform();
+		this->AddComponent(mTransform);
 	}
 
 	CGameObj::~CGameObj()
@@ -76,7 +79,7 @@ namespace dru
 				continue;
 			comp->render();
 		}
-		\
+		
 		for (CComponent* script : mScripts)
 		{
 			if (nullptr == script)
@@ -105,5 +108,61 @@ namespace dru
 
 
 	}
+
+	void CGameObj::SetPos(Vector3 _Value)
+	{
+		if (nullptr != GetComponent<CTransform>())
+		{
+			GetComponent<CTransform>()->SetPosition(_Value);
+		}
+	}
+
+	void CGameObj::SetScale(Vector3 _Value)
+	{
+		if (nullptr != GetComponent<CTransform>())
+		{
+			GetComponent<CTransform>()->SetScale(_Value);
+		}
+	}
+
+	void CGameObj::SetRotation(Vector3 _Value)
+	{
+		if (nullptr != GetComponent<CTransform>())
+		{
+			GetComponent<CTransform>()->SetRotation(_Value);
+		}
+	}
+
+	Vector3 CGameObj::GetPos()
+	{
+		return GetComponent<CTransform>()->GetPosition();
+	}
+
+	Vector3 CGameObj::GetScale()
+	{
+		return GetComponent<CTransform>()->GetScale();
+	}
+
+	Vector3 CGameObj::GetRotation()
+	{
+		return GetComponent<CTransform>()->GetRotation();
+	}
+
+	void CGameObj::SetMaterial(std::shared_ptr<CMaterial> _Material)
+	{
+		if (nullptr != GetComponent<CSpriteRenderer>())
+		{
+			GetComponent<CSpriteRenderer>()->SetMaterial(_Material);
+		}
+	}
+
+	void CGameObj::SetMesh(std::shared_ptr<CMesh> _Mesh)
+	{
+		if (nullptr != GetComponent<CSpriteRenderer>())
+		{
+			GetComponent<CSpriteRenderer>()->SetMesh(_Mesh);
+		}
+	}
+
 
 }

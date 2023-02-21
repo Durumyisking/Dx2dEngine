@@ -176,6 +176,7 @@
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GridScript.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Material.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
+    <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Material.cpp" />

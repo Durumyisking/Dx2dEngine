@@ -4,7 +4,7 @@ namespace dru::graphics
 {
 	CMaterial::CMaterial()
 		:CResource(eResourceType::Material)
-		, mMode(eRenderingMode::Transparent)
+		, mMode(eRenderingMode::Opaque)
 
 	{
 	}
@@ -44,7 +44,8 @@ namespace dru::graphics
 	}
 	void CMaterial::Bind()
 	{
-		mTexture->BindShader(eShaderStage::PS, 0);
+		if(mTexture)
+			mTexture->BindShader(eShaderStage::PS, 0);
 
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 
@@ -56,6 +57,7 @@ namespace dru::graphics
 	}
 	void CMaterial::Clear()
 	{
-		mTexture->Clear();
+		if (mTexture)
+			mTexture->Clear();
 	}
 }

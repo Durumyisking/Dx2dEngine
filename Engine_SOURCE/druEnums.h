@@ -7,9 +7,11 @@ namespace dru::enums
 	{
 		None = 0,
 		Camera,
+		Grid,
 		BackGround,
 		Monster,
 		Player,
+		UI,
 		End = 16,
 	};
 

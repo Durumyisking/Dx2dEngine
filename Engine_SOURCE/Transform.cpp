@@ -5,6 +5,7 @@ namespace dru
 {
 	CTransform::CTransform()
 		: CComponent(eComponentType::Transform)
+		, mParent(nullptr)
 		, mPosition(Vector3::One)
 		, mRotation(Vector3::Zero)
 		, mScale(Vector3::One)
@@ -55,6 +56,11 @@ namespace dru
 		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 
+
+		if (nullptr != mParent)
+		{
+			mWorld *= mParent->mWorld;
+		}
 	}
 
 

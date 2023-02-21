@@ -34,6 +34,13 @@ cbuffer Material : register(b1)
     matrix cbmat;
 }
 
+cbuffer Grid : register(b2)
+{
+    float4 cameraPosition;
+    float2 cameraScale;
+    float2 resolution;
+}
+
 Texture2D defaultTexture : register(t0);
 
 SamplerState pointSampler : register(s0);

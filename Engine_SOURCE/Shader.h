@@ -25,8 +25,8 @@ namespace dru
 		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _Topology) { mTopology = _Topology; }
 
 		void SetRSState(eRasterizerType _state) { mRSType = _state; }
-		void SetRSState(eDepthStencilType _state) { mDSType = _state; }
-		void SetRSState(eBlendStateType _state) { mBSType = _state; }
+		void SetDSState(eDepthStencilType _state) { mDSType = _state; }
+		void SetBSState(eBlendStateType _state) { mBSType = _state; }
 
 	private:
 		void CreateVS(const std::wstring& _Path, const std::string& _funcName);

@@ -83,6 +83,9 @@
     <Filter Include="GameObj\BackGround">
       <UniqueIdentifier>{e3c7e62e-16a7-4266-a737-24ba6ea7a768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Grid">
+      <UniqueIdentifier>{07391d1a-6255-4748-b831-1c8a300fc277}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -187,6 +190,9 @@
     <ClInclude Include="Background.h">
       <Filter>GameObj\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="GridScript.h">
+      <Filter>GameObj\Grid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -278,6 +284,9 @@
     </ClCompile>
     <ClCompile Include="Background.cpp">
       <Filter>GameObj\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="GridScript.cpp">
+      <Filter>GameObj\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -26,19 +26,19 @@ namespace dru
 
 		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
 		{
-			pos.y += 3.f * CTimeMgr::DeltaTime();
+			pos += 3.f * transform->Up() *CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
 		{
-			pos.y -= 3.f * CTimeMgr::DeltaTime();
+			pos += 3.f * -transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
 		{
-			pos.x -= 3.f * CTimeMgr::DeltaTime();
+			pos += 3.f * -transform->Right() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::L) == eKeyState::PRESSED)
 		{
-			pos.x += 3.f * CTimeMgr::DeltaTime();
+			pos += 3.f * transform->Right() * CTimeMgr::DeltaTime();
 		}
 
 

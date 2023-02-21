@@ -34,13 +34,16 @@ namespace dru
 		void EnableLayerMasks() { mLayerMask.set(); } // 전부다 true로 }
 		void DisableLayerMasks() { mLayerMask.reset(); }
 
+		void SetProjectionType(eProjectionType _Type) { mType = _Type; }
+
+		float GetScale() const { return mScale; }
 
 	private:
 		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
-
+		void pushGameObjectToRenderingModes(CGameObj* obj);
 	private:
 		static Matrix View;
 		static Matrix Projection; // 모든 obj들의 해당 행렬은 동일함

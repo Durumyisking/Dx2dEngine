@@ -41,6 +41,7 @@ namespace dru::renderer
 		arrLayout[2].SemanticName = "TEXCOORD";
 		arrLayout[2].SemanticIndex = 0;
 
+
 		std::shared_ptr<CShader> Meshshader = CResources::Find<CShader>(L"MeshShader");
 
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
@@ -55,6 +56,23 @@ namespace dru::renderer
 			, Spriteshader->GetVSBlobBufferPointer()
 			, Spriteshader->GetVSBlobBufferSize()
 			, Spriteshader->GetInputLayoutAddr());
+
+
+		std::shared_ptr<CShader> UIshader = CResources::Find<CShader>(L"UIShader");
+
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, UIshader->GetVSBlobBufferPointer()
+			, UIshader->GetVSBlobBufferSize()
+			, UIshader->GetInputLayoutAddr());
+
+		std::shared_ptr<CShader> Gridshader = CResources::Find<CShader>(L"GridShader");
+
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, Gridshader->GetVSBlobBufferPointer()
+			, Gridshader->GetVSBlobBufferSize()
+			, Gridshader->GetInputLayoutAddr());
+
+
 #pragma endregion
 
 		#pragma region SamplerState
@@ -100,7 +118,7 @@ namespace dru::renderer
 
 		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 		dsDesc.DepthEnable = true;
-		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;	
 		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::Less].GetAddressOf());
@@ -159,7 +177,7 @@ namespace dru::renderer
 	void LoadBuffer()
 	{
 		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
-		CResources::Insert<CMesh>(L"RectMesh", mesh);
+		CResources::Insert<CMesh>(L"Rectmesh", mesh);
 
 		mesh->CreateVertexBuffer(arrVertex, 4);
 
@@ -175,7 +193,6 @@ namespace dru::renderer
 
 		mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
-		Vector4 pos( 0.f, 0.f, 0.f, 0.f );
 		// Const Buffer
 	
 		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer(eCBType::Transform);
@@ -183,6 +200,10 @@ namespace dru::renderer
 	
 		constantBuffers[static_cast<UINT>(eCBType::Material)] = new CConstantBuffer(eCBType::Material);
 		constantBuffers[static_cast<UINT>(eCBType::Material)]->Create(sizeof(MaterialCB));
+
+		constantBuffers[static_cast<UINT>(eCBType::Grid)] = new CConstantBuffer(eCBType::Grid);
+		constantBuffers[static_cast<UINT>(eCBType::Grid)]->Create(sizeof(GridCB));
+
 		
 	}
 
@@ -199,27 +220,72 @@ namespace dru::renderer
 		SpriteShader->Create(graphics::eShaderStage::PS, L"SpritePS.hlsl", "main");
 		CResources::Insert<CShader>(L"SpriteShader", SpriteShader);
 
+
+		std::shared_ptr<CShader> UIShader = std::make_shared<CShader>();
+		UIShader->Create(graphics::eShaderStage::VS, L"UIVS.hlsl", "main");
+		UIShader->Create(graphics::eShaderStage::PS, L"UIPS.hlsl", "main");
+		CResources::Insert<CShader>(L"UIShader", UIShader);
+
+
+		std::shared_ptr<CShader> GridShader = std::make_shared<CShader>();
+		GridShader->Create(graphics::eShaderStage::VS, L"GridVS.hlsl", "main");
+		GridShader->Create(graphics::eShaderStage::PS, L"GridPS.hlsl", "main");
+		GridShader->SetRSState(eRasterizerType::SolidNone); // 항상 보임
+		GridShader->SetDSState(eDepthStencilType::NoWrite);
+		GridShader->SetBSState(eBlendStateType::AlphaBlend);
+
+		CResources::Insert<CShader>(L"GridShader", GridShader);
 	}
+
+	void LoadTexture()
+	{
+		CResources::Load<CTexture>(L"Default", L"default.png");
+		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
+		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
+		CResources::Load<CTexture>(L"Title", L"TitleScene/bgTitle.png");
+	}
+
 
 	void LoadMaterial()
 	{
-		std::shared_ptr<CTexture> Meshtexture = CResources::Load<CTexture>(L"Default", L"default.png");
+		LoadTexture();
 
+		std::shared_ptr<CTexture> Meshtexture = CResources::Find<CTexture>(L"Black");
 
 		std::shared_ptr<CShader> MeshShader = CResources::Find<CShader>(L"MeshShader");
 		std::shared_ptr<CMaterial> MeshMaterial = std::make_shared<CMaterial>();
+		MeshMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		MeshMaterial->SetShader(MeshShader);
 		MeshMaterial->SetTexture(Meshtexture);
 		CResources::Insert<CMaterial>(L"MeshMaterial", MeshMaterial);
 
 
-		std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Default");
+		std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Steel");
 
 		std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
 		std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+		SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		SpriteMaterial->SetShader(SpriteShader);
 		SpriteMaterial->SetTexture(Spritetexture);
 		CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
+
+
+		std::shared_ptr<CTexture> UItexture = CResources::Find<CTexture>(L"Title");
+
+		std::shared_ptr<CShader> UIShader = CResources::Find<CShader>(L"UIShader");
+		std::shared_ptr<CMaterial> UIMaterial = std::make_shared<CMaterial>();
+		UIMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		UIMaterial->SetShader(UIShader);
+		UIMaterial->SetTexture(UItexture);
+		CResources::Insert<CMaterial>(L"UIMaterial", UIMaterial);
+
+
+		std::shared_ptr<CShader> GridShader = CResources::Find<CShader>(L"GridShader");
+		std::shared_ptr<CMaterial> GridMaterial = std::make_shared<CMaterial>();
+		GridMaterial->SetRenderingMode(eRenderingMode::Opaque);
+		GridMaterial->SetShader(GridShader);
+		CResources::Insert<CMaterial>(L"GridMaterial", GridMaterial);
+
 
 	}
 
