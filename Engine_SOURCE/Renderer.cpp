@@ -251,7 +251,6 @@ namespace dru::renderer
 		LoadTexture();
 
 		std::shared_ptr<CTexture> Meshtexture = CResources::Find<CTexture>(L"Black");
-
 		std::shared_ptr<CShader> MeshShader = CResources::Find<CShader>(L"MeshShader");
 		std::shared_ptr<CMaterial> MeshMaterial = std::make_shared<CMaterial>();
 		MeshMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -260,18 +259,26 @@ namespace dru::renderer
 		CResources::Insert<CMaterial>(L"MeshMaterial", MeshMaterial);
 
 
-		std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Steel");
-
-		std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
-		std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
-		SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		SpriteMaterial->SetShader(SpriteShader);
-		SpriteMaterial->SetTexture(Spritetexture);
-		CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
-
+		{
+			std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Steel");
+			std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+			std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+			SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
+			SpriteMaterial->SetShader(SpriteShader);
+			SpriteMaterial->SetTexture(Spritetexture);
+			CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
+		}
+		//{
+		//	std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"Black");
+		//	std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+		//	std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+		//	SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		//	SpriteMaterial->SetShader(SpriteShader);
+		//	SpriteMaterial->SetTexture(Spritetexture);
+		//	CResources::Insert<CMaterial>(L"SpriteMaterial2", SpriteMaterial);
+		//}
 
 		std::shared_ptr<CTexture> UItexture = CResources::Find<CTexture>(L"Title");
-
 		std::shared_ptr<CShader> UIShader = CResources::Find<CShader>(L"UIShader");
 		std::shared_ptr<CMaterial> UIMaterial = std::make_shared<CMaterial>();
 		UIMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -332,10 +339,8 @@ namespace dru::renderer
 		{
 			if (nullptr == cam)
 				continue;
-
 			cam->render();
 		}
-
 		Cameras.clear();
 	}
 }

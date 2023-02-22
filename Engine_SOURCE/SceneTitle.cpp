@@ -29,7 +29,7 @@ namespace dru
 			CCameraScript* cameraScript = new CCameraScript();
 			camera->AddComponent(cameraScript);
 			this->AddGameObject(camera, eLayerType::Camera);
-			renderer::Cameras.push_back(cameraComp);
+			//renderer::Cameras.push_back(cameraComp);
 		}
 		{
 			// ui Ä«¸Þ¶ó
@@ -43,21 +43,22 @@ namespace dru
 			this->AddGameObject(camera, eLayerType::Camera);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
-			renderer::Cameras.push_back(cameraComp);
+			//renderer::Cameras.push_back(cameraComp);
 		}
 
 		{
-			// gridobj
-			CGameObj* gridObj = new CGameObj();
-			CMeshRenderer* MeshRenderer = new CMeshRenderer();
-			gridObj->AddComponent(MeshRenderer);
-			CGridScript* gridScript = new CGridScript();
-			gridObj->AddComponent(gridScript);
+			//// gridobj
+			//CGameObj* gridObj = new CGameObj();
+			//gridObj->SetName(L"grid");
+			//CMeshRenderer* MeshRenderer = new CMeshRenderer();
+			//gridObj->AddComponent(MeshRenderer);
+			//CGridScript* gridScript = new CGridScript();
+			//gridObj->AddComponent(gridScript);
 
-			MeshRenderer->SetMesh(CResources::Find<CMesh>(L"Rectmesh"));
-			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
+			//MeshRenderer->SetMesh(CResources::Find<CMesh>(L"Rectmesh"));
+			//MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
 
-			this->AddGameObject(gridObj, eLayerType::Grid);
+			//this->AddGameObject(gridObj, eLayerType::Grid);
 		}
 
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
@@ -73,8 +74,7 @@ namespace dru
 				//CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
 				//mbgBlack->AddComponent(SpriteRenderer);
 
-				//std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"MeshMaterial");
-				////	CResources::Insert<CMaterial>(L"mat_Steel", SpriteMaterial);
+				//std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"SpriteMaterial2");
 
 				//SpriteRenderer->SetMesh(mesh);
 				//SpriteRenderer->SetMaterial(SpriteMaterial);

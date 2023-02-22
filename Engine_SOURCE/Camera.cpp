@@ -85,7 +85,7 @@ namespace dru
 		mView *= viewRotate;
 
 	}
-
+		
 	void CCamera::CreateProjectionMatrix()
 	{
 		RECT winRect;

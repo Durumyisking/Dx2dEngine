@@ -42,7 +42,8 @@ namespace dru
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-		CSceneMgr::render();
+//		CSceneMgr::render();
+		renderer::Render();
 
 		graphicDevice->Present();
 	}
