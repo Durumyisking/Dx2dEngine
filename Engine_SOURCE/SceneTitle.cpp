@@ -2,6 +2,7 @@
 #include "TimeMgr.h"
 #include "Background.h"
 #include "GridScript.h"
+#include "Object.h"
 
 namespace dru
 {
@@ -19,104 +20,79 @@ namespace dru
 
 		{
 			// main 카메라
-			CGameObj* camera = new CGameObj();
-			CTransform* cameraTR = new CTransform();
-			cameraTR->SetPosition(Vector3(0.f, 0.f, 0.0f));
-			camera->AddComponent(cameraTR);
-			CCamera* cameraComp = new CCamera();
-			camera->AddComponent(cameraComp);
+			CGameObj* camera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
+			CCamera* cameraComp = camera->AddComponent<CCamera>();
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			CCameraScript* cameraScript = new CCameraScript();
-			camera->AddComponent(cameraScript);
-			this->AddGameObject(camera, eLayerType::Camera);
-			//renderer::Cameras.push_back(cameraComp);
+			camera->AddComponent<CCameraScript>();
+			renderer::Cameras.push_back(cameraComp);
 		}
 		{
-			// ui 카메라
-			CGameObj* camera = new CGameObj();
-			CTransform* cameraTR = new CTransform();
-			cameraTR->SetPosition(Vector3(0.f, 0.f, 0.0f));
-			camera->AddComponent(cameraTR);
-			CCamera* cameraComp = new CCamera();
-			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
-			camera->AddComponent(cameraComp);
-			this->AddGameObject(camera, eLayerType::Camera);
-			cameraComp->DisableLayerMasks();
-			cameraComp->TurnLayerMask(eLayerType::UI, true);
+			//// ui 카메라
+			//CGameObj* camera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
+			//CCamera* cameraComp = camera->AddComponent<CCamera>();
+			//cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
+			//cameraComp->DisableLayerMasks();
+			//cameraComp->TurnLayerMask(eLayerType::UI, true);
+			//camera->AddComponent<CCameraScript>();
 			//renderer::Cameras.push_back(cameraComp);
 		}
 
 		{
-			//// gridobj
-			//CGameObj* gridObj = new CGameObj();
-			//gridObj->SetName(L"grid");
-			//CMeshRenderer* MeshRenderer = new CMeshRenderer();
-			//gridObj->AddComponent(MeshRenderer);
-			//CGridScript* gridScript = new CGridScript();
-			//gridObj->AddComponent(gridScript);
+			// gridobj
+			CGameObj* gridObj = object::Instantiate<CGameObj>(eLayerType::Grid, L"Grid");
+			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>();
+			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
+			gridObj->AddComponent<CGridScript>();
 
-			//MeshRenderer->SetMesh(CResources::Find<CMesh>(L"Rectmesh"));
-			//MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
-
-			//this->AddGameObject(gridObj, eLayerType::Grid);
 		}
 
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
 
 		{
 			{
-				//// 배경 black
-				//mbgBlack = new CGameObj();
-				//mbgBlack->SetPos(Vector3(0.f, 0.f, 1.f));
-				//mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
-				//mbgBlack->SetName(L"Black");
+				// 배경 black
+				mbgBlack = object::Instantiate<CGameObj>(eLayerType::BackGround, L"Black");
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>();
 
-				//CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
-				//mbgBlack->AddComponent(SpriteRenderer);
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Black", SpriteMaterial);
+				SpriteRenderer->SetMaterial(SpriteMaterial);
 
-				//std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"SpriteMaterial2");
-
-				//SpriteRenderer->SetMesh(mesh);
-				//SpriteRenderer->SetMaterial(SpriteMaterial);
-
-				//this->AddGameObject(mbgBlack, eLayerType::BackGround);
+				mbgBlack->SetPos(Vector3(0.f, -4.f, 1.f));
+				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 			}
 
 			{
 				// 배경 Steel
-				mbgSteel = new CGameObj();
-				mbgSteel->SetPos(Vector3(0.f, -4.f, 1.f));
-				mbgSteel->SetScale(Vector3(1.f, 1.f, 1.f));
-				mbgSteel->SetName(L"Steel");
+				mbgSteel = object::Instantiate<CGameObj>(eLayerType::BackGround, L"Steel");
+				CSpriteRenderer* SpriteRenderer = mbgSteel->AddComponent<CSpriteRenderer>();
 
-				CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
-				mbgSteel->AddComponent(SpriteRenderer);
-
-				std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"SpriteMaterial");
-
-				SpriteRenderer->SetMesh(mesh);
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Steel", SpriteMaterial);
 				SpriteRenderer->SetMaterial(SpriteMaterial);
 
-				this->AddGameObject(mbgSteel, eLayerType::BackGround);
+				mbgSteel->SetPos(Vector3(0.f, -4.f, 1.f));
+				mbgSteel->SetScale(Vector3(2.5f, 2.5f, 1.f));
+
 			}
 
 			{
-				// hpbar
-				mUI = new CGameObj();
-				mUI->SetPos(Vector3(0.f, 0.f, 10.f));
-				mUI->SetScale(Vector3(5.f, 5.f, 1.f));
-				mUI->SetName(L"UI");
+				//// hpbar
+				//mUI = new CGameObj();
+				//mUI->SetPos(Vector3(0.f, 0.f, 10.f));
+				//mUI->SetScale(Vector3(5.f, 5.f, 1.f));
+				//mUI->SetName(L"UI");
 
-				CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
-				mUI->AddComponent(SpriteRenderer);
+				//CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
+				//mUI->AddComponent(SpriteRenderer);
 
-				std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
-				std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"UIMaterial");
+				//std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
+				//std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"UIMaterial");
 
-				SpriteRenderer->SetMesh(mesh);
-				SpriteRenderer->SetMaterial(SpriteMaterial);
+				//SpriteRenderer->SetMesh(mesh);
+				//SpriteRenderer->SetMaterial(SpriteMaterial);
 
-				this->AddGameObject(mUI, eLayerType::UI);
+				//this->AddGameObject(mUI, eLayerType::UI);
 			}
 		}
 
@@ -130,9 +106,10 @@ namespace dru
 
 	void CSceneTitle::fixedupdate()
 	{
-		//Vector3 pos = mbgSteel->GetPos();
-		//pos.y += 3.f * CTimeMgr::DeltaTime();
-		//mbgSteel->SetPos(pos);
+		//CGameObj* cam = renderer::Cameras[0]->GetOwner();
+		//Vector3 pos = cam->GetPos();
+		//pos.y -= 3.f * CTimeMgr::DeltaTime();
+		//cam->SetPos(pos);
 
 		CScene::fixedupdate();
 	}

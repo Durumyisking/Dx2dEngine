@@ -182,6 +182,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />

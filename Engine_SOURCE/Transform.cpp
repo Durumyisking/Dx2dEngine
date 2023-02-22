@@ -6,7 +6,7 @@ namespace dru
 	CTransform::CTransform()
 		: CComponent(eComponentType::Transform)
 		, mParent(nullptr)
-		, mPosition(Vector3::One)
+		, mPosition(Vector3::Zero)
 		, mRotation(Vector3::Zero)
 		, mScale(Vector3::One)
 		, mForward(Vector3::Forward)

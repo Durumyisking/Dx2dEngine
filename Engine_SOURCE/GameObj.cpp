@@ -6,8 +6,7 @@ namespace dru
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
 
-		mTransform = new CTransform();
-		this->AddComponent(mTransform);
+		this->AddComponent(new CTransform());
 	}
 
 	CGameObj::~CGameObj()
@@ -104,9 +103,6 @@ namespace dru
 			mScripts.push_back(_Component);
 			_Component->SetOwner(this);
 		}
-
-
-
 	}
 
 	void CGameObj::SetPos(Vector3 _Value)

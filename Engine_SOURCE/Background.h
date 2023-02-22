@@ -19,8 +19,6 @@ namespace dru
 		CSpriteRenderer*			mSpriteRenderer;
 
 		std::shared_ptr<CMesh>		mMesh;
-//		std::shared_ptr<CShader>	mSpriteShader;
-
 
     };
 }

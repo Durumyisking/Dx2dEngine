@@ -12,6 +12,7 @@ namespace dru::graphics
 	{
 	public:
 		CMaterial();
+		CMaterial(std::wstring _TextureName, std::wstring _ShaderName);
 		virtual ~CMaterial();
 
 		virtual HRESULT Load(const std::wstring& path) override;

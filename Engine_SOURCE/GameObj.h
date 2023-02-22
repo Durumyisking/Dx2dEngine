@@ -29,6 +29,26 @@ namespace dru
 		virtual void fixedupdate();
 		virtual void render();
 
+		template <typename T>
+		T* AddComponent()
+		{
+			T* comp = new T();
+			eComponentType order = comp->GetOrder();
+
+			if (order != eComponentType::Script)
+			{
+				mComponents[(UINT)order] = comp;
+				mComponents[(UINT)order]->SetOwner(this);
+			}
+			else
+			{
+				mScripts.push_back(comp);
+				comp->SetOwner(this);
+			}
+
+			return comp;
+		}
+
 		void AddComponent(CComponent* _Component);
 
 		template <typename T>
@@ -61,7 +81,6 @@ namespace dru
 		std::vector<CComponent*> mComponents;
 		std::vector<CComponent*> mScripts;
 
-		CTransform* mTransform;
 
 
 	};

@@ -193,6 +193,9 @@
     <ClInclude Include="GridScript.h">
       <Filter>GameObj\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>GameObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">

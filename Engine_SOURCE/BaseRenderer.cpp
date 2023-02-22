@@ -8,6 +8,10 @@ namespace dru
 	CBaseRenderer::CBaseRenderer(eComponentType _Type)
 		:CComponent(_Type)
 	{
+		// 디폴트 매시 지정
+		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
+
+		SetMesh(mesh);
 	}
 	CBaseRenderer::~CBaseRenderer()
 	{

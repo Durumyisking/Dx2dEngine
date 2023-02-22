@@ -4,9 +4,16 @@ namespace dru::graphics
 {
 	CMaterial::CMaterial()
 		:CResource(eResourceType::Material)
-		, mMode(eRenderingMode::Opaque)
+		, mMode(eRenderingMode::Transparent)
 
 	{
+	}
+	CMaterial::CMaterial(std::wstring _TextureName, std::wstring _ShaderName)
+		: CResource(eResourceType::Material) 
+		, mMode(eRenderingMode::Transparent) 
+	{
+		mTexture = CResources::Find<CTexture>(_TextureName);
+		mShader = CResources::Find<CShader>(_ShaderName);
 	}
 	CMaterial::~CMaterial()
 	{
