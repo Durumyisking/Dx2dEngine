@@ -43,14 +43,8 @@ cbuffer Grid : register(b2)
 
 cbuffer Fade : register(b3)
 {
-    row_major matrix Fadeworld;
-    row_major matrix Fadeview;
-    row_major matrix Fadeprojection;
-
     float cb16_fValue;
-    int cb16_bFadeType;
-    int cb16_iData1;
-    int cb16_iData2;    
+    int   cb16_bFadeType;
 }
 
 Texture2D defaultTexture : register(t0);

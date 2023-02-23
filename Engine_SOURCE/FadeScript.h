@@ -17,8 +17,14 @@ namespace dru
 
         void SetType(int _Type) { mFadeType = _Type; }
 
+        void SetFadeValue(float _Value) { mFadeValue = _Value; }
+
     private:
-        int mFadeType; // 0 : out 1 : in
+        int   mFadeType; // 0 : out 1 : in
+        float mFadeValue;
+        float mtime;
+
+        int go;
 
     };
 }

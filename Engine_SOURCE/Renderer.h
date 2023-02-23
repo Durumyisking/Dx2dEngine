@@ -50,14 +50,8 @@ namespace dru::renderer
 
 	CBUFFER(FadeCB, CBSLOT_FADE)
 	{
-		Matrix world;
-		Matrix view;
-		Matrix projection;
-
 		float	fValue;
 		int		bFadeType;
-		int		iData;
-		int		iData2;
 	};
 
 

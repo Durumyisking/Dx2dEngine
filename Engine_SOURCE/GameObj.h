@@ -31,15 +31,15 @@ namespace dru
 		virtual void render();
 
 		template <typename T>
-		T* AddComponent()
+		T* AddComponent(eComponentType _eType)
 		{
+			
 			T* comp = new T();
-			eComponentType order = comp->GetOrder();
 
-			if (order != eComponentType::Script)
+			if (_eType != eComponentType::Script)
 			{
-				mComponents[(UINT)order] = comp;
-				mComponents[(UINT)order]->SetOwner(this);
+				mComponents[(UINT)_eType] = comp;
+				mComponents[(UINT)_eType]->SetOwner(this);
 			}
 			else
 			{
@@ -62,6 +62,17 @@ namespace dru
 
 				if (nullptr != component)
 					return component;
+			}
+			return nullptr;
+		}
+		CScript* GetScript()
+		{
+			for (CComponent* script : mScripts)
+			{
+				CScript* returnScript = dynamic_cast<CScript*>(script);
+
+				if (nullptr != script)
+					return returnScript;
 			}
 			return nullptr;
 		}

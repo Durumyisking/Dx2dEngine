@@ -5,8 +5,8 @@ namespace dru
 		:mState(eState::Active)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
+		this->AddComponent<CTransform>(eComponentType::Transform);
 
-		this->AddComponent(new CTransform());
 	}
 
 	CGameObj::~CGameObj()

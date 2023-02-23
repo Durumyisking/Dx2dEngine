@@ -22,9 +22,9 @@ namespace dru
 		{
 			// main 카메라
 			CGameObj* camera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
-			CCamera* cameraComp = camera->AddComponent<CCamera>();
+			CCamera* cameraComp = camera->AddComponent<CCamera>(eComponentType::Camera);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			camera->AddComponent<CCameraScript>();
+			camera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::Cameras.push_back(cameraComp);
 		}
 		{
@@ -41,9 +41,9 @@ namespace dru
 		{
 			// gridobj
 			CGameObj* gridObj = object::Instantiate<CGameObj>(eLayerType::Grid, L"Grid");
-			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>();
+			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
-			gridObj->AddComponent<CGridScript>();
+			gridObj->AddComponent<CGridScript>(eComponentType::Script);
 
 		}
 
@@ -67,15 +67,16 @@ namespace dru
 			{
 				// 배경 Steel
 				mbgSteel = object::Instantiate<CBackground>(eLayerType::BackGround, L"Steel");
-				CMeshRenderer* SpriteRenderer = mbgSteel->AddComponent<CMeshRenderer>();
+				CMeshRenderer* SpriteRenderer = mbgSteel->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 				SpriteRenderer->SetMaterial(CResources::Find<CMaterial>(L"FadeMaterial"));
 
 				//std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
 				//CResources::Insert<CMaterial>(L"Steel", SpriteMaterial); 
 				//SpriteRenderer->SetMaterial(SpriteMaterial);
 				
-				mbgSteel->AddComponent<CFadeScript>()->SetType(0);
-
+				mbgSteel->AddComponent<CFadeScript>(eComponentType::Script)->SetType(0);
+				CFadeScript* fadeScript = dynamic_cast<CFadeScript*>(mbgSteel->GetScript());				
+				fadeScript->SetFadeValue(0.5f);
 				mbgSteel->SetPos(Vector3(0.f, 0.f, 1.f));
 				//mbgSteel->SetScale(Vector3(10.f, 10.f, 1.f));
 

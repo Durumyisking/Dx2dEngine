@@ -11,7 +11,7 @@ float4 main(VTX_OUT _in) : SV_TARGET
 //    float alpha = color.w;
     float alpha;
     
-    if (cb16_bFadeType == 0) // 0 : fade in, 1 : out
+    if (cb16_bFadeType == 0) // 0 : fade out, 1 : in
     {
 //        alpha -= (cb16_fValue);
         alpha = saturate(1 - (cb16_fValue));
@@ -19,10 +19,10 @@ float4 main(VTX_OUT _in) : SV_TARGET
     else if (cb16_bFadeType == 1)
     {
 //        alpha += (cb16_fValue);
-        alpha = saturate(1 + (cb16_fValue));
+        alpha = saturate(0 + (cb16_fValue));
 
     }
-    color.w = alpha;
+//    color.w = alpha;
     
-    return color;
+    return color * alpha;
 }
