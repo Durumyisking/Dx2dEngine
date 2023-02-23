@@ -8,6 +8,7 @@ namespace dru
 	{
 	public:
 		static __forceinline float DeltaTime() { return mDeltaTime; }
+		static __forceinline float AccumulatedTime() { return mAccumulatedTime; }
 
 		static void Initialize();
 		static void update();
@@ -20,5 +21,6 @@ namespace dru
 
 		static float			mDeltaTime;
 		static float			mOneSecond;
+		static float			mAccumulatedTime;
 	};
 }

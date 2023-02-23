@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "Layer.h"
-#include "GameObj.h"
 #include "SceneMgr.h"
 #include "Transform.h"
 
@@ -45,22 +44,6 @@ namespace dru::object
 		return gameObj;
 	}
 
-	//template <typename T>
-	//static T* Instantiate(enums::eLayerType _LayerType, CTransform* _Parent, bool InstantiateInWorldSpace)
-	//{
-	//	T* gameObj = new T();
-	//	CScene* scene = CSceneMgr::mActiveScene;
-	//	CLayer& layer = scene->GetLayer();
-	//	layer.AddGameObject(gameObj);
-
-	//	CTransform* tr = gameObj->GetComponent<CTransform*>();
-	//	tr->SetParent(_Parent);
-
-	//	if (InstantiateInWorldSpace)
-	//	{
-
-	//	}
-
 	template <typename T>
 	static T* Instantiate(enums::eLayerType _LayerType, Vector3 _Pos, Vector3 _Rotation)
 	{
@@ -92,10 +75,4 @@ namespace dru::object
 
 		return gameObj;
 	}
-
-	//	return gameObj;
-	//}
-
-	//linear interpolation/
-
 }

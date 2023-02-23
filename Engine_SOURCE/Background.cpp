@@ -4,13 +4,6 @@ namespace dru
 {
 	CBackground::CBackground()
 	{
-		mSpriteRenderer = new CSpriteRenderer();
-		this->AddComponent(mSpriteRenderer);
-
-		mMesh = CResources::Find<CMesh>(L"RectMesh");
-		mSpriteRenderer->SetMesh(mMesh);
-
-//		mSpriteShader = CResources::Find<CShader>(L"SpriteShader");
 
 	}
 

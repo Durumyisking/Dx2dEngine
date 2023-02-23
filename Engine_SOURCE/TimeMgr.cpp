@@ -10,6 +10,7 @@ namespace dru
     LARGE_INTEGER	CTimeMgr::mCurFrequency = {};
     float			CTimeMgr::mDeltaTime = 0.0f;
     float			CTimeMgr::mOneSecond = 0.0f;
+    float			CTimeMgr::mAccumulatedTime = 0.0f;
 
     void CTimeMgr::Initialize()
     {
@@ -29,6 +30,8 @@ namespace dru
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
+
+        mAccumulatedTime += mDeltaTime;
     }
 
     void CTimeMgr::Render(HDC hdc)

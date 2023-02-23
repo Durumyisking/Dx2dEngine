@@ -47,44 +47,47 @@
     <Filter Include="Resource\Manager">
       <UniqueIdentifier>{f5f2cb9f-e7c9-494a-8dc9-9717435bb70f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Component">
-      <UniqueIdentifier>{62eecbab-450d-4710-9651-1fce21aeebd4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{f5dbc21b-39bf-46fe-8fd6-6a267aa2a30d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\TransForm">
-      <UniqueIdentifier>{4c9ad2ce-12b6-4cc6-9c11-5c908eabbe8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource\Texture">
       <UniqueIdentifier>{8c3b4b7c-b5ea-4ee7-8c93-ba8592693b57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Component\Script">
-      <UniqueIdentifier>{5159e036-2e59-4ee5-8350-3ceee37140b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Player">
-      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\Camera">
-      <UniqueIdentifier>{eda891fd-0c41-4e10-8f39-73c0a24c3f84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\Camera\Script">
-      <UniqueIdentifier>{097773b2-133e-409e-a687-127f52ad60f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\Renderer">
-      <UniqueIdentifier>{efaa299c-5103-47ef-a951-a1d79c071d26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\Renderer\Mesh">
-      <UniqueIdentifier>{bb99c478-e3ba-4303-9eed-168d722681c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Component\Renderer\Sprite">
-      <UniqueIdentifier>{ce9056db-6a9e-406d-9b7d-cee1aeef4e21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObj\BackGround">
       <UniqueIdentifier>{e3c7e62e-16a7-4266-a737-24ba6ea7a768}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Grid">
+    <Filter Include="Common\Component">
+      <UniqueIdentifier>{62eecbab-450d-4710-9651-1fce21aeebd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\TransForm">
+      <UniqueIdentifier>{4c9ad2ce-12b6-4cc6-9c11-5c908eabbe8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Script">
+      <UniqueIdentifier>{5159e036-2e59-4ee5-8350-3ceee37140b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Camera">
+      <UniqueIdentifier>{eda891fd-0c41-4e10-8f39-73c0a24c3f84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Camera\Script">
+      <UniqueIdentifier>{097773b2-133e-409e-a687-127f52ad60f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Renderer">
+      <UniqueIdentifier>{efaa299c-5103-47ef-a951-a1d79c071d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Renderer\Mesh">
+      <UniqueIdentifier>{bb99c478-e3ba-4303-9eed-168d722681c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Renderer\Sprite">
+      <UniqueIdentifier>{ce9056db-6a9e-406d-9b7d-cee1aeef4e21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Script\Player">
+      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Script\Grid">
       <UniqueIdentifier>{07391d1a-6255-4748-b831-1c8a300fc277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Script\Fade">
+      <UniqueIdentifier>{8f1ca778-f3ef-4a39-9eeb-8739549585e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +149,7 @@
       <Filter>Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>GameObj\Component</Filter>
+      <Filter>Common\Component</Filter>
     </ClInclude>
     <ClInclude Include="SceneMain.h">
       <Filter>Scene</Filter>
@@ -158,7 +161,7 @@
       <Filter>Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>GameObj\Component\TransForm</Filter>
+      <Filter>Common\Component\TransForm</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Graphics</Filter>
@@ -167,34 +170,37 @@
       <Filter>Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Script.h">
-      <Filter>GameObj\Component\Script</Filter>
+      <Filter>Common\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScript.h">
-      <Filter>GameObj\Player</Filter>
+      <Filter>Common\Component\Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>GameObj\Component\Camera</Filter>
+      <Filter>Common\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CameraScript.h">
-      <Filter>GameObj\Component\Camera\Script</Filter>
+      <Filter>Common\Component\Camera\Script</Filter>
     </ClInclude>
     <ClInclude Include="BaseRenderer.h">
-      <Filter>GameObj\Component\Renderer</Filter>
+      <Filter>Common\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>GameObj\Component\Renderer\Mesh</Filter>
+      <Filter>Common\Component\Renderer\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
-      <Filter>GameObj\Component\Renderer\Sprite</Filter>
+      <Filter>Common\Component\Renderer\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>GameObj\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="GridScript.h">
-      <Filter>GameObj\Grid</Filter>
+      <Filter>Common\Component\Script\Grid</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScript.h">
+      <Filter>Common\Component\Script\Fade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +250,7 @@
       <Filter>Resource\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>GameObj\Component</Filter>
+      <Filter>Common\Component</Filter>
     </ClCompile>
     <ClCompile Include="SceneMain.cpp">
       <Filter>Scene</Filter>
@@ -256,7 +262,7 @@
       <Filter>Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>GameObj\Component\TransForm</Filter>
+      <Filter>Common\Component\TransForm</Filter>
     </ClCompile>
     <ClCompile Include="ConstantBuffer.cpp">
       <Filter>Graphics</Filter>
@@ -265,31 +271,34 @@
       <Filter>Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Script.cpp">
-      <Filter>GameObj\Component\Script</Filter>
+      <Filter>Common\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
-      <Filter>GameObj\Player</Filter>
+      <Filter>Common\Component\Script\Player</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>GameObj\Component\Camera</Filter>
+      <Filter>Common\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CameraScript.cpp">
-      <Filter>GameObj\Component\Camera\Script</Filter>
+      <Filter>Common\Component\Camera\Script</Filter>
     </ClCompile>
     <ClCompile Include="BaseRenderer.cpp">
-      <Filter>GameObj\Component\Renderer</Filter>
+      <Filter>Common\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>GameObj\Component\Renderer\Mesh</Filter>
+      <Filter>Common\Component\Renderer\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>GameObj\Component\Renderer\Sprite</Filter>
+      <Filter>Common\Component\Renderer\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
       <Filter>GameObj\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="GridScript.cpp">
-      <Filter>GameObj\Grid</Filter>
+      <Filter>Common\Component\Script\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScript.cpp">
+      <Filter>Common\Component\Script\Fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

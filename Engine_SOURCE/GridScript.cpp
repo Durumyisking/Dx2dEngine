@@ -1,7 +1,6 @@
 #include "GridScript.h"
 #include "Transform.h"
 #include "GameObj.h"
-#include "Application.h"
 #include "ConstantBuffer.h"
 #include "Renderer.h"
 

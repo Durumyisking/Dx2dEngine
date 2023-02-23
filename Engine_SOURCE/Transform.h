@@ -38,6 +38,8 @@ namespace dru
 		Vector3 GetPosition() { return mPosition; }
 		Vector3 GetRotation() { return mRotation; }
 		Vector3 GetScale() { return mScale; }
+
+		Matrix GetWorldPos() { return mWorld; }
 	private:
 		CTransform* mParent;
 

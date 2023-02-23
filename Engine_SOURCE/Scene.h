@@ -38,6 +38,9 @@ namespace dru
 		std::vector<CLayer> mLayers;
 		CSceneMgr::eSceneType mType;
 
+		std::vector<CGameObj*> mDeadObjects;
+
+
 	};
 
 }

@@ -20,6 +20,7 @@ namespace dru
 			Dead,
 		};
 
+
 	public:
 		CGameObj();
 		virtual ~CGameObj();
@@ -75,6 +76,22 @@ namespace dru
 
 		void SetMaterial(std::shared_ptr<CMaterial> _Material);
 		void SetMesh(std::shared_ptr<CMesh> _Mesh);
+
+		bool IsDead()
+		{
+			if (eState::Dead == mState)
+				return true;
+			return false;
+		}
+
+		void Active() { mState = eState::Active; }
+		void Pause() { mState = eState::Paused; }
+		void Die() { mState = eState::Dead; }
+
+		eState GetState() const { return mState; }
+
+	private:
+
 
 	private:
 		eState mState;

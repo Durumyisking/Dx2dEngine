@@ -2,6 +2,7 @@
 #include "TimeMgr.h"
 #include "Background.h"
 #include "GridScript.h"
+#include "FadeScript.h"
 #include "Object.h"
 
 namespace dru
@@ -46,38 +47,42 @@ namespace dru
 
 		}
 
+
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
 
 		{
 			{
-				// 배경 black
-				mbgBlack = object::Instantiate<CGameObj>(eLayerType::BackGround, L"Black");
-				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>();
+				//// 배경 black
+				//mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+				//CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>();
 
-				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Black", SpriteMaterial);
-				SpriteRenderer->SetMaterial(SpriteMaterial);
+				//std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				//CResources::Insert<CMaterial>(L"Black", SpriteMaterial);
+				//SpriteRenderer->SetMaterial(SpriteMaterial);
 
-				mbgBlack->SetPos(Vector3(0.f, -4.f, 1.f));
-				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
+				//mbgBlack->SetPos(Vector3(0.f, -4.f, 1.f));
+				//mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 			}
 
 			{
 				// 배경 Steel
-				mbgSteel = object::Instantiate<CGameObj>(eLayerType::BackGround, L"Steel");
-				CSpriteRenderer* SpriteRenderer = mbgSteel->AddComponent<CSpriteRenderer>();
+				mbgSteel = object::Instantiate<CBackground>(eLayerType::BackGround, L"Steel");
+				CMeshRenderer* SpriteRenderer = mbgSteel->AddComponent<CMeshRenderer>();
+				SpriteRenderer->SetMaterial(CResources::Find<CMaterial>(L"FadeMaterial"));
 
-				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Steel", SpriteMaterial);
-				SpriteRenderer->SetMaterial(SpriteMaterial);
+				//std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
+				//CResources::Insert<CMaterial>(L"Steel", SpriteMaterial); 
+				//SpriteRenderer->SetMaterial(SpriteMaterial);
+				
+				mbgSteel->AddComponent<CFadeScript>()->SetType(0);
 
-				mbgSteel->SetPos(Vector3(0.f, -4.f, 1.f));
-				mbgSteel->SetScale(Vector3(2.5f, 2.5f, 1.f));
+				mbgSteel->SetPos(Vector3(0.f, 0.f, 1.f));
+				//mbgSteel->SetScale(Vector3(10.f, 10.f, 1.f));
 
 			}
 
 			{
-				//// hpbar
+				//// UI
 				//mUI = new CGameObj();
 				//mUI->SetPos(Vector3(0.f, 0.f, 10.f));
 				//mUI->SetScale(Vector3(5.f, 5.f, 1.f));

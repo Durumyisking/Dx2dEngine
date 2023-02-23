@@ -173,6 +173,7 @@
     <ClInclude Include="druMath.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="FadeScript.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="druMath.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="FadeScript.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />

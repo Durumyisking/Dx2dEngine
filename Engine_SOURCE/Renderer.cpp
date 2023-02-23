@@ -72,6 +72,14 @@ namespace dru::renderer
 			, Gridshader->GetVSBlobBufferSize()
 			, Gridshader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> Fadeshader = CResources::Find<CShader>(L"FadeShader");
+
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, Fadeshader->GetVSBlobBufferPointer()
+			, Fadeshader->GetVSBlobBufferSize()
+			, Fadeshader->GetInputLayoutAddr());
+
+
 
 #pragma endregion
 
@@ -204,7 +212,9 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Grid)] = new CConstantBuffer(eCBType::Grid);
 		constantBuffers[static_cast<UINT>(eCBType::Grid)]->Create(sizeof(GridCB));
 
-		
+		constantBuffers[static_cast<UINT>(eCBType::Fade)] = new CConstantBuffer(eCBType::Fade);
+		constantBuffers[static_cast<UINT>(eCBType::Fade)]->Create(sizeof(FadeCB));
+
 	}
 
 	void LoadShader()
@@ -233,13 +243,18 @@ namespace dru::renderer
 		GridShader->SetRSState(eRasterizerType::SolidNone); // 항상 보임
 		GridShader->SetDSState(eDepthStencilType::NoWrite);
 		GridShader->SetBSState(eBlendStateType::AlphaBlend);
-
 		CResources::Insert<CShader>(L"GridShader", GridShader);
+
+		std::shared_ptr<CShader> FadeShader = std::make_shared<CShader>();
+		FadeShader->Create(graphics::eShaderStage::VS, L"FadeVS.hlsl", "main");
+		FadeShader->Create(graphics::eShaderStage::PS, L"FadePS.hlsl", "main");
+		CResources::Insert<CShader>(L"FadeShader", FadeShader);
+
 	}
 
 	void LoadTexture()
 	{
-		CResources::Load<CTexture>(L"Default", L"default.png");
+		CResources::Load<CTexture>(L"default", L"default.png");
 		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
 		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
 		CResources::Load<CTexture>(L"Title", L"TitleScene/bgTitle.png");
@@ -258,16 +273,13 @@ namespace dru::renderer
 		MeshMaterial->SetTexture(Meshtexture);
 		CResources::Insert<CMaterial>(L"MeshMaterial", MeshMaterial);
 
-
-		{
-			std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"default");
-			std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
-			std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
-			SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
-			SpriteMaterial->SetShader(SpriteShader);
-			SpriteMaterial->SetTexture(Spritetexture);
-			CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
-		}
+		std::shared_ptr<CTexture> Spritetexture = CResources::Find<CTexture>(L"default");
+		std::shared_ptr<CShader> SpriteShader = CResources::Find<CShader>(L"SpriteShader");
+		std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>();
+		SpriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		SpriteMaterial->SetShader(SpriteShader);
+		SpriteMaterial->SetTexture(Spritetexture);
+		CResources::Insert<CMaterial>(L"SpriteMaterial", SpriteMaterial);
 
 		std::shared_ptr<CTexture> UItexture = CResources::Find<CTexture>(L"Title");
 		std::shared_ptr<CShader> UIShader = CResources::Find<CShader>(L"UIShader");
@@ -277,12 +289,20 @@ namespace dru::renderer
 		UIMaterial->SetTexture(UItexture);
 		CResources::Insert<CMaterial>(L"UIMaterial", UIMaterial);
 
-
 		std::shared_ptr<CShader> GridShader = CResources::Find<CShader>(L"GridShader");
 		std::shared_ptr<CMaterial> GridMaterial = std::make_shared<CMaterial>();
 		GridMaterial->SetRenderingMode(eRenderingMode::Opaque);
 		GridMaterial->SetShader(GridShader);
 		CResources::Insert<CMaterial>(L"GridMaterial", GridMaterial);
+
+		std::shared_ptr<CTexture> Fadetexture = CResources::Find<CTexture>(L"default");
+		std::shared_ptr<CShader> FadeShader = CResources::Find<CShader>(L"FadeShader");
+		std::shared_ptr<CMaterial> FadeMaterial = std::make_shared<CMaterial>();
+		FadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		FadeMaterial->SetShader(FadeShader);
+		FadeMaterial->SetTexture(Fadetexture);
+		CResources::Insert<CMaterial>(L"FadeMaterial", FadeMaterial);
+
 
 
 	}

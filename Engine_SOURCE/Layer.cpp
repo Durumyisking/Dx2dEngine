@@ -36,7 +36,9 @@ namespace dru
 		{
 			if (nullptr == Obj)
 				continue;
-			Obj->update();
+
+			if(CGameObj::eState::Active == Obj->GetState())
+				Obj->update();
 		}
 	}
 
@@ -46,7 +48,9 @@ namespace dru
 		{
 			if (nullptr == Obj)
 				continue;
-			Obj->fixedupdate();
+
+			if (CGameObj::eState::Active == Obj->GetState())
+				Obj->fixedupdate();
 		}
 	}
 
