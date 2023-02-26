@@ -45,6 +45,7 @@ cbuffer Fade : register(b3)
 {
     float cb16_fValue;
     int   cb16_bFadeType;
+    int   cb16_bTextureType;
 }
 
 Texture2D defaultTexture : register(t0);

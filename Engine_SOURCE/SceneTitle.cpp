@@ -50,7 +50,7 @@ namespace dru
 
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
 
-		{
+		{			
 			{
 				// ¹è°æ black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");

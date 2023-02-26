@@ -52,6 +52,7 @@ namespace dru::renderer
 	{
 		float	fValue;
 		int		bFadeType;
+		int		bTextureType;
 	};
 
 

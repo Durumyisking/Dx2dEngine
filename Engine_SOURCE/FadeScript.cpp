@@ -31,11 +31,13 @@ namespace dru
 		{
 			mStart = 1;
 			mFadeType = 1;
+			mtime = 0;
 		}
 		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::PRESSED)
 		{
 			mStart = 1;
 			mFadeType = 0;
+			mtime = 0;
 		}
 
 		if (1 == mStart)
@@ -46,6 +48,7 @@ namespace dru
 
 			data.fValue = mFadeValue * mtime;
 			data.bFadeType = mFadeType;
+			data.bTextureType = mFadeTextureType;
 
 			cb->Bind(&data);
 			cb->SetPipeline(eShaderStage::VS);

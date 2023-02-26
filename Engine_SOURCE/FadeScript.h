@@ -18,9 +18,12 @@ namespace dru
         void SetType(int _Type) { mFadeType = _Type; }
 
         void SetFadeValue(float _Value) { mFadeValue = _Value; }
+        void SetFadeTextureType(int _Value) { mFadeTextureType = _Value; }
+
 
     private:
-        int   mFadeType; // 0 : out 1 : in
+        int   mFadeType;
+        int   mFadeTextureType;
         float mFadeValue;
         float mtime;
 

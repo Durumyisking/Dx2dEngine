@@ -55,6 +55,9 @@ namespace dru
 	{
 		std::shared_ptr<CTexture> texture = GetMaterial()->GetTexture();
 
+		if (nullptr == texture)
+			return;
+
 		int width = texture->GetScratchImage().GetMetadata().width;
 		int height = texture->GetScratchImage().GetMetadata().height;
 		int widthcount = 0;
