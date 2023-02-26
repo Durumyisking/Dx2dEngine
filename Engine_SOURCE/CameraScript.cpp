@@ -24,19 +24,19 @@ namespace dru
 
 		Vector3 pos = transform->GetPosition();
 
-		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::PRESSED)
 		{
 			pos += 3.f * transform->Up() *CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
 		{
 			pos += 3.f * -transform->Up() * CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::PRESSED)
 		{
 			pos += 3.f * -transform->Right() * CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::L) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
 		{
 			pos += 3.f * transform->Right() * CTimeMgr::DeltaTime();
 		}

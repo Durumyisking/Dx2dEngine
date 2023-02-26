@@ -23,6 +23,8 @@ namespace dru
 		std::shared_ptr<CMesh> GetMesh() { return mMesh; }
 		std::shared_ptr<CMaterial> GetMaterial() { return mMaterial; }
 
+		void ChangeSize() { mChanged = true; }
+
 	private:
 		void adjustTexture();
 
@@ -30,6 +32,11 @@ namespace dru
 	private:
 		std::shared_ptr <CMesh> mMesh;
 		std::shared_ptr <CMaterial> mMaterial;
+
+		float mWidthRatio;
+		float mHeightRatio;
+
+		bool mChanged;
 
 	};
 

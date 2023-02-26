@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include "SpriteRenderer.h"
+#include "MeshRenderer.h"
 
 namespace dru
 {

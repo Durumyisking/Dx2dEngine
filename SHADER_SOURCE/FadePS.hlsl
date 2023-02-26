@@ -4,7 +4,7 @@
 
 float4 main(VTX_OUT _in) : SV_TARGET
 {   
-    float4 color = (float) 0.f;
+    float4 color = { 0.f, 0.f, 0.f, 1.f };
    
     color = defaultTexture.Sample(pointSampler, _in.vUV);
     

@@ -15,6 +15,7 @@ namespace dru
 
 	void CMeshRenderer::Initialize()
 	{
+		CBaseRenderer::Initialize();
 	}
 
 	void CMeshRenderer::update()
@@ -23,6 +24,7 @@ namespace dru
 
 	void CMeshRenderer::fixedupdate()
 	{
+		CBaseRenderer::fixedupdate();
 	}
 
 	void CMeshRenderer::render()
@@ -35,6 +37,8 @@ namespace dru
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
+
+		CBaseRenderer::render();
 	}
 
 }

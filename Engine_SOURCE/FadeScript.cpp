@@ -12,7 +12,7 @@ namespace dru
 	CFadeScript::CFadeScript()
 		: mFadeValue(1)
 		, mFadeType(1)
-		, go(0)
+		, mStart(false)
 		, mtime(0)
 	{
 	}
@@ -27,12 +27,18 @@ namespace dru
 
 	void CFadeScript::update()
 	{
-		if (CInput::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
 		{
-			go = 1;
+			mStart = 1;
+			mFadeType = 1;
+		}
+		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::PRESSED)
+		{
+			mStart = 1;
+			mFadeType = 0;
 		}
 
-		if (1 == go)
+		if (1 == mStart)
 		{
 			mtime += CTimeMgr::DeltaTime();
 			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Fade];

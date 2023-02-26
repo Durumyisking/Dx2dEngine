@@ -7,6 +7,7 @@ namespace dru
 {
 	CBaseRenderer::CBaseRenderer(eComponentType _Type)
 		:CComponent(_Type)
+		, mChanged(false)
 	{
 		// 디폴트 매시 지정
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
@@ -24,6 +25,22 @@ namespace dru
 	}
 	void CBaseRenderer::fixedupdate()
 	{
+		if (mChanged)
+		{
+			CTransform* transform = GetOwner()->GetComponent<CTransform>();
+
+			Vector3 scale = transform->GetScale();
+			Vector3 scaleTemp = transform->GetScale();
+
+			scale.x = mWidthRatio;
+			scale.y = mHeightRatio;
+
+			scale *= scaleTemp;
+
+			transform->SetScale(scale);
+
+			mChanged = false;
+		}
 	}
 	void CBaseRenderer::render()
 	{
@@ -32,7 +49,7 @@ namespace dru
 	{
 		mMaterial = _Material;
 
-//		adjustTexture();
+		adjustTexture();
 	}
 	void CBaseRenderer::adjustTexture()
 	{
@@ -40,43 +57,47 @@ namespace dru
 
 		int width = texture->GetScratchImage().GetMetadata().width;
 		int height = texture->GetScratchImage().GetMetadata().height;
+		int widthcount = 0;
+		int heightcount = 0;
 
 		int GCD = std::gcd(width, height);
 
 		float fwidth = width /= GCD;
 		float fheight = height /= GCD;
 
-	
-		CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
-		Vector3 scale = transform->GetScale();
-		Vector3 scaleTemp = transform->GetScale();
-
-		if (fwidth >= 0.f && fwidth < 10)
-			fwidth = fwidth / 10;
-		else if (fwidth >= 10.f && fwidth < 100)
-			fwidth = fwidth / 10;
-		else if (fwidth >= 100.f && fwidth < 1000)
-			fwidth = fwidth / 10.f / 10;
-		else if (fwidth >= 1000)
-			fwidth = fwidth / 10.f / 10.f / 10;
-
-		if (fheight >= 0.f && fheight < 10)
-			fheight = fheight / 10;
-		else if (fheight >= 10.f && fheight < 100)
-			fheight = fheight / 10;
-		else if (fheight >= 100.f && fheight < 1000)
-			fheight = fheight / 10.f / 10;
-		else if (fheight >= 1000)
-			fheight = fheight / 10.f / 10.f / 10;
+		while (width > 0.f)
+		{
+			fwidth /= 10.f;
+			width /= 10.f;
+			++widthcount;
+		}
+		while (height > 0.f)
+		{
+			fheight /= 10.f;
+			height /= 10.f;
+			++heightcount;
+		}
 
 
-		scale.x = fwidth;
-		scale.y = fheight;
+		if (widthcount == heightcount)
+		{
+			fwidth *= 10.f;
+			fheight *= 10.f;
+		}
+		else if (widthcount < heightcount)
+		{
+			fwidth *= 10.f;
+			fheight *= 100.f;
+		}
+		else
+		{
+			fwidth *= 100.f;
+			fheight *= 10.f;
+		}
 
-		scale *= scaleTemp;
-
-		transform->SetScale(scale);
+		mWidthRatio = fwidth;
+		mHeightRatio = fheight;
 
 	}
 }

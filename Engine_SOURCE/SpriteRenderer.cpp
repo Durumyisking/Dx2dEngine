@@ -15,14 +15,17 @@ namespace dru
 
 	void CSpriteRenderer::Initialize()
 	{
+		CBaseRenderer::Initialize();
 	}
 
 	void CSpriteRenderer::update()
 	{
+		CBaseRenderer::update();
 	}
 
 	void CSpriteRenderer::fixedupdate()
 	{
+		CBaseRenderer::fixedupdate();
 	}
 
 	void CSpriteRenderer::render()
@@ -36,6 +39,8 @@ namespace dru
 
 		GetMaterial()->Clear();
 
+
+		CBaseRenderer::render();
 	}
 
 

@@ -39,11 +39,11 @@ namespace dru
 		}
 
 		{
-			// gridobj
-			CGameObj* gridObj = object::Instantiate<CGameObj>(eLayerType::Grid, L"Grid");
-			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
-			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
-			gridObj->AddComponent<CGridScript>(eComponentType::Script);
+			//// gridobj
+			//CGameObj* gridObj = object::Instantiate<CGameObj>(eLayerType::Grid, L"Grid");
+			//CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
+			//MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
+			//gridObj->AddComponent<CGridScript>(eComponentType::Script);
 
 		}
 
@@ -52,54 +52,31 @@ namespace dru
 
 		{
 			{
-				//// 배경 black
-				//mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-				//CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>();
+				// 배경 black
+				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				mbgBlack->SetPos(Vector3(0.f, -4.f, 1.f));
+				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
-				//std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
-				//CResources::Insert<CMaterial>(L"Black", SpriteMaterial);
-				//SpriteRenderer->SetMaterial(SpriteMaterial);
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Black", SpriteMaterial);
+				SpriteRenderer->SetMaterial(SpriteMaterial);
 
-				//mbgBlack->SetPos(Vector3(0.f, -4.f, 1.f));
-				//mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 			}
 
 			{
 				// 배경 Steel
 				mbgSteel = object::Instantiate<CBackground>(eLayerType::BackGround, L"Steel");
-				CMeshRenderer* SpriteRenderer = mbgSteel->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
-				SpriteRenderer->SetMaterial(CResources::Find<CMaterial>(L"FadeMaterial"));
+				CSpriteRenderer* SpriteRenderer = mbgSteel->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				mbgSteel->SetPos(Vector3(0.f, -3.f, 1.f));
 
-				//std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
-				//CResources::Insert<CMaterial>(L"Steel", SpriteMaterial); 
-				//SpriteRenderer->SetMaterial(SpriteMaterial);
-				
-				mbgSteel->AddComponent<CFadeScript>(eComponentType::Script)->SetType(0);
-				CFadeScript* fadeScript = dynamic_cast<CFadeScript*>(mbgSteel->GetScript());				
-				fadeScript->SetFadeValue(0.5f);
-				mbgSteel->SetPos(Vector3(0.f, 0.f, 1.f));
-				//mbgSteel->SetScale(Vector3(10.f, 10.f, 1.f));
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Steel", SpriteMaterial); 
+ 				SpriteRenderer->SetMaterial(SpriteMaterial);
 
+				mbgSteel->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 
-			{
-				//// UI
-				//mUI = new CGameObj();
-				//mUI->SetPos(Vector3(0.f, 0.f, 10.f));
-				//mUI->SetScale(Vector3(5.f, 5.f, 1.f));
-				//mUI->SetName(L"UI");
-
-				//CSpriteRenderer* SpriteRenderer = new CSpriteRenderer();
-				//mUI->AddComponent(SpriteRenderer);
-
-				//std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
-				//std::shared_ptr<CMaterial> SpriteMaterial = CResources::Find<CMaterial>(L"UIMaterial");
-
-				//SpriteRenderer->SetMesh(mesh);
-				//SpriteRenderer->SetMaterial(SpriteMaterial);
-
-				//this->AddGameObject(mUI, eLayerType::UI);
-			}
 		}
 
 		CScene::Initialize();

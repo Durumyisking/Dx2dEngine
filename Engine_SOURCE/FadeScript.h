@@ -24,7 +24,7 @@ namespace dru
         float mFadeValue;
         float mtime;
 
-        int go;
+        bool  mStart;
 
     };
 }

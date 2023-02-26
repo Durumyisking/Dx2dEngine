@@ -119,6 +119,14 @@ namespace dru
 		{
 			GetComponent<CTransform>()->SetScale(_Value);
 		}
+		if (nullptr != GetComponent<CSpriteRenderer>())
+		{
+			GetComponent<CSpriteRenderer>()->ChangeSize();
+		}
+		if (nullptr != GetComponent<CMeshRenderer>())
+		{
+			GetComponent<CMeshRenderer>()->ChangeSize();
+		}
 	}
 
 	void CGameObj::SetRotation(Vector3 _Value)

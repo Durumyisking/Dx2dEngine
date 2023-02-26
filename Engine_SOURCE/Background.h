@@ -14,11 +14,5 @@ namespace dru
 		virtual void fixedupdate();
 		virtual void render();
 
-
-	private:
-		CSpriteRenderer*			mSpriteRenderer;
-
-		std::shared_ptr<CMesh>		mMesh;
-
     };
 }
