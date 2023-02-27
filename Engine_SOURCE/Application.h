@@ -18,9 +18,9 @@ namespace dru
 		// gpu 업데이트
 		virtual void fixedupdate();
 		virtual void render();
+		virtual void destroy();
 		// engine loop
 		void Run();
-		void Release();
 
 		void SetWindow(HWND _hwnd, UINT _width, UINT _height);
 

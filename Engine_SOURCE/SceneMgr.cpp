@@ -11,7 +11,6 @@ namespace dru
 
 	void CSceneMgr::Initialize()
 	{
-
 		mScenes[static_cast<UINT>(eSceneType::Title)] = new CSceneTitle;
 		mScenes[static_cast<UINT>(eSceneType::Title)]->SetType(eSceneType::Title);
 		mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
@@ -37,6 +36,11 @@ namespace dru
 		mActiveScene->render();
 	}
 
+	void CSceneMgr::destory()
+	{
+		mActiveScene->destroy();
+	}
+
 	void CSceneMgr::release()
 	{
 		for (CScene* scene : mScenes)
@@ -44,6 +48,32 @@ namespace dru
 			if (nullptr != scene)
 				delete scene;
 		}
+	}
+
+	void CSceneMgr::LoadScene(eSceneType _Type)
+	{
+		if(mActiveScene)
+			mActiveScene->Exit();
+
+		std::vector<CGameObj*> gameObjs = mActiveScene->GetDontDestroyObjects();
+
+		mActiveScene = mScenes[static_cast<UINT>(_Type)];
+
+		for (CGameObj* obj : gameObjs)
+		{
+			mActiveScene->AddGameObject(obj, obj->GetLayerType());
+		}
+
+		if (mActiveScene)
+			mActiveScene->Enter();
+	}
+
+	void CSceneMgr::DontDestroyOnLoad(CGameObj* _GameObj)
+	{
+		if (nullptr == _GameObj)
+			return;
+
+		_GameObj->DontDestroy();
 	}
 
 }

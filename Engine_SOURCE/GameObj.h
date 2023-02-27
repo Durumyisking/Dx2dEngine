@@ -102,14 +102,18 @@ namespace dru
 
 		eState GetState() const { return mState; }
 
-	private:
+		bool IsDontDestroy(){ return mbDestroy;	}
+		void DontDestroy() { mbDestroy = true; }
 
+		eLayerType GetLayerType() const { return mType; }
+		void SetLayerType(eLayerType _Type) { mType = _Type; }
 
 	private:
+		eLayerType mType;
 		eState mState;
 		std::vector<CComponent*> mComponents;
 		std::vector<CComponent*> mScripts;
-
+		bool mbDestroy;
 
 
 	};

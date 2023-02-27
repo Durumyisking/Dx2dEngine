@@ -6,6 +6,7 @@ namespace dru
 	using namespace math;
 	class CCamera : public CComponent
 	{
+		friend class CCameraScript;
 	public:
 		enum class eProjectionType
 		{
@@ -38,6 +39,10 @@ namespace dru
 
 		float GetScale() const { return mScale; }
 
+		void SetTarget(CGameObj* _Target);
+		CGameObj* GetTarget() const { return mTargetObj; }
+
+
 	private:
 		void sortGameObjects();
 		void renderOpaque();
@@ -65,6 +70,13 @@ namespace dru
 		std::vector<CGameObj*> mTransparentGameObjects;
 
 
+		CGameObj*	mTargetObj;
+		Vector3		mLookAt;
+		Vector3		mPrevLookAt;
+		Vector3		mCamDir;
+		float		mCamSpeed;
+		float		mTime;
+		float		mAccTime;
 	};
 
 

@@ -47,11 +47,18 @@ namespace dru
 
 		graphicDevice->Present();
 	}
+
+	void CApplication::destroy()
+	{
+		CSceneMgr::destory();
+	}
+
 	void CApplication::Run()
 	{
 		update();
 		fixedupdate();
 		render();
+		destroy();
 	}
 
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)

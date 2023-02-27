@@ -89,6 +89,15 @@
     <Filter Include="Common\Component\Script\Fade">
       <UniqueIdentifier>{8f1ca778-f3ef-4a39-9eeb-8739549585e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Manager">
+      <UniqueIdentifier>{31e1b7df-1306-4a17-be07-62b78da0476f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Layer">
+      <UniqueIdentifier>{933fe2a5-3876-4974-bb9b-06c06e708c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Base">
+      <UniqueIdentifier>{d1a04847-462f-488b-844e-954ccfe845a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -127,17 +136,8 @@
     <ClInclude Include="Engine.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneMgr.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GameObj.h">
       <Filter>GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Resource\Manager</Filter>
@@ -202,6 +202,15 @@
     <ClInclude Include="FadeScript.h">
       <Filter>Common\Component\Script\Fade</Filter>
     </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Scene\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -228,17 +237,8 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneMgr.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GameObj.cpp">
       <Filter>GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Resource\Manager</Filter>
@@ -299,6 +299,15 @@
     </ClCompile>
     <ClCompile Include="FadeScript.cpp">
       <Filter>Common\Component\Script\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Scene\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>Scene\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

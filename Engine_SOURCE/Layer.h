@@ -13,10 +13,11 @@ namespace dru
 		virtual void update();
 		virtual void fixedupdate();
 		virtual void render();
+		virtual void destroy();
 
-
-		void AddGameObject(CGameObj* _GameObj);
+		void AddGameObject(CGameObj* _GameObj, eLayerType _Type);
 		const std::vector<CGameObj*>& GetGameObjects() { return mGameObjs; }
+		std::vector<CGameObj*> GetDontDestroyObjects();
 
 
 	private:
@@ -25,4 +26,5 @@ namespace dru
 	};
 
 	typedef const std::vector<CGameObj*>& GameObjects;
+	typedef std::vector<CGameObj*>::iterator GameObjectIter;
 }

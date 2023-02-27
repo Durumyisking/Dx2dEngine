@@ -14,6 +14,9 @@ namespace dru
         virtual void update() override;
         virtual void fixedupdate() override;
         virtual void render() override;
+
+    private:
+        CCamera* mCameraObject;
     };
 
 }

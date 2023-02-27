@@ -11,8 +11,8 @@ namespace dru::object
 	{
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
-		CLayer& layer = scene->GetLayer();
-		layer.AddGameObject(gameObj);
+		CLayer& layer = scene->GetLayer(_LayerType);
+		layer.AddGameObject(gameObj, _LayerType);
 
 		return gameObj;
 	}
@@ -23,7 +23,7 @@ namespace dru::object
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer(_LayerType);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(gameObj, _LayerType);
 
 		gameObj->SetName(_Name);
 
@@ -36,7 +36,7 @@ namespace dru::object
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer();
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(gameObj, _LayerType);
 
 		CTransform* tr = gameObj->GetComponent<CTransform*>();
 		tr->SetParent(_Parent);
@@ -50,7 +50,7 @@ namespace dru::object
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer();
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(gameObj, _LayerType);
 
 		CTransform* tr = gameObj->GetComponent<CTransform*>();
 		tr->SetPosition(_Pos);
@@ -65,7 +65,7 @@ namespace dru::object
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer();
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(gameObj, _LayerType);
 
 		CTransform* tr = gameObj->GetComponent<CTransform*>();
 		tr->SetPosition(_Pos);
@@ -74,5 +74,15 @@ namespace dru::object
 		tr->SetParent(_Parent);
 
 		return gameObj;
+	}
+
+
+
+	void DontDestroyOnLoad(CGameObj* _Gameobj)
+	{
+		if (_Gameobj == nullptr)
+			return;
+
+		_Gameobj->DontDestroy();
 	}
 }

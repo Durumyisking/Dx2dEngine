@@ -9,7 +9,7 @@ float4 main(VTX_OUT _in) : SV_Target
     //    return float4(1.f, 1.f, 0.f, 1.f);
     //}
      
-    color = defaultTexture.Sample(pointSampler, _in.vUV);
+    color = defaultTexture.Sample(anisotropicSampler, _in.vUV);
     
     return color;
 }

@@ -22,9 +22,11 @@ namespace dru
 		static void update();
 		static void fixedupdate();
 		static void render();
+		static void destory();
 		static void release();
+		static void LoadScene(eSceneType _Type);
 
-//		CScene* GetActiveScene() const { return mActiveScene; }
+		static void DontDestroyOnLoad(CGameObj* _GameObj);
 
 
 	public:

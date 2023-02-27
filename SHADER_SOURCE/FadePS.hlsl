@@ -7,7 +7,7 @@ float4 main(VTX_OUT _in) : SV_TARGET
     float4 color = { 0.f, 0.f, 0.f, 1.f };
    
     if(cb16_bTextureType == 1)
-        color = defaultTexture.Sample(pointSampler, _in.vUV);
+        color = defaultTexture.Sample(anisotropicSampler, _in.vUV);
     
 //    float alpha = color.w;
     float alpha;

@@ -7,6 +7,7 @@
 #include "SceneMgr.h"
 #include "Material.h"
 #include "BaseRenderer.h"
+#include "TimeMgr.h"
 
 extern dru::CApplication application;
 
@@ -24,8 +25,12 @@ namespace dru
 		, mScale(1.f)
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
+		, mTargetObj(nullptr)
+		, mCamSpeed(1.f)
+		, mCamDir(Vector3::Zero)
 	{
 		EnableLayerMasks();
+
 	}
 
 	CCamera::~CCamera()
@@ -34,11 +39,12 @@ namespace dru
 
 	void CCamera::Initialize()
 	{
+		mLookAt = GetOwner()->GetPos();
 	}
 
 	void CCamera::update()
 	{
-
+		//mPrevLookAt = mLookAt;
 	}
 
 	void CCamera::fixedupdate()
@@ -108,7 +114,7 @@ namespace dru
 	}
 
 	void CCamera::RegisterCameraInRenderer()
-	{
+	{	
 		renderer::Cameras.push_back(this);
 	}
 
@@ -117,6 +123,15 @@ namespace dru
 		mLayerMask.set((UINT)_layer, _enable);
 	}
 
+	void CCamera::SetTarget(CGameObj* _Target)
+	{
+		mTargetObj = _Target;
+
+		Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
+		Dir.z = GetOwner()->GetPos().z;
+
+		(Dir).Normalize(mCamDir);
+	}
 
 	void CCamera::sortGameObjects()
 	{

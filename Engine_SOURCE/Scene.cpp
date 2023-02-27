@@ -42,12 +42,41 @@ namespace dru
 		{
 			layer.render();
 		}
+	}
 
+	void CScene::destroy()
+	{
+		for (CLayer& layer : mLayers)
+		{
+			layer.destroy();
+		}
+	}
+
+	void CScene::Enter()
+	{
+	}
+
+	void CScene::Exit()
+	{
 	}
 
 	void CScene::AddGameObject(CGameObj* _GameObj, eLayerType _eLayer)
 	{
-		mLayers[static_cast<UINT>(_eLayer)].AddGameObject(_GameObj);
+		mLayers[static_cast<UINT>(_eLayer)].AddGameObject(_GameObj, _eLayer);
+	}
+
+	std::vector<CGameObj*> CScene::GetDontDestroyObjects()
+	{
+		std::vector<CGameObj*> allLayerDontDestroyObjs;
+		for (CLayer& layer : mLayers)
+		{
+			std::vector<CGameObj*> dontDestroyObjs = layer.GetDontDestroyObjects();
+
+			allLayerDontDestroyObjs.insert(allLayerDontDestroyObjs.end(), dontDestroyObjs.begin(), dontDestroyObjs.end());
+
+		}
+
+		return allLayerDontDestroyObjs;
 	}
 
 }

@@ -258,6 +258,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
 		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
 		CResources::Load<CTexture>(L"Title", L"TitleScene/bgTitle.png");
+		CResources::Load<CTexture>(L"Chain", L"TitleScene/bgChain.png");
+		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 	}
 
 

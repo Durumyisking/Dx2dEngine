@@ -19,10 +19,13 @@ namespace dru
 		virtual void render();
 
 
-	private:
-		CGameObj*	mbgBlack;
-		CGameObj*	mbgSteel;
-		CGameObj*	mUI;
+		CGameObj*	mCamera;
+
+		CBackground* mbgBlack;
+		CBackground* mbgSteel;
+		CBackground* mbgChain;
+		CBackground* mbgGrass;
+
 	};
 
 }
