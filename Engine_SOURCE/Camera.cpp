@@ -25,30 +25,35 @@ namespace dru
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
 		, mTargetObj(nullptr)
-		, mCamSpeed(0.5f)
+		, mCamSpeed(1.f)
 		, mCamDir(Vector3::Zero)
 		, mFarDist(0.f)
-		, mTime(1.f)
-		, mAccTime(0.f)
+		, mTime(0.3f)
+		, mSmooth(false)
 	{
 		EnableLayerMasks();
 	}
 	CCamera::~CCamera()
 	{
 	}
-
 	void CCamera::Initialize()
 	{
+		
 	}
 
 	void CCamera::update()
 	{
 		if (mTargetObj)
 		{
-			Vector2 v2Start = Vector2(GetOwner()->GetPos().x - GetOwner()->GetPos().y);
-			Vector2 v2Dest = Vector2(mTargetObj->GetPos().x - mTargetObj->GetPos().y);
+
+			Vector2 v2Start = Vector2(GetOwner()->GetPos().x,  GetOwner()->GetPos().y);
+			Vector2 v2Dest = Vector2(mTargetObj->GetPos().x,  mTargetObj->GetPos().y);
 
 			mFarDist = (v2Start - v2Dest).Length();
+
+			if(mSmooth)
+				mCamSpeed = mFarDist / mTime;
+
 
 			Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
 			Dir.z = GetOwner()->GetPos().z;

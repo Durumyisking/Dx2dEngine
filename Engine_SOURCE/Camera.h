@@ -44,6 +44,8 @@ namespace dru
 		void SetTarget(CGameObj* _Target);
 		CGameObj* GetTarget() const { return mTargetObj; }
 
+		void SmoothOn() { mSmooth = true; }
+		void SmoothOff() { mSmooth = false; }
 
 	private:
 		void sortGameObjects();
@@ -79,7 +81,8 @@ namespace dru
 
 		float		mCamSpeed;
 		float		mTime;
-		float		mAccTime;
+
+		bool		mSmooth;
 	};
 
 

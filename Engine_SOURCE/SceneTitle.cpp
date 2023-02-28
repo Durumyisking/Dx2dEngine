@@ -28,8 +28,8 @@ namespace dru
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
+			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-
 			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 		{
@@ -82,6 +82,19 @@ namespace dru
 			}
 
 			{
+				// 배경 TitleKatana
+				mbgTitle = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleKatana");
+				CSpriteRenderer* SpriteRenderer = mbgTitle->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"TitleKatana", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"TitleKatana", SpriteMaterial);
+				SpriteRenderer->SetMaterial(SpriteMaterial);
+
+				mbgTitle->SetPos(Vector3(0.f, -0.3f, 0.80f));
+				mbgTitle->SetScale(Vector3(0.3f, 0.3f, 1.f));
+			}
+
+			{
 				// 배경 Chain
 				mbgChain = object::Instantiate<CBackground>(eLayerType::BackGround, L"Fence");
 				CSpriteRenderer* SpriteRenderer = mbgChain->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
@@ -105,20 +118,7 @@ namespace dru
 				mbgGrass->SetScale(Vector3(0.15f, 0.15f, 1.f));
 			}
 
-			{
-				// 배경 TitleKatana
-				mbgTitle = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleKatana");
-				CSpriteRenderer* SpriteRenderer = mbgTitle->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"TitleKatana", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"TitleKatana", SpriteMaterial);
-				SpriteRenderer->SetMaterial(SpriteMaterial);
-
-				object::DontDestroyOnLoad(mbgTitle);
-//				mbgTitle->DontDestroy();
-				mbgTitle->SetPos(Vector3(0.f, 0.1f, 0.69f));
-				mbgTitle->SetScale(Vector3(0.5f, 0.5f, 1.f));
-			}
 
 
 			{

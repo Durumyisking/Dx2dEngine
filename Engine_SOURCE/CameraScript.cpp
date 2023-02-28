@@ -29,7 +29,6 @@ namespace dru
 		float	speed = mCameraObject->mCamSpeed;
 		float	camStep = 0.f;
 
-		mCameraObject->mAccTime += CTimeMgr::DeltaTime();
 
 		camStep = speed * CTimeMgr::DeltaTime();
 
