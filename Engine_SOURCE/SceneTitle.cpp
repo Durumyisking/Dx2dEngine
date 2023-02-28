@@ -101,24 +101,27 @@ namespace dru
 				mbgGrass->SetScale(Vector3(0.15f, 0.15f, 1.f));
 			}
 
+
+			{
+				mCamTarget = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene");
+				mCamTarget->SetPos(Vector3(0.f, -0.4f, 1.f));
+				mCamTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
+			}
+
 		}
 
-		mCamera->GetComponent<CCamera>()->SetTarget(mbgSteel);
+		mCamera->GetComponent<CCamera>()->SetTarget(mCamTarget);
 		
 		CScene::Initialize();
 	}
 
 	void CSceneTitle::update()
 	{
-
 		CScene::update();
 	}
 
 	void CSceneTitle::fixedupdate()
 	{
-		//Vector3 pos = mCamera->GetPos();
-		//pos.y -= 1.f * CTimeMgr::DeltaTime();
-		//mCamera->SetPos(pos);
 		CScene::fixedupdate();
 	}
 

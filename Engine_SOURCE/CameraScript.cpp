@@ -28,6 +28,8 @@ namespace dru
 		CGameObj* target = mCameraObject->mTargetObj;
 		float	speed = mCameraObject->mCamSpeed;
 
+		mCameraObject->mAccTime += CTimeMgr::DeltaTime();
+
 		// Target Move
 		if (target)
 		{
@@ -57,6 +59,17 @@ namespace dru
 		{
 			LookAt += 3.f * transform->Right() * CTimeMgr::DeltaTime();
 		}
+
+
+		if (mCameraObject->mTime <= mCameraObject->mAccTime) // 정해진 캠 이동 시간이 초과하면
+		{
+			LookAt.x = mCameraObject->mTargetObj->GetPos().x;
+			LookAt.y = mCameraObject->mTargetObj->GetPos().y;
+
+			mCameraObject->mAccTime = 0.f;
+		}
+
+
 
 		transform->SetPosition(LookAt);
 	}

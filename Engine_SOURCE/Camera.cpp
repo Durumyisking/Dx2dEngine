@@ -28,6 +28,8 @@ namespace dru
 		, mTargetObj(nullptr)
 		, mCamSpeed(1.f)
 		, mCamDir(Vector3::Zero)
+		, mTime(1.f)
+		, mAccTime(0.f)
 	{
 		EnableLayerMasks();
 
@@ -44,7 +46,11 @@ namespace dru
 
 	void CCamera::update()
 	{
-		//mPrevLookAt = mLookAt;
+		mPrevLookAt = mLookAt;
+		Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
+		Dir.z = GetOwner()->GetPos().z;
+
+		(Dir).Normalize(mCamDir);
 	}
 
 	void CCamera::fixedupdate()

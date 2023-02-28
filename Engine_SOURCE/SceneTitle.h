@@ -20,6 +20,7 @@ namespace dru
 
 
 		CGameObj*	mCamera;
+		CGameObj*	mCamTarget;
 
 		CBackground* mbgBlack;
 		CBackground* mbgSteel;

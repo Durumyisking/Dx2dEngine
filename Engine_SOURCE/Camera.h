@@ -74,6 +74,7 @@ namespace dru
 		Vector3		mLookAt;
 		Vector3		mPrevLookAt;
 		Vector3		mCamDir;
+
 		float		mCamSpeed;
 		float		mTime;
 		float		mAccTime;
