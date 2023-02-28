@@ -4,7 +4,6 @@
 #include "Application.h"
 #include "Renderer.h"
 #include "Scene.h"
-#include "SceneMgr.h"
 #include "Material.h"
 #include "BaseRenderer.h"
 #include "TimeMgr.h"
@@ -26,34 +25,38 @@ namespace dru
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
 		, mTargetObj(nullptr)
-		, mCamSpeed(1.f)
+		, mCamSpeed(0.5f)
 		, mCamDir(Vector3::Zero)
+		, mFarDist(0.f)
 		, mTime(1.f)
 		, mAccTime(0.f)
 	{
 		EnableLayerMasks();
-
 	}
-
 	CCamera::~CCamera()
 	{
 	}
 
 	void CCamera::Initialize()
 	{
-		mLookAt = GetOwner()->GetPos();
 	}
 
 	void CCamera::update()
 	{
-		mPrevLookAt = mLookAt;
-		Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
-		Dir.z = GetOwner()->GetPos().z;
+		if (mTargetObj)
+		{
+			Vector2 v2Start = Vector2(GetOwner()->GetPos().x - GetOwner()->GetPos().y);
+			Vector2 v2Dest = Vector2(mTargetObj->GetPos().x - mTargetObj->GetPos().y);
 
-		(Dir).Normalize(mCamDir);
+			mFarDist = (v2Start - v2Dest).Length();
+
+			Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
+			Dir.z = GetOwner()->GetPos().z;
+			(Dir).Normalize(mCamDir);
+		}
 	}
 
-	void CCamera::fixedupdate()
+	void CCamera::fixedUpdate()
 	{
 		CreateViewMatrix();
 		CreateProjectionMatrix();
@@ -121,7 +124,8 @@ namespace dru
 
 	void CCamera::RegisterCameraInRenderer()
 	{	
-		renderer::Cameras.push_back(this);
+		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
+		renderer::Cameras[type].push_back(this);
 	}
 
 	void CCamera::TurnLayerMask(eLayerType _layer, bool _enable)

@@ -22,9 +22,9 @@ namespace dru
 		CGameObj::update();
 	}
 
-	void CBackground::fixedupdate()
+	void CBackground::fixedUpdate()
 	{
-		CGameObj::fixedupdate();
+		CGameObj::fixedUpdate();
 	}
 
 	void CBackground::render()

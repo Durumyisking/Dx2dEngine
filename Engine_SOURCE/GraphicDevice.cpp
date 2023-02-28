@@ -64,7 +64,7 @@ namespace dru::graphics
 			return;
 
 		// Get rendertarget for swapchain
-		//						0번 버퍼가 렌더타겟	도화지니까텍스처			목적지
+		//						0번 버퍼가 렌더타겟							렌더타겟 포인터
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mRenderTarget.GetAddressOf());
 
 		// Create Rendertarget View

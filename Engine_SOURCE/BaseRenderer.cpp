@@ -23,7 +23,7 @@ namespace dru
 	void CBaseRenderer::update()
 	{
 	}
-	void CBaseRenderer::fixedupdate()
+	void CBaseRenderer::fixedUpdate()
 	{
 		if (mChanged)
 		{

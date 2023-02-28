@@ -56,7 +56,7 @@ namespace dru
 		}
 	}
 
-	void CFadeScript::fixedupdate()
+	void CFadeScript::fixedUpdate()
 	{
 	}
 

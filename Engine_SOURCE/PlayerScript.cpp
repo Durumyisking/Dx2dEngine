@@ -46,7 +46,7 @@ namespace dru
 		transform->SetPosition(pos);
 	}
 
-	void CPlayerScript::fixedupdate()
+	void CPlayerScript::fixedUpdate()
 	{
 	}
 

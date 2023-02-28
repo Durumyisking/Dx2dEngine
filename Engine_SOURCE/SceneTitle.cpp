@@ -5,6 +5,7 @@
 #include "FadeScript.h"
 #include "Object.h"
 #include "Camera.h"
+#include "Input.h"
 
 namespace dru
 {
@@ -21,12 +22,15 @@ namespace dru
 	{
 
 		{
+			mDeleteObj = true;
+
 			// main 카메라
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-			renderer::Cameras.push_back(cameraComp);
+
+			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 		{
 			//// ui 카메라
@@ -79,11 +83,11 @@ namespace dru
 
 			{
 				// 배경 Chain
-				mbgChain = object::Instantiate<CBackground>(eLayerType::BackGround, L"Chain");
+				mbgChain = object::Instantiate<CBackground>(eLayerType::BackGround, L"Fence");
 				CSpriteRenderer* SpriteRenderer = mbgChain->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Chain", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Chain", SpriteMaterial);
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"Fence", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Fence", SpriteMaterial);
 				SpriteRenderer->SetMaterial(SpriteMaterial); 
 				mbgChain->SetPos(Vector3(0.f, 0.1f, 0.7f));
 				mbgChain->SetScale(Vector3(1.28f, 1.28f, 1.f));
@@ -99,6 +103,21 @@ namespace dru
 				SpriteRenderer->SetMaterial(SpriteMaterial);
 				mbgGrass->SetPos(Vector3(0.f, -0.85f, 0.69f));
 				mbgGrass->SetScale(Vector3(0.15f, 0.15f, 1.f));
+			}
+
+			{
+				// 배경 TitleKatana
+				mbgTitle = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleKatana");
+				CSpriteRenderer* SpriteRenderer = mbgTitle->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> SpriteMaterial = std::make_shared<CMaterial>(L"TitleKatana", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"TitleKatana", SpriteMaterial);
+				SpriteRenderer->SetMaterial(SpriteMaterial);
+
+				object::DontDestroyOnLoad(mbgTitle);
+//				mbgTitle->DontDestroy();
+				mbgTitle->SetPos(Vector3(0.f, 0.1f, 0.69f));
+				mbgTitle->SetScale(Vector3(0.5f, 0.5f, 1.f));
 			}
 
 
@@ -117,17 +136,32 @@ namespace dru
 
 	void CSceneTitle::update()
 	{
+		if (CInput::GetKeyDown(eKeyCode::N))
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+		}
+
 		CScene::update();
 	}
 
-	void CSceneTitle::fixedupdate()
+	void CSceneTitle::fixedUpdate()
 	{
-		CScene::fixedupdate();
+		CScene::fixedUpdate();
 	}
 
 	void CSceneTitle::render()
 	{
 		CScene::render();
+	}
+
+	void CSceneTitle::Enter()
+	{
+		CScene::Enter();
+	}
+
+	void CSceneTitle::Exit()
+	{
+		CScene::Exit();
 	}
 
 

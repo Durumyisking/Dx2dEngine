@@ -20,7 +20,7 @@ namespace dru
 	{
 	}
 
-	void CScript::fixedupdate()
+	void CScript::fixedUpdate()
 	{
 	}
 

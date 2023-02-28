@@ -22,9 +22,9 @@ namespace dru
 	{
 	}
 
-	void CMeshRenderer::fixedupdate()
+	void CMeshRenderer::fixedUpdate()
 	{
-		CBaseRenderer::fixedupdate();
+		CBaseRenderer::fixedUpdate();
 	}
 
 	void CMeshRenderer::render()

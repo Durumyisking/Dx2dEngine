@@ -4,6 +4,7 @@
 namespace dru
 {
 	CScene::CScene()
+		: mDeleteObj(false)
 	{
 		mLayers.resize((UINT)eLayerType::End);
 	}
@@ -27,11 +28,11 @@ namespace dru
 		}
 	}
 
-	void CScene::fixedupdate()
+	void CScene::fixedUpdate()
 	{
 		for (CLayer& layer : mLayers)
 		{
-			layer.fixedupdate();
+			layer.fixedUpdate();
 		}
 
 	}
@@ -54,10 +55,21 @@ namespace dru
 
 	void CScene::Enter()
 	{
+		Initialize();
 	}
 
 	void CScene::Exit()
 	{
+		if (mDeleteObj)
+		{
+			for (CLayer& layer : mLayers)
+			{
+				layer.DeleteObject();
+			}
+			mDeleteObj = false;
+		}
+
+		destroy();
 	}
 
 	void CScene::AddGameObject(CGameObj* _GameObj, eLayerType _eLayer)

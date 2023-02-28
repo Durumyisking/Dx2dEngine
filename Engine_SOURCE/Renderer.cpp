@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "Resources.h"
 #include "Material.h"
+#include "SceneMgr.h"
+#include "Scene.h"
 
 namespace dru::renderer
 {
@@ -12,7 +14,7 @@ namespace dru::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)graphics::eDepthStencilType::End];
 	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
 
-	std::vector<CCamera*> Cameras;
+	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
 
 	void SetUpState()
 	{
@@ -257,8 +259,9 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"default", L"default.png");
 		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
 		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
-		CResources::Load<CTexture>(L"Title", L"TitleScene/bgTitle.png");
-		CResources::Load<CTexture>(L"Chain", L"TitleScene/bgChain.png");
+		CResources::Load<CTexture>(L"TitleKatana", L"TitleScene/bgTitleKatana.png");
+		CResources::Load<CTexture>(L"TitleZer", L"TitleScene/bgTitleZer.png");
+		CResources::Load<CTexture>(L"Fence", L"TitleScene/bgFence.png");
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 	}
 
@@ -348,12 +351,14 @@ namespace dru::renderer
 
 	void Render()
 	{
-		for (CCamera* cam : Cameras)
+		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
+
+		for (CCamera* cam : Cameras[type])
 		{
 			if (nullptr == cam)
 				continue;
 			cam->render();
 		}
-		Cameras.clear();
+		Cameras[type].clear();
 	}
 }

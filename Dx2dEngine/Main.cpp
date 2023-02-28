@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Dx2dEngine.h"
 #include "Application.h"
+#include "Editor.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/lib/Engine_SOURCE.lib")
@@ -18,7 +19,8 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
-dru::CApplication application;
+dru::CApplication   application;
+dru::CEditor        editor;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -68,7 +70,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             application.Run();
-            
+            editor.Run();
+            application.Present();
         }
     }
     return (int)msg.wParam;
@@ -126,6 +129,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    
    application.SetWindow(hWnd, 1600, 900);
    application.Initialize();
+   editor.Initialize();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 

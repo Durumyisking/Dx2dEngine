@@ -26,9 +26,9 @@ namespace dru
 		mActiveScene->update();
 	}
 
-	void CSceneMgr::fixedupdate()
+	void CSceneMgr::fixedUpdate()
 	{
-		mActiveScene->fixedupdate();
+		mActiveScene->fixedUpdate();
 	}
 
 	void CSceneMgr::render()

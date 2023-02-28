@@ -28,7 +28,7 @@ namespace dru
 		// 실제 로직 게임 obj 이동처리
 	}
 
-	void CTransform::fixedupdate()
+	void CTransform::fixedUpdate()
 	{
 		// 월드 행렬 세팅
 		SetWorldMatrix();

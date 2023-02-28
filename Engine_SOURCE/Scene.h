@@ -25,7 +25,7 @@ namespace dru
 
 		virtual void Initialize();
 		virtual void update();
-		virtual void fixedupdate();
+		virtual void fixedUpdate();
 		virtual void render();
 		virtual void destroy();
 
@@ -36,17 +36,19 @@ namespace dru
 		void AddGameObject(CGameObj* _GameObj, const eLayerType _eLayer);
 
 		void SetType(CSceneMgr::eSceneType _eType) { mType = _eType; }
+		CSceneMgr::eSceneType GetType() const { return mType; }
 
 		CLayer& GetLayer(eLayerType _Type)  { return mLayers[(UINT)_Type]; }
 
 		std::vector<CGameObj*> GetDontDestroyObjects();
 
-	private:
+	protected :
 		std::vector<CLayer> mLayers;
 		CSceneMgr::eSceneType mType;
 
 		std::vector<CGameObj*> mDeadObjects;
 
+		bool mDeleteObj;
 
 	};
 

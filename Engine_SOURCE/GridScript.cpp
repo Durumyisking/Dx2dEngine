@@ -3,7 +3,8 @@
 #include "GameObj.h"
 #include "ConstantBuffer.h"
 #include "Renderer.h"
-
+#include "SceneMgr.h"
+#include "Scene.h"
 
 extern dru::CApplication application;
 
@@ -22,7 +23,9 @@ namespace dru
 
 	void CGridScript::Initialize()
 	{
-		mCamera = renderer::Cameras[0];
+		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
+
+		mCamera = renderer::Cameras[type][0];
 	}
 
 	void CGridScript::update()
@@ -57,7 +60,7 @@ namespace dru
 		cb->SetPipeline(eShaderStage::PS);
 	}
 
-	void CGridScript::fixedupdate()
+	void CGridScript::fixedUpdate()
 	{
 	}
 

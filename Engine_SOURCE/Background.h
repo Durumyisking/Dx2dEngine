@@ -11,7 +11,7 @@ namespace dru
 
 		virtual void Initialize();
 		virtual void update();
-		virtual void fixedupdate();
+		virtual void fixedUpdate();
 		virtual void render();
 
     };

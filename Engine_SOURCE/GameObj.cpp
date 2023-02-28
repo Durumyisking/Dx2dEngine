@@ -53,20 +53,20 @@ namespace dru
 		}
 	}
 
-	void CGameObj::fixedupdate()
+	void CGameObj::fixedUpdate()
 	{
 		for (CComponent* comp : mComponents)
 		{
 			if (nullptr == comp)
 				continue;
-			comp->fixedupdate();
+			comp->fixedUpdate();
 		}
 
 		for (CComponent* script : mScripts)
 		{
 			if (nullptr == script)
 				continue;
-			script->fixedupdate();
+			script->fixedUpdate();
 		}
 	}
 

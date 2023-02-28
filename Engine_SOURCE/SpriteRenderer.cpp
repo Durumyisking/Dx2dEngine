@@ -23,9 +23,9 @@ namespace dru
 		CBaseRenderer::update();
 	}
 
-	void CSpriteRenderer::fixedupdate()
+	void CSpriteRenderer::fixedUpdate()
 	{
-		CBaseRenderer::fixedupdate();
+		CBaseRenderer::fixedUpdate();
 	}
 
 	void CSpriteRenderer::render()

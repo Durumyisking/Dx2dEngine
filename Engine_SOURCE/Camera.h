@@ -4,6 +4,8 @@
 namespace dru
 {
 	using namespace math;
+
+
 	class CCamera : public CComponent
 	{
 		friend class CCameraScript;
@@ -23,7 +25,7 @@ namespace dru
 
 		virtual void Initialize() override;
 		virtual void update() override;
-		virtual void fixedupdate() override;
+		virtual void fixedUpdate() override;
 		virtual void render() override;
 
 		void CreateViewMatrix();
@@ -71,9 +73,9 @@ namespace dru
 
 
 		CGameObj*	mTargetObj;
-		Vector3		mLookAt;
-		Vector3		mPrevLookAt;
 		Vector3		mCamDir;
+
+		float		mFarDist;
 
 		float		mCamSpeed;
 		float		mTime;

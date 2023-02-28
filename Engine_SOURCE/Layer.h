@@ -11,9 +11,11 @@ namespace dru
 
 		virtual void Initialize();
 		virtual void update();
-		virtual void fixedupdate();
+		virtual void fixedUpdate();
 		virtual void render();
 		virtual void destroy();
+		void DeleteObject ();
+
 
 		void AddGameObject(CGameObj* _GameObj, eLayerType _Type);
 		const std::vector<CGameObj*>& GetGameObjects() { return mGameObjs; }

@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "Layer.h"
-#include "SceneMgr.h"
 #include "Transform.h"
 
 namespace dru::object
@@ -12,6 +11,16 @@ namespace dru::object
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer(_LayerType);
+		layer.AddGameObject(gameObj, _LayerType);
+
+		return gameObj;
+	}
+
+	template <typename T>
+	static T* Instantiate(enums::eLayerType _LayerType, CScene* _Scene)
+	{
+		T* gameObj = new T();
+		CLayer& layer = _Scene->GetLayer(_LayerType);
 		layer.AddGameObject(gameObj, _LayerType);
 
 		return gameObj;
@@ -78,7 +87,7 @@ namespace dru::object
 
 
 
-	void DontDestroyOnLoad(CGameObj* _Gameobj)
+	static void DontDestroyOnLoad(CGameObj* _Gameobj)
 	{
 		if (_Gameobj == nullptr)
 			return;

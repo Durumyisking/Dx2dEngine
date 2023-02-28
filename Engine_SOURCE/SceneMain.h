@@ -12,8 +12,16 @@ namespace dru
 
 		virtual void Initialize();
 		virtual void update();
-		virtual void fixedupdate();
+		virtual void fixedUpdate();
 		virtual void render();
+
+		virtual void Enter();
+		virtual void Exit();
+
+
+	private:
+		CGameObj* mCamera;
+
 	};
 
 }

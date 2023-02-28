@@ -42,7 +42,7 @@ namespace dru
 		}
 	}
 
-	void CLayer::fixedupdate()
+	void CLayer::fixedUpdate()
 	{
 		for (CGameObj* Obj : mGameObjs)
 		{
@@ -50,7 +50,7 @@ namespace dru
 				continue;
 
 			if (CGameObj::eState::Active == Obj->GetState())
-				Obj->fixedupdate();
+				Obj->fixedUpdate();
 		}
 	}
 
@@ -79,7 +79,7 @@ namespace dru
 
 			if (deleteIter != DeadObjs.end())
 			{
-				mGameObjs.erase(iter);
+				iter = mGameObjs.erase(iter);
 			}
 			else
 			{
@@ -93,6 +93,15 @@ namespace dru
 			Obj = nullptr;
 		}
 
+	}
+
+	void CLayer::DeleteObject()
+	{
+		for (CGameObj* Obj : mGameObjs)
+		{
+			if (!Obj->IsDontDestroy())
+				Obj->Die();
+		}
 	}
 
 	void CLayer::AddGameObject(CGameObj* _GameObj, eLayerType _Type)
@@ -116,7 +125,7 @@ namespace dru
 			if ((*iter)->IsDontDestroy())
 			{
 				donts.push_back((*iter));
-				mGameObjs.erase(iter);
+				iter = mGameObjs.erase(iter);
 			}
 			else
 			{

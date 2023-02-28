@@ -31,9 +31,9 @@ namespace dru
 		CInput::update();
 		CSceneMgr::update();
 	}
-	void CApplication::fixedupdate()
+	void CApplication::fixedUpdate()
 	{
-		CSceneMgr::fixedupdate();
+		CSceneMgr::fixedUpdate();
 	}
 	void CApplication::render()
 	{
@@ -45,7 +45,6 @@ namespace dru
 //		CSceneMgr::render();
 		renderer::Render();
 
-		graphicDevice->Present();
 	}
 
 	void CApplication::destroy()
@@ -56,10 +55,17 @@ namespace dru
 	void CApplication::Run()
 	{
 		update();
-		fixedupdate();
+		fixedUpdate();
 		render();
 		destroy();
 	}
+
+	void CApplication::Present()
+	{
+		graphicDevice->Present();
+	}
+
+
 
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{
