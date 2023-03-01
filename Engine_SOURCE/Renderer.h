@@ -55,6 +55,10 @@ namespace dru::renderer
 		int		bTextureType;
 	};
 
+	CBUFFER(ColorCB, CBSLOT_FADE)
+	{
+		Vector4 RGBA;
+	};
 
 	// vertex data
 	extern Vertex	arrVertex[4];

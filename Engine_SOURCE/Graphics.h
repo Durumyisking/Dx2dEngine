@@ -113,6 +113,7 @@ namespace dru::graphics
 		Material,
 		Grid,
 		Fade,
+		Color,
 		End,
 	};
 

@@ -54,6 +54,8 @@ namespace dru
 			if(mSmooth)
 				mCamSpeed = mFarDist / mTime;
 
+			if (mFarDist < 0.001f)
+				mCamSpeed = 1;
 
 			Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
 			Dir.z = GetOwner()->GetPos().z;

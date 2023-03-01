@@ -48,6 +48,11 @@ cbuffer Fade : register(b3)
     int   cb16_bTextureType;
 }
 
+cbuffer Color : register(b4)
+{
+    float4 RGBA;
+}
+
 Texture2D defaultTexture : register(t0);
 
 SamplerState pointSampler : register(s0);

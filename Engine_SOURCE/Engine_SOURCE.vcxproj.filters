@@ -113,6 +113,9 @@
     <Filter Include="Common\Component\Collider\3D">
       <UniqueIdentifier>{55f5b957-e6f1-49dc-a59c-a66be9489b0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\BackGround\Color">
+      <UniqueIdentifier>{ca1a2022-5f7e-4372-9397-7381c3f723b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -241,6 +244,9 @@
     <ClInclude Include="Collider3D.h">
       <Filter>Common\Component\Collider\3D</Filter>
     </ClInclude>
+    <ClInclude Include="BackgroundColor.h">
+      <Filter>GameObj\BackGround\Color</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -353,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="Collider3D.cpp">
       <Filter>Common\Component\Collider\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundColor.cpp">
+      <Filter>GameObj\BackGround\Color</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

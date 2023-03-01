@@ -81,6 +81,13 @@ namespace dru::renderer
 			, Fadeshader->GetVSBlobBufferSize()
 			, Fadeshader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> Colorshader = CResources::Find<CShader>(L"ColorShader");
+
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, Colorshader->GetVSBlobBufferPointer()
+			, Colorshader->GetVSBlobBufferSize()
+			, Colorshader->GetInputLayoutAddr());
+
 
 
 #pragma endregion
@@ -217,6 +224,9 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Fade)] = new CConstantBuffer(eCBType::Fade);
 		constantBuffers[static_cast<UINT>(eCBType::Fade)]->Create(sizeof(FadeCB));
 
+		constantBuffers[static_cast<UINT>(eCBType::Color)] = new CConstantBuffer(eCBType::Color);
+		constantBuffers[static_cast<UINT>(eCBType::Color)]->Create(sizeof(ColorCB));
+
 	}
 
 	void LoadShader()
@@ -234,7 +244,7 @@ namespace dru::renderer
 
 
 		std::shared_ptr<CShader> UIShader = std::make_shared<CShader>();
-		UIShader->Create(graphics::eShaderStage::VS, L"UIVS.hlsl", "main");
+		UIShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		UIShader->Create(graphics::eShaderStage::PS, L"UIPS.hlsl", "main");
 		CResources::Insert<CShader>(L"UIShader", UIShader);
 
@@ -248,9 +258,14 @@ namespace dru::renderer
 		CResources::Insert<CShader>(L"GridShader", GridShader);
 
 		std::shared_ptr<CShader> FadeShader = std::make_shared<CShader>();
-		FadeShader->Create(graphics::eShaderStage::VS, L"FadeVS.hlsl", "main");
+		FadeShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		FadeShader->Create(graphics::eShaderStage::PS, L"FadePS.hlsl", "main");
 		CResources::Insert<CShader>(L"FadeShader", FadeShader);
+
+		std::shared_ptr<CShader> ColorShader = std::make_shared<CShader>();
+		ColorShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		ColorShader->Create(graphics::eShaderStage::PS, L"ColorPS.hlsl", "main");
+		CResources::Insert<CShader>(L"ColorShader", ColorShader);
 
 	}
 
@@ -260,7 +275,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
 		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
 		CResources::Load<CTexture>(L"TitleKatana", L"TitleScene/bgTitleKatana.png");
-		CResources::Load<CTexture>(L"TitleZer", L"TitleScene/bgTitleZer.png");
+		CResources::Load<CTexture>(L"TitleZer_1", L"TitleScene/bgTitleZer_1.png");
+		CResources::Load<CTexture>(L"TitleO_1", L"TitleScene/bgTitleO_1.png");
 		CResources::Load<CTexture>(L"Fence", L"TitleScene/bgFence.png");
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 	}
@@ -308,7 +324,13 @@ namespace dru::renderer
 		FadeMaterial->SetTexture(Fadetexture);
 		CResources::Insert<CMaterial>(L"FadeMaterial", FadeMaterial);
 
-
+		std::shared_ptr<CTexture> Colortexture = CResources::Find<CTexture>(L"Black");
+		std::shared_ptr<CShader> ColorShader = CResources::Find<CShader>(L"ColorShader");
+		std::shared_ptr<CMaterial> ColorMaterial = std::make_shared<CMaterial>();
+		ColorMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		ColorMaterial->SetShader(ColorShader);
+		ColorMaterial->SetTexture(Colortexture);
+		CResources::Insert<CMaterial>(L"ColorMaterial", ColorMaterial);
 
 	}
 

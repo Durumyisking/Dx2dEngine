@@ -4,8 +4,6 @@
 namespace dru
 {
 
-	class CBackground;
-
     class CSceneTitle :
         public CScene
     {
@@ -24,14 +22,19 @@ namespace dru
 
 	private:
 		CGameObj*	mCamera;
+		CGameObj*	mUICamera;
+
 		CGameObj*	mCamTarget;
+
+		CBackgroundColor* mbgUIBlack;
 
 		CBackground* mbgBlack;
 		CBackground* mbgSteel;
 		CBackground* mbgChain;
 		CBackground* mbgGrass;
-		CBackground* mbgTitle;
-
+		CBackground* mbgKatana;
+		CBackground* mbgZer;
+		CBackground* mbgO;
 
 	};
 
