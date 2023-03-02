@@ -10,6 +10,7 @@
 namespace dru
 {
 	CSceneTitle::CSceneTitle()
+		: mCamMoveDone(false)
 	{
 	}
 
@@ -37,7 +38,6 @@ namespace dru
 			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
-			mUICamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 
@@ -145,17 +145,26 @@ namespace dru
 			}
 
 			{
-				//// 배경 UI
-
-				mbgUIBlack = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"Black");
-				CSpriteRenderer* SpriteRenderer = mbgUIBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				mbgUIBlack->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+				// 배경 UI
+				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"UITitleBg");
+				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				mUIBg->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"ColorMaterial");
 				SpriteRenderer->SetMaterial(Material);
-				mbgUIBlack->SetPos(Vector3(0.f, -1.35f, 0.5f));
-				mbgUIBlack->SetScale(Vector3(0.3f, 0.3f, 1.f));
+				mUIBg->SetPos(Vector3(0.f, -6.f, 0.5f));
+				mUIBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
 			}
 
+			{
+				// UIStart
+				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"UITitleStart");
+				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				mUIStart->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				SpriteRenderer->SetMaterial(Material);
+				mUIStart->SetPos(Vector3(0.f, -6.f, 0.5f));
+				mUIStart->SetScale(Vector3(0.3f, 0.1f, 1.f));
+			}
 
 
 			{
@@ -164,6 +173,11 @@ namespace dru
 				mCamTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 
+			{
+				mUITarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
+				mUITarget->SetPos(Vector3(0.f, -1.35f, 0.5f));
+				mUITarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
+			}
 		}
 
 		mCamera->GetComponent<CCamera>()->SetTarget(mCamTarget);
@@ -173,6 +187,31 @@ namespace dru
 
 	void CSceneTitle::update()
 	{
+		if (!mCamMoveDone && mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
+			mCamMoveDone = true;
+
+		if (mCamMoveDone)
+		{
+			Vector3 TargetPos = mUITarget->GetPos();
+			Vector3 UIPos = mUIBg->GetPos();
+
+			float Distance = (TargetPos- UIPos).Length();
+
+			if (Distance >= 0.001f)
+			{
+				float Speed = Distance / 0.3f;
+				float Step = Speed * CTimeMgr::DeltaTime();
+
+				if (Step < Distance)
+				{
+					UIPos += mUIBg->Up() * Step;
+
+					mUIBg->SetPos(UIPos);
+				}
+			}
+		}
+
+
 		if (CInput::GetKeyDown(eKeyCode::N))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);

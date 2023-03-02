@@ -149,15 +149,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DebugObject.h" />
     <ClInclude Include="Dx2dEngine.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="EditorObject.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Widget.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugObject.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx2dEngine.rc" />

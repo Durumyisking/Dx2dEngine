@@ -1,7 +1,8 @@
 #pragma once
-#include "../Editor_SOURCE/DebugObject.h"
-#include "../Editor_SOURCE/EditorObject.h"
-#include "../Editor_SOURCE/Widget.h"
+#include "DebugObject.h"
+#include "EditorObject.h"
+#include "Widget.h"
+#include "Graphics.h"
 
 namespace dru
 {
@@ -16,12 +17,12 @@ namespace dru
 		void render();
 		void destroy();
 
-		void debugRender();
+		void debugRender(graphics::DebugMesh& mesh);
 
 	private:
 		std::vector<CWidget> mWidgets;
 		std::vector<CEditorObject> mEditorObjects;
-		std::vector<CDebugObject> mDebugObjects;
+		std::vector<CDebugObject*> mDebugObjects;
 	};
 
 }

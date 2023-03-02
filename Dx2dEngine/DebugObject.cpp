@@ -1,5 +1,5 @@
 #include "DebugObject.h"
-
+#include "Component.h"
 
 namespace dru
 {
@@ -11,20 +11,14 @@ namespace dru
 	{
 	}
 
-	void CDebugObject::Initialize()
-	{
-	}
-
-	void CDebugObject::update()
-	{
-	}
-
 	void CDebugObject::fixedUpdate()
 	{
-	}
-
-	void CDebugObject::render()
-	{
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+			comp->fixedUpdate();
+		}
 	}
 
 }

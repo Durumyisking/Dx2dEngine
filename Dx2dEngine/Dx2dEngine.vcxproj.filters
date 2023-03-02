@@ -20,6 +20,15 @@
     <ClInclude Include="Editor.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="DebugObject.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorObject.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx2dEngine.rc">
@@ -39,6 +48,15 @@
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="Editor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugObject.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorObject.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,7 +7,9 @@
 namespace dru::renderer
 {
 	// vertex data
-	Vertex	arrVertex[4] = {};
+	Vertex	RectVertexes[4] = {};
+	std::vector<Vertex>	CircleVertexes;
+
 	CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)graphics::eSamplerType::End];
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[(UINT)graphics::eRasterizerType::End];
@@ -15,6 +17,91 @@ namespace dru::renderer
 	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
 
 	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
+
+	void LoadMesh()
+	{
+
+		#pragma region RectMesh
+
+		RectVertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.f); // 사각형의 lefttop
+		RectVertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
+		RectVertexes[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
+
+		RectVertexes[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.f);
+		RectVertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		RectVertexes[1].uv = Vector2(1.f, 0.f);
+
+		RectVertexes[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.f);
+		RectVertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		RectVertexes[2].uv = Vector2(1.f, 1.f);
+
+		RectVertexes[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.f);
+		RectVertexes[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
+		RectVertexes[3].uv = Vector2(0.f, 1.f);
+
+		std::shared_ptr<CMesh> Rectmesh = std::make_shared<CMesh>();
+		CResources::Insert<CMesh>(L"Rectmesh", Rectmesh);
+
+		std::vector<UINT> vecIdx;
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(1);
+		vecIdx.push_back(2);
+
+		vecIdx.push_back(0);
+		vecIdx.push_back(2);
+		vecIdx.push_back(3);
+
+		Rectmesh->CreateVertexBuffer(RectVertexes, 4);
+		Rectmesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
+
+		#pragma endregion
+
+		#pragma region CircleMesh
+
+		Vertex center = {};
+
+		center.pos = Vector4(0.f, 0.f, 0.f, 1.f);
+		center.color= Vector4(0.f, 1.f, 0.f, 1.f);
+		center.uv = Vector2::Zero;
+
+		CircleVertexes.push_back(center);
+
+		int slice = 40;
+		float radius = 0.5f;
+		float theta = XM_2PI / (float)slice;
+
+		for (int i = 0; i < slice; i++)
+		{
+			Vertex vtx = {};
+			vtx.pos = Vector4(theta * cosf(theta * (float)i)
+							, theta * sinf(theta * (float)i)
+							, 0.f, 0.f
+			);
+			vtx.color = center.color;
+
+			CircleVertexes.push_back(vtx);
+		}
+
+		vecIdx.clear();
+
+		for (int i = 1; i <= slice; i++) // center 정점 제외
+		{
+			vecIdx.push_back(i);
+		}
+		vecIdx.push_back(1);
+
+		std::shared_ptr<CMesh> Circlemesh = std::make_shared<CMesh>();
+		CResources::Insert<CMesh>(L"Circlemesh", Circlemesh);
+
+		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), vecIdx.size());
+		Circlemesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
+
+
+		#pragma endregion
+
+	}
+
 
 	void SetUpState()
 	{
@@ -45,7 +132,6 @@ namespace dru::renderer
 
 
 		std::shared_ptr<CShader> Meshshader = CResources::Find<CShader>(L"MeshShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, Meshshader->GetVSBlobBufferPointer()
 			, Meshshader->GetVSBlobBufferSize()
@@ -53,7 +139,6 @@ namespace dru::renderer
 
 
 		std::shared_ptr<CShader> Spriteshader = CResources::Find<CShader>(L"SpriteShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, Spriteshader->GetVSBlobBufferPointer()
 			, Spriteshader->GetVSBlobBufferSize()
@@ -61,32 +146,34 @@ namespace dru::renderer
 
 
 		std::shared_ptr<CShader> UIshader = CResources::Find<CShader>(L"UIShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, UIshader->GetVSBlobBufferPointer()
 			, UIshader->GetVSBlobBufferSize()
 			, UIshader->GetInputLayoutAddr());
 
 		std::shared_ptr<CShader> Gridshader = CResources::Find<CShader>(L"GridShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, Gridshader->GetVSBlobBufferPointer()
 			, Gridshader->GetVSBlobBufferSize()
 			, Gridshader->GetInputLayoutAddr());
 
 		std::shared_ptr<CShader> Fadeshader = CResources::Find<CShader>(L"FadeShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, Fadeshader->GetVSBlobBufferPointer()
 			, Fadeshader->GetVSBlobBufferSize()
 			, Fadeshader->GetInputLayoutAddr());
 
 		std::shared_ptr<CShader> Colorshader = CResources::Find<CShader>(L"ColorShader");
-
 		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
 			, Colorshader->GetVSBlobBufferPointer()
 			, Colorshader->GetVSBlobBufferSize()
 			, Colorshader->GetInputLayoutAddr());
+
+		std::shared_ptr<CShader> Debugshader = CResources::Find<CShader>(L"DebugShader");
+		graphics::GetDevice()->CreateInputLayout(arrLayout, 3
+			, Debugshader->GetVSBlobBufferPointer()
+			, Debugshader->GetVSBlobBufferSize()
+			, Debugshader->GetInputLayoutAddr());
 
 
 
@@ -193,25 +280,7 @@ namespace dru::renderer
 
 	void LoadBuffer()
 	{
-		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
-		CResources::Insert<CMesh>(L"Rectmesh", mesh);
-
-		mesh->CreateVertexBuffer(arrVertex, 4);
-
-		std::vector<UINT> vecIdx;
-
-		vecIdx.push_back(0);
-		vecIdx.push_back(1);
-		vecIdx.push_back(2);
-
-		vecIdx.push_back(0);
-		vecIdx.push_back(2);
-		vecIdx.push_back(3);
-
-		mesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
-
-		// Const Buffer
-	
+		// Const Buffer	
 		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer(eCBType::Transform);
 		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Create(sizeof(TransformCB));
 	
@@ -266,6 +335,15 @@ namespace dru::renderer
 		ColorShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		ColorShader->Create(graphics::eShaderStage::PS, L"ColorPS.hlsl", "main");
 		CResources::Insert<CShader>(L"ColorShader", ColorShader);
+
+		std::shared_ptr<CShader> DebugShader = std::make_shared<CShader>();
+		DebugShader->Create(graphics::eShaderStage::VS, L"DebugVS.hlsl", "main");
+		DebugShader->Create(graphics::eShaderStage::PS, L"DebugPS.hlsl", "main");
+		DebugShader->SetRSState(eRasterizerType::SolidNone);
+		DebugShader->SetDSState(eDepthStencilType::NoWrite);
+		DebugShader->SetBSState(eBlendStateType::AlphaBlend);
+		DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		CResources::Insert<CShader>(L"DebugShader", DebugShader);
 
 	}
 
@@ -332,29 +410,21 @@ namespace dru::renderer
 		ColorMaterial->SetTexture(Colortexture);
 		CResources::Insert<CMaterial>(L"ColorMaterial", ColorMaterial);
 
+		std::shared_ptr<CShader> DebugShader = CResources::Find<CShader>(L"DebugShader");
+		std::shared_ptr<CMaterial> DebugMaterial = std::make_shared<CMaterial>();
+		DebugMaterial->SetRenderingMode(eRenderingMode::Opaque);
+		DebugMaterial->SetShader(DebugShader);
+		CResources::Insert<CMaterial>(L"DebugMaterial", DebugMaterial);
+
 	}
 
 	void Initialize()
 	{
 		// 중앙이 0, 0, 0이고 높이가 1인 정삼각형
 
-		arrVertex[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.f); // 사각형의 lefttop
-//		arrVertex[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
-		arrVertex[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
-
-		arrVertex[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.f);
-//		arrVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		arrVertex[1].uv = Vector2(1.f, 0.f);
-
-		arrVertex[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.f);
-//		arrVertex[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		arrVertex[2].uv = Vector2(1.f, 1.f);
-
-		arrVertex[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.f);
-//		arrVertex[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
-		arrVertex[3].uv = Vector2(0.f, 1.f);
 
 
+		LoadMesh();
 		LoadShader();
 		SetUpState();
 		LoadBuffer();

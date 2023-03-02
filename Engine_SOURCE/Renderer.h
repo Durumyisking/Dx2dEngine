@@ -61,8 +61,10 @@ namespace dru::renderer
 	};
 
 	// vertex data
-	extern Vertex	arrVertex[4];
-	extern CConstantBuffer* constantBuffers[];	
+	extern Vertex	RectVertexes[4];
+	extern std::vector<Vertex>	CircleVertexes;
+
+	extern CConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[];
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[];

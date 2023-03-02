@@ -1,5 +1,5 @@
 #pragma once
-#include "../Engine_SOURCE/GameObj.h"
+#include "GameObj.h"
 
 namespace dru
 {

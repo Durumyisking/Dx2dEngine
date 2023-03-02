@@ -82,9 +82,15 @@ namespace dru
 		void SetScale(Vector3 _Value);
 		void SetRotation(Vector3 _Value);
 
+
 		Vector3 GetPos();
 		Vector3 GetScale();
 		Vector3 GetRotation();
+
+		Vector3 Forward() { return GetComponent<CTransform>()->Forward(); }
+		Vector3 Right() { return GetComponent<CTransform>()->Right(); }
+		Vector3 Up() { return GetComponent<CTransform>()->Up(); }
+
 
 		void SetMaterial(std::shared_ptr<CMaterial> _Material);
 		void SetMesh(std::shared_ptr<CMesh> _Mesh);
@@ -108,10 +114,14 @@ namespace dru
 		eLayerType GetLayerType() const { return mType; }
 		void SetLayerType(eLayerType _Type) { mType = _Type; }
 
+
+	protected:
+		std::vector<CComponent*> mComponents;
+
+
 	private:
 		eLayerType mType;
 		eState mState;
-		std::vector<CComponent*> mComponents;
 		std::vector<CComponent*> mScripts;
 		bool mbDestroy;
 

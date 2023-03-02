@@ -1,4 +1,10 @@
-float4 main() : SV_TARGET
+#include "global.hlsli"
+
+float4 main(float4 pos : POSITION) : SV_POSITION
 {
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+    float4 worldPosition = mul(pos, world);
+    float4 viewPosition = mul(worldPosition, view);
+    float4 ProjPosition = mul(viewPosition, projection);
+    
+    return pos;
 }

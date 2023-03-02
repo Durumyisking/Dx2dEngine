@@ -1,5 +1,5 @@
 #pragma once
-#include "../Engine_SOURCE/GameObj.h"
+#include "GameObj.h"
 
 namespace dru
 {
@@ -10,10 +10,8 @@ namespace dru
 		CDebugObject();
 		virtual ~CDebugObject();
 
-		virtual void Initialize();
-		virtual void update();
 		virtual void fixedUpdate();
-		virtual void render();
+
 	};
 
 }

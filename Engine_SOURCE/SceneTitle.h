@@ -25,8 +25,12 @@ namespace dru
 		CGameObj*	mUICamera;
 
 		CGameObj*	mCamTarget;
+		CGameObj*	mUITarget;
 
-		CBackgroundColor* mbgUIBlack;
+		CBackgroundColor* mUIBg;
+		CBackgroundColor* mUIStart;
+		CBackgroundColor* mUISetting;
+
 
 		CBackground* mbgBlack;
 		CBackground* mbgSteel;
@@ -35,6 +39,9 @@ namespace dru
 		CBackground* mbgKatana;
 		CBackground* mbgZer;
 		CBackground* mbgO;
+
+
+		bool mCamMoveDone;
 
 	};
 

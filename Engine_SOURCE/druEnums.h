@@ -48,5 +48,15 @@ namespace dru::enums
 
 	};
 
+	enum class eColliderType
+	{
+		Rect,
+		Circle,
+		Box,
+		Sphere,
+		End,
+
+	};
+
 
 }
