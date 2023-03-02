@@ -164,6 +164,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="BackgroundColor.h" />
+    <ClInclude Include="BackgroundColorScript.h" />
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraScript.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="BackgroundColor.cpp" />
+    <ClCompile Include="BackgroundColorScript.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraScript.cpp" />

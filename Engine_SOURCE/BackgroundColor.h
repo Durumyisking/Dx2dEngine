@@ -6,6 +6,8 @@ namespace dru
     class CBackgroundColor :
         public CGameObj
     {
+		friend class CBackgroundColorScript;
+
 	public:
 		CBackgroundColor();
 		virtual ~CBackgroundColor();
@@ -14,10 +16,6 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-
-		void SetColor(Vector4 _RGBA) { mColor = _RGBA; }
-
-		Vector4 mColor;
     };
 
 }

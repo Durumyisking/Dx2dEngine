@@ -87,4 +87,21 @@ namespace dru
 		ShowWindow(mHwnd, true);
 		UpdateWindow(mHwnd);
 	}
+	void CApplication::DockingMenu()
+	{
+		SetMenu(mHwnd, mHmenu);
+		// 메뉴가 있으니까 true
+		ChangeWindowSize(true);
+	}
+	void CApplication::DivideMenu()
+	{
+		SetMenu(mHwnd, nullptr);
+		ChangeWindowSize(false);
+	}
+	void CApplication::ChangeWindowSize(bool _bMenu)
+	{
+		RECT rt = { 0,0,static_cast<LONG>(mResolution.x), static_cast<LONG>(mResolution.y) };
+		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
+		SetWindowPos(mHwnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0);
+	}
 }

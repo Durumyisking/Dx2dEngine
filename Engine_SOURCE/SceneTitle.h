@@ -40,8 +40,10 @@ namespace dru
 		CBackground* mbgZer;
 		CBackground* mbgO;
 
-
 		bool mCamMoveDone;
+		bool mUIMoveDone;
+
+		int mMenu;
 
 	};
 

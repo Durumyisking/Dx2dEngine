@@ -6,11 +6,28 @@
 #include "Object.h"
 #include "Camera.h"
 #include "Input.h"
+#include "BackgroundColorScript.h"
 
 namespace dru
 {
 	CSceneTitle::CSceneTitle()
 		: mCamMoveDone(false)
+		, mUIMoveDone(false)
+		, mCamera(nullptr)
+		, mUICamera(nullptr)
+		, mCamTarget(nullptr)
+		, mUITarget(nullptr)
+		, mUIBg(nullptr)
+		, mUIStart(nullptr)
+		, mUISetting(nullptr)
+		, mbgBlack(nullptr)
+		, mbgSteel(nullptr)
+		, mbgChain(nullptr)
+		, mbgGrass(nullptr)
+		, mbgKatana(nullptr)
+		, mbgZer(nullptr)
+		, mbgO(nullptr)
+		, mMenu(1)
 	{
 	}
 
@@ -148,24 +165,37 @@ namespace dru
 				// ¹è°æ UI
 				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"UITitleBg");
 				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				mUIBg->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"ColorMaterial");
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
 				SpriteRenderer->SetMaterial(Material);
+				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
 				mUIBg->SetPos(Vector3(0.f, -6.f, 0.5f));
 				mUIBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
 			}
 
 			{
 				// UIStart
-				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"UITitleStart");
+				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::UI, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
 				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				mUIStart->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mUIStart->SetPos(Vector3(0.f, -6.f, 0.5f));
-				mUIStart->SetScale(Vector3(0.3f, 0.1f, 1.f));
+				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+				mUIStart->SetPos(Vector3(0.f, 0.f, 0.5f));
+				mUIStart->SetScale(Vector3(0.15f, 0.02f, 1.f));
 			}
 
+			{
+				// UISetting
+				mUISetting = object::Instantiate<CBackgroundColor>(eLayerType::UI, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
+				CSpriteRenderer* SpriteRenderer = mUISetting->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"UITitleSettingMat", Material);
+				SpriteRenderer->SetMaterial(Material);
+				mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+				mUISetting->SetPos(Vector3(0.f, -0.1f, 0.5f));
+				mUISetting->SetScale(Vector3(0.15f, 0.02f, 1.f));
+			}
 
 			{
 				mCamTarget = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene");
@@ -205,8 +235,47 @@ namespace dru
 				if (Step < Distance)
 				{
 					UIPos += mUIBg->Up() * Step;
-
 					mUIBg->SetPos(UIPos);
+				}
+			}
+			else
+			{
+				mUIMoveDone = true;
+			}
+
+		}
+
+		if (mUIMoveDone)
+		{
+			if (CInput::GetKeyDown(eKeyCode::UP))
+			{
+				if (1 == mMenu)
+				{
+					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
+					mMenu = 2;
+				}
+				else if (2 == mMenu)
+				{
+					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
+					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+					mMenu = 1;
+				}
+
+			}
+			if (CInput::GetKeyDown(eKeyCode::DOWN))
+			{
+				if (1 == mMenu)
+				{
+					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
+					mMenu = 2;
+				}
+				else if (2 == mMenu)
+				{
+					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
+					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+					mMenu = 1;
 				}
 			}
 		}

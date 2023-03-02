@@ -119,16 +119,20 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   Vector2 Resolution = { 1600, 900 };
+   application.SetResolution(Resolution);
+
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
+       0, 0, Resolution.x, Resolution.y, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
    
-   application.SetWindow(hWnd, 1600, 900);
+   application.SetWindow(hWnd, Resolution.x, Resolution.y);
    application.Initialize();
+   application.DivideMenu();
    editor.Initialize();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

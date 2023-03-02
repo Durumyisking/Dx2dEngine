@@ -80,9 +80,6 @@
     <Filter Include="Common\Component\Renderer\Sprite">
       <UniqueIdentifier>{ce9056db-6a9e-406d-9b7d-cee1aeef4e21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Component\Script\Player">
-      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Component\Script\Grid">
       <UniqueIdentifier>{07391d1a-6255-4748-b831-1c8a300fc277}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,15 @@
     </Filter>
     <Filter Include="GameObj\BackGround\Color">
       <UniqueIdentifier>{ca1a2022-5f7e-4372-9397-7381c3f723b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Player">
+      <UniqueIdentifier>{58ec3c23-b57e-47a8-a2b2-2ae5eca9e2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Player\Script">
+      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\BackGround\Color\Script">
+      <UniqueIdentifier>{283e338b-4470-46e5-b531-f1cd43a0c9b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +197,7 @@
       <Filter>Common\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScript.h">
-      <Filter>Common\Component\Script\Player</Filter>
+      <Filter>GameObj\Player\Script</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Common\Component\Camera</Filter>
@@ -246,6 +252,9 @@
     </ClInclude>
     <ClInclude Include="BackgroundColor.h">
       <Filter>GameObj\BackGround\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundColorScript.h">
+      <Filter>GameObj\BackGround\Color\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,7 +319,7 @@
       <Filter>Common\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
-      <Filter>Common\Component\Script\Player</Filter>
+      <Filter>GameObj\Player\Script</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Common\Component\Camera</Filter>
@@ -362,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="BackgroundColor.cpp">
       <Filter>GameObj\BackGround\Color</Filter>
+    </ClCompile>
+    <ClCompile Include="BackgroundColorScript.cpp">
+      <Filter>GameObj\BackGround\Color\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

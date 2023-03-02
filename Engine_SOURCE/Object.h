@@ -40,28 +40,28 @@ namespace dru::object
 	}
 
 	template <typename T>
-	static T* Instantiate(enums::eLayerType _LayerType, CTransform* _Parent)
+	static T* Instantiate(enums::eLayerType _LayerType, CTransform* _Parent, std::wstring _Name)
 	{
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
-		CLayer& layer = scene->GetLayer();
+		CLayer& layer = scene->GetLayer(_LayerType);
 		layer.AddGameObject(gameObj, _LayerType);
-
-		CTransform* tr = gameObj->GetComponent<CTransform*>();
+		gameObj->SetName(_Name);
+		CTransform* tr = gameObj->GetComponent<CTransform>();
 		tr->SetParent(_Parent);
 
 		return gameObj;
 	}
 
 	template <typename T>
-	static T* Instantiate(enums::eLayerType _LayerType, Vector3 _Pos, Vector3 _Rotation)
+	static T* Instantiate(enums::eLayerType _LayerType, Vector3 _Pos, Vector3 _Rotation, std::wstring _Name)
 	{
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer();
 		layer.AddGameObject(gameObj, _LayerType);
-
-		CTransform* tr = gameObj->GetComponent<CTransform*>();
+		gameObj->SetName(_Name);
+		CTransform* tr = gameObj->GetComponent<CTransform>();
 		tr->SetPosition(_Pos);
 		tr->SetRotation(_Rotation);
 
@@ -69,14 +69,14 @@ namespace dru::object
 	}
 
 	template <typename T>
-	static T* Instantiate(enums::eLayerType _LayerType, Vector3 _Pos, Vector3 _Rotation, CTransform* _Parent)
+	static T* Instantiate(enums::eLayerType _LayerType, Vector3 _Pos, Vector3 _Rotation, CTransform* _Parent, std::wstring _Name)
 	{
 		T* gameObj = new T();
 		CScene* scene = CSceneMgr::mActiveScene;
 		CLayer& layer = scene->GetLayer();
 		layer.AddGameObject(gameObj, _LayerType);
-
-		CTransform* tr = gameObj->GetComponent<CTransform*>();
+		gameObj->SetName(_Name);
+		CTransform* tr = gameObj->GetComponent<CTransform>();
 		tr->SetPosition(_Pos);
 		tr->SetRotation(_Rotation);
 

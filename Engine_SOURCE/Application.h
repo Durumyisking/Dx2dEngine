@@ -31,6 +31,13 @@ namespace dru
 		UINT GetWidth() const { return mWidth; }
 		UINT GetHeight() const { return mHeight; }
 
+		void DockingMenu();
+		void DivideMenu();
+		void ChangeWindowSize(bool _bMenu);
+
+		void SetResolution(math::Vector2 _Resolution) { mResolution = _Resolution; };
+		math::Vector2 WinResolution() const { return mResolution; }
+
 
 	private:
 		bool initalized = false;
@@ -40,6 +47,12 @@ namespace dru
 		HDC	 mHdc;
 		UINT mWidth;
 		UINT mHeight;
+
+		// 메뉴
+		HMENU	mHmenu; // Tool Scene에서만 사용하고싶은 menu
+		math::Vector2 mResolution;
+	
+
 	};
 }
 

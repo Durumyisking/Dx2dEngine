@@ -4,7 +4,6 @@
 namespace dru
 {
 	CBackgroundColor::CBackgroundColor()
-		: mColor(Vector4::Zero)
 	{
 
 	}
@@ -17,13 +16,6 @@ namespace dru
 	}
 	void CBackgroundColor::update()
 	{
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
-		renderer::ColorCB data = {};
-
-		data.RGBA = mColor;
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
-
 		CGameObj::update();
 	}
 	void CBackgroundColor::fixedUpdate()
