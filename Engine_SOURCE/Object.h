@@ -27,6 +27,19 @@ namespace dru::object
 	}
 
 	template <typename T>
+	static T* Instantiate(enums::eLayerType _LayerType, CScene* _Scene, std::wstring _Name)
+	{
+		T* gameObj = new T();
+		CLayer& layer = _Scene->GetLayer(_LayerType);
+		layer.AddGameObject(gameObj, _LayerType);
+
+		gameObj->SetName(_Name);
+
+		return gameObj;
+	}
+
+
+	template <typename T>
 	static T* Instantiate(enums::eLayerType _LayerType, std::wstring _Name)
 	{
 		T* gameObj = new T();

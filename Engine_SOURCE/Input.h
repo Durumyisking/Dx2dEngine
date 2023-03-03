@@ -54,9 +54,9 @@ namespace dru
 			return mKeys[static_cast<UINT>(keyCode)].eState;
 		}
 
-		static __forceinline math::Vector2 GetMousPosition()
+		static __forceinline math::Vector3 GetMousePosition()
 		{
-			return mMousPosition;
+			return mMousePosition;
 		}
 
 		static __forceinline bool GetKey(eKeyCode keyCode)
@@ -81,7 +81,9 @@ namespace dru
 
 	private:
 		static std::vector<Key> mKeys;
-		static math::Vector2 mMousPosition;
+		static math::Vector3 mMousePosition;
+		static float mWinWidthCenter;
+		static float mWinHeightCenter;
 	};
 }
 

@@ -51,6 +51,7 @@ cbuffer Fade : register(b3)
 cbuffer Color : register(b4)
 {
     float4 RGBA;
+
 }
 
 Texture2D defaultTexture : register(t0);

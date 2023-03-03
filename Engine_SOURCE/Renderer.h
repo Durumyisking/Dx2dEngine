@@ -58,6 +58,7 @@ namespace dru::renderer
 	CBUFFER(ColorCB, CBSLOT_FADE)
 	{
 		Vector4 RGBA;
+
 	};
 
 	// vertex data
@@ -71,6 +72,9 @@ namespace dru::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[];
 
 	extern std::vector<CCamera*> Cameras[];
+
+	extern CCamera* mainCamera;
+	extern std::vector<DebugMesh> DebugMeshes;
 
 	void Initialize();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라

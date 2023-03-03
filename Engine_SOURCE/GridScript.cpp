@@ -24,7 +24,6 @@ namespace dru
 	void CGridScript::Initialize()
 	{
 		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
-
 		mCamera = renderer::Cameras[type][0];
 	}
 
@@ -37,8 +36,8 @@ namespace dru
 		CTransform* tr = gameobj->GetComponent<CTransform>();
 
 		Vector3 campos = tr->GetPosition();
-
 		Vector4 pos = Vector4(campos.x, campos.y, campos.z, 1.f);
+
 		float scale = mCamera->GetScale();;
 
 		RECT winRect;

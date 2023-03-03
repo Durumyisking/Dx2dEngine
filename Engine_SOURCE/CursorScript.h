@@ -1,22 +1,25 @@
 #pragma once
-#include "Component.h"
+#include "Script.h"
 
 namespace dru
 {
-	class CScript : public CComponent
+	class CCursorScript :
+		public CScript
 	{
+
 	public:
-		CScript();
-		virtual ~CScript();
+		CCursorScript();
+		virtual ~CCursorScript();
 
 		virtual void Initialize() override;
 		virtual void update() override;
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-
-
+		Vector3 mMousePos;
+		Vector3 mPos;
+		Vector3 mRot;
 	};
+
+
 }
-
-

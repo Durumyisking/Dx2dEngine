@@ -1,8 +1,23 @@
 #include "Layer.h"
-
+#include "Renderer.h"
+#include "Transform.h"
 
 namespace dru
 {
+	//static bool CompareGameObjectByZAxis(CGameObj* a, CGameObj* b)
+	//{
+	//	CTransform* aTr = a->GetComponent<CTransform>();
+	//	CTransform* bTr = b->GetComponent<CTransform>();
+
+	//	if (aTr->GetPosition().z <= bTr->GetPosition().z)
+	//	{
+	//		return true;
+	//	}
+
+	//	return false;
+	//}
+
+
 	CLayer::CLayer()
 	{
 	}
@@ -52,6 +67,10 @@ namespace dru
 			if (CGameObj::eState::Active == Obj->GetState())
 				Obj->fixedUpdate();
 		}
+
+		//// sort z axis
+		//std::sort(mGameObjs.begin(), mGameObjs.end(), CompareGameObjectByZAxis);
+
 	}
 
 	void CLayer::render()
@@ -60,7 +79,10 @@ namespace dru
 		{
 			if (nullptr == Obj)
 				continue;
-			Obj->render();
+
+			if (CGameObj::eState::Active == Obj->GetState())
+				Obj->render();
+
 		}
 	}
 

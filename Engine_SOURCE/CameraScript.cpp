@@ -72,8 +72,6 @@ namespace dru
 			}
 		}
 
-
-
 		transform->SetPosition(LookAt);
 	}
 

@@ -14,7 +14,6 @@ namespace dru
 	}
 	CApplication::~CApplication()
 	{
-		CSceneMgr::release();
 	}
 
 	void CApplication::Initialize()
@@ -67,6 +66,7 @@ namespace dru
 
 
 
+
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{
 		if (graphicDevice == nullptr)
@@ -100,8 +100,8 @@ namespace dru
 	}
 	void CApplication::ChangeWindowSize(bool _bMenu)
 	{
-		RECT rt = { 0,0,static_cast<LONG>(mResolution.x), static_cast<LONG>(mResolution.y) };
+		RECT rt = { 0, 0, static_cast<LONG>(mResolution.x), static_cast<LONG>(mResolution.y) };
 		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
-		SetWindowPos(mHwnd, nullptr, 100, 100, rt.right - rt.left, rt.bottom - rt.top, 0);
+		SetWindowPos(mHwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 	}
 }

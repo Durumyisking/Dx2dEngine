@@ -17,8 +17,10 @@ namespace dru
 			End,
 		};
 
-		__forceinline static Matrix& GetViewMatrix() { return View; }
-		__forceinline static Matrix& GetProjectionMatrix() { return Projection; }
+		__forceinline static Matrix& GetGpuViewMatrix() { return View; }
+		__forceinline static Matrix& GetGpuProjectionMatrix() { return Projection; }
+		static void SetGpuViewMatrix(Matrix view) { View = view; }
+		static void SetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
 
 		CCamera();
 		virtual ~CCamera();
@@ -40,6 +42,10 @@ namespace dru
 		void SetProjectionType(eProjectionType _Type) { mType = _Type; }
 
 		float GetScale() const { return mScale; }
+
+		Matrix& GetViewMatrix() { return mView; }
+		Matrix& GetProjectionMatrix() { return mProjection; }
+
 
 		void SetTarget(CGameObj* _Target);
 		CGameObj* GetTarget() const { return mTargetObj; }

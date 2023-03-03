@@ -21,6 +21,9 @@ namespace dru
 
 	private:
 		CGameObj* mCamera;
+		CGameObj* mUICamera;
+
+		CGameObj* mUICursor;
 
 	};
 

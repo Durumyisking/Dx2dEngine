@@ -23,6 +23,7 @@ namespace dru
 		void Run();
 		void Present();
 
+
 		void SetWindow(HWND _hwnd, UINT _width, UINT _height);
 
 		void SetHwnd(HWND _hwnd) { mHwnd = _hwnd; }

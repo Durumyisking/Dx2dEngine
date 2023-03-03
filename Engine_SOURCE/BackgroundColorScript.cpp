@@ -1,6 +1,7 @@
 #include "BackgroundColorScript.h"
 #include "ConstantBuffer.h"
 #include "Renderer.h"
+#include "BackgroundColor.h"
 
 namespace dru
 {
@@ -23,6 +24,7 @@ namespace dru
 		renderer::ColorCB data = {};
 
 		data.RGBA = mColor;
+
 		cb->Bind(&data);
 		cb->SetPipeline(eShaderStage::PS);
 	}

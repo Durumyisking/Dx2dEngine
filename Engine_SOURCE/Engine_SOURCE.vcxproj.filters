@@ -122,6 +122,9 @@
     <Filter Include="GameObj\BackGround\Color\Script">
       <UniqueIdentifier>{283e338b-4470-46e5-b531-f1cd43a0c9b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Cursor">
+      <UniqueIdentifier>{396a8426-32c6-4cfc-b631-138593724573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -256,6 +259,9 @@
     <ClInclude Include="BackgroundColorScript.h">
       <Filter>GameObj\BackGround\Color\Script</Filter>
     </ClInclude>
+    <ClInclude Include="CursorScript.h">
+      <Filter>GameObj\Cursor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -374,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="BackgroundColorScript.cpp">
       <Filter>GameObj\BackGround\Color\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CursorScript.cpp">
+      <Filter>GameObj\Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

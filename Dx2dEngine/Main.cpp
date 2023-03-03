@@ -74,6 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             application.Present();
         }
     }
+    
+    editor.destroy();
     return (int)msg.wParam;
 }
 
@@ -98,7 +100,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DX2DENGINE));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_DX2DENGINE);
+    wcex.lpszMenuName = NULL; // MAKEINTRESOURCEW(IDC_DX2DENGINE);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -136,6 +138,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    editor.Initialize();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+   ShowCursor(false);
 
    return TRUE;
 }

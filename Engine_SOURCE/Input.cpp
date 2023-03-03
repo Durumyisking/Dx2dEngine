@@ -6,7 +6,10 @@ extern dru::CApplication application;
 namespace dru
 {
 	std::vector<CInput::Key> CInput::mKeys;
-	math::Vector2 CInput::mMousPosition;
+	math::Vector3 CInput::mMousePosition;
+	float CInput::mWinWidthCenter;
+	float CInput::mWinHeightCenter;
+
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
@@ -42,6 +45,11 @@ namespace dru
 
 			mKeys.push_back(key);
 		}
+
+		RECT winRect = {};
+		GetClientRect(application.GetHwnd(), &winRect);
+		mWinWidthCenter = ((float)winRect.right - (float)winRect.left) / 2.0f;
+		mWinHeightCenter = ((float)winRect.bottom - (float)winRect.top) / 2.0f;
 	}
 
 	void CInput::update()
@@ -77,8 +85,8 @@ namespace dru
 			POINT mousePos = {};
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousPosition.x = mousePos.x;
-			mMousPosition.y = mousePos.y;
+			mMousePosition.x = ((float)mousePos.x - mWinWidthCenter);
+			mMousePosition.y = -((float)mousePos.y - mWinHeightCenter);
 		}
 		else
 		{

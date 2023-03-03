@@ -2,6 +2,7 @@
 namespace dru
 {
 	CEditorObject::CEditorObject()
+		:CGameObj()
 	{
 	}
 
@@ -11,18 +12,22 @@ namespace dru
 
 	void CEditorObject::Initialize()
 	{
+		CGameObj::Initialize();
 	}
 
 	void CEditorObject::update()
 	{
+		CGameObj::update();
 	}
 
 	void CEditorObject::fixedUpdate()
 	{
+		CGameObj::fixedUpdate();
 	}
 
 	void CEditorObject::render()
 	{
+		CGameObj::render();
 	}
 
 }

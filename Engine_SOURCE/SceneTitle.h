@@ -29,7 +29,6 @@ namespace dru
 
 		CBackgroundColor* mUIBg;
 		CBackgroundColor* mUIStart;
-		CBackgroundColor* mUISetting;
 
 
 		CBackground* mbgBlack;

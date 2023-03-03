@@ -1,5 +1,6 @@
 #include "Collider2D.h"
 #include "GameObj.h"
+#include "Renderer.h"
 
 namespace dru
 {
@@ -44,9 +45,18 @@ namespace dru
 		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
 
 		Matrix positionMatrix;
-		positionMatrix.Translation(Vector3(collilderPos.x, collilderPos.y, 1.f));
+		positionMatrix.Translation(Vector3(collilderPos.x, collilderPos.y, collilderPos.z));
 
 		Matrix worldMatrix = scaleMatrix * rotationMatrix * positionMatrix;
+
+		DebugMesh meshAttribute = {};
+		meshAttribute.position = Vector3(collilderPos.x, collilderPos.y, collilderPos.z);
+		meshAttribute.radius = 1.f;
+		meshAttribute.rotation = rotation;
+		meshAttribute.scale = scale;
+		meshAttribute.type = mType;
+		
+		renderer::DebugMeshes.push_back(meshAttribute);
 	}
 
 	void CCollider2D::render()

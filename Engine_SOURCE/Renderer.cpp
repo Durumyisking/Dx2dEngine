@@ -16,7 +16,9 @@ namespace dru::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)graphics::eDepthStencilType::End];
 	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
 
+	CCamera* mainCamera = nullptr;
 	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
+	std::vector<DebugMesh> DebugMeshes = {};
 
 	void LoadMesh()
 	{
@@ -52,6 +54,8 @@ namespace dru::renderer
 		vecIdx.push_back(2);
 		vecIdx.push_back(3);
 
+//		vecIdx.push_back(0);
+
 		Rectmesh->CreateVertexBuffer(RectVertexes, 4);
 		Rectmesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
@@ -67,21 +71,23 @@ namespace dru::renderer
 
 		CircleVertexes.push_back(center);
 
-		int slice = 40;
+		int slice = 80;
 		float radius = 0.5f;
 		float theta = XM_2PI / (float)slice;
 
 		for (int i = 0; i < slice; i++)
 		{
 			Vertex vtx = {};
-			vtx.pos = Vector4(theta * cosf(theta * (float)i)
-							, theta * sinf(theta * (float)i)
-							, 0.f, 0.f
+			vtx.pos = Vector4(radius * cosf(theta * (float)i)
+							, radius * sinf(theta * (float)i)
+							, 0.5f, 1.f
 			);
 			vtx.color = center.color;
 
 			CircleVertexes.push_back(vtx);
 		}
+
+
 
 		vecIdx.clear();
 
@@ -94,7 +100,7 @@ namespace dru::renderer
 		std::shared_ptr<CMesh> Circlemesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"Circlemesh", Circlemesh);
 
-		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), vecIdx.size());
+		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), CircleVertexes.size());
 		Circlemesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
 
 
@@ -357,6 +363,10 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"TitleO_1", L"TitleScene/bgTitleO_1.png");
 		CResources::Load<CTexture>(L"Fence", L"TitleScene/bgFence.png");
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
+
+		// main
+		CResources::Load<CTexture>(L"Cursor", L"MainScene/Cursor.png");
+
 	}
 
 
@@ -412,7 +422,7 @@ namespace dru::renderer
 
 		std::shared_ptr<CShader> DebugShader = CResources::Find<CShader>(L"DebugShader");
 		std::shared_ptr<CMaterial> DebugMaterial = std::make_shared<CMaterial>();
-		DebugMaterial->SetRenderingMode(eRenderingMode::Opaque);
+		DebugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		DebugMaterial->SetShader(DebugShader);
 		CResources::Insert<CMaterial>(L"DebugMaterial", DebugMaterial);
 
@@ -449,6 +459,7 @@ namespace dru::renderer
 		{
 			if (nullptr == cam)
 				continue;
+
 			cam->render();
 		}
 		Cameras[type].clear();

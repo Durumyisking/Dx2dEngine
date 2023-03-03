@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "BackgroundColorScript.h"
+#include "Collider2D.h"
 
 namespace dru
 {
@@ -19,7 +20,6 @@ namespace dru
 		, mUITarget(nullptr)
 		, mUIBg(nullptr)
 		, mUIStart(nullptr)
-		, mUISetting(nullptr)
 		, mbgBlack(nullptr)
 		, mbgSteel(nullptr)
 		, mbgChain(nullptr)
@@ -38,7 +38,7 @@ namespace dru
 
 	void CSceneTitle::Initialize()
 	{
-		mDeleteObj = true;
+		//mDeleteObj = true;
 		{
 			// main 카메라
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
@@ -47,6 +47,8 @@ namespace dru
 			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
+			renderer::mainCamera = renderer::Cameras[static_cast<UINT>(mType)][0];
+
 		}
 		{
 			// ui 카메라
@@ -58,31 +60,20 @@ namespace dru
 			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 
-		{
-			//// gridobj
-			//CGameObj* gridObj = object::Instantiate<CGameObj>(eLayerType::Grid, L"Grid");
-			//CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
-			//MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
-			//gridObj->AddComponent<CGridScript>(eComponentType::Script);
-
-		}
-
-
-		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
-
 		{			
 			{
-				// 배경 black
-				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				//// 배경 black
+				//mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+				//CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Black", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mbgBlack->SetPos(Vector3(0.f, -1.f, 1.f));
-				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
+				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				//CResources::Insert<CMaterial>(L"Black", Material);
+				//SpriteRenderer->SetMaterial(Material);
+				//mbgBlack->SetPos(Vector3(0.f, -1.f, 1.f));
+				//mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
 			}
+
 
 			{
 				// 배경 Steel
@@ -107,6 +98,7 @@ namespace dru
 
 				mbgZer->SetPos(Vector3(-0.09f, -0.45f, 0.81f));
 				mbgZer->SetScale(Vector3(0.25f, 0.25f, 1.f));
+
 			}
 
 
@@ -181,21 +173,10 @@ namespace dru
 				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
 				SpriteRenderer->SetMaterial(Material);
 				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-				mUIStart->SetPos(Vector3(0.f, 0.f, 0.5f));
+				mUIStart->SetPos(Vector3(0.f, 0.41f, 0.5f));
 				mUIStart->SetScale(Vector3(0.15f, 0.02f, 1.f));
 			}
 
-			{
-				// UISetting
-				mUISetting = object::Instantiate<CBackgroundColor>(eLayerType::UI, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
-				CSpriteRenderer* SpriteRenderer = mUISetting->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-				CResources::Insert<CMaterial>(L"UITitleSettingMat", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-				mUISetting->SetPos(Vector3(0.f, -0.1f, 0.5f));
-				mUISetting->SetScale(Vector3(0.15f, 0.02f, 1.f));
-			}
 
 			{
 				mCamTarget = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene");
@@ -247,35 +228,48 @@ namespace dru
 
 		if (mUIMoveDone)
 		{
+			Vector3 pos = mUIStart->GetPos();
+
 			if (CInput::GetKeyDown(eKeyCode::UP))
 			{
-				if (1 == mMenu)
+				if (1 != mMenu)
 				{
-					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-					mMenu = 2;
+					pos = { pos.x, pos.y + 0.2f, pos.z };
+					mUIStart->SetPos(pos);
+					--mMenu;
 				}
-				else if (2 == mMenu)
+				else
 				{
-					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-					mMenu = 1;
+					pos = { pos.x, pos.y - (0.2f * 4), pos.z };
+					mUIStart->SetPos(pos);
+					mMenu = 5; 
 				}
-
 			}
 			if (CInput::GetKeyDown(eKeyCode::DOWN))
 			{
-				if (1 == mMenu)
+				if (5 != mMenu)
 				{
-					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-					mMenu = 2;
+					pos = { pos.x, pos.y - 0.2f, pos.z };
+					mUIStart->SetPos(pos);
+					++mMenu;
 				}
-				else if (2 == mMenu)
+				else
 				{
-					mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-					mUISetting->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
+					pos = { pos.x, pos.y + (0.2f * 4), pos.z };
+					mUIStart->SetPos(pos);
 					mMenu = 1;
+				}
+			}
+
+			if (CInput::GetKeyDown(eKeyCode::ENTER))
+			{
+				switch (mMenu)
+				{
+				case 1:
+					CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+					break;
+				default:
+					break;
 				}
 			}
 		}

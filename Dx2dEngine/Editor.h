@@ -16,12 +16,11 @@ namespace dru
 		void fixedUpdate();
 		void render();
 		void destroy();
-
 		void debugRender(graphics::DebugMesh& mesh);
 
 	private:
-		std::vector<CWidget> mWidgets;
-		std::vector<CEditorObject> mEditorObjects;
+		std::vector<CWidget*> mWidgets;
+		std::vector<CEditorObject*> mEditorObjects;
 		std::vector<CDebugObject*> mDebugObjects;
 	};
 

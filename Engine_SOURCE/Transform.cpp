@@ -57,7 +57,7 @@ namespace dru
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 
 
-		if (nullptr != mParent)
+		if (mParent)
 		{
 			mWorld *= mParent->mWorld;
 		}
@@ -69,8 +69,8 @@ namespace dru
 		// 뷰행렬 세팅
 		TransformCB transformCB = {};
 		transformCB.world = mWorld;
-		transformCB.view = CCamera::GetViewMatrix();
-		transformCB.projection = CCamera::GetProjectionMatrix();
+		transformCB.view = CCamera::GetGpuViewMatrix();
+		transformCB.projection = CCamera::GetGpuProjectionMatrix();
 
 
 		// 상수버퍼 가져와 해당 상수버퍼에 값 세팅

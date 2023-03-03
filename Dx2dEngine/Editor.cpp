@@ -4,6 +4,8 @@
 #include "Resources.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
+#include "Object.h"
+#include "GridScript.h"
 
 namespace dru
 {
@@ -11,6 +13,7 @@ namespace dru
 	{
 		mDebugObjects.resize(static_cast<UINT>(eColliderType::End));
 
+		// rectmesh
 		std::shared_ptr<CMesh> rectMesh =  CResources::Find<CMesh>(L"Rectmesh");
 		std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"DebugMaterial");
 
@@ -21,7 +24,7 @@ namespace dru
 		RectMeshrenderer->SetMaterial(material);
 		RectMeshrenderer->SetMesh(rectMesh);
 
-
+		// circlemesh
 		std::shared_ptr<CMesh> CircleMesh = CResources::Find<CMesh>(L"Circlemesh");
 		
 		mDebugObjects[(UINT)eColliderType::Circle] = new CDebugObject();
@@ -31,6 +34,20 @@ namespace dru
 		CicleMeshrenderer->SetMaterial(material);
 		CicleMeshrenderer->SetMesh(CircleMesh);
 
+
+		{
+			// gridobj
+			CEditorObject* gridObj = new CEditorObject();
+			gridObj->SetLayerType(eLayerType::UI);
+			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
+			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
+			CGridScript* script = gridObj->AddComponent<CGridScript>(eComponentType::Script);
+			script->SetCamera(renderer::mainCamera);
+			gridObj->DontDestroy();
+
+			mEditorObjects.push_back(gridObj);
+		}
+
 	}
 
 	void CEditor::Run()
@@ -39,26 +56,74 @@ namespace dru
 		fixedUpdate();
 		render();
 	}
-
 	void CEditor::update()
 	{
+		for (CEditorObject* obj : mEditorObjects)
+		{
+			obj->update();
+		}
 	}
 
 	void CEditor::fixedUpdate()
 	{
+		for (CEditorObject* obj : mEditorObjects)
+		{
+			obj->fixedUpdate();
+		}
 	}
 
 	void CEditor::render()
 	{
+		for (CEditorObject* obj : mEditorObjects)
+		{
+			obj->render();
+		}
+
+		for (DebugMesh& mesh : renderer::DebugMeshes)
+		{
+			debugRender(mesh);
+		}
+
+		renderer::DebugMeshes.clear();
 	}
 
 	void CEditor::destroy()
 	{
+		for (auto* obj : mWidgets)
+		{
+			delete obj;
+			obj = nullptr;
+		}
+		for (auto* obj : mEditorObjects)
+		{
+			delete obj;
+			obj = nullptr;
+		}
+
+		delete mDebugObjects[(UINT)eColliderType::Rect];
+		delete mDebugObjects[(UINT)eColliderType::Circle];
 	}
 
 	void CEditor::debugRender(graphics::DebugMesh& mesh)
 	{
-			
+		CDebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
+		
+		CTransform* tr = debugObj->GetComponent<CTransform>();
+		tr->SetPosition(mesh.position);
+		tr->SetRotation(mesh.rotation);
 
+		if (eColliderType::Rect == mesh.type)
+			tr->SetScale(mesh.scale);
+		else
+			tr->SetScale(Vector3(mesh.radius));
+		
+		CBaseRenderer* renderer = debugObj->GetComponent<CBaseRenderer>();
+
+		tr->fixedUpdate(); // 행렬 다시만들어줌
+
+		CCamera::SetGpuViewMatrix(renderer::mainCamera->GetViewMatrix());
+		CCamera::SetGpuProjectionMatrix(renderer::mainCamera->GetProjectionMatrix());
+
+		debugObj->render();
 	}
 }
