@@ -127,8 +127,8 @@ namespace dru
 
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState>	rs = renderer::rasterizerState[(UINT)mRSType];
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilState>	ds = renderer::DepthStencilState[(UINT)mDSType];
-		Microsoft::WRL::ComPtr<ID3D11BlendState>		bs = renderer::BlendState[(UINT)mBSType];
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState>	ds = renderer::depthStencilState[(UINT)mDSType];
+		Microsoft::WRL::ComPtr<ID3D11BlendState>		bs = renderer::blendState[(UINT)mBSType];
 
 		GetDevice()->BindRasterizerState(rs.Get());
 		GetDevice()->BindDepthStencilState(ds.Get());

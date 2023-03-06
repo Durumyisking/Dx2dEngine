@@ -89,7 +89,6 @@ namespace dru
 
 	void CGameObj::AddComponent(CComponent* _Component)
 	{
-
 		eComponentType order = _Component->GetOrder();
 
 
@@ -100,7 +99,7 @@ namespace dru
 		}
 		else
 		{
-			mScripts.push_back(_Component);
+			mScripts.push_back(dynamic_cast<CScript*>(_Component));
 			_Component->SetOwner(this);
 		}
 	}

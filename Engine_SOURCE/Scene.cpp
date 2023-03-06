@@ -77,6 +77,7 @@ namespace dru
 		mLayers[static_cast<UINT>(_eLayer)].AddGameObject(_GameObj, _eLayer);
 	}
 
+
 	std::vector<CGameObj*> CScene::GetDontDestroyObjects()
 	{
 		std::vector<CGameObj*> allLayerDontDestroyObjs;
@@ -89,6 +90,12 @@ namespace dru
 		}
 
 		return allLayerDontDestroyObjs;
+	}
+
+	const std::vector<CGameObj*>& CScene::GetGameObj(eLayerType _eLayer)
+	{
+
+		return mLayers[(UINT)_eLayer].GetGameObjects();
 	}
 
 }

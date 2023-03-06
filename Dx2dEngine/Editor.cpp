@@ -14,11 +14,10 @@ namespace dru
 		mDebugObjects.resize(static_cast<UINT>(eColliderType::End));
 
 		// rectmesh
-		std::shared_ptr<CMesh> rectMesh =  CResources::Find<CMesh>(L"Rectmesh");
+		std::shared_ptr<CMesh> rectMesh =  CResources::Find<CMesh>(L"DebugRectmesh");
 		std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"DebugMaterial");
 
 		mDebugObjects[(UINT)eColliderType::Rect] = new CDebugObject();
-		mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<CTransform>(eComponentType::Transform);
 		CMeshRenderer* RectMeshrenderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 
 		RectMeshrenderer->SetMaterial(material);
@@ -28,7 +27,6 @@ namespace dru
 		std::shared_ptr<CMesh> CircleMesh = CResources::Find<CMesh>(L"Circlemesh");
 		
 		mDebugObjects[(UINT)eColliderType::Circle] = new CDebugObject();
-		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<CTransform>(eComponentType::Transform);
 		CMeshRenderer* CicleMeshrenderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 
 		CicleMeshrenderer->SetMaterial(material);
@@ -38,12 +36,12 @@ namespace dru
 		{
 			// gridobj
 			CEditorObject* gridObj = new CEditorObject();
-			gridObj->SetLayerType(eLayerType::UI);
+			gridObj->SetLayerType(eLayerType::Grid);
 			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
 			CGridScript* script = gridObj->AddComponent<CGridScript>(eComponentType::Script);
 			script->SetCamera(renderer::mainCamera);
-			gridObj->DontDestroy();
+			//gridObj->DontDestroy();
 
 			mEditorObjects.push_back(gridObj);
 		}
@@ -79,12 +77,12 @@ namespace dru
 			obj->render();
 		}
 
-		for (DebugMesh& mesh : renderer::DebugMeshes)
+		for (DebugMesh& mesh : renderer::debugMeshes)
 		{
 			debugRender(mesh);
 		}
 
-		renderer::DebugMeshes.clear();
+		renderer::debugMeshes.clear();
 	}
 
 	void CEditor::destroy()

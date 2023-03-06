@@ -19,8 +19,8 @@ namespace dru
 
 		__forceinline static Matrix& GetGpuViewMatrix() { return View; }
 		__forceinline static Matrix& GetGpuProjectionMatrix() { return Projection; }
-		static void SetGpuViewMatrix(Matrix view) { View = view; }
-		static void SetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
+		__forceinline static void SetGpuViewMatrix(Matrix view) { View = view; }
+		__forceinline static void SetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
 
 		CCamera();
 		virtual ~CCamera();

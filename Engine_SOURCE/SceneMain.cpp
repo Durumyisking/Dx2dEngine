@@ -13,6 +13,10 @@
 namespace dru
 {
 	CSceneMain::CSceneMain()
+		: mCamera(nullptr)
+		, mUICamera(nullptr)
+		, mUICursor(nullptr)
+
 	{
 	}
 	CSceneMain::~CSceneMain()
@@ -26,8 +30,7 @@ namespace dru
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-
-			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
+			renderer::mainCamera = cameraComp;
 		}
 		{
 			// ui Ä«¸Þ¶ó
@@ -36,15 +39,14 @@ namespace dru
 			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
-			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 
 		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
+		
 			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Cursor", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"Cursor", Material);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TexCursor", L"UIShader");
+			CResources::Insert<CMaterial>(L"CursorMat", Material);
 			SpriteRenderer->SetMaterial(Material);
 			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
 			mUICursor->SetPos(Vector3(0.f, 0.f, 0.f));
@@ -52,18 +54,19 @@ namespace dru
 		}
 
 		{
-			CBackground* mbgZer = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleZer_1");
+			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Player, L"zz");
+				
 			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleZer_1", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"TitleZer_1", Material);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
 			SpriteRenderer->SetMaterial(Material);
-
-			mbgZer->SetPos(Vector3(-0.09f, -0.45f, 0.81f));
-			mbgZer->SetScale(Vector3(0.25f, 0.25f, 1.f));
+			mbgZer->SetPos(Vector3(0.f, 0.f, 0.6f));
+			mbgZer->AddComponent<CPlayerScript>(eComponentType::Script);
 
 			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
 			coll->SetType(eColliderType::Rect);
+			coll->SetCenter(Vector2(0.f, 0.f));
+
+
 		}
 
 		CScene::Initialize();

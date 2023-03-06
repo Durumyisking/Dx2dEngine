@@ -25,13 +25,20 @@ namespace dru
 
 		Vector3 pos = transform->GetPosition();
 
+		if (CInput::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
+		{
+			Vector3 rot = transform->GetRotation();
+			rot.z += 10.0f * CTimeMgr::DeltaTime();
+			transform->SetRotation(rot);
+		}
+
 		if (CInput::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
-			pos.y += 3.f * CTimeMgr::DeltaTime();
+			pos.z += 3.f * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
 		{
-			pos.y -= 3.f * CTimeMgr::DeltaTime();
+			pos.z -= 3.f * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{

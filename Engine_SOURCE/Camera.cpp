@@ -38,7 +38,7 @@ namespace dru
 	}
 	void CCamera::Initialize()
 	{
-		
+		RegisterCameraInRenderer();
 	}
 
 	void CCamera::update()
@@ -132,7 +132,7 @@ namespace dru
 	void CCamera::RegisterCameraInRenderer()
 	{	
 		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
-		renderer::Cameras[type].push_back(this);
+		renderer::	Cameras[type].push_back(this);
 	}
 
 	void CCamera::TurnLayerMask(eLayerType _layer, bool _enable)

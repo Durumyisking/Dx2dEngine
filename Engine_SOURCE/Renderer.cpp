@@ -7,23 +7,23 @@
 namespace dru::renderer
 {
 	// vertex data
-	Vertex	RectVertexes[4] = {};
-	std::vector<Vertex>	CircleVertexes;
 
 	CConstantBuffer* constantBuffers[static_cast<UINT>(eCBType::End)] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)graphics::eSamplerType::End];
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[(UINT)graphics::eRasterizerType::End];
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[(UINT)graphics::eDepthStencilType::End];
-	Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[(UINT)graphics::eBlendStateType::End];
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState[(UINT)graphics::eDepthStencilType::End];
+	Microsoft::WRL::ComPtr<ID3D11BlendState> blendState[(UINT)graphics::eBlendStateType::End];
 
 	CCamera* mainCamera = nullptr;
 	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
-	std::vector<DebugMesh> DebugMeshes = {};
+	std::vector<DebugMesh> debugMeshes;
 
 	void LoadMesh()
 	{
 
 		#pragma region RectMesh
+
+		Vertex	RectVertexes[4] = {};
 
 		RectVertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.f); // 사각형의 lefttop
 		RectVertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
@@ -43,29 +43,52 @@ namespace dru::renderer
 
 		std::shared_ptr<CMesh> Rectmesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"Rectmesh", Rectmesh);
-
-		std::vector<UINT> vecIdx;
-
-		vecIdx.push_back(0);
-		vecIdx.push_back(1);
-		vecIdx.push_back(2);
-
-		vecIdx.push_back(0);
-		vecIdx.push_back(2);
-		vecIdx.push_back(3);
-
-//		vecIdx.push_back(0);
-
 		Rectmesh->CreateVertexBuffer(RectVertexes, 4);
-		Rectmesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
+
+		std::vector<UINT> indexes;
+		indexes.push_back(0);
+		indexes.push_back(1);
+		indexes.push_back(2);
+		indexes.push_back(0);
+		indexes.push_back(2);
+		indexes.push_back(3);
+		indexes.push_back(0);
+		Rectmesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		#pragma endregion
+
+		#pragma region RectMesh_Debug
+
+		Vertex	DebugRectVertexes[4] = {};
+
+		DebugRectVertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.f); // 사각형의 lefttop
+		DebugRectVertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
+		DebugRectVertexes[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
+
+		DebugRectVertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001f, 1.f);
+		DebugRectVertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		DebugRectVertexes[1].uv = Vector2(1.f, 0.f);
+
+		DebugRectVertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001f, 1.f);
+		DebugRectVertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		DebugRectVertexes[2].uv = Vector2(1.f, 1.f);
+
+		DebugRectVertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001f, 1.f);
+		DebugRectVertexes[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
+		DebugRectVertexes[3].uv = Vector2(0.f, 1.f);
+
+		std::shared_ptr<CMesh> DebugRectmesh = std::make_shared<CMesh>();
+		CResources::Insert<CMesh>(L"DebugRectmesh", DebugRectmesh);
+		DebugRectmesh->CreateVertexBuffer(DebugRectVertexes, 4);
+		DebugRectmesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		#pragma endregion
 
 		#pragma region CircleMesh
 
+		std::vector<Vertex>	CircleVertexes;
 		Vertex center = {};
-
-		center.pos = Vector4(0.f, 0.f, 0.f, 1.f);
+		center.pos = Vector4(0.f, 0.f, -0.00001f, 1.f);
 		center.color= Vector4(0.f, 1.f, 0.f, 1.f);
 		center.uv = Vector2::Zero;
 
@@ -80,28 +103,23 @@ namespace dru::renderer
 			Vertex vtx = {};
 			vtx.pos = Vector4(radius * cosf(theta * (float)i)
 							, radius * sinf(theta * (float)i)
-							, 0.5f, 1.f
+							, -0.00001f, 1.f
 			);
 			vtx.color = center.color;
 
 			CircleVertexes.push_back(vtx);
 		}
-
-
-
-		vecIdx.clear();
-
+		indexes.clear();
 		for (int i = 1; i <= slice; i++) // center 정점 제외
 		{
-			vecIdx.push_back(i);
+			indexes.push_back(i);
 		}
-		vecIdx.push_back(1);
+		indexes.push_back(1);
 
 		std::shared_ptr<CMesh> Circlemesh = std::make_shared<CMesh>();
-		CResources::Insert<CMesh>(L"Circlemesh", Circlemesh);
-
+		CResources::Insert<CMesh>(L"Circlemesh", Circlemesh);	
 		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), CircleVertexes.size());
-		Circlemesh->CreateIndexBuffer(vecIdx.data(), vecIdx.size());
+		Circlemesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 
 		#pragma endregion
@@ -192,6 +210,7 @@ namespace dru::renderer
 		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 
 		samplerDesc.Filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
+
 		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		samplerDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
 		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
@@ -231,29 +250,31 @@ namespace dru::renderer
 		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;	
-		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::Less].GetAddressOf());
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilState[(UINT)graphics::eDepthStencilType::Less].GetAddressOf());
 
 		dsDesc.DepthEnable = true;
 		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;
-		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::Greater].GetAddressOf());
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilState[(UINT)graphics::eDepthStencilType::Greater].GetAddressOf());
 
 		dsDesc.DepthEnable = true;
 		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
 		dsDesc.StencilEnable = false;
-		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::NoWrite].GetAddressOf());
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilState[(UINT)graphics::eDepthStencilType::NoWrite].GetAddressOf());
 
 		dsDesc.DepthEnable = false;
 		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
-		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ZERO;
 		dsDesc.StencilEnable = false;
-		GetDevice()->CreateDepthStencilState(&dsDesc, DepthStencilState[(UINT)graphics::eDepthStencilType::None].GetAddressOf());
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilState[(UINT)graphics::eDepthStencilType::None].GetAddressOf());
 
 		#pragma endregion
 
 		#pragma region BlendState
+
+		blendState[(UINT)graphics::eBlendStateType::Default] = nullptr;
 
 		D3D11_BLEND_DESC bsDesc = {};
 		bsDesc.AlphaToCoverageEnable = false;
@@ -266,7 +287,7 @@ namespace dru::renderer
 		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL;
 		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
 		bsDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
-		GetDevice()->CreateBlendState(&bsDesc, BlendState[(UINT)graphics::eBlendStateType::AlphaBlend].GetAddressOf());	
+		GetDevice()->CreateBlendState(&bsDesc, blendState[(UINT)graphics::eBlendStateType::AlphaBlend].GetAddressOf());	
 
 		bsDesc.AlphaToCoverageEnable = false;
 		bsDesc.IndependentBlendEnable = false;
@@ -275,11 +296,10 @@ namespace dru::renderer
 		bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
 		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL;
 		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
-		GetDevice()->CreateBlendState(&bsDesc, BlendState[(UINT)graphics::eBlendStateType::OneOne].GetAddressOf());
+		GetDevice()->CreateBlendState(&bsDesc, blendState[(UINT)graphics::eBlendStateType::OneOne].GetAddressOf());
 
 
 		#pragma endregion
-
 
 	}
 
@@ -365,14 +385,13 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 
 		// main
-		CResources::Load<CTexture>(L"Cursor", L"MainScene/Cursor.png");
+		CResources::Load<CTexture>(L"TexCursor", L"MainScene/Cursor.png");
 
 	}
 
 
 	void LoadMaterial()
 	{
-		LoadTexture();
 
 		std::shared_ptr<CTexture> Meshtexture = CResources::Find<CTexture>(L"default");
 		std::shared_ptr<CShader> MeshShader = CResources::Find<CShader>(L"MeshShader");
@@ -431,13 +450,11 @@ namespace dru::renderer
 	void Initialize()
 	{
 		// 중앙이 0, 0, 0이고 높이가 1인 정삼각형
-
-
-
 		LoadMesh();
 		LoadShader();
 		SetUpState();
 		LoadBuffer();
+		LoadTexture(); 
 		LoadMaterial();
 	}
 

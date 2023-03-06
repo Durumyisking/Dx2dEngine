@@ -46,8 +46,7 @@ namespace dru
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
-			renderer::mainCamera = renderer::Cameras[static_cast<UINT>(mType)][0];
+			renderer::mainCamera = cameraComp;
 
 		}
 		{
@@ -57,7 +56,6 @@ namespace dru
 			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
-			renderer::Cameras[static_cast<UINT>(mType)].push_back(cameraComp);
 		}
 
 		{			
@@ -98,6 +96,10 @@ namespace dru
 
 				mbgZer->SetPos(Vector3(-0.09f, -0.45f, 0.81f));
 				mbgZer->SetScale(Vector3(0.25f, 0.25f, 1.f));
+
+				//CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
+				//coll->SetType(eColliderType::Rect);
+
 
 			}
 
@@ -168,6 +170,7 @@ namespace dru
 			{
 				// UIStart
 				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::UI, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
+
 				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);

@@ -14,6 +14,7 @@ namespace dru
 	}
 	CApplication::~CApplication()
 	{
+		CSceneMgr::release();
 	}
 
 	void CApplication::Initialize()
@@ -41,7 +42,7 @@ namespace dru
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-//		CSceneMgr::render();
+		//CSceneMgr::render();
 		renderer::Render();
 
 	}

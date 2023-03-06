@@ -5,9 +5,7 @@
 
 #include "Mesh.h"
 #include "Shader.h"
-
 #include "ConstantBuffer.h"
-
 #include "Camera.h"
 
 
@@ -63,18 +61,17 @@ namespace dru::renderer
 
 	// vertex data
 	extern Vertex	RectVertexes[4];
-	extern std::vector<Vertex>	CircleVertexes;
 
 	extern CConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[];
-	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> DepthStencilState[];
-	extern Microsoft::WRL::ComPtr<ID3D11BlendState> BlendState[];
+	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState[];
+	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendState[];
 
 	extern std::vector<CCamera*> Cameras[];
 
 	extern CCamera* mainCamera;
-	extern std::vector<DebugMesh> DebugMeshes;
+	extern std::vector<DebugMesh> debugMeshes;
 
 	void Initialize();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라

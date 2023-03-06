@@ -33,8 +33,7 @@ namespace dru
 
 		template <typename T>
 		T* AddComponent(eComponentType _eType)
-		{
-			
+		{			
 			T* comp = new T();
 
 			if (_eType != eComponentType::Script)
@@ -44,7 +43,7 @@ namespace dru
 			}
 			else
 			{
-				mScripts.push_back(comp);
+				mScripts.push_back(dynamic_cast<CScript*>(comp));
 				comp->SetOwner(this);
 			}
 
@@ -66,14 +65,15 @@ namespace dru
 			}
 			return nullptr;
 		}
+
+		const std::vector<CScript*>& GetScripts() { return mScripts; }
+
 		CScript* GetScript()
 		{
-			for (CComponent* script : mScripts)
+			for (CScript* script : mScripts)
 			{
-				CScript* returnScript = dynamic_cast<CScript*>(script);
-
 				if (nullptr != script)
-					return returnScript;
+					return script;
 			}
 			return nullptr;
 		}
@@ -122,7 +122,7 @@ namespace dru
 	private:
 		eLayerType mType;
 		eState mState;
-		std::vector<CComponent*> mScripts;
+		std::vector<CScript*> mScripts;
 		bool mbDestroy;
 
 

@@ -27,6 +27,4 @@ namespace dru
 	void CScript::render()
 	{
 	}
-
-
 }

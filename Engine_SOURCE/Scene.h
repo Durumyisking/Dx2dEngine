@@ -45,6 +45,8 @@ namespace dru
 
 		std::vector<CGameObj*> GetDontDestroyObjects();
 
+		const std::vector<CGameObj*>& GetGameObj(eLayerType _eLayer);
+
 	protected :
 		std::vector<CLayer> mLayers;
 		CSceneMgr::eSceneType mType;
