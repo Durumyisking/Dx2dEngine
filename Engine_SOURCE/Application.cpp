@@ -38,7 +38,7 @@ namespace dru
 	void CApplication::render()
 	{
 		CTimeMgr::Render(mHdc);
-
+		CInput::Render(mHdc);
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 

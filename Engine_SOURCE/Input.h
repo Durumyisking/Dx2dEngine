@@ -48,6 +48,7 @@ namespace dru
 
 		static void Initialize();
 		static void update();
+		static void Render(HDC hdc);
 
 		static __forceinline eKeyState GetKeyState(eKeyCode keyCode)
 		{

@@ -102,4 +102,13 @@ namespace dru
 		}
 
 	}
+	void CInput::Render(HDC hdc)
+	{
+		HWND hWnd = application.GetHwnd();
+
+		wchar_t szFloat[50] = {};
+		swprintf_s(szFloat, 50, L"X : %f | Y : %f", mMousePosition.x, mMousePosition.y);
+
+		SetWindowText(hWnd, szFloat);
+	}
 }

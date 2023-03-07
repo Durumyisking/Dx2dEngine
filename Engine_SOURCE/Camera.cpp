@@ -17,7 +17,7 @@ namespace dru
 
 	CCamera::CCamera()
 		: CComponent(eComponentType::Camera)
-		, mType(eProjectionType::Perspective)
+		, mType(eProjectionType::Orthographic)
 		, mAspectRatio(1.f)
 		, mNear(1.f)
 		, mFar(1000.f)

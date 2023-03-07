@@ -60,15 +60,15 @@ namespace dru
 
 		{			
 			{
-				//// 배경 black
-				//mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-				//CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				// 배경 black
+				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
-				//CResources::Insert<CMaterial>(L"Black", Material);
-				//SpriteRenderer->SetMaterial(Material);
-				//mbgBlack->SetPos(Vector3(0.f, -1.f, 1.f));
-				//mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Black", Material);
+				SpriteRenderer->SetMaterial(Material);
+				mbgBlack->SetPos(Vector3(0.f, -1.f, 1.f));
+				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
 			}
 
@@ -81,8 +81,8 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Steel", Material);
  				SpriteRenderer->SetMaterial(Material);
-				mbgSteel->SetPos(Vector3(0.f, -0.2f, 1.f));
-				mbgSteel->SetScale(Vector3(0.4f, 0.4f, 1.f));
+				mbgSteel->SetPos(Vector3(0.f, -1.f, 1.f));
+				mbgSteel->SetScale(Vector3(2.5f, 2.5f, 1.f));
 			}
 
 			{
@@ -94,12 +94,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleZer_1", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgZer->SetPos(Vector3(-0.09f, -0.45f, 0.81f));
-				mbgZer->SetScale(Vector3(0.25f, 0.25f, 1.f));
-
-				//CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-				//coll->SetType(eColliderType::Rect);
-
+				mbgZer->SetPos(Vector3(-0.6f, -2.3f, 0.81f));
+				mbgZer->SetScale(Vector3(2.f, 2.f, 1.f));
 
 			}
 
@@ -113,8 +109,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleO_1", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgO->SetPos(Vector3(0.26f, -0.45f, 0.81f));
-				mbgO->SetScale(Vector3(0.025f, 0.025f, 1.f));
+				mbgO->SetPos(Vector3(2.2f, -2.3f, 0.81f));
+				mbgO->SetScale(Vector3(0.2f, 0.2f, 1.f));
 			}
 
 			{
@@ -126,8 +122,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleKatana", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgKatana->SetPos(Vector3(0.f, -0.3f, 0.8f));
-				mbgKatana->SetScale(Vector3(0.3f, 0.3f, 1.f));
+				mbgKatana->SetPos(Vector3(0.25f, -1.3f, 0.6f));
+				mbgKatana->SetScale(Vector3(2.f, 2.f, 1.f));
 			}
 
 
@@ -139,8 +135,8 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Fence", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Fence", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mbgChain->SetPos(Vector3(0.f, 0.1f, 0.7f));
-				mbgChain->SetScale(Vector3(1.28f, 1.28f, 1.f));
+				mbgChain->SetPos(Vector3(0.f, 1.75f, 0.7f));
+				mbgChain->SetScale(Vector3(10.f, 10.f, 1.f));
 			}
 
 			{
@@ -151,8 +147,8 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Grass", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mbgGrass->SetPos(Vector3(0.f, -1.f, 0.69f));
-				mbgGrass->SetScale(Vector3(0.15f, 0.15f, 1.f));
+				mbgGrass->SetPos(Vector3(0.f, -6.5f, 0.69f));
+				mbgGrass->SetScale(Vector3(0.9f, 0.9f, 1.f));
 			}
 
 			{
@@ -183,13 +179,13 @@ namespace dru
 
 			{
 				mCamTarget = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene");
-				mCamTarget->SetPos(Vector3(0.f, -0.6f, 1.f));
+				mCamTarget->SetPos(Vector3(0.f, -2.5f, 1.f));
 				mCamTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 
 			{
 				mUITarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
-				mUITarget->SetPos(Vector3(0.f, -1.35f, 0.5f));
+				mUITarget->SetPos(Vector3(0.f, -2.5f, 0.5f));
 				mUITarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 		}
