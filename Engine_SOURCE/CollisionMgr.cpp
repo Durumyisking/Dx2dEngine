@@ -55,7 +55,6 @@ namespace dru
 		}
 
 		mLayerCollisionMatrix[row][col] = _benable;
-
 	}
 
 	void CCollisionMgr::LayerCollision(CScene* _scene, eLayerType _left, eLayerType _right)
@@ -157,8 +156,6 @@ namespace dru
 
 	bool CCollisionMgr::Intersect(CCollider2D* _left, CCollider2D* _right)
 	{
-
-
 		return true;
 	}
 

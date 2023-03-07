@@ -55,18 +55,16 @@ namespace dru
 
 		{
 			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Player, L"zz");
-				
+			mbgZer->SetPos(Vector3(0.f, 0.f, 0.6f));
+
+			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
+			coll->SetType(eColliderType::Circle);
+			coll->SetCenter(Vector2(0.f, 0.f));
+
 			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
 			SpriteRenderer->SetMaterial(Material);
-			mbgZer->SetPos(Vector3(0.f, 0.f, 0.6f));
 			mbgZer->AddComponent<CPlayerScript>(eComponentType::Script);
-
-			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Rect);
-			coll->SetCenter(Vector2(0.f, 0.f));
-
-
 		}
 
 		CScene::Initialize();

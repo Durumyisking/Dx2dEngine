@@ -18,7 +18,6 @@ namespace dru
 
 	void CCursorScript::update()
 	{
-
 		mMousePos = CInput::GetMousePosition();
 		GetOwner()->SetPos(mMousePos);
 
