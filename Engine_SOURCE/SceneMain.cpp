@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Collider2D.h"
+#include "CollisionMgr.h"
 #include "CursorScript.h"
 
 namespace dru
@@ -24,6 +25,8 @@ namespace dru
 	}
 	void CSceneMain::Initialize()
 	{
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
+
 		{
 			// main Ä«¸Þ¶ó
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
@@ -58,7 +61,7 @@ namespace dru
 			mbgZer->SetPos(Vector3(0.f, 0.f, 0.6f));
 
 			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Circle);
+			coll->SetType(eColliderType::Rect);
 			coll->SetCenter(Vector2(0.f, 0.f));
 
 			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
@@ -66,6 +69,20 @@ namespace dru
 			SpriteRenderer->SetMaterial(Material);
 			mbgZer->AddComponent<CPlayerScript>(eComponentType::Script);
 		}
+
+		{
+			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Monster, L"xx");
+			mbgZer->SetPos(Vector3(-5.f, 0.f, 0.6f));
+
+			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
+			coll->SetType(eColliderType::Rect);
+			coll->SetCenter(Vector2(0.f, 0.f));
+
+			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
+			SpriteRenderer->SetMaterial(Material);
+		}
+
 
 		CScene::Initialize();
 	}

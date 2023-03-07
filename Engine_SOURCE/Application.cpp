@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "SceneMgr.h"
 #include "Resources.h"
+#include "CollisionMgr.h"
 
 namespace dru
 {
@@ -21,24 +22,28 @@ namespace dru
 	{
 		CTimeMgr::Initialize();
 		CInput::Initialize();
-
+		CCollisionMgr::Initialize();
 		renderer::Initialize();
 		CSceneMgr::Initialize();
+
 	}
 	void CApplication::update()
 	{
 		CTimeMgr::update();
 		CInput::update();
+		CCollisionMgr::update();
 		CSceneMgr::update();
 	}
 	void CApplication::fixedUpdate()
 	{
+		CCollisionMgr::fixedUpdate();
 		CSceneMgr::fixedUpdate();
 	}
 	void CApplication::render()
 	{
 		CTimeMgr::Render(mHdc);
 		CInput::Render(mHdc);
+		CCollisionMgr::render();
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 

@@ -5,6 +5,7 @@
 
 namespace dru
 {
+	UINT CCollider2D::mColliderID = 0;
 	CCollider2D::CCollider2D()
 		: CComponent(eComponentType::Collider)
 		, mType(eColliderType::End)
@@ -13,6 +14,7 @@ namespace dru
 		, mCenter(Vector2::Zero)
 		, mbTrigger(false) // 이거 공부하자
 	{
+		mColliderID = mColliderID++;
 	}
 
 	CCollider2D::~CCollider2D()
@@ -37,6 +39,7 @@ namespace dru
 
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
+		mPosition = colliderPos;
 
 		Matrix scaleMatrix = Matrix::CreateScale(scale);
 		Matrix rotationMatrix;

@@ -43,15 +43,15 @@ namespace dru
 		int col = 0;
 
 		// Matrix 절반만 사용
-		if ((UINT)_left > (UINT)_right)
-		{
-			row = (UINT)_right;
-			col = (UINT)_left;
-		}
-		else
+		if ((UINT)_left <= (UINT)_right)
 		{
 			row = (UINT)_left;
 			col = (UINT)_right;
+		}
+		else
+		{
+			row = (UINT)_right;
+			col = (UINT)_left;
 		}
 
 		mLayerCollisionMatrix[row][col] = _benable;
@@ -59,8 +59,8 @@ namespace dru
 
 	void CCollisionMgr::LayerCollision(CScene* _scene, eLayerType _left, eLayerType _right)
 	{
-		const std::vector<CGameObj*> lefts = _scene->GetGameObj(_left);
-		const std::vector<CGameObj*> rights = _scene->GetGameObj(_right);
+		const std::vector<CGameObj*>& lefts = _scene->GetGameObj(_left);
+		const std::vector<CGameObj*>& rights = _scene->GetGameObj(_right);
 
 		for (CGameObj* left : lefts)
 		{
@@ -91,8 +91,8 @@ namespace dru
 	void CCollisionMgr::ColliderCollision(CCollider2D* _left, CCollider2D* _right)
 	{
 		ColliderID colliderID;
-		colliderID.left = (UINT)_left;
-		colliderID.right = (UINT)_right;
+		colliderID.left = (UINT)_left->GetColliderID();
+		colliderID.right = (UINT)_right->GetColliderID();
 
 		std::map<UINT64, bool>::iterator iter = mCollisionMap.find(colliderID.id);
 
@@ -118,7 +118,6 @@ namespace dru
 				else
 					_right->OnCollision(_left);
 
-				iter->second = true;
 			}
 			else // 첫 충돌
 			{
@@ -156,7 +155,77 @@ namespace dru
 
 	bool CCollisionMgr::Intersect(CCollider2D* _left, CCollider2D* _right)
 	{
+
+	#pragma region Rect vs Rect
+
+		static const Vector3 arrLocalPos[4] =
+		{
+			Vector3{-0.5f, 0.5f, 0.0f},
+			Vector3{0.5f, 0.5f, 0.0f},
+			Vector3{0.5f, -0.5f, 0.0f},
+			Vector3{-0.5f, -0.5f, 0.0f}
+		};
+
+		CTransform* leftTr = _left->GetOwner()->GetComponent<CTransform>();
+		CTransform* rightTr = _right->GetOwner()->GetComponent<CTransform>();
+
+		Matrix leftMatrix = leftTr->GetWorldMatrix();
+		Matrix rightMatrix = rightTr->GetWorldMatrix();
+
+		// 분리축 벡터 (투영벡터)
+		Vector3 Axis[4] = {};
+		Axis[0] = (Vector3::Transform(arrLocalPos[1], leftMatrix));
+		Axis[1] = (Vector3::Transform(arrLocalPos[3], leftMatrix));
+		Axis[2] = (Vector3::Transform(arrLocalPos[1], rightMatrix));
+		Axis[3] = (Vector3::Transform(arrLocalPos[3], rightMatrix));
+
+		Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
+		Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
+		Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
+		Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			Axis[i].z = 0.f;
+		}
+
+		Vector3 vc = (_left->GetColliderPos() - _right->GetColliderPos());
+		vc.z = 0.f;
+
+		Vector3 centerDir = vc;
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			Vector3 vA = Axis[i];
+			vA.Normalize();
+
+			float projDist = 0.f;
+			for (size_t j = 0; j < 4; j++)
+			{
+				projDist += fabsf(Axis[j].Dot(vA) / 2.f);
+			}
+
+			if (projDist < fabsf(centerDir.Dot(vA)))
+			{
+				return false;
+			}
+
+			// 숙제 원충돌
+		}
+
 		return true;
 	}
+
+	#pragma endregion
+
+
+	#pragma region Circle vs Circle
+
+	#pragma endregion
+
+
+	#pragma region Rect vs Circle
+
+	#pragma endregion
 
 }

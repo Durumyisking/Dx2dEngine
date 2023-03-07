@@ -161,6 +161,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="BackgroundColor.h" />
@@ -190,7 +192,9 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="Renderer.h" />
@@ -208,6 +212,8 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="BackgroundColor.cpp" />
@@ -233,6 +239,8 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Renderer.cpp" />

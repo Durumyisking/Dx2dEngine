@@ -31,16 +31,23 @@ namespace dru
         void SetCenter(Vector2 _Center) { mCenter = _Center; }
         void SetScale(Vector2 _Scale) { mScale = _Scale; }
 
+        Vector3 GetColliderPos() const { return mPosition; }
 
         bool IsTrigger() const { return mbTrigger; }
-        
+
+        UINT GetColliderID() const { return mColliderID; }
 
     private:
+        static UINT mColliderID;
+
         eColliderType mType;
         CTransform* mTransform;
 
         Vector2 mScale;
         Vector2 mCenter;
+
+        Vector3 mPosition;
+
         bool    mbTrigger;
 
     };

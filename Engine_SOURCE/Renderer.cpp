@@ -25,19 +25,19 @@ namespace dru::renderer
 
 		Vertex	RectVertexes[4] = {};
 
-		RectVertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.f); // 사각형의 lefttop
+		RectVertexes[0].pos = Vector4(-0.5f, 0.5f, 0.f, 1.f); // 사각형의 lefttop
 		RectVertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
 		RectVertexes[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
 
-		RectVertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.f);
+		RectVertexes[1].pos = Vector4(0.5f, 0.5f, 0.f, 1.f);
 		RectVertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
 		RectVertexes[1].uv = Vector2(1.f, 0.f);
 
-		RectVertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.f);
+		RectVertexes[2].pos = Vector4(0.5f, -0.5f, 0.f, 1.f);
 		RectVertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
 		RectVertexes[2].uv = Vector2(1.f, 1.f);
 
-		RectVertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.f);
+		RectVertexes[3].pos = Vector4(-0.5f, -0.5f, 0.f, 1.f);
 		RectVertexes[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
 		RectVertexes[3].uv = Vector2(0.f, 1.f);
 
