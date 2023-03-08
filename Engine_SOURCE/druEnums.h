@@ -22,9 +22,11 @@ namespace dru::enums
 		Transform, // 위치 데이터 수정하는 컴포넌트
 		Camera,
 		Mesh,
+		RigidBody,
 		Collider,
 		MeshRenderer,
 		SpriteRenderer,
+		Animator,
 		UI,
 		Script,
 		End,

@@ -131,6 +131,12 @@
     <Filter Include="Common\Component\Animator">
       <UniqueIdentifier>{a4ee9fdf-ba9d-45cb-b92d-4df3bb641c38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Component\RigidBody">
+      <UniqueIdentifier>{556f588a-123a-4f20-b06d-6c511ff57a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\UI">
+      <UniqueIdentifier>{18115386-92e5-4b9c-96d1-232aadc8ab6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -280,6 +286,12 @@
     <ClInclude Include="Animation.h">
       <Filter>Common\Component\Animator</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Common\Component\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>GameObj\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -413,6 +425,12 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Common\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Common\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>GameObj\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

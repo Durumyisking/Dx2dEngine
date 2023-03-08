@@ -3,6 +3,7 @@
 #include "GameObj.h"
 #include "Input.h"
 #include "TimeMgr.h"
+#include "RigidBody.h"
 
 namespace dru
 {
@@ -23,6 +24,8 @@ namespace dru
 	{
 		CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
+		CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
+
 		Vector3 pos = transform->GetPosition();
 
 		if (CInput::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
@@ -34,19 +37,19 @@ namespace dru
 
 		if (CInput::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
-			pos.z += 3.f * CTimeMgr::DeltaTime();
+			pos += 3.f * transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
 		{
-			pos.z -= 3.f * CTimeMgr::DeltaTime();
+			pos -= 3.f * transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{
-			pos.x -= 3.f * CTimeMgr::DeltaTime();
+			rigidebody->AddVelocity(transform->Right() * -10.f);
 		}
 		if (CInput::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
 		{
-			pos.x += 3.f * CTimeMgr::DeltaTime();
+			rigidebody->AddVelocity(transform->Right() * 10.f);
 		}
 
 

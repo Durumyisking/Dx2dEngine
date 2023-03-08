@@ -53,10 +53,19 @@ namespace dru::renderer
 		int		bTextureType;
 	};
 
-	CBUFFER(ColorCB, CBSLOT_FADE)
+	CBUFFER(ColorCB, CBSLOT_COLOR)
 	{
 		Vector4 RGBA;
+	};
 
+	CBUFFER(AnimationCB, CBSLOT_ANIMATION)
+	{
+		Vector2 LT;
+		Vector2 size;
+		Vector2 offset;
+		Vector2 atlasSIze;
+
+		UINT used;
 	};
 
 	// vertex data

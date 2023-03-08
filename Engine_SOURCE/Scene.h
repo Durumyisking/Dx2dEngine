@@ -9,12 +9,11 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "CameraScript.h"
 
 #include "Background.h"
 #include "BackgroundColor.h"
 
-#include "CameraScript.h"
-#include "PlayerScript.h"
 
 namespace dru
 {

@@ -6,6 +6,8 @@ namespace dru
 	class CPlayer :
 		public CGameObj
 	{
+
+	public:
 		CPlayer();
 		virtual ~CPlayer();
 

@@ -1,15 +1,19 @@
 #include "SceneMain.h"
 #include "TimeMgr.h"
-#include "Background.h"
-#include "GridScript.h"
-#include "FadeScript.h"
-#include "PlayerScript.h"
 #include "Object.h"
 #include "Camera.h"
 #include "Input.h"
 #include "Collider2D.h"
 #include "CollisionMgr.h"
+
+#include "Background.h"
+#include "Player.h"
+#include "Monster.h"
+
+#include "GridScript.h"
+#include "FadeScript.h"
 #include "CursorScript.h"
+
 
 namespace dru
 {
@@ -17,6 +21,7 @@ namespace dru
 		: mCamera(nullptr)
 		, mUICamera(nullptr)
 		, mUICursor(nullptr)
+		, mPlayer(nullptr)
 
 	{
 	}
@@ -45,43 +50,37 @@ namespace dru
 		}
 
 		{
+			// ¹è°æ Stage1
+			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
+			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Stage1", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"Stage1", Material);
+			SpriteRenderer->SetMaterial(Material);
+			mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
+			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
+		}
+
+		{
+			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
+			mPlayer->SetPos(Vector3(-6.f, -2.65f, 3.f));
+			mPlayer->SetScale(Vector3(5.f, 5.f, 3.f));
+			CGameObj* playerObj = dynamic_cast<CGameObj*>(mPlayer);
+		}
+
+		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
-		
+
 			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TexCursor", L"UIShader");
 			CResources::Insert<CMaterial>(L"CursorMat", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
-			mUICursor->SetPos(Vector3(0.f, 0.f, 0.f));
-			mUICursor->SetScale(Vector3(1.f, 1.f, 1.f));
+//			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
+			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
+			mUICursor->SetScale(Vector3(0.5f, 0.5f, 1.f));
 		}
 
-		{
-			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Player, L"zz");
-			mbgZer->SetPos(Vector3(0.f, 0.f, 3.f));
 
-			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Circle);
-			coll->SetScale(Vector2(0.8f, 0.8f));
-
-			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
-			SpriteRenderer->SetMaterial(Material);
-			mbgZer->AddComponent<CPlayerScript>(eComponentType::Script);
-		}
-
-		{
-			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Monster, L"xx");
-			mbgZer->SetPos(Vector3(-5.f, 0.f, 3.f));
-
-			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Circle);
-			coll->SetScale(Vector2(0.8f, 0.8f));
-
-			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
-			SpriteRenderer->SetMaterial(Material);
-		}
 
 
 		CScene::Initialize();

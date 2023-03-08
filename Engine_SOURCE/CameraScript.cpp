@@ -36,19 +36,19 @@ namespace dru
 
 		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::PRESSED)
 		{
-			LookAt += 3.f * transform->Up() * CTimeMgr::DeltaTime();
+			LookAt += 10.f * transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
 		{
-			LookAt += 3.f * -transform->Up() * CTimeMgr::DeltaTime();
+			LookAt += 10.f * -transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::PRESSED)
 		{
-			LookAt += 3.f * -transform->Right() * CTimeMgr::DeltaTime();
+			LookAt += 10.f * -transform->Right() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
 		{
-			LookAt += 3.f * transform->Right() * CTimeMgr::DeltaTime();
+			LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
 		}
 
 		// Target Move

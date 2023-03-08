@@ -39,7 +39,6 @@ namespace dru
 
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.f);
-		colliderPos.z -= 1.f;
 		mPosition = colliderPos;
 
 		Matrix scaleMatrix = Matrix::CreateScale(scale);

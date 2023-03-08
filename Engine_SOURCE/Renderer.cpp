@@ -77,6 +77,13 @@ namespace dru::renderer
 		DebugRectVertexes[3].color = Vector4(0.f, 0.f, 0.f, 1.f);
 		DebugRectVertexes[3].uv = Vector2(0.f, 1.f);
 
+		indexes.clear();
+		indexes.push_back(0);
+		indexes.push_back(1);
+		indexes.push_back(2);
+		indexes.push_back(3);
+		indexes.push_back(0);
+
 		std::shared_ptr<CMesh> DebugRectmesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"DebugRectmesh", DebugRectmesh);
 		DebugRectmesh->CreateVertexBuffer(DebugRectVertexes, 4);
@@ -322,6 +329,9 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Color)] = new CConstantBuffer(eCBType::Color);
 		constantBuffers[static_cast<UINT>(eCBType::Color)]->Create(sizeof(ColorCB));
 
+		constantBuffers[static_cast<UINT>(eCBType::Animation)] = new CConstantBuffer(eCBType::Animation);
+		constantBuffers[static_cast<UINT>(eCBType::Animation)]->Create(sizeof(AnimationCB));
+
 	}
 
 	void LoadShader()
@@ -384,8 +394,22 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"Fence", L"TitleScene/bgFence.png");
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 
+
 		// main
 		CResources::Load<CTexture>(L"TexCursor", L"MainScene/Cursor.png");
+		CResources::Load<CTexture>(L"Stage1", L"MainScene/Background/Stage1bg.png");
+		CResources::Load<CTexture>(L"Player", L"MainScene/Player2.png");
+
+		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
+		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");
+		CResources::Load<CTexture>(L"hud_timerbar", L"MainScene/Hud/hud_timerbar.png");
+		CResources::Load<CTexture>(L"hud_battery", L"MainScene/Hud/hud_battery.png");
+		CResources::Load<CTexture>(L"hud_batterypart", L"MainScene/Hud/hud_batterypart.png");
+		CResources::Load<CTexture>(L"hud_inventory", L"MainScene/Hud/hud_inventory.png");
+		CResources::Load<CTexture>(L"hud_LMouse", L"MainScene/Hud/hud_LMouse.png");
+		CResources::Load<CTexture>(L"hud_RMouse", L"MainScene/Hud/hud_RMouse.png");
+		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");
+		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
 
 	}
 

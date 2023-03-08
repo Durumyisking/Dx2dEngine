@@ -24,6 +24,17 @@ namespace dru
 		CGameObj* mUICamera;
 
 		CGameObj* mUICursor;
+		CGameObj* mHudBatteryPart;
+		CGameObj* mHudTimerBar;
+		CGameObj* mHudLeftHand;
+		CGameObj* mHudRightHand;
+
+		
+		CPlayer* mPlayer;
+
+		CBackground* mStageBackground;
+
+		
 
 	};
 

@@ -15,6 +15,9 @@
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
 #define CBSLOT_FADE 3
+#define CBSLOT_COLOR 4
+#define CBSLOT_ANIMATION 5
+
 
 namespace dru::graphics
 {
@@ -114,6 +117,7 @@ namespace dru::graphics
 		Grid,
 		Fade,
 		Color,
+		Animation,
 		End,
 	};
 

@@ -51,7 +51,16 @@ cbuffer Fade : register(b3)
 cbuffer Color : register(b4)
 {
     float4 RGBA;
+}
 
+cbuffer Animation : register(b5)
+{
+    float2 LT;
+    float2 size;
+    float2 offset;
+    float2 atlasSIze;
+
+    uint used;
 }
 
 Texture2D defaultTexture : register(t0);

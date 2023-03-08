@@ -22,7 +22,7 @@ namespace dru
 	{
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
 		renderer::ColorCB data = {};
-
+				
 		data.RGBA = mColor;
 
 		cb->Bind(&data);
