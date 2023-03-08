@@ -156,76 +156,96 @@ namespace dru
 	bool CCollisionMgr::Intersect(CCollider2D* _left, CCollider2D* _right)
 	{
 
-	#pragma region Rect vs Rect
+	#pragma region RectVsRect
 
-		static const Vector3 arrLocalPos[4] =
+		if (eColliderType::Rect == _left->GetType() && eColliderType::Rect == _right->GetType())
 		{
-			Vector3{-0.5f, 0.5f, 0.0f},
-			Vector3{0.5f, 0.5f, 0.0f},
-			Vector3{0.5f, -0.5f, 0.0f},
-			Vector3{-0.5f, -0.5f, 0.0f}
-		};
-
-		CTransform* leftTr = _left->GetOwner()->GetComponent<CTransform>();
-		CTransform* rightTr = _right->GetOwner()->GetComponent<CTransform>();
-
-		Matrix leftMatrix = leftTr->GetWorldMatrix();
-		Matrix rightMatrix = rightTr->GetWorldMatrix();
-
-		// ∫–∏Æ√‡ ∫§≈Õ (≈ıøµ∫§≈Õ)
-		Vector3 Axis[4] = {};
-		Axis[0] = (Vector3::Transform(arrLocalPos[1], leftMatrix));
-		Axis[1] = (Vector3::Transform(arrLocalPos[3], leftMatrix));
-		Axis[2] = (Vector3::Transform(arrLocalPos[1], rightMatrix));
-		Axis[3] = (Vector3::Transform(arrLocalPos[3], rightMatrix));
-
-		Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
-		Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
-		Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
-		Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
-
-		for (int i = 0; i < 4; ++i)
-		{
-			Axis[i].z = 0.f;
-		}
-
-		Vector3 vc = (_left->GetColliderPos() - _right->GetColliderPos());
-		vc.z = 0.f;
-
-		Vector3 centerDir = vc;
-
-		for (size_t i = 0; i < 4; i++)
-		{
-			Vector3 vA = Axis[i];
-			vA.Normalize();
-
-			float projDist = 0.f;
-			for (size_t j = 0; j < 4; j++)
+			static const Vector3 arrLocalPos[4] =
 			{
-				projDist += fabsf(Axis[j].Dot(vA) / 2.f);
+				Vector3{-0.5f, 0.5f, 0.0f},
+				Vector3{0.5f, 0.5f, 0.0f},
+				Vector3{0.5f, -0.5f, 0.0f},
+				Vector3{-0.5f, -0.5f, 0.0f}
+			};
+
+			CTransform* leftTr = _left->GetOwner()->GetComponent<CTransform>();
+			CTransform* rightTr = _right->GetOwner()->GetComponent<CTransform>();
+
+			Matrix leftMatrix = leftTr->GetWorldMatrix();
+			Matrix rightMatrix = rightTr->GetWorldMatrix();
+
+			// ∫–∏Æ√‡ ∫§≈Õ (≈ıøµ∫§≈Õ)
+			Vector3 Axis[4] = {};
+			Axis[0] = (Vector3::Transform(arrLocalPos[1], leftMatrix));
+			Axis[1] = (Vector3::Transform(arrLocalPos[3], leftMatrix));
+			Axis[2] = (Vector3::Transform(arrLocalPos[1], rightMatrix));
+			Axis[3] = (Vector3::Transform(arrLocalPos[3], rightMatrix));
+
+			Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
+			Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
+			Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
+			Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
+
+			for (int i = 0; i < 4; ++i)
+			{
+				Axis[i].z = 0.f;
 			}
 
-			if (projDist < fabsf(centerDir.Dot(vA)))
+			Vector3 vc = (_left->GetColliderPos() - _right->GetColliderPos());
+			vc.z = 0.f;
+
+			Vector3 centerDir = vc;
+
+			for (size_t i = 0; i < 4; i++)
+			{
+				Vector3 vA = Axis[i];
+				vA.Normalize();
+
+				float projDist = 0.f;
+				for (size_t j = 0; j < 4; j++)
+				{
+					projDist += fabsf(Axis[j].Dot(vA) / 2.f);
+				}
+
+				if (projDist < fabsf(centerDir.Dot(vA)))
+				{
+					return false;
+				}
+
+				// º˜¡¶ ø¯√Êµπ
+			}
+		}
+
+	#pragma endregion
+
+	#pragma region CircleVsCircle
+		
+		else if (eColliderType::Circle == _left->GetType() && eColliderType::Circle == _right->GetType())
+		{
+			Vector2 leftPos = { _left->GetColliderPos().x, _left->GetColliderPos().y };
+			Vector2 rightPos = { _right->GetColliderPos().x, _right->GetColliderPos().y };
+
+			float Gap = (leftPos - rightPos).Length();
+
+			float leftScale = _left->GetRadius() * 0.5f;
+			float rightScale = _right->GetRadius() * 0.5f;
+
+			if ((leftScale + rightScale) < Gap)
 			{
 				return false;
 			}
-
-			// º˜¡¶ ø¯√Êµπ
 		}
+
+
+
+	#pragma endregion
+
+
+	#pragma region RectVsCircle
+
+	#pragma endregion
+
 
 		return true;
 	}
-
-	#pragma endregion
-
-
-	#pragma region Circle vs Circle
-
-	#pragma endregion
-
-
-	#pragma region Rect vs Circle
-
-	#pragma endregion
-
 }

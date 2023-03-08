@@ -58,11 +58,11 @@ namespace dru
 
 		{
 			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Player, L"zz");
-			mbgZer->SetPos(Vector3(0.f, 0.f, 0.6f));
+			mbgZer->SetPos(Vector3(0.f, 0.f, 3.f));
 
 			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Rect);
-			coll->SetCenter(Vector2(0.f, 0.f));
+			coll->SetType(eColliderType::Circle);
+			coll->SetScale(Vector2(0.8f, 0.8f));
 
 			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
@@ -72,11 +72,11 @@ namespace dru
 
 		{
 			CGameObj* mbgZer = object::Instantiate<CGameObj>(eLayerType::Monster, L"xx");
-			mbgZer->SetPos(Vector3(-5.f, 0.f, 0.6f));
+			mbgZer->SetPos(Vector3(-5.f, 0.f, 3.f));
 
 			CCollider2D* coll = mbgZer->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetType(eColliderType::Rect);
-			coll->SetCenter(Vector2(0.f, 0.f));
+			coll->SetType(eColliderType::Circle);
+			coll->SetScale(Vector2(0.8f, 0.8f));
 
 			CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");

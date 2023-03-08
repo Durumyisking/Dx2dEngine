@@ -33,12 +33,13 @@ namespace dru
 	void CCollider2D::fixedUpdate()
 	{
 		Vector3 scale = mTransform->GetScale();
-		scale *= Vector3(mScale.x, mScale.y, 1.0f);
+		scale *= Vector3(mScale.x, mScale.y, 1.f);
 
 		Vector3 rotation = mTransform->GetRotation();
 
 		Vector3 position = mTransform->GetPosition();
-		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
+		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.f);
+		colliderPos.z -= 1.f;
 		mPosition = colliderPos;
 
 		Matrix scaleMatrix = Matrix::CreateScale(scale);
