@@ -396,9 +396,9 @@ namespace dru::renderer
 
 
 		// main
-		CResources::Load<CTexture>(L"TexCursor", L"MainScene/Cursor.png");
-		CResources::Load<CTexture>(L"Stage1", L"MainScene/Background/Stage1bg.png");
-		CResources::Load<CTexture>(L"Player", L"MainScene/Player2.png");
+		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
+		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
+		CResources::Load<CTexture>(L"player", L"MainScene/Player2.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");
@@ -410,6 +410,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"hud_RMouse", L"MainScene/Hud/hud_RMouse.png");
 		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");
 		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
+		CResources::Load<CTexture>(L"icon_Butcher", L"MainScene/Hud/Itemicons/Butcher.png");
 
 	}
 

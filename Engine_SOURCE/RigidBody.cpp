@@ -11,7 +11,7 @@ namespace dru
 		, mVelocity(Vector3::Zero)
 		, mMass(1.f)
 		, mMaxSpeed(5.f)
-		, mFricCoeff(10.f)
+		, mFricCoeff(20.f)
 	{
 	}
 

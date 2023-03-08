@@ -19,7 +19,7 @@ namespace dru
 		coll->SetScale(Vector2(0.4f, 1.f));
 
 		CSpriteRenderer* SpriteRenderer = playerObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Player", L"SpriteShader");
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"PlayerMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 	}

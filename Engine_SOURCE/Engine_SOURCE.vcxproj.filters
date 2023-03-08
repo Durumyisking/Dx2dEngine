@@ -134,9 +134,6 @@
     <Filter Include="Common\Component\RigidBody">
       <UniqueIdentifier>{556f588a-123a-4f20-b06d-6c511ff57a84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\UI">
-      <UniqueIdentifier>{18115386-92e5-4b9c-96d1-232aadc8ab6e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -289,9 +286,6 @@
     <ClInclude Include="RigidBody.h">
       <Filter>Common\Component\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
-      <Filter>GameObj\UI</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -428,9 +422,6 @@
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>Common\Component\RigidBody</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
-      <Filter>GameObj\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

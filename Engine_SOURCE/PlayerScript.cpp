@@ -37,11 +37,11 @@ namespace dru
 
 		if (CInput::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
-			pos += 3.f * transform->Up() * CTimeMgr::DeltaTime();
+			pos += 2.5f * transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
 		{
-			pos -= 3.f * transform->Up() * CTimeMgr::DeltaTime();
+			pos -= 2.5f * transform->Up() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{

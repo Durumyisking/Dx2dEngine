@@ -24,7 +24,7 @@ namespace dru
 		CGameObj* mUICamera;
 
 		CGameObj* mUICursor;
-		CGameObj* mHudBatteryPart;
+		std::vector<CGameObj*> mHudBatteryParts;
 		CGameObj* mHudTimerBar;
 		CGameObj* mHudLeftHand;
 		CGameObj* mHudRightHand;
