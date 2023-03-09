@@ -13,10 +13,12 @@ namespace dru
 {
 	CSceneTitle::CSceneTitle()
 		: mCamMoveDone(false)
+		, mCamMoveStart(false)
 		, mUIMoveDone(false)
 		, mCamera(nullptr)
 		, mUICamera(nullptr)
 		, mCamTarget(nullptr)
+		, mCamTarget2(nullptr)
 		, mUITarget(nullptr)
 		, mUIBg(nullptr)
 		, mUIStart(nullptr)
@@ -47,6 +49,7 @@ namespace dru
 			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
+			cameraComp->SetProjectionType(CCamera::eProjectionType::Perspective);
 
 		}
 		{
@@ -59,6 +62,9 @@ namespace dru
 		}
 
 		{			
+		
+
+
 			{
 				// 배경 black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
@@ -67,7 +73,7 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Black", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mbgBlack->SetPos(Vector3(0.f, -1.f, 1.f));
+				mbgBlack->SetPos(Vector3(0.f, -1.f, 5.f));
 				mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
 			}
@@ -81,8 +87,8 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Steel", Material);
  				SpriteRenderer->SetMaterial(Material);
-				mbgSteel->SetPos(Vector3(0.f, -1.f, 1.f));
-				mbgSteel->SetScale(Vector3(2.5f, 2.5f, 1.f));
+				mbgSteel->SetPos(Vector3(0.f, -1.f, 5.f));
+				mbgSteel->SetScale(Vector3(1.625f, 1.625f, 1.f));
 			}
 
 			{
@@ -94,8 +100,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleZer_1", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgZer->SetPos(Vector3(-0.6f, -2.3f, 0.81f));
-				mbgZer->SetScale(Vector3(2.f, 2.f, 1.f));
+				mbgZer->SetPos(Vector3(-0.325f, -1.85f, 4.f));
+				mbgZer->SetScale(Vector3(1.f, 1.f, 1.f));
 
 			}
 
@@ -109,8 +115,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleO_1", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgO->SetPos(Vector3(2.2f, -2.3f, 0.81f));
-				mbgO->SetScale(Vector3(0.2f, 0.2f, 1.f));
+				mbgO->SetPos(Vector3(1.1f, -1.85f, 4.f));
+				mbgO->SetScale(Vector3(0.1f, 0.1f, 1.f));
 			}
 
 			{
@@ -122,8 +128,8 @@ namespace dru
 				CResources::Insert<CMaterial>(L"TitleKatana", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mbgKatana->SetPos(Vector3(0.25f, -1.3f, 0.6f));
-				mbgKatana->SetScale(Vector3(2.f, 2.f, 1.f));
+				mbgKatana->SetPos(Vector3(0.1f, -1.4f, 4.f));
+				mbgKatana->SetScale(Vector3(1.f, 1.f, 1.f));
 			}
 
 
@@ -135,8 +141,37 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Fence", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Fence", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mbgChain->SetPos(Vector3(0.f, 1.75f, 0.7f));
-				mbgChain->SetScale(Vector3(10.f, 10.f, 1.f));
+				mbgChain->SetPos(Vector3(0.f, -0.4f, 3.f));
+				mbgChain->SetScale(Vector3(3.85f, 3.85f, 1.f));
+			}
+
+
+			{
+				// 배경 UI
+				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"UITitleBg");
+				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
+				SpriteRenderer->SetMaterial(Material);
+
+				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.25f });
+				mUIBg->SetPos(Vector3(0.f, -10.f, 2.5f));
+				mUIBg->SetScale(Vector3(0.1f, 0.1f, 1.f));
+
+			}
+
+			{
+				// UIStart
+				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
+
+				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
+				SpriteRenderer->SetMaterial(Material);
+				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.25f });
+				mUIStart->SetPos(Vector3(0.f, 0.4f, 0.f));
+				mUIStart->SetScale(Vector3(0.06f, 0.015f, 1.f));
 			}
 
 			{
@@ -147,45 +182,42 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Grass", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mbgGrass->SetPos(Vector3(0.f, -6.5f, 0.69f));
-				mbgGrass->SetScale(Vector3(0.9f, 0.9f, 1.f));
+				mbgGrass->SetPos(Vector3(0.f, -2.6f, 1.f));
+				mbgGrass->SetScale(Vector3(0.13f, 0.13f, 1.f));
 			}
+
+
 
 			{
-				// 배경 UI
-				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"UITitleBg");
-				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
+				// 배경 black
+				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Black", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.5f });
-				mUIBg->SetPos(Vector3(0.f, -6.f, 0.5f));
-				mUIBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
+				mbgBlack->SetPos(Vector3(0.f, -25.25f, 1.f));
+				mbgBlack->SetScale(Vector3(5.f, 5.f, 1.f));
+
 			}
-
-			{
-				// UIStart
-				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::UI, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
-
-				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.5f });
-				mUIStart->SetPos(Vector3(0.f, 0.41f, 0.5f));
-				mUIStart->SetScale(Vector3(0.15f, 0.02f, 1.f));
-			}
-
 
 			{
 				mCamTarget = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene");
-				mCamTarget->SetPos(Vector3(0.f, -2.5f, 1.f));
+				mCamTarget->SetPos(Vector3(0.f, -2.1f, 1.f));
 				mCamTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 
+
+			{
+				mCamTarget2 = object::Instantiate<CBackground>(eLayerType::None, L"CamTargetTitleScene2");
+				mCamTarget2->SetPos(Vector3(0.f, -3.3f, 1.f));
+				mCamTarget2->SetScale(Vector3(0.4f, 0.4f, 1.f));
+			}
+
+
 			{
 				mUITarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
-				mUITarget->SetPos(Vector3(0.f, -2.5f, 0.5f));
+				mUITarget->SetPos(Vector3(0.f, -2.8f, 2.5f));
 				mUITarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 			}
 		}
@@ -199,6 +231,7 @@ namespace dru
 	{
 		if (!mCamMoveDone && mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
 			mCamMoveDone = true;
+
 
 		if (mCamMoveDone)
 		{
@@ -224,6 +257,7 @@ namespace dru
 			}
 
 		}
+
 
 		if (mUIMoveDone)
 		{
@@ -265,12 +299,23 @@ namespace dru
 				switch (mMenu)
 				{
 				case 1:
-					CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+					mCamera->GetComponent<CCamera>()->SmoothOff();
+
+					mCamera->GetComponent<CCamera>()->SetTarget(mCamTarget2);
+					mCamMoveStart = true;
+
 					break;
 				default:
 					break;
 				}
 			}
+		}
+
+		if (mCamMoveStart)
+		{
+			if(mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
+				CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+
 		}
 
 

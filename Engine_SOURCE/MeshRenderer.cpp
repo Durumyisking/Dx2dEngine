@@ -20,6 +20,7 @@ namespace dru
 
 	void CMeshRenderer::update()
 	{
+		CBaseRenderer::update();
 	}
 
 	void CMeshRenderer::fixedUpdate()

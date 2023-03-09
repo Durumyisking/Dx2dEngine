@@ -17,8 +17,8 @@ namespace dru
 		coll->SetScale(Vector2(0.4f, 1.f));
 
 
-
 	}
+
 
 	CMonster::~CMonster()
 	{
@@ -43,5 +43,4 @@ namespace dru
 	{
 		CGameObj::render();
 	}
-
 }

@@ -25,6 +25,7 @@ namespace dru
 		CGameObj*	mUICamera;
 
 		CGameObj*	mCamTarget;
+		CGameObj*	mCamTarget2;
 		CGameObj*	mUITarget;
 
 		CBackgroundColor* mUIBg;
@@ -40,6 +41,7 @@ namespace dru
 		CBackground* mbgO;
 
 		bool mCamMoveDone;
+		bool mCamMoveStart;
 		bool mUIMoveDone;
 
 		int mMenu;
