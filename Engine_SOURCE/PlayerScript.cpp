@@ -24,6 +24,7 @@ namespace dru
 	{
 		CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
+#pragma region pos
 		CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
 
 		Vector3 pos = transform->GetPosition();
@@ -51,9 +52,23 @@ namespace dru
 		{
 			rigidebody->AddVelocity(transform->Right() * 10.f);
 		}
-
-
 		transform->SetPosition(pos);
+
+#pragma endregion
+
+#pragma region rot
+		
+		Vector3 MousePos;
+		MousePos = CInput::GetMousePosition();
+
+		Vector3 rotation = transform->GetRotation();
+		rotation.z = atan2(MousePos.y - pos.y, MousePos.x - pos.x);
+
+		transform->SetRotation(rotation);
+
+#pragma endregion
+
+//		transform->SetScale(Vector3( - 1.f, 1.f, 1.f));
 	}
 
 	void CPlayerScript::fixedUpdate()

@@ -172,14 +172,23 @@ namespace dru
 
 		}
 
-
-
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
 			mPlayer->SetPos(Vector3(-6.f, -2.65f, 3.f));
-
-			CGameObj* playerObj = dynamic_cast<CGameObj*>(mPlayer);
 		}
+
+		{
+			CGameObj* mMon = object::Instantiate<CMonster>(eLayerType::Monster, L"Mon");
+
+			CSpriteRenderer* SpriteRenderer = mMon->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"MonMat", Material);
+			SpriteRenderer->SetMaterial(Material);
+
+			mMon->SetPos(Vector3(3.f, -2.f, 3.f));
+			mMon->SetScale(Vector3(1.f, 1.f, 1.f));
+		}
+
 
 		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
@@ -188,9 +197,9 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
 			CResources::Insert<CMaterial>(L"CursorMat", Material);
 			SpriteRenderer->SetMaterial(Material);
-//			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
+			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
-			mUICursor->SetScale(Vector3(0.5f, 0.5f, 1.f));
+			mUICursor->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
 
 

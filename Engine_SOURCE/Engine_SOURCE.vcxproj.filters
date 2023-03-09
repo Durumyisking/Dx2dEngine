@@ -286,6 +286,9 @@
     <ClInclude Include="RigidBody.h">
       <Filter>Common\Component\RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="SceneMission.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -422,6 +425,9 @@
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>Common\Component\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMission.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

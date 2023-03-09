@@ -28,8 +28,10 @@ namespace dru
 
         void SetType(eColliderType _Type) { mType = _Type; }
         eColliderType GetType() const { return mType; }
+
         void SetCenter(Vector2 _Center) { mCenter = _Center; }
         Vector2 GetCenter() const { return mCenter; }
+
         void SetScale(Vector2 _Scale) { mScale = _Scale; }
         Vector2 GetScale() const { return mScale; }
         float GetRadius() const { if (eColliderType::Circle == mType) return mScale.x; }
@@ -37,7 +39,6 @@ namespace dru
         Vector3 GetColliderPos() const { return mPosition; }
 
         bool IsTrigger() const { return mbTrigger; }
-
         UINT GetColliderID() const { return mColliderID; }
 
     private:
@@ -52,6 +53,8 @@ namespace dru
         Vector3 mPosition;
 
         bool    mbTrigger;
+
+        UINT    mCollisionCount;
 
     };
 }

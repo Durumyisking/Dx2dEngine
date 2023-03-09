@@ -16,7 +16,9 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-		Vector3 mMousePos;
+
+	private:
+		CTransform* mTrans;
 		Vector3 mPos;
 		Vector3 mRot;
 	};

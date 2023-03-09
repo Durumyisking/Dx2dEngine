@@ -5,6 +5,10 @@
 namespace dru
 {
 	CCursorScript::CCursorScript()
+		: CScript(),
+		mTrans(nullptr),
+		mPos{},
+		mRot{}
 	{
 	}
 
@@ -14,12 +18,16 @@ namespace dru
 
 	void CCursorScript::Initialize()
 	{
+		mTrans = GetOwner()->GetComponent<CTransform>();
 	}
 
 	void CCursorScript::update()
 	{
-		mMousePos = CInput::GetMousePosition();
-		GetOwner()->SetPos(mMousePos);
+		mPos = mTrans->GetPosition();
+
+		mPos = CInput::GetMousePosition();
+
+		mTrans->SetPosition(mPos / 100);
 
 	}
 

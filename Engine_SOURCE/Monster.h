@@ -6,6 +6,7 @@ namespace dru
     class CMonster :
         public CGameObj
     {
+	public:
 		CMonster();
 		virtual ~CMonster();
 

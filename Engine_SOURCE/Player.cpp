@@ -13,7 +13,6 @@ namespace dru
 
 		CRigidBody* rigidbody = playerObj->AddComponent<CRigidBody>(eComponentType::RigidBody);
 
-
 		CCollider2D* coll = playerObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale(Vector2(0.4f, 1.f));

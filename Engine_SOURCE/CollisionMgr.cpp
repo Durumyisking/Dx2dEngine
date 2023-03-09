@@ -191,11 +191,10 @@ namespace dru
 				Axis[i].z = 0.f;
 			}
 
-			Vector3 vc = (_left->GetColliderPos() - _right->GetColliderPos());
+			Vector3 vc = _left->GetColliderPos() - _right->GetColliderPos();
 			vc.z = 0.f;
 
 			Vector3 centerDir = vc;
-
 			for (size_t i = 0; i < 4; i++)
 			{
 				Vector3 vA = Axis[i];
@@ -211,8 +210,6 @@ namespace dru
 				{
 					return false;
 				}
-
-				// ¼÷Á¦ ¿øÃæµ¹
 			}
 		}
 
