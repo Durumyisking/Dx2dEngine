@@ -134,6 +134,9 @@
     <Filter Include="Common\Component\RigidBody">
       <UniqueIdentifier>{556f588a-123a-4f20-b06d-6c511ff57a84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Scripts%28ETC%29">
+      <UniqueIdentifier>{9aed3e60-5432-4643-9c04-a28a88ffb641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -289,6 +292,9 @@
     <ClInclude Include="SceneMission.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="MaskScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -428,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="SceneMission.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MaskScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

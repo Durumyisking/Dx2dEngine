@@ -398,6 +398,9 @@ namespace dru::renderer
 		// main
 		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
+		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
+
+
 		CResources::Load<CTexture>(L"player", L"MainScene/Player2.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");

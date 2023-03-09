@@ -24,6 +24,9 @@ namespace dru
 		CGameObj* mUICamera;
 
 		CGameObj* mUICursor;
+
+		CGameObj* mMaskTarget;
+
 		std::vector<CGameObj*> mHudBatteryParts;
 		CGameObj* mHudTimerBar;
 		CGameObj* mHudLeftHand;
@@ -33,8 +36,11 @@ namespace dru
 		CPlayer* mPlayer;
 
 		CBackground* mStageBackground;
-
+		CBackground* mScreenMask;
 		
+		bool mbMaskMove;
+		bool mbLoad;
+		bool mbStart;
 
 	};
 

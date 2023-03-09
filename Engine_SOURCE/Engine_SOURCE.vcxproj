@@ -189,6 +189,7 @@
     <ClInclude Include="GridScript.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="MaskScript.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="MaskScript.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
