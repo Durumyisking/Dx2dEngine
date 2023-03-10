@@ -35,6 +35,7 @@ namespace dru
 	{
 		Vector3 scale = mTransform->GetScale();
 		scale *= Vector3(mScale.x, mScale.y, 1.f);
+		mRadius = mScale.x;
 
 		Vector3 rotation = mTransform->GetRotation();
 
@@ -55,7 +56,7 @@ namespace dru
 
 		DebugMesh meshAttribute = {};
 		meshAttribute.position = Vector3(colliderPos.x, colliderPos.y, colliderPos.z);
-		meshAttribute.radius = mScale.x;
+		meshAttribute.radius = mRadius;
 		meshAttribute.rotation = rotation;
 		meshAttribute.scale = scale;
 		meshAttribute.type = mType;

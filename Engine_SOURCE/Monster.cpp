@@ -14,7 +14,7 @@ namespace dru
 
 		CCollider2D* coll = monsterObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.4f, 1.f));
+		coll->SetScale(Vector2(2.f, 2.f));
 
 
 	}

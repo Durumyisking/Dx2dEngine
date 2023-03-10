@@ -21,6 +21,7 @@ namespace dru
 		CTransform* mTrans;
 		Vector3 mPos;
 		Vector3 mRot;
+
 	};
 
 

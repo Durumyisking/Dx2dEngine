@@ -34,7 +34,9 @@ namespace dru
 
         void SetScale(Vector2 _Scale) { mScale = _Scale; }
         Vector2 GetScale() const { return mScale; }
-        float GetRadius() const { if (eColliderType::Circle == mType) return mScale.x; }
+
+        void SetScale(float _Radius) { mRadius = _Radius; }
+        float GetRadius() const { if (eColliderType::Circle == mType) return mRadius; }
 
         Vector3 GetColliderPos() const { return mPosition; }
 
@@ -49,7 +51,7 @@ namespace dru
 
         Vector2 mScale;
         Vector2 mCenter;
-
+        float   mRadius;
         Vector3 mPosition;
 
         bool    mbTrigger;

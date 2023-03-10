@@ -24,6 +24,9 @@ namespace dru
         bool mbMoveDone;
         bool mbGoDown;
         CTransform* mTargetTransform;
+
+        float mSpeed;
+        float mStep;
     };
 
 }

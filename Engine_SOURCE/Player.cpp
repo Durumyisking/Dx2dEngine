@@ -15,7 +15,7 @@ namespace dru
 
 		CCollider2D* coll = playerObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.4f, 1.f));
+		coll->SetScale(Vector2(1.f, 1.f));
 
 		CSpriteRenderer* SpriteRenderer = playerObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");

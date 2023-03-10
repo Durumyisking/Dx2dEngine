@@ -160,7 +160,7 @@ namespace dru
 
 		if (eColliderType::Rect == _left->GetType() && eColliderType::Rect == _right->GetType())
 		{
-			static const Vector3 arrLocalPos[4] =
+			Vector3 arrLocalPos[4] =
 			{
 				Vector3{-0.5f, 0.5f, 0.0f},
 				Vector3{0.5f, 0.5f, 0.0f},
@@ -186,19 +186,25 @@ namespace dru
 			Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
 			Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
 
-			for (int i = 0; i < 4; ++i)
-			{
-				Axis[i].z = 0.f;
-			}
+			Vector3 leftScale = Vector3(_left->GetScale().x, _left->GetScale().y, 1.0f);
+			Axis[0] = arrLocalPos[0] * leftScale;
+			Axis[1] = arrLocalPos[1] * leftScale;
 
-			Vector3 vc = _left->GetColliderPos() - _right->GetColliderPos();
+			Vector3 rightScale = Vector3(_right->GetScale().x, _right->GetScale().y, 1.0f);
+			Axis[2] = arrLocalPos[2] * rightScale;
+			Axis[3] = arrLocalPos[3] * rightScale;
+
+			for (size_t i = 0; i < 4; ++i)
+				Axis[i].z = 0.f;
+
+			Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
 			vc.z = 0.f;
 
 			Vector3 centerDir = vc;
 			for (size_t i = 0; i < 4; i++)
 			{
 				Vector3 vA = Axis[i];
-				vA.Normalize();
+				//vA.Normalize();
 
 				float projDist = 0.f;
 				for (size_t j = 0; j < 4; j++)

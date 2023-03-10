@@ -95,6 +95,18 @@ namespace dru
 		}
 
 		{
+			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
+
+			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
+			CResources::Insert<CMaterial>(L"CursorMat", Material);
+			SpriteRenderer->SetMaterial(Material);
+			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
+			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
+			mUICursor->SetScale(Vector3(1.f, 1.f, 1.f));
+		}
+
+		{
 			mMaskTarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
 			mMaskTarget->SetPos(Vector3(0.f, 20.f, 0.1f));
 			mMaskTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
@@ -123,7 +135,7 @@ namespace dru
 	void CSceneMain::update()
 	{
 
-		if (mbLoad)
+		if (mbMaskMove && !mbLoad)
 		{
 			{
 				CGameObj* mHudTop = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Top");
@@ -233,24 +245,12 @@ namespace dru
 				mHudRightHand->SetScale(Vector3(0.5f, 0.5, 1.f));
 
 			}
-
-			{
-				mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
-
-				CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
-				CResources::Insert<CMaterial>(L"CursorMat", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
-				mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
-				mUICursor->SetScale(Vector3(1.f, 1.f, 1.f));
-			}
-
+			mbLoad = true;
 		}
 		else
 		{
-		if (dynamic_cast<CMaskScript*>(mScreenMask->GetScript())->MoveDone())
-			mbLoad = true;
+			if (dynamic_cast<CMaskScript*>(mScreenMask->GetScript())->MoveDone())
+				mbMaskMove = true;
 		}
 
 

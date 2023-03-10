@@ -27,7 +27,7 @@ namespace dru
 
 		mPos = CInput::GetMousePosition();
 
-		mTrans->SetPosition(mPos / 100);
+		mTrans->SetPosition(mPos / 100.f);
 
 	}
 

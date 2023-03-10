@@ -3,7 +3,7 @@ namespace dru
 {
 	CGameObj::CGameObj()
 		:mState(eState::Active)
-		, mbIsLeft(false)
+		, mbIsLeft(true)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
 		this->AddComponent<CTransform>(eComponentType::Transform);
@@ -170,18 +170,22 @@ namespace dru
 
 	void CGameObj::Flip()
 	{
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Material];
-		renderer::MaterialCB data = {};
+		CBaseRenderer* baseRenderer = GetComponent<CBaseRenderer>();
+		if (baseRenderer)
+		{
+			std::shared_ptr<CMaterial> mtrl = baseRenderer->GetMaterial();
+			if (mtrl)
+			{
 
-		if (mbIsLeft)
-			data.iData = 0;
-		else
-			data.iData = 1;
+#define INVERSE -1
+#define NORMAL 1
 
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
+				int isInverse = mbIsLeft ? INVERSE : NORMAL;
 
+				mtrl->SetData(eGPUParam::Int, &isInverse);
+			}
+		}
 
 	}
 }

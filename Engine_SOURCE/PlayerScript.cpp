@@ -46,32 +46,36 @@ namespace dru
 		}
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{
-			rigidebody->AddVelocity(transform->Right() * -10.f);
+			rigidebody->AddForce(transform->Right() * -50.f);
 			GetOwner()->SetLeft();
 		}
 		if (CInput::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
 		{
-			rigidebody->AddVelocity(transform->Right() * 10.f);
+			rigidebody->AddForce(transform->Right() * 50.f);
 			GetOwner()->SetRight();
 		}
 
-		transform->SetPosition(pos);
 
 #pragma endregion
 
 #pragma region Attack
 		
-		//Vector3 MousePos;
-		//MousePos = CInput::GetMousePosition();
+		Vector3 MousePos = CInput::GetMousePosition();
 
-		//Vector3 rotation = transform->GetRotation();
-		//rotation.z = atan2(MousePos.y - pos.y, MousePos.x - pos.x);
+		if (CInput::GetKeyDown(eKeyCode::LBTN) || CInput::GetKeyDown(eKeyCode::RBTN))
+		{
+			if ((MousePos.x / 100.f) < pos.x)
+				GetOwner()->SetLeft();
+			else
+				GetOwner()->SetRight();
+		}
 
-		//transform->SetRotation(rotation);
 
 #pragma endregion
 
-	//	transform->SetScale(Vector3(-1.f, 1.f, 1.f));
+
+		transform->SetPosition(pos);
+		GetOwner()->Flip();
 	}
 
 	void CPlayerScript::fixedUpdate()

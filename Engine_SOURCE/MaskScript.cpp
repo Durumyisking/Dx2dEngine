@@ -9,6 +9,8 @@ namespace dru
 		: mbMoveDone(false)
 		, mTargetTransform(nullptr)
 		, mbGoDown(false)
+		, mSpeed(50.f)
+		, mStep(0.f)
 	{
 	}
 
@@ -29,14 +31,13 @@ namespace dru
 
 			float Distance = (TargetPos - MaskPos).Length();
 
-			if (Distance >= 0.001f)
+			if (Distance >= 1.f)
 			{
-				float Speed = 50.f;
-				float Step = Speed * CTimeMgr::DeltaTime();
+				mStep = mSpeed * CTimeMgr::DeltaTime();
 
-				if (Step < Distance)
+				if (mStep < Distance)
 				{
-					MaskPos += GetOwner()->Up() * Step;
+					MaskPos += GetOwner()->Up() * mStep;
 					GetOwner()->SetPos(MaskPos);
 				}
 			}
