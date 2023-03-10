@@ -8,7 +8,6 @@
 namespace dru
 {
 	CPlayerScript::CPlayerScript()
-		
 	{
 	}
 
@@ -24,7 +23,8 @@ namespace dru
 	{
 		CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
-#pragma region pos
+#pragma region Run
+
 		CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
 
 		Vector3 pos = transform->GetPosition();
@@ -47,28 +47,31 @@ namespace dru
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{
 			rigidebody->AddVelocity(transform->Right() * -10.f);
+			GetOwner()->SetLeft();
 		}
 		if (CInput::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
 		{
 			rigidebody->AddVelocity(transform->Right() * 10.f);
+			GetOwner()->SetRight();
 		}
+
 		transform->SetPosition(pos);
 
 #pragma endregion
 
-#pragma region rot
+#pragma region Attack
 		
-		Vector3 MousePos;
-		MousePos = CInput::GetMousePosition();
+		//Vector3 MousePos;
+		//MousePos = CInput::GetMousePosition();
 
-		Vector3 rotation = transform->GetRotation();
-		rotation.z = atan2(MousePos.y - pos.y, MousePos.x - pos.x);
+		//Vector3 rotation = transform->GetRotation();
+		//rotation.z = atan2(MousePos.y - pos.y, MousePos.x - pos.x);
 
-		transform->SetRotation(rotation);
+		//transform->SetRotation(rotation);
 
 #pragma endregion
 
-//		transform->SetScale(Vector3( - 1.f, 1.f, 1.f));
+	//	transform->SetScale(Vector3(-1.f, 1.f, 1.f));
 	}
 
 	void CPlayerScript::fixedUpdate()

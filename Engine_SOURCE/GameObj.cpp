@@ -3,6 +3,7 @@ namespace dru
 {
 	CGameObj::CGameObj()
 		:mState(eState::Active)
+		, mbIsLeft(false)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
 		this->AddComponent<CTransform>(eComponentType::Transform);
@@ -167,5 +168,20 @@ namespace dru
 		}
 	}
 
+	void CGameObj::Flip()
+	{
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Material];
+		renderer::MaterialCB data = {};
 
+		if (mbIsLeft)
+			data.iData = 0;
+		else
+			data.iData = 1;
+
+
+		cb->Bind(&data);
+		cb->SetPipeline(eShaderStage::PS);
+
+
+	}
 }

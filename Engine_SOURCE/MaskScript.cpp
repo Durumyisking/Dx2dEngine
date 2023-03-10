@@ -24,19 +24,26 @@ namespace dru
 	{
 		if (!mbMoveDone)
 		{
-			CTransform* transform = GetOwner()->GetComponent<CTransform>();
-			Vector3 pos = transform->GetPosition();
+			Vector3 TargetPos = mTargetTransform->GetPosition();
+			Vector3 MaskPos = GetOwner()->GetPos();
 
-			if ((GetOwner()->GetPos().x == mTargetTransform->GetPosition().x) && (GetOwner()->GetPos().y == mTargetTransform->GetPosition().y))
+			float Distance = (TargetPos - MaskPos).Length();
+
+			if (Distance >= 0.001f)
+			{
+				float Speed = 50.f;
+				float Step = Speed * CTimeMgr::DeltaTime();
+
+				if (Step < Distance)
+				{
+					MaskPos += GetOwner()->Up() * Step;
+					GetOwner()->SetPos(MaskPos);
+				}
+			}
+			else
 			{
 				mbMoveDone = true;
 			}
-
-
-			if(!mbGoDown)
-				pos += 3.f * transform->Up() * CTimeMgr::DeltaTime();
-			else
-				pos -= 3.f * transform->Up() * CTimeMgr::DeltaTime();
 
 		}
 	}

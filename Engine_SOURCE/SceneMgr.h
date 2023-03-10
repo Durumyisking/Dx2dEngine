@@ -11,7 +11,7 @@ namespace dru
 		{
 			Title,
 			Main,
-
+			Mission,
 			End,
 		};
 

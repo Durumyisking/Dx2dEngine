@@ -114,6 +114,10 @@ namespace dru
 		eLayerType GetLayerType() const { return mType; }
 		void SetLayerType(eLayerType _Type) { mType = _Type; }
 
+		bool IsLeft() { return mbIsLeft; }
+		void SetLeft() { mbIsLeft = true; }
+		void SetRight() { mbIsLeft = false; }
+		void Flip();
 
 	protected:
 		std::vector<CComponent*> mComponents;
@@ -125,6 +129,7 @@ namespace dru
 		std::vector<CScript*> mScripts;
 		bool mbDestroy;
 
+		bool mbIsLeft;
 
 	};
 

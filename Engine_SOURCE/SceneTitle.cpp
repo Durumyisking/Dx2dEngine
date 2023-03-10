@@ -324,6 +324,11 @@ namespace dru
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}
 
+		if (CInput::GetKeyDown(eKeyCode::M))
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
+		}
+
 		CScene::update();
 	}
 

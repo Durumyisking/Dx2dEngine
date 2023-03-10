@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneTitle.h"
 #include "SceneMain.h"
+#include "SceneMission.h"
 
 namespace dru
 {
@@ -15,6 +16,8 @@ namespace dru
 		mScenes[static_cast<UINT>(eSceneType::Title)]->SetType(eSceneType::Title);
 		mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
 		mScenes[static_cast<UINT>(eSceneType::Main)]->SetType(eSceneType::Main);
+		mScenes[static_cast<UINT>(eSceneType::Mission)] = new CSceneMission;
+		mScenes[static_cast<UINT>(eSceneType::Mission)]->SetType(eSceneType::Mission);
 
 		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Title)];
 		mActiveScene->Initialize();

@@ -21,6 +21,13 @@ namespace dru
 
 	private:
 		CGameObj* mCamera;
+
+		CBackground* mbgBlack;
+
+		CGameObj* mJobLeft;
+		CGameObj* mJobRight;
+		CGameObj* mJobCorner;
+
     };
 
 

@@ -385,6 +385,8 @@ namespace dru::renderer
 
 	void LoadTexture()
 	{
+
+		// title
 		CResources::Load<CTexture>(L"default", L"default.png");
 		CResources::Load<CTexture>(L"Black", L"TitleScene/bgBlack.png");
 		CResources::Load<CTexture>(L"Steel", L"TitleScene/bgSteel.png");
@@ -414,6 +416,15 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");
 		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
 		CResources::Load<CTexture>(L"icon_Butcher", L"MainScene/Hud/Itemicons/Butcher.png");
+
+
+		// mission
+		CResources::Load<CTexture>(L"job_corner", L"MissionScene/job_corner.png");
+		CResources::Load<CTexture>(L"job_front", L"MissionScene/job_front.png");
+		CResources::Load<CTexture>(L"job_frontshoadow", L"MissionScene/job_frontshoadow.png");
+		CResources::Load<CTexture>(L"job_left", L"MissionScene/job_left.png");
+		CResources::Load<CTexture>(L"job_right", L"MissionScene/job_right.png");
+		CResources::Load<CTexture>(L"job_profile", L"MissionScene/job_profile.png");
 
 	}
 
