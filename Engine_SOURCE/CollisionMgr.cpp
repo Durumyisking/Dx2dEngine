@@ -187,12 +187,12 @@ namespace dru
 			Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
 
 			Vector3 leftScale = Vector3(_left->GetScale().x, _left->GetScale().y, 1.0f);
-			Axis[0] = arrLocalPos[0] * leftScale;
-			Axis[1] = arrLocalPos[1] * leftScale;
+			Axis[0] = Axis[0] * leftScale;
+			Axis[1] = Axis[1] * leftScale;
 
 			Vector3 rightScale = Vector3(_right->GetScale().x, _right->GetScale().y, 1.0f);
-			Axis[2] = arrLocalPos[2] * rightScale;
-			Axis[3] = arrLocalPos[3] * rightScale;
+			Axis[2] = Axis[2] * rightScale;
+			Axis[3] = Axis[3] * rightScale;
 
 			for (size_t i = 0; i < 4; ++i)
 				Axis[i].z = 0.f;

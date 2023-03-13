@@ -295,6 +295,9 @@
     <ClInclude Include="MaskScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
+    <ClInclude Include="PixelCollisionScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -436,6 +439,9 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="MaskScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelCollisionScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
   </ItemGroup>

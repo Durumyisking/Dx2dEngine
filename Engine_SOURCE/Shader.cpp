@@ -28,7 +28,7 @@ namespace dru
 		mErrorBlob = nullptr;
 
 		std::filesystem::path path = std::filesystem::current_path().parent_path();
-		path += "\\SHADER_SOURCE\\";
+		path += "\\..\\SHADER_SOURCE\\";
 
 		std::wstring shaderPath(path.c_str());
 		shaderPath += _Path;

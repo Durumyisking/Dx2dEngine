@@ -50,7 +50,7 @@ namespace dru
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
 			cameraComp->SetProjectionType(CCamera::eProjectionType::Perspective);
-
+			mCamera->SetPos(Vector3(0.f, 1.f, 0.f));
 		}
 		{
 			// ui Ä«¸Þ¶ó
