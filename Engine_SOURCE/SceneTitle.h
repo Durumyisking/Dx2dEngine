@@ -39,6 +39,7 @@ namespace dru
 		CBackground* mbgKatana;
 		CBackground* mbgZer;
 		CBackground* mbgO;
+		CBackground* mbgGrass2;
 
 		bool mCamMoveDone;
 		bool mCamMoveStart;

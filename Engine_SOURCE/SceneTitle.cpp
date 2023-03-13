@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "BackgroundColorScript.h"
 #include "Collider2D.h"
+#include "Animator.h"
 
 namespace dru
 {
@@ -29,6 +30,7 @@ namespace dru
 		, mbgKatana(nullptr)
 		, mbgZer(nullptr)
 		, mbgO(nullptr)
+		, mbgGrass2(nullptr)
 		, mMenu(1)
 	{
 	}
@@ -186,7 +188,21 @@ namespace dru
 				mbgGrass->SetScale(Vector3(0.13f, 0.13f, 1.f));
 			}
 
+			{
+				// 배경 Grass2
+				mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
+				CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Grass2", Material);
+				SpriteRenderer->SetMaterial(Material);
+				mbgGrass2->SetPos(Vector3(0.f, 0.f, 4.f));
+				mbgGrass2->SetScale(Vector3(0.13f, 0.13f, 1.f));
+
+				CAnimator* animator = mbgGrass2->AddComponent<CAnimator>(eComponentType::Animator);
+				animator->Create(L"Grass_Title", Material->GetTexture(), { 0.f, 0.f }, { 644.f, 255.f }, Vector2::Zero, 12, 0.1f);
+				animator->Play(L"Grass_Title");
+			}
 
 			{
 				// 배경 black

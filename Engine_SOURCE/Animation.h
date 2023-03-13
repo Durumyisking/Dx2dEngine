@@ -16,13 +16,15 @@ namespace dru
 		{
 			Vector2 LT;
 			Vector2 size;	// 잘라낼 픽셀 크기
-			Vector2 anchor;
+			Vector2 offset;
+			Vector2 altasSize;
 			float duration; // 이미지 프레임당 시간 간격
 
 			Sprite()
 				: LT(Vector2::Zero)
 				, size(Vector2::Zero)
-				, anchor(Vector2::Zero)
+				, offset(Vector2::Zero)
+				, altasSize(Vector2::Zero)
 				, duration(0.1f)
 			{
 
@@ -36,24 +38,26 @@ namespace dru
 		void fixedUpdate();
 		void render();
 
-		void Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _columnLength, UINT _spriteLength, float _duration);
+		void Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, float _duration, bool _Reverse);
 		void BindShader();
 		void Clear();
 		void Reset();
 
 		bool IsCompleted() { return mbComplete; }
 
-		std::wstring& GetAnimationName() { return mName; }
+		std::wstring& GetAnimationName() { return mAnimationName; }
 
 	private:
 		class CAnimator* mAnimator;
-		std::wstring mName;
+		std::wstring mAnimationName;
 
 		std::shared_ptr<CTexture> mAtlas;
 		std::vector<Sprite> mSpriteSheet;
 		int mIndex;
 		float mTime;
 		bool mbComplete;
+		bool mbReversePlay;
+		UINT mSpriteLength;
 
 	};
 }

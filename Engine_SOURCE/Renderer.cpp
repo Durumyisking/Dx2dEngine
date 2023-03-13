@@ -395,7 +395,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"TitleO_1", L"TitleScene/bgTitleO_1.png");
 		CResources::Load<CTexture>(L"Fence", L"TitleScene/bgFence.png");
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
-
+		CResources::Load<CTexture>(L"Grass2", L"TitleScene/bgGrass2.png");
 
 		// main
 		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
@@ -403,7 +403,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
 
-		CResources::Load<CTexture>(L"player", L"MainScene/Player2.png");
+		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
+		//CResources::Load<CTexture>(L"player", L"MainScene/Player2.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");

@@ -26,6 +26,9 @@ namespace dru::graphics
 
 		ScratchImage& GetScratchImage() { return mImage; }
 
+		size_t GetHeight() { return mImage.GetMetadata().height; }
+		size_t GetWidth() { return mImage.GetMetadata().width; }
+
 
 	private:
 		ScratchImage									mImage;

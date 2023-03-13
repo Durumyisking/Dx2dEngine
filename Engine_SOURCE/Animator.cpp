@@ -26,7 +26,7 @@ namespace dru
 
 	}
 
-	void CAnimator::Initalize()
+	void CAnimator::Initialize()
 	{
 	}
 
@@ -35,14 +35,15 @@ namespace dru
 		if (!mCurrentAnimation)
 			return;
 
-		if (mCurrentAnimation->IsCompleted() && mbLoop)
+		if (mCurrentAnimation->IsCompleted())
 		{
 			Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
 
 			if (events)
 				events->mCompleteEvent();
 
-			mCurrentAnimation->Reset();
+			if(mbLoop)
+				mCurrentAnimation->Reset();
 		}
 		mCurrentAnimation->update();
 	}
@@ -55,20 +56,21 @@ namespace dru
 	{
 	}
 
-	bool CAnimator::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _columnLength, UINT _spriteLength, float _duration)
+	bool CAnimator::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, float _duration, bool _Reverse)
 	{
 		if (!_atlas)
 			return false;
 
 		CAnimation* animation = FindAnimation(_name);
-
 		if (animation)
 			return false;
 
 		animation = new CAnimation();
-		animation->Create(_name, _atlas, _leftTop, _size, _offset, _columnLength, _spriteLength, _duration);
+		animation->Create(_name, _atlas, _leftTop, _size, _offset, _spriteLength, _duration, _Reverse);
 
 		mAnimations.insert(std::make_pair(_name, animation));
+
+		return true;
 	}
 
 	CAnimation* CAnimator::FindAnimation(const std::wstring& _name)
@@ -95,7 +97,7 @@ namespace dru
 		return iter->second;
 	}
 
-	void CAnimator::Play(std::wstring& _name, bool _bLoop)
+	void CAnimator::Play(std::wstring _name, bool _bLoop)
 	{
 		CAnimation* prevAnimation = mCurrentAnimation;
 

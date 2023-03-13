@@ -30,19 +30,19 @@ namespace dru
 		};
 
 		CAnimator();
-		~CAnimator();
+		virtual ~CAnimator();
 
-		virtual void Initalize();
+		virtual void Initialize();
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
 
-		bool Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _columnLength, UINT _spriteLength, float _duration);
+		bool Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset,  UINT _spriteLength, float _duration, bool _Reverse = false);
 		
 		CAnimation* FindAnimation(const std::wstring& _name);
 		Events* FindEvents(const std::wstring& _name);
 
-		void Play(std::wstring& _name, bool _bLoop = true);
+		void Play(std::wstring _name, bool _bLoop = true);
 
 		void Binds();
 		void Clear();

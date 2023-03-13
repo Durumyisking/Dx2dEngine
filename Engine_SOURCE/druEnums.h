@@ -60,5 +60,15 @@ namespace dru::enums
 
 	};
 
+	enum class eAnimationType
+	{
+		None,
+		SecondDimension,
+		ThirdDimension,
+		End,
+
+	};
+
+
 
 }

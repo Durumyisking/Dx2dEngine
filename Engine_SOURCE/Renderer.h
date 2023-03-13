@@ -63,9 +63,9 @@ namespace dru::renderer
 		Vector2 LT;
 		Vector2 size;
 		Vector2 offset;
-		Vector2 atlasSIze;
+		Vector2 atlasSize;
 
-		UINT used;
+		UINT type;
 	};
 
 	// vertex data

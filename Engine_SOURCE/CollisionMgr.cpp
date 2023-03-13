@@ -82,6 +82,11 @@ namespace dru
 				if (left == right)
 					continue;
 
+				//if (_left == _right)
+				//{
+				//	if()
+				//}
+
 				ColliderCollision(left->GetComponent<CCollider2D>(), right->GetComponent<CCollider2D>());
 
 			}

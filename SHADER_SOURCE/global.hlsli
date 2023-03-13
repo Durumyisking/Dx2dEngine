@@ -56,11 +56,11 @@ cbuffer Color : register(b4)
 cbuffer Animation : register(b5)
 {
     float2 LT;
-    float2 size;
+    float2 spriteSize;
     float2 offset;
-    float2 atlasSIze;
+    float2 atlasSize;
 
-    uint used;
+    uint animationType;
 }
 
 Texture2D defaultTexture : register(t0);
@@ -68,3 +68,7 @@ Texture2D defaultTexture : register(t0);
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
+
+
+// atlas TextureType
+Texture2D atlasTexture : register(t12);

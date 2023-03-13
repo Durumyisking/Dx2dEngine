@@ -75,8 +75,7 @@ namespace dru
 			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
 		}
 
-
-		
+	
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
 			mPlayer->SetPos(Vector3(-6.f, -2.65f, 3.f));

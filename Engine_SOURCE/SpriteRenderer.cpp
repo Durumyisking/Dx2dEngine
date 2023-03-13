@@ -1,6 +1,7 @@
 #include "SpriteRenderer.h"
 #include "GameObj.h"
 #include "Transform.h"
+#include "Animator.h"
 
 namespace dru
 {
@@ -35,6 +36,14 @@ namespace dru
 		GetMaterial()->Bind();
 
 		GetMesh()->BindBuffer();
+
+		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+
+		if (animator)
+		{
+			animator->Binds();
+		}
+
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
