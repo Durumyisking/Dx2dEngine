@@ -40,8 +40,10 @@ namespace dru
 		void SetFricCoeff(float _Value) { mFricCoeff = _Value; }
 		float GetFricCoeff() const { return mFricCoeff; }
 
-		void OnGround() { mbOnAir = false; }
-		void OnAir() { mbOnAir = true; }
+		void SetGround() { mbOnAir = false; }
+		void SetAir() { mbOnAir = true; }
+
+		bool IsOnAir() { return mbOnAir; }
 
 	private:
 		void objMove();

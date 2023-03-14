@@ -19,11 +19,13 @@ namespace dru
 
 		void SetMesh(std::shared_ptr <CMesh> _Mesh) { mMesh = _Mesh; }
 		void SetMaterial(std::shared_ptr <CMaterial> _Material);
+		void SetAnimMaterial(std::shared_ptr <CMaterial> _Material, Vector2 _SpriteSize);
+
 
 		std::shared_ptr<CMesh> GetMesh() { return mMesh; }
 		std::shared_ptr<CMaterial> GetMaterial() { return mMaterial; }
 
-		void ChangeSize() { mChanged = true; }
+		void ChangeSize() { mbIsChanged = true; }
 
 	private:
 		void adjustTexture();
@@ -36,7 +38,11 @@ namespace dru
 		float mWidthRatio;
 		float mHeightRatio;
 
-		bool mChanged;
+		bool mbIsChanged;
+		bool mbIsAnim;
+
+		Vector2 mSpriteSize;
+
 
 	};
 

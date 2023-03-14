@@ -66,15 +66,15 @@ namespace dru
 
 
 		{
-			// 배경 Stage1
-			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
-			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			//// 배경 Stage1
+			//mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
+			//CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"Stage1", Material);
-			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
-			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
+			//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
+			//CResources::Insert<CMaterial>(L"Stage1", Material);
+			//SpriteRenderer->SetMaterial(Material);
+			//mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
+			//mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
 		}
 
 	

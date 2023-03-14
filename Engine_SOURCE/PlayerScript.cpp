@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "TimeMgr.h"
 #include "RigidBody.h"
+#include "Animator.h"
 
 namespace dru
 {
@@ -17,6 +18,11 @@ namespace dru
 
 	void CPlayerScript::Initialize()
 	{
+		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+		animator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorun, this);
+		animator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidle, this);
+		animator->GetCompleteEvent(L"Player_Attack") = std::bind(&CPlayerScript::attacktoidle, this);
+
 	}
 
 	void CPlayerScript::update()
@@ -67,7 +73,7 @@ namespace dru
 				MousePos /= 100.f;
 	
 			if (MousePos.x < pos.x)
-				GetOwner()->SetLeft();
+				GetOwner()->SetLeft(); 
 			else
 				GetOwner()->SetRight();
 
@@ -81,6 +87,8 @@ namespace dru
 
 				rigidebody->AddForce(vect * 20000.f);
 
+				CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+				animator->Play(L"Player_Attack", false);
 			}
 		}
 
@@ -91,6 +99,10 @@ namespace dru
 
 		transform->SetPosition(pos);
 		GetOwner()->Flip();
+
+
+		//CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+		//animator->GetCompleteEvent(L"idletorun")  = std::bind(&CPlayerScript::idletorun, this);
 	}
 
 	void CPlayerScript::fixedUpdate()
@@ -105,7 +117,7 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
-			GetOwner()->GetComponent<CRigidBody>()->OnGround();
+			GetOwner()->GetComponent<CRigidBody>()->SetGround();
 
 
 		}
@@ -129,6 +141,23 @@ namespace dru
 
 	void CPlayerScript::OnTriggerExit(CCollider2D* _oppo)
 	{
+	}
+
+	void CPlayerScript::idletorun()
+	{
+	}
+
+	void CPlayerScript::runtoidle()
+	{
+	}
+
+	void CPlayerScript::attacktoidle()
+	{
+		if (!GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
+		{
+			CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+			animator->Play(L"Player_Idle");
+		}
 	}
 
 }

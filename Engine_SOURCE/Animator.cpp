@@ -35,9 +35,10 @@ namespace dru
 		if (!mCurrentAnimation)
 			return;
 
+		Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
+
 		if (mCurrentAnimation->IsCompleted())
 		{
-			Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
 
 			if (events)
 				events->mCompleteEvent();
@@ -45,7 +46,12 @@ namespace dru
 			if(mbLoop)
 				mCurrentAnimation->Reset();
 		}
-		mCurrentAnimation->update();
+		UINT spriteIndex = mCurrentAnimation->update();
+
+		if (spriteIndex != -1 && events->mFrameEvents[spriteIndex].mEvent)
+		{
+			events->mFrameEvents[spriteIndex].mEvent();
+		}
 	}
 
 	void CAnimator::fixedUpdate()
@@ -56,7 +62,7 @@ namespace dru
 	{
 	}
 
-	bool CAnimator::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, float _duration, bool _Reverse)
+	bool CAnimator::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, Vector2 _Ratio, float _duration, bool _Reverse)
 	{
 		if (!_atlas)
 			return false;
@@ -66,12 +72,13 @@ namespace dru
 			return false;
 
 		animation = new CAnimation();
-		animation->Create(_name, _atlas, _leftTop, _size, _offset, _spriteLength, _duration, _Reverse);
+		animation->Create(_name, _atlas, _leftTop, _size, _offset, _spriteLength, _Ratio, _duration, _Reverse);
 
 		mAnimations.insert(std::make_pair(_name, animation));
 
 		Events* events = new Events();
-//		mEvents.insert(std::make_pair(, events))
+		events->mFrameEvents.resize(_spriteLength);
+		mEvents.insert(std::make_pair(_name, events));
 
 		return true;
 	}
@@ -103,8 +110,9 @@ namespace dru
 	void CAnimator::Play(std::wstring _name, bool _bLoop)
 	{
 		CAnimation* prevAnimation = mCurrentAnimation;
-
-		Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
+		Events* events = nullptr;
+		if (prevAnimation)
+			events = FindEvents(mCurrentAnimation->GetAnimationName());
 
 		if (events)
 			events->mEndEvent();
@@ -151,6 +159,13 @@ namespace dru
 		Events* events = FindEvents(_name);
 
 		return events->mEndEvent.mEvent;
+	}
+
+	std::function<void()>& CAnimator::GetFrameEvent(const std::wstring& _name, UINT _idx)
+	{
+		Events* events = FindEvents(_name);
+
+		return events->mFrameEvents[_idx].mEvent;
 	}
 
 }

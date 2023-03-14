@@ -21,10 +21,10 @@ namespace dru
 	{
 	}
 
-	void CAnimation::update()
+	UINT CAnimation::update()
 	{
 		if (mbComplete)
-			return;
+			return -1;
 
 		// 시간 체크
 		mTime += CTimeMgr::DeltaTime();
@@ -42,6 +42,9 @@ namespace dru
 					mbComplete = true;
 					mIndex = mSpriteLength;
 				}
+
+				return mIndex;
+
 			}
 			else
 			{
@@ -53,8 +56,11 @@ namespace dru
 					mIndex = mSpriteSheet.size() - 1;
 
 				}
-			}
+
+				return mIndex;
+			}	
 		}
+		return -1;
 	}
 
 	void CAnimation::fixedUpdate()
@@ -65,7 +71,7 @@ namespace dru
 	{
 	}
 
-	void CAnimation::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, float _duration, bool _Reverse)
+	void CAnimation::Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, Vector2 _Ratio, float _duration, bool _Reverse)
 	{
 		mAnimationName = _name;
 		mAtlas = _atlas;
@@ -85,7 +91,7 @@ namespace dru
 			sprite.size = Vector2(_size.x / width, _size.y / height);
 			sprite.offset = _offset;
 			sprite.duration = _duration;
-			sprite.altasSize = Vector2(35.f / width, 35.f / height);
+			sprite.altasSize = Vector2(_Ratio.x / width , _Ratio.y / height);
 
 			mSpriteSheet.push_back(sprite);
 		}

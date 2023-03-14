@@ -408,7 +408,6 @@ namespace dru::renderer
 
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
-		//CResources::Load<CTexture>(L"player", L"MainScene/Player2.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");

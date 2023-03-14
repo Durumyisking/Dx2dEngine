@@ -7,7 +7,9 @@ namespace dru
 {
 	CBaseRenderer::CBaseRenderer(eComponentType _Type)
 		:CComponent(_Type)
-		, mChanged(false)
+		, mbIsChanged(false)
+		, mbIsAnim(false)
+		, mSpriteSize(Vector2::Zero)
 	{
 		// 디폴트 매시 지정
 		std::shared_ptr<CMesh> mesh = CResources::Find<CMesh>(L"Rectmesh");
@@ -25,7 +27,7 @@ namespace dru
 	}
 	void CBaseRenderer::fixedUpdate()
 	{
-		if (mChanged)
+		if (mbIsChanged)
 		{
 			CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
@@ -39,7 +41,7 @@ namespace dru
 
 			transform->SetScale(scale);
 
-			mChanged = false;
+			mbIsChanged = false;
 		}
 	}
 
@@ -53,6 +55,15 @@ namespace dru
 
 		adjustTexture();
 	}
+
+	void CBaseRenderer::SetAnimMaterial(std::shared_ptr<CMaterial> _Material, Vector2 _SpriteSize)
+	{
+		mMaterial = _Material;
+		mbIsAnim = true;
+		mSpriteSize = _SpriteSize;
+		adjustTexture();
+	}
+
 	void CBaseRenderer::adjustTexture()
 	{
 		std::shared_ptr<CTexture> texture = GetMaterial()->GetTexture();
@@ -60,8 +71,21 @@ namespace dru
 		if (nullptr == texture)
 			return;
 
-		int width = texture->GetScratchImage().GetMetadata().width;
-		int height = texture->GetScratchImage().GetMetadata().height;
+		int width;
+		int height;
+
+		if (mbIsAnim)
+		{
+			width = mSpriteSize.x;
+			height = mSpriteSize.y;
+		}
+		else
+		{
+			width = texture->GetScratchImage().GetMetadata().width;
+			height = texture->GetScratchImage().GetMetadata().height;
+		}
+
+
 		int widthcount = 0;
 		int heightcount = 0;
 

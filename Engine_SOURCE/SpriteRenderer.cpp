@@ -40,15 +40,15 @@ namespace dru
 		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 
 		if (animator)
-		{
 			animator->Binds();
-		}
+		
 
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
 			
-		// animator->Clear();
+		if (animator)
+			animator->Clear();
 
 		CBaseRenderer::render();
 	}

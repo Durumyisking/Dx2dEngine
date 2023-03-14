@@ -158,7 +158,7 @@ namespace dru
 				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 255.f, 0.f, 255.f, 0.25f });
+				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 124.f, 124.f, 124.f, 0.125f });
 				mUIBg->SetPos(Vector3(0.f, -10.f, 2.5f));
 				mUIBg->SetScale(Vector3(0.1f, 0.1f, 1.f));
 
@@ -172,7 +172,7 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
 				SpriteRenderer->SetMaterial(Material);
-				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 255.f, 0.25f });
+				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
 				mUIStart->SetPos(Vector3(0.f, 0.4f, 0.f));
 				mUIStart->SetScale(Vector3(0.06f, 0.015f, 1.f));
 			}
@@ -190,23 +190,27 @@ namespace dru
 				mbgGrass->SetScale(Vector3(0.13f, 0.13f, 1.f));
 			}
 
-			//{
-			//	// 배경 Grass2
-			//	mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
-			//	CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-			//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
-			//	CResources::Insert<CMaterial>(L"Grass2Mat", Material);
-			//	SpriteRenderer->SetMaterial(Material);
-			//	mbgGrass2->SetPos(Vector3(0.f, 0.f, 4.f));
-			//	mbgGrass2->SetScale(Vector3(1.f, 1.f, 1.f));
-
-			//	CAnimator* animator = mbgGrass2->AddComponent<CAnimator>(eComponentType::Animator);
-			//	animator->Create(L"Grass_Title", Material->GetTexture(), { 0.f, 0.f }, { 644.f, 255.f }, Vector2::Zero, 12, 0.1f);
-			//	animator->Play(L"Grass_Title");
-			//}
-
 			{
+				// 배경 Grass2
+				mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
+				CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"Grass2Mat", Material);
+//				SpriteRenderer->SetMaterial(Material);
+
+				SpriteRenderer->SetAnimMaterial(Material, {640.f, 255.f });
+
+				mbgGrass2->SetPos(Vector3(0.f, -2.25f, 1.f));
+				mbgGrass2->SetScale(Vector3(0.16f, 0.16f, 1.f));
+
+				CAnimator* animator = mbgGrass2->AddComponent<CAnimator>(eComponentType::Animator);
+				animator->Create(L"Grass_Title", Material->GetTexture(), { 0.f, 0.f }, { 640.f, 255.f }, Vector2::Zero, 12, { 640.f, 255.f }, 0.1f);
+				animator->Play(L"Grass_Title");
+
+			}
+
+			{	
 				// 배경 black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
 				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);

@@ -27,6 +27,8 @@ namespace dru
 			Event mStartEvent;
 			Event mCompleteEvent; // 애니메이션 한 사이클 끝날 때 마다
 			Event mEndEvent; // 애니메이션 교체나 interrupt 걸릴때 호출
+
+			std::vector<Event> mFrameEvents; // 해당 스프라이트(인덱스) 에서 실행될 이벤트
 		};
 
 		CAnimator();
@@ -37,7 +39,7 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
-		bool Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset,  UINT _spriteLength, float _duration, bool _Reverse = false);
+		bool Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset,  UINT _spriteLength, Vector2 _Ratio, float _duration, bool _Reverse = false);
 		
 		CAnimation* FindAnimation(const std::wstring& _name);
 		Events* FindEvents(const std::wstring& _name);
@@ -50,6 +52,7 @@ namespace dru
 		std::function<void()>& GetStartEvent(const std::wstring& _name);
 		std::function<void()>& GetCompleteEvent(const std::wstring& _name);
 		std::function<void()>& GetEndEvent(const std::wstring& _name);
+		std::function<void()>& GetFrameEvent(const std::wstring& _name, UINT _idx);
 
 	private:
 		std::map<std::wstring, CAnimation*> mAnimations;

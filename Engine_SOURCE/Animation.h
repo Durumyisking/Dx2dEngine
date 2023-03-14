@@ -19,7 +19,6 @@ namespace dru
 			Vector2 offset;
 			Vector2 altasSize;
 			float duration; // 이미지 프레임당 시간 간격
-			std::function<void()> event; // 해당 스프라이트(인덱스) 에서 실행될 이벤트
 
 			Sprite()
 				: LT(Vector2::Zero)
@@ -35,11 +34,11 @@ namespace dru
 		CAnimation();
 		~CAnimation();
 		
-		void update();
+		UINT update();
 		void fixedUpdate();
 		void render();
 
-		void Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, float _duration, bool _Reverse);
+		void Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, Vector2 _Ratio, float _duration, bool _Reverse);
 		void BindShader();
 		void Clear();
 		void Reset();
