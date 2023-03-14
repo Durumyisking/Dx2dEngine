@@ -25,7 +25,7 @@ namespace dru
         CPlayer* mPlayer;
 
     private:
-        ScratchImage* mImage;
+        ScratchImage mImage;
 
     };
 

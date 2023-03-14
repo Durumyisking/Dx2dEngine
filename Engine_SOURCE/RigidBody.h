@@ -40,6 +40,9 @@ namespace dru
 		void SetFricCoeff(float _Value) { mFricCoeff = _Value; }
 		float GetFricCoeff() const { return mFricCoeff; }
 
+		void OnGround() { mbOnAir = false; }
+		void OnAir() { mbOnAir = true; }
+
 	private:
 		void objMove();
 
@@ -51,7 +54,11 @@ namespace dru
 		Vector3		mVelocity;	// 속도 (속력 + 방향)
 		float		mMaxSpeed;	// 최대 속력
 
+		float		mGravity;
+
 		float		mFricCoeff;	// 마찰계수
+
+		bool		mbOnAir;
 
     };
 

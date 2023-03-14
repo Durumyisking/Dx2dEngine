@@ -47,6 +47,8 @@ namespace dru
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
+			
+		// animator->Clear();
 
 		CBaseRenderer::render();
 	}

@@ -269,9 +269,9 @@ namespace dru::graphics
 	{
 		// gpu에 값 줄거니까 데이터 바꿔서 보내야해
 		D3D11_MAPPED_SUBRESOURCE sub = {};
-		mContext->Map(_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
-		memcpy(sub.pData, _Data, _Size);
-		mContext->Unmap(_Buffer, 0);
+		mContext->Map(_Buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub); // 다른 애들이 Buffer를 사용 못하게 점유하도록 함		
+		memcpy(sub.pData, _Data, _Size); // GPU로 값 복사해줌
+		mContext->Unmap(_Buffer, 0); // 점유 해제
 	}
 
 	void CGraphicDevice::SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer)

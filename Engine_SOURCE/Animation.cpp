@@ -107,11 +107,20 @@ namespace dru
 
 		cb->Bind(&data);
 		cb->SetPipeline(eShaderStage::PS);
-
 	}
 
 	void CAnimation::Clear()
 	{
+		// Texture Clear
+		CTexture::Clear(12);
+
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
+		renderer::AnimationCB data = {};
+		data.type = (UINT)eAnimationType::None;
+
+		cb->Bind(&data);
+		cb->SetPipeline(eShaderStage::PS);
+
 	}
 
 	void CAnimation::Reset()

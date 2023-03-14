@@ -19,10 +19,13 @@ namespace dru::graphics
 		CTexture();
 		virtual ~CTexture();
 
+		static void Clear(UINT startSlot);
+
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void BindShader(eShaderStage _Stage, UINT _Slot);
 		void Clear();
+
 
 		ScratchImage& GetScratchImage() { return mImage; }
 

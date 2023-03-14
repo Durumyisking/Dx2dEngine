@@ -15,6 +15,8 @@
 #include "CursorScript.h"
 #include "MaskScript.h"
 
+#include "Animator.h"
+
 namespace dru
 {
 	CSceneMain::CSceneMain()
@@ -126,6 +128,7 @@ namespace dru
 
 			mScreenMask->AddComponent<CMaskScript>(eComponentType::Script)->SetTarget(mMaskTarget->GetComponent<CTransform>());
 		}
+
 
 
 		CScene::Initialize();

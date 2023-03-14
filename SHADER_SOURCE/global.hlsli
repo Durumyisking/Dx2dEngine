@@ -64,6 +64,7 @@ cbuffer Animation : register(b5)
 }
 
 Texture2D defaultTexture : register(t0);
+Texture2D PixelCollisionTexture : register(t1);
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);

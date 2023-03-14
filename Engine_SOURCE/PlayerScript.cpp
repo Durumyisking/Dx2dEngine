@@ -64,11 +64,26 @@ namespace dru
 
 		if (CInput::GetKeyDown(eKeyCode::LBTN) || CInput::GetKeyDown(eKeyCode::RBTN))
 		{
-			if ((MousePos.x / 100.f) < pos.x)
+				MousePos /= 100.f;
+	
+			if (MousePos.x < pos.x)
 				GetOwner()->SetLeft();
 			else
 				GetOwner()->SetRight();
+
+			if (CInput::GetKeyDown(eKeyCode::LBTN))
+			{
+				Vector3 vect;
+				vect.x = MousePos.x - pos.x;
+				vect.y = MousePos.y - pos.y;
+
+				vect.Normalize();
+
+				rigidebody->AddForce(vect * 20000.f);
+
+			}
 		}
+
 
 
 #pragma endregion
@@ -83,6 +98,36 @@ namespace dru
 	}
 
 	void CPlayerScript::render()
+	{
+	}
+
+	void CPlayerScript::OnCollisionEnter(CCollider2D* _oppo)
+	{
+		if (L"col_floor" == _oppo->GetName())
+		{
+			GetOwner()->GetComponent<CRigidBody>()->OnGround();
+
+
+		}
+	}
+
+	void CPlayerScript::OnCollision(CCollider2D* _oppo)
+	{
+	}
+
+	void CPlayerScript::OnCollisionExit(CCollider2D* _oppo)
+	{
+	}
+
+	void CPlayerScript::OnTriggerEnter(CCollider2D* _oppo)
+	{
+	}
+
+	void CPlayerScript::OnTrigger(CCollider2D* _oppo)
+	{
+	}
+
+	void CPlayerScript::OnTriggerExit(CCollider2D* _oppo)
 	{
 	}
 

@@ -381,6 +381,10 @@ namespace dru::renderer
 		DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		CResources::Insert<CShader>(L"DebugShader", DebugShader);
 
+		//std::shared_ptr<CShader> PixelColliderShader = std::make_shared<CShader>();
+		//PixelColliderShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		//PixelColliderShader->Create(graphics::eShaderStage::PS, L"PixelCollisionPS.hlsl", "main");
+		//CResources::Insert<CShader>(L"PixelCollisionShader", PixelColliderShader);
 	}
 
 	void LoadTexture()

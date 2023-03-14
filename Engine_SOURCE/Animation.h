@@ -19,6 +19,7 @@ namespace dru
 			Vector2 offset;
 			Vector2 altasSize;
 			float duration; // 이미지 프레임당 시간 간격
+			std::function<void()> event; // 해당 스프라이트(인덱스) 에서 실행될 이벤트
 
 			Sprite()
 				: LT(Vector2::Zero)

@@ -118,13 +118,15 @@ namespace dru
 			, nullptr
 			, mPS.GetAddressOf());
 	}
-	
+
 
 	void CShader::Bind()
 	{
 		graphics::GetDevice()->BindPrimitiveTopology(mTopology);
 		graphics::GetDevice()->BindInputLayout(mInputLayout.Get());
 
+		graphics::GetDevice()->BindVS(mVS.Get(), nullptr, 0);
+		graphics::GetDevice()->BindPS(mPS.Get(), nullptr, 0);
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState>	rs = renderer::rasterizerState[(UINT)mRSType];
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState>	ds = renderer::depthStencilState[(UINT)mDSType];
@@ -134,8 +136,7 @@ namespace dru
 		GetDevice()->BindDepthStencilState(ds.Get());
 		GetDevice()->BindBlendState(bs.Get());
 
-		graphics::GetDevice()->BindVS(mVS.Get(), nullptr, 0);
-		graphics::GetDevice()->BindPS(mPS.Get(), nullptr, 0);
+
 	}
 
 }

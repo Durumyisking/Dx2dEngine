@@ -42,9 +42,11 @@ namespace dru
 			mChanged = false;
 		}
 	}
+
 	void CBaseRenderer::render()
 	{
 	}
+
 	void CBaseRenderer::SetMaterial(std::shared_ptr<CMaterial> _Material)
 	{
 		mMaterial = _Material;

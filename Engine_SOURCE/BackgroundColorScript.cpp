@@ -20,13 +20,7 @@ namespace dru
 
 	void CBackgroundColorScript::update()
 	{
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
-		renderer::ColorCB data = {};
-				
-		data.RGBA = mColor;
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
 	}
 
 	void CBackgroundColorScript::fixedUpdate()
@@ -35,6 +29,13 @@ namespace dru
 
 	void CBackgroundColorScript::render()
 	{
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
+		renderer::ColorCB data = {};
+
+		data.RGBA = mColor;
+
+		cb->Bind(&data);
+		cb->SetPipeline(eShaderStage::PS);
 	}
 
 }

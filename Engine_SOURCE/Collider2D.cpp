@@ -66,7 +66,6 @@ namespace dru
 
 	void CCollider2D::render()
 	{
-
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
 		renderer::ColorCB data = {};
 

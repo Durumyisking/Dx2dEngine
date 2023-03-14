@@ -12,6 +12,8 @@ namespace dru
 		, mMass(1.f)
 		, mMaxSpeed(5.f)
 		, mFricCoeff(20.f)
+		, mbOnAir(false)
+		, mGravity(1.f)
 	{
 	}
 
@@ -36,6 +38,15 @@ namespace dru
 			mAccel = mForce * Accel;
 
 			mVelocity += mAccel * CTimeMgr::DeltaTime();
+		}
+
+		if (mbOnAir)
+		{
+			mVelocity.y += mGravity * CTimeMgr::DeltaTime();
+		}
+		else
+		{
+
 		}
 
 		if (mVelocity != Vector3::Zero)

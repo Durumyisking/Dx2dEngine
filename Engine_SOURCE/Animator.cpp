@@ -70,6 +70,9 @@ namespace dru
 
 		mAnimations.insert(std::make_pair(_name, animation));
 
+		Events* events = new Events();
+//		mEvents.insert(std::make_pair(, events))
+
 		return true;
 	}
 

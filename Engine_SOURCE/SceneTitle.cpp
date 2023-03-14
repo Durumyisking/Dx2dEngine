@@ -9,6 +9,7 @@
 #include "BackgroundColorScript.h"
 #include "Collider2D.h"
 #include "Animator.h"
+#include "PixelCollisionScript.h"
 
 namespace dru
 {
@@ -182,27 +183,28 @@ namespace dru
 				CSpriteRenderer* SpriteRenderer = mbgGrass->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Grass", Material);
+				CResources::Insert<CMaterial>(L"GrassMat", Material);
 				SpriteRenderer->SetMaterial(Material);
+				mbgGrass->AddComponent<CPixelCollisionScript>(eComponentType::Script)->SetImage(L"Grass");
 				mbgGrass->SetPos(Vector3(0.f, -2.6f, 1.f));
 				mbgGrass->SetScale(Vector3(0.13f, 0.13f, 1.f));
 			}
 
-			{
-				// 배경 Grass2
-				mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
-				CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			//{
+			//	// 배경 Grass2
+			//	mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
+			//	CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"Grass2", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mbgGrass2->SetPos(Vector3(0.f, 0.f, 4.f));
-				mbgGrass2->SetScale(Vector3(0.13f, 0.13f, 1.f));
+			//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
+			//	CResources::Insert<CMaterial>(L"Grass2Mat", Material);
+			//	SpriteRenderer->SetMaterial(Material);
+			//	mbgGrass2->SetPos(Vector3(0.f, 0.f, 4.f));
+			//	mbgGrass2->SetScale(Vector3(1.f, 1.f, 1.f));
 
-				CAnimator* animator = mbgGrass2->AddComponent<CAnimator>(eComponentType::Animator);
-				animator->Create(L"Grass_Title", Material->GetTexture(), { 0.f, 0.f }, { 644.f, 255.f }, Vector2::Zero, 12, 0.1f);
-				animator->Play(L"Grass_Title");
-			}
+			//	CAnimator* animator = mbgGrass2->AddComponent<CAnimator>(eComponentType::Animator);
+			//	animator->Create(L"Grass_Title", Material->GetTexture(), { 0.f, 0.f }, { 644.f, 255.f }, Vector2::Zero, 12, 0.1f);
+			//	animator->Play(L"Grass_Title");
+			//}
 
 			{
 				// 배경 black

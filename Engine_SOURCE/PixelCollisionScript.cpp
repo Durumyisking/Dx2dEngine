@@ -22,11 +22,11 @@ namespace dru
 
 	void CPixelCollisionScript::update()
 	{
-		//mImage->pixels
 	}
 
 	void CPixelCollisionScript::fixedUpdate()
 	{
+
 	}
 
 	void CPixelCollisionScript::render()
@@ -35,9 +35,6 @@ namespace dru
 
 	void CPixelCollisionScript::SetImage(const std::wstring& key)
 	{
-		//CTexture texture = CResources::Find<CTexture>(key);
-
-	//	text.
 	}
 
 }
