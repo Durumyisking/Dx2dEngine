@@ -48,11 +48,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)ColorPS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PixelCollisionPS.hlsl">
-      <Filter>PS</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
   </ItemGroup>
 </Project>

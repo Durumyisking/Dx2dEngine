@@ -183,12 +183,14 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FadeScript.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GridScript.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MaskScript.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="Transform.h" />
@@ -235,11 +238,13 @@
     <ClCompile Include="druMath.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FadeScript.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MaskScript.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -261,6 +266,7 @@
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="Transform.cpp" />

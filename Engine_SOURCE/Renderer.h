@@ -7,7 +7,7 @@
 #include "Shader.h"
 #include "ConstantBuffer.h"
 #include "Camera.h"
-
+#include "Light.h"
 
 using namespace dru::math;
 using namespace dru::graphics;
@@ -81,6 +81,8 @@ namespace dru::renderer
 
 	extern CCamera* mainCamera;
 	extern std::vector<DebugMesh> debugMeshes;
+	extern std::vector<LightAttribute> lights;
+
 
 	void Initialize();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라

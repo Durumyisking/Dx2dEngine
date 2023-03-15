@@ -17,6 +17,8 @@
 
 #include "Animator.h"
 
+#include "Floor.h"
+
 namespace dru
 {
 	CSceneMain::CSceneMain()
@@ -42,8 +44,6 @@ namespace dru
 	}
 	void CSceneMain::Initialize()
 	{
-		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
-
 		{
 			// main 카메라
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
@@ -66,15 +66,15 @@ namespace dru
 
 
 		{
-			//// 배경 Stage1
-			//mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
-			//CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			// 배경 Stage1
+			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
+			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-			//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
-			//CResources::Insert<CMaterial>(L"Stage1", Material);
-			//SpriteRenderer->SetMaterial(Material);
-			//mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
-			//mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"Stage1", Material);
+			SpriteRenderer->SetMaterial(Material);
+			mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
+			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
 		}
 
 	
@@ -84,15 +84,21 @@ namespace dru
 		}
 
 		{
-			CGameObj* mMon = object::Instantiate<CMonster>(eLayerType::Monster, L"Mon");
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
+			Floor->SetColliderScale({ 5.f, 0.5f });
+		}
 
-			CSpriteRenderer* SpriteRenderer = mMon->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"MonMat", Material);
-			SpriteRenderer->SetMaterial(Material);
+		{
+			//CGameObj* mMon = object::Instantiate<CMonster>(eLayerType::Monster, L"Mon");
 
-			mMon->SetPos(Vector3(3.f, -2.f, 3.f));
-			mMon->SetScale(Vector3(1.f, 1.f, 1.f));
+			//CSpriteRenderer* SpriteRenderer = mMon->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"SpriteShader");
+			//CResources::Insert<CMaterial>(L"MonMat", Material);
+			//SpriteRenderer->SetMaterial(Material);
+
+			//mMon->SetPos(Vector3(3.f, -2.f, 3.f));
+			//mMon->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
 
 		{
@@ -130,6 +136,8 @@ namespace dru
 		}
 
 
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Platforms);
 
 		CScene::Initialize();
 	}

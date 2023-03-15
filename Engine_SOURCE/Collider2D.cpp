@@ -15,7 +15,7 @@ namespace dru
 		, mbTrigger(false) // 이거 공부하자
 		, mCollisionCount(0)
 	{
-		mColliderID = mColliderID++;
+		mID = mColliderID++;
 	}
 
 	CCollider2D::~CCollider2D()
@@ -29,6 +29,20 @@ namespace dru
 
 	void CCollider2D::update()
 	{
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
+		renderer::ColorCB data = {};
+
+		if (mCollisionCount > 0)
+		{
+			data.RGBA = Vector4(255.f, 0.f, 0.f, 1.f);
+		}
+		else
+		{
+			data.RGBA = Vector4(0.f, 255.f, 0.f, 1.f);
+		}
+
+		cb->Bind(&data);
+		cb->SetPipeline(eShaderStage::PS);
 	}
 
 	void CCollider2D::fixedUpdate()
@@ -66,28 +80,15 @@ namespace dru
 
 	void CCollider2D::render()
 	{
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
-		renderer::ColorCB data = {};
 
-		if (mCollisionCount > 0)
-		{
-			data.RGBA = Vector4(255.f, 0.f, 0.f, 1.f);
-		}
-		else
-		{
-			data.RGBA = Vector4(0.f, 255.f, 0.f, 1.f);
-		}
-
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
 	}
 
 	void CCollider2D::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		++mCollisionCount;
 		const std::vector<CScript*>& scripts = GetOwner()->GetScripts();
 		for (CScript* script : scripts)
 		{
-			++mCollisionCount;
 			script->OnCollisionEnter(_oppo);
 		}
 	}
@@ -103,10 +104,10 @@ namespace dru
 
 	void CCollider2D::OnCollisionExit(CCollider2D* _oppo)
 	{
+		--mCollisionCount;
 		const std::vector<CScript*>& scripts = GetOwner()->GetScripts();
 		for (CScript* script : scripts)
 		{
-			--mCollisionCount;
 			script->OnCollisionExit(_oppo);
 		}
 	}

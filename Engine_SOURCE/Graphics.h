@@ -101,8 +101,8 @@ namespace dru::graphics
 			UnknownType,
 		} type = eType::UnknownType;
 
-		D3D11_BUFFER_DESC Desc = {};
-		Microsoft::WRL::ComPtr<ID3D11Buffer> Buffer;
+		D3D11_BUFFER_DESC desc;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 
 
 		GpuBuffer() = default;
@@ -132,6 +132,11 @@ namespace dru::graphics
 		End,
 	};
 
+	enum class eSRVType
+	{
+
+		End,
+	};
 
 	struct DebugMesh
 	{
@@ -144,5 +149,23 @@ namespace dru::graphics
 		float time;
 	};
 
+	struct LightAttribute
+	{
+		math::Vector4 diffuse;
+		math::Vector4 specular;
+		math::Vector4 ambient;
+
+		math::Vector4 emissive;
+
+		math::Vector4 position;
+		math::Vector4 direction;
+
+		float radius;
+		float angle;
+		
+		enums::eLightType type;
+
+		int padding; // 상수버퍼 패딩
+	};
 
 }

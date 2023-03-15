@@ -17,6 +17,7 @@ namespace dru::renderer
 	CCamera* mainCamera = nullptr;
 	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
 	std::vector<DebugMesh> debugMeshes;
+	std::vector<LightAttribute> lights;
 
 	void LoadMesh()
 	{
@@ -313,7 +314,7 @@ namespace dru::renderer
 
 	void LoadBuffer()
 	{
-		// Const Buffer	
+		// Const buffer	
 		constantBuffers[static_cast<UINT>(eCBType::Transform)] = new CConstantBuffer(eCBType::Transform);
 		constantBuffers[static_cast<UINT>(eCBType::Transform)]->Create(sizeof(TransformCB));
 	

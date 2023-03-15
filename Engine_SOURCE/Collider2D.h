@@ -41,10 +41,11 @@ namespace dru
         Vector3 GetColliderPos() const { return mPosition; }
 
         bool IsTrigger() const { return mbTrigger; }
-        UINT GetColliderID() const { return mColliderID; }
+        UINT GetColliderID() const { return mID; }
 
     private:
         static UINT mColliderID;
+        UINT mID;
 
         eColliderType mType;
         CTransform* mTransform;

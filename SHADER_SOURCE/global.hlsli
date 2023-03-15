@@ -1,3 +1,5 @@
+#include "Light.hlsli"
+
 struct VTX_IN
 {
     float4 vPos : POSITION; // 오른쪽에 오는놈은 시멘틱이라고 해요
@@ -64,12 +66,13 @@ cbuffer Animation : register(b5)
 }
 
 Texture2D defaultTexture : register(t0);
-Texture2D PixelCollisionTexture : register(t1);
+// atlas TextureType
+Texture2D atlasTexture : register(t12);
+
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
 
-// atlas TextureType
-Texture2D atlasTexture : register(t12);
+StructuredBuffer<LightAttribute> lightAttributes : register(t13);

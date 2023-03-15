@@ -35,9 +35,6 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)GridVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PixelCollisionPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-    </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)PSTriangle.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
@@ -59,5 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
   </ItemGroup>
 </Project>

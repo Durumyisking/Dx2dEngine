@@ -11,6 +11,7 @@ namespace dru::enums
 		BackGround,
 		Monster,
 		Player,
+		Platforms,
 		UI,
 		End = 16,
 	};
@@ -27,6 +28,7 @@ namespace dru::enums
 		MeshRenderer,
 		SpriteRenderer,
 		Animator,
+		Light,
 		UI,
 		Script,
 		End,
@@ -69,6 +71,14 @@ namespace dru::enums
 
 	};
 
+	enum class eLightType
+	{
+		Directional,
+		Point,
+		Spot, 
+		End,
+
+	};
 
 
 }

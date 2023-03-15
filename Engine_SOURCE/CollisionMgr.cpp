@@ -110,21 +110,8 @@ namespace dru
 		// 충돌체크
 		if (Intersect(_left, _right)) // 충돌을 한 상태
 		{
-			// 충돌 중
-			if (iter->second)
-			{
-				if (_left->IsTrigger())
-					_left->OnTrigger(_right);
-				else
-					_left->OnCollision(_right);
-
-				if (_right->IsTrigger())
-					_right->OnTrigger(_left);
-				else
-					_right->OnCollision(_left);
-
-			}
-			else // 첫 충돌
+			// 첫 충돌
+			if (iter->second == false)
 			{
 				if (_left->IsTrigger())
 					_left->OnTriggerEnter(_right);
@@ -137,6 +124,18 @@ namespace dru
 					_right->OnCollisionEnter(_left);
 
 				iter->second = true;
+			}
+			else // 충돌 중
+			{
+				if (_left->IsTrigger())
+					_left->OnTrigger(_right);
+				else
+					_left->OnCollision(_right);
+
+				if (_right->IsTrigger())
+					_right->OnTrigger(_left);
+				else
+					_right->OnCollision(_left);
 			}
 		}
 		else // 충돌 X

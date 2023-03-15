@@ -15,10 +15,10 @@ namespace dru
 		CComponent(eComponentType _Type);
 		virtual ~CComponent();
 
-		virtual void Initialize() = 0;
-		virtual void update() = 0;
-		virtual void fixedUpdate() = 0;
-		virtual void render() = 0;
+		virtual void Initialize()	= 0;
+		virtual void update()		= 0;
+		virtual void fixedUpdate()	= 0;
+		virtual void render()		= 0;
 
 		eComponentType GetOrder() { return mType; }
 

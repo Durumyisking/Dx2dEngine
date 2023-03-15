@@ -137,6 +137,12 @@
     <Filter Include="GameObj\Scripts%28ETC%29">
       <UniqueIdentifier>{9aed3e60-5432-4643-9c04-a28a88ffb641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Platforms">
+      <UniqueIdentifier>{25336aac-0c2d-4a64-9ca7-30573113f1ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Light">
+      <UniqueIdentifier>{6aabe6fc-84a7-4c1f-bbf3-0899e90f7263}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -298,6 +304,13 @@
     <ClInclude Include="PixelCollisionScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Common\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="StructedBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -444,6 +457,13 @@
     <ClCompile Include="PixelCollisionScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Common\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="StructedBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="druMath.ini">

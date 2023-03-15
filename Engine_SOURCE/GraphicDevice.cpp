@@ -70,7 +70,7 @@ namespace dru::graphics
 		// Create Rendertarget View
 		hr = mDevice->CreateRenderTargetView(mRenderTarget.Get(), nullptr, mRenderTargetView.GetAddressOf());
 
-		// Depth/Stencil Buffer
+		// Depth/Stencil buffer
 		D3D11_TEXTURE2D_DESC depthBuffer = {};
 		depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
 		depthBuffer.Usage = D3D11_USAGE_DEFAULT;
@@ -158,6 +158,15 @@ namespace dru::graphics
 		// input assembly 단계로 버퍼 넘겨주는행위
 
 		if (FAILED(mDevice->CreateBuffer(_DESC, _Data, _Buffer)))
+			return false;
+
+		return true;
+	}
+
+	bool CGraphicDevice::CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
+	{
+
+		if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
 			return false;
 
 		return true;
@@ -265,7 +274,7 @@ namespace dru::graphics
 		mContext->RSSetViewports(1, _ViewPort);
 	}
 
-	void CGraphicDevice::Bind(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
+	void CGraphicDevice::BindBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
 	{
 		// gpu에 값 줄거니까 데이터 바꿔서 보내야해
 		D3D11_MAPPED_SUBRESOURCE sub = {};

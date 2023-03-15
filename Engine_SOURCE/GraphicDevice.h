@@ -14,6 +14,8 @@ namespace dru::graphics
 
 		bool CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* _Desc, UINT _NumElements, const void* _Bytecode, SIZE_T _BytecodeLength, ID3D11InputLayout** _ppInputLayout);
 		bool CreateBuffer(D3D11_BUFFER_DESC* _DESC, D3D11_SUBRESOURCE_DATA* _Data, ID3D11Buffer** _Buffer);
+		bool CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView = 0);
+		
 		bool CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader);
 		bool CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader);
 
@@ -35,7 +37,7 @@ namespace dru::graphics
 		void BindPS(ID3D11PixelShader* _PS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
 		
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
-		void Bind(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
+		void BindBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 		void SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews);
@@ -76,7 +78,7 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <ID3D11DepthStencilView> mDepthStencilView; // 얘도 context와 같은개념
 
 		// 화면에 최종적으로 그려지는 
-		// 백버퍼(Frame Buffer)를 관리하고, 실제로 화면에 렌더링 하는 
+		// 백버퍼(Frame buffer)를 관리하고, 실제로 화면에 렌더링 하는 
 		// 역할을 담당하는 객체
 		Microsoft::WRL::ComPtr <IDXGISwapChain> mSwapChain;
 
