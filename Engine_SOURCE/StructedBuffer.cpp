@@ -5,7 +5,7 @@ namespace dru::graphics
 {
 	CStructedBuffer::CStructedBuffer()
 		: mSRV(nullptr)
-		, mType(eSRVType::End)
+		, mType(eSRVType::None)
 		, mSize(0)
 		, mStride(0)
 	{
@@ -57,7 +57,7 @@ namespace dru::graphics
 	{
 		if (mStride < _bufferCount)
 		{
-			Create(mSize, _bufferCount, eSRVType::End, _data);
+			Create(mSize, _bufferCount, eSRVType::None, _data);
 		}
 		else
 		{

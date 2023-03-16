@@ -3,6 +3,20 @@
 
 namespace dru
 {
+    enum class ePlayerState
+    {
+        Idle,
+        Run,
+        Jump,
+        Attack,
+        Crouch,
+        Thumble,
+        WallSlide,
+        Fall,
+
+        End,
+    };
+
     class CPlayerScript :
         public CScript
     {
@@ -29,7 +43,8 @@ namespace dru
         void attacktoidle();
 
         float mAirTime;
-        bool mbJump;
+
+        ePlayerState mState;
     };
 }
 

@@ -12,7 +12,7 @@ namespace dru
 		, mMass(1.f)
 		, mMaxSpeed(Vector3(5.f, 7.f, 0.f))
 		, mFricCoeff(20.f)
-		, mbOnAir(false)
+		, mbOnAir(true)
 		, mGravity(Vector3(0.f, -20.f, 0.f))
 	{
 	}

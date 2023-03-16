@@ -44,6 +44,16 @@ namespace dru
 	void CSceneTitle::Initialize()
 	{
 		//mDeleteObj = true;
+
+		{
+			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
+			directionalLight->SetPos({ 0.f, 0.f, -100.f });
+			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		}
+
+
 		{
 			// main Ä«¸Þ¶ó
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");

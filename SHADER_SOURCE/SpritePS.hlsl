@@ -28,10 +28,17 @@ float4 main(VTX_OUT _in) : SV_Target
     {
         
     }
- 
+     
+    LightColor lightcolor = (LightColor) 0.f;
+    for (int i = 0; i < lightCount; i++)
+    {
+        CalculateLight(lightcolor, _in.vWorldPos.xyz, i);
+    }
+        
+    color *= lightcolor.diffuse;
     
-    if (color.a == 0.f)
-        discard;
+    //if (color.a == 0.f)
+    //    discard;
     
     return color;
     

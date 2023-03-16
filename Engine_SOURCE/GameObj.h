@@ -66,6 +66,22 @@ namespace dru
 			return nullptr;
 		}
 
+		template <typename T>
+		T* GetComponents()
+		{
+			std::vector<T*> components = {};
+
+			T* component;
+			for (auto c : mComponents)
+			{
+				component = dynamic_cast<T*>(c);
+
+				if (nullptr != component)
+					components.push_back(component);
+			}
+			return components;
+		}
+
 		const std::vector<CScript*>& GetScripts() { return mScripts; }
 
 		CScript* GetScript()

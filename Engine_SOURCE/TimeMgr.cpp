@@ -32,6 +32,12 @@ namespace dru
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 
         mAccumulatedTime += mDeltaTime;
+
+#ifdef _DEBUG
+        if (mDeltaTime > (1. / 60.))
+            mDeltaTime = (1. / 60.);
+#endif
+
     }
 
     void CTimeMgr::Render(HDC hdc)
@@ -58,5 +64,8 @@ namespace dru
             mOneSecond = 0.f;
             iCount = 0;
         }
+
+
     }
+
 }

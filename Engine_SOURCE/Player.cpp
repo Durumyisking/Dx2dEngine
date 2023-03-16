@@ -17,7 +17,7 @@ namespace dru
 		CCollider2D* coll = playerObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetName(L"col_player");
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.4f, 1.f));
+		coll->SetScale(Vector2(0.4f, 0.6f));
 
 		CSpriteRenderer* SpriteRenderer = playerObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
@@ -25,11 +25,11 @@ namespace dru
 		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* animator = playerObj->AddComponent<CAnimator>(eComponentType::Animator);
-		animator->Create(L"Player_Idle", Material->GetTexture(), { 2718.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
-		animator->Create(L"Player_Run", Material->GetTexture(), { 10.f, 11.f }, { 36.f, 35.f }, Vector2::Zero, 10, { 35.f, 35.f }, 0.1f);
-		animator->Create(L"Player_IdleToRun", Material->GetTexture(), { 396.f, 0.f }, { 44.f, 36.f }, Vector2::Zero, 4, { 35.f, 35.f }, 0.1f);
-		animator->Create(L"Player_RunToIdle", Material->GetTexture(), { 622.f, 0.f }, { 52.f, 39.f }, Vector2::Zero, 4, { 35.f, 35.f }, 0.1f);
-		animator->Create(L"Player_Attack", Material->GetTexture(), { 0.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 7, { 50.f, 50.f }, 0.1f);
+		animator->Create(L"Player_Idle", Material->GetTexture(), { 2718.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
+		animator->Create(L"Player_Run", Material->GetTexture(), { 4960.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
+		animator->Create(L"Player_IdleToRun", Material->GetTexture(), { 3462.f, 0.f }, { 62.f, 50.f },	Vector2::Zero, 4, { 50.f, 50.f }, 0.1f);
+		animator->Create(L"Player_RunToIdle", Material->GetTexture(), { 5642.f, 0.f }, { 62.f, 50.f },	Vector2::Zero, 5, { 50.f, 50.f }, 0.1f);
+		animator->Create(L"Player_Attack", Material->GetTexture(), { 0.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 7, { 50.f, 50.f }, 0.1f);
 		animator->Play(L"Player_Idle");
 
 	}

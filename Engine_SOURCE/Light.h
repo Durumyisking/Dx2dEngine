@@ -7,6 +7,7 @@ namespace dru
     class CLight :
         public CComponent
     {
+	public:
 		CLight();
 		virtual ~CLight();
 

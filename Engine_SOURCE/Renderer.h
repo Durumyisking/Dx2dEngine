@@ -8,6 +8,7 @@
 #include "ConstantBuffer.h"
 #include "Camera.h"
 #include "Light.h"
+#include "StructedBuffer.h"
 
 using namespace dru::math;
 using namespace dru::graphics;
@@ -68,6 +69,12 @@ namespace dru::renderer
 		UINT type;
 	};
 
+	CBUFFER(LightCB, CBSLOT_LIGHTCOUNT)
+	{	
+		UINT lightCount;
+	};
+
+
 	// vertex data
 	extern Vertex	RectVertexes[4];
 
@@ -83,6 +90,9 @@ namespace dru::renderer
 	extern std::vector<DebugMesh> debugMeshes;
 	extern std::vector<LightAttribute> lights;
 
+	extern CStructedBuffer* lightBuffer;
+
+
 
 	void Initialize();
 	void release(); // 그리는 방식이 여러개일때 여러개를 할당하는게 아니라
@@ -91,6 +101,8 @@ namespace dru::renderer
 	
 	void Render();
 
+	void PushLightAttribute(LightAttribute _attribute);
+	void BindLight();
 
 }
 

@@ -14,6 +14,7 @@ struct VTX_IN
 struct VTX_OUT
 {
     float4 vPos : SV_Position;
+    float3 vWorldPos : POSITION;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };
@@ -65,6 +66,14 @@ cbuffer Animation : register(b5)
     uint animationType;
 }
 
+
+cbuffer LightCount : register(b6)
+{
+    uint lightCount;
+}
+
+
+
 Texture2D defaultTexture : register(t0);
 // atlas TextureType
 Texture2D atlasTexture : register(t12);
@@ -76,3 +85,24 @@ SamplerState anisotropicSampler : register(s2);
 
 
 StructuredBuffer<LightAttribute> lightAttributes : register(t13);
+
+void CalculateLight(in out LightColor _lightColor, float3 _position, int _idx) // in out 키워드는 참조/포인터로 쓸거임
+{
+    if(0 == lightAttributes[_idx].type)
+    {
+        _lightColor.diffuse += lightAttributes[_idx].color.diffuse;
+        
+    }
+    else if (1 == lightAttributes[_idx].type)
+    {
+        float dist= distance(lightAttributes[_idx].position.xy, _position.xy);
+        
+        if(dist < lightAttributes[_idx].radius)
+        {
+            float ratio = 1.f - (dist / lightAttributes[_idx].radius);
+            _lightColor.diffuse += lightAttributes[_idx].color.diffuse * ratio;
+        }
+
+    }
+       
+}

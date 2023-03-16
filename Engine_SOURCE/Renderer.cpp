@@ -4,6 +4,7 @@
 #include "SceneMgr.h"
 #include "Scene.h"
 
+
 namespace dru::renderer
 {
 	// vertex data
@@ -18,6 +19,7 @@ namespace dru::renderer
 	std::vector<CCamera*> Cameras[static_cast<UINT>(CSceneMgr::eSceneType::End)];
 	std::vector<DebugMesh> debugMeshes;
 	std::vector<LightAttribute> lights;
+	CStructedBuffer* lightBuffer = nullptr;
 
 	void LoadMesh()
 	{
@@ -333,6 +335,13 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Animation)] = new CConstantBuffer(eCBType::Animation);
 		constantBuffers[static_cast<UINT>(eCBType::Animation)]->Create(sizeof(AnimationCB));
 
+		constantBuffers[static_cast<UINT>(eCBType::Light)] = new CConstantBuffer(eCBType::Light);
+		constantBuffers[static_cast<UINT>(eCBType::Light)]->Create(sizeof(LightCB));
+	
+	
+		// structed buffer
+		lightBuffer = new CStructedBuffer();
+		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
 	}
 
 	void LoadShader()
@@ -382,10 +391,6 @@ namespace dru::renderer
 		DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		CResources::Insert<CShader>(L"DebugShader", DebugShader);
 
-		//std::shared_ptr<CShader> PixelColliderShader = std::make_shared<CShader>();
-		//PixelColliderShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		//PixelColliderShader->Create(graphics::eShaderStage::PS, L"PixelCollisionPS.hlsl", "main");
-		//CResources::Insert<CShader>(L"PixelCollisionShader", PixelColliderShader);
 	}
 
 	void LoadTexture()
@@ -508,12 +513,15 @@ namespace dru::renderer
 		{
 			delete constantBuffers[i];
 			constantBuffers[i] = nullptr;
-
 		}
+		delete lightBuffer;
+		lightBuffer = nullptr;
 	}
 
 	void Render()
 	{
+		BindLight();
+
 		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
 
 		for (CCamera* cam : Cameras[type])
@@ -524,5 +532,28 @@ namespace dru::renderer
 			cam->render();
 		}
 		Cameras[type].clear();
+		renderer::lights.clear();
 	}
+
+	void PushLightAttribute(LightAttribute _attribute)
+	{
+		lights.push_back(_attribute);
+	}
+
+	void BindLight()
+	{
+		lightBuffer->Bind(lights.data(), lights.size());
+		lightBuffer->SetPipeline(eShaderStage::VS, 13);
+		lightBuffer->SetPipeline(eShaderStage::PS, 13);
+
+		renderer::LightCB Lightcb = {};
+		Lightcb.lightCount = lights.size();
+
+		CConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
+		cb->Bind(&Lightcb);
+
+		cb->SetPipeline(eShaderStage::VS);
+		cb->SetPipeline(eShaderStage::PS);
+	}
+
 }

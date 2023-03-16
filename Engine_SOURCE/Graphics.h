@@ -17,6 +17,7 @@
 #define CBSLOT_FADE 3
 #define CBSLOT_COLOR 4
 #define CBSLOT_ANIMATION 5
+#define CBSLOT_LIGHTCOUNT 6
 
 
 namespace dru::graphics
@@ -118,6 +119,7 @@ namespace dru::graphics
 		Fade,
 		Color,
 		Animation,
+		Light,
 		End,
 	};
 
@@ -134,7 +136,7 @@ namespace dru::graphics
 
 	enum class eSRVType
 	{
-
+		None,
 		End,
 	};
 
@@ -155,7 +157,7 @@ namespace dru::graphics
 		math::Vector4 specular;
 		math::Vector4 ambient;
 
-		math::Vector4 emissive;
+//		math::Vector4 emissive;
 
 		math::Vector4 position;
 		math::Vector4 direction;

@@ -60,7 +60,7 @@ namespace dru
 			return mMousePosition;
 		}
 
-		static __forceinline bool GetKey(eKeyCode keyCode)
+		static __forceinline bool GetKeyPressed(eKeyCode keyCode)
 		{
 			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::PRESSED;
 		}

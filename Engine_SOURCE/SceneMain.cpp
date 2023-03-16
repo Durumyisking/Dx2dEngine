@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Collider2D.h"
 #include "CollisionMgr.h"
+#include "Light.h"
 
 #include "Background.h"
 #include "Player.h"
@@ -18,6 +19,8 @@
 #include "Animator.h"
 
 #include "Floor.h"
+
+using namespace dru::graphics;
 
 namespace dru
 {
@@ -44,6 +47,26 @@ namespace dru
 	}
 	void CSceneMain::Initialize()
 	{
+		{
+			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightMainScene");
+			directionalLight->SetPos({ 0.f, 0.f, -100.f });
+			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+
+		}
+
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"PointLight");
+			PointLight->SetPos({ 2.f, 2.f, 3.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(1.f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 1.f });
+
+		}
+
 		{
 			// main Ä«¸Þ¶ó
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
@@ -110,7 +133,7 @@ namespace dru
 			SpriteRenderer->SetMaterial(Material);
 			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
-			mUICursor->SetScale(Vector3(1.f, 1.f, 1.f));
+			mUICursor->SetScale(Vector3(0.7f, 0.7f, 1.f));
 		}
 
 		{
