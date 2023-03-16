@@ -30,8 +30,8 @@ namespace dru
 	};
 	enum class eKeyState
 	{
+		TAP,
 		DOWN,
-		PRESSED,
 		UP,
 		NONE,
 	};
@@ -60,14 +60,14 @@ namespace dru
 			return mMousePosition;
 		}
 
-		static __forceinline bool GetKeyPressed(eKeyCode keyCode)
-		{
-			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::PRESSED;
-		}
-
 		static __forceinline bool GetKeyDown(eKeyCode keyCode)
 		{
 			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::DOWN;
+		}
+
+		static __forceinline bool GetKeyTap(eKeyCode keyCode)
+		{
+			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::TAP;
 		}
 
 		static __forceinline bool GetKeyUp(eKeyCode keyCode)

@@ -64,9 +64,9 @@ namespace dru
 				{
 					// 이전 프레임에도 눌려 있었다.
 					if (mKeys[i].bPressed)
-						mKeys[i].eState = eKeyState::PRESSED;
-					else
 						mKeys[i].eState = eKeyState::DOWN;
+					else
+						mKeys[i].eState = eKeyState::TAP;
 
 					mKeys[i].bPressed = true;
 				}
@@ -92,7 +92,7 @@ namespace dru
 		{
 			for (UINT i = 0; i < (UINT)eKeyCode::END; ++i)
 			{
-				if (eKeyState::DOWN == mKeys[i].eState || eKeyState::PRESSED == mKeys[i].eState)
+				if (eKeyState::TAP == mKeys[i].eState || eKeyState::DOWN == mKeys[i].eState)
 					mKeys[i].eState = eKeyState::UP;
 				else if (eKeyState::UP == mKeys[i].eState)
 					mKeys[i].eState = eKeyState::NONE;

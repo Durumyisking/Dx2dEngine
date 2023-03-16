@@ -6,7 +6,9 @@ namespace dru
     enum class ePlayerState
     {
         Idle,
+        IdleToRun,
         Run,
+        RunToIdle,
         Jump,
         Attack,
         Crouch,
@@ -43,8 +45,14 @@ namespace dru
         void attacktoidle();
 
         float mAirTime;
+        float mAttackTime;
+        float mAttackCooldown;
+        Vector3 mAttackDir;
+        bool mbFirstAttack;
 
         ePlayerState mState;
+        
+
     };
 }
 

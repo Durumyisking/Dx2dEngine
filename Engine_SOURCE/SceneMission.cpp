@@ -22,6 +22,17 @@ namespace dru
 			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
 		}
 
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"PointLight");
+			PointLight->SetPos({ 0.f, 0.f, 1.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(10.f);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+
+		}
+
+
 
 		{
 			// main Ä«¸Þ¶ó
@@ -93,7 +104,7 @@ namespace dru
 	void CSceneMission::update()
 	{
 
-		if (CInput::GetKeyDown(eKeyCode::N))
+		if (CInput::GetKeyTap(eKeyCode::N))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}

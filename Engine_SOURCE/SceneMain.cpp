@@ -59,11 +59,11 @@ namespace dru
 
 		{
 			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"PointLight");
-			PointLight->SetPos({ 2.f, 2.f, 3.f });
+			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
 			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(1.f);
-			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 1.f });
+			lightComp->SetRadius(3.f);
+			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 0.f });
 
 		}
 
@@ -287,7 +287,7 @@ namespace dru
 		}
 
 
-		if (CInput::GetKeyDown(eKeyCode::N))
+		if (CInput::GetKeyTap(eKeyCode::N))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}

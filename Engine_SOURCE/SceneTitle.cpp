@@ -295,7 +295,7 @@ namespace dru
 		{
 			Vector3 pos = mUIStart->GetPos();
 
-			if (CInput::GetKeyDown(eKeyCode::UP))
+			if (CInput::GetKeyTap(eKeyCode::UP))
 			{
 				if (1 != mMenu)
 				{
@@ -310,7 +310,7 @@ namespace dru
 					mMenu = 5; 
 				}
 			}
-			if (CInput::GetKeyDown(eKeyCode::DOWN))
+			if (CInput::GetKeyTap(eKeyCode::DOWN))
 			{
 				if (5 != mMenu)
 				{
@@ -326,7 +326,7 @@ namespace dru
 				}
 			}
 
-			if (CInput::GetKeyDown(eKeyCode::ENTER))
+			if (CInput::GetKeyTap(eKeyCode::ENTER))
 			{
 				switch (mMenu)
 				{
@@ -351,12 +351,12 @@ namespace dru
 		}
 
 
-		if (CInput::GetKeyDown(eKeyCode::N))
+		if (CInput::GetKeyTap(eKeyCode::N))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}
 
-		if (CInput::GetKeyDown(eKeyCode::M))
+		if (CInput::GetKeyTap(eKeyCode::M))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
 		}

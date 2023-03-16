@@ -34,19 +34,19 @@ namespace dru
 
 		// Keyboard Move
 
-		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::DOWN)
 		{
 			LookAt += 10.f * transform->Up() * CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::DOWN)
 		{
 			LookAt += 10.f * -transform->Up() * CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::DOWN)
 		{
 			LookAt += 10.f * -transform->Right() * CTimeMgr::DeltaTime();
 		}
-		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::DOWN)
 		{
 			LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
 		}

@@ -27,13 +27,13 @@ namespace dru
 
 	void CFadeScript::update()
 	{
-		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::DOWN)
 		{
 			mStart = 1;
 			mFadeType = 1;
 			mtime = 0;
 		}
-		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::PRESSED)
+		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
 		{
 			mStart = 1;
 			mFadeType = 0;
