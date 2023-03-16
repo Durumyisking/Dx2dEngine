@@ -9,6 +9,8 @@
 namespace dru
 {
 	CPlayerScript::CPlayerScript()
+		:mbJump(false)
+		, mAirTime (0.f)
 	{
 	}
 
@@ -42,14 +44,16 @@ namespace dru
 			transform->SetRotation(rot);
 		}
 
-		if (CInput::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
-		{
-			pos += 2.5f * transform->Up() * CTimeMgr::DeltaTime();
-		}
-		if (CInput::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
-		{
-			pos -= 2.5f * transform->Up() * CTimeMgr::DeltaTime();
-		}
+		//if (CInput::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
+		//{
+		//	pos += 2.5f * transform->Up() * CTimeMgr::DeltaTime();
+		//}
+		//if (CInput::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
+		//{
+		//	pos -= 2.5f * transform->Up() * CTimeMgr::DeltaTime();
+		//}
+
+
 		if (CInput::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{
 			rigidebody->AddForce(transform->Right() * -50.f);
@@ -63,6 +67,38 @@ namespace dru
 
 
 #pragma endregion
+
+#pragma region Jump
+
+
+		if(!GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
+		{
+			if (CInput::GetKeyDown(eKeyCode::SPACE))
+			{
+				mbJump = true;
+//				rigidebody->AddForce(transform->Up() * 20.f);
+
+			}
+
+		}
+		if (mbJump)
+		{
+			mAirTime += CTimeMgr::DeltaTime();
+			if (0.3f <= mAirTime)
+			{
+				mbJump = false;
+				mAirTime = 0.f;
+			}
+			else
+			{
+				rigidebody->AddVelocity(transform->Up() * 10.f);
+			}
+		}
+
+
+
+#pragma endregion
+
 
 #pragma region Attack
 		
@@ -85,14 +121,12 @@ namespace dru
 
 				vect.Normalize();
 
-				rigidebody->AddForce(vect * 20000.f);
+				rigidebody->AddForce(vect * 200000.f);
 
 				CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 				animator->Play(L"Player_Attack", false);
 			}
 		}
-
-
 
 #pragma endregion
 
@@ -118,8 +152,9 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetGround();
-
-
+			CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
+			Vector3 vel = rigidebody->GetVelocity();
+			rigidebody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
 	}
 
@@ -129,6 +164,11 @@ namespace dru
 
 	void CPlayerScript::OnCollisionExit(CCollider2D* _oppo)
 	{
+		if (L"col_floor" == _oppo->GetName())
+		{
+			GetOwner()->GetComponent<CRigidBody>()->SetAir();
+		}
+
 	}
 
 	void CPlayerScript::OnTriggerEnter(CCollider2D* _oppo)

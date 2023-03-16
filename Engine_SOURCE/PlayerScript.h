@@ -28,6 +28,8 @@ namespace dru
         void runtoidle();
         void attacktoidle();
 
+        float mAirTime;
+        bool mbJump;
     };
 }
 

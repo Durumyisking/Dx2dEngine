@@ -35,7 +35,7 @@ namespace dru
 
 		void AddVelocity(Vector3 _Value) { mVelocity += _Value; }
 
-		void SetMaxVelocity(float _Value) { mMaxSpeed = _Value; }
+		void SetMaxVelocity(Vector3 _Value) { mMaxSpeed = _Value; }
 
 		void SetFricCoeff(float _Value) { mFricCoeff = _Value; }
 		float GetFricCoeff() const { return mFricCoeff; }
@@ -54,9 +54,9 @@ namespace dru
 		float		mMass;		// 질량
 
 		Vector3		mVelocity;	// 속도 (속력 + 방향)
-		float		mMaxSpeed;	// 최대 속력
+		Vector3		mMaxSpeed;	// 최대 속력
 
-		float		mGravity;
+		Vector3		mGravity;
 
 		float		mFricCoeff;	// 마찰계수
 

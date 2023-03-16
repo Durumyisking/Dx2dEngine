@@ -10,10 +10,10 @@ namespace dru
 		, mAccel(Vector3::Zero)
 		, mVelocity(Vector3::Zero)
 		, mMass(1.f)
-		, mMaxSpeed(5.f)
+		, mMaxSpeed(Vector3(5.f, 7.f, 0.f))
 		, mFricCoeff(20.f)
 		, mbOnAir(false)
-		, mGravity(1.f)
+		, mGravity(Vector3(0.f, -20.f, 0.f))
 	{
 	}
 
@@ -36,18 +36,18 @@ namespace dru
 			float Accel = fForce / mMass;
 
 			mAccel = mForce * Accel;
-
-			mVelocity += mAccel * CTimeMgr::DeltaTime();
 		}
 
 		if (mbOnAir)
 		{
-			mVelocity.y += mGravity * CTimeMgr::DeltaTime();
+			mAccel += mGravity;
 		}
 		else
 		{
-
 		}
+
+		mVelocity += mAccel * CTimeMgr::DeltaTime();
+
 
 		if (mVelocity != Vector3::Zero)
 		{
@@ -55,6 +55,8 @@ namespace dru
 			FricDir.Normalize();
 
 			Vector3 Friction = FricDir * mFricCoeff * CTimeMgr::DeltaTime();
+
+			mAccel += Friction;
 
 			if (mVelocity.Length() <= Friction.Length())
 			{
@@ -66,15 +68,23 @@ namespace dru
 			}
 		}
 
-		if (mMaxSpeed < mVelocity.Length())
+		if (mMaxSpeed.x < fabs(mVelocity.x))
 		{
-			mVelocity.Normalize();
-			mVelocity *= mMaxSpeed;
+			mVelocity.x /= fabs(mVelocity.x);
+			mVelocity.x *= mMaxSpeed.x;
 		}
+		if (mMaxSpeed.y < fabs(mVelocity.y))
+		{
+			mVelocity.y /= fabs(mVelocity.y);
+			mVelocity.y *= mMaxSpeed.y;
+		}
+
 
 		objMove();
 
 		mForce = Vector3(0.f, 0.f, 0.f);
+		mAccel = Vector3(0.f, 0.f, 0.f);
+		mGravity = Vector3(0.f, -100.f, 0.f);
 	}
 
 	void CRigidBody::fixedUpdate()

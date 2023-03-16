@@ -86,7 +86,7 @@ namespace dru
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
 			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
-			Floor->SetColliderScale({ 5.f, 0.5f });
+			Floor->SetColliderScale({ 20.f, 0.5f });
 		}
 
 		{
