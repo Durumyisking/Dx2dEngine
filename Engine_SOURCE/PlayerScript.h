@@ -39,10 +39,15 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+
+    private:
         void idletorunFrame();
         void idletorun();
         void runtoidle();
         void attacktoidle();
+        void jumpdelay();
+
+
 
         float mAirTime;
         float mAttackTime;

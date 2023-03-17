@@ -30,7 +30,7 @@ namespace dru
 		animator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorun, this);
 		animator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidle, this);
 		animator->GetCompleteEvent(L"Player_Attack") = std::bind(&CPlayerScript::attacktoidle, this);
-		//animator->GetCompleteEvent(L"Player_Jump") = std::bind(&CPlayerScript::attacktoidle, this);
+		animator->GetFrameEvent(L"Player_Jump", 1) = std::bind(&CPlayerScript::jumpdelay, this);
 
 	}
 
@@ -127,15 +127,20 @@ namespace dru
 				if (CInput::GetKeyTap(eKeyCode::W))
 				{
 					// 점프
-					rigidebody->AddVelocity(transform->Up() * 1.f);
 					mState.reset();
-					mState[(UINT)ePlayerState::Jump] = true;
 					animator->Play(L"Player_Jump", false);
 				}
 			}
 			else
 			{
-				// 점프중에 키 일찍떼면 fall
+				// 공중에서도 이동 가능
+				if (CInput::GetKeyDown(eKeyCode::A))
+					rigidebody->AddForce(transform->Right() * -50.f);
+
+				if (CInput::GetKeyDown(eKeyCode::D))
+					rigidebody->AddForce(transform->Right() * 50.f);
+
+				// 공중에서 점프 키 일찍떼면 fall
 				if (CInput::GetKeyUp(eKeyCode::W))
 				{
 					mState[(UINT)ePlayerState::Jump] = false;
@@ -148,7 +153,7 @@ namespace dru
 			{
 				mAirTime += CTimeMgr::DeltaTime();
 				// 점프 시간 끝나면 Fall
-				if (0.4f <= mAirTime)
+				if (0.15f <= mAirTime)
 				{
 					mState[(UINT)ePlayerState::Jump] = false;
 					mState[(UINT)ePlayerState::Fall] = true;
@@ -197,6 +202,7 @@ namespace dru
 					mAttackDir = vect; 
 					rigidebody->AddForce(vect * 200000.f);
 
+					mState.reset();
 					mState[(UINT)ePlayerState::Attack] = true;
 					animator->Play(L"Player_Attack", false);
 				}
@@ -209,7 +215,7 @@ namespace dru
 		{
 			mAttackTime += CTimeMgr::DeltaTime();
 
-			if (0.3f <= mAttackTime)
+			if (0.15f <= mAttackTime)
 			{
 				mAttackTime = 0.f;
 				mbFirstAttack = false;
@@ -259,6 +265,15 @@ namespace dru
 				animator->Play(L"Player_RunToIdle");
 
 			}
+
+			if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+			{
+				mState[(UINT)ePlayerState::RunToIdle] = false;
+				mState[(UINT)ePlayerState::Run] = true;
+				CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+				animator->Play(L"Player_Run");
+			}
+
 
 			GetOwner()->GetComponent<CRigidBody>()->SetGround();
 			CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
@@ -331,5 +346,13 @@ namespace dru
 			animator->Play(L"Player_Idle");
 		}
 	}
+
+	void CPlayerScript::jumpdelay()
+	{
+		mState.reset();
+		mState[(UINT)ePlayerState::Jump] = true;
+
+	}
+
 
 }
