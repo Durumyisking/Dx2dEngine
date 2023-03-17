@@ -49,7 +49,7 @@ namespace dru
 		mVelocity += mAccel * CTimeMgr::DeltaTime();
 
 
-		if (mVelocity != Vector3::Zero)
+		if (mVelocity != Vector3::Zero && !mbOnAir)
 		{
 			Vector3 FricDir = -mVelocity;
 			FricDir.Normalize();

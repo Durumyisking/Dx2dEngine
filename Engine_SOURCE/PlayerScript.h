@@ -39,7 +39,7 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-
+        void idletorunFrame();
         void idletorun();
         void runtoidle();
         void attacktoidle();
@@ -50,8 +50,7 @@ namespace dru
         Vector3 mAttackDir;
         bool mbFirstAttack;
 
-        ePlayerState mState;
-        
+        std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
     };
 }
