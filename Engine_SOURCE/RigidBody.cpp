@@ -84,7 +84,7 @@ namespace dru
 
 		mForce = Vector3(0.f, 0.f, 0.f);
 		mAccel = Vector3(0.f, 0.f, 0.f);
-		mGravity = Vector3(0.f, -100.f, 0.f);
+		mGravity = Vector3(0.f, -25.f, 0.f);
 	}
 
 	void CRigidBody::fixedUpdate()
