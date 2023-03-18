@@ -103,7 +103,7 @@ namespace dru
 	
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(Vector3(-6.f, -2.65f, 3.f));
+			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
 		}
 
 		{

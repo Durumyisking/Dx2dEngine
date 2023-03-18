@@ -108,7 +108,12 @@ namespace dru
 
 			Vector3 Pos = GetOwner()->GetPos();
 
-			Pos += mVelocity * CTimeMgr::DeltaTime();
+			Pos.x += mVelocity.x * CTimeMgr::DeltaTime();
+
+			if (!(!mbOnAir && mVelocity.y < 0.f))
+			{
+				Pos.y += mVelocity.y * CTimeMgr::DeltaTime();
+			}
 
 			GetOwner()->SetPos(Pos);
 		}
