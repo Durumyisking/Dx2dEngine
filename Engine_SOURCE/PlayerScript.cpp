@@ -51,7 +51,7 @@ namespace dru
 		}
 
 		if (CInput::GetKeyTap(eKeyCode::N_7))
-			animator->Play(L"Player_Idle");
+			animator->Play(L"Player_Roll");
 		if (CInput::GetKeyTap(eKeyCode::N_8))
 			animator->Play(L"Player_IdleToRun");
 		if (CInput::GetKeyTap(eKeyCode::N_9))
@@ -114,6 +114,34 @@ namespace dru
 						if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
 							animator->Play(L"Player_RunToIdle", false);
 				}
+
+
+#pragma region Crouch
+
+				if (CInput::GetKeyDown(eKeyCode::S))
+				{
+					if (CInput::GetKeyDown(eKeyCode::D))
+					{
+
+					}
+					else if (mState[(UINT)ePlayerState::Idle] == true)
+					{
+						mState.reset();
+						mState[(UINT)ePlayerState::Crouch] = true;
+						animator->Play(L"Player_Crouch", true);
+					}
+				}
+
+				if (mState[(UINT)ePlayerState::Crouch] == true && CInput::GetKeyUp(eKeyCode::S))
+				{
+					mState.reset();
+					mState[(UINT)ePlayerState::Idle] = true;
+					animator->Play(L"Player_Idle", true);
+				}
+
+
+#pragma endregion
+
 			}
 
 
@@ -170,6 +198,7 @@ namespace dru
 			}
 
 #pragma endregion
+
 
 		}
 

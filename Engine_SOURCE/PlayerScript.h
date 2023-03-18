@@ -12,7 +12,7 @@ namespace dru
         Jump,
         Attack,
         Crouch,
-        Thumble,
+        Roll,
         WallSlide,
         Fall,
 
