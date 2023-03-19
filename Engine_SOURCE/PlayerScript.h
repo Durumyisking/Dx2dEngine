@@ -50,7 +50,6 @@ namespace dru
         void postcrouch();
         void rollEnd();
         void rollComplete();
-        void jumpdelay();
 
         CAnimator* animator;
         CRigidBody* rigidbody;

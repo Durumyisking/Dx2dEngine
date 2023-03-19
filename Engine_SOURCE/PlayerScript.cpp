@@ -38,7 +38,6 @@ namespace dru
 		animator->GetCompleteEvent(L"Player_PostCrouch") = std::bind(&CPlayerScript::postcrouch, this);
 		animator->GetEndEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollEnd, this);
 		animator->GetCompleteEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollComplete, this);
-		animator->GetFrameEvent(L"Player_Jump", 1) = std::bind(&CPlayerScript::jumpdelay, this);
 
 	}
 
@@ -193,6 +192,7 @@ namespace dru
 				{
 					rigidbody->SetVelocity(Vector3::Zero);
 					mState.reset();
+					mState[(UINT)ePlayerState::Jump] = true;
 					animator->Play(L"Player_Jump", false);
 				}
 			}
@@ -244,7 +244,7 @@ namespace dru
 		Vector3 MousePos = CInput::GetMousePosition();
 		mAttackCooldown += CTimeMgr::DeltaTime();
 
-		if (0.25f <= mAttackCooldown)
+		if (0.4f <= mAttackCooldown)
 		{
 
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
@@ -455,13 +455,6 @@ namespace dru
 		}
 
 		rigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
-	}
-
-	void CPlayerScript::jumpdelay()
-	{
-		mState.reset();
-		mState[(UINT)ePlayerState::Jump] = true;
-
 	}
 
 
