@@ -39,18 +39,26 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+        void Roll();
 
     private:
         void idletorunFrame();
-        void idletorun();
-        void runtoidle();
-        void attacktoidle();
+        void idletorunEnd();
+        void runtoidleEnd();
+        void attacktoidleEnd();
+        void precrouch();
+        void postcrouch();
+        void rollEnd();
+        void rollComplete();
         void jumpdelay();
 
-
+        CAnimator* animator;
+        CRigidBody* rigidbody;
 
         float mAirTime;
         float mAttackTime;
+        float mRollTime;
+
         float mAttackCooldown;
         Vector3 mAttackDir;
         bool mbFirstAttack;

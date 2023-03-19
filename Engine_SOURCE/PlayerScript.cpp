@@ -12,9 +12,12 @@ namespace dru
 		: mState{}
 		, mAirTime (0.f)
 		, mAttackTime(0.f)
+		, mRollTime(0.f)
 		, mAttackCooldown(0.f)
 		, mAttackDir(Vector3::Zero)
 		, mbFirstAttack(true)
+		, animator(nullptr)
+		, rigidbody(nullptr)
 	{
 	}
 
@@ -24,12 +27,17 @@ namespace dru
 
 	void CPlayerScript::Initialize()
 	{
-		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
+		animator = GetOwner()->GetComponent<CAnimator>();
+		rigidbody = GetOwner()->GetComponent<CRigidBody>();
 
 		animator->GetFrameEvent(L"Player_IdleToRun", 1) = std::bind(&CPlayerScript::idletorunFrame, this);
-		animator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorun, this);
-		animator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidle, this);
-		animator->GetCompleteEvent(L"Player_Attack") = std::bind(&CPlayerScript::attacktoidle, this);
+		animator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorunEnd, this);
+		animator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidleEnd, this);
+		animator->GetCompleteEvent(L"Player_Attack") = std::bind(&CPlayerScript::attacktoidleEnd, this);
+		animator->GetCompleteEvent(L"Player_PreCrouch") = std::bind(&CPlayerScript::precrouch, this);
+		animator->GetCompleteEvent(L"Player_PostCrouch") = std::bind(&CPlayerScript::postcrouch, this);
+		animator->GetEndEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollEnd, this);
+		animator->GetCompleteEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollComplete, this);
 		animator->GetFrameEvent(L"Player_Jump", 1) = std::bind(&CPlayerScript::jumpdelay, this);
 
 	}
@@ -37,8 +45,6 @@ namespace dru
 	void CPlayerScript::update()
 	{
 		CTransform* transform = GetOwner()->GetComponent<CTransform>();
-		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
-		CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
 		Vector3 pos = transform->GetPosition();
 
 
@@ -51,7 +57,7 @@ namespace dru
 		}
 
 		if (CInput::GetKeyTap(eKeyCode::N_7))
-			animator->Play(L"Player_Roll");
+			animator->Play(L"Player_Roll", false);
 		if (CInput::GetKeyTap(eKeyCode::N_8))
 			animator->Play(L"Player_IdleToRun");
 		if (CInput::GetKeyTap(eKeyCode::N_9))
@@ -67,76 +73,107 @@ namespace dru
 				GetOwner()->SetRight();
 
 
-			if (!rigidebody->IsOnAir())
+			if (!rigidbody->IsOnAir())
 			{
 
 
-
+				if (mState[(UINT)ePlayerState::Roll] == false)
+				{
 #pragma region IdleToRun
-				// idle to run
-				if (CInput::GetKeyTap(eKeyCode::A))
-				{
-					animator->Play(L"Player_IdleToRun", false);
-					rigidebody->AddForce(transform->Right() * -500.f);
-					mState[(UINT)ePlayerState::IdleToRun] = true;
-					mState[(UINT)ePlayerState::Idle] = false;
-				}
-				if (CInput::GetKeyTap(eKeyCode::D))
-				{
-					animator->Play(L"Player_IdleToRun", false);
-					rigidebody->AddForce(transform->Right() * 500.f);
-					mState[(UINT)ePlayerState::IdleToRun] = true;
-					mState[(UINT)ePlayerState::Idle] = false;
-				}
+
+					if (CInput::GetKeyTap(eKeyCode::A))
+					{
+						animator->Play(L"Player_IdleToRun", false);
+						rigidbody->AddForce(transform->Right() * -500.f);
+						mState[(UINT)ePlayerState::IdleToRun] = true;
+						mState[(UINT)ePlayerState::Idle] = false;
+					}
+					if (CInput::GetKeyTap(eKeyCode::D))
+					{
+						animator->Play(L"Player_IdleToRun", false);
+						rigidbody->AddForce(transform->Right() * 500.f);
+						mState[(UINT)ePlayerState::IdleToRun] = true;
+						mState[(UINT)ePlayerState::Idle] = false;
+					}
 
 #pragma endregion
 
 #pragma region Run
-				// run
-				if (mState[(UINT)ePlayerState::Run] == true)
-				{
-					if (CInput::GetKeyDown(eKeyCode::A))
-						rigidebody->AddForce(transform->Right() * -50.f);
+					if (mState[(UINT)ePlayerState::Run] == true)
+					{
+						if (CInput::GetKeyDown(eKeyCode::A))
+						{
+							rigidbody->AddForce(transform->Right() * -50.f);
+							if (CInput::GetKeyTap(eKeyCode::S))
+								Roll();
+						}
 
-					if (CInput::GetKeyDown(eKeyCode::D))
-						rigidebody->AddForce(transform->Right() * 50.f);
-				}
+						if (CInput::GetKeyDown(eKeyCode::D))
+						{
+							rigidbody->AddForce(transform->Right() * 50.f);
+							if (CInput::GetKeyTap(eKeyCode::S))
+								Roll();
 
-				if (GetOwner()->IsLeft())
-				{
-					if (CInput::GetKeyUp(eKeyCode::A))
-						if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
-							animator->Play(L"Player_RunToIdle", false);
-				}
-				else
-				{
-					if (CInput::GetKeyUp(eKeyCode::D))
-						if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
-							animator->Play(L"Player_RunToIdle", false);
-				}
+						}
 
+					}
+
+					if (GetOwner()->IsLeft())
+					{
+						if (CInput::GetKeyUp(eKeyCode::A))
+							if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+								animator->Play(L"Player_RunToIdle", false);
+					}
+					else
+					{
+						if (CInput::GetKeyUp(eKeyCode::D))
+							if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+								animator->Play(L"Player_RunToIdle", false);
+					}
+#pragma endregion
+
+				}
 
 #pragma region Crouch
 
+
 				if (CInput::GetKeyDown(eKeyCode::S))
 				{
-					if (CInput::GetKeyDown(eKeyCode::D))
-					{
-
-					}
-					else if (mState[(UINT)ePlayerState::Idle] == true)
+					if (mState[(UINT)ePlayerState::Idle] == true)
 					{
 						mState.reset();
 						mState[(UINT)ePlayerState::Crouch] = true;
-						animator->Play(L"Player_Crouch", true);
+						animator->Play(L"Player_PreCrouch", false);
 					}
 				}
 
-				if (mState[(UINT)ePlayerState::Crouch] == true && CInput::GetKeyUp(eKeyCode::S))
+				if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
 				{
-					mState.reset();
-					mState[(UINT)ePlayerState::Idle] = true;
-					animator->Play(L"Player_Idle", true);
+					animator->Play(L"Player_PostCrouch", false);
+				}
+#pragma endregion
+
+#pragma region Roll
+
+				if (CInput::GetKeyDown(eKeyCode::S) && mState[(UINT)ePlayerState::Roll] == false)
+					if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
+						Roll();
+
+				if (mState[(UINT)ePlayerState::Roll] == true)
+				{
+					mRollTime += CTimeMgr::DeltaTime();
+
+					if (0.35f <= mRollTime)
+					{
+						mRollTime = 0.f;
+					}
+					else
+					{
+						if(GetOwner()->IsLeft())
+							rigidbody->AddForce(transform->Right() * -50.f);
+						else
+							rigidbody->AddForce(transform->Right() * 50.f);
+					}
 				}
 
 
@@ -154,7 +191,7 @@ namespace dru
 			{
 				if (CInput::GetKeyTap(eKeyCode::W))
 				{
-					// 점프
+					rigidbody->SetVelocity(Vector3::Zero);
 					mState.reset();
 					animator->Play(L"Player_Jump", false);
 				}
@@ -163,10 +200,10 @@ namespace dru
 			{
 				// 공중에서도 이동 가능
 				if (CInput::GetKeyDown(eKeyCode::A))
-					rigidebody->AddForce(transform->Right() * -50.f);
+					rigidbody->AddForce(transform->Right() * -50.f);
 
 				if (CInput::GetKeyDown(eKeyCode::D))
-					rigidebody->AddForce(transform->Right() * 50.f);
+					rigidbody->AddForce(transform->Right() * 50.f);
 
 				// 공중에서 점프 키 일찍떼면 fall
 				if (CInput::GetKeyUp(eKeyCode::W))
@@ -192,7 +229,7 @@ namespace dru
 				{
 					if (CInput::GetKeyDown(eKeyCode::W))
 					{
-						rigidebody->AddForce(transform->Up() * 70.f);
+						rigidbody->AddForce(transform->Up() * 70.f);
 					}
 				}
 			}
@@ -212,6 +249,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{
+				rigidbody->SetVelocity(Vector3::Zero);
 				MousePos /= 100.f;
 
 				if (MousePos.x < pos.x)
@@ -227,7 +265,7 @@ namespace dru
 
 					vect.Normalize();
 					mAttackDir = vect; 
-					rigidebody->AddVelocity(mAttackDir * 5.f);
+					rigidbody->AddVelocity(mAttackDir * 5.f);
 
 					mState.reset();
 					mState[(UINT)ePlayerState::Attack] = true;
@@ -254,7 +292,7 @@ namespace dru
 			else
 			{
 				if (mbFirstAttack)
-					rigidebody->AddForce(mAttackDir * 40.f);
+					rigidbody->AddForce(mAttackDir * 40.f);
 
 			}
 		}
@@ -267,7 +305,7 @@ namespace dru
 
 
 		//CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
-		//animator->GetCompleteEvent(L"idletorun")  = std::bind(&CPlayerScript::idletorun, this);
+		//animator->GetCompleteEvent(L"idletorunEnd")  = std::bind(&CPlayerScript::idletorunEnd, this);
 
 
 
@@ -291,7 +329,6 @@ namespace dru
 			{
 				mState[(UINT)ePlayerState::Fall] = false;
 				mState[(UINT)ePlayerState::RunToIdle] = true;
-				CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 				animator->Play(L"Player_RunToIdle");
 
 			}
@@ -300,7 +337,6 @@ namespace dru
 			{
 				mState[(UINT)ePlayerState::RunToIdle] = false;
 				mState[(UINT)ePlayerState::Run] = true;
-				CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 				animator->Play(L"Player_Run");
 			}
 
@@ -311,9 +347,8 @@ namespace dru
 
 
 			GetOwner()->GetComponent<CRigidBody>()->SetGround();
-			CRigidBody* rigidebody = GetOwner()->GetComponent<CRigidBody>();
-			Vector3 vel = rigidebody->GetVelocity();
-			rigidebody->SetVelocity({ vel.x, 0.f, vel.z });
+			Vector3 vel = rigidbody->GetVelocity();
+			rigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
 	}
 
@@ -342,43 +377,84 @@ namespace dru
 	{
 	}
 
+	void CPlayerScript::Roll()
+	{
+		Vector3 vel = rigidbody->GetMaxVelocity();
+		rigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+		mState.reset();
+		mState[(UINT)ePlayerState::Roll] = true;
+		animator->Play(L"Player_Roll", false);
+	}
+
 	void CPlayerScript::idletorunFrame()
 	{
 		mState[(UINT)ePlayerState::IdleToRun] = false;
 		mState[(UINT)ePlayerState::Run] = true;
 	}
 
-	void CPlayerScript::idletorun()
+
+	void CPlayerScript::idletorunEnd()
 	{
-		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 		animator->Play(L"Player_Run");
 	}
 
-	void CPlayerScript::runtoidle()
+	void CPlayerScript::runtoidleEnd()
 	{
 		
 		mState.reset();
 		mState[(UINT)ePlayerState::Idle] = true;
 		
-		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 		animator->Play(L"Player_Idle");
 	}
 
-	void CPlayerScript::attacktoidle()
+	void CPlayerScript::attacktoidleEnd()
 	{
 
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
 			mState[(UINT)ePlayerState::Fall] = true;
-			CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 			animator->Play(L"Player_Fall");
 		}
 		else
 		{
 			mState[(UINT)ePlayerState::Idle] = true;
-			CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 			animator->Play(L"Player_Idle");
 		}
+	}
+
+	void CPlayerScript::precrouch()
+	{
+		animator->Play(L"Player_Crouch");
+
+	}
+
+	void CPlayerScript::postcrouch()
+	{
+		mState.reset();
+		mState[(UINT)ePlayerState::Idle] = true;
+		animator->Play(L"Player_Idle");
+	}
+
+	void CPlayerScript::rollEnd()
+	{
+		rigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
+	}
+
+	void CPlayerScript::rollComplete()
+	{
+		mState.reset();
+		if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+		{
+			mState[(UINT)ePlayerState::IdleToRun] = true;
+			animator->Play(L"Player_IdleToRun", false);
+		}
+		else
+		{
+			mState[(UINT)ePlayerState::RunToIdle] = true;
+			animator->Play(L"Player_RunToIdle", false);
+		}
+
+		rigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 	}
 
 	void CPlayerScript::jumpdelay()

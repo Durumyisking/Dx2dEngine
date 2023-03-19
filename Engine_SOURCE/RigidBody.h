@@ -36,6 +36,7 @@ namespace dru
 		void AddVelocity(Vector3 _Value) { mVelocity += _Value; }
 
 		void SetMaxVelocity(Vector3 _Value) { mMaxSpeed = _Value; }
+		Vector3 GetMaxVelocity() const { return  mMaxSpeed; }
 
 		void SetFricCoeff(float _Value) { mFricCoeff = _Value; }
 		float GetFricCoeff() const { return mFricCoeff; }
