@@ -66,11 +66,13 @@ namespace dru
 
 		if (mState[(UINT)ePlayerState::Attack] == false)
 		{
-			if (CInput::GetKeyTap(eKeyCode::A))
-				GetOwner()->SetLeft();
-			if (CInput::GetKeyTap(eKeyCode::D))
-				GetOwner()->SetRight();
-
+			if (mState[(UINT)ePlayerState::Roll] == false)
+			{
+				if (CInput::GetKeyTap(eKeyCode::A))
+					GetOwner()->SetLeft();
+				if (CInput::GetKeyTap(eKeyCode::D))
+					GetOwner()->SetRight();
+			}
 
 			if (!rigidbody->IsOnAir())
 			{
@@ -114,7 +116,7 @@ namespace dru
 								Roll();
 
 						}
-
+						
 					}
 
 					if (GetOwner()->IsLeft())
@@ -180,8 +182,6 @@ namespace dru
 
 			}
 
-
-#pragma endregion
 
 #pragma region Jump
 
@@ -302,10 +302,6 @@ namespace dru
 
 		transform->SetPosition(pos);
 		GetOwner()->Flip();
-
-
-		//CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
-		//animator->GetCompleteEvent(L"idletorunEnd")  = std::bind(&CPlayerScript::idletorunEnd, this);
 
 
 
@@ -443,16 +439,23 @@ namespace dru
 	void CPlayerScript::rollComplete()
 	{
 		mState.reset();
-		if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+		if (CInput::GetKeyDown(eKeyCode::A))
 		{
+			GetOwner()->SetLeft();
 			mState[(UINT)ePlayerState::IdleToRun] = true;
 			animator->Play(L"Player_IdleToRun", false);
+		}
+		else if (CInput::GetKeyDown(eKeyCode::D))
+		{
+				GetOwner()->SetRight();
+				mState[(UINT)ePlayerState::IdleToRun] = true;
+				animator->Play(L"Player_IdleToRun", false);
 		}
 		else
 		{
 			mState[(UINT)ePlayerState::RunToIdle] = true;
 			animator->Play(L"Player_RunToIdle", false);
-		}
+		}	
 
 		rigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 	}
