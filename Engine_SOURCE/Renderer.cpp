@@ -412,7 +412,6 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
-
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
@@ -426,6 +425,13 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");
 		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
 		CResources::Load<CTexture>(L"icon_Butcher", L"MainScene/Hud/Itemicons/Butcher.png");
+
+		// FX
+		CResources::Load<CTexture>(L"fx_blood", L"MainScene/FX/blood.png");
+		CResources::Load<CTexture>(L"fx_bullet", L"MainScene/FX/fx_bullet.png");
+		CResources::Load<CTexture>(L"fx_dust", L"MainScene/FX/fx_dust.png");
+		CResources::Load<CTexture>(L"fx_landcloud", L"MainScene/FX/fx_landcloud.png");
+		CResources::Load<CTexture>(L"fx_slash", L"MainScene/FX/fx_slash.png");
 
 
 		// mission

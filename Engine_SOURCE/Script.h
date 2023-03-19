@@ -23,6 +23,7 @@ namespace dru
 		virtual void OnTrigger(CCollider2D* _oppo) {};
 		virtual void OnTriggerExit(CCollider2D* _oppo) {};
 
+		void MakeSlash(const std::wstring& _TextureName, UINT _AnimSize, Vector2 _Ratio);
 
 	};
 }

@@ -51,7 +51,7 @@ namespace dru
         void rollEnd();
         void rollComplete();
 
-        CAnimator* animator;
+        CAnimator* mAnimator;
         CRigidBody* rigidbody;
 
         float mAirTime;

@@ -311,6 +311,9 @@
       <Filter>Common\Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="StructedBuffer.h" />
+    <ClInclude Include="SlashScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -464,6 +467,9 @@
       <Filter>Common\Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="StructedBuffer.cpp" />
+    <ClCompile Include="SlashScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="druMath.ini">

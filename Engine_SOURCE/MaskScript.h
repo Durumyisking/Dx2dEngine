@@ -6,14 +6,14 @@ namespace dru
     class CMaskScript :
         public CScript
     {
-    public:
-        CMaskScript();
-        virtual ~CMaskScript();
+        public:
+            CMaskScript();
+            virtual ~CMaskScript();
 
-        virtual void Initialize() override;
-        virtual void update() override;
-        virtual void fixedUpdate() override;
-        virtual void render() override;
+            virtual void Initialize() override;
+            virtual void update() override;
+            virtual void fixedUpdate() override;
+            virtual void render() override;
 
         void GoDown() { mbGoDown = true; }
         bool MoveDone() { return mbMoveDone; }

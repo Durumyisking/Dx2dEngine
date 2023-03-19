@@ -212,6 +212,7 @@
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SlashScript.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SlashScript.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
