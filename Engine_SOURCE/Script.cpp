@@ -36,6 +36,13 @@ namespace dru
 	{
 		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner()->GetName() + L"_Slash");
 
+		CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetName(L"col_" + SlashObj->GetName());
+		coll->Initialize();
+		coll->SetType(eColliderType::Rect);
+		coll->SetScale(Vector2(1.f, 0.15f));
+
+
 		Vector3 MousePos = CInput::GetMousePosition();
 		MousePos /= 100.f;
 
@@ -49,14 +56,11 @@ namespace dru
 
 		GetOwner()->Flip();
 
+
 		Vector3 rotation = SlashObj->GetRotation();
 		rotation.z = atan2(MousePos.y - SlashObj->GetPos().y, MousePos.x - SlashObj->GetPos().x);
 		SlashObj->SetRotation(rotation);
 
-		//CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
-		//coll->SetName(L"col_" + SlashObj->GetName());
-		//coll->SetType(eColliderType::Rect);
-		//coll->SetScale(Vector2(0.3f, 0.3f));
 
 		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(_TextureName, L"SpriteShader");
