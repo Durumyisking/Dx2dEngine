@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "Object.h"
 #include "SlashScript.h"
+#include "Input.h"
 
 namespace dru
 {
@@ -31,9 +32,26 @@ namespace dru
 	void CScript::render()
 	{
 	}
-	void CScript::MakeSlash(const std::wstring& _TextureName, UINT _AnimSize, Vector2 _Ratio)
+	void CScript::MakeSlash(const std::wstring& _TextureName, Vector3 _PlayerPos, UINT _AnimSize, Vector2 _Ratio)
 	{
 		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner()->GetName() + L"_Slash");
+
+		Vector3 MousePos = CInput::GetMousePosition();
+		MousePos /= 100.f;
+
+		SlashObj->SetScale({ 1.5f, 1.5f, 1.f });
+		SlashObj->SetPos(_PlayerPos);
+
+		if (MousePos.x < GetOwner()->GetPos().x)
+			GetOwner()->SetLeft();
+		else
+			GetOwner()->SetRight();
+
+		GetOwner()->Flip();
+
+		Vector3 rotation = SlashObj->GetRotation();
+		rotation.z = atan2(MousePos.y - SlashObj->GetPos().y, MousePos.x - SlashObj->GetPos().x);
+		SlashObj->SetRotation(rotation);
 
 		//CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		//coll->SetName(L"col_" + SlashObj->GetName());
@@ -47,10 +65,11 @@ namespace dru
 
 		CAnimator* mAnimator = SlashObj->AddComponent<CAnimator>(eComponentType::Animator);
 		std::wstring animname = GetOwner()->GetName() + L"_SlashAnim";
-		mAnimator->Create(animname, Material->GetTexture(), {0.f, 0.f}, {100.f, 100.f}, Vector2::Zero, _AnimSize, _Ratio, 0.1f);
+		mAnimator->Create(animname, Material->GetTexture(), {0.f, 0.f}, {100.f, 100.f}, Vector2::Zero, _AnimSize, _Ratio, 0.025f);
 		mAnimator->Play(animname, false);
 
 		SlashObj->AddComponent<CSlashScript>(eComponentType::Script)->Initialize();
+
 
 	}
 }
