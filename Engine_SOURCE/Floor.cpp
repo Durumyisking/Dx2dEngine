@@ -3,16 +3,8 @@
 namespace dru
 {
 	CFloor::CFloor()
+		: CPlatforms(ePlatformType::Floor)
 	{
-		SetLayerType(eLayerType::Platforms);
-		//this->AddComponent<CPlayerScript>(eComponentType::Script);
-
-		CGameObj* Obj = dynamic_cast<CGameObj*>(this);
-
-		CCollider2D* coll = Obj->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->SetName(L"col_floor");
-		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(1.f, 1.f));
 
 	}
 
@@ -38,15 +30,6 @@ namespace dru
 	void CFloor::render()
 	{
 		CGameObj::render();
-	}
-
-	void CFloor::SetColliderScale(Vector2 _Scale)
-	{
-		CGameObj* Obj = dynamic_cast<CGameObj*>(this);
-
-		CCollider2D* coll = Obj->GetComponent<CCollider2D>();
-
-		coll->SetScale(_Scale);
 	}
 
 }

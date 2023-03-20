@@ -46,7 +46,7 @@ namespace dru
 		Vector3 MousePos = CInput::GetMousePosition();
 		MousePos /= 100.f;
 
-		SlashObj->SetScale({ 1.5f, 1.5f, 1.f });
+		SlashObj->SetScale({ 2.f, 2.5f, 1.f });
 		SlashObj->SetPos(_PlayerPos);
 
 		if (MousePos.x < GetOwner()->GetPos().x)

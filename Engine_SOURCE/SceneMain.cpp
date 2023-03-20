@@ -19,6 +19,7 @@
 #include "Animator.h"
 
 #include "Floor.h"
+#include "Wall.h"
 
 using namespace dru::graphics;
 
@@ -111,6 +112,19 @@ namespace dru
 			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.5f });
 		}
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(1.f, 0.f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 20.f });
+		}
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(-7.f, 0.f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 20.f });
+		}
+
 
 		{
 			//CGameObj* mMon = object::Instantiate<CMonster>(eLayerType::Monster, L"Mon");

@@ -1,15 +1,14 @@
 #pragma once
 #include "Platforms.h"
 
-
 namespace dru
 {
-	class CFloor :
-		public CPlatforms
-	{
+    class CWall :
+        public CPlatforms
+    {
 	public:
-		CFloor();
-		virtual ~CFloor();
+		CWall();
+		virtual ~CWall();
 
 		virtual void Initialize();
 		virtual void update();
@@ -17,8 +16,7 @@ namespace dru
 		virtual void render();
 
 
-	};
 
+    };
 
 }
-

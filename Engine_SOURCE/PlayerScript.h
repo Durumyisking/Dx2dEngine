@@ -13,7 +13,9 @@ namespace dru
         Attack,
         Crouch,
         Roll,
-        WallSlide,
+        WallSlideUp,
+        WallSlideDown,
+        WallKick,
         Fall,
 
         End,
@@ -50,17 +52,23 @@ namespace dru
         void postcrouch();
         void rollEnd();
         void rollComplete();
+        void wallkickComplete();
 
         CAnimator* mAnimator;
-        CRigidBody* rigidbody;
+        CRigidBody* mRigidbody;
 
         float mAirTime;
         float mAttackTime;
         float mRollTime;
+        float mWallSlideUpTime;
+        float mWallKickTime;
 
         float mAttackCooldown;
         Vector3 mAttackDir;
+
         bool mbFirstAttack;
+        bool mbOnWall;
+        bool mbWallIsLeft;
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 

@@ -198,6 +198,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PixelCollisionScript.h" />
+    <ClInclude Include="Platforms.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="Prefab.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -252,6 +254,7 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="PixelCollisionScript.cpp" />
+    <ClCompile Include="Platforms.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="Prefab.cpp" />
@@ -272,6 +275,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="druMath.ini" />

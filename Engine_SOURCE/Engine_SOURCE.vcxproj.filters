@@ -314,6 +314,12 @@
     <ClInclude Include="SlashScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Platforms.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -469,6 +475,12 @@
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="SlashScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Platforms.cpp">
+      <Filter>GameObj\Platforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
