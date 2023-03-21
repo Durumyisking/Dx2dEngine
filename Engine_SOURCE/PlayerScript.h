@@ -64,6 +64,8 @@ namespace dru
         float mRollTime;
         float mWallSlideUpTime;
         float mWallKickTime;
+        float mLRKeyupTime;
+
 
         float mAttackCooldown;
         Vector3 mAttackDir;
@@ -71,6 +73,8 @@ namespace dru
         bool mbFirstAttack;
         bool mbOnWall;
         int mbWallIsLeft; // -1 left 0 none 1 right
+
+        bool mbLRKeyupTimerOn;
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 

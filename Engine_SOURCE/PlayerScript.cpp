@@ -16,9 +16,12 @@ namespace dru
 		, mAirTime(0.f)
 		, mAttackTime(0.f)
 		, mRollTime(0.f)
+		, mWallSlideUpTime(0.f)
 		, mAttackCooldown(0.f)
 		, mAttackDir(Vector3::Zero)
 		, mbFirstAttack(0)
+		, mLRKeyupTime(0.f)
+		, mbLRKeyupTimerOn(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
 	{
@@ -44,6 +47,18 @@ namespace dru
 	{
 		CTransform* transform = GetOwner()->GetComponent<CTransform>();
 		Vector3 pos = transform->GetPosition();
+
+		if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
+		{
+			mbLRKeyupTimerOn = false;
+			mLRKeyupTime = 0.f;
+		}
+
+		if (CInput::GetKeyUp(eKeyCode::A) || CInput::GetKeyUp(eKeyCode::D))
+			mbLRKeyupTimerOn = true;
+
+		if (mbLRKeyupTimerOn)
+			mLRKeyupTime += CTimeMgr::DeltaTime();
 
 
 		// set left right
@@ -144,9 +159,9 @@ namespace dru
 				}
 #pragma endregion
 			}
-#pragma region Jump
+#pragma region Jump/Fall
 			// 지상일때
-			if (!GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
+			if (!mRigidbody->IsOnAir())
 			{
 				if (CInput::GetKeyTap(eKeyCode::W))
 				{
@@ -160,16 +175,11 @@ namespace dru
 			{
 				// 공중에서도 이동 가능
 				if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
-					mRigidbody->AddForce(transform->Right() * -50.f);
+					mRigidbody->AddForce(transform->Right() * -25.f);
 				if (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1))
-					mRigidbody->AddForce(transform->Right() * 50.f);
-				// 공중에서 점프 키 일찍떼면 fall
-				if (CInput::GetKeyUp(eKeyCode::W))
-				{
-					mState[(UINT)ePlayerState::Jump] = false;
-					mState[(UINT)ePlayerState::Fall] = true;
-					mAnimator->Play(L"Player_Fall", true);
-				}
+					mRigidbody->AddForce(transform->Right() * 25.f);
+
+
 			}
 			if (mState[(UINT)ePlayerState::Jump] == true)
 			{
@@ -178,8 +188,11 @@ namespace dru
 				if (0.15f <= mAirTime)
 				{
 					mState[(UINT)ePlayerState::Jump] = false;
-					mState[(UINT)ePlayerState::Fall] = true;
-					mAnimator->Play(L"Player_Fall", true);
+					if (mState[(UINT)ePlayerState::WallSlideUp] == false)
+					{
+						mState[(UINT)ePlayerState::Fall] = true;
+						mAnimator->Play(L"Player_Fall", true);
+					}
 					mAirTime = 0.f;
 				}
 				else
@@ -189,8 +202,72 @@ namespace dru
 						mRigidbody->AddForce(transform->Up() * 70.f);
 					}
 				}
+
+				// 공중에서 점프 키 일찍떼면 fall
+				if (CInput::GetKeyUp(eKeyCode::W))
+				{
+					mState[(UINT)ePlayerState::Jump] = false;
+					mState[(UINT)ePlayerState::Fall] = true;
+					mAnimator->Play(L"Player_Fall", true);
+					mAirTime = 0.f;
+				}
 			}
 #pragma endregion
+
+#pragma region WallSlideUp/Down
+
+			if (mRigidbody->IsOnAir())
+				mWallSlideUpTime += CTimeMgr::DeltaTime();
+
+			if (mbOnWall)
+			{
+				if (!mRigidbody->IsOnAir())
+				{
+					if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+					{
+						if (CInput::GetKeyDown(eKeyCode::W))
+						{
+							mState[(UINT)ePlayerState::WallSlideUp] = true;
+							mAnimator->Play(L"Player_WallSlide");
+						}
+
+					}
+
+				}
+
+				if (mState[(UINT)ePlayerState::WallSlideUp] == true)
+				{
+
+					if (0.3f <= mWallSlideUpTime && 0.4f > mWallSlideUpTime)
+					{
+						mRigidbody->SetVelocity(Vector3::Zero);
+					}
+					else if (0.5f <= mWallSlideUpTime)
+					{
+						mState[(UINT)ePlayerState::WallSlideUp] = false;
+						mState[(UINT)ePlayerState::WallSlideDown] = true;
+					}
+					else
+					{
+						if (CInput::GetKeyDown(eKeyCode::W))
+						{
+							mRigidbody->AddForce(transform->Up() * 15.f);
+						}
+					}
+				}
+				if (mState[(UINT)ePlayerState::WallSlideDown] == true)
+				{
+					if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+					{
+						mRigidbody->SetMaxVelocity({ 5.f, 3.f, 0.f });
+					}
+
+				}
+			}
+
+
+#pragma endregion
+
 		}
 
 #pragma region Attack
@@ -263,9 +340,12 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			mbFirstAttack = true;
-			if (mState[(UINT)ePlayerState::Fall] == true)
+			mWallSlideUpTime = 0.f;
+			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
 			{
-				mState[(UINT)ePlayerState::Fall] = false;
+				mState.reset();
+				mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+
 				mState[(UINT)ePlayerState::RunToIdle] = true;
 				mAnimator->Play(L"Player_RunToIdle");
 			}
@@ -299,6 +379,18 @@ namespace dru
 			{
 				if (mRigidbody->GetVelocity().x > 0.f)
 					mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
+			}
+
+			if (mLRKeyupTime < 0.2f)
+			{
+				if (mRigidbody->GetVelocity().y > 0.f)
+					mState[(UINT)ePlayerState::WallSlideUp] = true;
+				else
+				{
+					mState[(UINT)ePlayerState::WallSlideDown] = true;
+					mRigidbody->SetVelocity(Vector3::Zero);
+				}
+				mAnimator->Play(L"Player_WallSlide");
 			}
 
 			if (!mRigidbody->IsOnAir())
