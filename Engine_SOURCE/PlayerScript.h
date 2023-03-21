@@ -43,6 +43,7 @@ namespace dru
 
         void Roll();
 
+
     private:
         void idletorunFrame();
         void idletorunEnd();

@@ -21,6 +21,7 @@ namespace dru::graphics
 
 		static void Clear(UINT startSlot);
 
+		bool Create(UINT _width, UINT _height, DXGI_FORMAT _format, UINT _bindflag);
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void BindShader(eShaderStage _Stage, UINT _Slot);
@@ -32,12 +33,20 @@ namespace dru::graphics
 		size_t GetHeight() { return mImage.GetMetadata().height; }
 		size_t GetWidth() { return mImage.GetMetadata().width; }
 
+		Microsoft::WRL::ComPtr<ID3D11Texture2D>	GetTexture()		{ return mTexture; }
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV()		{ return mDSV; }
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetSRV()	{ return mSRV; }
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> GetRTV()		{ return mRTV; }
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV()	{ return mUAV; }
 
 	private:
-		ScratchImage									mImage;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D>			mTexture;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>mShaderResourceView;
-		D3D11_TEXTURE2D_DESC							mDesc;
+		ScratchImage										mImage;
+		Microsoft::WRL::ComPtr<ID3D11Texture2D>				mTexture;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>		mDSV;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	mSRV;
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>		mRTV;
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>	mUAV;
+		D3D11_TEXTURE2D_DESC								mDesc;
 
 	};
 
