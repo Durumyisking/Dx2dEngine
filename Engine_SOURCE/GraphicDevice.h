@@ -76,13 +76,15 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> mContext;
 
 		// 최종적으로 그려지는 도화지
-		//std::shared_ptr<class CTexture> mRenderTargetView;
-		//std::shared_ptr<class CTexture> mDepthStencilBuffer;
 	
 		Microsoft::WRL::ComPtr <ID3D11Texture2D> mRenderTarget;
 		Microsoft::WRL::ComPtr <ID3D11RenderTargetView> mRenderTargetView; // 얘도 context와 같은개념
-		Microsoft::WRL::ComPtr <ID3D11Texture2D> mDepthStencilBuffer;
+
+		std::shared_ptr<class CTexture> mDepthStencilBuffer;
+		//		Microsoft::WRL::ComPtr <ID3D11Texture2D> mDepthStencilBuffer;
 		Microsoft::WRL::ComPtr <ID3D11DepthStencilView> mDepthStencilView; // 얘도 context와 같은개념
+
+
 
 		// 화면에 최종적으로 그려지는 
 		// 백버퍼(Frame buffer)를 관리하고, 실제로 화면에 렌더링 하는 

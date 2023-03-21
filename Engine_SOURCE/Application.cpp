@@ -84,7 +84,7 @@ namespace dru
 			
 			eValidationMode vaildationMode = eValidationMode::Disabled;
 			graphicDevice = std::make_unique<CGraphicDevice>();
-			graphics::GetDevice() = graphicDevice.get();
+			//graphics::GetDevice() = graphicDevice.get();
 		}
 
 		RECT rt = { 0, 0, (LONG)_width , (LONG)_height };

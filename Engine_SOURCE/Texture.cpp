@@ -38,9 +38,9 @@ namespace dru::graphics
 		mDesc.ArraySize = 1;
 
 		mDesc.SampleDesc.Count = 1;
-		mDesc.SampleDesc.Quality = 1;
+		mDesc.SampleDesc.Quality = 0;
 
-		mDesc.MipLevels = 1;
+		mDesc.MipLevels = 0;
 		mDesc.MiscFlags = 0;
 
 		if (!GetDevice()->CreateTexture(&mDesc, mTexture.GetAddressOf()))
@@ -48,7 +48,7 @@ namespace dru::graphics
 
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 		{
-			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()));
+			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
 				return false;
 		}
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)

@@ -4,7 +4,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Input.h"
-
+#include "Texture.h"
 
 
 extern dru::CApplication application;
@@ -23,6 +23,7 @@ namespace dru::graphics
 			 5. Swapchain을 이용하여 최종 디바이스(디스플레이)에 화면을 그려준다.
 		*/
 
+		graphics::GetDevice() = this;
 
 		HWND hwnd = application.GetHwnd(); // 윈도우 핸들 얻어옴
 
@@ -85,13 +86,17 @@ namespace dru::graphics
 		depthBuffer.SampleDesc.Count = 1;
 		depthBuffer.SampleDesc.Quality = 0;
 
-		depthBuffer.MipLevels = 1;
+		depthBuffer.MipLevels = 0;
 		depthBuffer.MiscFlags = 0;
 
-		if (!CreateTexture(&depthBuffer, mDepthStencilBuffer.GetAddressOf()))
+		mDepthStencilBuffer = std::make_shared<CTexture>();
+		mDepthStencilBuffer->Create(application.GetWidth(), application.GetHeight(), DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
+
+		if (!CreateTexture(&depthBuffer, mDepthStencilBuffer->GetTexture().GetAddressOf()))
 			return;
 
-		if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf())))
+		if (!CreateDepthStencilView(mDepthStencilBuffer->GetTexture().Get(), nullptr, mDepthStencilBuffer->GetDSV().GetAddressOf()))
 			return;
 
 		
@@ -104,7 +109,7 @@ namespace dru::graphics
 		BindViewports(&mViewPort);
 
 		// RenderTarget Set
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilBuffer->GetDSV().Get());
 	}
 
 	CGraphicDevice::~CGraphicDevice()
@@ -427,7 +432,7 @@ namespace dru::graphics
 		// clear target
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
-		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
+		mContext->ClearDepthStencilView(mDepthStencilBuffer->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
 	}
 
 	void CGraphicDevice::AdjustViewPorts()

@@ -55,6 +55,7 @@ namespace dru
         void rollComplete();
         void wallkickComplete();
 
+
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
 
@@ -69,7 +70,7 @@ namespace dru
 
         bool mbFirstAttack;
         bool mbOnWall;
-        bool mbWallIsLeft;
+        int mbWallIsLeft; // -1 left 0 none 1 right
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
