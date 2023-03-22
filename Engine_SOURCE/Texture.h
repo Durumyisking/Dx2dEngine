@@ -22,11 +22,16 @@ namespace dru::graphics
 		static void Clear(UINT startSlot);
 
 		bool Create(UINT _width, UINT _height, DXGI_FORMAT _format, UINT _bindflag);
+		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture);
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void BindShader(eShaderStage _Stage, UINT _Slot);
+		void BindUnorderedAccessview(UINT _Slot);
+		void ClearUnorderedAccessview(UINT _Slot);
+
 		void Clear();
 
+		void SetTexture(Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture) { mTexture = _texture; }
 
 		ScratchImage& GetScratchImage() { return mImage; }
 

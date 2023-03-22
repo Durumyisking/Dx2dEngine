@@ -28,12 +28,14 @@ float4 main(VSOut In) : SV_TARGET
     const float thickness = 1.f;
     
     if (abs((worldX + 1) % width)  <= thickness)
-        return Out; 
+        return Out;
+//        return float4(1.f, 1.f, 1.f, 0.f);
     
     if (abs((worldY + 1) % height) <= thickness)
         return Out;
+//        return float4(1.f, 1.f, 1.f, 0.f);;
     
     discard;
      
-    return float4(1.f, 1.f, 1.f, 0.f);
+    return float4(1.f, 1.f, 1.f, 1.f);
 }

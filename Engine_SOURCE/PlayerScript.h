@@ -55,6 +55,13 @@ namespace dru
         void rollComplete();
         void wallkickComplete();
 
+        void wallLRCheck();
+
+        bool towardToWallCheck_KeyTap();
+        bool towardToWallCheck_KeyDown();
+        bool NotowardToWallCheck_KeyTap();
+        bool NotowardToWallCheck_KeyDown();
+
 
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;

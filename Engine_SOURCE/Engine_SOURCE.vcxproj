@@ -176,6 +176,7 @@
     <ClInclude Include="CollisionMgr.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComputeShader.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CursorScript.h" />
     <ClInclude Include="druEnums.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="PaintShader.h" />
     <ClInclude Include="PixelCollisionScript.h" />
     <ClInclude Include="Platforms.h" />
     <ClInclude Include="Player.h" />
@@ -236,6 +238,7 @@
     <ClCompile Include="Collider3D.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComputeShader.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CursorScript.cpp" />
     <ClCompile Include="druMath.cpp" />
@@ -253,6 +256,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="PaintShader.cpp" />
     <ClCompile Include="PixelCollisionScript.cpp" />
     <ClCompile Include="Platforms.cpp" />
     <ClCompile Include="Player.cpp" />

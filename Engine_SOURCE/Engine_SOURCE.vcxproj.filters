@@ -143,6 +143,9 @@
     <Filter Include="Common\Component\Light">
       <UniqueIdentifier>{6aabe6fc-84a7-4c1f-bbf3-0899e90f7263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\Shader\ComputeShader">
+      <UniqueIdentifier>{49cb38c7-a184-4e3a-883b-714c24dcbbf1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -320,6 +323,12 @@
     <ClInclude Include="Platforms.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="ComputeShader.h">
+      <Filter>Resource\Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="PaintShader.h">
+      <Filter>Resource\Shader\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -481,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="Platforms.cpp">
       <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
+      <Filter>Resource\Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="PaintShader.cpp">
+      <Filter>Resource\Shader\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

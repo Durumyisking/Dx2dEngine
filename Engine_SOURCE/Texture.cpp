@@ -62,11 +62,6 @@ namespace dru::graphics
 			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()));
 				return false;
 		}
-		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
-		{
-			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()));
-				return false;
-		}
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 		{
 			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVdesc = {};
@@ -76,6 +71,46 @@ namespace dru::graphics
 
 			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()));
 				return false;
+		}
+
+		return true;
+	}
+
+	bool CTexture::Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture)
+	{
+		mTexture = _texture;
+		mTexture->GetDesc(&mDesc);
+
+		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+		{
+			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
+				return false;
+		}
+		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		{
+			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()));
+			return false;
+		}
+		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		{
+			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVdesc = {};
+			tSRVdesc.Format = mDesc.Format;
+			tSRVdesc.Texture2D.MipLevels = 1;
+			tSRVdesc.Texture2D.MostDetailedMip = 0;
+			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D_SRV_DIMENSION_TEXTURE2D;
+
+			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()));
+			return false;
+		}
+		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
+		{
+			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVdesc = {};
+			tUAVdesc.Format = mDesc.Format;
+			tUAVdesc.Texture2D.MipSlice = 0;
+			tUAVdesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
+
+			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()));
+			return false;
 		}
 
 		return true;
@@ -125,6 +160,20 @@ namespace dru::graphics
 	{
 		GetDevice()->SetShaderResource(_Stage, _Slot, mSRV.GetAddressOf());
 	}
+
+	void CTexture::BindUnorderedAccessview(UINT _Slot)
+	{
+		UINT i = -1; 
+		GetDevice()->BindUnorderedAccessView(_Slot, 1, mUAV.GetAddressOf(), &i);
+	}
+
+	void CTexture::ClearUnorderedAccessview(UINT _Slot)
+	{
+		ID3D11UnorderedAccessView* p = nullptr;
+		UINT i = -1;
+		GetDevice()->BindUnorderedAccessView(_Slot, 1, &p, &i);
+	}
+
 
 	void CTexture::Clear()
 	{

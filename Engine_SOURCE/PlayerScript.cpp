@@ -139,7 +139,7 @@ namespace dru
 #pragma endregion
 #pragma region Roll
 				if (CInput::GetKeyDown(eKeyCode::S) && mState[(UINT)ePlayerState::Roll] == false)
-					if ((CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1)) || (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1)))
+					if (NotowardToWallCheck_KeyTap())
 						Roll();
 				
 				if (mState[(UINT)ePlayerState::Roll] == true)
@@ -261,8 +261,8 @@ namespace dru
 					{
 						mRigidbody->SetMaxVelocity({ 5.f, 3.f, 0.f });
 					}
-
 				}
+
 			}
 
 
@@ -349,7 +349,7 @@ namespace dru
 				mState[(UINT)ePlayerState::RunToIdle] = true;
 				mAnimator->Play(L"Player_RunToIdle");
 			}
-			if ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1)) || (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1)))
+			if (NotowardToWallCheck_KeyDown())
 			{
 				mState[(UINT)ePlayerState::RunToIdle] = false;
 				mState[(UINT)ePlayerState::Run] = true;
@@ -370,16 +370,7 @@ namespace dru
 			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
 				mbWallIsLeft = 1;
 
-			if (mbWallIsLeft == -1)
-			{
-				if (0.f > mRigidbody->GetVelocity().x)
-					mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
-			}
-			else if (mbWallIsLeft == 1)
-			{
-				if (mRigidbody->GetVelocity().x > 0.f)
-					mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
-			}
+			wallLRCheck();
 
 			if (mLRKeyupTime < 0.2f)
 			{
@@ -407,15 +398,19 @@ namespace dru
 	{
 		if (L"col_wall" == _oppo->GetName())
 		{
-			if (mbWallIsLeft == -1)
+			wallLRCheck();
+
+			if (mRigidbody->IsOnAir())
 			{
-				if (0.f > mRigidbody->GetVelocity().x)
-					mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
-			}
-			else if (mbWallIsLeft == 1)
-			{
-				if (mRigidbody->GetVelocity().x > 0.f)
-					mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
+				if (towardToWallCheck_KeyDown())
+
+				if (mRigidbody->GetVelocity().y > 0.f)
+					mState[(UINT)ePlayerState::WallSlideUp] = true;
+				else
+				{
+					mState[(UINT)ePlayerState::WallSlideDown] = true;
+				}
+				mAnimator->Play(L"Player_WallSlide");
 			}
 
 		}
@@ -429,7 +424,21 @@ namespace dru
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = false;
+
+			if (mState[(UINT)ePlayerState::WallSlideUp] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
+			{
+				if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
+					|| ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == 1))))
+				{
+					mState.reset();
+					mState[(UINT)ePlayerState::Fall] = true;
+					mAnimator->Play(L"Player_Fall");
+					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+				}
+			}
+
 			mbWallIsLeft = 0;
+
 		}
 	}
 	void CPlayerScript::OnTriggerEnter(CCollider2D* _oppo)
@@ -519,6 +528,42 @@ namespace dru
 	void CPlayerScript::wallkickComplete()
 	{
 
+	}
+
+	void CPlayerScript::wallLRCheck()
+	{
+		if (mbWallIsLeft == -1)
+		{
+			if (0.f > mRigidbody->GetVelocity().x)
+				mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
+		}
+		else if (mbWallIsLeft == 1)
+		{
+			if (mRigidbody->GetVelocity().x > 0.f)
+				mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
+		}
+
+	}
+
+	bool CPlayerScript::towardToWallCheck_KeyTap()
+	{
+		return (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft == -1)) || (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft == 1));
+	}
+
+	bool CPlayerScript::towardToWallCheck_KeyDown()
+	{
+		return (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == -1)) || (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == 1));
+
+	}
+
+	bool CPlayerScript::NotowardToWallCheck_KeyTap()
+	{
+		return (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1)) || (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1));
+	}
+
+	bool CPlayerScript::NotowardToWallCheck_KeyDown()
+	{
+		return (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1)) || (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1));
 	}
 
 }

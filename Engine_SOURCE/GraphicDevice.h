@@ -39,13 +39,18 @@ namespace dru::graphics
 		void BindDS(ID3D11DomainShader* _DS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
 		void BindGS(ID3D11GeometryShader* _GS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
 		void BindPS(ID3D11PixelShader* _PS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
-		
+		void BindCS(ID3D11ComputeShader* _CS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst);
+		void Dispatch(UINT _mThreadGroupCountX, UINT _mThreadGroupCountY, UINT _mThreadGroupCountZ);
+
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
 		void BindBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
 		void SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews);
 								// 어떤쉐이더			//어떤타입
+
+		void BindUnorderedAccessView(UINT _Slot, UINT _NumUAVs, ID3D11UnorderedAccessView* const* _ppUnorderedAccessView, const UINT* _pUAVInitialCount);
+
 		void BindSamplers(eShaderStage _Stage, UINT _Slot, UINT _NumSamplers, ID3D11SamplerState* const* _ppSamplerState);
 		void BindSamplers(UINT _Slot, UINT _NumSamplers, ID3D11SamplerState* const* _ppSamplerState);
 
@@ -76,13 +81,9 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> mContext;
 
 		// 최종적으로 그려지는 도화지
-	
-		Microsoft::WRL::ComPtr <ID3D11Texture2D> mRenderTarget;
-		Microsoft::WRL::ComPtr <ID3D11RenderTargetView> mRenderTargetView; // 얘도 context와 같은개념
 
-		std::shared_ptr<class CTexture> mDepthStencilBuffer;
-		//		Microsoft::WRL::ComPtr <ID3D11Texture2D> mDepthStencilBuffer;
-		Microsoft::WRL::ComPtr <ID3D11DepthStencilView> mDepthStencilView; // 얘도 context와 같은개념
+		std::shared_ptr<class CTexture> mRenderTargetTexture;
+		std::shared_ptr<class CTexture> mDepthStencilBufferTexture;
 
 
 

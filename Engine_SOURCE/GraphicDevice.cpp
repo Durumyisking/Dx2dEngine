@@ -26,7 +26,7 @@ namespace dru::graphics
 		graphics::GetDevice() = this;
 
 		HWND hwnd = application.GetHwnd(); // 윈도우 핸들 얻어옴
-
+				
 		// Device, Device Context
 		UINT DeviceFlag = D3D11_CREATE_DEVICE_DEBUG; // 디버그모드로 만들거임 릴리즈모드는 0
 		D3D_FEATURE_LEVEL FeatureLevel = (D3D_FEATURE_LEVEL)0;
@@ -49,7 +49,7 @@ namespace dru::graphics
 		swapChainDesc.BufferDesc.Width = application.GetWidth();
 		swapChainDesc.BufferDesc.Height = application.GetHeight();
 		swapChainDesc.BufferDesc.Format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM; // 컬러 포멧 타입
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = 240; // 프레임 비율 분자
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 144; // 프레임 비율 분자
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; // 프레임 비율 분모
 		swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 		swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -65,12 +65,14 @@ namespace dru::graphics
 		if (!CreateSwapChain(&swapChainDesc))
 			return;
 
+		mRenderTargetTexture = std::make_shared<CTexture>();
+		Microsoft::WRL::ComPtr <ID3D11Texture2D> renderTarget;
 		// Get rendertarget for swapchain
 		//						0번 버퍼가 렌더타겟							렌더타겟 포인터
-		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mRenderTarget.GetAddressOf());
+		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)renderTarget.GetAddressOf());
 
+		mRenderTargetTexture->Create(renderTarget);
 		// Create Rendertarget View
-		hr = mDevice->CreateRenderTargetView(mRenderTarget.Get(), nullptr, mRenderTargetView.GetAddressOf());
 
 		// Depth/Stencil buffer
 		D3D11_TEXTURE2D_DESC depthBuffer = {};
@@ -89,32 +91,30 @@ namespace dru::graphics
 		depthBuffer.MipLevels = 0;
 		depthBuffer.MiscFlags = 0;
 
-		mDepthStencilBuffer = std::make_shared<CTexture>();
-		mDepthStencilBuffer->Create(application.GetWidth(), application.GetHeight(), DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+		mDepthStencilBufferTexture = std::make_shared<CTexture>();
+		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
 
-		if (!CreateTexture(&depthBuffer, mDepthStencilBuffer->GetTexture().GetAddressOf()))
+		if (!CreateTexture(&depthBuffer, mDepthStencilBufferTexture->GetTexture().GetAddressOf()))
 			return;
 
-		if (!CreateDepthStencilView(mDepthStencilBuffer->GetTexture().Get(), nullptr, mDepthStencilBuffer->GetDSV().GetAddressOf()))
+		if (!CreateDepthStencilView(mDepthStencilBufferTexture->GetTexture().Get(), nullptr, mDepthStencilBufferTexture->GetDSV().GetAddressOf()))
 			return;
-
-		
-		// Setting Viewport
-		
-		// ndc -> window
+	
+		// Setting Viewport		
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
 		BindViewports(&mViewPort);
 
 		// RenderTarget Set
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilBuffer->GetDSV().Get());
+		mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(), mDepthStencilBufferTexture->GetDSV().Get());
 	}
 
 	CGraphicDevice::~CGraphicDevice()
 	{
 		renderer::release();
+
 	}
 
 	bool CGraphicDevice::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* _Desc)
@@ -306,6 +306,16 @@ namespace dru::graphics
 		mContext->PSSetShader(_PS, _ClassInst, NumClassInst);
 	}
 
+	void CGraphicDevice::BindCS(ID3D11ComputeShader* _CS, ID3D11ClassInstance* const* _ClassInst, UINT NumClassInst)
+	{
+		mContext->CSSetShader(_CS, _ClassInst, NumClassInst);
+	}
+
+	void CGraphicDevice::Dispatch(UINT _mThreadGroupCountX, UINT _mThreadGroupCountY, UINT _mThreadGroupCountZ)
+	{
+		mContext->Dispatch(_mThreadGroupCountX, _mThreadGroupCountY, _mThreadGroupCountZ);
+	}
+
 
 
 	void CGraphicDevice::BindViewports(D3D11_VIEWPORT* _ViewPort)
@@ -376,6 +386,11 @@ namespace dru::graphics
 		}
 	}
 
+	void CGraphicDevice::BindUnorderedAccessView(UINT _Slot, UINT _NumUAVs, ID3D11UnorderedAccessView* const* _ppUnorderedAccessView, const UINT* _pUAVInitialCount)
+	{
+		mContext->CSSetUnorderedAccessViews(_Slot, _NumUAVs, _ppUnorderedAccessView, _pUAVInitialCount);
+	}
+
 	void CGraphicDevice::BindSamplers(eShaderStage _Stage, UINT _Slot, UINT _NumSamplers, ID3D11SamplerState* const* _ppSamplerState)
 	{
 		switch (_Stage)
@@ -431,8 +446,8 @@ namespace dru::graphics
 	{
 		// clear target
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor); // 지우고 다시그림
-		mContext->ClearDepthStencilView(mDepthStencilBuffer->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
+		mContext->ClearRenderTargetView(mRenderTargetTexture->GetRTV().Get(), backgroundColor); // 지우고 다시그림
+		mContext->ClearDepthStencilView(mDepthStencilBufferTexture->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0); // 깊이버퍼도 클리어 해줘야해
 	}
 
 	void CGraphicDevice::AdjustViewPorts()
@@ -441,7 +456,7 @@ namespace dru::graphics
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.f, 0.f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.f, 1.f };
 		BindViewports(&mViewPort);
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+		mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(), mDepthStencilBufferTexture->GetDSV().Get());
 	}
 
 	void CGraphicDevice::Draw()

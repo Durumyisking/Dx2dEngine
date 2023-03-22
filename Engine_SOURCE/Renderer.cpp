@@ -391,6 +391,14 @@ namespace dru::renderer
 		DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		CResources::Insert<CShader>(L"DebugShader", DebugShader);
 
+		//std::shared_ptr<CShader> ComputeShader = std::make_shared<CShader>();
+		//DebugShader->Create(graphics::eShaderStage::VS, L"DebugVS.hlsl", "main");
+		//DebugShader->Create(graphics::eShaderStage::PS, L"DebugPS.hlsl", "main");
+		//DebugShader->SetRSState(eRasterizerType::SolidNone);
+		//DebugShader->SetDSState(eDepthStencilType::NoWrite);
+		//DebugShader->SetBSState(eBlendStateType::AlphaBlend);
+		//DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		//CResources::Insert<CShader>(L"DebugShader", DebugShader);
 	}
 
 	void LoadTexture()
