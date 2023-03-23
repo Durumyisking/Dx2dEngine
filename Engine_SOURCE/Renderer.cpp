@@ -446,6 +446,12 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"job_right", L"MissionScene/job_right.png");
 		CResources::Load<CTexture>(L"job_profile", L"MissionScene/job_profile.png");
 
+
+		std::shared_ptr<CTexture> uavTexture = std::make_shared<CTexture>();
+		uavTexture->Create(1024, 1024, 
+			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
+			D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS);
+		CResources::Insert<CTexture>(L"PaintTexture", uavTexture);
 	}
 
 

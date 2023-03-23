@@ -141,9 +141,8 @@ namespace dru
 					}
 #pragma endregion
 #pragma region Roll
-					if (CInput::GetKeyDown(eKeyCode::S) && mState[(UINT)ePlayerState::Roll] == false)
-						if (NotowardToWallCheck_KeyTap())
-							rollTrigger();
+
+					rollTrigger();
 
 					roll();
 #pragma endregion
@@ -438,11 +437,26 @@ namespace dru
 
 	void CPlayerScript::rollTrigger()
 	{
-		Vector3 vel = mRigidbody->GetMaxVelocity();
-		mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-		mState.reset();
-		mState[(UINT)ePlayerState::Roll] = true;
-		mAnimator->Play(L"Player_Roll", false);
+		if (CInput::GetKeyDown(eKeyCode::S) && mState[(UINT)ePlayerState::Roll] == false)
+		{
+			if (NotowardToWallCheck_KeyDown())
+			{
+				if (CInput::GetKeyDown(eKeyCode::A))
+					GetOwner()->SetLeft();
+				if (CInput::GetKeyDown(eKeyCode::D))
+					GetOwner()->SetRight();
+
+
+				Vector3 vel = mRigidbody->GetMaxVelocity();
+				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+				mState.reset();
+				mState[(UINT)ePlayerState::Roll] = true;
+				mAnimator->Play(L"Player_Roll", false);
+
+			}
+
+		}
+
 	}
 	void CPlayerScript::roll()
 	{
