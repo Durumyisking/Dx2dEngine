@@ -56,7 +56,10 @@ namespace dru
         void wallkickComplete();
 
         // player action
+        void rollTrigger();
         void roll();
+        void jump();
+        void wallSlide();
         void wallKickTrigger();
         void wallKick();
 
@@ -73,6 +76,8 @@ namespace dru
 
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
+        CTransform* mTransform;
+        Vector3 mPos;
 
         float mAirTime;
         float mAttackTime;

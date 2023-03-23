@@ -582,7 +582,7 @@ namespace dru::math
 
         static Matrix CreateFromQuaternion(const Quaternion& quat) noexcept;
 
-        // Rotates about y-axis (yaw), then x-axis (pitch), then z-axis (roll)
+        // Rotates about y-axis (yaw), then x-axis (pitch), then z-axis (rollTrigger)
         static Matrix CreateFromYawPitchRoll(float yaw, float pitch, float roll) noexcept;
 
         // Rotates about y-axis (angles.y), then x-axis (angles.x), then z-axis (angles.z)
@@ -727,7 +727,7 @@ namespace dru::math
         // Static functions
         static Quaternion CreateFromAxisAngle(const Vector3& axis, float angle) noexcept;
 
-        // Rotates about y-axis (yaw), then x-axis (pitch), then z-axis (roll)
+        // Rotates about y-axis (yaw), then x-axis (pitch), then z-axis (rollTrigger)
         static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll) noexcept;
 
         // Rotates about y-axis (angles.y), then x-axis (angles.x), then z-axis (angles.z)

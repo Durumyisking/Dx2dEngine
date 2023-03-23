@@ -3,6 +3,7 @@
 #include "Material.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "PaintShader.h"
 
 
 namespace dru::renderer
@@ -141,7 +142,7 @@ namespace dru::renderer
 	{
 		
 		#pragma region InputLayout
-		D3D11_INPUT_ELEMENT_DESC arrLayout[3] = {}; // pos, color, uv
+		D3D11_INPUT_ELEMENT_DESC arrLayout[3] = {}; // mPos, color, uv
 
 		arrLayout[0].AlignedByteOffset = 0; // 배열의 0바이트부터 삽입하겠다.
 		arrLayout[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT; // pos가 12바이트 짜리니까
@@ -391,14 +392,9 @@ namespace dru::renderer
 		DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		CResources::Insert<CShader>(L"DebugShader", DebugShader);
 
-		//std::shared_ptr<CShader> ComputeShader = std::make_shared<CShader>();
-		//DebugShader->Create(graphics::eShaderStage::VS, L"DebugVS.hlsl", "main");
-		//DebugShader->Create(graphics::eShaderStage::PS, L"DebugPS.hlsl", "main");
-		//DebugShader->SetRSState(eRasterizerType::SolidNone);
-		//DebugShader->SetDSState(eDepthStencilType::NoWrite);
-		//DebugShader->SetBSState(eBlendStateType::AlphaBlend);
-		//DebugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		//CResources::Insert<CShader>(L"DebugShader", DebugShader);
+		std::shared_ptr<CPaintShader> paintShader = std::make_shared<CPaintShader>();
+		paintShader->Create(L"PaintCS.hlsl", "main");
+		CResources::Insert<CPaintShader>(L"PaintShader", paintShader);
 	}
 
 	void LoadTexture()

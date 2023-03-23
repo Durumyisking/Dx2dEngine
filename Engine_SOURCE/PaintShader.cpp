@@ -15,8 +15,8 @@ namespace dru::graphics
 	{
 		mTarget->BindUnorderedAccessview(0);
 		mGroupX = mTarget->GetWidth() / mThreadGroupCountX + 1;
-		mGroupX = mTarget->GetHeight() / mThreadGroupCountX + 1;
-		mGroupX = 1;
+		mGroupY = mTarget->GetHeight() / mThreadGroupCountY + 1;
+		mGroupZ = 1;
 	}
 
 	void CPaintShader::Clear()
