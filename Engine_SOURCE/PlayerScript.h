@@ -41,10 +41,10 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-        void Roll();
 
 
     private:
+        // anim function
         void idletorunFrame();
         void idletorunEnd();
         void runtoidleEnd();
@@ -55,7 +55,15 @@ namespace dru
         void rollComplete();
         void wallkickComplete();
 
+        // player action
+        void roll();
+        void wallKickTrigger();
+        void wallKick();
+
+
         void wallLRCheck();
+
+
 
         bool towardToWallCheck_KeyTap();
         bool towardToWallCheck_KeyDown();
