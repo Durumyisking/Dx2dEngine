@@ -5,18 +5,18 @@ namespace dru
 {
     enum class ePlayerState
     {
-        Idle,
-        IdleToRun,
-        Run,
-        RunToIdle,
-        Jump,
-        Attack,
-        Crouch,
-        Roll,
-        WallSlideUp,
-        WallSlideDown,
-        WallKick,
-        Fall,
+        Idle, //0
+        IdleToRun, // 1
+        Run,// 2
+        RunToIdle,// 3
+        Jump,// 4
+        Attack,// 5 
+        Crouch,// 6
+        Roll,// 7
+        WallSlideUp,// 8
+        WallSlideDown,// 9
+        WallKick,// 10
+        Fall,// 11
 
         End,
     };
