@@ -74,6 +74,12 @@ namespace dru::renderer
 		UINT lightCount;
 	};
 
+	CBUFFER(ParticleSystemCB, CBSLOT_LIGHTCOUNT)
+	{
+		Vector4 Color;
+	};
+
+
 
 	// vertex data
 	extern Vertex	RectVertexes[4];

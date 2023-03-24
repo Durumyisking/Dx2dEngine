@@ -56,12 +56,16 @@ namespace dru
         void wallkickComplete();
 
         // player action
+        void idleToRun();
+        void run();
+        void crouch();
         void rollTrigger();
         void roll();
         void jump();
         void wallSlide();
         void wallKickTrigger();
         void wallKick();
+        void attack();
 
 
         void wallLRCheck();

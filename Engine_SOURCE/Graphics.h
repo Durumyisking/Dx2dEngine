@@ -18,6 +18,7 @@
 #define CBSLOT_COLOR 4
 #define CBSLOT_ANIMATION 5
 #define CBSLOT_LIGHTCOUNT 6
+#define CBSLOT_PARTICLESYSTEM 7
 
 
 namespace dru::graphics
@@ -120,6 +121,7 @@ namespace dru::graphics
 		Color,
 		Animation,
 		Light,
+		ParticleSystem,
 		End,
 	};
 
@@ -168,6 +170,16 @@ namespace dru::graphics
 		enums::eLightType type;
 
 		int padding; // 상수버퍼 패딩
+	};
+
+	struct Particle
+	{
+		math::Vector4 position;
+		math::Vector4 direction;
+
+		float lifeTime;
+
+
 	};
 
 }

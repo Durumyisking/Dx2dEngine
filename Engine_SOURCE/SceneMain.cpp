@@ -115,14 +115,14 @@ namespace dru
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(1.f, 0.f, 3.f));
+			Wall->SetPos(Vector3(0.8f, 0.f, 3.f));
 			Wall->SetColliderScale({ 0.5f, 20.f });
 		}
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-7.f, 0.f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 20.f });
+			Wall->SetPos(Vector3(-1.8f, 1.8f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 5.f });
 		}
 
 

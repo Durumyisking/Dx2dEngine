@@ -78,80 +78,16 @@ namespace dru
 				{
 					if (mState[(UINT)ePlayerState::Roll] == false)
 					{
-#pragma region IdleToRun
-						if (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1))
-						{
-							mAnimator->Play(L"Player_IdleToRun", false);
-							mRigidbody->AddForce(mTransform->Right() * -500.f);
-							mState[(UINT)ePlayerState::IdleToRun] = true;
-							mState[(UINT)ePlayerState::Idle] = false;
-						}
-						if (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1))
-						{
-							mAnimator->Play(L"Player_IdleToRun", false);
-							mRigidbody->AddForce(mTransform->Right() * 500.f);
-							mState[(UINT)ePlayerState::IdleToRun] = true;
-							mState[(UINT)ePlayerState::Idle] = false;
-						}
-#pragma endregion
-#pragma region Run
-						if (mState[(UINT)ePlayerState::Run] == true)
-						{
-							if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
-							{
-								mRigidbody->AddForce(mTransform->Right() * -50.f);
-								if (CInput::GetKeyTap(eKeyCode::S))
-									rollTrigger();
-							}
-							if (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1))
-							{
-								mRigidbody->AddForce(mTransform->Right() * 50.f);
-								if (CInput::GetKeyTap(eKeyCode::S))
-									rollTrigger();
-							}
+						idleToRun();						
+						run();
+					}
 
-						}
-						if (GetOwner()->IsLeft())
-						{
-							if (CInput::GetKeyUp(eKeyCode::A))
-								if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
-									mAnimator->Play(L"Player_RunToIdle", false);
-						}
-						else
-						{
-							if (CInput::GetKeyUp(eKeyCode::D))
-								if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
-									mAnimator->Play(L"Player_RunToIdle", false);
-						}
-#pragma endregion
-					}
-#pragma region Crouch
-					if (CInput::GetKeyDown(eKeyCode::S))
-					{
-						if (mState[(UINT)ePlayerState::Idle] == true)
-						{
-							mState.reset();
-							mState[(UINT)ePlayerState::Crouch] = true;
-							mAnimator->Play(L"Player_PreCrouch", false);
-						}
-					}
-					if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
-					{
-						mAnimator->Play(L"Player_PostCrouch", false);
-					}
-#pragma endregion
-#pragma region Roll
-
+					crouch();
 					rollTrigger();
-
 					roll();
-#pragma endregion
 				}
-#pragma region Jump/Fall
 				jump();
-#pragma endregion
 
-#pragma region WallSlideUp/Down
 
 				if (mRigidbody->IsOnAir())
 					mWallSlideUpTime += CTimeMgr::DeltaTime();
@@ -161,69 +97,14 @@ namespace dru
 					wallSlide();
 				}
 
-
-#pragma endregion
-
-#pragma region WallKick
 				wallKickTrigger();
 			}
 			wallKick();
-#pragma endregion
 			
 		}
 
-#pragma region Attack
-
-		Vector3 MousePos = CInput::GetMousePosition();
-		mAttackCooldown += CTimeMgr::DeltaTime();
-
-		if (0.4f <= mAttackCooldown)
-		{
-
-			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
-			{
-				MakeSlash(L"fx_slash", GetOwner()->GetPos(), 5, { 100, 100 });
-
-				Vector3 MousePos = CInput::GetMousePosition();
-				mRigidbody->SetVelocity(Vector3::Zero);
-				MousePos /= 100.f;
-
-				if (MousePos.x < mPos.x)
-					GetOwner()->SetLeft();
-				else
-					GetOwner()->SetRight();
-				if (CInput::GetKeyTap(eKeyCode::LBTN))
-				{
-					Vector3 vect;
-					vect.x = MousePos.x - mPos.x;
-					vect.y = MousePos.y - mPos.y;
-					vect.Normalize();
-					mAttackDir = vect;
-					mRigidbody->AddVelocity(mAttackDir * 5.f);
-					mState.reset();
-					mState[(UINT)ePlayerState::Attack] = true;
-					mAnimator->Play(L"Player_Attack", false);
-				}
-				mAttackCooldown = 0.f;
-			}
-		}
-		if (mState[(UINT)ePlayerState::Attack] == true)
-		{
-			mAttackTime += CTimeMgr::DeltaTime();
-			if (0.15f <= mAttackTime)
-			{
-				mState[(UINT)ePlayerState::Attack] = false;
-				mAttackTime = 0.f;
-				mbFirstAttack = false;
-				mAttackDir = Vector3::Zero;
-			}
-			else
-			{
-				if (mbFirstAttack)
-					mRigidbody->AddForce(mAttackDir * 40.f);
-			}
-		}
-#pragma endregion
+		attack();
+		
 		mTransform->SetPosition(mPos);
 		GetOwner()->Flip();
 
@@ -289,6 +170,14 @@ namespace dru
 				}
 			}
 
+			if (mState[(UINT)ePlayerState::WallKick] == true)
+			{
+				mRigidbody->SetVelocity(Vector3::Zero);
+				mState[(UINT)ePlayerState::WallKick] = false;
+				mState[(UINT)ePlayerState::WallSlideDown] = true;
+				mAnimator->Play(L"Player_WallSlide");
+			}
+
 			if (!mRigidbody->IsOnAir())
 			{
 				mState.reset();
@@ -336,8 +225,8 @@ namespace dru
 
 			if (mState[(UINT)ePlayerState::WallSlideUp] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
 			{
-				if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
-					|| ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == 1))))
+				//if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
+				//	|| ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == 1))))
 				{
 					mState.reset();
 					mState[(UINT)ePlayerState::Fall] = true;
@@ -433,6 +322,76 @@ namespace dru
 		mState.reset();
 		mAnimator->Play(L"Player_Fall");
 		mState[(UINT)ePlayerState::Fall] = true;
+
+		mLRKeyupTime = 0.f;
+
+	}
+
+	void CPlayerScript::idleToRun()
+	{
+		if (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1))
+		{
+			mAnimator->Play(L"Player_IdleToRun", false);
+			mRigidbody->AddForce(mTransform->Right() * -500.f);
+			mState[(UINT)ePlayerState::IdleToRun] = true;
+			mState[(UINT)ePlayerState::Idle] = false;
+		}
+		if (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1))
+		{
+			mAnimator->Play(L"Player_IdleToRun", false);
+			mRigidbody->AddForce(mTransform->Right() * 500.f);
+			mState[(UINT)ePlayerState::IdleToRun] = true;
+			mState[(UINT)ePlayerState::Idle] = false;
+		}
+	}
+
+	void CPlayerScript::run()
+	{
+		if (mState[(UINT)ePlayerState::Run] == true)
+		{
+			if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
+			{
+				mRigidbody->AddForce(mTransform->Right() * -50.f);
+				if (CInput::GetKeyTap(eKeyCode::S))
+					rollTrigger();
+			}
+			if (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1))
+			{
+				mRigidbody->AddForce(mTransform->Right() * 50.f);
+				if (CInput::GetKeyTap(eKeyCode::S))
+					rollTrigger();
+			}
+
+		}
+		if (GetOwner()->IsLeft())
+		{
+			if (CInput::GetKeyUp(eKeyCode::A))
+				if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+					mAnimator->Play(L"Player_RunToIdle", false);
+		}
+		else
+		{
+			if (CInput::GetKeyUp(eKeyCode::D))
+				if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+					mAnimator->Play(L"Player_RunToIdle", false);
+		}
+	}
+
+	void CPlayerScript::crouch()
+	{
+		if (CInput::GetKeyDown(eKeyCode::S))
+		{
+			if (mState[(UINT)ePlayerState::Idle] == true)
+			{
+				mState.reset();
+				mState[(UINT)ePlayerState::Crouch] = true;
+				mAnimator->Play(L"Player_PreCrouch", false);
+			}
+		}
+		if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
+		{
+			mAnimator->Play(L"Player_PostCrouch", false);
+		}
 	}
 
 	void CPlayerScript::rollTrigger()
@@ -615,6 +574,59 @@ namespace dru
 			}
 		}
 
+	}
+
+	void CPlayerScript::attack()
+	{
+		Vector3 MousePos = CInput::GetMousePosition();
+		mAttackCooldown += CTimeMgr::DeltaTime();
+
+		if (0.4f <= mAttackCooldown)
+		{
+
+			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
+			{
+				MakeSlash(L"fx_slash", GetOwner()->GetPos(), 5, { 100, 100 });
+
+				Vector3 MousePos = CInput::GetMousePosition();
+				mRigidbody->SetVelocity(Vector3::Zero);
+				MousePos /= 100.f;
+
+				if (MousePos.x < mPos.x)
+					GetOwner()->SetLeft();
+				else
+					GetOwner()->SetRight();
+				if (CInput::GetKeyTap(eKeyCode::LBTN))
+				{
+					Vector3 vect;
+					vect.x = MousePos.x - mPos.x;
+					vect.y = MousePos.y - mPos.y;
+					vect.Normalize();
+					mAttackDir = vect;
+					mRigidbody->AddVelocity(mAttackDir * 5.f);
+					mState.reset();
+					mState[(UINT)ePlayerState::Attack] = true;
+					mAnimator->Play(L"Player_Attack", false);
+				}
+				mAttackCooldown = 0.f;
+			}
+		}
+		if (mState[(UINT)ePlayerState::Attack] == true)
+		{
+			mAttackTime += CTimeMgr::DeltaTime();
+			if (0.15f <= mAttackTime)
+			{
+				mState[(UINT)ePlayerState::Attack] = false;
+				mAttackTime = 0.f;
+				mbFirstAttack = false;
+				mAttackDir = Vector3::Zero;
+			}
+			else
+			{
+				if (mbFirstAttack)
+					mRigidbody->AddForce(mAttackDir * 40.f);
+			}
+		}
 	}
 
 	void CPlayerScript::wallLRCheck()
