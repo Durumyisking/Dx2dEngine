@@ -9,7 +9,7 @@ namespace dru::graphics
     {
 	public:
 		CPaintShader();
-		virtual ~CPaintShader();
+		~CPaintShader();
 
 		virtual void Bind();
 		virtual void Clear();

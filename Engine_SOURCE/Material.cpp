@@ -30,7 +30,7 @@ namespace dru::graphics
 			mConstantBuffer.iData = *static_cast<int*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Float:
-			mConstantBuffer.fData = *static_cast<float*>(_Data);
+			mConstantBuffer.fData1 = *static_cast<float*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Vector2:
 			mConstantBuffer.xy = *static_cast<Vector2*>(_Data);

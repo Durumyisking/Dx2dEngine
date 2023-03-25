@@ -11,6 +11,7 @@
 #include "Animator.h"
 #include "PixelCollisionScript.h"
 
+
 namespace dru
 {
 	CSceneTitle::CSceneTitle()
@@ -75,8 +76,7 @@ namespace dru
 		}
 
 		{			
-		
-
+	
 
 			{
 				// ¹è°æ black

@@ -33,7 +33,11 @@ namespace dru::renderer
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
 	{
 		int iData;
-		float fData;
+		float fData1;
+		float fData2;
+		float fData3;
+		float fData4;
+		float fData5;
 		Vector2 xy;
 		Vector3 xyz;
 		Vector4 xyzw;

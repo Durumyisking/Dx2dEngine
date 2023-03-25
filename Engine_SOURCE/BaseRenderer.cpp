@@ -85,6 +85,8 @@ namespace dru
 			height = texture->GetScratchImage().GetMetadata().height;
 		}
 
+		if (width == 0 || height == 0)
+			return;
 
 		int widthcount = 0;
 		int heightcount = 0;

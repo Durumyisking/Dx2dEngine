@@ -510,6 +510,14 @@ namespace dru::renderer
 		DebugMaterial->SetShader(DebugShader);
 		CResources::Insert<CMaterial>(L"DebugMaterial", DebugMaterial);
 
+		std::shared_ptr <CTexture> Painttexture = CResources::Find<CTexture>(L"PaintTexture");
+		std::shared_ptr<CShader> PaintShader = CResources::Find<CShader>(L"MeshShader");
+		std::shared_ptr<CMaterial> PaintMaterial = std::make_shared<CMaterial>();
+		PaintMaterial->SetShader(PaintShader);
+		PaintMaterial->SetTexture(Painttexture);
+		CResources::Insert<CMaterial>(L"PaintMaterial", PaintMaterial);
+
+
 	}
 
 	void Initialize()

@@ -30,7 +30,11 @@ cbuffer Transform : register(b0)
 cbuffer Material : register(b1)
 {
     int cbiData;
-    float cbfData;
+    float cbfData1;
+    float cbfData2;
+    float cbfData3;
+    float cbfData4;
+    float cbfData5;
     float2 cbxy;
     float3 cbxyz;
     float4 cbxyzw;

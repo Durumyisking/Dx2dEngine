@@ -44,12 +44,15 @@ namespace dru::graphics
 		mDesc.MiscFlags = 0;
 
 		if (!GetDevice()->CreateTexture(&mDesc, mTexture.GetAddressOf()))
+		{
 			return false;
-
+		}
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 		{
 			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
+			{
 				return false;
+			}
 		}
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
@@ -59,18 +62,22 @@ namespace dru::graphics
 			tSRVdesc.Texture2D.MostDetailedMip = 0;
 			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D_SRV_DIMENSION_TEXTURE2D;
 
-			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()));
+			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()))
+			{
 				return false;
+			}
 		}
 		if (_bindflag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 		{
 			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVdesc = {};
 			tUAVdesc.Format = _format;
 			tUAVdesc.Texture2D.MipSlice = 0;
-			tUAVdesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
+			tUAVdesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
 
-			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()));
+			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()))
+			{
 				return false;
+			}
 		}
 
 		return true;
@@ -84,12 +91,16 @@ namespace dru::graphics
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 		{
 			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
+			{
 				return false;
+			}
 		}
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 		{
-			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()));
-			return false;
+			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
+			{
+				return false;
+			}
 		}
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
@@ -97,20 +108,24 @@ namespace dru::graphics
 			tSRVdesc.Format = mDesc.Format;
 			tSRVdesc.Texture2D.MipLevels = 1;
 			tSRVdesc.Texture2D.MostDetailedMip = 0;
-			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D_SRV_DIMENSION_TEXTURE2D;
+			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
 
-			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()));
-			return false;
+			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), nullptr, mSRV.GetAddressOf()))
+			{
+				return false;
+			}
 		}
 		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 		{
 			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVdesc = {};
 			tUAVdesc.Format = mDesc.Format;
 			tUAVdesc.Texture2D.MipSlice = 0;
-			tUAVdesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
+			tUAVdesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
 
-			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()));
-			return false;
+			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), nullptr, mUAV.GetAddressOf()))
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -143,6 +158,8 @@ namespace dru::graphics
 				return S_FALSE;
 		}
 
+
+
 		CreateShaderResourceView(
 			GetDevice()->GetID3D11Device()
 			, mImage.GetImages()
@@ -152,10 +169,13 @@ namespace dru::graphics
 		);
 
 
-		mDesc.Width = mImage.GetMetadata().width;
-		mDesc.Height= mImage.GetMetadata().height;
+		//mDesc.Width = mImage.GetMetadata().width;
+		//mDesc.Height= mImage.GetMetadata().height;
 
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
+
+		mTexture->GetDesc(&mDesc);
+
 
 		return S_OK;
 	}

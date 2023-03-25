@@ -10,9 +10,9 @@ namespace dru::graphics
 		, mThreadGroupCountX(0)
 		,mThreadGroupCountY(0)
 		,mThreadGroupCountZ(0)
-		,mGroupX(0)
-		,mGroupY(0)
-		,mGroupZ(0)
+		//,mGroupX(0)
+		//,mGroupY(0)
+		//,mGroupZ(0)
 	{
 		mThreadGroupCountX = 32;
 		mThreadGroupCountY = 32;
@@ -60,7 +60,7 @@ namespace dru::graphics
 
 	void CComputeShader::OnExcute()
 	{
-		Bind();
+		Bind();	
 
 		GetDevice()->BindCS(mCS.Get(), nullptr, 0);
 		GetDevice()->Dispatch(mGroupX, mGroupY, mGroupZ);

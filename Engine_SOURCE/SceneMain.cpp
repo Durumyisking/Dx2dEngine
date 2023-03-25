@@ -152,7 +152,7 @@ namespace dru
 
 		{
 			mMaskTarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
-			mMaskTarget->SetPos(Vector3(0.f, 20.f, 0.1f));
+			mMaskTarget->SetPos(Vector3(0.f, 40.f, 0.1f));
 			mMaskTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 		}
 

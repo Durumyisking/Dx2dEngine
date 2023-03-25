@@ -1,3 +1,6 @@
+#include "global.hlsli"
+#include <random>
+
 
 RWTexture2D<float4> tex : register(u0);
 
@@ -13,5 +16,8 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
         return;
     }
+    
+    float seed = rand();
+    
     tex[DTid.xy] = float4(1.f, 0.f, 0.f, 1.f);
 }
