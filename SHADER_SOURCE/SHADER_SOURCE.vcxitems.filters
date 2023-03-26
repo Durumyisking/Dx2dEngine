@@ -54,7 +54,7 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
       <Filter>CS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)RandomColorPS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)NoisePS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
   </ItemGroup>

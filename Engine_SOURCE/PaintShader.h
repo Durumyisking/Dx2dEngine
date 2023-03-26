@@ -15,6 +15,7 @@ namespace dru::graphics
 		virtual void Clear();
 
 		void SetTarget(std::shared_ptr<CTexture> _target) { mTarget = _target; }
+		std::shared_ptr<CTexture> GetTarget() { return mTarget; }
 
 	private:
 		std::shared_ptr<CTexture> mTarget;

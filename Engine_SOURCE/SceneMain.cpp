@@ -49,7 +49,7 @@ namespace dru
 	void CSceneMain::Initialize()
 	{
 		mStages.push_back(new CStage1);
-		mStages.push_back(new CStage1);
+		mStages.push_back(new CStageTutorial);
 
 		for (size_t i = 0; i < mStages.size(); i++)
 		{

@@ -58,6 +58,8 @@ namespace dru::graphics
 
 	}
 
+
+
 	void CComputeShader::OnExcute()
 	{
 		Bind();	

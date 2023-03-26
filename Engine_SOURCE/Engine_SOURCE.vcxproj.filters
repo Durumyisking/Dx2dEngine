@@ -341,9 +341,6 @@
     <ClInclude Include="ParticleSystem.h">
       <Filter>Common\Component\ParticleSystem</Filter>
     </ClInclude>
-    <ClInclude Include="RandomColorScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
-    </ClInclude>
     <ClInclude Include="Grunt.h">
       <Filter>GameObj\Monster\Grunt</Filter>
     </ClInclude>
@@ -529,9 +526,6 @@
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Common\Component\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="RandomColorScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="Grunt.cpp">
       <Filter>GameObj\Monster\Grunt</Filter>

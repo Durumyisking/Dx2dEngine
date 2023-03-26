@@ -13,5 +13,16 @@ namespace dru
         virtual void InitStage();
     };
 
+    CGameObj* mUICursor;
 
+    CGameObj* mMaskTarget;
+
+    CPlayer* mPlayer;
+
+    CBackground* mStageBackground;
+    CBackground* mScreenMask;
+
+    bool mbMaskMove;
+    bool mbLoad;
+    bool mbStart;
 }

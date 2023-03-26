@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Background.h"
 #include "PaintShader.h"
-#include "RandomColorScript.h"
+
 namespace dru
 {
 	CSceneMission::CSceneMission()
@@ -28,7 +28,7 @@ namespace dru
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}
-
+		paintShader->OnExcute();
 		CScene::update();
 	}
 	void CSceneMission::fixedUpdate()
@@ -110,25 +110,24 @@ namespace dru
 		//}
 
 		{
-			std::shared_ptr<CPaintShader> paintShader = CResources::Find<CPaintShader>(L"PaintShader");
+			paintShader = CResources::Find<CPaintShader>(L"PaintShader");
 			//L"SmileTexture"
 			std::shared_ptr<CTexture> paintTex = CResources::Find<CTexture>(L"PaintTexture");
 			paintShader->SetTarget(paintTex);
 			paintShader->OnExcute();
-		}
 
-		{
+
 			mJobCorner = object::Instantiate<CGameObj>(eLayerType::Player, L"22");
 			CSpriteRenderer* SpriteRenderer = mJobCorner->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
 			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PaintMaterial");
 			SpriteRenderer->SetMaterial(mateiral);
-			mJobCorner->AddComponent<CRandomColorScript>(eComponentType::Script);
 
 			mJobCorner->SetPos(Vector3(0.f, 0.f, 3.f));
-			mJobCorner->SetScale(Vector3(10.f, 10.f, 1.f));
+			mJobCorner->SetScale(Vector3(8.f, 8.f, 1.f));
 
 		}
+
 
 		{
 			//// Corner

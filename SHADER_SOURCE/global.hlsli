@@ -80,7 +80,6 @@ cbuffer LightCount : register(b6)
 
 Texture2D defaultTexture : register(t0);
 Texture2D atlasTexture : register(t12);
-RWTexture2D<float4> Noisetex : register(u0);
 
 
 SamplerState pointSampler : register(s0);

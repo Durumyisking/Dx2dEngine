@@ -20,6 +20,9 @@ namespace dru::graphics
 	protected:
 		Microsoft::WRL::ComPtr<ID3DBlob>			mCSBlob;
 		Microsoft::WRL::ComPtr<ID3D11ComputeShader> mCS;
+
+		Microsoft::WRL::ComPtr<ID3DBlob>			mPSBlob;
+		Microsoft::WRL::ComPtr<ID3D11PixelShader> mPS;
 		Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob;
 
 

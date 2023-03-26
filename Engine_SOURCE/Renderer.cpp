@@ -395,6 +395,12 @@ namespace dru::renderer
 		std::shared_ptr<CPaintShader> paintShader = std::make_shared<CPaintShader>();
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		CResources::Insert<CPaintShader>(L"PaintShader", paintShader);
+
+		std::shared_ptr<CShader> NoiseShader = std::make_shared<CShader>();
+		NoiseShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		NoiseShader->Create(graphics::eShaderStage::PS, L"NoisePS.hlsl", "main");
+		CResources::Insert<CShader>(L"NoiseShader", NoiseShader);
+
 	}
 
 	void LoadTexture()
@@ -413,7 +419,7 @@ namespace dru::renderer
 
 		// main
 		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
-		CResources::Load<CTexture>(L"tutorial", L"MainScene/Background/Tutorialbg.png");
+		CResources::Load<CTexture>(L"stagetutorial", L"MainScene/Background/Tutorialbg.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
@@ -520,7 +526,6 @@ namespace dru::renderer
 		PaintMaterial->SetShader(PaintShader);
 		PaintMaterial->SetTexture(Painttexture);
 		CResources::Insert<CMaterial>(L"PaintMaterial", PaintMaterial);
-
 
 	}
 
