@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "Stage.h"
 
 namespace dru
 {
@@ -26,22 +27,17 @@ namespace dru
 		CGameObj* mUICursor;
 
 		CGameObj* mMaskTarget;
-
-		std::vector<CGameObj*> mHudBatteryParts;
-		CGameObj* mHudTimerBar;
-		CGameObj* mHudLeftHand;
-		CGameObj* mHudRightHand;
-
 		
+		CBackground* mScreenMask;
+
+		bool mbLoad;
+
 		CPlayer* mPlayer;
 
 		CBackground* mStageBackground;
-		CBackground* mScreenMask;
-		
-		bool mbMaskMove;
-		bool mbLoad;
-		bool mbStart;
 
+		std::vector<CStage*> mStages;
+		UINT mCurrentStage;
 	};
 
 }

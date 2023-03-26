@@ -7,6 +7,7 @@ namespace dru
 	{
 		Floor,
 		Wall,
+		Ceiling,
 		Stair,
 		End,
 	};
@@ -24,6 +25,7 @@ namespace dru
 		virtual void render() = 0;
 
 		void SetColliderScale(Vector2 _Scale);
+		void SetColliderCenter(Vector2 _Pos);
 
 	private:
 		ePlatformType mType;

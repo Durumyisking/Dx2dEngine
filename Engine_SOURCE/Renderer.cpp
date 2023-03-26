@@ -413,10 +413,14 @@ namespace dru::renderer
 
 		// main
 		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
+		CResources::Load<CTexture>(L"tutorial", L"MainScene/Background/Tutorialbg.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
+
+		CResources::Load<CTexture>(L"grunt", L"MainScene/Monster/Grunt.png");
+
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");

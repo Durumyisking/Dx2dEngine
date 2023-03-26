@@ -170,6 +170,7 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraScript.h" />
+    <ClInclude Include="Ceiling.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="Collider3D.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GridScript.h" />
+    <ClInclude Include="Grunt.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Light.h" />
@@ -197,14 +199,15 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PaintShader.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="PixelCollisionScript.h" />
     <ClInclude Include="Platforms.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="Prefab.h" />
+    <ClInclude Include="RandomColorScript.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Resources.h" />
@@ -218,6 +221,9 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SlashScript.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stage1.h" />
+    <ClInclude Include="StageTutorial.h" />
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
@@ -234,6 +240,7 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraScript.cpp" />
+    <ClCompile Include="Ceiling.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="Collider3D.cpp" />
@@ -249,6 +256,7 @@
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />
+    <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -257,13 +265,14 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="PaintShader.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PixelCollisionScript.cpp" />
     <ClCompile Include="Platforms.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="Prefab.cpp" />
+    <ClCompile Include="RandomColorScript.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -277,6 +286,9 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SlashScript.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="StageTutorial.cpp" />
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />

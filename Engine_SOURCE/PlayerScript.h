@@ -59,6 +59,7 @@ namespace dru
         void idleToRun();
         void run();
         void crouch();
+        void fall();
         void rollTrigger();
         void roll();
         void jump();
@@ -66,6 +67,7 @@ namespace dru
         void wallKickTrigger();
         void wallKick();
         void attack();
+    
 
 
         void wallLRCheck();

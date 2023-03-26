@@ -6,12 +6,12 @@ namespace dru
 		: mType(_Type)
 	{
 		SetLayerType(eLayerType::Platforms);
-		//this->AddComponent<CPlayerScript>(eComponentType::Script);
 
 		CGameObj* Obj = dynamic_cast<CGameObj*>(this);
 
 		CCollider2D* coll = Obj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetScale(Vector2(1.f, 1.f));
+//		coll->SetCenter(Vector2(0.f, -0.05f));
 
 
 		switch (_Type)
@@ -23,6 +23,10 @@ namespace dru
 		case dru::ePlatformType::Wall:
 			coll->SetName(L"col_wall");
 			coll->SetType(eColliderType::Rect);
+			break;
+		case dru::ePlatformType::Ceiling:
+			coll->SetName(L"col_ceiling");
+			coll->SetType(eColliderType::Rect); // 라인으로 변경해야해
 			break;
 		case dru::ePlatformType::Stair:
 			coll->SetName(L"col_stair");
@@ -45,6 +49,15 @@ namespace dru
 
 		coll->SetScale(_Scale);
 
+	}
+
+	void CPlatforms::SetColliderCenter(Vector2 _Pos)
+	{
+		CGameObj* Obj = dynamic_cast<CGameObj*>(this);
+
+		CCollider2D* coll = Obj->GetComponent<CCollider2D>();
+
+		coll->SetCenter(_Pos);
 	}
 
 

@@ -169,9 +169,6 @@ namespace dru::graphics
 		);
 
 
-		//mDesc.Width = mImage.GetMetadata().width;
-		//mDesc.Height= mImage.GetMetadata().height;
-
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
 
 		mTexture->GetDesc(&mDesc);

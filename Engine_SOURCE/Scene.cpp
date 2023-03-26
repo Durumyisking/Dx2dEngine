@@ -14,10 +14,7 @@ namespace dru
 	void CScene::Initialize()
 	{
 //		mLayers.resize((UINT)eLayerType::None);
-		for (CLayer& layer : mLayers)
-		{
-			layer.Initialize();
-		}
+
 	}
 
 	void CScene::update()
@@ -55,7 +52,11 @@ namespace dru
 
 	void CScene::Enter()
 	{
-		Initialize();
+		//Initialize();
+		for (CLayer& layer : mLayers)
+		{
+			layer.Initialize();
+		}
 	}
 
 	void CScene::Exit()

@@ -1,21 +1,19 @@
 #pragma once
-#include "GameObj.h"
-#include "Animator.h"
-
+#include "Platforms.h"
 
 namespace dru
 {
-    class CMonster :
-        public CGameObj
+    class CCeiling :
+        public CPlatforms
     {
 	public:
-		CMonster();
-		virtual ~CMonster();
+		CCeiling();
+		virtual ~CCeiling();
 
 		virtual void Initialize();
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
     };
-}
 
+}

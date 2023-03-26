@@ -9,21 +9,19 @@ namespace dru
 	{
 		SetLayerType(eLayerType::Player);
 
-		CGameObj* playerObj = dynamic_cast<CGameObj*>(this);
+		CRigidBody* rigidbody = this->AddComponent<CRigidBody>(eComponentType::RigidBody);
 
-		CRigidBody* rigidbody = playerObj->AddComponent<CRigidBody>(eComponentType::RigidBody);
-
-		CCollider2D* coll = playerObj->AddComponent<CCollider2D>(eComponentType::Collider);
+		CCollider2D* coll = this->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetName(L"col_player");
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.3f, 0.6f));
+		coll->SetScale(Vector2(0.2f, 0.6f));
 
-		CSpriteRenderer* SpriteRenderer = playerObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"PlayerMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
-		CAnimator* mAnimator = playerObj->AddComponent<CAnimator>(eComponentType::Animator);
+		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Player_Idle", Material->GetTexture(), { 2718.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Player_Run", Material->GetTexture(), { 4954.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Player_IdleToRun", Material->GetTexture(), { 3342.f, 0.f }, { 62.f, 50.f },	Vector2::Zero, 4, { 50.f, 50.f }, 0.1f);

@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "Background.h"
 #include "PaintShader.h"
-
+#include "RandomColorScript.h"
 namespace dru
 {
 	CSceneMission::CSceneMission()
@@ -14,6 +14,33 @@ namespace dru
 	{
 	}
 	void CSceneMission::Initialize()
+	{
+	
+
+
+
+		CScene::Initialize();
+	}
+	void CSceneMission::update()
+	{
+
+		if (CInput::GetKeyTap(eKeyCode::N))
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+		}
+
+		CScene::update();
+	}
+	void CSceneMission::fixedUpdate()
+	{
+
+		CScene::fixedUpdate();
+	}
+	void CSceneMission::render()
+	{
+		CScene::render();
+	}
+	void CSceneMission::Enter()
 	{
 		{
 			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
@@ -91,17 +118,17 @@ namespace dru
 		}
 
 		{
-			mJobCorner= object::Instantiate<CGameObj>(eLayerType::Player, L"22");
+			mJobCorner = object::Instantiate<CGameObj>(eLayerType::Player, L"22");
 			CSpriteRenderer* SpriteRenderer = mJobCorner->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
 			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PaintMaterial");
 			SpriteRenderer->SetMaterial(mateiral);
+			mJobCorner->AddComponent<CRandomColorScript>(eComponentType::Script);
 
 			mJobCorner->SetPos(Vector3(0.f, 0.f, 3.f));
+			mJobCorner->SetScale(Vector3(10.f, 10.f, 1.f));
 
 		}
-
-
 
 		{
 			//// Corner
@@ -117,30 +144,6 @@ namespace dru
 		}
 
 
-
-
-		CScene::Initialize();
-	}
-	void CSceneMission::update()
-	{
-
-		if (CInput::GetKeyTap(eKeyCode::N))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
-		}
-
-		CScene::update();
-	}
-	void CSceneMission::fixedUpdate()
-	{
-		CScene::fixedUpdate();
-	}
-	void CSceneMission::render()
-	{
-		CScene::render();
-	}
-	void CSceneMission::Enter()
-	{
 		CScene::Enter();
 	}
 	void CSceneMission::Exit()

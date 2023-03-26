@@ -149,6 +149,15 @@
     <Filter Include="Common\Component\ParticleSystem">
       <UniqueIdentifier>{5dc4739f-364e-43ca-86ec-b939e659c796}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Grunt">
+      <UniqueIdentifier>{1067e4ea-26b0-43a2-b5e2-ed4c2fef9e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Monster\Script">
+      <UniqueIdentifier>{249e30a7-b4f1-46ed-97a6-ead594d90990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Stage">
+      <UniqueIdentifier>{f7f29749-7cbe-4c63-90b3-6dcc489266eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -307,9 +316,6 @@
     <ClInclude Include="MaskScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
-    <ClInclude Include="PixelCollisionScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
-    </ClInclude>
     <ClInclude Include="Floor.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
@@ -334,6 +340,27 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Common\Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomColorScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Grunt.h">
+      <Filter>GameObj\Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterScript.h">
+      <Filter>GameObj\Monster\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="StageTutorial.h">
+      <Filter>Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Ceiling.h">
+      <Filter>GameObj\Platforms</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -478,9 +505,6 @@
     <ClCompile Include="MaskScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
-    <ClCompile Include="PixelCollisionScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
-    </ClCompile>
     <ClCompile Include="Floor.cpp">
       <Filter>GameObj\Platforms</Filter>
     </ClCompile>
@@ -505,6 +529,27 @@
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Common\Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomColorScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Grunt.cpp">
+      <Filter>GameObj\Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterScript.cpp">
+      <Filter>GameObj\Monster\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="StageTutorial.cpp">
+      <Filter>Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Ceiling.cpp">
+      <Filter>GameObj\Platforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

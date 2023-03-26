@@ -35,6 +35,8 @@ namespace dru
 		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
 
+		mState[(UINT)ePlayerState::Idle] = true;
+
 		mAnimator->GetFrameEvent(L"Player_IdleToRun", 1) = std::bind(&CPlayerScript::idletorunFrame, this);
 		mAnimator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorunEnd, this);
 		mAnimator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidleEnd, this);
@@ -90,7 +92,10 @@ namespace dru
 
 
 				if (mRigidbody->IsOnAir())
+				{
 					mWallSlideUpTime += CTimeMgr::DeltaTime();
+					fall();
+				}
 
 				if (mbOnWall)
 				{
@@ -124,7 +129,7 @@ namespace dru
 		{
 			mbFirstAttack = true;
 			mWallSlideUpTime = 0.f;
-			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
+			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{
 				mState.reset();
 				mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
@@ -142,7 +147,7 @@ namespace dru
 				GetOwner()->SetLeft();
 			if (CInput::GetKeyDown(eKeyCode::D))
 				GetOwner()->SetRight();
-			GetOwner()->GetComponent<CRigidBody>()->SetGround();
+			mRigidbody->SetGround();
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
@@ -187,10 +192,19 @@ namespace dru
 
 			mbOnWall = true;
 		}
+		else if (L"col_ceiling" == _oppo->GetName())
+		{
+			Vector3 vel = mRigidbody->GetVelocity();
+			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+		}
 	}
 	void CPlayerScript::OnCollision(CCollider2D* _oppo)
 	{
-		if (L"col_wall" == _oppo->GetName())
+		if (L"col_floor" == _oppo->GetName())
+		{
+			mbFirstAttack = true;
+		}
+		else if (L"col_wall" == _oppo->GetName())
 		{
 			wallLRCheck();
 
@@ -210,7 +224,11 @@ namespace dru
 					}
 				}
 			}
-
+		}
+		else if (L"col_ceiling" == _oppo->GetName())
+		{
+			Vector3 vel = mRigidbody->GetVelocity();
+			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
 	}
 	void CPlayerScript::OnCollisionExit(CCollider2D* _oppo)
@@ -391,6 +409,26 @@ namespace dru
 		if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
 		{
 			mAnimator->Play(L"Player_PostCrouch", false);
+		}
+	}
+
+	void CPlayerScript::fall()
+	{
+		if (mState[(UINT)ePlayerState::Fall] == true)
+		{
+			if (CInput::GetKeyTap(eKeyCode::S))
+			{
+				mRigidbody->SetMaxVelocity({ 5.f, 10.f, 0.f });
+			}
+			if (CInput::GetKeyDown(eKeyCode::S))
+			{
+				mRigidbody->AddForce({ 0.f, -100.f, 0.f });
+			}
+
+			if (CInput::GetKeyUp(eKeyCode::S))
+			{
+				mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+			}
 		}
 	}
 
@@ -603,6 +641,7 @@ namespace dru
 					vect.y = MousePos.y - mPos.y;
 					vect.Normalize();
 					mAttackDir = vect;
+					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
 					mRigidbody->AddVelocity(mAttackDir * 5.f);
 					mState.reset();
 					mState[(UINT)ePlayerState::Attack] = true;

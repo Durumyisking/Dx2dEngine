@@ -29,6 +29,10 @@ namespace dru
 	{
 		if (mbIsChanged)
 		{
+
+			if (mWidthRatio == 0.f && mHeightRatio == 0.f)
+				return;
+
 			CTransform* transform = GetOwner()->GetComponent<CTransform>();
 
 			Vector3 scale = transform->GetScale();
@@ -39,9 +43,12 @@ namespace dru
 
 			scale *= scaleTemp;
 
+
 			transform->SetScale(scale);
 
 			mbIsChanged = false;
+
+
 		}
 	}
 

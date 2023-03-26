@@ -1,21 +1,18 @@
 #pragma once
-#include "GameObj.h"
-#include "Animator.h"
-
+#include "Monster.h"
 
 namespace dru
 {
-    class CMonster :
-        public CGameObj
-    {
+	class CGrunt :
+		public CMonster
+	{
 	public:
-		CMonster();
-		virtual ~CMonster();
+		CGrunt();
+		virtual ~CGrunt();
 
 		virtual void Initialize();
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-    };
+	};
 }
-

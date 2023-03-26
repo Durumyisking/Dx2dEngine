@@ -5,7 +5,7 @@ namespace dru
 	CFloor::CFloor()
 		: CPlatforms(ePlatformType::Floor)
 	{
-
+		
 	}
 
 	CFloor::~CFloor()

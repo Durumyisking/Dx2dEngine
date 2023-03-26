@@ -1,6 +1,6 @@
 #include "Monster.h"
 #include "RigidBody.h"
-
+#include "MonsterScript.h"
 
 namespace dru
 {
@@ -8,14 +8,16 @@ namespace dru
 	{
 		SetLayerType(eLayerType::Monster);
 
-		CGameObj* monsterObj = dynamic_cast<CGameObj*>(this);
+		CRigidBody* rigidbody = this->AddComponent<CRigidBody>(eComponentType::RigidBody);
 
-		CRigidBody* rigidbody = monsterObj->AddComponent<CRigidBody>(eComponentType::RigidBody);
-
-		CCollider2D* coll = monsterObj->AddComponent<CCollider2D>(eComponentType::Collider);
+		CCollider2D* coll = this->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetName(L"col_monster");
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(2.f, 2.f));
+		coll->SetScale(Vector2(0.2f, 0.6f));
 
+
+
+		CMonsterScript* script = this->AddComponent<CMonsterScript>(eComponentType::Script);
 
 	}
 
