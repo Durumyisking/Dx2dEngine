@@ -5,6 +5,7 @@ namespace dru
 {
 
 	CStage::CStage()
+		: mbReady(false)
 	{
 	}
 
@@ -12,7 +13,16 @@ namespace dru
 	{
 	}
 
+	void CStage::Update()
+	{
+		if (mbReady)
+		{
+			LoadAfterReady();
+			mbReady = false;
+		}
+	}
 
+	
 	void CStage::LoadUI()
 	{
 		{

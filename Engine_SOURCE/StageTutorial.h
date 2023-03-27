@@ -11,6 +11,9 @@ namespace dru
         virtual ~CStageTutorial();
 
         virtual void InitStage();
+        virtual void LoadAfterReady();
+        virtual void Update();
+
     };
 
     CGameObj* mUICursor;
@@ -23,6 +26,4 @@ namespace dru
     CBackground* mScreenMask;
 
     bool mbMaskMove;
-    bool mbLoad;
-    bool mbStart;
 }

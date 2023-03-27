@@ -85,7 +85,10 @@ namespace dru
 			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
 		}
+	}
 
+	void CStage1::LoadAfterReady()
+	{
 		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
 
@@ -97,6 +100,11 @@ namespace dru
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
 			mUICursor->SetScale(Vector3(0.7f, 0.7f, 1.f));
 		}
+
+	}
+
+	void CStage1::Update()
+	{
 	}
 
 }

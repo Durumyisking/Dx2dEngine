@@ -359,6 +359,9 @@
     <ClInclude Include="Ceiling.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="OutWall.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -543,6 +546,9 @@
       <Filter>Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Ceiling.cpp">
+      <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="OutWall.cpp">
       <Filter>GameObj\Platforms</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,9 +3,6 @@
 
 namespace dru
 {
-
-
-
 	CStageTutorial::CStageTutorial()
 	{
 	}
@@ -16,76 +13,86 @@ namespace dru
 
 	void CStageTutorial::InitStage()
 	{
-		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
-			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(3.f);
-			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 1.f });
-
-		}
-
+		//renderer::mainCamera->GetOwner()->SetPos({-2.f, 0.f, 0.f});
 
 		{
 			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-			PointLight->SetPos({ 0.f, -1.5f, 0.f });
+			PointLight->SetPos({ 0.f, 0.f, 4.9f });
 			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(3.f);
-			lightComp->SetDiffuse({ 0.5f, 0.5f, 0.5f, 1.f });
-
+			lightComp->SetRadius(110.f);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
 		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
+			PointLight->SetPos({ 0.f, 0.f, 4.9f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(110.f);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		}
+
 
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{
-			// 배경 Stage1
+			// 배경 튵리얼
 			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stagetutorial");
 			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stagetutorial", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"Stage1", Material);
+			CResources::Insert<CMaterial>(L"StageTutorial", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
+			mStageBackground->SetPos(Vector3(3.f, 0.f, 5.f));
 			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
+		}
+
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-0.f, -2.9f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 
 
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
+			mPlayer->SetPos(Vector3(-9.f, -2.3f, 3.f));
+			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Run");
+			mPlayer->SetRight();
 		}
 
 		{
-			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
-			Floor->SetColliderScale({ 20.f, 0.4f });
+			CGameObj* mReadyTrigger= object::Instantiate<CGameObj>(eLayerType::Platforms, L"TutorialReadyTrigger");
+			mReadyTrigger->SetPos(Vector3(0.f, 0.f, 1.f));
+			mReadyTrigger->SetScale(Vector3(1.f, 1.f, 1.f));
+
+			CCollider2D* coll = mReadyTrigger->AddComponent<CCollider2D>(eComponentType::Collider);
+			coll->SetName(L"col_readyTrigger");
+			coll->SetType(eColliderType::Rect);
+			coll->SetScale(Vector2(0.2f, 10.f));
 
 		}
+
+	}
+
+	void CStageTutorial::LoadAfterReady()
+	{
+		{
+			COutWall* LeftOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"LeftOutwall");
+			LeftOutWall->SetPos(Vector3(-10.f, 0.f, 3.f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+		}
+
 
 		{
-			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(0.85f, 0.f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 20.f });
+			COutWall* RightOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"RightOutwall");
+			RightOutWall->SetPos(Vector3(10.f, 0.f, 3.f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
-
-		{
-			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-1.8f, 1.8f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 5.f });
-		}
-
-		{
-			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
-			Ceiling->SetPos(Vector3(-6.6f, -0.5f, 3.f));
-			Ceiling->SetColliderScale({ 10.f, 0.4f });
-		}
-
-
 
 		{
 			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
+			mMon->SetPos(Vector3(-2.f, -2.3f, 3.f));
 		}
 
 		{
@@ -99,7 +106,16 @@ namespace dru
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
 			mUICursor->SetScale(Vector3(0.7f, 0.7f, 1.f));
 		}
+
+
 	}
 
+	void CStageTutorial::Update()
+	{
+		if (!mbReady)
+		{
+			mPlayer->GetComponent<CRigidBody>()->AddForce({ 100.f, 0.f, 0.f });
+		}
 
+	}
 }

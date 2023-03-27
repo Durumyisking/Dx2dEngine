@@ -13,6 +13,8 @@ namespace dru
         virtual ~CStage1();
 
         virtual void InitStage();
+        virtual void LoadAfterReady();
+        virtual void Update();
 
     private:
 

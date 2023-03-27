@@ -201,6 +201,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="OutWall.h" />
     <ClInclude Include="PaintShader.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Platforms.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
+    <ClCompile Include="OutWall.cpp" />
     <ClCompile Include="PaintShader.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Platforms.cpp" />

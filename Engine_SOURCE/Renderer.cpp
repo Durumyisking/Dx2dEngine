@@ -396,11 +396,6 @@ namespace dru::renderer
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		CResources::Insert<CPaintShader>(L"PaintShader", paintShader);
 
-		std::shared_ptr<CShader> NoiseShader = std::make_shared<CShader>();
-		NoiseShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		NoiseShader->Create(graphics::eShaderStage::PS, L"NoisePS.hlsl", "main");
-		CResources::Insert<CShader>(L"NoiseShader", NoiseShader);
-
 	}
 
 	void LoadTexture()

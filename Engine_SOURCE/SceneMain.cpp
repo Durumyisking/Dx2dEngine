@@ -45,11 +45,15 @@ namespace dru
 	}
 	CSceneMain::~CSceneMain()
 	{
+		for (size_t i = 0; i < mStages.size(); i++)
+		{
+			delete mStages[i];
+		}
 	}
 	void CSceneMain::Initialize()
 	{
-		mStages.push_back(new CStage1);
 		mStages.push_back(new CStageTutorial);
+		mStages.push_back(new CStage1);
 
 		for (size_t i = 0; i < mStages.size(); i++)
 		{
@@ -66,6 +70,7 @@ namespace dru
 
 	void CSceneMain::update()
 	{
+		mStages[mCurrentStage]->Update();
 
 		if (CInput::GetKeyTap(eKeyCode::N))
 		{
@@ -93,13 +98,14 @@ namespace dru
 
 	void CSceneMain::Enter()
 	{
+		mDeleteObj = true;
+
 		{
 			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightMainScene");
 			directionalLight->SetPos({ 0.f, 0.f, -100.f });
 			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Directional);
 			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-
 		}
 
 		{

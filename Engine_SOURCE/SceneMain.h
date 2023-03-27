@@ -19,6 +19,8 @@ namespace dru
 		virtual void Enter();
 		virtual void Exit();
 
+		CStage* GetCurrentStage() { return mStages[mCurrentStage]; }
+
 
 	private:
 		CGameObj* mCamera;
@@ -35,6 +37,7 @@ namespace dru
 		CPlayer* mPlayer;
 
 		CBackground* mStageBackground;
+
 
 		std::vector<CStage*> mStages;
 		UINT mCurrentStage;

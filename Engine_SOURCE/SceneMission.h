@@ -28,6 +28,8 @@ namespace dru
 		CGameObj* mJobRight;
 		CGameObj* mJobCorner;
 		std::shared_ptr<CPaintShader> paintShader;
+
+
     };
 
 

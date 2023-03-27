@@ -8,6 +8,8 @@
 #include "Object.h"
 #include "SlashScript.h"
 
+#include "SceneMain.h"
+
 
 namespace dru
 {
@@ -49,72 +51,75 @@ namespace dru
 	}
 	void CPlayerScript::update()
 	{
-		mPos = mTransform->GetPosition();
-
-		if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
+		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+		if (scene->GetCurrentStage()->IsReady())
 		{
-			mbLRKeyupTimerOn = false;
-			mLRKeyupTime = 0.f;
-		}
 
-		if (CInput::GetKeyUp(eKeyCode::A) || CInput::GetKeyUp(eKeyCode::D))
-			mbLRKeyupTimerOn = true;
+			mPos = mTransform->GetPosition();
 
-		if (mbLRKeyupTimerOn)
-			mLRKeyupTime += CTimeMgr::DeltaTime();
-
-
-		// set left right
-		if (mState[(UINT)ePlayerState::Attack] == false)
-		{
-			if (mState[(UINT)ePlayerState::WallKick] == false)
+			if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
 			{
-				if (mState[(UINT)ePlayerState::Roll] == false)
-				{
-					if (CInput::GetKeyDown(eKeyCode::A))
-						GetOwner()->SetLeft();
-					if (CInput::GetKeyDown(eKeyCode::D))
-						GetOwner()->SetRight();
-				}
-				if (!mRigidbody->IsOnAir())
+				mbLRKeyupTimerOn = false;
+				mLRKeyupTime = 0.f;
+			}
+
+			if (CInput::GetKeyUp(eKeyCode::A) || CInput::GetKeyUp(eKeyCode::D))
+				mbLRKeyupTimerOn = true;
+
+			if (mbLRKeyupTimerOn)
+				mLRKeyupTime += CTimeMgr::DeltaTime();
+
+
+			// set left right
+			if (mState[(UINT)ePlayerState::Attack] == false)
+			{
+				if (mState[(UINT)ePlayerState::WallKick] == false)
 				{
 					if (mState[(UINT)ePlayerState::Roll] == false)
 					{
-						idleToRun();						
-						run();
+						if (CInput::GetKeyDown(eKeyCode::A))
+							GetOwner()->SetLeft();
+						if (CInput::GetKeyDown(eKeyCode::D))
+							GetOwner()->SetRight();
+					}
+					if (!mRigidbody->IsOnAir())
+					{
+						if (mState[(UINT)ePlayerState::Roll] == false)
+						{
+							idleToRun();
+							run();
+						}
+
+						crouch();
+						rollTrigger();
+						roll();
+					}
+					jump();
+
+
+					if (mRigidbody->IsOnAir())
+					{
+						mWallSlideUpTime += CTimeMgr::DeltaTime();
+						fall();
 					}
 
-					crouch();
-					rollTrigger();
-					roll();
+					if (mbOnWall)
+					{
+						wallSlide();
+					}
+
+					wallKickTrigger();
 				}
-				jump();
+				wallKick();
 
-
-				if (mRigidbody->IsOnAir())
-				{
-					mWallSlideUpTime += CTimeMgr::DeltaTime();
-					fall();
-				}
-
-				if (mbOnWall)
-				{
-					wallSlide();
-				}
-
-				wallKickTrigger();
 			}
-			wallKick();
-			
+
+			attack();
+
+			mTransform->SetPosition(mPos);
+			GetOwner()->Flip();
+
 		}
-
-		attack();
-		
-		mTransform->SetPosition(mPos);
-		GetOwner()->Flip();
-
-
-
 	}
 
 	void CPlayerScript::fixedUpdate()
@@ -197,6 +202,28 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+				mbWallIsLeft = -1;
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+				mbWallIsLeft = 1;
+
+			wallLRCheck();
+		}
+		else if (L"col_readyTrigger" == _oppo->GetName())
+		{
+			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			if (!scene->GetCurrentStage()->IsReady())
+			{
+				scene->GetCurrentStage()->SetReady();
+				_oppo->GetOwner()->Die();
+
+				mAnimator->Play(L"Player_RunToIdle");
+				mRigidbody->SetVelocity(Vector3::Zero);
+			}
+		}
+
 	}
 	void CPlayerScript::OnCollision(CCollider2D* _oppo)
 	{
@@ -230,6 +257,11 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			wallLRCheck();
+		}
+
 	}
 	void CPlayerScript::OnCollisionExit(CCollider2D* _oppo)
 	{
@@ -252,9 +284,11 @@ namespace dru
 					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
 				}
 			}
-
 			mbWallIsLeft = 0;
-
+		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			mbWallIsLeft = 0;
 		}
 	}
 	void CPlayerScript::OnTriggerEnter(CCollider2D* _oppo)
