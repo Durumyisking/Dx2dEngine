@@ -15,7 +15,7 @@ namespace dru
         virtual void fixedUpdate() override;
         virtual void render() override;
 
-        void SetType(int _Type) { mFadeType = _Type; }
+        void SetFadeType(int _Type) { mFadeType = _Type; }
 
         void SetFadeValue(float _Value) { mFadeValue = _Value; }
         void SetFadeTextureType(int _Value) { mFadeTextureType = _Value; }

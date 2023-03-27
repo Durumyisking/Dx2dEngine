@@ -1,6 +1,5 @@
 #include "StageTutorial.h"
 
-
 namespace dru
 {
 	CStageTutorial::CStageTutorial()
@@ -93,6 +92,22 @@ namespace dru
 			CGrunt* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mMon->SetPos(Vector3(-2.f, -2.3f, 3.f));
 		}
+
+		{
+			// ¹è°æ UI
+			CBackgroundColor * mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"TutorialTitleBg");
+			CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+			std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"FadeMaterial");
+			//CResources::Insert<CMaterial>(L"TutorialTitleBgMat", Material);
+			SpriteRenderer->SetMaterial(Material);
+
+			mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+			mUIBg->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
+			mUIBg->SetPos(Vector3(0.f, 0.f, 2.5f));
+			mUIBg->SetScale(Vector3(10.f, 0.1f, 1.f));
+		}
+
 
 		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");

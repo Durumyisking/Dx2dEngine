@@ -12,7 +12,7 @@ namespace dru
 	CFadeScript::CFadeScript()
 		: mFadeValue(1)
 		, mFadeType(1)
-		, mStart(false)
+		, mStart(0)
 		, mtime(0)
 	{
 	}
@@ -40,6 +40,14 @@ namespace dru
 			mtime = 0;
 		}
 
+	}
+
+	void CFadeScript::fixedUpdate()
+	{
+	}
+
+	void CFadeScript::render()
+	{
 		if (1 == mStart)
 		{
 			mtime += CTimeMgr::DeltaTime();
@@ -53,14 +61,7 @@ namespace dru
 			cb->Bind(&data);
 			cb->SetPipeline(eShaderStage::PS);
 		}
-	}
 
-	void CFadeScript::fixedUpdate()
-	{
-	}
-
-	void CFadeScript::render()
-	{
 	}
 
 }

@@ -6,6 +6,7 @@ float4 main(VTX_OUT _in) : SV_TARGET
 {   
     float4 color = { 0.f, 0.f, 0.f, 1.f };
    
+    // 1이면 텍스처를 fadeinout할거임
     if(cb16_bTextureType == 1)
         color = defaultTexture.Sample(pointSampler, _in.vUV);
     

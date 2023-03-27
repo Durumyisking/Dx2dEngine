@@ -26,4 +26,5 @@ namespace dru
     CBackground* mScreenMask;
 
     bool mbMaskMove;
+    
 }

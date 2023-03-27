@@ -29,16 +29,16 @@ namespace dru
 
 	void CCollider2D::update()
 	{
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Color];
-		renderer::ColorCB data = {};
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Material];
+		renderer::MaterialCB data = {};
 
 		if (mCollisionCount > 0)
 		{
-			data.RGBA = Vector4(255.f, 0.f, 0.f, 1.f);
+			data.xyzw  = Vector4(255.f, 0.f, 0.f, 1.f);
 		}
 		else
 		{
-			data.RGBA = Vector4(0.f, 255.f, 0.f, 1.f);
+			data.xyzw = Vector4(0.f, 255.f, 0.f, 1.f);
 		}
 
 		cb->Bind(&data);

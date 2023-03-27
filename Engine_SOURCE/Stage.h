@@ -26,6 +26,10 @@
 #include "Ceiling.h"
 #include "OutWall.h"
 
+#include "BackgroundColorScript.h"
+#include "FadeScript.h"
+
+
 namespace dru
 {
     enum class eReadyState
