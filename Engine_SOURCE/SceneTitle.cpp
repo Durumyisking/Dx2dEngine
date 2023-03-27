@@ -184,14 +184,14 @@ namespace dru
 			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
-			cameraComp->SetProjectionType(CCamera::eProjectionType::Perspective);
+			cameraComp->SetProjectionType(eProjectionType::Perspective);
 			mCamera->SetPos(Vector3(0.f, 1.f, 0.f));
 		}
 		{
 			// ui Ä«¸Þ¶ó
 			mUICamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"UICam");
 			CCamera* cameraComp = mUICamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
+			cameraComp->SetProjectionType(eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
 		}

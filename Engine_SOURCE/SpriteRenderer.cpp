@@ -33,9 +33,9 @@ namespace dru
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 
+		GetMesh()->BindBuffer();
 		GetMaterial()->Bind();
 
-		GetMesh()->BindBuffer();
 
 		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 

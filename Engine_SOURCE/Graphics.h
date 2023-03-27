@@ -178,7 +178,9 @@ namespace dru::graphics
 		math::Vector4 direction;
 
 		float lifeTime;
-
+		float time;
+		float speed;
+		UINT active;
 
 	};
 

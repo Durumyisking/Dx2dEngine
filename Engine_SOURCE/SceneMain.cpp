@@ -39,7 +39,6 @@ namespace dru
 		, mStages{}
 		, mCurrentStage(0)
 		, mPlayer(nullptr)
-		, mStageBackground(nullptr)
 
 	{
 	}
@@ -120,7 +119,7 @@ namespace dru
 			// ui Ä«¸Þ¶ó
 			mUICamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"UICam");
 			CCamera* cameraComp = mUICamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->SetProjectionType(CCamera::eProjectionType::Orthographic);
+			cameraComp->SetProjectionType(eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
 		}

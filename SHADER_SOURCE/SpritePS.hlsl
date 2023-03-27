@@ -12,7 +12,7 @@ float4 main(VTX_OUT _in) : SV_Target
     
     if (0 == animationType)
     {
-        color = defaultTexture.Sample(pointSampler, _in.vUV);
+        color = defaultTexture.SampleLevel(pointSampler, _in.vUV, 0.f);
     }
     else if (1 == animationType)
     {
@@ -34,11 +34,12 @@ float4 main(VTX_OUT _in) : SV_Target
     {
         CalculateLight(lightcolor, _in.vWorldPos.xyz, i);
     }
-        
+
     color *= lightcolor.diffuse;
     
     //if (color.a == 0.f)
     //    discard;
+    
     
     return color;
     

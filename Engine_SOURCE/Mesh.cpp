@@ -67,5 +67,10 @@ namespace dru
 		GetDevice()->DrawIndexed(mIndexCount, 0, 0);
 	}
 
+	void CMesh::RenderInstanced(UINT _Count)
+	{
+		GetDevice()->DrawIndexedInstanced(mIndexCount, _Count, 0, 0, 0);
+	}
+
 
 }

@@ -15,23 +15,23 @@ namespace dru
 	{
 		//renderer::mainCamera->GetOwner()->SetPos({-2.f, 0.f, 0.f});
 
-		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-			PointLight->SetPos({ 0.f, 0.f, 4.9f });
-			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(110.f);
-			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		}
+		//{
+		//	CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
+		//	PointLight->SetPos({ 0.f, 0.f, 4.9f });
+		//	CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+		//	lightComp->SetType(eLightType::Point);
+		//	lightComp->SetRadius(110.f);
+		//	lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		//}
 
-		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-			PointLight->SetPos({ 0.f, 0.f, 4.9f });
-			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(110.f);
-			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		}
+		//{
+		//	CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
+		//	PointLight->SetPos({ 0.f, 0.f, 4.9f });
+		//	CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+		//	lightComp->SetType(eLightType::Point);
+		//	lightComp->SetRadius(110.f);
+		//	lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		//}
 
 
 		/////////////////////////////Obj Add /////////////////////////////////////
@@ -53,14 +53,13 @@ namespace dru
 			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 
-
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
 			mPlayer->SetPos(Vector3(-9.f, -2.3f, 3.f));
 			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Run");
 			mPlayer->SetRight();
 		}
-
+		
 		{
 			CGameObj* mReadyTrigger= object::Instantiate<CGameObj>(eLayerType::Platforms, L"TutorialReadyTrigger");
 			mReadyTrigger->SetPos(Vector3(0.f, 0.f, 1.f));
@@ -79,19 +78,19 @@ namespace dru
 	{
 		{
 			COutWall* LeftOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"LeftOutwall");
-			LeftOutWall->SetPos(Vector3(-10.f, 0.f, 3.f));
+			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 3.f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 
 		{
 			COutWall* RightOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(10.f, 0.f, 3.f));
+			RightOutWall->SetPos(Vector3(8.25f, 0.f, 3.f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 		{
-			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			CGrunt* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mMon->SetPos(Vector3(-2.f, -2.3f, 3.f));
 		}
 
@@ -102,20 +101,19 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
 			CResources::Insert<CMaterial>(L"CursorMat", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
+			mUICursor->AddComponent<CCursorScript>(eComponentType::Script)->Initialize();
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
 			mUICursor->SetScale(Vector3(0.7f, 0.7f, 1.f));
 		}
-
-
 	}
 
 	void CStageTutorial::Update()
 	{
-		if (!mbReady)
+		if (mReady == eReadyState::NotReady)
 		{
 			mPlayer->GetComponent<CRigidBody>()->AddForce({ 100.f, 0.f, 0.f });
 		}
 
+		CStage::Update();
 	}
 }

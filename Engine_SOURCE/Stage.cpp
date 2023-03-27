@@ -5,7 +5,8 @@ namespace dru
 {
 
 	CStage::CStage()
-		: mbReady(false)
+		: mReady(eReadyState::NotReady)
+
 	{
 	}
 
@@ -15,10 +16,10 @@ namespace dru
 
 	void CStage::Update()
 	{
-		if (mbReady)
+		if (mReady == eReadyState::Ready)
 		{
 			LoadAfterReady();
-			mbReady = false;
+			mReady = eReadyState::ReadyEnd;
 		}
 	}
 

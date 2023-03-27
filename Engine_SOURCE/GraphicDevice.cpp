@@ -5,7 +5,7 @@
 #include "Shader.h"
 #include "Input.h"
 #include "Texture.h"
-
+#include "Resources.h"
 
 extern dru::CApplication application;
 
@@ -66,6 +66,7 @@ namespace dru::graphics
 			return;
 
 		mRenderTargetTexture = std::make_shared<CTexture>();
+
 		Microsoft::WRL::ComPtr <ID3D11Texture2D> renderTarget;
 		// Get rendertarget for swapchain
 		//						0¹ø ¹öÆÛ°¡ ·»´õÅ¸°Ù							·»´õÅ¸°Ù Æ÷ÀÎÅÍ
@@ -93,13 +94,6 @@ namespace dru::graphics
 
 		mDepthStencilBufferTexture = std::make_shared<CTexture>();
 		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
-
-
-		if (!CreateTexture(&depthBuffer, mDepthStencilBufferTexture->GetTexture().GetAddressOf()))
-			return;
-
-		if (!CreateDepthStencilView(mDepthStencilBufferTexture->GetTexture().Get(), nullptr, mDepthStencilBufferTexture->GetDSV().GetAddressOf()))
-			return;
 	
 		// Setting Viewport		
 		RECT winRect;
@@ -468,6 +462,11 @@ namespace dru::graphics
 	void CGraphicDevice::DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
 	{
 		mContext->DrawIndexed(_IndexCount, StartIndexLocation, StartIndexLocation);
+	}
+
+	void CGraphicDevice::DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation)
+	{
+		mContext->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
 	}
 
 	void CGraphicDevice::Present()

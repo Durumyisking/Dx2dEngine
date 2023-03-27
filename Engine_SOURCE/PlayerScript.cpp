@@ -52,7 +52,7 @@ namespace dru
 	void CPlayerScript::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		if (scene->GetCurrentStage()->IsReady())
+		if (eReadyState::NotReady != scene->GetCurrentStage()->GetReadyState())
 		{
 
 			mPos = mTransform->GetPosition();
@@ -214,9 +214,10 @@ namespace dru
 		else if (L"col_readyTrigger" == _oppo->GetName())
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-			if (!scene->GetCurrentStage()->IsReady())
+			if (eReadyState::NotReady == scene->GetCurrentStage()->GetReadyState())
 			{
-				scene->GetCurrentStage()->SetReady();
+				CStage* st = scene->GetCurrentStage();
+				st->SetReady(eReadyState::Ready);
 				_oppo->GetOwner()->Die();
 
 				mAnimator->Play(L"Player_RunToIdle");

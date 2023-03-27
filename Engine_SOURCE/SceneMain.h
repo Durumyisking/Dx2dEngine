@@ -36,9 +36,6 @@ namespace dru
 
 		CPlayer* mPlayer;
 
-		CBackground* mStageBackground;
-
-
 		std::vector<CStage*> mStages;
 		UINT mCurrentStage;
 	};

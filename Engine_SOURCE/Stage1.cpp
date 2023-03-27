@@ -105,6 +105,8 @@ namespace dru
 
 	void CStage1::Update()
 	{
+
+		CStage::Update();
 	}
 
 }

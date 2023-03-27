@@ -65,6 +65,7 @@ namespace dru::graphics
 
 		void Draw();
 		void DrawIndexed(UINT _IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+		void DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation);
 
 		void Present();
 

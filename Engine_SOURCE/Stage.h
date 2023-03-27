@@ -28,6 +28,14 @@
 
 namespace dru
 {
+    enum class eReadyState
+    {
+        NotReady,
+        Ready,
+        ReadyEnd,
+        End,
+    };
+
 	class CStage
 	{
     public:
@@ -41,8 +49,8 @@ namespace dru
         void LoadUI();
         void SetOwner(CScene* _scene) { mOwner = _scene; }
 
-        bool IsReady() { return mbReady; }
-        void SetReady() { mbReady = true; }
+        eReadyState GetReadyState() { return mReady; }
+        void SetReady(eReadyState _State) { mReady = _State; }
 
     protected:
         CScene* mOwner;
@@ -52,8 +60,7 @@ namespace dru
         CGameObj* mHudLeftHand;
         CGameObj* mHudRightHand;
 
-        bool mbReady;
-
+        eReadyState mReady;
 	};
 }
 

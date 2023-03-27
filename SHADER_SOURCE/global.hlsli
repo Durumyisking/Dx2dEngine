@@ -1,4 +1,5 @@
 #include "Light.hlsli"
+#include "Particle.hlsli"
 
 struct VTX_IN
 {
@@ -75,6 +76,10 @@ cbuffer LightCount : register(b6)
 {
     uint lightCount;
 }
+cbuffer ParticleSystem : register(b7)
+{
+    float4 particleColor;
+}
 
 
 
@@ -82,12 +87,13 @@ Texture2D defaultTexture : register(t0);
 Texture2D atlasTexture : register(t12);
 
 
+StructuredBuffer<LightAttribute> lightAttributes : register(t13);
+StructuredBuffer<Particle> particleBuffer : register(t15);
+
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
-
-StructuredBuffer<LightAttribute> lightAttributes : register(t13);
 
 void CalculateLight(in out LightColor _lightColor, float3 _position, int _idx) // in out 키워드는 참조/포인터로 쓸거임
 {
@@ -98,7 +104,7 @@ void CalculateLight(in out LightColor _lightColor, float3 _position, int _idx) /
     }
     else if (1 == lightAttributes[_idx].type)
     {
-        float dist= distance(lightAttributes[_idx].position.xy, _position.xy);
+        float dist= distance(lightAttributes[_idx].position.xy, _position.xy); // z값을 연산해주자.
         
         if(dist < lightAttributes[_idx].radius)
         {

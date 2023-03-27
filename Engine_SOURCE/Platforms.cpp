@@ -11,6 +11,7 @@ namespace dru
 
 		CCollider2D* coll = Obj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetScale(Vector2(1.f, 1.f));
+		coll->Initialize();
 //		coll->SetCenter(Vector2(0.f, -0.05f));
 
 
@@ -26,7 +27,7 @@ namespace dru
 			break;
 		case dru::ePlatformType::Ceiling:
 			coll->SetName(L"col_ceiling");
-			coll->SetType(eColliderType::Rect); // 라인으로 변경해야해
+			coll->SetType(eColliderType::Rect);
 			break;
 		case dru::ePlatformType::Stair:
 			coll->SetName(L"col_stair");
@@ -34,7 +35,7 @@ namespace dru
 			break;
 		case dru::ePlatformType::OutWall:
 			coll->SetName(L"col_outWall");
-			coll->SetType(eColliderType::Rect); // 라인으로 변경해야해
+			coll->SetType(eColliderType::Rect);
 			break;
 		default:
 			break;

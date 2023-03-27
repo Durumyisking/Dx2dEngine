@@ -19,6 +19,10 @@ namespace dru
 
 		void Render();
 
+		void RenderInstanced(UINT _Count);
+
+
+
 //		Microsoft::WRL::ComPtr<ID3D11Buffer> GetBuffer(graphics::eBufferStage _eStage);
 
 	private:

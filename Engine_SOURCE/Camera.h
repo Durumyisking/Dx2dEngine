@@ -5,17 +5,18 @@ namespace dru
 {
 	using namespace math;
 
+	enum class eProjectionType
+	{
+		Perspective,
+		Orthographic,
+		End,
+	};
+
 
 	class CCamera : public CComponent
 	{
 		friend class CCameraScript;
 	public:
-		enum class eProjectionType
-		{
-			Perspective,
-			Orthographic,
-			End,
-		};
 
 		__forceinline static Matrix& GetGpuViewMatrix() { return View; }
 		__forceinline static Matrix& GetGpuProjectionMatrix() { return Projection; }

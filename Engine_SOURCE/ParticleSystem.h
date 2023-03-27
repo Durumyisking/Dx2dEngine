@@ -16,6 +16,8 @@ namespace dru
 
 
 	private:
+		class CStructedBuffer* mBuffer;
+
 		UINT mCount;
 		Vector4 mStartSize;
 		Vector4 mEndSize;

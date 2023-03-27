@@ -58,7 +58,7 @@ namespace dru::graphics
 		{
 			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVdesc = {};
 			tSRVdesc.Format = _format;
-			tSRVdesc.Texture2D.MipLevels = 1;
+			tSRVdesc.Texture2D.MipLevels = 0;
 			tSRVdesc.Texture2D.MostDetailedMip = 0;
 			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D_SRV_DIMENSION_TEXTURE2D;
 
@@ -106,7 +106,7 @@ namespace dru::graphics
 		{
 			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVdesc = {};
 			tSRVdesc.Format = mDesc.Format;
-			tSRVdesc.Texture2D.MipLevels = 1;
+			tSRVdesc.Texture2D.MipLevels = 0;
 			tSRVdesc.Texture2D.MostDetailedMip = 0;
 			tSRVdesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
 
@@ -157,7 +157,6 @@ namespace dru::graphics
 			if (FAILED(LoadFromWICFile(fullPath.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, mImage)))
 				return S_FALSE;
 		}
-
 
 
 		CreateShaderResourceView(

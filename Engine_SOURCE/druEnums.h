@@ -12,6 +12,7 @@ namespace dru::enums
 		Monster,
 		Player,
 		Platforms,
+		Particle,
 		FX,
 		UI,
 		End = 16,

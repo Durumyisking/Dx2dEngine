@@ -27,6 +27,41 @@ namespace dru::renderer
 
 		#pragma region RectMesh
 
+		Vertex PointVertex = {};
+		std::shared_ptr<CMesh> pointMesh = std::make_shared<CMesh>();
+		CResources::Insert<CMesh>(L"PointMesh", pointMesh);
+		pointMesh->CreateVertexBuffer(&PointVertex, 1);
+		UINT pointIndex = 0;
+		pointMesh->CreateIndexBuffer(&pointIndex, 1);
+		
+		#pragma endregion
+
+		#pragma region RectMesh
+
+		Vertex LineVertex[2] = {};
+
+		LineVertex[0].pos = Vector4(-0.5f, 0.25f, 0.f, 1.f); // 사각형의 lefttop
+		LineVertex[0].color = Vector4(0.f, 1.f, 0.f, 1.f); // RGB 비율좌표임
+		LineVertex[0].uv = Vector2(0.f, 0.f); // uv좌표의 left top
+
+		LineVertex[1].pos = Vector4(0.5f, 0.25f, 0.f, 1.f);
+		LineVertex[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		LineVertex[1].uv = Vector2(1.f, 0.f);
+
+
+		std::shared_ptr<CMesh> lineMesh = std::make_shared<CMesh>();
+		CResources::Insert<CMesh>(L"LineMesh", lineMesh);
+		lineMesh->CreateVertexBuffer(&LineVertex, 2);
+		std::vector<UINT> lineindexes;
+		lineindexes.push_back(0);
+		lineindexes.push_back(1);
+		pointMesh->CreateIndexBuffer(&lineindexes, 2);
+
+		#pragma endregion
+
+
+		#pragma region RectMesh
+
 		Vertex	RectVertexes[4] = {};
 
 		RectVertexes[0].pos = Vector4(-0.5f, 0.5f, 0.f, 1.f); // 사각형의 lefttop
@@ -210,6 +245,12 @@ namespace dru::renderer
 			, Debugshader->GetVSBlobBufferSize()
 			, Debugshader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"ParticleShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, particleShader->GetVSBlobBufferPointer()
+			, particleShader->GetVSBlobBufferSize()
+			, particleShader->GetInputLayoutAddr());
+
 
 
 #pragma endregion
@@ -220,8 +261,7 @@ namespace dru::renderer
 		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 
-		samplerDesc.Filter = D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT;
-
+		samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		samplerDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
 		GetDevice()->CreateSamplerState(&samplerDesc, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
@@ -231,6 +271,7 @@ namespace dru::renderer
 		GetDevice()->BindSamplers((UINT)eSamplerType::Point, 1, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Linear, 1, samplerState[(UINT)eSamplerType::Linear].GetAddressOf());
 		GetDevice()->BindSamplers((UINT)eSamplerType::Anisotropic, 1, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+
 #pragma endregion
 
 		#pragma region RasterizerState
@@ -339,7 +380,9 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Light)] = new CConstantBuffer(eCBType::Light);
 		constantBuffers[static_cast<UINT>(eCBType::Light)]->Create(sizeof(LightCB));
 	
-	
+		constantBuffers[static_cast<UINT>(eCBType::ParticleSystem)] = new CConstantBuffer(eCBType::ParticleSystem);
+		constantBuffers[static_cast<UINT>(eCBType::ParticleSystem)]->Create(sizeof(ParticleSystemCB));
+
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
 		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
@@ -356,6 +399,7 @@ namespace dru::renderer
 		std::shared_ptr<CShader> SpriteShader = std::make_shared<CShader>();
 		SpriteShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		SpriteShader->Create(graphics::eShaderStage::PS, L"SpritePS.hlsl", "main");
+//		SpriteShader->SetBSState(eBlendStateType::AlphaBlend);
 		CResources::Insert<CShader>(L"SpriteShader", SpriteShader);
 
 
@@ -395,6 +439,16 @@ namespace dru::renderer
 		std::shared_ptr<CPaintShader> paintShader = std::make_shared<CPaintShader>();
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		CResources::Insert<CPaintShader>(L"PaintShader", paintShader);
+
+		std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
+		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		particleShader->SetRSState(eRasterizerType::SolidNone);
+		particleShader->SetDSState(eDepthStencilType::NoWrite);
+		particleShader->SetBSState(eBlendStateType::AlphaBlend);
+
+		CResources::Insert<CShader>(L"ParticleShader", particleShader);
+
 
 	}
 
@@ -521,6 +575,12 @@ namespace dru::renderer
 		PaintMaterial->SetShader(PaintShader);
 		PaintMaterial->SetTexture(Painttexture);
 		CResources::Insert<CMaterial>(L"PaintMaterial", PaintMaterial);
+
+		std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"ParticleShader");
+		std::shared_ptr<CMaterial> particleMaterial = std::make_shared<CMaterial>();
+		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		particleMaterial->SetShader(particleShader);
+		CResources::Insert<CMaterial>(L"ParticleMaterial", particleMaterial);
 
 	}
 
