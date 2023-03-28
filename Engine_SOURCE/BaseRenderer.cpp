@@ -60,7 +60,7 @@ namespace dru
 	{
 		mMaterial = _Material;
 
-		//adjustTexture();
+		adjustTexture();
 	}
 
 	void CBaseRenderer::SetAnimMaterial(std::shared_ptr<CMaterial> _Material, Vector2 _SpriteSize)
@@ -83,13 +83,13 @@ namespace dru
 
 		if (mbIsAnim)
 		{
-			width = mSpriteSize.x;
-			height = mSpriteSize.y;
+			width = static_cast<int>(mSpriteSize.x);
+			height = static_cast<int>(mSpriteSize.y);
 		}
 		else
 		{
-			width = texture->GetScratchImage().GetMetadata().width;
-			height = texture->GetScratchImage().GetMetadata().height;
+			width = static_cast<int>(texture->GetScratchImage().GetMetadata().width);
+			height = static_cast<int>(texture->GetScratchImage().GetMetadata().height);
 		}
 
 		if (width == 0 || height == 0)
@@ -100,20 +100,20 @@ namespace dru
 
 		int GCD = std::gcd(width, height);
 
-		float fwidth = width /= GCD;
-		float fheight = height /= GCD;
+		float fwidth = static_cast<float>(width /= GCD);
+		float fheight = static_cast<float>(height /= GCD);
 
 
 		while (width > 0.f)
 		{
 			fwidth /= 10.f;
-			width /= 10.f;
+			width /= 10;
 			++widthcount;
 		}
 		while (height > 0.f)
 		{
 			fheight /= 10.f;
-			height /= 10.f;
+			height /= 10;
 			++heightcount;
 		}
 

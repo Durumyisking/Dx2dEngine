@@ -89,17 +89,6 @@ namespace dru
 
 	void CStage1::LoadAfterReady()
 	{
-		{
-			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
-
-			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
-			CResources::Insert<CMaterial>(L"CursorMat", Material);
-			SpriteRenderer->SetMaterial(Material);
-			mUICursor->AddComponent<CCursorScript>(eComponentType::Script);
-			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
-			mUICursor->SetScale(Vector3(0.7f, 0.7f, 1.f));
-		}
 
 	}
 

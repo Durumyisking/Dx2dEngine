@@ -7,13 +7,13 @@ float4 main() : SV_TARGET
 //    float alpha = color.w;
     float alpha;
     
-    if (cb16_bFadeType == 0) // 0 : fade out, 1 : in
+    if (fade_bFadeType == 0) // 0 : fade out, 1 : in
     {
-        alpha = saturate(1 - (cb16_fValue));
+        alpha = saturate(1 - (fade_fValue));
     }
-    else if (cb16_bFadeType == 1)
+    else if (fade_bFadeType == 1)
     {
-        alpha = saturate(0 + (cb16_fValue));
+        alpha = saturate(0 + (fade_fValue));
 
     }    
     

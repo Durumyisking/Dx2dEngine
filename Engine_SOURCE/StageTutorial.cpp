@@ -1,4 +1,5 @@
 #include "StageTutorial.h"
+#include "SceneMain.h"
 
 namespace dru
 {
@@ -6,6 +7,14 @@ namespace dru
 		: mFadeTimer(0.f)
 		, mbFadeDone(false)
 		, mbZoomDone(false)
+		, mbMaskMove(false)
+		, mMaskTarget(nullptr)
+		, mCamTarget(nullptr)
+		, mStageBackground(nullptr)
+		, mScreenMask(nullptr)
+		, mUIBg(nullptr)
+		, mTutorialtxt(nullptr)
+		, mTutorStage(TutorialStage::Move)
 	{
 	}
 
@@ -15,25 +24,6 @@ namespace dru
 
 	void CStageTutorial::InitStage()
 	{
-
-		//{
-		//	CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-		//	PointLight->SetPos({ 0.f, 0.f, 4.9f });
-		//	CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-		//	lightComp->SetType(eLightType::Point);
-		//	lightComp->SetRadius(110.f);
-		//	lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		//}
-
-		//{
-		//	CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
-		//	PointLight->SetPos({ 0.f, 0.f, 4.9f });
-		//	CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-		//	lightComp->SetType(eLightType::Point);
-		//	lightComp->SetRadius(110.f);
-		//	lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		//}
-
 
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{
@@ -50,7 +40,7 @@ namespace dru
 
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(-0.f, -2.9f, 4.999));
+			Floor->SetPos(Vector3(-0.f, -2.9f, 4.999f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 
@@ -102,25 +92,15 @@ namespace dru
 
 		{
 			COutWall* RightOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999));
+			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 		{
 			CGrunt* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.3f, 4.999));
+			mMon->SetPos(Vector3(-2.f, -2.3f, 4.999f));
 		}
 
-		{
-			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
-
-			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
-			SpriteRenderer->SetMaterial(Material);
-			mUICursor->AddComponent<CCursorScript>(eComponentType::Script)->Initialize();
-			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
-			mUICursor->SetScale(Vector3(0.7f, 0.7f, 4.9999));
-		}
 	}
 
 	void CStageTutorial::Update()
@@ -134,24 +114,8 @@ namespace dru
 		{
 			if (!mbZoomDone)
 			{
-				Vector3 TargetPos = mCamTarget->GetPos();
-				Vector3 CamPos = renderer::mainCamera->GetOwner()->GetPos();
-				Vector3 CamDir = (TargetPos - CamPos);
-				CamDir.Normalize();
-				float Distance = (TargetPos - CamPos).Length();
-
-				if (Distance >= 0.01f)
-				{
-					float Speed = Distance / 0.5f;
-					float Step = Speed * CTimeMgr::DeltaTime();
-
-					if (Step < Distance)
-					{
-						CamPos += CamDir * Step;
-						renderer::mainCamera->GetOwner()->SetPos(CamPos);
-					}
-				}
-				else
+				
+				if(renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mCamTarget))
 				{
 					mbZoomDone = true;
 
@@ -164,7 +128,7 @@ namespace dru
 						//CResources::Insert<CMaterial>(L"TutorialTitleBgMat", Material);
 						SpriteRenderer->SetMaterial(Material);
 
-						mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.125f });
+						mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
 						mUIBg->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
 						mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
 						mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
@@ -191,6 +155,7 @@ namespace dru
 						std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"tutorialtxt", L"UIShader");
 						CResources::Insert<CMaterial>(L"tutorialtxtmat", Material);
 						SpriteRenderer->SetMaterial(Material);
+						// mTutorialtxt->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
 
 						mTutorialtxt->SetPos(Vector3(0.f, 3.5f, 2.4f));
 						mTutorialtxt->SetScale(Vector3(0.5f, 0.5f, 1.f));
@@ -200,7 +165,34 @@ namespace dru
 				}
 			}
 
-			
+			if (dynamic_cast<CSceneMain*>(mOwner)->ISLoad() && (mReady == eReadyState::ReadyEnd))
+			{
+
+
+				mReady = eReadyState::LoadEnd;
+			}
+
+			if (mReady == eReadyState::LoadEnd)
+			{
+				if (mTutorStage == TutorialStage::Move)
+				{
+					// 튜토리얼 제목 UI
+					CGameObj* mTutorBg1 = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"TutorBg1");
+					CSpriteRenderer* SpriteRenderer = mTutorBg1->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+					std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
+					SpriteRenderer->SetMaterial(Material);
+
+					mTutorBg1->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+					mTutorBg1->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
+					mTutorBg1->SetPos(Vector3(0.f, -1.f, 2.5f));
+					mTutorBg1->SetScale(Vector3(10.f, 0.05f, 1.f));
+
+
+				}
+
+
+			}
 		}
 
 

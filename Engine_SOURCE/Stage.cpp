@@ -135,6 +135,18 @@ namespace dru
 			mHudRightHand->SetScale(Vector3(0.5f, 0.5, 1.f));
 
 		}
+
+
+		{
+			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
+
+			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
+			SpriteRenderer->SetMaterial(Material);
+			mUICursor->AddComponent<CCursorScript>(eComponentType::Script)->Initialize();
+			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
+			mUICursor->SetScale(Vector3(0.7f, 0.7f, 4.9999f));
+		}
 	}
 
 }

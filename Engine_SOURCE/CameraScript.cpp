@@ -8,6 +8,7 @@
 namespace dru
 {
 	CCameraScript::CCameraScript()
+		: mCameraObject(nullptr)
 	{
 	}
 
@@ -52,11 +53,11 @@ namespace dru
 		}
 		if (CInput::GetKeyState(eKeyCode::P) == eKeyState::DOWN)
 		{
-			LookAt -= 10.f * transform->Forward() * CTimeMgr::DeltaTime();
+			LookAt -= 100.f * transform->Forward() * CTimeMgr::DeltaTime();
 		}
 		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
 		{
-			LookAt += 10.f * transform->Forward() * CTimeMgr::DeltaTime();
+			LookAt += 100.f * transform->Forward() * CTimeMgr::DeltaTime();
 		}
 
 

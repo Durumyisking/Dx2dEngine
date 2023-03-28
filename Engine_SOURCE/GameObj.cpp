@@ -1,4 +1,6 @@
 #include "GameObj.h"
+#include "TimeMgr.h"
+
 namespace dru
 {
 	CGameObj::CGameObj()
@@ -187,5 +189,32 @@ namespace dru
 			}
 		}
 
+	}
+	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target)
+	{
+
+		Vector3 TargetPos = _target->GetPos();
+		Vector3 ObjPos = this->GetPos();
+		Vector3 Dir = (TargetPos - ObjPos);
+		Dir.Normalize();
+		float Distance = (TargetPos - ObjPos).Length();
+
+		if (Distance >= 0.01f)
+		{
+			float Speed = Distance / 0.5f;
+			float Step = Speed * CTimeMgr::DeltaTime();
+
+			if (Step < Distance)
+			{
+				ObjPos += Dir * Step;
+				this->SetPos(ObjPos);
+
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
 	}
 }

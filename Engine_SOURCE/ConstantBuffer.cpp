@@ -21,7 +21,7 @@ namespace dru::graphics
 	{
 	}
 
-	bool CConstantBuffer::Create(size_t _Size)
+	bool CConstantBuffer::Create(UINT _Size)
 	{
 		desc.ByteWidth = _Size; // 들고있을 데이터 크기만큼 (일단은 위치 정보만)
 		desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;

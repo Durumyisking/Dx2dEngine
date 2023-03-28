@@ -35,8 +35,8 @@ namespace dru::graphics
 
 		ScratchImage& GetScratchImage() { return mImage; }
 
-		size_t GetHeight() { return mDesc.Height; }
-		size_t GetWidth() { return mDesc.Width; }
+		UINT GetHeight() { return mDesc.Height; }
+		UINT GetWidth() { return mDesc.Width; }
 
 		Microsoft::WRL::ComPtr<ID3D11Texture2D>	GetTexture()		{ return mTexture; }
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV()		{ return mDSV; }

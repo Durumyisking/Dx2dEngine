@@ -14,7 +14,7 @@ namespace dru::graphics
 		CConstantBuffer(eCBType _Type);
 		virtual ~CConstantBuffer();
 
-		bool Create(size_t _Size);
+		bool Create(UINT _Size);
 		void Bind(void* _Data);
 		void SetPipeline(eShaderStage _Stage);
 

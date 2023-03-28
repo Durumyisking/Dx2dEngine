@@ -51,9 +51,9 @@ cbuffer Grid : register(b2)
 
 cbuffer Fade : register(b3)
 {
-    float cb16_fValue;
-    int   cb16_bFadeType;
-    int   cb16_bTextureType;
+    float fade_fValue;
+    int   fade_bFadeType;
+    int   fade_bTextureType;
 }
 
 cbuffer Color : register(b4)

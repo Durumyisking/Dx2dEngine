@@ -42,8 +42,8 @@ namespace dru
 
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
-		float w = winRect.right - winRect.left;
-		float h = winRect.top - winRect.bottom;
+		float w = static_cast<float>(winRect.right - winRect.left);
+		float h = static_cast<float>(winRect.top - winRect.bottom);
 		Vector2 resolution(w, h);
 
 

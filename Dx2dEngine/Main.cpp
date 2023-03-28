@@ -122,14 +122,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    application.SetResolution(Resolution);
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-       0, 0, Resolution.x, Resolution.y, nullptr, nullptr, hInstance, nullptr);
+       0, 0, static_cast<UINT>(Resolution.x), static_cast<UINT>(Resolution.y), nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
       return FALSE;
    }
    
-   application.SetWindow(hWnd, Resolution.x, Resolution.y);
+   application.SetWindow(hWnd, static_cast<UINT>(Resolution.x), static_cast<UINT>(Resolution.y));
    application.Initialize();
    application.DivideMenu();
    editor.Initialize();

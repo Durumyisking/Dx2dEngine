@@ -52,7 +52,7 @@ namespace dru
 	void CPlayerScript::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		if (eReadyState::ReadyEnd == scene->GetCurrentStage()->GetReadyState())
+		if (eReadyState::LoadEnd == scene->GetCurrentStage()->GetReadyState())
 		{
 
 			mPos = mTransform->GetPosition();

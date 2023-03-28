@@ -135,6 +135,8 @@ namespace dru
 		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
+		bool MoveToTarget_Smooth(CGameObj* _target);
+
 	protected:
 		std::vector<CComponent*> mComponents;
 

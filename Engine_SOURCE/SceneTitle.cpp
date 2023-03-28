@@ -56,26 +56,11 @@ namespace dru
 
 		if (mCamMoveDone)
 		{
-			Vector3 TargetPos = mUITarget->GetPos();
-			Vector3 UIPos = mUIBg->GetPos();
-
-			float Distance = (TargetPos- UIPos).Length();
-
-			if (Distance >= 0.001f)
-			{
-				float Speed = Distance / 0.3f;
-				float Step = Speed * CTimeMgr::DeltaTime();
-
-				if (Step < Distance)
-				{
-					UIPos += mUIBg->Up() * Step;
-					mUIBg->SetPos(UIPos);
-				}
-			}
-			else
+			if (mUIBg->MoveToTarget_Smooth(mUITarget))
 			{
 				mUIMoveDone = true;
 			}
+
 
 		}
 

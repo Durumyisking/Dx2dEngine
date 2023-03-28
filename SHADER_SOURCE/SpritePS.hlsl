@@ -34,12 +34,22 @@ float4 main(VTX_OUT _in) : SV_Target
     {
         CalculateLight(lightcolor, _in.vWorldPos.xyz, i);
     }
+    
 
     color *= lightcolor.diffuse;
     
-    //if (color.a == 0.f)
-    //    discard;
     
+    //float alpha = 1.f;
+    
+    //if (fade_bFadeType == 0) // 0 : fade out, 1 : in
+    //{
+    //    alpha = saturate(1 - (fade_fValue));
+    //}
+    //else if (fade_bFadeType == 1)
+    //{
+    //    alpha = saturate(0 + (fade_fValue));
+
+    //}
     
     return color;
     

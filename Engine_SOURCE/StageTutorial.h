@@ -3,6 +3,19 @@
 
 namespace dru
 {
+    enum class TutorialStage
+    {
+        Move,
+        Jump,
+        Crouch,
+        Roll,
+        Attack,
+        Wall,
+        BulletTime,
+
+        End,
+    };
+
     class CStageTutorial :
         public CStage
     {
@@ -15,23 +28,21 @@ namespace dru
         virtual void Update();
 
     private:
-        CGameObj* mUICursor;
-
-        CGameObj* mMaskTarget;
-        CGameObj* mCamTarget;
+        CGameObj*    mMaskTarget;
+        CGameObj*    mCamTarget;
 
         CBackground* mStageBackground;
         CBackground* mScreenMask;
 
         CBackgroundColor* mUIBg;
-        CGameObj* mTutorialtxt;
+        CGameObj*         mTutorialtxt;
 
-        float mFadeTimer;
-        bool mbFadeDone;
+        float   mFadeTimer;
+        bool    mbFadeDone;
+        bool    mbZoomDone;
+        bool    mbMaskMove;
 
-        bool mbZoomDone;
-
-        bool mbMaskMove;
+        TutorialStage mTutorStage;
 
     };    
 }

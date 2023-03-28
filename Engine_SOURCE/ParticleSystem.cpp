@@ -20,10 +20,10 @@ namespace dru
 		, mEndColor(Vector4::Zero)
 		, mLifeTime(0.f)
 	{
-		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Rectmesh");
+		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Pointmesh");
 		SetMesh(point);
 
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", eTextureSlot::T0, L"ParticleShader");
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bloodfx", eTextureSlot::T0, L"ParticleShader");
 		CResources::Insert<CMaterial>(L"Black2", Material);
 
 		SetMaterial(Material);

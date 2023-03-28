@@ -34,8 +34,8 @@ namespace dru
         mAccumulatedTime += mDeltaTime;
 
 #ifdef _DEBUG
-        if (mDeltaTime > (1. / 60.))
-            mDeltaTime = (1. / 60.);
+        if (mDeltaTime > (1.f / 60.f))
+            mDeltaTime = (1.f / 60.f);
 #endif
 
     }
@@ -55,7 +55,7 @@ namespace dru
             wchar_t szFloat[50] = {};
             float FPS = 1.f / mDeltaTime;
 //            swprintf_s(szFloat, 50, L"DeltaTime : %d", iCount);
-            int iLen = wcsnlen_s(szFloat, 50);
+            int iLen = static_cast<int>(wcsnlen_s(szFloat, 50));
             //TextOut(_dc, 10, 10, szFloat, iLen);
 
             SetWindowText(hWnd, szFloat);

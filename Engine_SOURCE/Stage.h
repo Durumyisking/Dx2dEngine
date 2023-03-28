@@ -37,6 +37,7 @@ namespace dru
         NotReady,
         Ready,
         ReadyEnd,
+        LoadEnd,
         End,
     };
 
@@ -61,6 +62,7 @@ namespace dru
 
         CPlayer* mPlayer;
 
+        CGameObj* mUICursor;
 
         std::vector<CGameObj*> mHudBatteryParts;
         CGameObj* mHudTimerBar;

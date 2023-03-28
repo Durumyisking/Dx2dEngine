@@ -59,7 +59,6 @@ namespace dru::renderer
 
 		#pragma endregion
 
-
 		#pragma region RectMesh
 
 		Vertex	RectVertexes[4] = {};
@@ -92,7 +91,7 @@ namespace dru::renderer
 		indexes.push_back(2);
 		indexes.push_back(3);
 		indexes.push_back(0);
-		Rectmesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		Rectmesh->CreateIndexBuffer(indexes.data(), static_cast<UINT>(indexes.size()));
 
 		#pragma endregion
 
@@ -126,7 +125,7 @@ namespace dru::renderer
 		std::shared_ptr<CMesh> DebugRectmesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"DebugRectmesh", DebugRectmesh);
 		DebugRectmesh->CreateVertexBuffer(DebugRectVertexes, 4);
-		DebugRectmesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		DebugRectmesh->CreateIndexBuffer(indexes.data(), static_cast<UINT>(indexes.size()));
 
 		#pragma endregion
 
@@ -164,8 +163,8 @@ namespace dru::renderer
 
 		std::shared_ptr<CMesh> Circlemesh = std::make_shared<CMesh>();
 		CResources::Insert<CMesh>(L"Circlemesh", Circlemesh);	
-		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), CircleVertexes.size());
-		Circlemesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		Circlemesh->CreateVertexBuffer(CircleVertexes.data(), static_cast<UINT>(CircleVertexes.size()));
+		Circlemesh->CreateIndexBuffer(indexes.data(), static_cast<UINT>(indexes.size()));
 
 
 		#pragma endregion
@@ -475,7 +474,7 @@ namespace dru::renderer
 
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 
-		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/CartoonSmoke.png");
+		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
 
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
@@ -643,12 +642,12 @@ namespace dru::renderer
 
 	void BindLight()
 	{
-		lightBuffer->Bind(lights.data(), lights.size());
+		lightBuffer->Bind(lights.data(), static_cast<UINT>(lights.size()));
 		lightBuffer->SetPipeline(eShaderStage::VS, 13);
 		lightBuffer->SetPipeline(eShaderStage::PS, 13);
 
 		renderer::LightCB Lightcb = {};
-		Lightcb.lightCount = lights.size();
+		Lightcb.lightCount = static_cast<UINT>(lights.size());
 
 		CConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
 		cb->Bind(&Lightcb);
