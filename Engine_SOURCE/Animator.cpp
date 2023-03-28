@@ -135,6 +135,11 @@ namespace dru
 		mCurrentAnimation->BindShader();
 	}
 
+	void CAnimator::Reset()
+	{
+		mCurrentAnimation->Reset();
+	}
+
 	void CAnimator::Clear()
 	{
 		mCurrentAnimation->Clear();

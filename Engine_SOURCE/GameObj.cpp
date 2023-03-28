@@ -190,8 +190,10 @@ namespace dru
 		}
 
 	}
-	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target)
+	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target, float _speed)
 	{
+		if (!_target)
+			return false;
 
 		Vector3 TargetPos = _target->GetPos();
 		Vector3 ObjPos = this->GetPos();
@@ -201,7 +203,7 @@ namespace dru
 
 		if (Distance >= 0.01f)
 		{
-			float Speed = Distance / 0.5f;
+			float Speed = Distance / _speed;
 			float Step = Speed * CTimeMgr::DeltaTime();
 
 			if (Step < Distance)

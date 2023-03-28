@@ -84,14 +84,17 @@ namespace dru
 
 		const std::vector<CScript*>& GetScripts() { return mScripts; }
 
-		CScript* GetScript()
+		template <typename T>
+		T* GetScript()
 		{
-			for (CScript* script : mScripts)
+			T* component;
+			for (auto* script : mScripts)
 			{
-				if (nullptr != script)
-					return script;
+				component = dynamic_cast<T*>(script);
+
+				if (nullptr != component)
+					return component;
 			}
-			return nullptr;
 		}
 
 		void SetPos(Vector3 _Value);
@@ -135,7 +138,7 @@ namespace dru
 		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
-		bool MoveToTarget_Smooth(CGameObj* _target);
+		bool MoveToTarget_Smooth(CGameObj* _target, float _speed);
 
 	protected:
 		std::vector<CComponent*> mComponents;

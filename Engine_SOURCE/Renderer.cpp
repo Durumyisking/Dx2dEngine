@@ -472,6 +472,9 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
+//		CResources::Load<CTexture>(L"tutorialmove", L"MainScene/Font/tutorialmove.png");
+
+
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 
 		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
@@ -488,8 +491,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"hud_battery", L"MainScene/Hud/hud_battery.png");
 		CResources::Load<CTexture>(L"hud_batterypart", L"MainScene/Hud/hud_batterypart.png");
 		CResources::Load<CTexture>(L"hud_inventory", L"MainScene/Hud/hud_inventory.png");
-		CResources::Load<CTexture>(L"hud_LMouse", L"MainScene/Hud/hud_LMouse.png");
-		CResources::Load<CTexture>(L"hud_RMouse", L"MainScene/Hud/hud_RMouse.png");
+		CResources::Load<CTexture>(L"hud_keys", L"MainScene/Hud/hud_keys.png");
 		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");
 		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
 		CResources::Load<CTexture>(L"icon_Butcher", L"MainScene/Hud/Itemicons/Butcher.png");
@@ -590,9 +592,15 @@ namespace dru::renderer
 
 
 
-		// cursor
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
-		CResources::Insert<CMaterial>(L"CursorMat", Material);
+		// etc
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
+			CResources::Insert<CMaterial>(L"CursorMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_keys", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"keys", Material);
+		}
 
 	}
 

@@ -29,7 +29,7 @@ namespace dru
 		void SetConstantBuffer();
 
 		CTransform* GetParent() const { return mParent; }
-		void SetParent(CTransform* _Parent) { mParent = _Parent; }
+		void SetParent(CGameObj* _Parent);
 
 		Vector3 Forward() { return mForward; }
 		Vector3 Right() { return mRight; }
@@ -40,6 +40,7 @@ namespace dru
 		Vector3 GetScale() { return mScale; }
 
 		Matrix& GetWorldMatrix() { return mWorld; }
+	
 	private:
 		CTransform* mParent;
 

@@ -78,8 +78,11 @@ namespace dru
 
 		if (CInput::GetKeyTap(eKeyCode::ENTER) && !mbLoad)
 		{
-			mStages[mCurrentStage]->LoadUI();
-			mbLoad = true;
+			if (mStages[mCurrentStage]->GetReadyState() == eReadyState::ReadyEnd)
+			{
+				mStages[mCurrentStage]->LoadUI();
+				mbLoad = true;
+			}
 		}
 
 		CScene::update();

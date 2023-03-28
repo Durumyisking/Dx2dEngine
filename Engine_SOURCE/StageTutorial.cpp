@@ -8,6 +8,12 @@ namespace dru
 		, mbFadeDone(false)
 		, mbZoomDone(false)
 		, mbMaskMove(false)
+		, mbTutorBgMoveDone(false)
+
+		, mT1RCount(0)
+		, mT1LCount(0)
+
+
 		, mMaskTarget(nullptr)
 		, mCamTarget(nullptr)
 		, mStageBackground(nullptr)
@@ -15,6 +21,15 @@ namespace dru
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
 		, mTutorStage(TutorialStage::Move)
+		, mTutorBg(nullptr)
+		, mTutorBg1Target(nullptr)
+		, mKeyLeft(nullptr)
+		, mKeyRight(nullptr)
+		, mKeyUp(nullptr)
+		, mKeyDown(nullptr)
+		, mKeyShift(nullptr)
+		, mKeyLClick(nullptr)
+
 	{
 	}
 
@@ -115,9 +130,10 @@ namespace dru
 			if (!mbZoomDone)
 			{
 				
-				if(renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mCamTarget))
+				if(renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mCamTarget, 0.5f))
 				{
 					mbZoomDone = true;
+					mCamTarget->Die();
 
 					{
 						// 譬配府倔 力格 UI
@@ -160,6 +176,9 @@ namespace dru
 						mTutorialtxt->SetPos(Vector3(0.f, 3.5f, 2.4f));
 						mTutorialtxt->SetScale(Vector3(0.5f, 0.5f, 1.f));
 
+
+
+
 						mbFadeDone = true;
 					}
 				}
@@ -167,30 +186,43 @@ namespace dru
 
 			if (dynamic_cast<CSceneMain*>(mOwner)->ISLoad() && (mReady == eReadyState::ReadyEnd))
 			{
-
+				//dynamic_cast<CFadeScript*>(mUIBg->GetScripts()[1])->restart(0);
+				mUIBg->Die();
+				mTutorialtxt->Die();
 
 				mReady = eReadyState::LoadEnd;
-			}
 
-			if (mReady == eReadyState::LoadEnd)
-			{
-				if (mTutorStage == TutorialStage::Move)
 				{
 					// 譬配府倔 力格 UI
-					CGameObj* mTutorBg1 = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"TutorBg1");
-					CSpriteRenderer* SpriteRenderer = mTutorBg1->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					mTutorBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg1");
+					CSpriteRenderer* SpriteRenderer = mTutorBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-					std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
+					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+					CResources::Insert<CMaterial>(L"TB1Mat", Material);
 					SpriteRenderer->SetMaterial(Material);
 
-					mTutorBg1->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
-					mTutorBg1->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
-					mTutorBg1->SetPos(Vector3(0.f, -1.f, 2.5f));
-					mTutorBg1->SetScale(Vector3(10.f, 0.05f, 1.f));
-
-
+					mTutorBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+					mTutorBg->SetPos(Vector3(-10.f, 2.f, 4.999f));
+					mTutorBg->SetScale(Vector3(0.20f, 0.25f, 1.f));
 				}
 
+				{
+					mTutorBg1Target = object::Instantiate<CGameObj>(eLayerType::None, L"TB1T");
+					mTutorBg1Target->SetPos(Vector3(0.f, 2.f, 4.999f));
+					mTutorBg1Target->SetScale(Vector3(0.4f, 0.4f, 1.f));
+				}
+
+			}
+		}
+
+		if (mReady == eReadyState::LoadEnd)
+		{
+			if (mTutorStage == TutorialStage::Move)
+			{
+				TutorMove();
+			}
+			if (mTutorStage == TutorialStage::Jump_Crouch)
+			{
 
 			}
 		}
@@ -198,5 +230,74 @@ namespace dru
 
 
 		CStage::Update();
+	}
+	void CStageTutorial::TutorMove()
+	{
+		if (!mbTutorBgMoveDone)
+		{
+			if (mTutorBg->MoveToTarget_Smooth(mTutorBg1Target, 0.3f))
+			{
+				{
+					mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyA");
+					CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+					SpriteRenderer->SetMaterial(Material);
+					mKeyLeft->SetPos(Vector3(-0.2f, -0.5f, 0.f));
+
+					CAnimator* mAnimator = mKeyLeft->AddComponent<CAnimator>(eComponentType::Animator);
+					mAnimator->Create(L"KeyA_none", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+					mAnimator->Create(L"KeyA_anim", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 1.f);
+					mAnimator->Play(L"KeyA_anim", false);
+					mAnimator->GetCompleteEvent(L"KeyA_anim") = std::bind(&CStageTutorial::LComplete, this);
+
+				}
+
+				{
+					mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyD");
+					CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+					SpriteRenderer->SetMaterial(Material);
+					mKeyRight->SetPos(Vector3(0.2f, -0.5f, 0.f));
+
+					CAnimator* mAnimator = mKeyRight->AddComponent<CAnimator>(eComponentType::Animator);
+					mAnimator->Create(L"KeyD_none", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+					mAnimator->Create(L"KeyD_anim", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 1.f);
+					mAnimator->Play(L"KeyD_none");
+					mAnimator->GetCompleteEvent(L"KeyD_anim") = std::bind(&CStageTutorial::RComplete, this);
+				}
+
+				mbTutorBgMoveDone = true;
+			}
+		}
+		else
+		{
+			if (3 <= mT1LCount && 3 <= mT1RCount)
+			{
+				mTutorBg1Target->SetPos(Vector3(-10.f, -1.f, 4.99999f));
+				mTutorBg->GetScript<CBackgroundColorScript>()->SetColor(Vector4{ 0.f, 0.5f, 0.f, 0.5f });
+				mTutorStage = TutorialStage::Jump_Crouch;
+				mbTutorBgMoveDone = false;
+			}
+
+			if (CInput::GetKeyTap(eKeyCode::A))
+			{
+				++mT1LCount;
+			}
+			if (CInput::GetKeyTap(eKeyCode::D))
+			{
+				++mT1RCount;
+			}
+
+		}
+	}
+	void CStageTutorial::LComplete()
+	{
+		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_none");
+		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_anim", false);
+	}
+	void CStageTutorial::RComplete()
+	{
+		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
 	}
 }

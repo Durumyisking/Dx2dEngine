@@ -1,5 +1,6 @@
 #include "Transform.h"
 #include "Camera.h"
+#include "GameObj.h"
 
 namespace dru
 {
@@ -83,6 +84,14 @@ namespace dru
 		cb->SetPipeline(eShaderStage::PS);
 		cb->SetPipeline(eShaderStage::CS);
 
+	}
+
+
+	void CTransform::SetParent(CGameObj* _Parent)
+	{
+		CTransform* tr = _Parent->GetComponent<CTransform>();
+
+		mParent = tr;
 	}
 
 

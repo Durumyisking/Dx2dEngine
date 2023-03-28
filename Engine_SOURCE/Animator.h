@@ -47,6 +47,7 @@ namespace dru
 		void Play(std::wstring _name, bool _bLoop = true);
 
 		void Binds();
+		void Reset();
 		void Clear();
 
 		std::function<void()>& GetStartEvent(const std::wstring& _name);

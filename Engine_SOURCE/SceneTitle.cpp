@@ -56,7 +56,7 @@ namespace dru
 
 		if (mCamMoveDone)
 		{
-			if (mUIBg->MoveToTarget_Smooth(mUITarget))
+			if (mUIBg->MoveToTarget_Smooth(mUITarget, 0.3f))
 			{
 				mUIMoveDone = true;
 			}
@@ -282,7 +282,7 @@ namespace dru
 
 			{
 				// UIStart
-				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg->GetComponent<CTransform>(), L"UITitleStart");
+				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleStart");
 
 				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
