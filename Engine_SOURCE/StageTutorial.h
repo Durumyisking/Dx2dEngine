@@ -52,6 +52,7 @@ namespace dru
         CGameObj* mKeyUp;
         CGameObj* mKeyDown;
         CGameObj* mKeyShift;
+        CGameObj* mKeyEnter;
         CGameObj* mKeyLClick;
 
 

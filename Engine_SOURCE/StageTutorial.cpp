@@ -176,6 +176,18 @@ namespace dru
 						mTutorialtxt->SetPos(Vector3(0.f, 3.5f, 2.4f));
 						mTutorialtxt->SetScale(Vector3(0.5f, 0.5f, 1.f));
 
+						{
+							mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mTutorialtxt, L"keyEnter");
+							CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+							std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+							SpriteRenderer->SetMaterial(Material);
+							mKeyEnter->SetPos(Vector3(0.f, -0.75f, 0.f));
+
+							CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
+							mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, {100.f, 80.f }, 1.f);
+							mAnimator->Play(L"KeyEnter_anim");
+						}
+
 
 
 
@@ -189,6 +201,7 @@ namespace dru
 				//dynamic_cast<CFadeScript*>(mUIBg->GetScripts()[1])->restart(0);
 				mUIBg->Die();
 				mTutorialtxt->Die();
+				mKeyEnter->Die();
 
 				mReady = eReadyState::LoadEnd;
 
