@@ -14,17 +14,24 @@ namespace dru
         virtual void LoadAfterReady();
         virtual void Update();
 
-    };
+    private:
+        CGameObj* mUICursor;
 
-    CGameObj* mUICursor;
+        CGameObj* mMaskTarget;
+        CGameObj* mCamTarget;
 
-    CGameObj* mMaskTarget;
+        CBackground* mStageBackground;
+        CBackground* mScreenMask;
 
-    CPlayer* mPlayer;
+        CBackgroundColor* mUIBg;
+        CGameObj* mTutorialtxt;
 
-    CBackground* mStageBackground;
-    CBackground* mScreenMask;
+        float mFadeTimer;
+        bool mbFadeDone;
 
-    bool mbMaskMove;
-    
+        bool mbZoomDone;
+
+        bool mbMaskMove;
+
+    };    
 }

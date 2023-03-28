@@ -40,10 +40,13 @@ namespace dru
 			CreateVS(shaderPath, _funcName);
 			break;
 		case dru::graphics::eShaderStage::HS:
+			CreateHS(shaderPath, _funcName);
 			break;
 		case dru::graphics::eShaderStage::DS:
+			CreateDS(shaderPath, _funcName);
 			break;
-		case dru::graphics::eShaderStage::GS:
+		case dru::graphics::eShaderStage::GS:	
+			CreateGS(shaderPath, _funcName);
 			break;
 		case dru::graphics::eShaderStage::PS:
 			CreatePS(shaderPath, _funcName);
@@ -54,13 +57,6 @@ namespace dru
 			break;
 		default:
 			break;
-		}
-
-		if (mErrorBlob)
-		{
-			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-			mErrorBlob->Release();
-			mErrorBlob = nullptr;
 		}
 
 	}
@@ -82,8 +78,6 @@ namespace dru
 			, nullptr
 			, mVS.GetAddressOf());
 
-		
-
 	}
 
 	void CShader::CreateHS(const std::wstring& _Path, const std::string& _funcName)
@@ -98,7 +92,14 @@ namespace dru
 
 	void CShader::CreateGS(const std::wstring& _Path, const std::string& _funcName)
 	{
+		D3DCompileFromFile(_Path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+			, _funcName.c_str(), "gs_5_0", 0, 0, mGSBlob.GetAddressOf(), mErrorBlob.GetAddressOf());
 
+
+		GetDevice()->CreateGeometryShader(mGSBlob->GetBufferPointer()
+			, mGSBlob->GetBufferSize()
+			, nullptr
+			, mGS.GetAddressOf());
 	}
 
 	void CShader::CreatePS(const std::wstring& _Path, const std::string& _funcName)
@@ -106,12 +107,6 @@ namespace dru
 		D3DCompileFromFile(_Path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 			, _funcName.c_str(), "ps_5_0", 0, 0, mPSBlob.GetAddressOf(), mErrorBlob.GetAddressOf());
 
-		if (mErrorBlob)
-		{
-			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-			mErrorBlob->Release();
-			mErrorBlob = nullptr;
-		}
 
 		graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer()
 			, mPSBlob->GetBufferSize()
@@ -126,6 +121,9 @@ namespace dru
 		graphics::GetDevice()->BindInputLayout(mInputLayout.Get());
 
 		graphics::GetDevice()->BindVS(mVS.Get(), nullptr, 0);
+		graphics::GetDevice()->BindHS(mHS.Get(), nullptr, 0);
+		graphics::GetDevice()->BindDS(mDS.Get(), nullptr, 0);
+		graphics::GetDevice()->BindGS(mGS.Get(), nullptr, 0);
 		graphics::GetDevice()->BindPS(mPS.Get(), nullptr, 0);
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState>	rs = renderer::rasterizerState[(UINT)mRSType];

@@ -25,18 +25,18 @@ namespace dru::renderer
 	void LoadMesh()
 	{
 
-		#pragma region RectMesh
+		#pragma region PointMesh
 
 		Vertex PointVertex = {};
 		std::shared_ptr<CMesh> pointMesh = std::make_shared<CMesh>();
-		CResources::Insert<CMesh>(L"PointMesh", pointMesh);
+		CResources::Insert<CMesh>(L"Pointmesh", pointMesh);
 		pointMesh->CreateVertexBuffer(&PointVertex, 1);
 		UINT pointIndex = 0;
 		pointMesh->CreateIndexBuffer(&pointIndex, 1);
 		
 		#pragma endregion
 
-		#pragma region RectMesh
+		#pragma region LineMesh
 
 		Vertex LineVertex[2] = {};
 
@@ -50,7 +50,7 @@ namespace dru::renderer
 
 
 		std::shared_ptr<CMesh> lineMesh = std::make_shared<CMesh>();
-		CResources::Insert<CMesh>(L"LineMesh", lineMesh);
+		CResources::Insert<CMesh>(L"Linemesh", lineMesh);
 		lineMesh->CreateVertexBuffer(&LineVertex, 2);
 		std::vector<UINT> lineindexes;
 		lineindexes.push_back(0);
@@ -442,11 +442,12 @@ namespace dru::renderer
 
 		std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
 		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
 		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
 		particleShader->SetRSState(eRasterizerType::SolidNone);
 		particleShader->SetDSState(eDepthStencilType::NoWrite);
 		particleShader->SetBSState(eBlendStateType::AlphaBlend);
-
+		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 		CResources::Insert<CShader>(L"ParticleShader", particleShader);
 
 
@@ -471,6 +472,11 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stagetutorial", L"MainScene/Background/Tutorialbg.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
+
+		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
+
+		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/CartoonSmoke.png");
+
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
 
@@ -581,6 +587,13 @@ namespace dru::renderer
 		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		particleMaterial->SetShader(particleShader);
 		CResources::Insert<CMaterial>(L"ParticleMaterial", particleMaterial);
+
+
+
+
+		// cursor
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
+		CResources::Insert<CMaterial>(L"CursorMat", Material);
 
 	}
 

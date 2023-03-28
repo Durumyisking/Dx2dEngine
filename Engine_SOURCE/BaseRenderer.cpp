@@ -60,7 +60,7 @@ namespace dru
 	{
 		mMaterial = _Material;
 
-		adjustTexture();
+		//adjustTexture();
 	}
 
 	void CBaseRenderer::SetAnimMaterial(std::shared_ptr<CMaterial> _Material, Vector2 _SpriteSize)
@@ -73,7 +73,7 @@ namespace dru
 
 	void CBaseRenderer::adjustTexture()
 	{
-		std::shared_ptr<CTexture> texture = GetMaterial()->GetTexture();
+		std::shared_ptr<CTexture> texture = GetMaterial()->GetTexture(eTextureSlot::T0);
 
 		if (nullptr == texture)
 			return;

@@ -12,7 +12,7 @@ namespace dru
 	CFadeScript::CFadeScript()
 		: mFadeValue(1)
 		, mFadeType(1)
-		, mStart(0)
+		, mStart(1)
 		, mtime(0)
 	{
 	}
@@ -27,18 +27,18 @@ namespace dru
 
 	void CFadeScript::update()
 	{
-		if (CInput::GetKeyState(eKeyCode::I) == eKeyState::DOWN)
-		{
-			mStart = 1;
-			mFadeType = 1;
-			mtime = 0;
-		}
-		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
-		{
-			mStart = 1;
-			mFadeType = 0;
-			mtime = 0;
-		}
+		//if (CInput::GetKeyState(eKeyCode::I) == eKeyState::DOWN)
+		//{
+		//	mStart = 1;
+		//	mFadeType = 1;
+		//	mtime = 0;
+		//}
+		//if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
+		//{
+		//	mStart = 1;
+		//	mFadeType = 0;
+		//	mtime = 0;
+		//}
 
 	}
 
@@ -62,6 +62,12 @@ namespace dru
 			cb->SetPipeline(eShaderStage::PS);
 		}
 
+	}
+
+	void CFadeScript::restart(int _fadeType)
+	{
+		mFadeType = _fadeType;
+		mtime = 0;
 	}
 
 }

@@ -50,6 +50,15 @@ namespace dru
 		{
 			LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
 		}
+		if (CInput::GetKeyState(eKeyCode::P) == eKeyState::DOWN)
+		{
+			LookAt -= 10.f * transform->Forward() * CTimeMgr::DeltaTime();
+		}
+		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
+		{
+			LookAt += 10.f * transform->Forward() * CTimeMgr::DeltaTime();
+		}
+
 
 		// Target Move
 		if (target)

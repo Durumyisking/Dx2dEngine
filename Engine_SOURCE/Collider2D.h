@@ -41,6 +41,7 @@ namespace dru
         Vector3 GetColliderPos() const { return mPosition; }
 
         bool IsTrigger() const { return mbTrigger; }
+        void SetTrigger() { mbTrigger = true; }
         UINT GetColliderID() const { return mID; }
 
     private:

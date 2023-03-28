@@ -18,6 +18,7 @@ namespace dru
 	{
 		if (mReady == eReadyState::Ready)
 		{
+			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 			LoadAfterReady();
 			mReady = eReadyState::ReadyEnd;
 		}

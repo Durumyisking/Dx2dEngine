@@ -21,6 +21,7 @@ namespace dru
 
 		CStage* GetCurrentStage() { return mStages[mCurrentStage]; }
 
+		bool ISLoad() { return mbLoad; }
 
 	private:
 		CGameObj* mCamera;

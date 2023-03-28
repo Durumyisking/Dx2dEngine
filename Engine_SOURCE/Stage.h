@@ -59,6 +59,9 @@ namespace dru
     protected:
         CScene* mOwner;
 
+        CPlayer* mPlayer;
+
+
         std::vector<CGameObj*> mHudBatteryParts;
         CGameObj* mHudTimerBar;
         CGameObj* mHudLeftHand;

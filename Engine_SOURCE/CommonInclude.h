@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <type_traits>
 
+#define CAMTYPEGAP 2.785f
+
 
 #define arraysize(a) (sizeof(a) / sizeof(a[0]))
 

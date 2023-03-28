@@ -77,6 +77,11 @@ namespace dru
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
 		cb->Bind(&transformCB);
 		cb->SetPipeline(eShaderStage::VS);
+		cb->SetPipeline(eShaderStage::HS);
+		cb->SetPipeline(eShaderStage::DS);
+		cb->SetPipeline(eShaderStage::GS);
+		cb->SetPipeline(eShaderStage::PS);
+		cb->SetPipeline(eShaderStage::CS);
 
 	}
 

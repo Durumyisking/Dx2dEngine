@@ -22,8 +22,6 @@ namespace dru
 
 		CGameObj* mMaskTarget;
 
-		CPlayer* mPlayer;
-
 		CBackground* mStageBackground;
 		CBackground* mScreenMask;
 

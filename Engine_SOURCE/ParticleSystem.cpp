@@ -6,6 +6,8 @@
 #include "Mesh.h"
 #include "Resources.h"
 #include "StructedBuffer.h"
+#include "Texture.h"
+
 
 namespace dru
 {
@@ -18,12 +20,18 @@ namespace dru
 		, mEndColor(Vector4::Zero)
 		, mLifeTime(0.f)
 	{
-		std::shared_ptr<CMesh> rect = CResources::Find<CMesh>(L"Rectmesh");
-		SetMesh(rect);
+		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Rectmesh");
+		SetMesh(point);
 
-		// Material 세팅
-		std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"ParticleMaterial");
-		SetMaterial(material);
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", eTextureSlot::T0, L"ParticleShader");
+		CResources::Insert<CMaterial>(L"Black2", Material);
+
+		SetMaterial(Material);
+
+
+		//// Material 세팅
+		//std::shared_ptr<CTexture> Tex = CResources::Find<CTexture>(L"bloodfx");
+		//material->SetTexture(eTextureSlot::T0, Tex);
 
 		Particle particles[1000] = {};
 		Vector4 startPos = Vector4(-800.0f, -450.0f, 0.0f, 0.0f);
@@ -33,6 +41,8 @@ namespace dru
 			{
 				particles[16 * y + x].position = startPos
 					+ Vector4(x * 100.0f, y * 100.0f, 0.0f, 0.0f);
+
+				particles[16 * y + x].active = 1;
 			}
 		}
 
@@ -63,6 +73,7 @@ namespace dru
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 		mBuffer->SetPipeline(eShaderStage::VS, 15);
+		mBuffer->SetPipeline(eShaderStage::GS, 15);
 		mBuffer->SetPipeline(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
