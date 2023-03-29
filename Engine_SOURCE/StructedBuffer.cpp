@@ -5,9 +5,13 @@ namespace dru::graphics
 {
 	CStructedBuffer::CStructedBuffer()
 		: mSRV(nullptr)
-		, mType(eSRVType::None)
+		, mUAV(nullptr)
+		, mType(eSRVType::SRV)
 		, mSize(0)
 		, mStride(0)
+		, mSRVSlot(0)
+		, mUAVSlot(0)
+
 	{
 
 	}
@@ -28,6 +32,14 @@ namespace dru::graphics
 		desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 		desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
 		desc.MiscFlags = D3D11_RESOURCE_MISC_FLAG::D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+
+		if (mType == eSRVType::UAV)
+		{
+			desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+			desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE
+				| D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS;
+			desc.CPUAccessFlags = 0;
+		}
 
 		if (_data)
 		{
@@ -50,14 +62,26 @@ namespace dru::graphics
 		if (FAILED(GetDevice()->CreateShaderResourceView(buffer.Get(), &srvDesc, mSRV.GetAddressOf())))
 			return false;
 
+		if (mType == eSRVType::UAV)
+		{
+			D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+			uavDesc.Buffer.NumElements = mStride;
+			uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+
+			if (FAILED(GetDevice()->CreateUnorderedAccessView(buffer.Get(), &uavDesc, mUAV.GetAddressOf())))
+				return false;
+		}
+
+
+
 		return true;
 	}
 
-	void CStructedBuffer::Bind(void* _data, UINT _bufferCount)
+	void CStructedBuffer::SetData(void* _data, UINT _bufferCount)
 	{
 		if (mStride < _bufferCount)
 		{
-			Create(mSize, _bufferCount, eSRVType::None, _data);
+			Create(mSize, _bufferCount, eSRVType::SRV, _data);
 		}
 		else
 		{
@@ -65,8 +89,28 @@ namespace dru::graphics
 		}
 	}
 
-	void CStructedBuffer::SetPipeline(eShaderStage _stage, UINT _slot)
+	void CStructedBuffer::BindSRV(eShaderStage _stage, UINT _slot)
 	{
-		GetDevice()->SetShaderResource(_stage, _slot, mSRV.GetAddressOf());
+		GetDevice()->BindShaderResource(_stage, _slot, mSRV.GetAddressOf());
+	}
+	void CStructedBuffer::BindUAV(eShaderStage stage, UINT slot)
+	{
+		UINT i = -1;
+		GetDevice()->BindUnorderedAccessView(slot, 1, mUAV.GetAddressOf(), &i);
+	}
+	void CStructedBuffer::Clear()
+	{
+		ID3D11ShaderResourceView* srv = nullptr;
+		GetDevice()->BindShaderResource(eShaderStage::VS, mSRVSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::HS, mSRVSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::DS, mSRVSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::GS, mSRVSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, mSRVSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::CS, mSRVSlot, &srv);
+
+		ID3D11UnorderedAccessView* uav = nullptr;
+		UINT i = -1;
+		GetDevice()->BindUnorderedAccessView(mUAVSlot, 1, &uav, &i);
+
 	}
 }

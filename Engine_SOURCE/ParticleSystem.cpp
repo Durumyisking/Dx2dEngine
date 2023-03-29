@@ -48,7 +48,7 @@ namespace dru
 
 		mCount = 144;
 		mBuffer = new CStructedBuffer();
-		mBuffer->Create(sizeof(Particle), mCount, eSRVType::None, particles);
+		mBuffer->Create(sizeof(Particle), mCount, eSRVType::SRV, particles);
 	}
 
 	CParticleSystem::~CParticleSystem()
@@ -72,9 +72,9 @@ namespace dru
 	void CParticleSystem::render()
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
-		mBuffer->SetPipeline(eShaderStage::VS, 15);
-		mBuffer->SetPipeline(eShaderStage::GS, 15);
-		mBuffer->SetPipeline(eShaderStage::PS, 15);
+		mBuffer->BindSRV(eShaderStage::VS, 15);
+		mBuffer->BindSRV(eShaderStage::GS, 15);
+		mBuffer->BindSRV(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
 		GetMesh()->RenderInstanced(mCount);

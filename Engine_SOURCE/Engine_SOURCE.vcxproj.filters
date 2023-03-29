@@ -362,6 +362,9 @@
     <ClInclude Include="OutWall.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleShader.h">
+      <Filter>Resource\Shader\ComputeShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -550,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="OutWall.cpp">
       <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleShader.cpp">
+      <Filter>Resource\Shader\ComputeShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

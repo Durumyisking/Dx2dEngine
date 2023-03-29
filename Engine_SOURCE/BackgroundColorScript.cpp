@@ -34,8 +34,8 @@ namespace dru
 
 		data.RGBA = mColor;
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::PS);
 
 
 	}

@@ -203,6 +203,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="OutWall.h" />
     <ClInclude Include="PaintShader.h" />
+    <ClInclude Include="ParticleShader.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Platforms.h" />
     <ClInclude Include="Player.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="OutWall.cpp" />
     <ClCompile Include="PaintShader.cpp" />
+    <ClCompile Include="ParticleShader.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Platforms.cpp" />
     <ClCompile Include="Player.cpp" />

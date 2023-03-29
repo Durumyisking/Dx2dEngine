@@ -7,6 +7,7 @@ namespace dru::graphics
 	class CComputeShader : public CResource
 	{
 	public:
+		CComputeShader(UINT threadGroupX, UINT threadGroupY, UINT threadGroupZ);
 		CComputeShader();
 		virtual ~CComputeShader();
 

@@ -72,10 +72,10 @@ namespace dru::graphics
         }
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 
-		pCB->Bind(&mConstantBuffer);	
-		pCB->SetPipeline(eShaderStage::VS);
-		pCB->SetPipeline(eShaderStage::GS);
-		pCB->SetPipeline(eShaderStage::PS);
+		pCB->SetData(&mConstantBuffer);	
+		pCB->Bind(eShaderStage::VS);
+		pCB->Bind(eShaderStage::GS);
+		pCB->Bind(eShaderStage::PS);
 
 		mShader->Bind();
 	}

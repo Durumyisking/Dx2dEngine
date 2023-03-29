@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseRenderer.h"
+#include "ParticleShader.h"
 
 namespace dru
 {
@@ -17,6 +18,7 @@ namespace dru
 
 	private:
 		class CStructedBuffer* mBuffer;
+		std::shared_ptr<graphics::CParticleShader> mCS;
 
 		UINT mCount;
 		Vector4 mStartSize;

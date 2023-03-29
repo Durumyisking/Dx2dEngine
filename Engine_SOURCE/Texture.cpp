@@ -19,12 +19,12 @@ namespace dru::graphics
 	{
 		ID3D11ShaderResourceView* srv = nullptr;
 
-		GetDevice()->SetShaderResource(eShaderStage::VS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::DS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::GS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::HS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::CS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::PS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::VS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::DS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::GS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::HS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::CS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, startSlot, &srv);
 	}
 
 	bool CTexture::Create(UINT _width, UINT _height, DXGI_FORMAT _format, UINT _bindflag)
@@ -178,7 +178,7 @@ namespace dru::graphics
 
 	void CTexture::BindShader(eShaderStage _Stage, UINT _Slot)
 	{
-		GetDevice()->SetShaderResource(_Stage, _Slot, mSRV.GetAddressOf());
+		GetDevice()->BindShaderResource(_Stage, _Slot, mSRV.GetAddressOf());
 	}
 
 	void CTexture::BindUnorderedAccessview(UINT _Slot)
@@ -199,12 +199,12 @@ namespace dru::graphics
 	{
 		ID3D11ShaderResourceView* srv = nullptr;
 
-		GetDevice()->SetShaderResource(eShaderStage::VS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::DS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::GS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::HS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::CS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::PS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::VS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::DS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::GS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::HS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::CS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, 0, &srv);
 	}
 
 }

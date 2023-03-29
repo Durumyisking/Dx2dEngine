@@ -79,6 +79,8 @@ cbuffer LightCount : register(b6)
 cbuffer ParticleSystem : register(b7)
 {
     float4 particleColor;
+    uint elementCount;
+    float deltaTime;
 }
 
 

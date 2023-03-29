@@ -361,7 +361,7 @@ namespace dru::graphics
 		}
 	}
 
-	void CGraphicDevice::SetShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews)
+	void CGraphicDevice::BindShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews)
 	{
 		switch (_Stage)
 		{

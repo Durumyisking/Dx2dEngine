@@ -111,8 +111,8 @@ namespace dru
 		data.size = mSpriteSheet[mIndex].size;
 		data.atlasSize = mSpriteSheet[mIndex].altasSize;
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void CAnimation::Clear()
@@ -124,8 +124,8 @@ namespace dru
 		renderer::AnimationCB data = {};
 		data.type = (UINT)eAnimationType::None;
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::PS);
 
 	}
 

@@ -15,8 +15,8 @@ namespace dru::graphics
 		virtual ~CConstantBuffer();
 
 		bool Create(UINT _Size);
-		void Bind(void* _Data);
-		void SetPipeline(eShaderStage _Stage);
+		void SetData(void* _Data);
+		void Bind(eShaderStage _Stage);
 
 
 	private:

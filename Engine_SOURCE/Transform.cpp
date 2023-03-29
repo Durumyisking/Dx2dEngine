@@ -76,13 +76,13 @@ namespace dru
 
 		// 상수버퍼 가져와 해당 상수버퍼에 값 세팅
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
-		cb->Bind(&transformCB);
-		cb->SetPipeline(eShaderStage::VS);
-		cb->SetPipeline(eShaderStage::HS);
-		cb->SetPipeline(eShaderStage::DS);
-		cb->SetPipeline(eShaderStage::GS);
-		cb->SetPipeline(eShaderStage::PS);
-		cb->SetPipeline(eShaderStage::CS);
+		cb->SetData(&transformCB);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::HS);
+		cb->Bind(eShaderStage::DS);
+		cb->Bind(eShaderStage::GS);
+		cb->Bind(eShaderStage::PS);
+		cb->Bind(eShaderStage::CS);
 
 	}
 

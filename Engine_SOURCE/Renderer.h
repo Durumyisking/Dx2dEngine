@@ -82,6 +82,8 @@ namespace dru::renderer
 	CBUFFER(ParticleSystemCB, CBSLOT_LIGHTCOUNT)
 	{
 		Vector4 Color;
+		UINT elementCount;
+		float deltaTime;
 	};
 
 

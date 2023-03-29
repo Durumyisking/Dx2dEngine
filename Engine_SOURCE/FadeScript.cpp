@@ -59,8 +59,8 @@ namespace dru
 			data.bFadeType = mFadeType;
 			data.bTextureType = mFadeTextureType;
 
-			cb->Bind(&data);
-			cb->SetPipeline(eShaderStage::PS);
+			cb->SetData(&data);
+			cb->Bind(eShaderStage::PS);
 		}
 
 	}

@@ -384,7 +384,7 @@ namespace dru::renderer
 
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
-		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::None, nullptr);
+		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr);
 	}
 
 	void LoadShader()
@@ -650,18 +650,18 @@ namespace dru::renderer
 
 	void BindLight()
 	{
-		lightBuffer->Bind(lights.data(), static_cast<UINT>(lights.size()));
-		lightBuffer->SetPipeline(eShaderStage::VS, 13);
-		lightBuffer->SetPipeline(eShaderStage::PS, 13);
+		lightBuffer->SetData(lights.data(), static_cast<UINT>(lights.size()));
+		lightBuffer->BindSRV(eShaderStage::VS, 13);
+		lightBuffer->BindSRV(eShaderStage::PS, 13);
 
 		renderer::LightCB Lightcb = {};
 		Lightcb.lightCount = static_cast<UINT>(lights.size());
 
 		CConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
-		cb->Bind(&Lightcb);
+		cb->SetData(&Lightcb);
 
-		cb->SetPipeline(eShaderStage::VS);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
 	}
 
 }

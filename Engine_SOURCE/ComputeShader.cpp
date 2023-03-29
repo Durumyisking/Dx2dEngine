@@ -3,6 +3,19 @@
 
 namespace dru::graphics
 {
+	CComputeShader::CComputeShader(UINT threadGroupX, UINT threadGroupY, UINT threadGroupZ)
+		: CResource(eResourceType::ComputeShader)
+		, mCSBlob(nullptr)
+		, mCS(nullptr)
+		, mThreadGroupCountX(threadGroupX)
+		, mThreadGroupCountY(threadGroupY)
+		, mThreadGroupCountZ(threadGroupZ)
+		, mGroupX(0)
+		, mGroupY(0)
+		, mGroupZ(0)
+	{
+	}
+
 	CComputeShader::CComputeShader()
 		: CResource(eResourceType::ComputeShader)
 		, mCSBlob(nullptr)
@@ -10,9 +23,9 @@ namespace dru::graphics
 		, mThreadGroupCountX(0)
 		,mThreadGroupCountY(0)
 		,mThreadGroupCountZ(0)
-		//,mGroupX(0)
-		//,mGroupY(0)
-		//,mGroupZ(0)
+		,mGroupX(0)
+		,mGroupY(0)
+		,mGroupZ(0)
 	{
 		mThreadGroupCountX = 32;
 		mThreadGroupCountY = 32;

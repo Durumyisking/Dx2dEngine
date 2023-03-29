@@ -41,8 +41,8 @@ namespace dru
 			data.xyzw = Vector4(0.f, 255.f, 0.f, 1.f);
 		}
 
-		cb->Bind(&data);
-		cb->SetPipeline(eShaderStage::PS);
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void CCollider2D::fixedUpdate()
