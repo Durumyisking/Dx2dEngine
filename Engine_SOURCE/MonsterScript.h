@@ -9,7 +9,9 @@ namespace dru
         Run,// 2
         TutorAttack,// 5 
         Fall,// 11
-        Die,
+        DieAirUp,
+        DieAirDown,
+        DieGround,
 
         End,
     };
@@ -39,10 +41,13 @@ namespace dru
         CRigidBody* mRigidbody;
         CTransform* mTransform;
         Vector3 mPos;
-
+        Vector3 mMoveDir;
+        Vector3 mHitDir;
 
         bool mbOnWall;
+        bool mbDead;
 
+        float mHitTimer;
 
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
 

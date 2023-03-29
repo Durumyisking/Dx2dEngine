@@ -11,7 +11,15 @@ namespace dru
 {
 	CMonsterScript::CMonsterScript()
 		: mState{}
+		, mAnimator(nullptr)
+		, mRigidbody(nullptr)
+		, mTransform(nullptr)
+		, mPos(Vector3::Zero)
+		, mMoveDir(Vector3::Zero)
+		, mHitDir(Vector3::Zero)
 		, mbOnWall(false)
+		, mbDead(false)
+		, mHitTimer(0.f)
 	{
 
 	}
@@ -32,8 +40,33 @@ namespace dru
 	void CMonsterScript::update()
 	{
 		mPos = mTransform->GetPosition();
+		mMoveDir = mRigidbody->GetVelocity();
+		mMoveDir.Normalize();
 
 
+		if (mbDead)
+		{
+			if (mState[(UINT)eMonsterState::DieGround] == false)
+			{
+				if (mMoveDir.y > 0.f)
+				{
+					mState[(UINT)eMonsterState::DieAirUp] = true;
+					mAnimator->Play(L"Grunt_DeadAirUp");
+				}
+				else if (mMoveDir.y < 0.f)
+				{
+					mState[(UINT)eMonsterState::DieAirDown] = true;
+					mAnimator->Play(L"Grunt_DeadAirDown");
+				}
+
+				mHitTimer += CTimeMgr::DeltaTime();
+
+				if (mHitTimer <= 1.f)
+				{
+					mRigidbody->AddForce({mHitDir.x * 30.f, mHitDir.y * 30.f, 0.f});
+				}
+			}
+		}
 
 		mTransform->SetPosition(mPos);
 		GetOwner()->Flip();
@@ -51,10 +84,17 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
-
 			mRigidbody->SetGround();
 			Vector3 vel = mRigidbody->GetVelocity();
+			mRigidbody->SetMaxVelocity({ 5.f, 0.f, vel.z });
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+
+			if (mbDead)
+			{
+				mState[(UINT)eMonsterState::DieGround] = true;
+				mAnimator->Play(L"Grunt_DeadGround", false);
+			}
+
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -64,8 +104,16 @@ namespace dru
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
 			mState.reset();
-			mState[(UINT)eMonsterState::Die] = true;
-			 
+
+			Vector3 playerPos = _oppo->GetOwner()->GetPos();
+			Vector3 monsterPos = GetOwner()->GetPos();
+
+			mHitDir = playerPos - monsterPos;
+			mHitDir.Normalize();
+
+			mRigidbody->SetMaxVelocity({ 10.f, 10.f, 0.f });
+
+			mbDead = true;
 		}
 	}
 

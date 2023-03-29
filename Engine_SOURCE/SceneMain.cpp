@@ -64,6 +64,9 @@ namespace dru
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Platforms);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::Platforms);
 
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::FX);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::FX);
+
 		CScene::Initialize();
 	}
 

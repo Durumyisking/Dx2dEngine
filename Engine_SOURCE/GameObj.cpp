@@ -20,7 +20,18 @@ namespace dru
 				continue;
 
 			delete comp;
+			comp = nullptr;
 		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+
+			delete script;
+			script = nullptr;
+		}
+
 	}
 
 	void CGameObj::Initialize()
