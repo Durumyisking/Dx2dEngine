@@ -86,6 +86,8 @@ namespace dru
 			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
 		}
+		LoadUI();
+
 	}
 
 	void CStage1::LoadAfterReady()

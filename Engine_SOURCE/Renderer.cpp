@@ -472,13 +472,13 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
-//		CResources::Load<CTexture>(L"tutorialmove", L"MainScene/Font/tutorialmove.png");
 
 
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 
 		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
-
+		CResources::Load<CTexture>(L"dustfx", L"MainScene/FX/fx_dust.png");
+		CResources::Load<CTexture>(L"landdustfx", L"MainScene/FX/fx_landdust.png");
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
 
@@ -600,6 +600,14 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_keys", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"keys", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"dustfx", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"dustMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"landdustfx", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"landdustMat", Material);
 		}
 
 	}

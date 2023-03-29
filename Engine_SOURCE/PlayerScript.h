@@ -54,6 +54,8 @@ namespace dru
         void rollEnd();
         void rollComplete();
         void wallkickComplete();
+        void jumpdustComplete();
+        void landdustComplete();
 
         // player action
         void idleToRun();
@@ -67,11 +69,13 @@ namespace dru
         void wallKickTrigger();
         void wallKick();
         void attack();
-    
+
+        void createJumpdust(bool _bIsSide, float _Radian = 0);
+        void createLanddust();
+
 
 
         void wallLRCheck();
-
 
 
         bool towardToWallCheck_KeyTap();
@@ -84,6 +88,9 @@ namespace dru
         CRigidBody* mRigidbody;
         CTransform* mTransform;
         Vector3 mPos;
+
+        CGameObj* mJumpdust;
+        CGameObj* mLanddust;
 
         float mAirTime;
         float mAttackTime;

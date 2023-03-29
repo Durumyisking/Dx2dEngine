@@ -241,6 +241,14 @@ namespace dru
 			{
 				TutorAttack();
 			}
+			else if (mTutorStage == TutorialStage::Wall)
+			{
+				TutorWall();
+			}
+			else if (mTutorStage == TutorialStage::BulletTime)
+			{
+				TutorBulletTime();
+			}
 
 
 		}
@@ -473,6 +481,14 @@ namespace dru
 				++mCount1;
 			}
 		}
+	}
+
+	void CStageTutorial::TutorWall()
+	{
+	}
+
+	void CStageTutorial::TutorBulletTime()
+	{
 	}
 
 	void CStageTutorial::TutorSuccess(TutorialStage _Stage)

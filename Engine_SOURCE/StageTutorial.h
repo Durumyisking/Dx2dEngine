@@ -30,6 +30,8 @@ namespace dru
         void TutorJumpAndCrouch();
         void TutorRoll();
         void TutorAttack();
+        void TutorWall();
+        void TutorBulletTime();
 
 
         void TutorSuccess(TutorialStage _Stage);

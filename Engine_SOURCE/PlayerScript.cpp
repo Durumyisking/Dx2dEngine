@@ -26,6 +26,8 @@ namespace dru
 		, mbLRKeyupTimerOn(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
+		, mJumpdust(nullptr)
+		, mLanddust(nullptr)
 	{
 	}
 	CPlayerScript::~CPlayerScript()
@@ -170,7 +172,7 @@ namespace dru
 				mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 			}
 
-
+			createLanddust();
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -396,6 +398,16 @@ namespace dru
 
 	}
 
+	void CPlayerScript::jumpdustComplete()
+	{
+		mJumpdust->Die();
+	}
+
+	void CPlayerScript::landdustComplete()
+	{
+		mLanddust->Die();
+	}
+
 	void CPlayerScript::idleToRun()
 	{
 		if (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1))
@@ -548,6 +560,8 @@ namespace dru
 				mState.reset();
 				mState[(UINT)ePlayerState::Jump] = true;
 				mAnimator->Play(L"Player_Jump", false);
+
+				createJumpdust(false);
 			}
 		}
 		else
@@ -657,9 +671,15 @@ namespace dru
 				mRigidbody->SetMaxVelocity({ 6.f, 3.f, 0.f });
 
 				if (GetOwner()->IsLeft())
+				{
+					createJumpdust(true, -90.f);
 					GetOwner()->SetRight();
+				}
 				else
+				{
+					createJumpdust(true, 90.f);
 					GetOwner()->SetLeft();
+				}
 			}
 		}
 
@@ -730,6 +750,62 @@ namespace dru
 					mRigidbody->AddForce(mAttackDir * 40.f);
 			}
 		}
+	}
+
+	void CPlayerScript::createJumpdust(bool _bIsSide, float _Radian)
+	{
+		if (mJumpdust)
+			mJumpdust->Die();
+
+		mJumpdust = object::Instantiate<CGameObj>(eLayerType::FX, L"jumpdust");
+		CSpriteRenderer* SpriteRenderer = mJumpdust->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"dustMat");
+		SpriteRenderer->SetMaterial(Material);
+
+		Vector3 playerPos = GetOwner()->GetPos();
+
+		if (_bIsSide)
+		{
+			if (GetOwner()->IsLeft())
+			{
+				mJumpdust->SetPos({ playerPos.x + 0.30f, playerPos.y, playerPos.z - 0.001f });
+			}
+			else
+			{
+				mJumpdust->SetPos({ playerPos.x - 0.30f, playerPos.y, playerPos.z - 0.001f });
+			}
+		}
+		else
+		{
+			mJumpdust->SetPos({ playerPos.x, playerPos.y + 0.1f , playerPos.z - 0.001f });
+		}
+
+		mJumpdust->GetComponent<CTransform>()->SetRotation({ 0.f, 0.f, _Radian });
+
+		CAnimator* mAnimator = mJumpdust->AddComponent<CAnimator>(eComponentType::Animator);
+		mAnimator->Create(L"jumpdust", Material->GetTexture(), { 222.f, 0.f }, { 32.f, 51.f }, Vector2::Zero, 4, { 60.f, 60.f }, 0.05f);
+		mAnimator->Play(L"jumpdust", false);
+		mAnimator->GetCompleteEvent(L"jumpdust") = std::bind(&CPlayerScript::jumpdustComplete, this);
+
+	}
+
+	void CPlayerScript::createLanddust()
+	{
+		if (mLanddust)
+			mLanddust->Die();
+
+			mLanddust = object::Instantiate<CGameObj>(eLayerType::FX, L"landdust");
+			CSpriteRenderer* SpriteRenderer = mLanddust->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"landdustMat");
+			SpriteRenderer->SetMaterial(Material);
+
+			Vector3 playerPos = GetOwner()->GetPos();
+			mLanddust->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
+
+			CAnimator* mAnimator = mLanddust->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"landdust", Material->GetTexture(), { 0.f, 0.f }, { 50.f, 14.f }, Vector2::Zero, 7, { 60.f, 60.f }, 0.05f);
+			mAnimator->Play(L"landdust", false);
+			mAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
 	}
 
 	void CPlayerScript::wallLRCheck()

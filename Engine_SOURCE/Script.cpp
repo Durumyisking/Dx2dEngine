@@ -58,7 +58,12 @@ namespace dru
 
 
 		Vector3 rotation = SlashObj->GetRotation();
+
+		
 		rotation.z = atan2(MousePos.y - SlashObj->GetPos().y, MousePos.x - SlashObj->GetPos().x);
+
+		rotation.z = rotation.z * 180 / XM_PI;
+
 		SlashObj->SetRotation(rotation);
 
 

@@ -37,7 +37,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mbLoad(false)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPlayer(nullptr)
 
 	{
