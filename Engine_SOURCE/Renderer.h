@@ -56,6 +56,7 @@ namespace dru::renderer
 		float	fValue;
 		int		bFadeType;
 		int		bTextureType;
+		int		bFadeSwitch;
 	};
 
 	CBUFFER(ColorCB, CBSLOT_COLOR)

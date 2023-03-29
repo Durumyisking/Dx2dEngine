@@ -36,6 +36,8 @@ namespace dru
 
 		cb->Bind(&data);
 		cb->SetPipeline(eShaderStage::PS);
+
+
 	}
 
 }

@@ -27,10 +27,19 @@ namespace dru
         virtual void Update();
 
         void TutorMove();
+        void TutorJumpAndCrouch();
+        void TutorRoll();
+        void Attack();
+
+
+        void TutorSuccess(TutorialStage _Stage);
+        void TutorReset(TutorialStage _Stage);
 
     private:
         void LComplete();
         void RComplete();
+        void UComplete();
+        void DComplete();
 
 
     private:
@@ -44,7 +53,7 @@ namespace dru
         CGameObj*         mTutorialtxt;
 
         CGameObj* mTutorBg;
-        CGameObj* mTutorBg1Target;
+        CGameObj* mTutorBgTarget;
 
         // keys
         CGameObj* mKeyLeft;
@@ -57,6 +66,7 @@ namespace dru
 
 
         float   mFadeTimer;
+        float   mTutorGapTimer;
         bool    mbFadeDone;
         bool    mbZoomDone;
         bool    mbMaskMove;
@@ -66,6 +76,10 @@ namespace dru
 
         UINT    mT1LCount;
         UINT    mT1RCount;
+
+        UINT    mT2JumpCount;
+
+        UINT    mT3RollCount;
 
         TutorialStage mTutorStage;
 

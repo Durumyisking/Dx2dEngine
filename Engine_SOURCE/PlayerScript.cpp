@@ -148,13 +148,29 @@ namespace dru
 				mState[(UINT)ePlayerState::Run] = true;
 				mAnimator->Play(L"Player_Run");
 			}
+
 			if (CInput::GetKeyDown(eKeyCode::A))
 				GetOwner()->SetLeft();
 			if (CInput::GetKeyDown(eKeyCode::D))
 				GetOwner()->SetRight();
 			mRigidbody->SetGround();
-			Vector3 vel = mRigidbody->GetVelocity();
-			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+
+
+			if (CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
+			{
+				Vector3 vel = mRigidbody->GetMaxVelocity();
+				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+				mState.reset();
+				mState[(UINT)ePlayerState::Roll] = true;
+				mAnimator->Play(L"Player_Roll", false);
+			}
+			else
+			{
+				Vector3 vel = mRigidbody->GetVelocity();
+				mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+			}
+
+
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -405,14 +421,10 @@ namespace dru
 			if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
 			{
 				mRigidbody->AddForce(mTransform->Right() * -50.f);
-				if (CInput::GetKeyTap(eKeyCode::S))
-					rollTrigger();
 			}
 			if (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1))
 			{
 				mRigidbody->AddForce(mTransform->Right() * 50.f);
-				if (CInput::GetKeyTap(eKeyCode::S))
-					rollTrigger();
 			}
 
 		}
@@ -469,22 +481,39 @@ namespace dru
 
 	void CPlayerScript::rollTrigger()
 	{
-		if (CInput::GetKeyDown(eKeyCode::S) && mState[(UINT)ePlayerState::Roll] == false)
+		if (mState[(UINT)ePlayerState::Roll] == false)
 		{
-			if (NotowardToWallCheck_KeyDown())
+			if (CInput::GetKeyDown(eKeyCode::S))
 			{
-				if (CInput::GetKeyDown(eKeyCode::A))
-					GetOwner()->SetLeft();
-				if (CInput::GetKeyDown(eKeyCode::D))
-					GetOwner()->SetRight();
+				if (NotowardToWallCheck_KeyTap())
+				{
+					if (CInput::GetKeyTap(eKeyCode::A))
+						GetOwner()->SetLeft();
+					if (CInput::GetKeyTap(eKeyCode::D))
+						GetOwner()->SetRight();
 
 
-				Vector3 vel = mRigidbody->GetMaxVelocity();
-				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-				mState.reset();
-				mState[(UINT)ePlayerState::Roll] = true;
-				mAnimator->Play(L"Player_Roll", false);
+					Vector3 vel = mRigidbody->GetMaxVelocity();
+					mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+					mState.reset();
+					mState[(UINT)ePlayerState::Roll] = true;
+					mAnimator->Play(L"Player_Roll", false);
 
+				}
+			}
+			else if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
+			{
+				if (NotowardToWallCheck_KeyDown())
+				{
+					if (CInput::GetKeyTap(eKeyCode::S))
+					{
+						Vector3 vel = mRigidbody->GetMaxVelocity();
+						mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+						mState.reset();
+						mState[(UINT)ePlayerState::Roll] = true;
+						mAnimator->Play(L"Player_Roll", false);
+					}
+				}
 			}
 
 		}

@@ -6,6 +6,7 @@ namespace dru
 {
 	CStage1::CStage1()
 	{
+		mReady = eReadyState::LoadEnd;
 	}
 
 	CStage1::~CStage1()
