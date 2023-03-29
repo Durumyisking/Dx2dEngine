@@ -15,3 +15,5 @@ VTX_OUT main(VTX_IN _in)
 
     return output; // 얘를 레스터라이저에 보내줌
 }
+
+

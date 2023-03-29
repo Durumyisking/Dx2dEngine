@@ -71,7 +71,7 @@ namespace dru
 
 
 			// set left right
-			if (mState[(UINT)ePlayerState::Attack] == false)
+			if (mState[(UINT)ePlayerState::TutorAttack] == false)
 			{
 				if (mState[(UINT)ePlayerState::WallKick] == false)
 				{
@@ -708,18 +708,18 @@ namespace dru
 					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
 					mRigidbody->AddVelocity(mAttackDir * 5.f);
 					mState.reset();
-					mState[(UINT)ePlayerState::Attack] = true;
+					mState[(UINT)ePlayerState::TutorAttack] = true;
 					mAnimator->Play(L"Player_Attack", false);
 				}
 				mAttackCooldown = 0.f;
 			}
 		}
-		if (mState[(UINT)ePlayerState::Attack] == true)
+		if (mState[(UINT)ePlayerState::TutorAttack] == true)
 		{
 			mAttackTime += CTimeMgr::DeltaTime();
 			if (0.15f <= mAttackTime)
 			{
-				mState[(UINT)ePlayerState::Attack] = false;
+				mState[(UINT)ePlayerState::TutorAttack] = false;
 				mAttackTime = 0.f;
 				mbFirstAttack = false;
 				mAttackDir = Vector3::Zero;

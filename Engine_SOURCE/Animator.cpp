@@ -48,9 +48,13 @@ namespace dru
 		}
 		UINT spriteIndex = mCurrentAnimation->update();
 
-		if (spriteIndex != -1 && events->mFrameEvents[spriteIndex].mEvent)
+		if (nullptr != events)
 		{
-			events->mFrameEvents[spriteIndex].mEvent();
+			if (spriteIndex != -1 && events->mFrameEvents[spriteIndex].mEvent)
+			{
+				events->mFrameEvents[spriteIndex].mEvent();
+			}
+
 		}
 	}
 

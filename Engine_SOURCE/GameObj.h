@@ -121,9 +121,31 @@ namespace dru
 			return false;
 		}
 
-		void Active() { mState = eState::Active; }
-		void Pause() { mState = eState::Paused; }
-		void Die() { mState = eState::Dead; }
+		void Active() 
+		{
+			if (!this)
+			{
+				return;
+			}
+			mState = eState::Active; 
+		}
+		void Pause() 
+		{
+			if (!this)
+			{
+				return;
+			}
+			mState = eState::Paused; 
+		}
+		void Die() 
+		{
+			if (!this)
+			{
+				return;
+			}
+
+			mState = eState::Dead; 
+		}
 
 		eState GetState() const { return mState; }
 

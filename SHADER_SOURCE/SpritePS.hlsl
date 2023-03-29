@@ -39,17 +39,6 @@ float4 main(VTX_OUT _in) : SV_Target
     color *= lightcolor.diffuse;
     
     
-    //float alpha = 1.f;
-    
-    //if (fade_bFadeType == 0) // 0 : fade out, 1 : in
-    //{
-    //    alpha = saturate(1 - (fade_fValue));
-    //}
-    //else if (fade_bFadeType == 1)
-    //{
-    //    alpha = saturate(0 + (fade_fValue));
-
-    //}
     
     return color;
     

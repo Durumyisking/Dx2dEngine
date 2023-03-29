@@ -29,7 +29,7 @@ namespace dru
         void TutorMove();
         void TutorJumpAndCrouch();
         void TutorRoll();
-        void Attack();
+        void TutorAttack();
 
 
         void TutorSuccess(TutorialStage _Stage);
@@ -74,12 +74,10 @@ namespace dru
         bool    mbTutorBgMoveDone;
 
 
-        UINT    mT1LCount;
-        UINT    mT1RCount;
+        UINT    mCount1;
+        UINT    mCount2;
+        UINT    mCount3;
 
-        UINT    mT2JumpCount;
-
-        UINT    mT3RollCount;
 
         TutorialStage mTutorStage;
 

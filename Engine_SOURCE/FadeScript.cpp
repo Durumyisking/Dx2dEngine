@@ -14,6 +14,7 @@ namespace dru
 		, mFadeType(1)
 		, mStart(1)
 		, mtime(0)
+		, mFadeTextureType(1)
 	{
 	}
 

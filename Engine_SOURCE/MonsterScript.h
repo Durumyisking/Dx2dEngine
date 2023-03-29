@@ -7,7 +7,7 @@ namespace dru
     {
         Idle, //0
         Run,// 2
-        Attack,// 5 
+        TutorAttack,// 5 
         Fall,// 11
         Die,
 

@@ -11,10 +11,9 @@ namespace dru
 		, mbMaskMove(false)
 		, mbTutorBgMoveDone(false)
 
-		, mT1RCount(0)
-		, mT1LCount(0)
-		, mT2JumpCount(0)
-		, mT3RollCount(0)
+		, mCount1(0)
+		, mCount2(0)
+		, mCount3(0)
 
 		, mMaskTarget(nullptr)
 		, mCamTarget(nullptr)
@@ -113,12 +112,6 @@ namespace dru
 			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
-
-		{
-			CGrunt* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.3f, 4.999f));
-		}
-
 	}
 
 	void CStageTutorial::Update()
@@ -246,7 +239,7 @@ namespace dru
 			}
 			else if (mTutorStage == TutorialStage::Attack)
 			{
-				Attack();
+				TutorAttack();
 			}
 
 
@@ -298,18 +291,18 @@ namespace dru
 		}
 		else
 		{
-			if (3 <= mT1LCount && 3 <= mT1RCount)
+			if (3 <= mCount1 && 3 <= mCount2)
 			{
 				TutorSuccess(TutorialStage::Jump_Crouch);
 			}
 
 			if (CInput::GetKeyTap(eKeyCode::A))
 			{
-				++mT1LCount;
+				++mCount1;
 			}
 			if (CInput::GetKeyTap(eKeyCode::D))
 			{
-				++mT1RCount;
+				++mCount2;
 			}
 
 		}
@@ -358,14 +351,14 @@ namespace dru
 		}
 		else
 		{
-			if (3 <= mT2JumpCount)
+			if (3 <= mCount1)
 			{
 				TutorSuccess(TutorialStage::Roll);
 			}
 
 			if (CInput::GetKeyTap(eKeyCode::W))
 			{
-				++mT2JumpCount;
+				++mCount1;
 			}
 
 		}
@@ -426,7 +419,7 @@ namespace dru
 		}
 		else
 		{
-			if (3 <= mT3RollCount)
+			if (3 <= mCount1)
 			{
 				TutorSuccess(TutorialStage::Attack);
 			}
@@ -434,12 +427,12 @@ namespace dru
 			if ((CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D)))
 				|| (CInput::GetKeyTap(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))))
 			{
-				++mT3RollCount;
+				++mCount1;
 			}
 		}
 	}
 
-	void CStageTutorial::Attack()
+	void CStageTutorial::TutorAttack()
 	{
 		if (!mbTutorBgMoveDone)
 		{
@@ -448,45 +441,21 @@ namespace dru
 			if (mTutorBg->MoveToTarget_Smooth(mTutorBgTarget, 0.3f))
 			{
 				{
-					mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyA");
-					CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
-					SpriteRenderer->SetMaterial(Material);
-					mKeyLeft->SetPos(Vector3(-0.2f, -0.5f, 0.f));
-
-					CAnimator* mAnimator = mKeyLeft->AddComponent<CAnimator>(eComponentType::Animator);
-					mAnimator->Create(L"KeyA_none", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
-					mAnimator->Create(L"KeyA_anim", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
-					mAnimator->Play(L"KeyA_anim", false);
-					mAnimator->GetCompleteEvent(L"KeyA_anim") = std::bind(&CStageTutorial::LComplete, this);
-
+					CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+					mMon->SetPos(Vector3(-2.f, -2.3f, 4.999f));
 				}
 
 				{
-					mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyD");
-					CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					mKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"LClick");
+					CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 					SpriteRenderer->SetMaterial(Material);
-					mKeyRight->SetPos(Vector3(0.2f, -0.5f, 0.f));
+					mKeyLClick->SetPos(Vector3(0.f, -0.4f, 0.f));
 
-					CAnimator* mAnimator = mKeyRight->AddComponent<CAnimator>(eComponentType::Animator);
-					mAnimator->Create(L"KeyD_none", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
-					mAnimator->Create(L"KeyD_anim", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
-					mAnimator->Play(L"KeyD_none");
-					mAnimator->GetCompleteEvent(L"KeyD_anim") = std::bind(&CStageTutorial::RComplete, this);
-				}
+					CAnimator* mAnimator = mKeyLClick->AddComponent<CAnimator>(eComponentType::Animator);
+					mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 75.f, 60.f }, 0.5f);
+					mAnimator->Play(L"LClick_anim");
 
-				{
-					mKeyDown = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyS");
-					CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
-					SpriteRenderer->SetMaterial(Material);
-					mKeyDown->SetPos(Vector3(0.f, -0.5f, 0.f));
-
-					CAnimator* mAnimator = mKeyDown->AddComponent<CAnimator>(eComponentType::Animator);
-					mAnimator->Create(L"KeyS_none", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
-					mAnimator->Create(L"KeyS_anim", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
-					mAnimator->Play(L"KeyS_anim");
 				}
 
 				mbTutorBgMoveDone = true;
@@ -494,15 +463,14 @@ namespace dru
 		}
 		else
 		{
-			if (3 <= mT3RollCount)
+			if (3 <= mCount1)
 			{
 				TutorSuccess(TutorialStage::Attack);
 			}
 
-			if ((CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D)))
-				|| (CInput::GetKeyTap(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))))
+			if (CInput::GetKeyTap(eKeyCode::LBTN))
 			{
-				++mT3RollCount;
+				++mCount1;
 			}
 		}
 	}
@@ -532,19 +500,20 @@ namespace dru
 		case dru::TutorialStage::Move:
 			break;
 		case dru::TutorialStage::Jump_Crouch:
-			mT1LCount = 0;
-			mT1RCount = 0;
 			mKeyLeft->Die();
 			mKeyRight->Die();
 			break;
 		case dru::TutorialStage::Roll:
-			mT2JumpCount = 0;
 			mKeyUp->Die();
 			mKeyDown->Die();
 			break;
 		case dru::TutorialStage::Attack:
+			mKeyLeft->Die();
+			mKeyRight->Die();
+			mKeyDown->Die();
 			break;
 		case dru::TutorialStage::Wall:
+			mKeyLClick->Die();
 			break;
 		case dru::TutorialStage::BulletTime:
 			break;
@@ -553,6 +522,9 @@ namespace dru
 		default:
 			break;
 		}
+		mCount1 = 0;
+		mCount2 = 0;
+		mCount3 = 0;
 		mTutorBgTarget->SetPos(Vector3(0.f, 2.f, 4.999f));
 		mTutorBg->GetScript<CBackgroundColorScript>()->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
 	}

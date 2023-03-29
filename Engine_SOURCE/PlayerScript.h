@@ -10,7 +10,7 @@ namespace dru
         Run,// 2
         RunToIdle,// 3
         Jump,// 4
-        Attack,// 5 
+        TutorAttack,// 5 
         Crouch,// 6
         Roll,// 7
         WallSlideUp,// 8

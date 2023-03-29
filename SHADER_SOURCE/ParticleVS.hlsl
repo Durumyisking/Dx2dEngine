@@ -3,7 +3,7 @@
 struct VSIn
 {
     float4 Pos : POSITION;
-    uint iInstance : SV_InstanceID;
+    uint iInstance : SV_InstanceID; // drawindexedinstance 하면 자동으로 들어간다.
 };
 
 struct VSOut
