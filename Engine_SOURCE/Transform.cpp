@@ -42,23 +42,22 @@ namespace dru
 	void CTransform::SetWorldMatrix()
 	{
 		Matrix scale = Matrix::CreateScale(mScale);
+	
+		
+		Vector3 rotation = DegreeToRadian(mRotation);
+		Matrix rotationMatrix;
+		rotationMatrix = Matrix::CreateRotationX(rotation.x);
+		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
+		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
 
-		Matrix rotation;
+		Matrix positionMatrix;
+		positionMatrix.Translation(mPosition);
 
-		Vector3 radian = DegreeToRadian(mRotation);
+		mWorld = scale * rotationMatrix * positionMatrix;
 
-		rotation = Matrix::CreateRotationX(radian.x);
-		rotation *= Matrix::CreateRotationY(radian.y);
-		rotation *= Matrix::CreateRotationZ(radian.z);
-
-		Matrix translation;
-		translation.Translation(mPosition);
-
-		mWorld = scale * rotation * translation;
-
-		mForward = Vector3::TransformNormal(Vector3::Forward, rotation); // 기저벡터 같이 변형시켜준다.
-		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
-		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
+		mForward = Vector3::TransformNormal(Vector3::Forward, rotationMatrix); // 기저벡터 같이 변형시켜준다.
+		mRight = Vector3::TransformNormal(Vector3::Right, rotationMatrix);
+		mUp = Vector3::TransformNormal(Vector3::Up, rotationMatrix);
 
 
 		if (mParent)
@@ -91,7 +90,7 @@ namespace dru
 
 	Vector3 CTransform::DegreeToRadian(Vector3 _Degree)
 	{
-		return _Degree * (XM_PI / 180);
+		return _Degree * XM_PI / 180;
 	}
 
 

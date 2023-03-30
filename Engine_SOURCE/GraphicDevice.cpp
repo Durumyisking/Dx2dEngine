@@ -317,7 +317,15 @@ namespace dru::graphics
 		mContext->Unmap(_Buffer, 0); // 점유 해제
 	}
 
-	void CGraphicDevice::SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer)
+	void CGraphicDevice::ClearConstantBuffer(ID3D11Buffer* buffer, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+		memset(sub.pData, 0, size);
+		mContext->Unmap(buffer, 0);
+	}
+
+	void CGraphicDevice::BindConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer)
 	{
 		switch (_Stage)
 		{

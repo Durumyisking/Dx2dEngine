@@ -110,13 +110,29 @@ namespace dru
 		tr->SetPosition(mesh.position);
 		tr->SetRotation(mesh.rotation);
 
-		if (eColliderType::Rect == mesh.type)
+		switch (mesh.type)
+		{
+		case dru::enums::eColliderType::Rect:
 			tr->SetScale(mesh.scale);
-		else
+			break;
+		case dru::enums::eColliderType::Circle:
 			tr->SetScale(Vector3(mesh.radius));
+			break;
+		case dru::enums::eColliderType::Box:
+			break;
+		case dru::enums::eColliderType::Sphere:
+			break;
+		case dru::enums::eColliderType::End:
+			break;
+		default:
+			break;
+		}
+
 		
 		CBaseRenderer* renderer = debugObj->GetComponent<CBaseRenderer>();
 
+		std::shared_ptr<CMaterial> material = renderer->GetMaterial();
+		material->SetData(eGPUParam::Int_1, &mesh.state);
 		tr->fixedUpdate(); // 행렬 다시만들어줌
 
 		CCamera::SetGpuViewMatrix(renderer::mainCamera->GetViewMatrix());

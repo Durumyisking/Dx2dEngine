@@ -196,7 +196,7 @@ namespace dru
 
 				int isInverse = mbIsLeft ? INVERSE : NORMAL;
 
-				mtrl->SetData(eGPUParam::Int, &isInverse);
+				mtrl->SetData(eGPUParam::Int_1, &isInverse);
 			}
 		}
 

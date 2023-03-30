@@ -5,6 +5,7 @@ namespace dru::graphics
 	CMaterial::CMaterial()
 		:CResource(eResourceType::Material)
 		, mMode(eRenderingMode::Transparent)
+		, mConstantBuffer{}
 
 	{
 	}
@@ -33,23 +34,77 @@ namespace dru::graphics
 	{
 		switch (_Param)
 		{
-		case dru::graphics::eGPUParam::Int:
+		case graphics::eGPUParam::Int_1:
 			mConstantBuffer.iData1 = *static_cast<int*>(_Data);
 			break;
-		case dru::graphics::eGPUParam::Float:
+		case graphics::eGPUParam::Int_2:
+			mConstantBuffer.iData2 = *static_cast<int*>(_Data);
+			break;
+		case graphics::eGPUParam::Int_3:
+			mConstantBuffer.iData3 = *static_cast<int*>(_Data);
+			break;
+		case graphics::eGPUParam::Int_4:
+			mConstantBuffer.iData4 = *static_cast<int*>(_Data);
+			break;
+		case graphics::eGPUParam::Float_1:
 			mConstantBuffer.fData1 = *static_cast<float*>(_Data);
 			break;
-		case dru::graphics::eGPUParam::Vector2:
+		case graphics::eGPUParam::Float_2:
+			mConstantBuffer.fData2 = *static_cast<float*>(_Data);
+			break;
+		case graphics::eGPUParam::Float_3:
+			mConstantBuffer.fData3 = *static_cast<float*>(_Data);
+			break;
+		case graphics::eGPUParam::Float_4:
+			mConstantBuffer.fData4 = *static_cast<float*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector2_1:
 			mConstantBuffer.xy1 = *static_cast<Vector2*>(_Data);
 			break;
-		case dru::graphics::eGPUParam::Vector3:
+		case graphics::eGPUParam::Vector2_2:
+			mConstantBuffer.xy2 = *static_cast<Vector2*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector2_3:
+			mConstantBuffer.xy3 = *static_cast<Vector2*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector2_4:
+			mConstantBuffer.xy4 = *static_cast<Vector2*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector3_1:
 			mConstantBuffer.xyz1 = *static_cast<Vector3*>(_Data);
 			break;
-		case dru::graphics::eGPUParam::Vector4:
+		case graphics::eGPUParam::Vector3_2:
+			mConstantBuffer.xyz2 = *static_cast<Vector3*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector3_3:
+			mConstantBuffer.xyz3 = *static_cast<Vector3*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector3_4:
+			mConstantBuffer.xyz4 = *static_cast<Vector3*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector4_1:
 			mConstantBuffer.xyzw1 = *static_cast<Vector4*>(_Data);
 			break;
-		case dru::graphics::eGPUParam::Matrix:
+		case graphics::eGPUParam::Vector4_2:
+			mConstantBuffer.xyzw2 = *static_cast<Vector4*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector4_3:
+			mConstantBuffer.xyzw3 = *static_cast<Vector4*>(_Data);
+			break;
+		case graphics::eGPUParam::Vector4_4:
+			mConstantBuffer.xyzw4 = *static_cast<Vector4*>(_Data);
+			break;
+		case graphics::eGPUParam::Matrix_1:
 			mConstantBuffer.matrix1 = *static_cast<Matrix*>(_Data);
+			break;
+		case graphics::eGPUParam::Matrix_2:
+			mConstantBuffer.matrix2 = *static_cast<Matrix*>(_Data);
+			break;
+		case graphics::eGPUParam::Matrix_3:
+			mConstantBuffer.matrix3 = *static_cast<Matrix*>(_Data);
+			break;
+		case graphics::eGPUParam::Matrix_4:
+			mConstantBuffer.matrix4 = *static_cast<Matrix*>(_Data);
 			break;
 		default:
 			break;
@@ -88,5 +143,9 @@ namespace dru::graphics
 
 			mTexture[i]->Clear();
 		}
+
+		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
+		pCB->Clear();
+
 	}
 }

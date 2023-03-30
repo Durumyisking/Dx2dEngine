@@ -22,6 +22,9 @@ namespace dru
 
 		void SetPosition(Vector3 _Value) { mPosition = _Value; }
 		void SetRotation(Vector3 _Value) { mRotation = _Value; }
+		void SetRotationX(float _Value) { mRotation.x = _Value; }
+		void SetRotationY(float _Value) { mRotation.y = _Value; }
+		void SetRotationZ(float _Value) { mRotation.z = _Value; }
 		void SetScale(Vector3 _Value) { mScale = _Value; }
 
 		void SetWorldMatrix();

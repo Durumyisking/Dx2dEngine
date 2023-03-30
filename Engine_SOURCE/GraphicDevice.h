@@ -45,7 +45,8 @@ namespace dru::graphics
 
 		void BindViewports(D3D11_VIEWPORT* _ViewPort);
 		void BindBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size);
-		void SetConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
+		void ClearConstantBuffer(ID3D11Buffer* buffer, UINT size);
+		void BindConstantBuffer(eShaderStage _Stage, eCBType _Type, ID3D11Buffer* _Buffer); // 쉐이더에 상수버퍼 데이터 보내줌
 
 		void BindShaderResource(eShaderStage _Stage, UINT _Slot, ID3D11ShaderResourceView* const* _ppShaderResourceViews);
 								// 어떤쉐이더			//어떤타입

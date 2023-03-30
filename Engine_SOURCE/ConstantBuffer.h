@@ -17,11 +17,11 @@ namespace dru::graphics
 		bool Create(UINT _Size);
 		void SetData(void* _Data);
 		void Bind(eShaderStage _Stage);
+		void Clear();
 
 
 	private:
 		const eCBType mType;
-		int iData;
 	};
 
 

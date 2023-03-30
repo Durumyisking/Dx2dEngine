@@ -29,8 +29,7 @@ namespace dru
 		}
 
 		GetOwner()->SetPos(pos);
-		
-
+	
 	}
 	void CSlashScript::fixedUpdate()
 	{
