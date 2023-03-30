@@ -46,12 +46,12 @@ namespace dru::graphics
 			D3D11_SUBRESOURCE_DATA tSub = {};
 			tSub.pSysMem = _data;
 
-			if (FAILED(GetDevice()->CreateBuffer(&desc, &tSub, buffer.GetAddressOf())))
+			if (!GetDevice()->CreateBuffer(&desc, &tSub, buffer.GetAddressOf()))
 				return false;
 		}
 		else
 		{
-			if (FAILED(GetDevice()->CreateBuffer(&desc, nullptr, buffer.GetAddressOf())))
+			if (!GetDevice()->CreateBuffer(&desc, nullptr, buffer.GetAddressOf()))
 				return false;
 		}
 
@@ -59,7 +59,7 @@ namespace dru::graphics
 		srvDesc.BufferEx.NumElements = mStride;
 		srvDesc.ViewDimension = D3D_SRV_DIMENSION_BUFFEREX;
 
-		if (FAILED(GetDevice()->CreateShaderResourceView(buffer.Get(), &srvDesc, mSRV.GetAddressOf())))
+		if (!GetDevice()->CreateShaderResourceView(buffer.Get(), &srvDesc, mSRV.GetAddressOf()))
 			return false;
 
 		if (mType == eSRVType::UAV)
@@ -68,7 +68,7 @@ namespace dru::graphics
 			uavDesc.Buffer.NumElements = mStride;
 			uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 
-			if (FAILED(GetDevice()->CreateUnorderedAccessView(buffer.Get(), &uavDesc, mUAV.GetAddressOf())))
+			if (!GetDevice()->CreateUnorderedAccessView(buffer.Get(), &uavDesc, mUAV.GetAddressOf()))
 				return false;
 		}
 
@@ -91,10 +91,13 @@ namespace dru::graphics
 
 	void CStructedBuffer::BindSRV(eShaderStage _stage, UINT _slot)
 	{
+		mSRVSlot = _slot;
+
 		GetDevice()->BindShaderResource(_stage, _slot, mSRV.GetAddressOf());
 	}
 	void CStructedBuffer::BindUAV(eShaderStage stage, UINT slot)
 	{
+		mUAVSlot = slot;
 		UINT i = -1;
 		GetDevice()->BindUnorderedAccessView(slot, 1, mUAV.GetAddressOf(), &i);
 	}

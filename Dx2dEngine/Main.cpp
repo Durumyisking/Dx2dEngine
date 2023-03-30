@@ -6,6 +6,9 @@
 #include "Application.h"
 #include "Editor.h"
 
+//#include <dxgidebug.h>
+//#include <d3d11sdklayers.h>
+
 #ifdef _DEBUG
 #pragma comment(lib, "../x64/Debug/lib/Engine_SOURCE.lib")
 #else
@@ -13,6 +16,29 @@
 #endif
 
 #define MAX_LOADSTRING 100
+
+//#ifdef _DEBUG
+//#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+//#endif
+
+//#ifdef _DEBUG
+//void D3DMemLeak()
+//{
+//    HMODULE dll = GetModuleHandleW(L"dxgidebug.dll");
+//    decltype(&DXGIGetDebugInterface) GetDebugInterface = reinterpret_cast<decltype (&DXGIGetDebugInterface)> (GetProcAddress(dll, "DXGIGetDebugInterface"));
+//    IDXGIDebug* debug;
+//
+//    GetDebugInterface(IID_PPV_ARGS(&debug));
+//
+//    OutputDebugStringW(L"------------------------------------------------------------------------");
+//    debug->ReportLiveObjects(DXGI_DEBUG_D3D11, DXGI_DEBUG_RLO_DETAIL);
+//    OutputDebugStringW(L"------------------------------------------------------------------------");
+//
+//    debug->Release();
+//}
+//
+//#endif
+
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
@@ -40,6 +66,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_DX2DENGINE, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+    //_CrtDumpMemoryLeaks();
+
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     if (!InitInstance (hInstance, nCmdShow))
     {
@@ -73,6 +102,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
     
     editor.destroy();
+
+  //  D3DMemLeak();
     return (int)msg.wParam;
 }
 

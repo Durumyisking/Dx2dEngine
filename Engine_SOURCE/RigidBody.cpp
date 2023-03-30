@@ -44,6 +44,7 @@ namespace dru
 		}
 		else
 		{
+
 		}
 
 		mVelocity += mAccel * CTimeMgr::DeltaTime();

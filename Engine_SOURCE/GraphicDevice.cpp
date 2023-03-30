@@ -75,23 +75,6 @@ namespace dru::graphics
 		mRenderTargetTexture->Create(renderTarget);
 		// Create Rendertarget View
 
-		// Depth/Stencil buffer
-		D3D11_TEXTURE2D_DESC depthBuffer = {};
-		depthBuffer.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
-		depthBuffer.Usage = D3D11_USAGE_DEFAULT;
-		depthBuffer.CPUAccessFlags = 0;
-
-		depthBuffer.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthBuffer.Width = application.GetWidth();
-		depthBuffer.Height = application.GetHeight();
-		depthBuffer.ArraySize = 1; // 깊이버퍼 하나만 쓸거니까
-
-		depthBuffer.SampleDesc.Count = 1;
-		depthBuffer.SampleDesc.Quality = 0;
-
-		depthBuffer.MipLevels = 0;
-		depthBuffer.MiscFlags = 0;
-
 		mDepthStencilBufferTexture = std::make_shared<CTexture>();
 		mDepthStencilBufferTexture->Create(1600, 900, DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 	

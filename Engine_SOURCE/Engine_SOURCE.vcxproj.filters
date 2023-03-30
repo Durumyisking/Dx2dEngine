@@ -146,9 +146,6 @@
     <Filter Include="Resource\Shader\ComputeShader">
       <UniqueIdentifier>{49cb38c7-a184-4e3a-883b-714c24dcbbf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Component\ParticleSystem">
-      <UniqueIdentifier>{5dc4739f-364e-43ca-86ec-b939e659c796}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObj\Monster\Grunt">
       <UniqueIdentifier>{1067e4ea-26b0-43a2-b5e2-ed4c2fef9e67}</UniqueIdentifier>
     </Filter>
@@ -157,6 +154,9 @@
     </Filter>
     <Filter Include="Scene\Stage">
       <UniqueIdentifier>{f7f29749-7cbe-4c63-90b3-6dcc489266eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Renderer\ParticleSystem">
+      <UniqueIdentifier>{5dc4739f-364e-43ca-86ec-b939e659c796}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -339,7 +339,7 @@
       <Filter>Resource\Shader\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
-      <Filter>Common\Component\ParticleSystem</Filter>
+      <Filter>Common\Component\Renderer\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Grunt.h">
       <Filter>GameObj\Monster\Grunt</Filter>
@@ -531,7 +531,7 @@
       <Filter>Resource\Shader\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Common\Component\ParticleSystem</Filter>
+      <Filter>Common\Component\Renderer\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Grunt.cpp">
       <Filter>GameObj\Monster\Grunt</Filter>

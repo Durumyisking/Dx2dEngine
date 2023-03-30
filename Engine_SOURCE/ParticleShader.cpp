@@ -12,12 +12,14 @@ namespace dru::graphics
 	}
 	CParticleShader::~CParticleShader()
 	{
+		delete mBuffer;
+		mBuffer = nullptr;
 	}
 	void CParticleShader::Bind()
 	{
 		mBuffer->BindUAV(eShaderStage::CS, 0);
 
-		mGroupX = mBuffer->GetStrideSize() / mThreadGroupCountX;
+		mGroupX = mBuffer->GetStrideSize() / mThreadGroupCountX + 1;
 		mGroupY = 1;
 		mGroupZ = 1;
 	}

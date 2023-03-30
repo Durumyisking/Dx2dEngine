@@ -9,3 +9,9 @@ struct Particle
     float speed;
     uint active;
 };
+
+
+struct ParticleShared
+{
+    uint gActiveCount;
+};

@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include "RigidBody.h"
 
 namespace dru
 {
@@ -37,6 +38,9 @@ namespace dru
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
 
+    private:
+        void deadgroundComplete();
+
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;
@@ -48,6 +52,8 @@ namespace dru
         bool mbDead;
 
         float mHitTimer;
+
+        std::wstring mMonsterName;
 
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
 

@@ -4,6 +4,7 @@
 #include "SceneMgr.h"
 #include "Scene.h"
 #include "PaintShader.h"
+#include "ParticleShader.h"
 
 
 namespace dru::renderer
@@ -449,6 +450,9 @@ namespace dru::renderer
 		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 		CResources::Insert<CShader>(L"ParticleShader", particleShader);
 
+		std::shared_ptr<CParticleShader> particleCS = std::make_shared<CParticleShader>();
+		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);
+		particleCS->Create(L"ParticleCS.hlsl", "main");
 
 	}
 

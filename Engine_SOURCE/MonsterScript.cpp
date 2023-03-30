@@ -2,10 +2,10 @@
 #include "Transform.h"
 #include "GameObj.h"
 #include "TimeMgr.h"
-#include "RigidBody.h"
 #include "Animator.h"
 #include "Object.h"
 #include "SlashScript.h"
+#include "Input.h"
 
 namespace dru
 {
@@ -20,6 +20,7 @@ namespace dru
 		, mbOnWall(false)
 		, mbDead(false)
 		, mHitTimer(0.f)
+		, mMonsterName{}
 	{
 
 	}
@@ -35,6 +36,9 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
+		mMonsterName = GetOwner()->GetName();
+
+		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
 	}
 
 	void CMonsterScript::update()
@@ -48,27 +52,45 @@ namespace dru
 		{
 			if (mState[(UINT)eMonsterState::DieGround] == false)
 			{
+				mHitTimer += CTimeMgr::DeltaTime();
+
+				if (mHitTimer <= 0.25f)
+				{
+					mRigidbody->AddVelocity({ mHitDir.x * 0.5f, mHitDir.y * 0.5f, 0.f });
+				}
+				mMoveDir = mRigidbody->GetVelocity();
+				mMoveDir.Normalize();
+
 				if (mMoveDir.y > 0.f)
 				{
 					mState[(UINT)eMonsterState::DieAirUp] = true;
-					mAnimator->Play(L"Grunt_DeadAirUp");
+					mAnimator->Play(mMonsterName + L"_DeadAirUp");
 				}
 				else if (mMoveDir.y < 0.f)
 				{
 					mState[(UINT)eMonsterState::DieAirDown] = true;
-					mAnimator->Play(L"Grunt_DeadAirDown");
+					mAnimator->Play(mMonsterName + L"_DeadAirDown");
 				}
-
-				mHitTimer += CTimeMgr::DeltaTime();
-
-				if (mHitTimer <= 1.f)
+				else if (mMoveDir.y == 0.f)
 				{
-					mRigidbody->AddForce({mHitDir.x * 30.f, mHitDir.y * 30.f, 0.f});
+					mState[(UINT)eMonsterState::DieGround] = true;
+					mAnimator->Play(mMonsterName + L"_DeadGround", false);
 				}
+
 			}
 		}
 
 		mTransform->SetPosition(mPos);
+
+		if (mMoveDir.x > 0.f)
+		{
+			GetOwner()->SetRight();
+		}
+		else if (mMoveDir.x < 0.f)
+		{
+			GetOwner()->SetLeft();
+		}
+		
 		GetOwner()->Flip();
 	}
 
@@ -86,13 +108,13 @@ namespace dru
 		{
 			mRigidbody->SetGround();
 			Vector3 vel = mRigidbody->GetVelocity();
-			mRigidbody->SetMaxVelocity({ 5.f, 0.f, vel.z });
-			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+//			mRigidbody->SetMaxVelocity({ 5.f, 0.f, vel.z });
+//			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 
 			if (mbDead)
 			{
 				mState[(UINT)eMonsterState::DieGround] = true;
-				mAnimator->Play(L"Grunt_DeadGround", false);
+				mAnimator->Play(mMonsterName+ L"_DeadGround", false);
 			}
 
 		}
@@ -103,17 +125,22 @@ namespace dru
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			mState.reset();
+			if (!mbDead)
+			{
+				mState.reset();
 
-			Vector3 playerPos = _oppo->GetOwner()->GetPos();
-			Vector3 monsterPos = GetOwner()->GetPos();
+				Vector3 MousePos = CInput::GetMousePosition();
+				MousePos /= 100.f;
 
-			mHitDir = playerPos - monsterPos;
-			mHitDir.Normalize();
+				Vector3 monsterPos = GetOwner()->GetPos();
 
-			mRigidbody->SetMaxVelocity({ 10.f, 10.f, 0.f });
+				mHitDir = MousePos - monsterPos;
+				mHitDir.Normalize();
 
-			mbDead = true;
+				mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+
+				mbDead = true;
+			}
 		}
 	}
 
@@ -143,6 +170,11 @@ namespace dru
 
 	void CMonsterScript::OnTriggerExit(CCollider2D* _oppo)
 	{
+	}
+
+	void CMonsterScript::deadgroundComplete()
+	{
+		//GetOwner()->Die();
 	}
 
 }
