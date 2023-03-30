@@ -20,15 +20,15 @@ namespace dru
 	}
 	void CSlashScript::update()
 	{
-		Vector3 pos = GetOwner()->GetPos();
-		if (CInput::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
-		{
-			CTransform* tr = GetOwner()->GetComponent<CTransform>();
-			pos -= 10.f * tr->Up() * CTimeMgr::DeltaTime();
+		//Vector3 pos = GetOwner()->GetPos();
+		//if (CInput::GetKeyState(eKeyCode::NUM_7) == eKeyState::DOWN)
+		//{
+		//	CTransform* tr = GetOwner()->GetComponent<CTransform>();
+		//	pos -= 10.f * tr->Up() * CTimeMgr::DeltaTime();
 
-		}
+		//}
 
-		GetOwner()->SetPos(pos);
+		//GetOwner()->SetPos(pos);
 	
 	}
 	void CSlashScript::fixedUpdate()
@@ -57,6 +57,6 @@ namespace dru
 	}
 	void CSlashScript::slashEnd()
 	{
-		//GetOwner()->Die();
+		GetOwner()->Die();
 	}
 }
