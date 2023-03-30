@@ -65,6 +65,15 @@ namespace dru::enums
 
 	};
 
+	enum class eCollisionState
+	{
+		CollisionNot = 0,
+		CollisionEnter,
+		CollisionStay,
+		CollisionExit,
+		End,
+	};
+
 	enum class eAnimationType
 	{
 		None,

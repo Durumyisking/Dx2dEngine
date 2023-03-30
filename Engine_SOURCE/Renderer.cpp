@@ -484,6 +484,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"dustfx", L"MainScene/FX/fx_dust.png");
 		CResources::Load<CTexture>(L"landdustfx", L"MainScene/FX/fx_landdust.png");
 
+		CResources::Load<CTexture>(L"particle_spark", L"MainScene/spark_particle.png");
+
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
 
 		CResources::Load<CTexture>(L"grunt", L"MainScene/Monster/Grunt.png");

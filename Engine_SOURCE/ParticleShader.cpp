@@ -12,8 +12,6 @@ namespace dru::graphics
 	}
 	CParticleShader::~CParticleShader()
 	{
-		delete mBuffer;
-		mBuffer = nullptr;
 	}
 	void CParticleShader::Bind()
 	{

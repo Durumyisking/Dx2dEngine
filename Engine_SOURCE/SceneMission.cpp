@@ -68,7 +68,7 @@ namespace dru
 			// main Ä«¸Þ¶ó
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->SetProjectionType(eProjectionType::Orthographic);
+			cameraComp->SetProjectionType(eProjectionType::Perspective);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
@@ -76,7 +76,7 @@ namespace dru
 
 		{
 			CGameObj* obj = object::Instantiate<CGameObj>(eLayerType::Particle);
-			obj->SetPos(Vector3(0.f, 0.f, 100.f));
+			obj->SetPos(Vector3(0.f, 0.f, 0.f));
 			obj->SetName(L"PARTICLE");
 			obj->AddComponent<CParticleSystem>(eComponentType::Particle);
 		}
@@ -90,7 +90,7 @@ namespace dru
 		//	CResources::Insert<CMaterial>(L"Black", Material);
 		//	SpriteRenderer->SetMaterial(Material);
 		//	mbgBlack->SetPos(Vector3(0.f, -1.f, 5.f));
-		//	mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
+		//	mbgBlack->SetRadius(Vector3(10.f, 10.f, 1.f));
 
 		//}
 
@@ -103,7 +103,7 @@ namespace dru
 		//	CResources::Insert<CMaterial>(L"job_leftMat", Material);
 		//	SpriteRenderer->SetMaterial(Material);
 		//	mJobLeft->SetPos(Vector3(-2.6f, 0.f, 3.f));
-		//	mJobLeft->SetScale(Vector3(0.75f, 0.75f, 1.f));
+		//	mJobLeft->SetRadius(Vector3(0.75f, 0.75f, 1.f));
 
 		//}
 
@@ -117,7 +117,7 @@ namespace dru
 		//	CResources::Insert<CMaterial>(L"job_rightMat", Material);
 		//	SpriteRenderer->SetMaterial(Material);
 		//	mJobRight->SetPos(Vector3(3.2f, -0.31f, 3.f));
-		//	mJobRight->SetScale(Vector3(5.5f, 5.5f, 1.f));
+		//	mJobRight->SetRadius(Vector3(5.5f, 5.5f, 1.f));
 
 		//}
 
@@ -130,7 +130,7 @@ namespace dru
 		//	CResources::Insert<CMaterial>(L"job_cornerMat", Material);
 		//	SpriteRenderer->SetMaterial(Material);
 		//	mJobCorner->SetPos(Vector3(2.9f, -0.75f, 3.f));
-		//	mJobCorner->SetScale(Vector3(6.f, 6.f, 1.f));
+		//	mJobCorner->SetRadius(Vector3(6.f, 6.f, 1.f));
 
 		//}
 

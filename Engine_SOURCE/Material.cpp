@@ -34,22 +34,22 @@ namespace dru::graphics
 		switch (_Param)
 		{
 		case dru::graphics::eGPUParam::Int:
-			mConstantBuffer.iData = *static_cast<int*>(_Data);
+			mConstantBuffer.iData1 = *static_cast<int*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Float:
 			mConstantBuffer.fData1 = *static_cast<float*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Vector2:
-			mConstantBuffer.xy = *static_cast<Vector2*>(_Data);
+			mConstantBuffer.xy1 = *static_cast<Vector2*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Vector3:
-			mConstantBuffer.xyz = *static_cast<Vector3*>(_Data);
+			mConstantBuffer.xyz1 = *static_cast<Vector3*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Vector4:
-			mConstantBuffer.xyzw = *static_cast<Vector4*>(_Data);
+			mConstantBuffer.xyzw1 = *static_cast<Vector4*>(_Data);
 			break;
 		case dru::graphics::eGPUParam::Matrix:
-			mConstantBuffer.matrix = *static_cast<Matrix*>(_Data);
+			mConstantBuffer.matrix1 = *static_cast<Matrix*>(_Data);
 			break;
 		default:
 			break;

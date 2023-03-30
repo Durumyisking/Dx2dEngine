@@ -5,7 +5,8 @@
 
 namespace dru
 {
-	UINT CCollider2D::mColliderID = 0;
+	UINT32 CCollider2D::colliderID = 0;
+
 	CCollider2D::CCollider2D()
 		: CComponent(eComponentType::Collider)
 		, mType(eColliderType::End)
@@ -14,8 +15,10 @@ namespace dru
 		, mCenter(Vector2::Zero)
 		, mbTrigger(false) // 이거 공부하자
 		, mCollisionCount(0)
+		, mRadius(0.f)
+		, mColliderID(colliderID++)
 	{
-		mID = mColliderID++;
+
 	}
 
 	CCollider2D::~CCollider2D()
@@ -34,11 +37,11 @@ namespace dru
 
 		if (mCollisionCount > 0)
 		{
-			data.xyzw  = Vector4(255.f, 0.f, 0.f, 1.f);
+			data.xyzw2  = Vector4(255.f, 0.f, 0.f, 1.f);
 		}
 		else
 		{
-			data.xyzw = Vector4(0.f, 255.f, 0.f, 1.f);
+			data.xyzw2 = Vector4(0.f, 255.f, 0.f, 1.f);
 		}
 
 		cb->SetData(&data);
@@ -52,6 +55,7 @@ namespace dru
 		mRadius = mScale.x;
 
 		Vector3 rotation = mTransform->GetRotation();
+		//rotation = rotation * XM_PI / 180;
 
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.f);
@@ -62,6 +66,7 @@ namespace dru
 		rotationMatrix = Matrix::CreateRotationX(rotation.x);
 		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
 		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
+
 
 		Matrix positionMatrix;
 		positionMatrix.Translation(Vector3(colliderPos.x, colliderPos.y, colliderPos.z));

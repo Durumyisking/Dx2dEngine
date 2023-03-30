@@ -124,6 +124,9 @@ namespace dru
 					_right->OnCollisionEnter(_left);
 
 				iter->second = true;
+				_left->SetState(eCollisionState::CollisionEnter);
+				_right->SetState(eCollisionState::CollisionEnter);
+
 			}
 			else // 충돌 중
 			{
@@ -136,6 +139,10 @@ namespace dru
 					_right->OnTrigger(_left);
 				else
 					_right->OnCollision(_left);
+
+				_left->SetState(eCollisionState::CollisionStay);
+				_right->SetState(eCollisionState::CollisionStay);
+
 			}
 		}
 		else // 충돌 X
@@ -153,6 +160,17 @@ namespace dru
 					_right->OnCollisionExit(_left);
 
 				iter->second = false;
+
+				_left->SetState(eCollisionState::CollisionExit);
+				_right->SetState(eCollisionState::CollisionExit);
+
+			}
+			else
+			{
+				_left->SetState(eCollisionState::CollisionNot);
+				_right->SetState(eCollisionState::CollisionNot);
+
+				mCollisionMap.erase(iter);
 			}
 		}
 	}

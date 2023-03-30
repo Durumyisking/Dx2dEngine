@@ -35,21 +35,29 @@ namespace dru
         void SetScale(Vector2 _Scale) { mScale = _Scale; }
         Vector2 GetScale() const { return mScale; }
 
-        void SetScale(float _Radius) { mRadius = _Radius; }
+        void SetRadius(float _Radius) { mRadius = _Radius; }
         float GetRadius() const { if (eColliderType::Circle == mType) return mRadius; }
 
         Vector3 GetColliderPos() const { return mPosition; }
 
         bool IsTrigger() const { return mbTrigger; }
         void SetTrigger() { mbTrigger = true; }
-        UINT GetColliderID() const { return mID; }
+
+        void SetState(eCollisionState _State) { mState = _State; }
+        eCollisionState GetState() { return mState; }
+
+        UINT32 GetColliderID() const { return mColliderID; }
+
+        static UINT32 colliderID;
 
     private:
-        static UINT mColliderID;
-        UINT mID;
 
         eColliderType mType;
+        eCollisionState mState;
+
         CTransform* mTransform;
+
+        const UINT32 mColliderID;
 
         Vector2 mScale;
         Vector2 mCenter;

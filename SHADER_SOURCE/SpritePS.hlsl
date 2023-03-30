@@ -6,7 +6,7 @@ float4 main(VTX_OUT _in) : SV_Target
 {   
     float4 color = (float) 0.f;
     
-    if (cbiData == INVERSE)
+    if (cbiData1 == INVERSE)
         _in.vUV.x = 1.f - _in.vUV.x;
 
     

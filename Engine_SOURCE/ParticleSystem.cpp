@@ -41,25 +41,24 @@ namespace dru
 		std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"ParticleMaterial");
 		SetMaterial(material);
 
-		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"bloodfx");
+		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"particle_spark");
 		material->SetTexture(eTextureSlot::T0, tex);
 
 		Particle particles[100] = {};
-		Vector4 startPos = Vector4(-8.0f, -4.5f, 0.0f, 0.0f);
 		for (size_t i = 0; i < mCount; i++)
 		{
-			particles[i].position = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+			particles[i].position = Vector4(0.0f, 0.0f, 600.0f, 1.0f);
 			particles[i].active = 1;
 			particles[i].direction =
 				Vector4(cosf((float)i * (XM_2PI / (float)mCount))
 					, sin((float)i * (XM_2PI / (float)mCount)), 0.0f, 1.0f);
 
-			particles[i].speed = 1.f;
+			particles[i].speed = 50.f;
 		}
-		for (size_t i = 50; i < mCount; i++)
-		{
-			particles[i].active = 0;
-		}
+		//for (size_t i = 50; i < mCount; i++)
+		//{
+		//	particles[i].active = 0;
+		//}
 
 		mBuffer = new CStructedBuffer();
 		mBuffer->Create(sizeof(Particle), mCount, eSRVType::UAV, particles);
