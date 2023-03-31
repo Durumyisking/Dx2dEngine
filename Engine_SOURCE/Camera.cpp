@@ -55,7 +55,7 @@ namespace dru
 				mCamSpeed = mFarDist / mTime;
 
 			if (mFarDist < 0.001f)
-				mCamSpeed = 1;
+				mCamSpeed = 1.f;
 
 			Vector3 Dir = mTargetObj->GetPos() - GetOwner()->GetPos();
 			Dir.z = GetOwner()->GetPos().z;
@@ -152,7 +152,7 @@ namespace dru
 
 	CCameraScript* CCamera::GetCamScript()
 	{
-		return GetOwner()->GetComponent< CCameraScript>();
+		return GetOwner()->GetScript<CCameraScript>();
 	}
 
 	void CCamera::sortGameObjects()

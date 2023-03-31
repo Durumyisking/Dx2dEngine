@@ -18,6 +18,12 @@ namespace dru
 		, mDirBlock{}
 		, mbCamFollowPlayerX(false)
 		, mbCamFollowPlayerY(false)
+		, mTransform(nullptr)
+		, mTarget(nullptr)
+		, mPlayer(nullptr)
+		, mSpeed(0.f)
+		, mCamStep(0.f)
+		, mLookAt(Vector3::Zero)
 
 	{
 	}
@@ -29,93 +35,23 @@ namespace dru
 	void CCameraScript::Initialize()
 	{
 		mCameraObject = GetOwner()->GetComponent<CCamera>();
+		mTransform = GetOwner()->GetComponent<CTransform>();
 	}
 
 	void CCameraScript::update()
 	{
-		CTransform* transform = GetOwner()->GetComponent<CTransform>();
-		Vector3 LookAt = transform->GetPosition();
+		mLookAt = mTransform->GetPosition();
 
-		CGameObj* target = mCameraObject->mTargetObj;
-		float	speed = mCameraObject->mCamSpeed;
-		float	camStep = 0.f;
+		mTarget = mCameraObject->mTargetObj;
 
 
-		camStep = speed * CTimeMgr::DeltaTime();
+		mCamStep = mSpeed * CTimeMgr::DeltaTime();
 
-		// Keyboard Move
+		KeyBoardMove();
 
-		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::DOWN)
-		{
-			if(mDirBlock[(UINT)eDir::UP] == false)
-				LookAt += 10.f * transform->Up() * CTimeMgr::DeltaTime();
+		TargetMove();
 
-			mDir[(UINT)eDir::UP] = true;
-		}
-		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::DOWN)
-		{
-			if (mDirBlock[(UINT)eDir::DOWN] == false)
-				LookAt += 10.f * -transform->Up() * CTimeMgr::DeltaTime();
-
-			mDir[(UINT)eDir::DOWN] = true;
-		}
-		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::DOWN)
-		{
-			if (mDirBlock[(UINT)eDir::LEFT] == false)
-				LookAt += 10.f * -transform->Right() * CTimeMgr::DeltaTime();
-
-			mDir[(UINT)eDir::LEFT] = true;
-		}
-		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::DOWN)
-		{
-			if (mDirBlock[(UINT)eDir::RIGHT] == false)
-				LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
-
-			mDir[(UINT)eDir::RIGHT] = true;
-		}
-		if (CInput::GetKeyState(eKeyCode::P) == eKeyState::DOWN)
-		{
-			LookAt -= 100.f * transform->Forward() * CTimeMgr::DeltaTime();
-		}
-		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
-		{
-			LookAt += 100.f * transform->Forward() * CTimeMgr::DeltaTime();
-		}
-
-
-		// Target Move
-		if (target)
-		{
-			if (target->IsDead())
-				target = nullptr;
-			else
-			{
-				if (camStep > mCameraObject->mFarDist)
-				{
-					LookAt.x = mCameraObject->mTargetObj->GetPos().x;
-					LookAt.y = mCameraObject->mTargetObj->GetPos().y;
-
-					mCameraObject->mTargetObj = nullptr;
-				}
-				else
-				{
-					LookAt += mCameraObject->mCamDir * camStep;
-				}
-			}
-		}
-		else
-		{
-			if (mbCamFollowPlayerX)
-			{
-				renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mPlayer, 0.1, eDir::LEFT);
-			}
-			if (mbCamFollowPlayerY)
-			{
-				renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mPlayer, 0.1, eDir::UP);
-			}
-		}
-
-		transform->SetPosition(LookAt);
+		mTransform->SetPosition(mLookAt);
 	}
 
 	void CCameraScript::fixedUpdate()
@@ -130,7 +66,6 @@ namespace dru
 	{
 		if (L"col_outWallside" == _oppo->GetName())
 		{
-
 			// Ä·º¸´Ù ¿ÞÂÊÀÌ¸é
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 			{
@@ -169,6 +104,83 @@ namespace dru
 			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnY();
 			//if (mDir[(UINT)eDir::LEFT] == true || mDir[(UINT)eDir::RIGHT] == true)
 			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnX();
+		}
+	}
+
+	void CCameraScript::KeyBoardMove()
+	{
+		// Keyboard Move
+
+		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::DOWN)
+		{
+			if (mDirBlock[(UINT)eDir::UP] == false)
+				mLookAt += 10.f * mTransform->Up() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::UP] = true;
+		}
+		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::DOWN)
+		{
+			if (mDirBlock[(UINT)eDir::DOWN] == false)
+				mLookAt += 10.f * -mTransform->Up() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::DOWN] = true;
+		}
+		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::DOWN)
+		{
+			if (mDirBlock[(UINT)eDir::LEFT] == false)
+				mLookAt += 10.f * -mTransform->Right() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::LEFT] = true;
+		}
+		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::DOWN)
+		{
+			if (mDirBlock[(UINT)eDir::RIGHT] == false)
+				mLookAt += 10.f * mTransform->Right() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::RIGHT] = true;
+		}
+		if (CInput::GetKeyState(eKeyCode::P) == eKeyState::DOWN)
+		{
+			mLookAt -= 100.f * mTransform->Forward() * CTimeMgr::DeltaTime();
+		}
+		if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
+		{
+			mLookAt += 100.f * mTransform->Forward() * CTimeMgr::DeltaTime();
+		}
+	}
+
+	void CCameraScript::TargetMove()
+	{
+		// Target Move
+		if (mTarget)
+		{
+			if (mTarget->IsDead())
+				mTarget = nullptr;
+			else
+			{
+				if (mCamStep > mCameraObject->mFarDist)
+				{
+					mLookAt.x = mCameraObject->mTargetObj->GetPos().x;
+					mLookAt.y = mCameraObject->mTargetObj->GetPos().y;
+
+					mCameraObject->mTargetObj = nullptr;
+				}
+				else
+				{
+					mLookAt += mCameraObject->mCamDir * mCamStep;
+				}
+			}
+		}
+		else
+		{
+			if (mbCamFollowPlayerX)
+			{
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.2, eDir::LEFT);
+			}
+			if (mbCamFollowPlayerY)
+			{
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.2, eDir::UP);
+			}
 		}
 	}
 

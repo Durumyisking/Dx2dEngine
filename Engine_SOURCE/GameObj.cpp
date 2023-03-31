@@ -202,13 +202,15 @@ namespace dru
 		}
 
 	}
-	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target, float _speed, eDir _dir)
+	bool CGameObj::MoveToTarget_Smooth_bool(CGameObj* _target, float _speed, eDir _dir)
 	{
 		if (!_target)
 			return false;
 
-		Vector3 TargetPos = _target->GetPos();
-		Vector3 ObjPos = this->GetPos();
+		Vector3 TargetPos = Vector3(_target->GetPos().x, _target->GetPos().y, 0.f);
+		Vector3 ObjPos = Vector3(GetPos().x, GetPos().y, 0.f);
+		Vector3 result = Vector3(TargetPos.x, TargetPos.y, GetPos().z);
+
 		Vector3 Dir = (TargetPos - ObjPos);
 
 		switch (_dir)
@@ -228,7 +230,7 @@ namespace dru
 		Dir.Normalize();
 		float Distance = (TargetPos - ObjPos).Length();
 
-		if (Distance >= 0.01f)
+		if (Distance >= 0.001f)
 		{
 			float Speed = Distance / _speed;
 			float Step = Speed * CTimeMgr::DeltaTime();
@@ -242,9 +244,68 @@ namespace dru
 			}
 			else
 			{
+				this->SetPos(result);
 				return true;
 			}
 		}
+		this->SetPos(result);
 		return true;
+	}
+
+	Vector3 CGameObj::MoveToTarget_Smooth_vector3(CGameObj* _target, float _speed, eDir _dir)
+	{
+		if (!_target)
+			return Vector3::Zero;
+
+		Vector3 TargetPos = Vector3(_target->GetPos().x, _target->GetPos().y, 0.f);
+		Vector3 ObjPos = Vector3(GetPos().x, GetPos().y, 0.f);
+		Vector3 result = Vector3(TargetPos.x, TargetPos.y, GetPos().z);
+
+		float Distance = 0.f;
+		float Speed = 0.f;
+
+		Distance = (TargetPos - ObjPos).Length();
+
+		Vector3 Dir = (TargetPos - ObjPos);
+		Dir.Normalize();
+
+		switch (_dir)
+		{
+		case dru::enums::eDir::UP:
+		case dru::enums::eDir::DOWN:
+			Dir.x = 0;
+			Distance = (TargetPos.y - ObjPos.y);
+			result.x = GetPos().x;
+			break;
+		case dru::enums::eDir::LEFT:
+		case dru::enums::eDir::RIGHT:
+			Distance = (TargetPos.x - ObjPos.x);
+			Dir.y = 0;
+			result.y = GetPos().y;
+			break;
+		default:
+			break;
+		}
+
+		Speed = Distance / _speed;
+
+		if (Distance < 0.001f)
+		{
+			Speed = 1.f;
+		}
+
+		float Step = Speed * CTimeMgr::DeltaTime();
+
+		if (Step < Distance)
+		{
+
+			ObjPos += Dir * Step;
+			this->SetPos(ObjPos);
+
+			return ObjPos;
+		}
+		
+		this->SetPos(result);
+		return result;
 	}
 }

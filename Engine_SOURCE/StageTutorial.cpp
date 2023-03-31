@@ -145,7 +145,7 @@ namespace dru
 			if (!mbZoomDone)
 			{
 
-				if (renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mCamTarget, 0.5f))
+				if (renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_bool(mCamTarget, 0.5f))
 				{
 					mbZoomDone = true;
 					mCamTarget->Die();
@@ -259,7 +259,7 @@ namespace dru
 		if (!mbTutorBgMoveDone)
 		{
 			TutorReset(_Stage);
-			if (mTutorBg->MoveToTarget_Smooth(mTutorBgTarget, 0.3f))
+			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f))
 			{
 
 				switch (_Stage)
@@ -537,7 +537,7 @@ namespace dru
 
 		if (1.f < mTutorGapTimer)
 		{
-			if (mTutorBg->MoveToTarget_Smooth(mTutorBgTarget, 0.3f))
+			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f))
 			{
 				mTutorStage = _Stage;
 				mTutorGapTimer = 0.f;

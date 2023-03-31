@@ -41,6 +41,7 @@ namespace dru
 		void DisableLayerMasks() { mLayerMask.reset(); }
 
 		void SetProjectionType(eProjectionType _Type) { mType = _Type; }
+		eProjectionType GetProjectionType() { return mType; }
 
 		float GetScale() const { return mScale; }
 
@@ -89,6 +90,7 @@ namespace dru
 		float		mFarDist;
 
 		float		mCamSpeed;
+
 		float		mTime;
 
 		bool		mSmooth;

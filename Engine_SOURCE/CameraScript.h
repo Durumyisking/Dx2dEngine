@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include "Player.h"
 
 namespace dru
 {
@@ -19,6 +20,9 @@ namespace dru
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
+        void KeyBoardMove();
+        void TargetMove();
+
         void CamFollowOn() { mbCamFollowPlayerX = true;  mbCamFollowPlayerY = true; }
         void CamFollowOnX() { mbCamFollowPlayerX = true; }
         void CamFollowOnY() { mbCamFollowPlayerY = true; }
@@ -30,7 +34,14 @@ namespace dru
 
     private:
         CCamera* mCameraObject;
+        CTransform* mTransform;
         CPlayer* mPlayer;
+        CGameObj* mTarget;
+        Vector3 mLookAt;
+
+        float	mSpeed;
+        float	mCamStep;
+
 
         std::bitset<static_cast<UINT>(eDir::END)> mDir;
         std::bitset<static_cast<UINT>(eDir::END)> mDirBlock;
