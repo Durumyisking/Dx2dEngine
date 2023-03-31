@@ -52,15 +52,20 @@ namespace dru
 		if (1 == mStart)
 		{
 			mtime += CTimeMgr::DeltaTime();
-			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Fade];
-			renderer::FadeCB data = {};
 
-			data.fValue = mFadeValue * mtime;
-			data.bFadeType = mFadeType;
-			data.bTextureType = mFadeTextureType;
+			CBaseRenderer* renderer = GetOwner()->GetComponent<CBaseRenderer>();
+			std::shared_ptr<CMaterial> material = renderer->GetMaterial();
 
-			cb->SetData(&data);
-			cb->Bind(eShaderStage::PS);
+			renderer::MaterialCB data = {};
+
+			data.fData1 = mFadeValue * mtime;
+			data.iData1 = mFadeType;
+			data.iData2 = mFadeTextureType;
+
+
+			material->SetData(eGPUParam::Float_1, &data.fData1);
+			material->SetData(eGPUParam::Int_1, &data.iData1);
+			material->SetData(eGPUParam::Int_2, &data.iData2);
 		}
 
 	}

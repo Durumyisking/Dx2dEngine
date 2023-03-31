@@ -74,14 +74,6 @@ namespace dru::renderer
 		Vector2 resolution;
 	};
 
-	CBUFFER(FadeCB, CBSLOT_FADE)
-	{
-		float	fValue;
-		int		bFadeType;
-		int		bTextureType;
-		int		bFadeSwitch;
-	};
-
 	CBUFFER(ColorCB, CBSLOT_COLOR)
 	{
 		Vector4 RGBA;

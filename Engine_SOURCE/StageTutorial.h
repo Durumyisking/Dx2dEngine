@@ -26,6 +26,7 @@ namespace dru
         virtual void LoadAfterReady();
         virtual void Update();
 
+        void TutorialOperation(TutorialStage _Stage);
         void TutorMove();
         void TutorJumpAndCrouch();
         void TutorRoll();
@@ -33,6 +34,12 @@ namespace dru
         void TutorWall();
         void TutorBulletTime();
 
+        void TutorMoveCheck();
+        void TutorJumpAndCrouchCheck();
+        void TutorRollCheck();
+        void TutorAttackCheck();
+        void TutorWallCheck();
+        void TutorBulletTimeCheck();
 
         void TutorSuccess(TutorialStage _Stage);
         void TutorReset(TutorialStage _Stage);

@@ -72,19 +72,12 @@ cbuffer Grid : register(b2)
     float2 resolution;
 }
 
-cbuffer Fade : register(b3)
-{
-    float fade_fValue;
-    int   fade_bFadeType;
-    int   fade_bTextureType;
-}
-
-cbuffer Color : register(b4)
+cbuffer Color : register(b3)
 {
     float4 RGBA;
 }
 
-cbuffer Animation : register(b5)
+cbuffer Animation : register(b4)
 {
     float2 LT;
     float2 spriteSize;
@@ -95,11 +88,11 @@ cbuffer Animation : register(b5)
 }
 
 
-cbuffer LightCount : register(b6)
+cbuffer LightCount : register(b5)
 {
     uint lightCount;
 }
-cbuffer ParticleSystem : register(b7)
+cbuffer ParticleSystem : register(b6)
 {
     float4 particleColor;
     uint elementCount;

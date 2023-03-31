@@ -368,9 +368,6 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::Grid)] = new CConstantBuffer(eCBType::Grid);
 		constantBuffers[static_cast<UINT>(eCBType::Grid)]->Create(sizeof(GridCB));
 
-		constantBuffers[static_cast<UINT>(eCBType::Fade)] = new CConstantBuffer(eCBType::Fade);
-		constantBuffers[static_cast<UINT>(eCBType::Fade)]->Create(sizeof(FadeCB));
-
 		constantBuffers[static_cast<UINT>(eCBType::Color)] = new CConstantBuffer(eCBType::Color);
 		constantBuffers[static_cast<UINT>(eCBType::Color)]->Create(sizeof(ColorCB));
 

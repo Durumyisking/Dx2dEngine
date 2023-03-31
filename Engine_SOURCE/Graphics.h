@@ -14,11 +14,10 @@
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
-#define CBSLOT_FADE 3
-#define CBSLOT_COLOR 4
-#define CBSLOT_ANIMATION 5
-#define CBSLOT_LIGHTCOUNT 6
-#define CBSLOT_PARTICLESYSTEM 7
+#define CBSLOT_COLOR 3
+#define CBSLOT_ANIMATION 4
+#define CBSLOT_LIGHTCOUNT 5
+#define CBSLOT_PARTICLESYSTEM 6
 
 
 namespace dru::graphics
@@ -137,7 +136,6 @@ namespace dru::graphics
 		Transform,
 		Material,
 		Grid,
-		Fade,
 		Color,
 		Animation,
 		Light,
