@@ -91,9 +91,6 @@ namespace dru
 		Vector3 pos = renderer::mainCamera->GetOwner()->GetPos();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3(pos.x, pos.y, -CAMTYPEGAP));
 
-		//Vector3 pos2 = mStageBackground->GetPos();
-		//mStageBackground->SetPos(Vector3(pos2.x, pos2.y - 0.75f, pos2.z));
-
 		{
 			mCamTarget = object::Instantiate<CGameObj>(eLayerType::None, L"CamTargetTutorialStage");
 			mCamTarget->SetPos(Vector3(0.f, -2.f, 0.25f));
@@ -104,29 +101,25 @@ namespace dru
 
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
-//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			LeftOutWall->SetPos(Vector3(-20.25f, 0.f, 4.999f));
+			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-//			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
-			RightOutWall->SetPos(Vector3(20.25f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 		{
 			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
-			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
 			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
 			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
 
 		{
 			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
-			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
 			DownOutWall->SetPos(Vector3(0.f, -18.f, 4.999f));
 			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
@@ -145,7 +138,7 @@ namespace dru
 			if (!mbZoomDone)
 			{
 
-				if (renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_bool(mCamTarget, 0.5f))
+				if (renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_bool(mCamTarget, 0.5f, true))
 				{
 					mbZoomDone = true;
 					mCamTarget->Die();
@@ -259,7 +252,7 @@ namespace dru
 		if (!mbTutorBgMoveDone)
 		{
 			TutorReset(_Stage);
-			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f))
+			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f, true))
 			{
 
 				switch (_Stage)
@@ -537,7 +530,7 @@ namespace dru
 
 		if (1.f < mTutorGapTimer)
 		{
-			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f))
+			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f, true))
 			{
 				mTutorStage = _Stage;
 				mTutorGapTimer = 0.f;

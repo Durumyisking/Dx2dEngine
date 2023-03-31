@@ -49,6 +49,7 @@ namespace dru
         bool mbCamFollowPlayerX;
         bool mbCamFollowPlayerY;
 
+        
     };
 
 }

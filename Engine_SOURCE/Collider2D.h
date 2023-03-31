@@ -50,6 +50,11 @@ namespace dru
 
         static UINT32 colliderID;
 
+        void On() { mbOn = true; }
+        void Off() { mbOn = false; }
+
+        bool IsOn() const { return mbOn; }
+
     private:
 
         eColliderType mType;
@@ -67,6 +72,8 @@ namespace dru
         bool    mbTrigger;
 
         UINT    mCollisionCount;
+
+        bool    mbOn;
 
     };
 }

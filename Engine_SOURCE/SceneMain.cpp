@@ -87,6 +87,7 @@ namespace dru
 			{
 				mStages[mCurrentStage]->LoadUI();
 				renderer::mainCamera->GetCamScript()->CamFollowOnX();
+				renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->On();
 				mbLoad = true;
 			}
 		}
@@ -127,7 +128,8 @@ namespace dru
 			CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
 			coll->SetName(L"col_maincam");
 			coll->SetType(eColliderType::Rect);
-			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
+			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f - 10.f, GetDevice()->ViewportHeight() / 100.f));
+			coll->Off();
 			
 		}
 		{

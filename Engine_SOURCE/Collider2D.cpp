@@ -18,6 +18,7 @@ namespace dru
 		, mCollisionCount(0)
 		, mRadius(0.f)
 		, mColliderID(colliderID++)
+		, mbOn(false)
 	{
 
 	}
@@ -29,6 +30,7 @@ namespace dru
 	void CCollider2D::Initialize()
 	{
 		mTransform = GetOwner()->GetComponent<CTransform>();
+		mbOn = true;
 	}
 
 	void CCollider2D::update()
@@ -45,21 +47,9 @@ namespace dru
 		scale *= Vector3(mScale.x, mScale.y, 1.f);
 
 		Vector3 rotation = mTransform->GetRotation();
-		rotation = rotation * XM_PI / 180;
 
 		Vector3 position = mTransform->GetPosition();
 		mPosition = position + Vector3(mCenter.x, mCenter.y, 0.f);
-
-		Matrix scaleMatrix = Matrix::CreateScale(scale);
-		Matrix rotationMatrix;
-		rotationMatrix = Matrix::CreateRotationX(rotation.x);
-		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
-		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
-
-		Matrix positionMatrix;
-		positionMatrix.Translation(Vector3(mPosition.x, mPosition.y, mPosition.z));
-
-		Matrix worldMatrix = scaleMatrix * rotationMatrix * positionMatrix;
 
 		DebugMesh meshAttribute = {};
 		meshAttribute.position = Vector3(mPosition.x, mPosition.y, mPosition.z);

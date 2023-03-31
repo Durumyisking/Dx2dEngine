@@ -109,6 +109,11 @@ namespace dru
 			// 첫 충돌
 			if (iter->second == false)
 			{
+				if (!_left->IsOn() || !_right->IsOn())
+				{
+					return;
+				}
+
 				if (_left->IsTrigger())
 					_left->OnTriggerEnter(_right);
 				else
@@ -126,6 +131,16 @@ namespace dru
 			}
 			else // 충돌 중
 			{
+				if (!_left->IsOn() || !_right->IsOn())
+				{
+					_left->OnCollisionExit(_right);				
+					_right->OnCollisionExit(_left);
+					_left->SetState(eCollisionState::CollisionExit);
+					_right->SetState(eCollisionState::CollisionExit);
+
+					return;
+				}
+
 				if (_left->IsTrigger())
 					_left->OnTrigger(_right);
 				else

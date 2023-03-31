@@ -43,6 +43,8 @@ namespace dru
 		mLookAt = mTransform->GetPosition();
 
 		mTarget = mCameraObject->mTargetObj;
+		mSpeed = mCameraObject->mCamSpeed;
+		mCamStep = 0.f;
 
 
 		mCamStep = mSpeed * CTimeMgr::DeltaTime();
@@ -66,6 +68,7 @@ namespace dru
 	{
 		if (L"col_outWallside" == _oppo->GetName())
 		{
+
 			// Ä·º¸´Ù ¿ÞÂÊÀÌ¸é
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 			{
@@ -175,11 +178,11 @@ namespace dru
 		{
 			if (mbCamFollowPlayerX)
 			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.2, eDir::LEFT);
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3, false, eDir::LEFT);
 			}
 			if (mbCamFollowPlayerY)
 			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.2, eDir::UP);
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3, false, eDir::UP);
 			}
 		}
 	}

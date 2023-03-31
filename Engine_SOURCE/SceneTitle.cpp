@@ -56,7 +56,7 @@ namespace dru
 
 		if (mCamMoveDone)
 		{
-			if (mUIBg->MoveToTarget_Smooth_bool(mUITarget, 0.3f))
+			if (mUIBg->MoveToTarget_Smooth_bool(mUITarget, 0.3f, true))
 			{
 				mUIMoveDone = true;
 			}
