@@ -75,6 +75,9 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> GetDeviceContext() const { return mContext; }
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
 
+		float ViewportWidth() { return (float)mViewPort.Width; }
+		float ViewportHeight() { return (float)mViewPort.Height; }
+
 
 	private:
 		// GPU 객체 생성 그래픽카드와 연결되는 기본적인 객체 

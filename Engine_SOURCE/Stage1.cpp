@@ -16,7 +16,7 @@ namespace dru
 	void CStage1::InitStage()
 	{
 		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
 			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
 			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Point);
@@ -27,7 +27,7 @@ namespace dru
 
 
 		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mOwner, L"PointLight");
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
 			PointLight->SetPos({ 0.f, -1.5f, 0.f });
 			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Point);
@@ -53,6 +53,36 @@ namespace dru
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
 			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
+		}
+
+
+		{
+			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
+			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			LeftOutWall->SetPos(Vector3(-20.25f, 0.f, 4.999f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+		}
+
+
+		{
+			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
+			//			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(20.25f, 0.f, 4.999f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+		}
+
+		{
+			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
+			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
+			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+
+		{
+			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
+			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			DownOutWall->SetPos(Vector3(0.f, -18.f, 4.999f));
+			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
 
 		{
@@ -99,6 +129,10 @@ namespace dru
 	{
 
 		CStage::Update();
+	}
+
+	void CStage1::Exit()
+	{
 	}
 
 }

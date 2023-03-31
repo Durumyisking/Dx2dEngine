@@ -77,6 +77,7 @@ namespace dru
 		{
 			CGameObj* obj = object::Instantiate<CGameObj>(eLayerType::Particle);
 			obj->SetPos(Vector3(0.f, 0.f, 0.f));
+			obj->SetScale(Vector3(0.f, 0.f, 0.f));
 			obj->SetName(L"PARTICLE");
 			obj->AddComponent<CParticleSystem>(eComponentType::Particle);
 		}

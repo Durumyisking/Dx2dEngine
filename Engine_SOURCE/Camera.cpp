@@ -150,6 +150,11 @@ namespace dru
 		(Dir).Normalize(mCamDir);
 	}
 
+	CCameraScript* CCamera::GetCamScript()
+	{
+		return GetOwner()->GetComponent< CCameraScript>();
+	}
+
 	void CCamera::sortGameObjects()
 	{
 		mOpaqueGameObjects.clear();

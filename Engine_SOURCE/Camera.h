@@ -54,6 +54,8 @@ namespace dru
 		void SmoothOn() { mSmooth = true; }
 		void SmoothOff() { mSmooth = false; }
 
+		CCameraScript* GetCamScript();
+
 	private:
 		void sortGameObjects();
 		void renderOpaque();

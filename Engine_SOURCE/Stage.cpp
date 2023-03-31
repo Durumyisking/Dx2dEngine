@@ -6,6 +6,13 @@ namespace dru
 
 	CStage::CStage()
 		: mReady(eReadyState::NotReady)
+		, mScene(nullptr)
+		, mPlayer(nullptr)
+		, mUICursor(nullptr)
+		, mHudBatteryParts{}
+		, mHudTimerBar(nullptr)
+		, mHudLeftHand(nullptr)
+		, mHudRightHand(nullptr)
 
 	{
 	}
@@ -22,11 +29,19 @@ namespace dru
 			LoadAfterReady();
 			mReady = eReadyState::ReadyEnd;
 		}
+
+	}
+
+	void CStage::Exit()
+	{
+		Reset();
+		renderer::mainCamera->GetCamScript()->CamFollowOff();
 	}
 
 	
 	void CStage::LoadUI()
 	{
+		renderer::mainCamera->GetCamScript()->CamFollowOff();
 		{
 			CGameObj* mHudTop = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Top");
 
@@ -59,7 +74,7 @@ namespace dru
 			CResources::Insert<CMaterial>(L"Hud_timerbarMat", Material);
 			SpriteRenderer->SetMaterial(Material);
 
-			mHudTimerBar->SetPos(Vector3(0.23f, 4.25f, 1.f));
+			mHudTimerBar->SetPos(Vector3(0.228f, 4.248f, 1.f));
 			mHudTimerBar->SetScale(Vector3(0.275f, 0.275f, 1.f));
 
 		}
@@ -148,5 +163,12 @@ namespace dru
 			mUICursor->SetScale(Vector3(0.7f, 0.7f, 4.9999f));
 		}
 	}
+
+	void CStage::Reset()
+	{
+		mReady = eReadyState::NotReady;
+	}
+
+	
 
 }

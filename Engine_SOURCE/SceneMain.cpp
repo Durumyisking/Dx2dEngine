@@ -25,6 +25,8 @@
 #include "StageTutorial.h"
 #include "Stage1.h"
 
+#include "GraphicDevice.h"
+
 using namespace dru::graphics;
 
 namespace dru
@@ -37,7 +39,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mbLoad(false)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPlayer(nullptr)
 
 	{
@@ -58,7 +60,7 @@ namespace dru
 		{
 			mStages[i]->SetOwner(this);
 		}
-
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::Platforms);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Platforms);
@@ -84,6 +86,7 @@ namespace dru
 			if (mStages[mCurrentStage]->GetReadyState() == eReadyState::ReadyEnd)
 			{
 				mStages[mCurrentStage]->LoadUI();
+				renderer::mainCamera->GetCamScript()->CamFollowOnX();
 				mbLoad = true;
 			}
 		}
@@ -120,6 +123,12 @@ namespace dru
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
+
+			CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
+			coll->SetName(L"col_maincam");
+			coll->SetType(eColliderType::Rect);
+			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
+			
 		}
 		{
 			// ui Ä«¸Þ¶ó
@@ -160,6 +169,7 @@ namespace dru
 	void CSceneMain::Exit()
 	{
 		mbLoad = false;
+
 		CScene::Exit();
 	}
 

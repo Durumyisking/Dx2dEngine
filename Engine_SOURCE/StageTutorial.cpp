@@ -67,6 +67,8 @@ namespace dru
 			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Run");
 			mPlayer->SetRight();
 			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(3.f, 7.f, 0.f));
+
+			dynamic_cast<CSceneMain*>(mScene)->SetPlayer(mPlayer);
 		}
 
 		{
@@ -101,17 +103,34 @@ namespace dru
 
 
 		{
-			COutWall* LeftOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"LeftOutwall");
-			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
+//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			LeftOutWall->SetPos(Vector3(-20.25f, 0.f, 4.999f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 
 		{
-			COutWall* RightOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
+			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
+//			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(20.25f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
+
+		{
+			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
+			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
+			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+
+		{
+			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
+			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			DownOutWall->SetPos(Vector3(0.f, -18.f, 4.999f));
+			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+
 	}
 
 	void CStageTutorial::Update()
@@ -144,6 +163,21 @@ namespace dru
 						mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
 						mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
 					}
+					{
+						mTutorialtxt = object::Instantiate<CGameObj>(eLayerType::UI, L"Tutorialtxt");
+
+						CSpriteRenderer* SpriteRenderer = mTutorialtxt->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+						std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"tutorialtxt", L"FadeShader");
+						CResources::Insert<CMaterial>(L"tutorialtxtmat", Material);
+						SpriteRenderer->SetMaterial(Material);
+						CFadeScript* script = mTutorialtxt->AddComponent<CFadeScript>(eComponentType::Script);
+						script->SetFadeTextureType(1);
+						script->SetFadeType(1);
+
+						mTutorialtxt->SetPos(Vector3(0.f, 3.5f, 2.4f));
+						mTutorialtxt->SetScale(Vector3(0.5f, 0.5f, 1.f));
+
+					}
 
 				}
 
@@ -159,16 +193,6 @@ namespace dru
 					}
 					else
 					{
-						mTutorialtxt = object::Instantiate<CGameObj>(eLayerType::UI, L"Tutorialtxt");
-
-						CSpriteRenderer* SpriteRenderer = mTutorialtxt->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-						std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"tutorialtxt", L"FadeShader");
-						CResources::Insert<CMaterial>(L"tutorialtxtmat", Material);
-						SpriteRenderer->SetMaterial(Material);
-						mTutorialtxt->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
-
-						mTutorialtxt->SetPos(Vector3(0.f, 3.5f, 2.4f));
-						mTutorialtxt->SetScale(Vector3(0.5f, 0.5f, 1.f));
 
 						{
 							mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mTutorialtxt, L"keyEnter");
@@ -187,7 +211,7 @@ namespace dru
 				}
 			}
 
-			if (dynamic_cast<CSceneMain*>(mOwner)->ISLoad() && (mReady == eReadyState::ReadyEnd))
+			if (dynamic_cast<CSceneMain*>(mScene)->ISLoad() && (mReady == eReadyState::ReadyEnd))
 			{
 				mUIBg->Die();
 				mTutorialtxt->Die();
@@ -221,12 +245,14 @@ namespace dru
 		if (mReady == eReadyState::LoadEnd)
 		{
 			TutorialOperation(mTutorStage);
-
 		}
 
-
-
 		CStage::Update();
+	}
+	void CStageTutorial::Exit()
+	{
+		mReady = eReadyState::NotReady;
+		mbZoomDone = false;
 	}
 	void CStageTutorial::TutorialOperation(TutorialStage _Stage)
 	{

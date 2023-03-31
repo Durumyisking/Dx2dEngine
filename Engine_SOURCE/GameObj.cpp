@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	
 	CGameObj::CGameObj()
 		:mState(eState::Active)
 		, mbIsLeft(true)
@@ -201,7 +202,7 @@ namespace dru
 		}
 
 	}
-	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target, float _speed)
+	bool CGameObj::MoveToTarget_Smooth(CGameObj* _target, float _speed, eDir _dir)
 	{
 		if (!_target)
 			return false;
@@ -209,6 +210,21 @@ namespace dru
 		Vector3 TargetPos = _target->GetPos();
 		Vector3 ObjPos = this->GetPos();
 		Vector3 Dir = (TargetPos - ObjPos);
+
+		switch (_dir)
+		{
+		case dru::enums::eDir::UP:
+		case dru::enums::eDir::DOWN:
+			Dir.x = 0;
+			break;
+		case dru::enums::eDir::LEFT:
+		case dru::enums::eDir::RIGHT:
+			Dir.y = 0;
+			break;
+		default:
+			break;
+		}
+
 		Dir.Normalize();
 		float Distance = (TargetPos - ObjPos).Length();
 

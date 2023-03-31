@@ -2,12 +2,15 @@
 #include "PlayerScript.h"
 #include "RigidBody.h"
 #include "Animator.h"
+#include "CameraScript.h"
 
 namespace dru
 {
 	CPlayer::CPlayer()
 	{
 		SetLayerType(eLayerType::Player);
+
+		renderer::mainCamera->GetCamScript()->SetPlayer(this);
 
 		CRigidBody* rigidbody = this->AddComponent<CRigidBody>(eComponentType::RigidBody);
 

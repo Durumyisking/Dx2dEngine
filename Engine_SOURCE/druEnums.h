@@ -92,5 +92,13 @@ namespace dru::enums
 
 	};
 
+	enum class eDir
+	{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		END,
+	};
 
 }

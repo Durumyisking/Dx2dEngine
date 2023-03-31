@@ -5,10 +5,20 @@
 #include "TimeMgr.h"
 #include "Camera.h"
 
+#include "Scene.h"
+#include "SceneMain.h"
+#include "SceneMgr.h"
+#include "Stage.h"
+
 namespace dru
 {
 	CCameraScript::CCameraScript()
 		: mCameraObject(nullptr)
+		, mDir{}
+		, mDirBlock{}
+		, mbCamFollowPlayerX(false)
+		, mbCamFollowPlayerY(false)
+
 	{
 	}
 
@@ -37,19 +47,31 @@ namespace dru
 
 		if (CInput::GetKeyState(eKeyCode::U) == eKeyState::DOWN)
 		{
-			LookAt += 10.f * transform->Up() * CTimeMgr::DeltaTime();
+			if(mDirBlock[(UINT)eDir::UP] == false)
+				LookAt += 10.f * transform->Up() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::UP] = true;
 		}
 		if (CInput::GetKeyState(eKeyCode::J) == eKeyState::DOWN)
 		{
-			LookAt += 10.f * -transform->Up() * CTimeMgr::DeltaTime();
+			if (mDirBlock[(UINT)eDir::DOWN] == false)
+				LookAt += 10.f * -transform->Up() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::DOWN] = true;
 		}
 		if (CInput::GetKeyState(eKeyCode::H) == eKeyState::DOWN)
 		{
-			LookAt += 10.f * -transform->Right() * CTimeMgr::DeltaTime();
+			if (mDirBlock[(UINT)eDir::LEFT] == false)
+				LookAt += 10.f * -transform->Right() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::LEFT] = true;
 		}
 		if (CInput::GetKeyState(eKeyCode::K) == eKeyState::DOWN)
 		{
-			LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
+			if (mDirBlock[(UINT)eDir::RIGHT] == false)
+				LookAt += 10.f * transform->Right() * CTimeMgr::DeltaTime();
+
+			mDir[(UINT)eDir::RIGHT] = true;
 		}
 		if (CInput::GetKeyState(eKeyCode::P) == eKeyState::DOWN)
 		{
@@ -81,6 +103,17 @@ namespace dru
 				}
 			}
 		}
+		else
+		{
+			if (mbCamFollowPlayerX)
+			{
+				renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mPlayer, 0.1, eDir::LEFT);
+			}
+			if (mbCamFollowPlayerY)
+			{
+				renderer::mainCamera->GetOwner()->MoveToTarget_Smooth(mPlayer, 0.1, eDir::UP);
+			}
+		}
 
 		transform->SetPosition(LookAt);
 	}
@@ -91,6 +124,52 @@ namespace dru
 
 	void CCameraScript::render()
 	{
+	}
+
+	void CCameraScript::OnCollisionEnter(CCollider2D* _oppo)
+	{
+		if (L"col_outWallside" == _oppo->GetName())
+		{
+
+			// Ä·º¸´Ù ¿ÞÂÊÀÌ¸é
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::LEFT] = true;
+				mbCamFollowPlayerX = false;
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x <  _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::RIGHT] = true;
+				mbCamFollowPlayerX = false;
+			}
+		}
+	}
+
+	void CCameraScript::OnCollision(CCollider2D* _oppo)
+	{
+	}
+
+	void CCameraScript::OnCollisionExit(CCollider2D* _oppo)
+	{
+		if (L"col_outWallside" == _oppo->GetName())
+		{
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::LEFT] = false;
+//				dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOffX();
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::RIGHT] = false;
+//				dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOffX();
+			}
+
+
+			//if (mDir[(UINT)eDir::UP] == true || mDir[(UINT)eDir::DOWN] == true)
+			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnY();
+			//if (mDir[(UINT)eDir::LEFT] == true || mDir[(UINT)eDir::RIGHT] == true)
+			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnX();
+		}
 	}
 
 

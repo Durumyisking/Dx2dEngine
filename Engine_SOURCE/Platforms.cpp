@@ -37,6 +37,10 @@ namespace dru
 			coll->SetName(L"col_outWall");
 			coll->SetType(eColliderType::Rect);
 			break;
+		case dru::ePlatformType::OutWallSide:
+			coll->SetName(L"col_outWallside");
+			coll->SetType(eColliderType::Rect);
+			break;
 		default:
 			break;
 		}

@@ -23,6 +23,9 @@ namespace dru
 
 		bool ISLoad() { return mbLoad; }
 
+		void SetPlayer(CPlayer* _player) { mPlayer = _player; }
+		CPlayer* Getplayer() const { return mPlayer; }
+
 	private:
 		CGameObj* mCamera;
 		CGameObj* mUICamera;

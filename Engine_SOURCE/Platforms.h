@@ -10,6 +10,7 @@ namespace dru
 		Ceiling,
 		Stair,
 		OutWall,
+		OutWallSide,
 		End,
 	};
 

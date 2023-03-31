@@ -25,6 +25,7 @@ namespace dru
         virtual void InitStage();
         virtual void LoadAfterReady();
         virtual void Update();
+        virtual void Exit();
 
         void TutorialOperation(TutorialStage _Stage);
         void TutorMove();

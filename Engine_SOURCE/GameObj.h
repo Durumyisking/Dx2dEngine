@@ -160,7 +160,7 @@ namespace dru
 		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
-		bool MoveToTarget_Smooth(CGameObj* _target, float _speed);
+		bool MoveToTarget_Smooth(CGameObj* _target, float _speed, eDir _dir);
 
 	protected:
 		std::vector<CComponent*> mComponents;

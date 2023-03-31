@@ -25,6 +25,7 @@
 #include "Wall.h"
 #include "Ceiling.h"
 #include "OutWall.h"
+#include "OutWallSide.h"
 
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"
@@ -50,15 +51,18 @@ namespace dru
         virtual void InitStage() = 0;
         virtual void LoadAfterReady() = 0;
         virtual void Update();
-     
+        virtual void Exit();
+
         void LoadUI();
-        void SetOwner(CScene* _scene) { mOwner = _scene; }
+        void SetOwner(CScene* _scene) { mScene = _scene; }
 
         eReadyState GetReadyState() { return mReady; }
         void SetReady(eReadyState _State) { mReady = _State; }
 
+        void Reset();
+
     protected:
-        CScene* mOwner;
+        CScene* mScene;
 
         CPlayer* mPlayer;
 
@@ -70,6 +74,7 @@ namespace dru
         CGameObj* mHudRightHand;
 
         eReadyState mReady;
-	};
+
+    };
 }
 

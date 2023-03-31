@@ -220,7 +220,7 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
-		else if (L"col_outWall" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName())
 		{
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 				mbWallIsLeft = -1;
@@ -276,7 +276,7 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
-		else if (L"col_outWall" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName())
 		{
 			wallLRCheck();
 		}
@@ -305,7 +305,7 @@ namespace dru
 			}
 			mbWallIsLeft = 0;
 		}
-		else if (L"col_outWall" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName())
 		{
 			mbWallIsLeft = 0;
 		}

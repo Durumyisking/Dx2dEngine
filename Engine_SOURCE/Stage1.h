@@ -15,7 +15,7 @@ namespace dru
         virtual void InitStage();
         virtual void LoadAfterReady();
         virtual void Update();
-
+        virtual void Exit();
     private:
 
 		CGameObj* mUICursor;
