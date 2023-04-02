@@ -61,6 +61,34 @@ namespace dru
 			Dir.z = GetOwner()->GetPos().z;
 			(Dir).Normalize(mCamDir);
 		}
+
+		if (mType == eProjectionType::Perspective)
+		{
+			// 카메라 z위치에 따른 콜라이더 크기 변경
+			if (GetOwner()->GetComponent<CCollider2D>())
+			{
+				//CCollider2D* coll = GetOwner()->GetComponent<CCollider2D>();
+				//float collPosZ = coll->GetOwnerPos().z;
+				//Vector2 collScale = coll->GetScale();
+				//// x 계산
+				//float abscollPosZ = fabs(collPosZ);
+				//float zGap = 0.f;
+				//if (collPosZ >= 0.f)
+				//{
+				//	zGap = BACKGROUNDZ - abscollPosZ;
+				//}
+				//else
+				//{
+				//	zGap = BACKGROUNDZ + abscollPosZ;
+				//}
+				//float newX = (zGap * collScale.x / BACKGROUNDZ) * 2;
+				//float newY = (zGap * collScale.y / BACKGROUNDZ) * 2;
+
+				//collScale.x = newX;
+				//collScale.y = newY;
+				//coll->SetScale(collScale);
+			}
+		}
 	}
 
 	void CCamera::fixedUpdate()

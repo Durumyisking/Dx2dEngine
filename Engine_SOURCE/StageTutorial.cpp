@@ -90,6 +90,7 @@ namespace dru
 		renderer::mainCamera->SetProjectionType(eProjectionType::Perspective);
 		Vector3 pos = renderer::mainCamera->GetOwner()->GetPos();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3(pos.x, pos.y, -CAMTYPEGAP));
+		//renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->SetScale();
 
 		{
 			mCamTarget = object::Instantiate<CGameObj>(eLayerType::None, L"CamTargetTutorialStage");
@@ -101,14 +102,14 @@ namespace dru
 
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
-			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
+			LeftOutWall->SetPos(Vector3(-12.f, 0.f, 4.999f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(12.f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 

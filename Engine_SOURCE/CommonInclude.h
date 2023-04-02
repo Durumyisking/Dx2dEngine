@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #define CAMTYPEGAP 2.785f
+#define BACKGROUNDZ 5.f
 
 
 #define arraysize(a) (sizeof(a) / sizeof(a[0]))

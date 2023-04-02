@@ -51,8 +51,6 @@ namespace dru
 				mbCamFollowPlayerX = true;
 		}
 
-
-
 		mLookAt = mTransform->GetPosition();
 
 		mTarget = mCameraObject->mTargetObj;
@@ -65,6 +63,9 @@ namespace dru
 		KeyBoardMove();
 
 		TargetMove();
+
+
+
 
 		mTransform->SetPosition(mLookAt);
 	}
