@@ -184,7 +184,16 @@ namespace dru
 			}
 
 			mRigidbody->SetGround();
-			createLanddust();
+
+			// 처음 호출됐다면? LanddustObject Create
+			// 그 이후부터는? LanddustObject Get
+			if (GetOrCreateLanddustObject()) // 함수는 하나의 동작을 한다는걸 위배했지만? 어쩔수없음 ㅋ
+			{
+				// LandustEffect Class Play()
+				// LanddustEffect->Play();
+				PlayLanddust();
+				//createLanddust();
+			}
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -342,7 +351,7 @@ namespace dru
 		mAnimator->Play(L"Player_Run");
 
 		{
-			createdust(5);
+			createRolldust(5);
 		}
 
 	}
@@ -422,42 +431,47 @@ namespace dru
 
 	void CPlayerScript::landdustComplete()
 	{
-		mLanddust->Die();
+		if (mLanddust)
+		{
+			// landdustComplete가 되면 Deactive 같은 함수를 만들어서 render가 안되도록 만들기
+			// HideInGame 같이?
+			//mLanddust->Pause();
+		}
 	}
 
 	void CPlayerScript::rollFrame1()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame2()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame3()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame4()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame5()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame6()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 	void CPlayerScript::rollFrame7()
 	{
-		createdust(3);
+		createRolldust(3);
 	}
 
 
@@ -708,7 +722,7 @@ namespace dru
 					mSlideDustCount += CTimeMgr::DeltaTime();
 					if (mSlideDustCount > (1.f / 15.f))
 					{
-						createdust(1);
+						createRolldust(1);
 						mSlideDustCount = 0.f;
 					}
 				}
@@ -726,7 +740,7 @@ namespace dru
 			mSlideDustCount += CTimeMgr::DeltaTime();
 			if (mSlideDustCount > (1.f / 15.f))
 			{
-				createdust(1);
+				createRolldust(1);
 				mSlideDustCount = 0.f;
 			}
 		}
@@ -828,8 +842,11 @@ namespace dru
 
 	void CPlayerScript::createJumpdust(bool _bIsSide, float _Radian)
 	{
-		if (mJumpdust)
-			mJumpdust->Die();
+		//if (mJumpdust)
+		//{
+		//	mJumpdust->Die();
+		//}
+
 
 		mJumpdust = object::Instantiate<CGameObj>(eLayerType::FX, L"jumpdust");
 		CSpriteRenderer* SpriteRenderer = mJumpdust->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
@@ -863,26 +880,96 @@ namespace dru
 
 	}
 
-	void CPlayerScript::createLanddust()
+	// #todo
+#if 1
+	void CPlayerScript::PlayLanddust()
 	{
-		if (mLanddust)
-			mLanddust->Die();
-
-			mLanddust = object::Instantiate<CGameObj>(eLayerType::FX, L"landdust");
-			CSpriteRenderer* SpriteRenderer = mLanddust->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"landdustMat");
-			SpriteRenderer->SetMaterial(Material);
-
+		CGameObj* LandDustObject = GetOrCreateLanddustObject();
+		if (LandDustObject)
+		{
 			Vector3 playerPos = GetOwner()->GetPos();
-			mLanddust->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
+			LandDustObject->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
 
-			CAnimator* mAnimator = mLanddust->AddComponent<CAnimator>(eComponentType::Animator);
-			mAnimator->Create(L"landdust", Material->GetTexture(), { 0.f, 0.f }, { 50.f, 14.f }, Vector2::Zero, 7, { 60.f, 60.f }, 0.05f);
-			mAnimator->Play(L"landdust", false);
-			mAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
+			CAnimator* LandDustAnimator = LandDustObject->GetComponent<CAnimator>();
+			if (LandDustAnimator)
+			{
+				LandDustAnimator->Play(L"landdust", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
 	}
 
-	void CPlayerScript::createdust(UINT _Count)
+	CGameObj* CPlayerScript::GetOrCreateLanddustObject()
+	{
+		if (!mLanddust)
+		{
+			// create
+			mLanddust = object::Instantiate<CGameObj>(eLayerType::FX, L"landdust");
+			if (mLanddust)
+			{
+				// intialize
+				InitializeLanddustComponent();
+			}
+		}
+
+		return mLanddust;
+	}
+#endif
+
+	// 함수 이름으로 구라치지말자!!! -> create 생성한다. 근데? 함수를 보니까 애니메이션 Play하고 있어???
+	// 함수는 하나의 동작만 하자 <- 중요!!!
+	void CPlayerScript::InitializeLanddustComponent()
+	{
+		// die 함수 지운 이유 -> mLandDust라고 PlayerScript에 메모리에 등록을 했는데 굳이 삭제할 이유가 ??? 없다 ...
+
+		CGameObj* LandDustObject = GetOrCreateLanddustObject();
+		if (LandDustObject)
+		{
+			std::shared_ptr<CTexture> LanddustTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = LandDustObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"landdustMat");
+				if (Material)
+				{
+					LanddustTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			// #todo Lambda 공부
+			// #todo LanddustOffset -> 매직넘버는 변수로 정의를 해라 (클린코드)
+			Vector3 playerPos = GetOwner()->GetPos();
+			LandDustObject->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
+
+			if (LanddustTexture)
+			{
+				CAnimator* LandDustAnimator = LandDustObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (LandDustAnimator)
+				{
+					// #todo bind도 lambda로 변환이 가능하다.
+					LandDustAnimator->Create(L"landdust", LanddustTexture, { 0.f, 0.f }, { 50.f, 14.f }, Vector2::Zero, 7, { 60.f, 60.f }, 0.05f);
+					//LandDustAnimator->Play(L"landdust", false);
+					//LandDustAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
+					// -> 내가 생각하기에 여기서 메모리 누수랑 혹시 모르는 크래시가 있지 않았나.
+					// 이전 컬리전 엔터가 지금 CPlayerScript가 쓰는 mLanddust를 삭제를 한다.
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+		}
+	}
+
+	void CPlayerScript::createRolldust(UINT _Count)
 	{
 		for (UINT i = 0; i < _Count; i++)
 		{
@@ -903,17 +990,6 @@ namespace dru
 			{
 				dust->SetVelocity({ x, y, 0.f });
 			}
-
-			//if (0 < mRigidbody->GetVelocity().y)
-			//{
-			//	dust->SetVelocity({ -x, y, 0.f });
-			//}
-			//else
-			//{
-			//	dust->SetVelocity({ x, y, 0.f });
-			//}
-
-
 			delete p;
 		}
 	}

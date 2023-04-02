@@ -82,7 +82,7 @@ namespace dru
         void attack();
 
         void createJumpdust(bool _bIsSide, float _Radian = 0);
-        void createLanddust();
+        void InitializeLanddustComponent();
         void createdust(UINT _Count);
 
 
@@ -122,6 +122,15 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
+
+// #todo
+#if 1
+	private:
+        void PlayLanddust();
+
+		CGameObj* GetOrCreateJumpdust() {}
+		CGameObj* GetOrCreateLanddustObject();
+#endif
     };
 }
 

@@ -111,6 +111,11 @@ namespace dru
 
 		for (CGameObj* Obj : DeadObjs)
 		{
+			if (Obj->GetLayerType() != eLayerType::FX)
+			{
+				std::wcout <<Obj->GetName() <<"       "<<  Obj << std::endl;
+			}
+
 			delete Obj;
 			Obj = nullptr;
 		}

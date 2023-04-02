@@ -57,7 +57,8 @@ namespace dru
 
 	void CDust::rundustComplete()
 	{
-		Die();
+		if(this != nullptr)
+			Die();
 	}
 
 }
