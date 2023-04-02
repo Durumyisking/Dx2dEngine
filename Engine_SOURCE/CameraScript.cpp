@@ -40,6 +40,19 @@ namespace dru
 
 	void CCameraScript::update()
 	{
+		if (mDirBlock[(UINT)eDir::LEFT] == true)
+		{
+			mPlayer->GetPos().x > GetOwner()->GetPos().x;
+			mbCamFollowPlayerX = true;
+		}
+		if (mDirBlock[(UINT)eDir::RIGHT] == true)
+		{
+			mPlayer->GetPos().x < GetOwner()->GetPos().x;
+			mbCamFollowPlayerX = true;
+		}
+
+
+
 		mLookAt = mTransform->GetPosition();
 
 		mTarget = mCameraObject->mTargetObj;
@@ -68,7 +81,6 @@ namespace dru
 	{
 		if (L"col_outWallside" == _oppo->GetName())
 		{
-
 			// Ä·º¸´Ù ¿ÞÂÊÀÌ¸é
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 			{
@@ -94,19 +106,12 @@ namespace dru
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 			{
 				mDirBlock[(UINT)eDir::LEFT] = false;
-//				dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOffX();
 			}
 			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
 			{
 				mDirBlock[(UINT)eDir::RIGHT] = false;
-//				dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOffX();
 			}
 
-
-			//if (mDir[(UINT)eDir::UP] == true || mDir[(UINT)eDir::DOWN] == true)
-			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnY();
-			//if (mDir[(UINT)eDir::LEFT] == true || mDir[(UINT)eDir::RIGHT] == true)
-			//	dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->CamFollowOnX();
 		}
 	}
 

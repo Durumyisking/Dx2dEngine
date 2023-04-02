@@ -158,6 +158,9 @@
     <Filter Include="Common\Component\Renderer\ParticleSystem">
       <UniqueIdentifier>{5dc4739f-364e-43ca-86ec-b939e659c796}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\FX">
+      <UniqueIdentifier>{b6cd7f64-0237-46e8-a61a-2740ecf28e5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -368,6 +371,9 @@
     <ClInclude Include="OutWallSide.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>GameObj\FX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -562,6 +568,9 @@
     </ClCompile>
     <ClCompile Include="OutWallSide.cpp">
       <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>GameObj\FX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

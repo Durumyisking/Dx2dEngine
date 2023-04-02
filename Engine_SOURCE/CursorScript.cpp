@@ -28,9 +28,9 @@ namespace dru
 		mPos = CInput::GetMousePosition();
 
 		Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
-
-		mPos.x += camPos.x;
-		mPos.y += camPos.y;
+//		mPos /= 100.f;
+		//mPos.x += camPos.x;
+		//mPos.y += camPos.y;
 		mTrans->SetPosition(mPos / 100.f);
 
 	}

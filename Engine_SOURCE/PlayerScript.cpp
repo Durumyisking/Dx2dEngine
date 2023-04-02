@@ -10,6 +10,8 @@
 
 #include "SceneMain.h"
 
+#include "Dust.h"
+
 
 namespace dru
 {
@@ -328,6 +330,31 @@ namespace dru
 	void CPlayerScript::idletorunEnd()
 	{
 		mAnimator->Play(L"Player_Run");
+
+		{
+			for (size_t i = 0; i < 5; i++)
+			{
+				CDust* dust = object::Instantiate<CDust>(eLayerType::FX, L"dust");
+				Vector3 playerPos = GetOwner()->GetPos();
+				dust->SetPos({ playerPos.x, playerPos.y - 0.5f , playerPos.z - 0.001f });
+
+				void* p = new int();
+				srand((int)p);
+				float x = static_cast<float>(rand() % 31 / 10.f);
+				float y = static_cast<float>(rand() % 21 / 10.f);
+
+				if (0 < mRigidbody->GetVelocity().x)
+				{
+					dust->SetVelocity({ -x, y, 0.f });
+				}
+				else
+				{
+					dust->SetVelocity({ x, y, 0.f });
+				}
+				delete p;
+			}
+		}
+
 	}
 	void CPlayerScript::runtoidleEnd()
 	{
@@ -406,6 +433,11 @@ namespace dru
 	void CPlayerScript::landdustComplete()
 	{
 		mLanddust->Die();
+	}
+
+
+	void CPlayerScript::dustComplete()
+	{
 	}
 
 	void CPlayerScript::idleToRun()

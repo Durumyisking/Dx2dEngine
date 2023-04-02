@@ -46,6 +46,9 @@ namespace dru
 
 		bool IsOnAir() { return mbOnAir; }
 
+		void AffectedGravityOn() { mbAffectedGravity = true; }
+		void AffectedGravityOff() { mbAffectedGravity = false; }
+
 	private:
 		void objMove();
 
@@ -63,6 +66,7 @@ namespace dru
 
 		bool		mbOnAir;
 
+		bool		mbAffectedGravity;
     };
 
 }

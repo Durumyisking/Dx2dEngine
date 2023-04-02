@@ -13,6 +13,7 @@ namespace dru
 		, mMaxSpeed(Vector3(5.f, 7.f, 0.f))
 		, mFricCoeff(20.f)
 		, mbOnAir(true)
+		, mbAffectedGravity(true)
 		, mGravity(Vector3(0.f, -20.f, 0.f))
 	{
 	}
@@ -38,7 +39,7 @@ namespace dru
 			mAccel = mForce * Accel;
 		}
 
-		if (mbOnAir)
+		if (mbOnAir && mbAffectedGravity)
 		{
 			mAccel += mGravity;
 		}

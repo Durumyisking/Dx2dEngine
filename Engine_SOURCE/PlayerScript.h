@@ -57,6 +57,9 @@ namespace dru
         void jumpdustComplete();
         void landdustComplete();
 
+        void dustComplete();
+
+
         // player action
         void idleToRun();
         void run();

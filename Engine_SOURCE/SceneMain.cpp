@@ -39,7 +39,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mbLoad(false)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPlayer(nullptr)
 
 	{
@@ -128,7 +128,7 @@ namespace dru
 			CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
 			coll->SetName(L"col_maincam");
 			coll->SetType(eColliderType::Rect);
-			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f - 10.f, GetDevice()->ViewportHeight() / 100.f));
+			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f - 7.f, GetDevice()->ViewportHeight() / 100.f));
 			coll->Off();
 			
 		}

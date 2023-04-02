@@ -577,22 +577,30 @@ namespace dru
 
 	void CStageTutorial::LComplete()
 	{
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_none");
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_anim", false);
+		if (mKeyLeft)
+			mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_none");
+		if (mKeyRight)
+			mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_anim", false);
 	}
 	void CStageTutorial::RComplete()
 	{
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
+		if (mKeyRight)
+			mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		if (mKeyLeft)
+			mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
 	}
 	void CStageTutorial::UComplete()
 	{
-		mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_none");
-		mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim", false);
+		if(mKeyUp)
+			mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_none");
+		if (mKeyDown)
+			mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim", false);
 	}
 	void CStageTutorial::DComplete()
 	{
-		mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
-		mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
+		if (mKeyDown)
+			mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
+		if (mKeyUp)
+			mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
 	}
 }

@@ -182,6 +182,7 @@
     <ClInclude Include="CursorScript.h" />
     <ClInclude Include="druEnums.h" />
     <ClInclude Include="druMath.h" />
+    <ClInclude Include="Dust.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FadeScript.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="CursorScript.cpp" />
     <ClCompile Include="druMath.cpp" />
+    <ClCompile Include="Dust.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FadeScript.cpp" />
     <ClCompile Include="Floor.cpp" />
