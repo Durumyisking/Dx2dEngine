@@ -57,6 +57,14 @@ namespace dru
         void jumpdustComplete();
         void landdustComplete();
 
+        void rollFrame1();
+        void rollFrame2();
+        void rollFrame3();
+        void rollFrame4();
+        void rollFrame5();
+        void rollFrame6();
+        void rollFrame7();
+
         void dustComplete();
 
 
@@ -75,7 +83,7 @@ namespace dru
 
         void createJumpdust(bool _bIsSide, float _Radian = 0);
         void createLanddust();
-
+        void createdust(UINT _Count);
 
 
         void wallLRCheck();
@@ -101,7 +109,7 @@ namespace dru
         float mWallSlideUpTime;
         float mWallKickTime;
         float mLRKeyupTime;
-
+        float mSlideDustCount;
 
         float mAttackCooldown;
         Vector3 mAttackDir;

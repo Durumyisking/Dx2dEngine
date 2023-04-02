@@ -25,6 +25,7 @@ namespace dru
 		, mAttackDir(Vector3::Zero)
 		, mbFirstAttack(0)
 		, mLRKeyupTime(0.f)
+		, mSlideDustCount(0.f)
 		, mbLRKeyupTimerOn(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
@@ -49,8 +50,18 @@ namespace dru
 		mAnimator->GetCompleteEvent(L"Player_Attack") = std::bind(&CPlayerScript::attacktoidleEnd, this);
 		mAnimator->GetCompleteEvent(L"Player_PreCrouch") = std::bind(&CPlayerScript::precrouch, this);
 		mAnimator->GetCompleteEvent(L"Player_PostCrouch") = std::bind(&CPlayerScript::postcrouch, this);
+
 		mAnimator->GetEndEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollEnd, this);
+
+		mAnimator->GetFrameEvent(L"Player_Roll", 0) = std::bind(&CPlayerScript::rollFrame1, this);
+		mAnimator->GetFrameEvent(L"Player_Roll", 1) = std::bind(&CPlayerScript::rollFrame2, this);
+		mAnimator->GetFrameEvent(L"Player_Roll", 2) = std::bind(&CPlayerScript::rollFrame3, this);
+		mAnimator->GetFrameEvent(L"Player_Roll", 3) = std::bind(&CPlayerScript::rollFrame4, this); 
+		mAnimator->GetFrameEvent(L"Player_Roll", 4) = std::bind(&CPlayerScript::rollFrame5, this);
+		mAnimator->GetFrameEvent(L"Player_Roll", 5) = std::bind(&CPlayerScript::rollFrame6, this);
+		mAnimator->GetFrameEvent(L"Player_Roll", 6) = std::bind(&CPlayerScript::rollFrame7, this);
 		mAnimator->GetCompleteEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollComplete, this);
+
 		mAnimator->GetCompleteEvent(L"Player_WallKick") = std::bind(&CPlayerScript::wallkickComplete, this);
 	}
 	void CPlayerScript::update()
@@ -157,8 +168,6 @@ namespace dru
 				GetOwner()->SetLeft();
 			if (CInput::GetKeyDown(eKeyCode::D))
 				GetOwner()->SetRight();
-			mRigidbody->SetGround();
-
 
 			if (CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
 			{
@@ -174,6 +183,7 @@ namespace dru
 				mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 			}
 
+			mRigidbody->SetGround();
 			createLanddust();
 		}
 		else if (L"col_wall" == _oppo->GetName())
@@ -332,27 +342,7 @@ namespace dru
 		mAnimator->Play(L"Player_Run");
 
 		{
-			for (size_t i = 0; i < 5; i++)
-			{
-				CDust* dust = object::Instantiate<CDust>(eLayerType::FX, L"dust");
-				Vector3 playerPos = GetOwner()->GetPos();
-				dust->SetPos({ playerPos.x, playerPos.y - 0.5f , playerPos.z - 0.001f });
-
-				void* p = new int();
-				srand((int)p);
-				float x = static_cast<float>(rand() % 31 / 10.f);
-				float y = static_cast<float>(rand() % 21 / 10.f);
-
-				if (0 < mRigidbody->GetVelocity().x)
-				{
-					dust->SetVelocity({ -x, y, 0.f });
-				}
-				else
-				{
-					dust->SetVelocity({ x, y, 0.f });
-				}
-				delete p;
-			}
+			createdust(5);
 		}
 
 	}
@@ -433,6 +423,41 @@ namespace dru
 	void CPlayerScript::landdustComplete()
 	{
 		mLanddust->Die();
+	}
+
+	void CPlayerScript::rollFrame1()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame2()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame3()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame4()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame5()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame6()
+	{
+		createdust(3);
+	}
+
+	void CPlayerScript::rollFrame7()
+	{
+		createdust(3);
 	}
 
 
@@ -575,9 +600,14 @@ namespace dru
 			else
 			{
 				if (GetOwner()->IsLeft())
+				{
 					mRigidbody->AddForce(mTransform->Right() * -50.f);
+				}
 				else
+				{
 					mRigidbody->AddForce(mTransform->Right() * 50.f);
+				}
+
 			}
 		}
 	}
@@ -644,7 +674,7 @@ namespace dru
 	}
 	void CPlayerScript::wallSlide()
 	{
-		if (!mRigidbody->IsOnAir())
+		if (mRigidbody->IsOnAir())
 		{
 			if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
 			{
@@ -675,6 +705,12 @@ namespace dru
 				if (CInput::GetKeyDown(eKeyCode::W))
 				{
 					mRigidbody->AddForce(mTransform->Up() * 15.f);
+					mSlideDustCount += CTimeMgr::DeltaTime();
+					if (mSlideDustCount > (1.f / 15.f))
+					{
+						createdust(1);
+						mSlideDustCount = 0.f;
+					}
 				}
 			}
 		}
@@ -687,6 +723,12 @@ namespace dru
 				mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
 			}
 
+			mSlideDustCount += CTimeMgr::DeltaTime();
+			if (mSlideDustCount > (1.f / 15.f))
+			{
+				createdust(1);
+				mSlideDustCount = 0.f;
+			}
 		}
 	}
 	void CPlayerScript::wallKickTrigger()
@@ -838,6 +880,42 @@ namespace dru
 			mAnimator->Create(L"landdust", Material->GetTexture(), { 0.f, 0.f }, { 50.f, 14.f }, Vector2::Zero, 7, { 60.f, 60.f }, 0.05f);
 			mAnimator->Play(L"landdust", false);
 			mAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
+	}
+
+	void CPlayerScript::createdust(UINT _Count)
+	{
+		for (UINT i = 0; i < _Count; i++)
+		{
+			CDust* dust = object::Instantiate<CDust>(eLayerType::FX, L"dust");
+			Vector3 playerPos = GetOwner()->GetPos();
+			dust->SetPos({ playerPos.x, playerPos.y - 0.5f , playerPos.z - 0.001f });
+
+			void* p = new int();
+			srand((int)p);
+			float x = static_cast<float>(rand() % 31 / 10.f);
+			float y = static_cast<float>(rand() % 21 / 10.f);
+
+			if (0 < mRigidbody->GetVelocity().x)
+			{
+				dust->SetVelocity({ -x, y, 0.f });
+			}
+			else
+			{
+				dust->SetVelocity({ x, y, 0.f });
+			}
+
+			//if (0 < mRigidbody->GetVelocity().y)
+			//{
+			//	dust->SetVelocity({ -x, y, 0.f });
+			//}
+			//else
+			//{
+			//	dust->SetVelocity({ x, y, 0.f });
+			//}
+
+
+			delete p;
+		}
 	}
 
 	void CPlayerScript::wallLRCheck()
