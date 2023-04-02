@@ -187,12 +187,9 @@ namespace dru
 
 			// 처음 호출됐다면? LanddustObject Create
 			// 그 이후부터는? LanddustObject Get
-			if (GetOrCreateLanddustObject()) // 함수는 하나의 동작을 한다는걸 위배했지만? 어쩔수없음 ㅋ
+			if (GetOrCreateLanddustObject()) // 객체 있으면
 			{
-				// LandustEffect Class Play()
-				// LanddustEffect->Play();
 				PlayLanddust();
-				//createLanddust();
 			}
 		}
 		else if (L"col_wall" == _oppo->GetName())
@@ -424,21 +421,6 @@ namespace dru
 
 	}
 
-	void CPlayerScript::jumpdustComplete()
-	{
-		mJumpdust->Die();
-	}
-
-	void CPlayerScript::landdustComplete()
-	{
-		if (mLanddust)
-		{
-			// landdustComplete가 되면 Deactive 같은 함수를 만들어서 render가 안되도록 만들기
-			// HideInGame 같이?
-			//mLanddust->Pause();
-		}
-	}
-
 	void CPlayerScript::rollFrame1()
 	{
 		createRolldust(3);
@@ -474,8 +456,18 @@ namespace dru
 		createRolldust(3);
 	}
 
+	void CPlayerScript::JumpdustComplete()
+	{
+		mJumpdust->RenderingBlockOn();
+	}
 
-	void CPlayerScript::dustComplete()
+	void CPlayerScript::LanddustComplete()
+	{
+		mLanddust->RenderingBlockOn();
+	}
+
+
+	void CPlayerScript::RolldustComplete()
 	{
 	}
 
@@ -637,7 +629,7 @@ namespace dru
 				mState[(UINT)ePlayerState::Jump] = true;
 				mAnimator->Play(L"Player_Jump", false);
 
-				createJumpdust(false);
+				PlayJumpdust();
 			}
 		}
 		else
@@ -760,12 +752,14 @@ namespace dru
 
 				if (GetOwner()->IsLeft())
 				{
-					createJumpdust(true, -90.f);
+					PlayJumpdust();
+					jumpdustRotate(-90.f);
 					GetOwner()->SetRight();
 				}
 				else
 				{
-					createJumpdust(true, 90.f);
+					PlayJumpdust();
+					jumpdustRotate(90.f);
 					GetOwner()->SetLeft();
 				}
 			}
@@ -840,59 +834,90 @@ namespace dru
 		}
 	}
 
-	void CPlayerScript::createJumpdust(bool _bIsSide, float _Radian)
+
+	void CPlayerScript::initializeJumpdustComponent()
 	{
-		//if (mJumpdust)
-		//{
-		//	mJumpdust->Die();
-		//}
 
-
-		mJumpdust = object::Instantiate<CGameObj>(eLayerType::FX, L"jumpdust");
-		CSpriteRenderer* SpriteRenderer = mJumpdust->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"dustMat");
-		SpriteRenderer->SetMaterial(Material);
-
-		Vector3 playerPos = GetOwner()->GetPos();
-
-		if (_bIsSide)
+		CGameObj* JumpDustObject = GetOrCreateJumpdustObject();
+		if (JumpDustObject)
 		{
-			if (GetOwner()->IsLeft())
+			std::shared_ptr<CTexture> JumpdustTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = JumpDustObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			if (SpriteRenderer)
 			{
-				mJumpdust->SetPos({ playerPos.x + 0.30f, playerPos.y, playerPos.z - 0.001f });
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"dustMat");
+				if (Material)
+				{
+					JumpdustTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
 			}
 			else
 			{
-				mJumpdust->SetPos({ playerPos.x - 0.30f, playerPos.y, playerPos.z - 0.001f });
+				assert(false);
+			}
+
+
+			if (JumpdustTexture)
+			{
+				CAnimator* JumpDustAnimator = JumpDustObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (JumpDustAnimator)
+				{
+					JumpDustAnimator->Create(L"jumpdust", JumpdustTexture, { 222.f, 0.f }, { 32.f, 51.f }, Vector2::Zero, 4, { 60.f, 60.f }, 0.05f);
+					JumpDustAnimator->GetCompleteEvent(L"jumpdust") = std::bind(&CPlayerScript::JumpdustComplete, this);
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+		}
+	}
+
+	void CPlayerScript::jumpdustSlideCheck()
+	{
+		Vector3 playerPos = GetOwnerPos();
+		playerPos.z -= 0.001f;
+		if (mState[(UINT)ePlayerState::WallKick] == true)
+		{
+			if (GetOwner()->IsLeft())
+			{
+				playerPos.x += 0.3f;
+				mJumpdust->SetPos(playerPos);
+			}
+			else
+			{
+				playerPos.x -= 0.3f;
+				mJumpdust->SetPos(playerPos);
 			}
 		}
 		else
 		{
-			mJumpdust->SetPos({ playerPos.x, playerPos.y + 0.1f , playerPos.z - 0.001f });
+			playerPos.y += 0.1f;
+			mJumpdust->SetPos(playerPos);
 		}
+	}
 
-		mJumpdust->GetComponent<CTransform>()->SetRotation({ 0.f, 0.f, _Radian });
-
-		CAnimator* mAnimator = mJumpdust->AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"jumpdust", Material->GetTexture(), { 222.f, 0.f }, { 32.f, 51.f }, Vector2::Zero, 4, { 60.f, 60.f }, 0.05f);
-		mAnimator->Play(L"jumpdust", false);
-		mAnimator->GetCompleteEvent(L"jumpdust") = std::bind(&CPlayerScript::jumpdustComplete, this);
-
+	void CPlayerScript::jumpdustRotate(float _Radian)
+	{
+		mJumpdust->GetComponent<CTransform>()->SetRotationZ( _Radian );
 	}
 
 	// #todo
-#if 1
 	void CPlayerScript::PlayLanddust()
 	{
 		CGameObj* LandDustObject = GetOrCreateLanddustObject();
 		if (LandDustObject)
 		{
 			Vector3 playerPos = GetOwner()->GetPos();
-			LandDustObject->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
+			playerPos.y -= 0.55;
+			playerPos.z -= 0.001f;
+			LandDustObject->SetPos(playerPos);
 
 			CAnimator* LandDustAnimator = LandDustObject->GetComponent<CAnimator>();
 			if (LandDustAnimator)
 			{
+				LandDustObject->RenderingBlockOff();
 				LandDustAnimator->Play(L"landdust", false);
 			}
 			else
@@ -900,6 +925,42 @@ namespace dru
 				assert(false);
 			}
 		}
+	}
+
+	void CPlayerScript::PlayJumpdust()
+	{
+		CGameObj* JumpDustObject = GetOrCreateJumpdustObject();
+		jumpdustSlideCheck();
+
+		if (JumpDustObject)
+		{
+			CAnimator* JumpDustAnimator = JumpDustObject->GetComponent<CAnimator>();
+			if (JumpDustAnimator)
+			{
+				JumpDustObject->RenderingBlockOff();
+				JumpDustAnimator->Play(L"jumpdust", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+
+	CGameObj* CPlayerScript::GetOrCreateJumpdustObject()
+	{
+		if (!mJumpdust)
+		{
+			// create
+			mJumpdust = object::Instantiate<CGameObj>(eLayerType::FX, L"jumpdust");
+			if (mJumpdust)
+			{
+				// intialize
+				initializeJumpdustComponent();
+			}
+		}
+
+		return mJumpdust;
 	}
 
 	CGameObj* CPlayerScript::GetOrCreateLanddustObject()
@@ -911,20 +972,18 @@ namespace dru
 			if (mLanddust)
 			{
 				// intialize
-				InitializeLanddustComponent();
+				initializeLanddustComponent();
 			}
 		}
 
 		return mLanddust;
 	}
-#endif
+
 
 	// 함수 이름으로 구라치지말자!!! -> create 생성한다. 근데? 함수를 보니까 애니메이션 Play하고 있어???
 	// 함수는 하나의 동작만 하자 <- 중요!!!
-	void CPlayerScript::InitializeLanddustComponent()
+	void CPlayerScript::initializeLanddustComponent()
 	{
-		// die 함수 지운 이유 -> mLandDust라고 PlayerScript에 메모리에 등록을 했는데 굳이 삭제할 이유가 ??? 없다 ...
-
 		CGameObj* LandDustObject = GetOrCreateLanddustObject();
 		if (LandDustObject)
 		{
@@ -956,6 +1015,7 @@ namespace dru
 				{
 					// #todo bind도 lambda로 변환이 가능하다.
 					LandDustAnimator->Create(L"landdust", LanddustTexture, { 0.f, 0.f }, { 50.f, 14.f }, Vector2::Zero, 7, { 60.f, 60.f }, 0.05f);
+					LandDustAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::LanddustComplete, this);
 					//LandDustAnimator->Play(L"landdust", false);
 					//LandDustAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
 					// -> 내가 생각하기에 여기서 메모리 누수랑 혹시 모르는 크래시가 있지 않았나.
@@ -975,12 +1035,14 @@ namespace dru
 		{
 			CDust* dust = object::Instantiate<CDust>(eLayerType::FX, L"dust");
 			Vector3 playerPos = GetOwner()->GetPos();
-			dust->SetPos({ playerPos.x, playerPos.y - 0.5f , playerPos.z - 0.001f });
+			playerPos.y -= 0.5f;
+			playerPos.z -= 0.001f;
+			dust->SetPos(playerPos);
 
 			void* p = new int();
 			srand((int)p);
-			float x = static_cast<float>(rand() % 31 / 10.f);
-			float y = static_cast<float>(rand() % 21 / 10.f);
+			float x = static_cast<float>(rand() % 31 / 10.f); // 0~3.f
+			float y = static_cast<float>(rand() % 21 / 10.f); // 0~2.f
 
 			if (0 < mRigidbody->GetVelocity().x)
 			{

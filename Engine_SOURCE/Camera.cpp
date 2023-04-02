@@ -188,7 +188,8 @@ namespace dru
 		{
 			if(nullptr == obj)
 				continue;
-			obj->render();
+			if(!obj->IsRenderingBlock())
+				obj->render();
 
 		}
 	}
@@ -199,7 +200,8 @@ namespace dru
 		{
 			if (nullptr == obj)
 				continue;
-			obj->render();
+			if (!obj->IsRenderingBlock())
+				obj->render();
 
 		}
 	}
@@ -210,7 +212,8 @@ namespace dru
 		{
 			if (nullptr == obj)
 				continue;
-			obj->render();
+			if (!obj->IsRenderingBlock())
+				obj->render();
 		}
 	}
 

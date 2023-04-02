@@ -1,4 +1,6 @@
 #include "Component.h"
+#include "GameObj.h"
+
 namespace dru
 {
     CComponent::CComponent(eComponentType _Type)
@@ -9,6 +11,11 @@ namespace dru
 
     CComponent::~CComponent()
     {
+    }
+
+    math::Vector3 CComponent::GetOwnerPos() const
+    {
+        return mOwner->GetPos();
     }
 
 } 

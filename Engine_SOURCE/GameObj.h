@@ -160,6 +160,10 @@ namespace dru
 		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
+		bool IsRenderingBlock() const { return mbBlockRendering; }
+		void RenderingBlockOn() { mbBlockRendering = true; }
+		void RenderingBlockOff() { mbBlockRendering = false; }
+
 		bool MoveToTarget_Smooth_bool(CGameObj* _target, float _speed, bool _zOn, eDir _dir = eDir::END);
 		Vector3 MoveToTarget_Smooth_vector3(CGameObj* _target, float _speed, bool _zOn, eDir _dir = eDir::END);
 
@@ -174,6 +178,7 @@ namespace dru
 		bool mbDestroy;
 
 		bool mbIsLeft;
+		bool mbBlockRendering;
 
 	};
 

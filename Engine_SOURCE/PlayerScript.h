@@ -54,8 +54,7 @@ namespace dru
         void rollEnd();
         void rollComplete();
         void wallkickComplete();
-        void jumpdustComplete();
-        void landdustComplete();
+
 
         void rollFrame1();
         void rollFrame2();
@@ -65,7 +64,9 @@ namespace dru
         void rollFrame6();
         void rollFrame7();
 
-        void dustComplete();
+        void JumpdustComplete();
+        void LanddustComplete();
+        void RolldustComplete();
 
 
         // player action
@@ -81,9 +82,14 @@ namespace dru
         void wallKick();
         void attack();
 
-        void createJumpdust(bool _bIsSide, float _Radian = 0);
-        void InitializeLanddustComponent();
-        void createdust(UINT _Count);
+        void initializeJumpdustComponent();
+        void jumpdustSlideCheck();
+        void jumpdustRotate(float _Radian);
+
+        void initializeLanddustComponent();
+
+
+        void createRolldust(UINT _Count);
 
 
         void wallLRCheck();
@@ -123,14 +129,12 @@ namespace dru
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
 
-// #todo
-#if 1
 	private:
         void PlayLanddust();
+        void PlayJumpdust();
 
-		CGameObj* GetOrCreateJumpdust() {}
+        CGameObj* GetOrCreateJumpdustObject();
 		CGameObj* GetOrCreateLanddustObject();
-#endif
     };
 }
 

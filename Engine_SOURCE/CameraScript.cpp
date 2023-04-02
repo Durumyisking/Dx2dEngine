@@ -42,13 +42,13 @@ namespace dru
 	{
 		if (mDirBlock[(UINT)eDir::LEFT] == true)
 		{
-			mPlayer->GetPos().x > GetOwner()->GetPos().x;
-			mbCamFollowPlayerX = true;
+			if(mPlayer->GetPos().x > GetOwner()->GetPos().x)
+				mbCamFollowPlayerX = true;
 		}
 		if (mDirBlock[(UINT)eDir::RIGHT] == true)
 		{
-			mPlayer->GetPos().x < GetOwner()->GetPos().x;
-			mbCamFollowPlayerX = true;
+			if(mPlayer->GetPos().x < GetOwner()->GetPos().x)
+				mbCamFollowPlayerX = true;
 		}
 
 
@@ -183,11 +183,11 @@ namespace dru
 		{
 			if (mbCamFollowPlayerX)
 			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3, false, eDir::LEFT);
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::LEFT);
 			}
 			if (mbCamFollowPlayerY)
 			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3, false, eDir::UP);
+				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::UP);
 			}
 		}
 	}

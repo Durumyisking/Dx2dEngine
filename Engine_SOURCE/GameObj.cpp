@@ -6,7 +6,11 @@ namespace dru
 	
 	CGameObj::CGameObj()
 		:mState(eState::Active)
+		, mType(eLayerType::None)
+		, mScripts{}
+		, mbDestroy(false)
 		, mbIsLeft(true)
+		, mbBlockRendering(false)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
 		this->AddComponent<CTransform>(eComponentType::Transform);
