@@ -792,9 +792,8 @@ namespace dru
 			{
 				MakeSlash(L"fx_slash", GetOwner()->GetPos(), 5, { 100, 100 });
 
-				Vector3 MousePos = CInput::GetMousePosition();
+				Vector3 MousePos = CInput::GetMousePosition_world();
 				mRigidbody->SetVelocity(Vector3::Zero);
-				MousePos /= 100.f;
 
 				if (MousePos.x < mPos.x)
 					GetOwner()->SetLeft();
@@ -903,7 +902,6 @@ namespace dru
 		mJumpdust->GetComponent<CTransform>()->SetRotationZ( _Radian );
 	}
 
-	// #todo
 	void CPlayerScript::PlayLanddust()
 	{
 		CGameObj* LandDustObject = GetOrCreateLanddustObject();
@@ -1018,8 +1016,6 @@ namespace dru
 					LandDustAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::LanddustComplete, this);
 					//LandDustAnimator->Play(L"landdust", false);
 					//LandDustAnimator->GetCompleteEvent(L"landdust") = std::bind(&CPlayerScript::landdustComplete, this);
-					// -> 내가 생각하기에 여기서 메모리 누수랑 혹시 모르는 크래시가 있지 않았나.
-					// 이전 컬리전 엔터가 지금 CPlayerScript가 쓰는 mLanddust를 삭제를 한다.
 				}
 				else
 				{

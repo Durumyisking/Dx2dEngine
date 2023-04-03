@@ -86,7 +86,8 @@ namespace dru
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
 			mMousePosition.x = ((float)mousePos.x - mWinWidthCenter);
-			mMousePosition.y = -((float)mousePos.y - mWinHeightCenter);
+			mMousePosition.y = -((float)mousePos.y - mWinHeightCenter);	
+
 		}
 		else
 		{

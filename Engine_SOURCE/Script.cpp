@@ -43,8 +43,7 @@ namespace dru
 		coll->SetScale(Vector2(1.f, 0.15f));
 
 
-		Vector3 MousePos = CInput::GetMousePosition();
-		MousePos /= 100.f;
+		Vector3 MousePos = CInput::GetMousePosition_world();
 
 		SlashObj->SetScale({ 2.f, 2.5f, 1.f });
 		SlashObj->SetPos(_PlayerPos);

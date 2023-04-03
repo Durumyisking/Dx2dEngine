@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "druMath.h"
+#include "GameObj.h"
 
 namespace dru
 {
@@ -58,6 +59,18 @@ namespace dru
 		static __forceinline math::Vector3 GetMousePosition()
 		{
 			return mMousePosition;
+		}
+
+		static __forceinline math::Vector3 GetMousePosition_world()
+		{
+			Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
+			Vector3 newPos = CInput::GetMousePosition();
+			newPos = mMousePosition / 100.f;
+			newPos.x += camPos.x;
+			newPos.y += camPos.y;
+
+
+			return newPos;
 		}
 
 		static __forceinline bool GetKeyDown(eKeyCode keyCode)
