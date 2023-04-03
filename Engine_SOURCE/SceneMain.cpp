@@ -39,7 +39,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mbLoad(false)
 		, mStages{}
-		, mCurrentStage(1)
+		, mCurrentStage(0)
 		, mPlayer(nullptr)
 
 	{
@@ -87,6 +87,7 @@ namespace dru
 			{
 				mStages[mCurrentStage]->LoadUI();
 				renderer::mainCamera->GetCamScript()->CamFollowOnX();
+				renderer::mainCamera->GetCamScript()->CamFollowOnY();
 				renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->On();
 				mbLoad = true;
 			}

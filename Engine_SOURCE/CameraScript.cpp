@@ -50,6 +50,17 @@ namespace dru
 			if(mPlayer->GetPos().x < GetOwner()->GetPos().x)
 				mbCamFollowPlayerX = true;
 		}
+		if (mDirBlock[(UINT)eDir::UP] == true)
+		{
+			if (mPlayer->GetPos().y < GetOwner()->GetPos().y)
+				mbCamFollowPlayerY = true;
+		}
+		if (mDirBlock[(UINT)eDir::DOWN] == true)
+		{
+			if (mPlayer->GetPos().y > GetOwner()->GetPos().y)
+				mbCamFollowPlayerY = true;
+		}
+
 
 		mLookAt = mTransform->GetPosition();
 
@@ -94,10 +105,25 @@ namespace dru
 				mbCamFollowPlayerX = false;
 			}
 		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y > _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::DOWN] = true;
+				mbCamFollowPlayerY = false;
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y < _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::UP] = true;
+				mbCamFollowPlayerY = false;
+			}
+
+		}
 	}
 
 	void CCameraScript::OnCollision(CCollider2D* _oppo)
 	{
+
 	}
 
 	void CCameraScript::OnCollisionExit(CCollider2D* _oppo)
@@ -111,6 +137,18 @@ namespace dru
 			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
 			{
 				mDirBlock[(UINT)eDir::RIGHT] = false;
+			}
+
+		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y > _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::DOWN] = false;
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y < _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::UP] = false;
 			}
 
 		}

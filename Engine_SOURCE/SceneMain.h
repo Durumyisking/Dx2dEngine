@@ -26,6 +26,8 @@ namespace dru
 		void SetPlayer(CPlayer* _player) { mPlayer = _player; }
 		CPlayer* Getplayer() const { return mPlayer; }
 
+		void SetStage(UINT _stage) { mCurrentStage = _stage; }
+
 	private:
 		CGameObj* mCamera;
 		CGameObj* mUICamera;

@@ -59,7 +59,7 @@ namespace dru
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
 			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			LeftOutWall->SetPos(Vector3(-20.25f, 0.f, 4.999f));
+			LeftOutWall->SetPos(Vector3(-8.2f, 0.f, 4.999f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
@@ -67,7 +67,7 @@ namespace dru
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
 			//			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
-			RightOutWall->SetPos(Vector3(20.25f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
 
@@ -81,7 +81,7 @@ namespace dru
 		{
 			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
 			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			DownOutWall->SetPos(Vector3(0.f, -18.f, 4.999f));
+			DownOutWall->SetPos(Vector3(0.f, -6.f, 4.999f));
 			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
 
@@ -117,6 +117,8 @@ namespace dru
 			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
 		}
 		LoadUI();
+		renderer::mainCamera->GetCamScript()->CamFollowOnX();
+		renderer::mainCamera->GetCamScript()->CamFollowOnY();
 
 	}
 
