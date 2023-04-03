@@ -45,6 +45,8 @@ namespace dru
         void TutorSuccess(TutorialStage _Stage);
         void TutorReset(TutorialStage _Stage);
 
+        void LoadKeyUI();
+
     private:
         void LComplete();
         void RComplete();

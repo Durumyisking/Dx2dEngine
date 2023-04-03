@@ -477,10 +477,6 @@ namespace dru::renderer
 
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 
-		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
-		CResources::Load<CTexture>(L"dustfx", L"MainScene/FX/fx_dust.png");
-		CResources::Load<CTexture>(L"landdustfx", L"MainScene/FX/fx_landdust.png");
-
 		CResources::Load<CTexture>(L"particle_spark", L"MainScene/spark_particle.png");
 
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
@@ -499,12 +495,20 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"icon_katana", L"MainScene/Hud/Itemicons/Katana.png");
 		CResources::Load<CTexture>(L"icon_Butcher", L"MainScene/Hud/Itemicons/Butcher.png");
 
+
+		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
+		CResources::Load<CTexture>(L"wall", L"MainScene/wall.png");
+
+
 		// FX
 		CResources::Load<CTexture>(L"fx_blood", L"MainScene/FX/blood.png");
 		CResources::Load<CTexture>(L"fx_bullet", L"MainScene/FX/fx_bullet.png");
 		CResources::Load<CTexture>(L"fx_dust", L"MainScene/FX/fx_dust.png");
 		CResources::Load<CTexture>(L"fx_landcloud", L"MainScene/FX/fx_landcloud.png");
 		CResources::Load<CTexture>(L"fx_slash", L"MainScene/FX/fx_slash.png");
+		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
+		CResources::Load<CTexture>(L"dustfx", L"MainScene/FX/fx_dust.png");
+		CResources::Load<CTexture>(L"landdustfx", L"MainScene/FX/fx_landdust.png");
 
 
 		// mission
@@ -612,7 +616,10 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"landdustfx", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"landdustMat", Material);
 		}
-
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"wall", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"wallMat", Material);
+		}
 	}
 
 	void Initialize()

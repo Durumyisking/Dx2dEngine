@@ -53,7 +53,12 @@ namespace dru
         void On() { mbOn = true; }
         void Off() { mbOn = false; }
 
+        void RenderingOn() { mbRenderOn = true; }
+        void RenderingOff() { mbRenderOn = false; }
+
+
         bool IsOn() const { return mbOn; }
+        bool IsRenderingOn() const { return mbRenderOn; }
 
     private:
 
@@ -71,9 +76,8 @@ namespace dru
 
         bool    mbTrigger;
 
-        UINT    mCollisionCount;
-
         bool    mbOn;
+        bool    mbRenderOn;
 
     };
 }

@@ -41,7 +41,7 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-
+        bool IsOnWall() const { return mbOnWall; }
 
     private:
         // anim function

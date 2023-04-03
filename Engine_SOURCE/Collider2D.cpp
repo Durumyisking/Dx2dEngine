@@ -15,10 +15,10 @@ namespace dru
 		, mScale(Vector2::One)
 		, mCenter(Vector2::Zero)
 		, mbTrigger(false) // 이거 공부하자
-		, mCollisionCount(0)
 		, mRadius(0.f)
 		, mColliderID(colliderID++)
 		, mbOn(false)
+		, mbRenderOn(false)
 	{
 
 	}
@@ -31,11 +31,15 @@ namespace dru
 	{
 		mTransform = GetOwner()->GetComponent<CTransform>();
 		mbOn = true;
+		mbRenderOn = true;
 	}
 
 	void CCollider2D::update()
 	{
-	
+		if (!mbRenderOn)
+		{
+			mState = eCollisionState::CollisionOff;
+		}
 	}
 
 	void CCollider2D::fixedUpdate()
@@ -70,7 +74,6 @@ namespace dru
 
 	void CCollider2D::OnCollisionEnter(CCollider2D* _oppo)
 	{
-		++mCollisionCount;
 		const std::vector<CScript*>& scripts = GetOwner()->GetScripts();
 		for (CScript* script : scripts)
 		{
@@ -89,7 +92,6 @@ namespace dru
 
 	void CCollider2D::OnCollisionExit(CCollider2D* _oppo)
 	{
-		--mCollisionCount;
 		const std::vector<CScript*>& scripts = GetOwner()->GetScripts();
 		for (CScript* script : scripts)
 		{

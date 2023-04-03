@@ -141,4 +141,12 @@ namespace dru
 		mbComplete = false;
 	}
 
+	void CAnimation::SetDuration(float _Value)
+	{
+		for (size_t i = 0; i < mSpriteSheet.size(); i++)
+		{	
+			mSpriteSheet[i].duration = _Value;
+		}
+	}
+
 }

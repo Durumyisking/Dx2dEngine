@@ -254,7 +254,7 @@ namespace dru
 
 		Speed = Distance / _speed;
 
-		if (Distance < 0.001f)
+		if (Distance < 0.01f)
 		{
 			Speed = 1.f;
 		}

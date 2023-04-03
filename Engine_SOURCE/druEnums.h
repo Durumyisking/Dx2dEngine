@@ -71,6 +71,7 @@ namespace dru::enums
 		CollisionEnter,
 		CollisionStay,
 		CollisionExit,
+		CollisionOff,
 		End,
 	};
 

@@ -42,6 +42,7 @@ namespace dru
 		void BindShader();
 		void Clear();
 		void Reset();
+		void SetDuration(float _Value);
 
 		bool IsCompleted() { return mbComplete; }
 

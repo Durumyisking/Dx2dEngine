@@ -113,6 +113,8 @@ SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
 
+#define ZERO    float4(0.f, 0.f, 0.f, 0.f)
+
 #define RED     float4(1.f, 0.f, 0.f, 1.f)
 #define GREEN   float4(0.f, 1.f, 0.f, 1.f)
 #define BLUE    float4(0.f, 0.f, 1.f, 1.f)

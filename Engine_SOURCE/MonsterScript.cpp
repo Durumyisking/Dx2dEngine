@@ -174,7 +174,7 @@ namespace dru
 
 	void CMonsterScript::deadgroundComplete()
 	{
-		//GetOwner()->Die();
+		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
 	}
 
 }
