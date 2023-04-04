@@ -71,7 +71,7 @@ namespace dru
 		mSpeed = mCameraObject->mCamSpeed;
 		mCamStep = 0.f;
 
-		mCamStep = mSpeed * CTimeMgr::DeltaTime();
+		mCamStep = mSpeed * CTimeMgr::DeltaTimeConstant();
 		
 		KeyBoardMove();
 		TargetMove();

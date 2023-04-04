@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Attack)
+		, mTutorStage(TutorialStage::BulletTime)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -256,68 +256,76 @@ namespace dru
 	}
 	void CStageTutorial::TutorialOperation(TutorialStage _Stage)
 	{
-		if (!mbTutorBgMoveDone)
+		if (mTutorStage != TutorialStage::Clear)
 		{
-			TutorReset(_Stage);
-			if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f, true))
+			if (!mbTutorBgMoveDone)
+			{
+				TutorReset(_Stage);
+				if (mTutorBg->MoveToTarget_Smooth_bool(mTutorBgTarget, 0.3f, true))
+				{
+
+					switch (_Stage)
+					{
+					case dru::TutorialStage::Move:
+						TutorMove();
+						break;
+					case dru::TutorialStage::Jump_Crouch:
+						TutorJumpAndCrouch();
+						break;
+					case dru::TutorialStage::Roll:
+						TutorRoll();
+						break;
+					case dru::TutorialStage::Attack:
+						TutorAttack();
+						break;
+					case dru::TutorialStage::Wall:
+						TutorWall();
+						break;
+					case dru::TutorialStage::BulletTime:
+						TutorBulletTime();
+						break;
+					case dru::TutorialStage::End:
+						break;
+					default:
+						break;
+					}
+					mbTutorBgMoveDone = true;
+				}
+			}
+			else
 			{
 
 				switch (_Stage)
 				{
 				case dru::TutorialStage::Move:
-					TutorMove();
+					TutorMoveCheck();
 					break;
 				case dru::TutorialStage::Jump_Crouch:
-					TutorJumpAndCrouch();
+					TutorJumpAndCrouchCheck();
 					break;
 				case dru::TutorialStage::Roll:
-					TutorRoll();
+					TutorRollCheck();
 					break;
 				case dru::TutorialStage::Attack:
-					TutorAttack();
+					TutorAttackCheck();
 					break;
 				case dru::TutorialStage::Wall:
-					TutorWall();
+					TutorWallCheck();
 					break;
 				case dru::TutorialStage::BulletTime:
-					TutorBulletTime();
+					TutorBulletTimeCheck();
 					break;
 				case dru::TutorialStage::End:
 					break;
 				default:
 					break;
 				}
-				mbTutorBgMoveDone = true;
 			}
 		}
 		else
 		{
+			int i = 0;
 
-			switch (_Stage)
-			{
-			case dru::TutorialStage::Move:
-				TutorMoveCheck();
-				break;
-			case dru::TutorialStage::Jump_Crouch:
-				TutorJumpAndCrouchCheck();
-				break;
-			case dru::TutorialStage::Roll:
-				TutorRollCheck();
-				break;
-			case dru::TutorialStage::Attack:
-				TutorAttackCheck();
-				break;
-			case dru::TutorialStage::Wall:
-				TutorWallCheck();
-				break;
-			case dru::TutorialStage::BulletTime:
-				TutorBulletTimeCheck();
-				break;
-			case dru::TutorialStage::End:
-				break;
-			default:
-				break;
-			}
 		}
 	}
 	void CStageTutorial::TutorMove()
@@ -392,6 +400,9 @@ namespace dru
 
 	void CStageTutorial::TutorBulletTime()
 	{
+		mKeyShift->RenderingBlockOff();
+		mKeyShift->GetComponent<CAnimator>()->Play(L"Shift_anim");
+
 	}
 
 	void dru::CStageTutorial::TutorMoveCheck()
@@ -469,6 +480,10 @@ namespace dru
 
 	void dru::CStageTutorial::TutorBulletTimeCheck()
 	{
+		if (5 >= mPlayer->GetScript<CPlayerScript>()->GetBulletTimeGauge())
+		{
+			TutorSuccess(TutorialStage::Clear);
+		}
 	}
 
 	void CStageTutorial::TutorSuccess(TutorialStage _Stage)
@@ -515,6 +530,9 @@ namespace dru
 			mKeyLeft->RenderingBlockOn();
 			mKeyRight->RenderingBlockOn();
 			mKeyUp->RenderingBlockOn();
+			break;
+		case dru::TutorialStage::Clear:
+			mKeyShift->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::End:
 			break;
@@ -602,11 +620,23 @@ namespace dru
 			mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 75.f, 60.f }, 0.5f);
 			mAnimator->Play(L"LClick_anim");
 		}
+		{
+			mKeyShift = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"Shift");
+			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyShift->SetPos(Vector3(0.f, -0.35f, 0.f));
+
+			CAnimator* mAnimator = mKeyShift->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"Shift_anim", Material->GetTexture(), { 215.f, 2.f }, { 32.f, 16.f }, Vector2::Zero, 2, { 75.f, 60.f }, 2.f);
+			mAnimator->Play(L"Shift_anim");
+		}
 		mKeyLeft->RenderingBlockOn();
 		mKeyRight->RenderingBlockOn();
 		mKeyUp->RenderingBlockOn();
 		mKeyDown->RenderingBlockOn();
 		mKeyLClick->RenderingBlockOn();
+		mKeyShift->RenderingBlockOn();
 	}
 
 	void CStageTutorial::CreateMonster()

@@ -11,7 +11,7 @@ namespace dru
         Attack,
         Wall,
         BulletTime,
-
+        Clear,
         End,
     };
 

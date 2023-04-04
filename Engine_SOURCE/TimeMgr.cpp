@@ -60,6 +60,8 @@ namespace dru
 #ifdef _DEBUG
         if (mDeltaTime > (1.f / 60.f))
             mDeltaTime = (1.f / 60.f);
+        if (mDeltaTimeConstant > (1.f / 60.f))
+            mDeltaTimeConstant = (1.f / 60.f);
 #endif
 
     }
