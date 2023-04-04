@@ -47,6 +47,8 @@ namespace dru
 
         void LoadKeyUI();
 
+        void CreateMonster();
+
     private:
         void LComplete();
         void RComplete();

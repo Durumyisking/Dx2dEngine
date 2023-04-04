@@ -95,6 +95,7 @@ namespace dru
 				if (nullptr != component)
 					return component;
 			}
+			return nullptr;
 		}
 
 		void SetPos(Vector3 _Value);

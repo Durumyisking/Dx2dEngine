@@ -136,6 +136,8 @@ namespace dru
 			mPlayer->GetComponent<CRigidBody>()->AddForce({ 100.f, 0.f, 0.f });
 		}
 
+
+
 		if (mReady == eReadyState::ReadyEnd)
 		{
 			if (!mbZoomDone)
@@ -350,10 +352,7 @@ namespace dru
 
 	void CStageTutorial::TutorAttack()
 	{
-		{
-			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.3f, 4.999f));
-		}
+		CreateMonster();
 
 		mKeyLClick->RenderingBlockOff();
 		mKeyLClick->GetComponent<CAnimator>()->Play(L"LClick_anim");
@@ -608,6 +607,22 @@ namespace dru
 		mKeyUp->RenderingBlockOn();
 		mKeyDown->RenderingBlockOn();
 		mKeyLClick->RenderingBlockOn();
+	}
+
+	void CStageTutorial::CreateMonster()
+	{	
+		{
+			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			Mon->SetPos(Vector3(-4.f, -2.3f, 4.999f));
+		}
+		{
+			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			Mon->SetPos(Vector3(-0.f, -2.3f, 4.999f));
+		}
+		{
+			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			Mon->SetPos(Vector3(4.f, -2.3f, 4.999f));
+		}
 	}
 
 	void CStageTutorial::LComplete()

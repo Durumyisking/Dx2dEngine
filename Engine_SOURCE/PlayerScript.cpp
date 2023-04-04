@@ -23,11 +23,12 @@ namespace dru
 		, mWallSlideUpTime(0.f)
 		, mAttackCooldown(0.f)
 		, mAttackDir(Vector3::Zero)
-		, mbFirstAttack(0)
+		, mbFirstAttack(false)
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
 		, mBulletTimeGauge(10.f)
 		, mbLRKeyupTimerOn(false)
+		, mbOnWall(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
 		, mJumpdust(nullptr)
@@ -843,11 +844,13 @@ namespace dru
 		{
 			mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
 		}
-		if ((mBulletTimeGauge > 0.f) && CInput::GetKeyDown(eKeyCode::LSHIFT))
+
+		if (CInput::GetKeyDown(eKeyCode::LSHIFT))
 		{
 			CTimeMgr::BulletTimeOn();
 			mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
 		}
+
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
 			CTimeMgr::BulletTimeOff();
@@ -930,7 +933,7 @@ namespace dru
 		if (LandDustObject)
 		{
 			Vector3 playerPos = GetOwner()->GetPos();
-			playerPos.y -= 0.55;
+			playerPos.y -= 0.55f;
 			playerPos.z -= 0.001f;
 			LandDustObject->SetPos(playerPos);
 

@@ -37,6 +37,10 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+        void DeleteOn() { mbDeleteOn = true; }
+        void DeleteOff() { mbDeleteOn = false; }
+
+        void HitAddForce();
 
     private:
         void deadgroundComplete();
@@ -50,6 +54,7 @@ namespace dru
 
         bool mbOnWall;
         bool mbDead;
+        bool mbDeleteOn;
 
         float mHitTimer;
 

@@ -15,6 +15,7 @@ namespace dru
 		static void Initialize();
 		static void update();
 		static void Render(HDC hdc);
+		static void BulletTime(float _Time);
 
 	private:
 		static LARGE_INTEGER	mCpuFrequency;
@@ -25,6 +26,8 @@ namespace dru
 		static float			mOneSecond;
 		static float			mAccumulatedTime;
 
+		static float			mbBulletTimeTimer;
+		static float			mbBulletTimeTimerMax;
 		static bool				mbBulletTime;
 	};
 }

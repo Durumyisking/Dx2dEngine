@@ -83,7 +83,7 @@ namespace dru
 			{
 				COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
 				//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-				DownOutWall->SetPos(Vector3(0.f, -6.f, 4.999f));
+				DownOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
 				DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 			}
 
@@ -118,9 +118,7 @@ namespace dru
 				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 				mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
 			}
-			//LoadUI();
-			//renderer::mainCamera->GetCamScript()->CamFollowOnX();
-			//renderer::mainCamera->GetCamScript()->CamFollowOnY();
+
 			mReady = eReadyState::Ready;
 
 		}
@@ -135,6 +133,7 @@ namespace dru
 	{
 		if (dynamic_cast<CSceneMain*>(mScene)->ISLoad() && (mReady == eReadyState::ReadyEnd))
 		{
+			renderer::mainCamera->GetCamScript()->CamFollowOffX();
 			mReady = eReadyState::LoadEnd;
 		}
 

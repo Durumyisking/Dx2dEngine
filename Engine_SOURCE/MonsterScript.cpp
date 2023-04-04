@@ -19,6 +19,7 @@ namespace dru
 		, mHitDir(Vector3::Zero)
 		, mbOnWall(false)
 		, mbDead(false)
+		, mbDeleteOn(false)
 		, mHitTimer(0.f)
 		, mMonsterName{}
 	{
@@ -128,18 +129,16 @@ namespace dru
 			if (!mbDead)
 			{
 				mState.reset();
-
-				Vector3 MousePos = CInput::GetMousePosition();
-				MousePos /= 100.f;
-
-				Vector3 monsterPos = GetOwner()->GetPos();
-
-				mHitDir = MousePos - monsterPos;
-				mHitDir.Normalize();
-
-				mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+				HitAddForce();
 
 				mbDead = true;
+
+				// timeslow
+				CTimeMgr::BulletTime(0.25f);
+
+				// CamShake
+
+
 			}
 		}
 	}
@@ -172,9 +171,26 @@ namespace dru
 	{
 	}
 
+	void CMonsterScript::HitAddForce()
+	{
+		Vector3 MousePos = CInput::GetMousePosition();
+		MousePos /= 100.f;
+
+		Vector3 monsterPos = GetOwner()->GetPos();
+
+		mHitDir = MousePos - monsterPos;
+		mHitDir.Normalize();
+
+		mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+	}
+
 	void CMonsterScript::deadgroundComplete()
 	{
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+		if (mbDeleteOn)
+		{
+			GetOwner()->Die();
+		}
 	}
 
 }

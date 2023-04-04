@@ -11,6 +11,8 @@ namespace dru
     float			CTimeMgr::mDeltaTime = 0.0f;
     float			CTimeMgr::mOneSecond = 0.0f;
     float			CTimeMgr::mAccumulatedTime = 0.0f;
+    float			CTimeMgr::mbBulletTimeTimer= 0.0f;
+    float			CTimeMgr::mbBulletTimeTimerMax = 0.0f;
     bool			CTimeMgr::mbBulletTime = false;
 
 
@@ -31,10 +33,23 @@ namespace dru
             = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
+        float DT = mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
 
         if (mbBulletTime)
         {
+            mbBulletTimeTimer += mDeltaTime;
             mDeltaTime /= 3.f;
+
+
+            if (0 != mbBulletTimeTimerMax)
+            {
+                if (mbBulletTimeTimer > mbBulletTimeTimerMax)
+                {
+                    mbBulletTime = false;
+                    mbBulletTimeTimerMax = 0.f;
+                    mbBulletTimeTimer = 0.f;
+                }
+            }
         }
 
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
@@ -74,6 +89,12 @@ namespace dru
         }
 
 
+    }
+
+    void CTimeMgr::BulletTime(float _Time)
+    {
+        mbBulletTime = true;
+        mbBulletTimeTimerMax = _Time;
     }
 
 }

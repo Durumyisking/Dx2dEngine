@@ -45,7 +45,11 @@ namespace dru
 		}
 		else
 		{
-
+			// 땅위에 있을때
+			Vector3 gravity = mGravity;
+			gravity.Normalize();
+			float dot = mVelocity.Dot(gravity);
+			mVelocity.x -= gravity.x * dot;
 		}
 
 		mVelocity += mAccel * CTimeMgr::DeltaTime();
