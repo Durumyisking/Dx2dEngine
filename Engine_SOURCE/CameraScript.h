@@ -4,6 +4,12 @@
 
 namespace dru
 {
+    // 흔들림 효과를 위한 구조체
+    struct ShakeParams {
+        float magnitude;  // 흔들림 크기
+        float duration;   // 흔들림 지속 시간
+    };
+
     class CCameraScript :
         public CScript
     {
@@ -22,6 +28,9 @@ namespace dru
 
         void KeyBoardMove();
         void TargetMove();
+        void Shake(const ShakeParams& params);
+        void CancelShake();
+        void ShakeMove();
 
         void CamFollowOn() { mbCamFollowPlayerX = true;  mbCamFollowPlayerY = true; }
         void CamFollowOnX() { mbCamFollowPlayerX = true; }
@@ -42,6 +51,9 @@ namespace dru
         float	mSpeed;
         float	mCamStep;
 
+        bool mbShaking;
+        ShakeParams mShakeParams;
+        float mShakeTimer;
 
         std::bitset<static_cast<UINT>(eDir::END)> mDir;
         std::bitset<static_cast<UINT>(eDir::END)> mDirBlock;
@@ -49,7 +61,6 @@ namespace dru
         bool mbCamFollowPlayerX;
         bool mbCamFollowPlayerY;
 
-        
     };
 
 }

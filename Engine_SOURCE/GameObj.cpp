@@ -259,7 +259,7 @@ namespace dru
 			Speed = 1.f;
 		}
 
-		float Step = Speed * CTimeMgr::DeltaTime();
+		float Step = Speed * CTimeMgr::DeltaTimeConstant();
 
 		if (Step < Distance)
 		{
@@ -317,7 +317,7 @@ namespace dru
 			Speed = 1.f;
 		}
 
-		float Step = Speed * CTimeMgr::DeltaTime();
+		float Step = Speed * CTimeMgr::DeltaTimeConstant();
 
 		if (Step < Distance)
 		{

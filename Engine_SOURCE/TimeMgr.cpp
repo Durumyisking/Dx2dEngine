@@ -9,6 +9,7 @@ namespace dru
     LARGE_INTEGER   CTimeMgr::mPrevFrequency = {};
     LARGE_INTEGER	CTimeMgr::mCurFrequency = {};
     float			CTimeMgr::mDeltaTime = 0.0f;
+    float			CTimeMgr::mDeltaTimeConstant = 0.0f;
     float			CTimeMgr::mOneSecond = 0.0f;
     float			CTimeMgr::mAccumulatedTime = 0.0f;
     float			CTimeMgr::mbBulletTimeTimer= 0.0f;
@@ -33,7 +34,7 @@ namespace dru
             = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
-        float DT = mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
+        mDeltaTimeConstant = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
 
         if (mbBulletTime)
         {

@@ -137,7 +137,10 @@ namespace dru
 				CTimeMgr::BulletTime(0.25f);
 
 				// CamShake
-
+				ShakeParams sp = {};
+				sp.duration = 1.f;
+				sp.magnitude = 0.025f;
+				renderer::mainCamera->GetCamScript()->Shake(sp);
 
 			}
 		}

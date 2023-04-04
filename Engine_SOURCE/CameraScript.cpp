@@ -24,6 +24,9 @@ namespace dru
 		, mSpeed(0.f)
 		, mCamStep(0.f)
 		, mLookAt(Vector3::Zero)
+		, mbShaking(false)
+		, mShakeParams{}
+		, mShakeTimer(0.f)
 
 	{
 	}
@@ -68,15 +71,11 @@ namespace dru
 		mSpeed = mCameraObject->mCamSpeed;
 		mCamStep = 0.f;
 
-
 		mCamStep = mSpeed * CTimeMgr::DeltaTime();
-
+		
 		KeyBoardMove();
-
 		TargetMove();
-
-
-
+		ShakeMove();
 
 		mTransform->SetPosition(mLookAt);
 	}
@@ -227,6 +226,51 @@ namespace dru
 			if (mbCamFollowPlayerY)
 			{
 				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::UP);
+			}
+		}
+	}
+
+	void CCameraScript::Shake(const ShakeParams& params)
+	{
+		if (mbShaking) 
+		{
+			// 이전 흔들림 효과를 취소
+			CancelShake();
+		}
+
+		mbShaking = true;
+		mShakeParams = params;
+		mShakeTimer= 0.f;
+	}
+
+	void CCameraScript::CancelShake()
+	{
+		mbShaking = false;
+		mShakeParams = ShakeParams();
+		mShakeTimer = 0.f;
+	}
+
+	void CCameraScript::ShakeMove()
+	{
+		if (mbShaking)
+		{
+			mShakeTimer += CTimeMgr::DeltaTimeConstant();
+			if (mShakeTimer >= mShakeParams.duration)
+			{
+				// 흔들림 지속 시간이 지나면 효과 종료
+				CancelShake();
+			}
+			else {
+				// 흔들림 효과 계산
+				void* p = new int();
+				srand((int)p);
+				float magnitude = mShakeParams.magnitude *
+					(1.f - mShakeTimer / mShakeParams.duration);
+				float x = (rand() % 1000 / 500.f - 1.f) * magnitude;
+				float y = (rand() % 1000 / 500.f - 1.f) * magnitude;
+				mLookAt.x += x;
+				mLookAt.y += y;
+				delete p;
 			}
 		}
 	}
