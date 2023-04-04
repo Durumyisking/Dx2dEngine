@@ -382,7 +382,7 @@ namespace dru::renderer
 
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
-		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr);
+		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
 	}
 
 	void LoadShader()

@@ -8,6 +8,7 @@ namespace dru::graphics
 	CParticleShader::CParticleShader()
 		: CComputeShader(128, 1, 1)
 		, mBuffer(nullptr)
+		, mSharedBuffer(nullptr) 
 	{
 	}
 	CParticleShader::~CParticleShader()
@@ -16,7 +17,7 @@ namespace dru::graphics
 	void CParticleShader::Bind()
 	{
 		mBuffer->BindUAV(eShaderStage::CS, 0);
-
+		mSharedBuffer->BindUAV(eShaderStage::CS, 1);
 		mGroupX = mBuffer->GetStrideSize() / mThreadGroupCountX + 1;
 		mGroupY = 1;
 		mGroupZ = 1;
@@ -24,17 +25,7 @@ namespace dru::graphics
 	void CParticleShader::Clear()
 	{
 		mBuffer->Clear();
+		mSharedBuffer->Clear();
 	}
-	void CParticleShader::SetStrcutedBuffer(CStructedBuffer* buffer)
-	{
-		mBuffer = buffer;
 
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mBuffer->GetStrideSize();
-		info.deltaTime = CTimeMgr::DeltaTime();
-
-		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->SetData(&info);
-		cb->Bind(eShaderStage::CS);
-	}
 }

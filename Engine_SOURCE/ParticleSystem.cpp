@@ -7,6 +7,7 @@
 #include "Resources.h"
 #include "StructedBuffer.h"
 #include "Texture.h"
+#include "TimeMgr.h"
 
 
 namespace dru
@@ -18,8 +19,10 @@ namespace dru
 		, mEndSize(Vector4::Zero)
 		, mStartColor(Vector4::Zero)
 		, mEndColor(Vector4::Zero)
-		, mLifeTime(0.f)
+		, mStartLifeTime(0.f)
 		, mBuffer(nullptr)
+		, mFrequency(1.0f)
+		, mTime(0.0f) 
 	{
 		
 	}
@@ -28,6 +31,8 @@ namespace dru
 	{
 		delete mBuffer;
 		mBuffer = nullptr;
+		delete mSharedBuffer;
+		mSharedBuffer = nullptr;
 	}
 
 	void CParticleSystem::Initialize()
@@ -47,8 +52,8 @@ namespace dru
 		Particle particles[100] = {};
 		for (size_t i = 0; i < mCount; i++)
 		{
-			particles[i].position = Vector4(0.0f, 0.0f, 600.0f, 1.0f);
-			particles[i].active = 1;
+			particles[i].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
+			particles[i].active = 0;
 			particles[i].direction =
 				Vector4(cosf((float)i * (XM_2PI / (float)mCount))
 					, sin((float)i * (XM_2PI / (float)mCount)), 0.0f, 1.0f);
@@ -62,6 +67,8 @@ namespace dru
 
 		mBuffer = new CStructedBuffer();
 		mBuffer->Create(sizeof(Particle), mCount, eSRVType::UAV, particles);
+		mSharedBuffer = new CStructedBuffer();
+		mSharedBuffer->Create(sizeof(ParticleShared), 1, eSRVType::UAV, nullptr, true);
 	}
 
 	void CParticleSystem::update()
@@ -70,7 +77,33 @@ namespace dru
 
 	void CParticleSystem::fixedUpdate()
 	{
-		mCS->SetStrcutedBuffer(mBuffer);
+		float aliveTime = 1.0f / mFrequency;
+		//누적시간
+		mTime += CTimeMgr::DeltaTime();
+		if (aliveTime < mTime)
+		{
+			float f = (mTime / aliveTime);
+			UINT iAliveCount = (UINT)f;
+			mTime = f - std::floor(f);
+
+			ParticleShared shared = { 5, };
+			mSharedBuffer->SetData(&shared, 1);
+		}
+		else
+		{
+			ParticleShared shared = {  };
+			mSharedBuffer->SetData(&shared, 1);
+		}
+
+		renderer::ParticleSystemCB info = {};
+		info.elementCount = mBuffer->GetStrideSize();
+		info.deltaTime = CTimeMgr::DeltaTime();
+
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::CS);
+
+		mCS->SetSharedStrutedBuffer(mSharedBuffer); mCS->SetStrcutedBuffer(mBuffer);
 		mCS->OnExcute();
 	}
 

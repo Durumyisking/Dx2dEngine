@@ -15,10 +15,12 @@ namespace dru::graphics
 		virtual void Bind() override;
 		virtual void Clear() override;
 
-		void SetStrcutedBuffer(CStructedBuffer* buffer);
+		void SetStrcutedBuffer(CStructedBuffer* buffer) { mBuffer = buffer; }
+		void SetSharedStrutedBuffer(CStructedBuffer* buffer) { mSharedBuffer = buffer; }
 
 	private:
 		CStructedBuffer* mBuffer;
+		CStructedBuffer* mSharedBuffer;
 	};
 }
 

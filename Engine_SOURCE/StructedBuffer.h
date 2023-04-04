@@ -10,8 +10,9 @@ namespace dru::graphics
 		CStructedBuffer();
 		~CStructedBuffer();
 
-		bool Create(UINT _size, UINT _stride, graphics::eSRVType _type, void* _data);
+		bool Create(UINT _size, UINT _stride, graphics::eSRVType _type, void* _data, bool cpuAccess = false);
 		void SetData(void* _data, UINT _bufferCount);
+		void GetData(void* data, UINT size = 0); 
 		void BindSRV(graphics::eShaderStage _stage, UINT _slot);
 		void BindUAV(eShaderStage stage, UINT slot);
 
@@ -21,6 +22,14 @@ namespace dru::graphics
 		UINT GetStrideSize() { return mStride; }
 
 	private:
+		void setDiscription();
+		bool createBuffer(void* data);
+		bool createView();
+		bool createRWBuffer();
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D11Buffer> mWriteBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> mReadBuffer; private:
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> mUAV;
 		graphics::eSRVType mType;

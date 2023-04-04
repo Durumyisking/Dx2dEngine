@@ -222,5 +222,8 @@ namespace dru::graphics
 		UINT active;
 
 	};
-
+	struct ParticleShared
+	{
+		UINT activeCount;
+	};
 }

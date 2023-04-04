@@ -209,23 +209,25 @@ namespace dru
 
 			// ºÐ¸®Ãà º¤ÅÍ (Åõ¿µº¤ÅÍ)
 			Vector3 Axis[4] = {};
-			Axis[0] = (Vector3::Transform(arrLocalPos[1], leftMatrix));
-			Axis[1] = (Vector3::Transform(arrLocalPos[3], leftMatrix));
-			Axis[2] = (Vector3::Transform(arrLocalPos[1], rightMatrix));
-			Axis[3] = (Vector3::Transform(arrLocalPos[3], rightMatrix));
-
-			Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
-			Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMatrix);
-			Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
-			Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMatrix);
-
+		
 			Vector3 leftScale = Vector3(_left->GetScale().x, _left->GetScale().y, 1.0f);
-			Axis[0] = Axis[0] * leftScale;
-			Axis[1] = Axis[1] * leftScale;
+			Matrix finalLeft = Matrix::CreateScale(leftScale);
+			finalLeft *= leftMatrix;
 
 			Vector3 rightScale = Vector3(_right->GetScale().x, _right->GetScale().y, 1.0f);
-			Axis[2] = Axis[2] * rightScale;
-			Axis[3] = Axis[3] * rightScale;
+			Matrix finalRight = Matrix::CreateScale(rightScale);
+			finalRight *= rightMatrix;
+
+			Axis[0] = (Vector3::Transform(arrLocalPos[1], finalLeft));
+			Axis[1] = (Vector3::Transform(arrLocalPos[3], finalLeft));
+			Axis[2] = (Vector3::Transform(arrLocalPos[1], finalRight));
+			Axis[3] = (Vector3::Transform(arrLocalPos[3], finalRight));
+
+			Axis[0] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[1] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[2] -= Vector3::Transform(arrLocalPos[0], finalRight);
+			Axis[3] -= Vector3::Transform(arrLocalPos[0], finalRight);
+			
 
 			for (size_t i = 0; i < 4; ++i)
 				Axis[i].z = 0.f;

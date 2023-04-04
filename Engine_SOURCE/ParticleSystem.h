@@ -18,6 +18,7 @@ namespace dru
 
 	private:
 		class CStructedBuffer* mBuffer;
+		class CStructedBuffer* mSharedBuffer;
 		std::shared_ptr<graphics::CParticleShader> mCS;
 
 		UINT mCount;
@@ -25,7 +26,9 @@ namespace dru
 		Vector4 mEndSize;
 		Vector4 mStartColor;
 		Vector4 mEndColor;
-		float mLifeTime;
+		float mStartLifeTime;
+		float mFrequency;
+		float mTime;
 	};
 
 }

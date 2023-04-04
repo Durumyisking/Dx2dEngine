@@ -308,6 +308,19 @@ namespace dru::graphics
 		mContext->RSSetViewports(1, _ViewPort);
 	}
 
+	void CGraphicDevice::SetData(ID3D11Buffer* buffer, void* data, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+		memcpy(sub.pData, data, size);
+		mContext->Unmap(buffer, 0);
+	}
+
+	void CGraphicDevice::CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+	{
+		mContext->CopyResource(pDstResource, pSrcResource);
+	}
+
 	void CGraphicDevice::BindBuffer(ID3D11Buffer* _Buffer, void* _Data, UINT _Size)
 	{
 		// gpu에 값 줄거니까 데이터 바꿔서 보내야해
