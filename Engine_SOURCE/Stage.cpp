@@ -1,5 +1,5 @@
 #include "Stage.h"
-
+#include "PlayerScript.h"
 
 namespace dru
 {
@@ -13,6 +13,8 @@ namespace dru
 		, mHudTimerBar(nullptr)
 		, mHudLeftHand(nullptr)
 		, mHudRightHand(nullptr)
+		, mBulletTimeGaugePrev(10)
+		, mBulletTimeGaugeCurrent(10)
 
 	{
 	}
@@ -28,6 +30,12 @@ namespace dru
 			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 			LoadAfterReady();
 			mReady = eReadyState::ReadyEnd;
+		}
+
+		if (mReady == eReadyState::LoadEnd)
+		{
+			BulletTimeBatteryOperation();
+
 		}
 
 	}
@@ -169,6 +177,20 @@ namespace dru
 		mReady = eReadyState::NotReady;
 	}
 
-	
+	void CStage::BulletTimeBatteryOperation()
+	{
+		float gauge = mPlayer->GetScript<CPlayerScript>()->GetBulletTimeGauge();
+		mBulletTimeGaugeCurrent = static_cast<UINT>(gauge);
+
+		if (mBulletTimeGaugePrev > mBulletTimeGaugeCurrent)
+		{
+			mHudBatteryParts[mBulletTimeGaugePrev]->RenderingBlockOn();
+		}
+		else if (mBulletTimeGaugePrev < mBulletTimeGaugeCurrent)
+		{
+			mHudBatteryParts[mBulletTimeGaugeCurrent]->RenderingBlockOff();
+		}
+		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
+	}
 
 }

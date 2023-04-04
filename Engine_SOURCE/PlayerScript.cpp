@@ -26,6 +26,7 @@ namespace dru
 		, mbFirstAttack(0)
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
+		, mBulletTimeGauge(10.f)
 		, mbLRKeyupTimerOn(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
@@ -84,6 +85,7 @@ namespace dru
 			if (mbLRKeyupTimerOn)
 				mLRKeyupTime += CTimeMgr::DeltaTime();
 
+			bulletTime();
 
 			// set left right
 			if (mState[(UINT)ePlayerState::TutorAttack] == false)
@@ -630,6 +632,8 @@ namespace dru
 				mAnimator->Play(L"Player_Jump", false);
 
 				PlayJumpdust();
+				jumpdustRotate(0.f);
+
 			}
 		}
 		else
@@ -831,6 +835,24 @@ namespace dru
 					mRigidbody->AddForce(mAttackDir * 40.f);
 			}
 		}
+	}
+
+	void CPlayerScript::bulletTime()
+	{
+		if (10.f > mBulletTimeGauge && (CInput::GetKeyNone(eKeyCode::LSHIFT)))
+		{
+			mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
+		}
+		if ((mBulletTimeGauge > 0.f) && CInput::GetKeyDown(eKeyCode::LSHIFT))
+		{
+			CTimeMgr::BulletTimeOn();
+			mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
+		}
+		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
+		{
+			CTimeMgr::BulletTimeOff();
+		}
+
 	}
 
 

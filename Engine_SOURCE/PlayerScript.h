@@ -41,8 +41,6 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-        bool IsOnWall() const { return mbOnWall; }
-
     private:
         // anim function
         void idletorunFrame();
@@ -81,6 +79,7 @@ namespace dru
         void wallKickTrigger();
         void wallKick();
         void attack();
+        void bulletTime();
 
         void initializeJumpdustComponent();
         void jumpdustSlideCheck();
@@ -120,6 +119,8 @@ namespace dru
         float mAttackCooldown;
         Vector3 mAttackDir;
 
+        float mBulletTimeGauge;
+
         bool mbFirstAttack;
         bool mbOnWall;
         int mbWallIsLeft; // -1 left 0 none 1 right
@@ -129,12 +130,17 @@ namespace dru
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
 
+    public:
+        bool IsOnWall() const { return mbOnWall; }
+        float GetBulletTimeGauge() const { return mBulletTimeGauge; }
+
 	private:
         void PlayLanddust();
         void PlayJumpdust();
 
         CGameObj* GetOrCreateJumpdustObject();
 		CGameObj* GetOrCreateLanddustObject();
+     
     };
 }
 

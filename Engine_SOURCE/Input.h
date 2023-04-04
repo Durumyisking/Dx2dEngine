@@ -69,6 +69,17 @@ namespace dru
 			newPos.x += camPos.x;
 			newPos.y += camPos.y;
 
+			//Vector3 newPos = CInput::GetMousePosition();
+			//Matrix viewMatirx = CCamera::GetGpuViewMatrix();
+			//Matrix projMatirx = CCamera::GetGpuProjectionMatrix();
+
+			//math::Viewport vp;
+			//vp.width = GetDevice()->ViewportWidth();
+			//vp.height = GetDevice()->ViewportHeight();
+			////vp.x = camPos.x;
+			////vp.y = camPos.y;
+
+			//vp.Unproject(newPos, projMatirx, viewMatirx, Matrix::Identity, newPos);
 
 			return newPos;
 		}
@@ -88,6 +99,10 @@ namespace dru
 			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::UP;
 		}
 
+		static __forceinline bool GetKeyNone(eKeyCode keyCode)
+		{
+			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::NONE;
+		}
 
 	private:
 		CInput() = delete;

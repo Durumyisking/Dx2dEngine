@@ -61,6 +61,8 @@ namespace dru
 
         void Reset();
 
+        void BulletTimeBatteryOperation();
+
     protected:
         CScene* mScene;
 
@@ -74,6 +76,9 @@ namespace dru
         CGameObj* mHudRightHand;
 
         eReadyState mReady;
+
+        UINT mBulletTimeGaugePrev;
+        UINT mBulletTimeGaugeCurrent;
 
     };
 }

@@ -11,6 +11,8 @@ namespace dru
     float			CTimeMgr::mDeltaTime = 0.0f;
     float			CTimeMgr::mOneSecond = 0.0f;
     float			CTimeMgr::mAccumulatedTime = 0.0f;
+    bool			CTimeMgr::mbBulletTime = false;
+
 
     void CTimeMgr::Initialize()
     {
@@ -29,6 +31,12 @@ namespace dru
             = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
+
+        if (mbBulletTime)
+        {
+            mDeltaTime /= 3.f;
+        }
+
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 
         mAccumulatedTime += mDeltaTime;
