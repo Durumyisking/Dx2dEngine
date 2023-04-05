@@ -23,9 +23,18 @@ namespace dru
         virtual ~CStageTutorial();
 
         virtual void InitStage();
-        virtual void LoadAfterReady();
+        virtual void LoadinReady();
         virtual void Update();
         virtual void Exit();
+
+        virtual void NotReadyOperate();
+        virtual void ReadyOperate();
+        virtual void ReadyEndOperate();
+        virtual void LoadUIOperate();
+        virtual void LoadEndOperate();
+
+        void CreateTitle();
+        void CreateEnterKeyUI();
 
         void TutorialOperation(TutorialStage _Stage);
         void TutorMove();
@@ -86,6 +95,7 @@ namespace dru
         bool    mbMaskMove;
 
         bool    mbTutorBgMoveDone;
+        bool    mbBulletTimeSuccess;
 
 
         UINT    mCount1;

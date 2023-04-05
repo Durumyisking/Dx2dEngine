@@ -5,6 +5,7 @@ namespace dru
 {
 	CScene::CScene()
 		: mDeleteObj(false)
+		, mType(CSceneMgr::eSceneType::End)
 	{
 		mLayers.resize((UINT)eLayerType::End);
 	}

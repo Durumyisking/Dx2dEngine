@@ -37,7 +37,6 @@ namespace dru
 		, mUICursor(nullptr)
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
-		, mbLoad(false)
 		, mStages{}
 		, mCurrentStage(0)
 		, mPlayer(nullptr)
@@ -74,25 +73,24 @@ namespace dru
 
 	void CSceneMain::update()
 	{
-		mStages[mCurrentStage]->Update();
 
 		if (CInput::GetKeyTap(eKeyCode::N))
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}
 
-		if (CInput::GetKeyTap(eKeyCode::ENTER) && !mbLoad)
+		if (CInput::GetKeyTap(eKeyCode::ENTER))
 		{
-			if (mStages[mCurrentStage]->GetReadyState() == eReadyState::ReadyEnd)
+			if (mStages[mCurrentStage]->GetReadyState() == eStageState::ReadyEnd)
 			{
 				mStages[mCurrentStage]->LoadUI();
 				renderer::mainCamera->GetCamScript()->CamFollowOnX();
 				renderer::mainCamera->GetCamScript()->CamFollowOnY();
 				renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->On();
-				mbLoad = true;
 			}
 		}
 
+		mStages[mCurrentStage]->Update();
 		CScene::update();
 	}
 

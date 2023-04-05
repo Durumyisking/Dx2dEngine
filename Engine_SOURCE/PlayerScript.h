@@ -126,6 +126,7 @@ namespace dru
         int mbWallIsLeft; // -1 left 0 none 1 right
 
         bool mbLRKeyupTimerOn;
+        bool mbInputBlock;
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
@@ -133,6 +134,9 @@ namespace dru
     public:
         bool IsOnWall() const { return mbOnWall; }
         float GetBulletTimeGauge() const { return mBulletTimeGauge; }
+
+        void InputBlocking() { mbInputBlock = true; }
+        void UnInputBlocking() { mbInputBlock = false; }
 
 	private:
         void PlayLanddust();

@@ -5,7 +5,7 @@ namespace dru
 {
 
 	CStage::CStage()
-		: mReady(eReadyState::NotReady)
+		: mStageState(eStageState::NotReady)
 		, mScene(nullptr)
 		, mPlayer(nullptr)
 		, mUICursor(nullptr)
@@ -25,17 +25,30 @@ namespace dru
 
 	void CStage::Update()
 	{
-		if (mReady == eReadyState::Ready)
+
+		if (mStageState == eStageState::NotReady)
 		{
-			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
-			LoadAfterReady();
-			mReady = eReadyState::ReadyEnd;
+			NotReadyOperate();
 		}
 
-		if (mReady == eReadyState::LoadEnd)
+		if (mStageState == eStageState::Ready)
+		{
+			ReadyOperate();
+		}
+
+		if (mStageState == eStageState::ReadyEnd)
+		{
+			ReadyEndOperate();
+		}
+
+		if (mStageState == eStageState::LoadUI)
+		{
+			LoadUIOperate();
+		}
+
+		if (mStageState == eStageState::LoadEnd)
 		{
 			BulletTimeBatteryOperation();
-
 		}
 
 	}
@@ -172,9 +185,38 @@ namespace dru
 		}
 	}
 
+	void CStage::NotReadyOperate()
+	{
+	}
+
+	void CStage::ReadyOperate()
+	{
+		mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
+		LoadinReady();
+		mStageState = eStageState::ReadyEnd;
+	}
+
+	void CStage::ReadyEndOperate()
+	{
+		if (CInput::GetKeyTap(eKeyCode::ENTER))
+		{
+			mStageState = eStageState::LoadUI;
+			mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+		}
+	}
+
+	void CStage::LoadUIOperate()
+	{
+		mStageState = eStageState::LoadEnd;
+	}
+
+	void CStage::LoadEndOperate()
+	{
+	}
+
 	void CStage::Reset()
 	{
-		mReady = eReadyState::NotReady;
+		mStageState = eStageState::NotReady;
 	}
 
 	void CStage::BulletTimeBatteryOperation()

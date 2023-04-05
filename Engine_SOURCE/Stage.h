@@ -33,11 +33,12 @@
 
 namespace dru
 {
-    enum class eReadyState
+    enum class eStageState
     {
         NotReady,
-        Ready,
+        Ready, // 이때 ready 호출
         ReadyEnd,
+        LoadUI,
         LoadEnd,
         End,
     };
@@ -49,19 +50,27 @@ namespace dru
         virtual ~CStage();
 
         virtual void InitStage() = 0;
-        virtual void LoadAfterReady() = 0;
+        virtual void LoadinReady() = 0;
         virtual void Update();
         virtual void Exit();
 
         void LoadUI();
         void SetOwner(CScene* _scene) { mScene = _scene; }
 
-        eReadyState GetReadyState() { return mReady; }
-        void SetReady(eReadyState _State) { mReady = _State; }
+        eStageState GetReadyState() { return mStageState; }
+        void SetReady(eStageState _State) { mStageState = _State; }
+
+        virtual void NotReadyOperate();
+        virtual void ReadyOperate();
+        virtual void ReadyEndOperate();
+        virtual void LoadUIOperate();
+        virtual void LoadEndOperate();
 
         void Reset();
 
         void BulletTimeBatteryOperation();
+
+        
 
     protected:
         CScene* mScene;
@@ -75,7 +84,7 @@ namespace dru
         CGameObj* mHudLeftHand;
         CGameObj* mHudRightHand;
 
-        eReadyState mReady;
+        eStageState mStageState;
 
         UINT mBulletTimeGaugePrev;
         UINT mBulletTimeGaugeCurrent;

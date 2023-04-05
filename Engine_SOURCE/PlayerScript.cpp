@@ -28,6 +28,7 @@ namespace dru
 		, mSlideDustCount(0.f)
 		, mBulletTimeGauge(10.f)
 		, mbLRKeyupTimerOn(false)
+		, mbInputBlock(false)
 		, mbOnWall(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
@@ -69,7 +70,7 @@ namespace dru
 	void CPlayerScript::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		if (eReadyState::LoadEnd == scene->GetCurrentStage()->GetReadyState())
+		if (!mbInputBlock)
 		{
 
 			mPos = mTransform->GetPosition();
@@ -253,10 +254,10 @@ namespace dru
 		else if (L"col_readyTrigger" == _oppo->GetName())
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-			if (eReadyState::NotReady == scene->GetCurrentStage()->GetReadyState())
+			if (eStageState::NotReady == scene->GetCurrentStage()->GetReadyState())
 			{
 				CStage* st = scene->GetCurrentStage();
-				st->SetReady(eReadyState::Ready);
+				st->SetReady(eStageState::Ready);
 				_oppo->GetOwner()->Die();
 
 				mAnimator->Play(L"Player_RunToIdle");

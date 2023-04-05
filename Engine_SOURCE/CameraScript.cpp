@@ -234,6 +234,7 @@ namespace dru
 	{
 		if (mbShaking) 
 		{
+			// 새로운 흔들기 효과 들어가면
 			// 이전 흔들림 효과를 취소
 			CancelShake();
 		}
