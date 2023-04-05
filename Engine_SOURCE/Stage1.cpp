@@ -6,7 +6,7 @@ namespace dru
 {
 	CStage1::CStage1()
 	{
-		//mStageState = eStageState::LoadinReady;
+		mStageState = eStageState::ReadyEnd;
 	}
 
 	CStage1::~CStage1()
@@ -125,11 +125,6 @@ namespace dru
 
 	void CStage1::Update()
 	{
-		if (dynamic_cast<CSceneMain*>(mScene)->ISLoad() && (mStageState == eStageState::ReadyEnd))
-		{
-			renderer::mainCamera->GetCamScript()->CamFollowOffX();
-			mStageState = eStageState::LoadEnd;
-		}
 
 		if (mStageState == eStageState::NotReady)
 		{
@@ -180,6 +175,7 @@ namespace dru
 
 	void CStage1::LoadUIOperate()
 	{
+		renderer::mainCamera->GetCamScript()->CamFollowOffX();
 		CStage::LoadUIOperate();
 	}
 

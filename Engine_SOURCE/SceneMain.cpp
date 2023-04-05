@@ -38,7 +38,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPlayer(nullptr)
 
 	{
@@ -169,8 +169,6 @@ namespace dru
 
 	void CSceneMain::Exit()
 	{
-		mbLoad = false;
-
 		CScene::Exit();
 	}
 

@@ -21,7 +21,6 @@ namespace dru
 
 		CStage* GetCurrentStage() { return mStages[mCurrentStage]; }
 
-		bool ISLoad() { return mbLoad; }
 
 		void SetPlayer(CPlayer* _player) { mPlayer = _player; }
 		CPlayer* Getplayer() const { return mPlayer; }
@@ -38,7 +37,6 @@ namespace dru
 		
 		CBackground* mScreenMask;
 
-		bool mbLoad;
 
 		CPlayer* mPlayer;
 

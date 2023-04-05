@@ -31,6 +31,7 @@ namespace dru
 
 		UINT GetWidth() const { return mWidth; }
 		UINT GetHeight() const { return mHeight; }
+		Vector2 GetResolutionRatio();
 
 		void DockingMenu();
 		void DivideMenu();

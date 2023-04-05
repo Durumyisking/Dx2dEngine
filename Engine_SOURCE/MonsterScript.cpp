@@ -139,7 +139,7 @@ namespace dru
 				// CamShake
 				ShakeParams sp = {};
 				sp.duration = 1.f;
-				sp.magnitude = 0.025f;
+				sp.magnitude = 0.0125f;
 				renderer::mainCamera->GetCamScript()->Shake(sp);
 
 			}

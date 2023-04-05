@@ -93,6 +93,21 @@ namespace dru
 		ShowWindow(mHwnd, true);
 		UpdateWindow(mHwnd);
 	}
+
+	Vector2 CApplication::GetResolutionRatio()
+	{
+		RECT	windowRC;
+
+		GetClientRect(mHwnd, &windowRC);
+
+		float width = static_cast<float>(windowRC.right - windowRC.left);
+		float height = static_cast<float>(windowRC.bottom - windowRC.top);
+
+		return Vector2(mWidth / width, mHeight / height);
+
+	}
+
+
 	void CApplication::DockingMenu()
 	{
 		SetMenu(mHwnd, mHmenu);

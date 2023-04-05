@@ -2,6 +2,9 @@
 #include "Engine.h"
 #include "druMath.h"
 #include "GameObj.h"
+#include "Application.h"
+
+extern dru::CApplication application;
 
 namespace dru
 {
@@ -50,6 +53,7 @@ namespace dru
 		static void Initialize();
 		static void update();
 		static void Render(HDC hdc);
+		static void ComputeMousePos();
 
 		static __forceinline eKeyState GetKeyState(eKeyCode keyCode)
 		{
@@ -62,27 +66,11 @@ namespace dru
 		}
 
 		static __forceinline math::Vector3 GetMousePosition_world()
-		{
-			Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
-			Vector3 newPos = CInput::GetMousePosition();
-			newPos = mMousePosition / 100.f;
-			newPos.x += camPos.x;
-			newPos.y += camPos.y;
-
-			//Vector3 newPos = CInput::GetMousePosition();
-			//Matrix viewMatirx = CCamera::GetGpuViewMatrix();
-			//Matrix projMatirx = CCamera::GetGpuProjectionMatrix();
-
-			//math::Viewport vp;
-			//vp.width = GetDevice()->ViewportWidth();
-			//vp.height = GetDevice()->ViewportHeight();
-			////vp.x = camPos.x;
-			////vp.y = camPos.y;
-
-			//vp.Unproject(newPos, projMatirx, viewMatirx, Matrix::Identity, newPos);
-
-			return newPos;
+		{		
+			return mWorldMousePosition;
 		}
+
+
 
 		static __forceinline bool GetKeyDown(eKeyCode keyCode)
 		{
@@ -111,6 +99,7 @@ namespace dru
 	private:
 		static std::vector<Key> mKeys;
 		static math::Vector3 mMousePosition;
+		static math::Vector3 mWorldMousePosition;
 		static float mWinWidthCenter;
 		static float mWinHeightCenter;
 	};

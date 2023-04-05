@@ -7,6 +7,8 @@ namespace dru
 {
 	std::vector<CInput::Key> CInput::mKeys;
 	math::Vector3 CInput::mMousePosition;
+	math::Vector3 CInput::mWorldMousePosition;
+
 	float CInput::mWinWidthCenter;
 	float CInput::mWinHeightCenter;
 
@@ -82,11 +84,7 @@ namespace dru
 				}
 			}
 
-			POINT mousePos = {};
-			GetCursorPos(&mousePos);
-			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousePosition.x = ((float)mousePos.x - mWinWidthCenter);
-			mMousePosition.y = -((float)mousePos.y - mWinHeightCenter);	
+			ComputeMousePos();
 
 		}
 		else
@@ -105,11 +103,35 @@ namespace dru
 	}
 	void CInput::Render(HDC hdc)
 	{
-		HWND hWnd = application.GetHwnd();
+		//HWND hWnd = application.GetHwnd();
 
-		wchar_t szFloat[50] = {};
-		swprintf_s(szFloat, 50, L"X : %f | Y : %f", mMousePosition.x, mMousePosition.y);
+		//wchar_t szFloat[50] = {};
+		//swprintf_s(szFloat, 50, L"X : %f | Y : %f", mMousePosition.x, mMousePosition.y);
 
-		SetWindowText(hWnd, szFloat);
+		//SetWindowText(hWnd, szFloat);
+	}
+	void CInput::ComputeMousePos()
+	{
+		POINT ptMouse = {};
+		GetCursorPos(&ptMouse);
+		ScreenToClient(application.GetHwnd(), &ptMouse);
+
+		RECT windowRect;
+		GetClientRect(application.GetHwnd(), &windowRect);
+
+		Vector2 resolutionRatio = application.GetResolutionRatio();
+
+		Vector2 mousePos;
+
+		mousePos.x = static_cast<float>(ptMouse.x - (windowRect.right - windowRect.left) * 0.5f) * resolutionRatio.x;
+		mousePos.y = static_cast<float>((windowRect.bottom - windowRect.top) * 0.5f - ptMouse.y) * resolutionRatio.y;
+
+		mMousePosition.x = mousePos.x;
+		mMousePosition.y = mousePos.y;
+
+		Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
+
+		mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
+		mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
 	}
 }
