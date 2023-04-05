@@ -154,8 +154,8 @@ namespace dru
 
 		Matrix ProjectionInvers = cam->GetGpuProjectionMatrix().Invert();
 
-		Pos = Pos * ViewPort;
-		Pos = Pos * ProjectionInvers;
+		//Pos = Pos * ViewPort;
+		//Pos = Pos * ProjectionInvers;
 
 
 		RECT windowRect;

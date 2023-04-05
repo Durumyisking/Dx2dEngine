@@ -539,8 +539,8 @@ namespace dru::math
         Matrix Invert() const noexcept;
         void Invert(Matrix& result) const noexcept;
 
-        //// viewport
-        //float Viewport(float _Width, float _Height, float _Left, float _Right, float _ZMin, float _ZMax) const noexcept;
+        // viewport
+        Matrix Viewport(float _Width, float _Height, float _Left, float _Right, float _ZMin, float _ZMax) const noexcept;
 
         float Determinant() const noexcept;
 
@@ -616,8 +616,8 @@ namespace dru::math
     // Element-wise divide
     Matrix operator* (float S, const Matrix& M) noexcept;
 
-    //Vector4 operator*(const Vector4& _Vector, const Matrix& _Value);
-    //Vector4& operator*=(Vector4& _Vector, const Matrix& _Value);
+    Vector4 operator*(const Vector4& _Vector, const Matrix& _Value);
+    Vector4& operator*=(Vector4& _Vector, const Matrix& _Value);
 
     //-----------------------------------------------------------------------------
     // Plane
