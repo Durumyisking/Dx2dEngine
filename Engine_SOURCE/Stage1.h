@@ -23,6 +23,12 @@ namespace dru
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
 
+        void CreateOutWall();
+        void CreateFirstFloor();
+        void CreateSecondFloor();
+
+
+
     private:
 
 		CGameObj* mUICursor;

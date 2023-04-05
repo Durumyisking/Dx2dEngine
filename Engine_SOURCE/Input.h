@@ -54,7 +54,6 @@ namespace dru
 		static void update();
 		static void Render(HDC hdc);
 		static void ComputeMousePos();
-		static void ComputeMousePos2();
 
 		static __forceinline eKeyState GetKeyState(eKeyCode keyCode)
 		{

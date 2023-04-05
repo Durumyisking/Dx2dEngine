@@ -796,7 +796,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{
-				MakeSlash(L"fx_slash", GetOwner()->GetPos(), 5, { 100, 100 });
+				MakeSlash(L"fx_slashPlayer", GetOwner()->GetPos(), 5, { 100, 100 });
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
 				mRigidbody->SetVelocity(Vector3::Zero);

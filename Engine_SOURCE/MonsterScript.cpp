@@ -5,6 +5,7 @@
 #include "Animator.h"
 #include "Object.h"
 #include "SlashScript.h"
+#include "SlashShadeScript.h"
 #include "Input.h"
 
 namespace dru
@@ -108,9 +109,6 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			mRigidbody->SetGround();
-			Vector3 vel = mRigidbody->GetVelocity();
-//			mRigidbody->SetMaxVelocity({ 5.f, 0.f, vel.z });
-//			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 
 			if (mbDead)
 			{
@@ -122,6 +120,19 @@ namespace dru
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = true;
+
+			Vector3 vel = mRigidbody->GetVelocity();
+			Vector3 Mvel = mRigidbody->GetMaxVelocity();
+			mRigidbody->SetMaxVelocity({ 1.f, Mvel.y, Mvel.z });
+
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			{
+				mRigidbody->SetVelocity({ 1.f, vel.y, vel.z });
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+			{
+				mRigidbody->SetVelocity({ -1.f, vel.y, vel.z });
+			}
 		}
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
@@ -138,11 +149,24 @@ namespace dru
 
 				// CamShake
 				ShakeParams sp = {};
-				sp.duration = 1.f;
+				sp.duration = 0.5f;
 				sp.magnitude = 0.0125f;
 				renderer::mainCamera->GetCamScript()->Shake(sp);
 
 			}
+
+			{
+				CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
+				CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slash", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"SlashShadeMat", Material);
+				SpriteRenderer->SetMaterial(Material);
+				SlashShade->SetPos(GetOwner()->GetPos());
+				SlashShade->SetScale(Vector3(0.2f, 0.025f, 0.f));
+				SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script)->Initialize();
+			}
+			
 		}
 	}
 

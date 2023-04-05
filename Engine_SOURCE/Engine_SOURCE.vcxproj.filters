@@ -374,6 +374,9 @@
     <ClInclude Include="Dust.h">
       <Filter>GameObj\FX</Filter>
     </ClInclude>
+    <ClInclude Include="SlashShadeScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -571,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="Dust.cpp">
       <Filter>GameObj\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="SlashShadeScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

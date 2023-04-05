@@ -616,8 +616,6 @@ namespace dru::math
     // Element-wise divide
     Matrix operator* (float S, const Matrix& M) noexcept;
 
-    Vector4 operator*(const Vector4& _Vector, const Matrix& _Value);
-    Vector4& operator*=(Vector4& _Vector, const Matrix& _Value);
 
     //-----------------------------------------------------------------------------
     // Plane

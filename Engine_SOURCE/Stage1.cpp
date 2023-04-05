@@ -24,15 +24,13 @@ namespace dru
 			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 1.f });
 
 		}
-
-
 		{
 			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
-			PointLight->SetPos({ 0.f, -1.5f, 0.f });
+			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
 			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Point);
 			lightComp->SetRadius(3.f);
-			lightComp->SetDiffuse({ 0.5f, 0.5f, 0.5f, 1.f });
+			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 0.5f });
 
 		}
 
@@ -55,61 +53,9 @@ namespace dru
 			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
 		}
 
-
-		{
-			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
-			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			LeftOutWall->SetPos(Vector3(-8.2f, 0.f, 4.999f));
-			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
-		}
-
-
-		{
-			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-			//			RightOutWall->SetPos(Vector3(8.25f, 0.f, 4.999f));
-			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
-			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
-		}
-
-		{
-			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
-			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
-			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
-		}
-
-		{
-			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
-			//			LeftOutWall->SetPos(Vector3(-8.25f, 0.f, 4.999f));
-			DownOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
-			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
-		}
-
-		{
-			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
-			Floor->SetColliderScale({ 20.f, 0.4f });
-
-		}
-
-		{
-			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(0.85f, 0.f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 20.f });
-		}
-
-		{
-			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-1.8f, 1.8f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 5.f });
-		}
-
-		{
-			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
-			Ceiling->SetPos(Vector3(-6.6f, -0.5f, 3.f));
-			Ceiling->SetColliderScale({ 10.f, 0.4f });
-		}
-
+		CreateOutWall();
+		CreateFirstFloor();
+		CreateSecondFloor();
 
 
 		{
@@ -182,6 +128,71 @@ namespace dru
 	void CStage1::LoadEndOperate()
 	{
 		CStage::LoadEndOperate();
+	}
+
+	void CStage1::CreateOutWall()
+	{
+		{
+			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
+			LeftOutWall->SetPos(Vector3(-8.2f, 0.f, 4.999f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+		}
+
+
+		{
+			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
+			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+		}
+
+		{
+			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
+			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
+			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+
+		{
+			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
+			DownOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
+			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+	}
+
+	void CStage1::CreateFirstFloor()
+	{
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
+
+		}
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(0.85f, -0.49f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 6.5f });
+		}
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(-1.8f, 1.8f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 5.f });
+		}
+
+		{
+			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+			Ceiling->SetPos(Vector3(-6.6f, -0.5f, 3.f));
+			Ceiling->SetColliderScale({ 10.f, 0.4f });
+		}
+	}
+
+	void CStage1::CreateSecondFloor()
+	{
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(5.63f, 2.58f, 3.f));
+			Floor->SetColliderScale({ 10.f, 0.4f });
+		}
 	}
 
 }

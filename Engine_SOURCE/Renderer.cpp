@@ -505,7 +505,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"fx_bullet", L"MainScene/FX/fx_bullet.png");
 		CResources::Load<CTexture>(L"fx_dust", L"MainScene/FX/fx_dust.png");
 		CResources::Load<CTexture>(L"fx_landcloud", L"MainScene/FX/fx_landcloud.png");
-		CResources::Load<CTexture>(L"fx_slash", L"MainScene/FX/fx_slash.png");
+		CResources::Load<CTexture>(L"fx_slashPlayer", L"MainScene/FX/fx_slash.png");
+		CResources::Load<CTexture>(L"fx_slash", L"MainScene/FX/slash.png");
 		CResources::Load<CTexture>(L"bloodfx", L"MainScene/FX/fx_blood.png");
 		CResources::Load<CTexture>(L"dustfx", L"MainScene/FX/fx_dust.png");
 		CResources::Load<CTexture>(L"landdustfx", L"MainScene/FX/fx_landdust.png");

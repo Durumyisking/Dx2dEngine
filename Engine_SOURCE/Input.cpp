@@ -134,47 +134,5 @@ namespace dru
 		mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
 		mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
 	}
-	void CInput::ComputeMousePos2()
-	{
-		CCamera* cam = renderer::mainCamera;
 
-		POINT ptMouse = {};
-		GetCursorPos(&ptMouse);
-		ScreenToClient(application.GetHwnd(), &ptMouse);
-
-		Vector3 ScreenMousePos = Vector3(ptMouse.x, ptMouse.y, 0.f);
-
-		Vector4 Pos = Vector4(ScreenMousePos.x, ScreenMousePos.y, ScreenMousePos.z, 0.f);
-
-		application.GetWidth();
-
-		Matrix ViewPort;
-		ViewPort.Viewport(application.GetWidth(), application.GetHeight(), 0, 0, 0, 1);
-		ViewPort.Invert(ViewPort);
-
-		Matrix ProjectionInvers = cam->GetGpuProjectionMatrix().Invert();
-
-		//Pos = Pos * ViewPort;
-		//Pos = Pos * ProjectionInvers;
-
-
-		RECT windowRect;
-		GetClientRect(application.GetHwnd(), &windowRect);
-
-		Vector2 resolutionRatio = application.GetResolutionRatio();
-
-		Vector2 mousePos;
-
-		mousePos.x = static_cast<float>(ptMouse.x - (windowRect.right - windowRect.left) * 0.5f) * resolutionRatio.x;
-		mousePos.y = static_cast<float>((windowRect.bottom - windowRect.top) * 0.5f - ptMouse.y) * resolutionRatio.y;
-
-		mMousePosition.x = mousePos.x;
-		mMousePosition.y = mousePos.y;
-
-		Vector3 camPos = cam->GetOwner()->GetPos();
-
-		mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
-		mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
-
-	}
 }

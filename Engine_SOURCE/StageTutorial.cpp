@@ -101,14 +101,11 @@ namespace dru
 			mCamTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 		}
 
-
-
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
 			LeftOutWall->SetPos(Vector3(-10.f, 0.f, 4.999f));
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
 		}
-
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
@@ -127,6 +124,8 @@ namespace dru
 			DownOutWall->SetPos(Vector3(0.f, -18.f, 4.999f));
 			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}	
+
+
 	}
 
 	void CStageTutorial::Update()
