@@ -99,8 +99,12 @@ namespace dru::renderer
 		Vector4 Color;
 		UINT elementCount;
 		float deltaTime;
+		float elapsedTime;
 	};
-
+	CBUFFER(NoiseCB, CBSLOT_NOISE)
+	{
+		Vector4 noiseSize;
+	};
 
 
 	// vertex data
@@ -131,6 +135,6 @@ namespace dru::renderer
 
 	void PushLightAttribute(LightAttribute _attribute);
 	void BindLight();
-
+	void BindNoiseTexture();
 }
 

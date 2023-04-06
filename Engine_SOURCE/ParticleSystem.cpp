@@ -23,6 +23,7 @@ namespace dru
 		, mBuffer(nullptr)
 		, mFrequency(1.0f)
 		, mTime(0.0f) 
+		, mCBData{}
 	{
 		
 	}
@@ -49,7 +50,8 @@ namespace dru
 		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"particle_spark");
 		material->SetTexture(eTextureSlot::T0, tex);
 
-		Particle particles[1000] = {};
+		Particle particles[100] = {};
+		Vector4 startPos = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 		for (size_t i = 0; i < mCount; i++)
 		{
 			particles[i].position = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -95,12 +97,14 @@ namespace dru
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mBuffer->GetStrideSize();
-		info.deltaTime = CTimeMgr::DeltaTime();
+
+
+		mCBData.elementCount = mBuffer->GetStrideSize();
+		mCBData.deltaTime = CTimeMgr::DeltaTime();
+		mCBData.elapsedTime += CTimeMgr::DeltaTime();
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->SetData(&info);
+		cb->SetData(&mCBData);
 		cb->Bind(eShaderStage::CS);
 
 		mCS->SetSharedStrutedBuffer(mSharedBuffer); mCS->SetStrcutedBuffer(mBuffer);
@@ -110,9 +114,12 @@ namespace dru
 	void CParticleSystem::render()
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
-		mBuffer->BindSRV(eShaderStage::VS, 15);
+		//mBuffer->BindSRV(eShaderStage::VS, 15);
+			//mBuffer->BindUAV(eShaderStage::VS, 0);
 		mBuffer->BindSRV(eShaderStage::GS, 15);
-		mBuffer->BindSRV(eShaderStage::PS, 15);
+		//mBuffer->BindUAV(eShaderStage::GS, 0);
+		//mBuffer->BindSRV(eShaderStage::PS, 15);
+		//mBuffer->BindUAV(eShaderStage::PS, 0);
 
 		GetMaterial()->Bind();
 		GetMesh()->RenderInstanced(mCount);

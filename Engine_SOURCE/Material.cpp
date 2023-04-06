@@ -121,12 +121,12 @@ namespace dru::graphics
             if (mTexture[i] == nullptr)
                 continue;
 
-            mTexture[i]->BindShader(eShaderStage::VS, i);
-            mTexture[i]->BindShader(eShaderStage::HS, i);
-            mTexture[i]->BindShader(eShaderStage::DS, i);
-            mTexture[i]->BindShader(eShaderStage::GS, i);
-            mTexture[i]->BindShader(eShaderStage::PS, i);
-            mTexture[i]->BindShader(eShaderStage::CS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::VS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::HS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::DS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::GS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::PS, i);
+            mTexture[i]->BindShaderResource(eShaderStage::CS, i);
         }
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
 

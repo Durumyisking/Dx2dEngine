@@ -99,7 +99,7 @@ namespace dru
 
 	void CAnimation::BindShader()
 	{
-		mAtlas->BindShader(eShaderStage::PS, 12);
+		mAtlas->BindShaderResource(eShaderStage::PS, 12);
 
 		CConstantBuffer* cb =  renderer::constantBuffers[(UINT)eCBType::Animation];
 

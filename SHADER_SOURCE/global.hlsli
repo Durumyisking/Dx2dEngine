@@ -3,7 +3,7 @@
 #include "ConstantBuffer.hlsli"
 #include "Texture.hlsli"
 #include "Sampler.hlsli"
-
+#include "Blur.hlsli"
 
 
 struct VTX_IN

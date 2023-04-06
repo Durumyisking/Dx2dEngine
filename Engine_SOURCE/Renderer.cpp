@@ -380,6 +380,9 @@ namespace dru::renderer
 		constantBuffers[static_cast<UINT>(eCBType::ParticleSystem)] = new CConstantBuffer(eCBType::ParticleSystem);
 		constantBuffers[static_cast<UINT>(eCBType::ParticleSystem)]->Create(sizeof(ParticleSystemCB));
 
+		constantBuffers[(UINT)eCBType::Noise] = new CConstantBuffer(eCBType::Noise);
+		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
+
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
 		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
@@ -521,6 +524,11 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"job_profile", L"MissionScene/job_profile.png");
 
 
+		// noise
+		CResources::Load<CTexture>(L"noise_01", L"noise/noise_01.png");
+		CResources::Load<CTexture>(L"noise_02", L"noise/noise_02.png");
+
+
 		std::shared_ptr<CTexture> uavTexture = std::make_shared<CTexture>();
 		uavTexture->Create(1024, 1024, 
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
@@ -656,6 +664,7 @@ namespace dru::renderer
 
 	void Render()
 	{
+		BindNoiseTexture();
 		BindLight();
 
 		UINT type = (UINT)CSceneMgr::mActiveScene->GetType();
@@ -692,4 +701,27 @@ namespace dru::renderer
 		cb->Bind(eShaderStage::PS);
 	}
 
+	void BindNoiseTexture()
+	{
+		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise_01");
+		noise->BindShaderResource(eShaderStage::VS, 16);
+		noise->BindShaderResource(eShaderStage::HS, 16);
+		noise->BindShaderResource(eShaderStage::DS, 16);
+		noise->BindShaderResource(eShaderStage::GS, 16);
+		noise->BindShaderResource(eShaderStage::PS, 16);
+		noise->BindShaderResource(eShaderStage::CS, 16);
+
+		NoiseCB info = {};
+		info.noiseSize.x = noise->GetWidth();
+		info.noiseSize.y = noise->GetHeight();
+
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::HS);
+		cb->Bind(eShaderStage::DS);
+		cb->Bind(eShaderStage::GS);
+		cb->Bind(eShaderStage::PS);
+		cb->Bind(eShaderStage::CS);
+	}
 }

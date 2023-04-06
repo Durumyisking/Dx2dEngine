@@ -20,6 +20,7 @@ namespace dru
 		class CStructedBuffer* mBuffer;
 		class CStructedBuffer* mSharedBuffer;
 		std::shared_ptr<graphics::CParticleShader> mCS;
+		renderer::ParticleSystemCB mCBData;
 
 		UINT mCount;
 		Vector4 mStartSize;

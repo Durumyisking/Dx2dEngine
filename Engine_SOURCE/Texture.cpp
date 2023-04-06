@@ -176,7 +176,7 @@ namespace dru::graphics
 		return S_OK;
 	}
 
-	void CTexture::BindShader(eShaderStage _Stage, UINT _Slot)
+	void CTexture::BindShaderResource(eShaderStage _Stage, UINT _Slot)
 	{
 		GetDevice()->BindShaderResource(_Stage, _Slot, mSRV.GetAddressOf());
 	}

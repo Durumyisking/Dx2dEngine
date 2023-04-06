@@ -16,4 +16,3 @@ struct ParticleShared
     uint gActiveCount;
 };
 
-StructuredBuffer<Particle> particleBuffer : register(t15);

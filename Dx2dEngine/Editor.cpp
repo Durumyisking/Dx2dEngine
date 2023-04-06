@@ -43,16 +43,16 @@ namespace dru
 
 
 		{
-			// gridobj
-			CEditorObject* gridObj = new CEditorObject();
-			gridObj->SetLayerType(eLayerType::Grid);
-			CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
-			MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
-			CGridScript* script = gridObj->AddComponent<CGridScript>(eComponentType::Script);
-			script->SetCamera(renderer::mainCamera);
-			//gridObj->DontDestroy();
+			//// gridobj
+			//CEditorObject* gridObj = new CEditorObject();
+			//gridObj->SetLayerType(eLayerType::Grid);
+			//CMeshRenderer* MeshRenderer = gridObj->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
+			//MeshRenderer->SetMaterial(CResources::Find<CMaterial>(L"GridMaterial"));
+			//CGridScript* script = gridObj->AddComponent<CGridScript>(eComponentType::Script);
+			//script->SetCamera(renderer::mainCamera);
+			////gridObj->DontDestroy();
 
-			mEditorObjects.push_back(gridObj);
+			//mEditorObjects.push_back(gridObj);
 		}
 
 	}

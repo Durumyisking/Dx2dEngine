@@ -25,7 +25,7 @@ namespace dru::graphics
 		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture);
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		void BindShader(eShaderStage _Stage, UINT _Slot);
+		void BindShaderResource(eShaderStage _Stage, UINT _Slot);
 		void BindUnorderedAccessview(UINT _Slot);
 		void ClearUnorderedAccessview(UINT _Slot);
 

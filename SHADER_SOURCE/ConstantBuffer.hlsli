@@ -74,4 +74,10 @@ cbuffer ParticleSystem : register(b6)
     float4 particleColor;
     uint elementCount;
     float deltaTime;
+    float elapsedTime; //누적시간
 }
+
+//cbuffer Noise : register(b6)
+//{
+//    float4 NoiseSize;
+//}

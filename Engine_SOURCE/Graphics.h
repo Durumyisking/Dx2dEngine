@@ -18,7 +18,7 @@
 #define CBSLOT_ANIMATION 4
 #define CBSLOT_LIGHTCOUNT 5
 #define CBSLOT_PARTICLESYSTEM 6
-
+#define CBSLOT_NOISE			7
 
 namespace dru::graphics
 {
@@ -140,6 +140,7 @@ namespace dru::graphics
 		Animation,
 		Light,
 		ParticleSystem,
+		Noise, 
 		End,
 	};
 
