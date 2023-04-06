@@ -9,7 +9,7 @@ namespace dru
 		, mType(eLayerType::None)
 		, mScripts{}
 		, mbDestroy(false)
-		, mbIsLeft(true)
+		, mbIsLeft(false)
 		, mbBlockRendering(false)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));

@@ -8,18 +8,14 @@ namespace dru
 	{
 		SetLayerType(eLayerType::Monster);
 
-		CRigidBody* rigidbody = this->AddComponent<CRigidBody>(eComponentType::RigidBody);
+		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
 
-		CCollider2D* coll = this->AddComponent<CCollider2D>(eComponentType::Collider);
+		CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->Initialize();
 		coll->SetName(L"col_monster");
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale(Vector2(0.2f, 0.6f));
 
-		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this ,L"MonsterRay");
-		//Vector3 vPos = GetPos();
-		//vPos += 2.5 * mRay->GetComponent<CTransform>()->Right();
-		//mRay->SetPos(vPos);
 	}
 
 
@@ -29,6 +25,15 @@ namespace dru
 
 	void CMonster::Initialize()
 	{
+		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
+
+
+		Vector3 vPos = GetPos();
+		vPos += 1.75f * mRay->GetComponent<CTransform>()->Right();
+		vPos -= 0.5f * mRay->GetComponent<CTransform>()->Up();
+
+		mRay->SetPos(vPos);
+
 		CGameObj::Initialize();
 	}
 

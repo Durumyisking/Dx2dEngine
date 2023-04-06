@@ -128,12 +128,9 @@ namespace dru
 		}
 
 		{
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_batterypart", L"UIShader");
-			CResources::Insert<CMaterial>(L"Hud_batteryMat", Material);
-
 			for (int i = 0; i < 11; ++i)
 			{
-				std::wstring str = L"Hud_BatteryPart";
+				std::wstring str = L"Hud_BatteryPartMat";
 				std::wstring num = std::to_wstring(i);
 				str += num;
 
@@ -142,6 +139,8 @@ namespace dru
 				mHudBatteryParts.push_back(mHudBatteryPart);
 
 				CSpriteRenderer* SpriteRenderer = mHudBatteryPart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_batterypart", L"UIShader");
+				CResources::Insert<CMaterial>(str, Material);
 				SpriteRenderer->SetMaterial(Material);
 
 				mHudBatteryPart->SetPos(Vector3(-7.6f + (i * 0.14f), 4.22f, 1.f));
@@ -241,7 +240,7 @@ namespace dru
 
 		if (mBulletTimeGaugePrev > mBulletTimeGaugeCurrent)
 		{
-			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.5f, 0.5f, 1.f));
+			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.25f, 0.25f, 1.f));
 		}
 		else if (mBulletTimeGaugePrev < mBulletTimeGaugeCurrent)
 		{

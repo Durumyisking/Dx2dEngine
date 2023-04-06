@@ -25,6 +25,7 @@ namespace dru
 		, mCamTarget2(nullptr)
 		, mUITarget(nullptr)
 		, mUIBg(nullptr)
+		, mUIMenu(nullptr)
 		, mUIStart(nullptr)
 		, mbgBlack(nullptr)
 		, mbgSteel(nullptr)
