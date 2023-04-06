@@ -123,10 +123,7 @@ namespace dru
 
 	void CCameraScript::OnCollision(CCollider2D* _oppo)
 	{
-		if ((L"col_outWallside" == _oppo->GetName()) || (L"col_outWall" == _oppo->GetName()))
-		{
-			mLookAt = Vector3::Zero;
-		}
+
 	}
 
 	void CCameraScript::OnCollisionExit(CCollider2D* _oppo)
@@ -271,10 +268,35 @@ namespace dru
 				// 흔들림 효과 계산
 				void* p = new int();
 				srand((int)p);
+				int randvalue = rand() % 5000000;
+				srand((int)p * CTimeMgr::DeltaTime() * randvalue);
 				float magnitude = mShakeParams.magnitude *
 					(1.f - mShakeTimer / mShakeParams.duration);
+
 				float x = (rand() % 1000 / 500.f - 1.f) * magnitude;
 				float y = (rand() % 1000 / 500.f - 1.f) * magnitude;
+
+				if (mDirBlock[(UINT)eDir::LEFT] == true)
+				{
+					if (x < 0.f)
+						x *= -1.f;
+				}
+				if (mDirBlock[(UINT)eDir::RIGHT] == true)
+				{
+					if (x > 0.f)
+						x *= -1.f;
+				}
+				if (mDirBlock[(UINT)eDir::UP] == true)
+				{
+					if (y > 0.f)
+						y *= -1.f;
+				}
+				if (mDirBlock[(UINT)eDir::DOWN] == true)
+				{
+					if (y < 0.f)
+						y *= -1.f;
+				}
+
 				mLookAt.x += x;
 				mLookAt.y += y;
 				delete p;
