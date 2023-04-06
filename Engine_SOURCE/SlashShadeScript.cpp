@@ -15,7 +15,7 @@ namespace dru
 		,mDir{}
 		, mbStart(false)
 		, mChangeColorTimer(0.f)
-
+		, mbMagenta(false)
 	{
 	}
 

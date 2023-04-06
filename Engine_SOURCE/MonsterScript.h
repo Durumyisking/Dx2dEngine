@@ -42,6 +42,9 @@ namespace dru
 
         void HitAddForce();
 
+        void CreateSlashShade();
+        void CreateBodySlash();
+
     private:
         void deadgroundComplete();
 

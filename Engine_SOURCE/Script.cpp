@@ -32,7 +32,7 @@ namespace dru
 	void CScript::render()
 	{
 	}
-	void CScript::MakeSlash(const std::wstring& _TextureName, Vector3 _PlayerPos, UINT _AnimSize, Vector2 _Ratio)
+	void CScript::MakeSlash(const std::wstring& _MaterialName, Vector3 _PlayerPos, UINT _AnimSize, Vector2 _Ratio)
 	{
 		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner()->GetName() + L"_Slash");
 
@@ -67,8 +67,7 @@ namespace dru
 
 
 		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(_TextureName, L"SpriteShader");
-		CResources::Insert<CMaterial>(GetOwner()->GetName() + L"SlashMat", Material);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(_MaterialName);
 		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* mAnimator = SlashObj->AddComponent<CAnimator>(eComponentType::Animator);

@@ -6,6 +6,7 @@
 #include "Object.h"
 #include "SlashScript.h"
 #include "SlashShadeScript.h"
+#include "BodyShadeScript.h"
 #include "Input.h"
 
 namespace dru
@@ -154,22 +155,8 @@ namespace dru
 				renderer::mainCamera->GetCamScript()->Shake(sp);
 
 
-				CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
-				CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slash", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"SlashShadeMat", Material);
-				SpriteRenderer->SetMaterial(Material);
-				SlashShade->SetPos(GetOwner()->GetPos());
-				SlashShade->SetScale(Vector3(0.2f, 0.0125f, 0.f));
-				SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script)->Initialize();
-
-				CCollider2D* coll = SlashShade->AddComponent<CCollider2D>(eComponentType::Collider);
-				coll->SetName(L"col_slashshade");
-				coll->SetType(eColliderType::Rect);
-				coll->SetScale(Vector2(1.f, 1.f));
-				coll->Initialize();
-
+				CreateSlashShade();
+				CreateBodySlash();
 			}			
 		}
 	}
@@ -213,6 +200,44 @@ namespace dru
 		mHitDir.Normalize();
 
 		mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+	}
+
+	void CMonsterScript::CreateSlashShade()
+	{
+		CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
+		CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slash", L"SpriteShader");
+		CResources::Insert<CMaterial>(L"SlashShadeMat", Material);
+		SpriteRenderer->SetMaterial(Material);
+		SlashShade->SetPos(GetOwner()->GetPos());
+		SlashShade->SetScale(Vector3(0.2f, 0.0125f, 0.f));
+		SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script)->Initialize();
+
+		CCollider2D* coll = SlashShade->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetName(L"col_slashshade");
+		coll->SetType(eColliderType::Rect);
+		coll->SetScale(Vector2(1.f, 1.f));
+		coll->Initialize();
+	}
+
+	void CMonsterScript::CreateBodySlash()
+	{
+		CGameObj* bodySlash = object::Instantiate<CGameObj>(eLayerType::FX, L"BodySlash");
+		CSpriteRenderer* SpriteRenderer = bodySlash->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		bodySlash->SetPos(GetOwner()->GetPos());
+
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BodySlashMat");
+		SpriteRenderer->SetMaterial(Material);
+		SpriteRenderer->MulColor(Vector4(0.917f, 0.796f, 0.403f, 1.f));
+
+		CAnimator* mAnimator = bodySlash->AddComponent<CAnimator>(eComponentType::Animator);
+		mAnimator->Create(L"BodySlash", Material->GetTexture(), { 500.f, 0.f }, { 100.f, 100.f }, Vector2::Zero, 5, { 80.f, 80.f }, 0.05f);
+		mAnimator->Play(L"BodySlash", false);
+
+		CBodyShadeScript* script = bodySlash->AddComponent<CBodyShadeScript>(eComponentType::Script);
+		script->Initialize();
+		script->SetMonster(GetOwner());
 	}
 
 	void CMonsterScript::deadgroundComplete()

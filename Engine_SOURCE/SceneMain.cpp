@@ -74,12 +74,6 @@ namespace dru
 
 	void CSceneMain::update()
 	{
-
-		if (CInput::GetKeyTap(eKeyCode::N))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
-		}
-
 		if (CInput::GetKeyTap(eKeyCode::ENTER))
 		{
 			if (mStages[mCurrentStage]->GetReadyState() == eStageState::ReadyEnd)
@@ -92,6 +86,11 @@ namespace dru
 		}
 
 		mStages[mCurrentStage]->Update();
+
+		if (CInput::GetKeyTap(eKeyCode::N))
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
+		}
 		CScene::update();
 	}
 

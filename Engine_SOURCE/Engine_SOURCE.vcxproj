@@ -168,6 +168,7 @@
     <ClInclude Include="BackgroundColor.h" />
     <ClInclude Include="BackgroundColorScript.h" />
     <ClInclude Include="BaseRenderer.h" />
+    <ClInclude Include="BodyShadeScript.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="Ceiling.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="BackgroundColor.cpp" />
     <ClCompile Include="BackgroundColorScript.cpp" />
     <ClCompile Include="BaseRenderer.cpp" />
+    <ClCompile Include="BodyShadeScript.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="Ceiling.cpp" />

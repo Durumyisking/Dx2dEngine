@@ -621,6 +621,15 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"wall", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"wallMat", Material);
 		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slashPlayer", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"PlayerSlashMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slashPlayer", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"BodySlashMat", Material);
+		}
+
 	}
 
 	void Initialize()
