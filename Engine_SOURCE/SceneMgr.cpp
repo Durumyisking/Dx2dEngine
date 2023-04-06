@@ -19,14 +19,16 @@ namespace dru
 		mScenes[static_cast<UINT>(eSceneType::Mission)] = new CSceneMission;
 		mScenes[static_cast<UINT>(eSceneType::Mission)]->SetType(eSceneType::Mission);
 
-		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Title)];
-
-		mActiveScene->Enter();
 
 		for (UINT i = 0; i < static_cast<UINT>(eSceneType::End); i++)
 		{
 			mScenes[i]->Initialize();
 		}
+
+
+		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Mission)];
+		mActiveScene->Enter();
+
 		
 	}
 

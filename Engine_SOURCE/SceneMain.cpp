@@ -67,6 +67,7 @@ namespace dru
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::FX);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::FX);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::FX);
 
 		CScene::Initialize();
 	}
@@ -140,12 +141,14 @@ namespace dru
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
 		}
 
+		mStages[mCurrentStage]->InitStage();
+
+
 		{
 			mMaskTarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");
 			mMaskTarget->SetPos(Vector3(0.f, 40.f, 0.1f));
 			mMaskTarget->SetScale(Vector3(0.4f, 0.4f, 1.f));
 		}
-
 
 		{
 			mScreenMask = object::Instantiate<CBackground>(eLayerType::BackGround, L"mask");
@@ -161,8 +164,6 @@ namespace dru
 
 			mScreenMask->AddComponent<CMaskScript>(eComponentType::Script)->SetTarget(mMaskTarget->GetComponent<CTransform>());
 		}
-
-		mStages[mCurrentStage]->InitStage();
 
 		CScene::Enter();
 	}

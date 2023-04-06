@@ -68,7 +68,7 @@ namespace dru
 			// main Ä«¸Þ¶ó
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->SetProjectionType(eProjectionType::Perspective);
+			cameraComp->SetProjectionType(eProjectionType::Orthographic);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;

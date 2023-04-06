@@ -2,6 +2,8 @@
 #include "Transform.h"
 #include "GameObj.h"
 #include "Input.h"
+#include "TimeMgr.h"
+#include "Collider2D.h"
 
 namespace dru
 {
@@ -11,6 +13,7 @@ namespace dru
 		,mPos{}
 		,mRot{}
 		,mDir{}
+		, mbStart(false)
 	{
 	}
 
@@ -38,18 +41,29 @@ namespace dru
 		rotation.z = rotation.z * 180 / XM_PI;
 		// 인자로 degree 넣음
 		mTrans->SetRotation(rotation);
-
+		
 	}
 
 	void CSlashShadeScript::update()
 	{
-
 	}
 
 	void CSlashShadeScript::fixedUpdate()
 	{
-
-
+		// update를 지나야 기저가 변경되기 때문ㅜㅜ
+		if (!mbStart)
+		{
+			mPos = mTrans->GetPosition();
+			mPos += mTrans->Right() * -15.f;
+			mTrans->SetPosition(mPos);
+			mbStart = true;
+		}
+		else
+		{
+			mPos = mTrans->GetPosition();
+			mPos += (mTrans->Right() * 100.f * CTimeMgr::DeltaTimeConstant());
+			mTrans->SetPosition(mPos);
+		}
 	}
 
 	void CSlashShadeScript::render()
@@ -66,6 +80,10 @@ namespace dru
 
 	void CSlashShadeScript::OnCollisionExit(CCollider2D* _oppo)
 	{
+		if (L"col_maincam" == _oppo->GetName())
+		{
+			GetOwner()->Die();
+		}
 	}
 
 	void CSlashShadeScript::OnTriggerEnter(CCollider2D* _oppo)

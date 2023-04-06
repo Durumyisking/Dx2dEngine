@@ -50,6 +50,21 @@ namespace dru
 		{
 			BulletTimeBatteryOperation();
 		}
+		if (CInput::GetKeyTap(eKeyCode::M))
+		{
+			{
+				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+				mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
+			}
+		}
+		if (CInput::GetKeyTap(eKeyCode::X))
+		{
+			renderer::mainCamera->GetCamScript()->CamFollowOff();
+		}
+		if (CInput::GetKeyTap(eKeyCode::C))
+		{
+			renderer::mainCamera->GetCamScript()->CamFollowOn();
+		}
 
 	}
 

@@ -141,6 +141,10 @@ namespace dru
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 			dynamic_cast<CSceneMain*>(CSceneMgr::mScenes[(UINT)CSceneMgr::eSceneType::Main])->SetStage(1);
 		}
+		if (CInput::GetKeyTap(eKeyCode::N_3))
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
+		}
 
 
 		if (CInput::GetKeyTap(eKeyCode::M))

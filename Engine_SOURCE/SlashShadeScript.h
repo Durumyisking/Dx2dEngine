@@ -28,5 +28,7 @@ namespace dru
         Vector3 mPos;
         Vector3 mRot;
         Vector3 mDir;
+        bool mbStart;
+
     };
 }
