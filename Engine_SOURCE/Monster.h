@@ -3,6 +3,7 @@
 #include "Animator.h"
 #include "MonsterScript.h"
 #include "RigidBody.h"
+#include "MonsterRay.h"
 
 
 namespace dru
@@ -18,6 +19,10 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+
+
+	private:
+		CMonsterRay* mRay;
     };
 }
 

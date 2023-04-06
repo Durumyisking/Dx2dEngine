@@ -193,6 +193,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GridScript.h" />
     <ClInclude Include="Grunt.h" />
+    <ClInclude Include="GruntScript.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Light.h" />
@@ -201,6 +202,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Monster.h" />
+    <ClInclude Include="MonsterRay.h" />
+    <ClInclude Include="MonsterRayScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="OutWall.h" />
@@ -264,6 +267,7 @@
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Grunt.cpp" />
+    <ClCompile Include="GruntScript.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -272,6 +276,8 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterRay.cpp" />
+    <ClCompile Include="MonsterRayScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
     <ClCompile Include="OutWall.cpp" />
     <ClCompile Include="OutWallSide.cpp" />

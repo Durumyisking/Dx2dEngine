@@ -170,15 +170,6 @@ namespace dru
 		//mDeleteObj = true;
 
 		{
-			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
-			directionalLight->SetPos({ 0.f, 0.f, -100.f });
-			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Directional);
-			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		}
-
-
-		{
 			// main 카메라
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
@@ -197,6 +188,16 @@ namespace dru
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
 		}
+
+
+		{
+			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
+			directionalLight->SetPos({ 0.f, 0.f, -100.f });
+			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		}
+
 
 		{
 
@@ -294,6 +295,19 @@ namespace dru
 				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 124.f, 124.f, 124.f, 0.125f });
 				mUIBg->SetPos(Vector3(0.f, -10.f, 2.5f));
 				mUIBg->SetScale(Vector3(0.1f, 0.1f, 1.f));
+
+			}
+
+			{
+				// 선택메뉴
+				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
+				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
+				CResources::Insert<CMaterial>(L"TitleButtonMat", Material);
+				SpriteRenderer->SetMaterial(Material);
+				mUIMenu->SetPos(Vector3(0.f, 0.05f, 0.f));
+				mUIMenu->SetScale(Vector3(0.35f, 0.475f, 1.f));
 
 			}
 

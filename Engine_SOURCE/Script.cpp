@@ -45,8 +45,11 @@ namespace dru
 
 		Vector3 MousePos = CInput::GetMousePosition_world();
 
+		Vector3 dir = MousePos - _PlayerPos;
+		dir.Normalize();
+
 		SlashObj->SetScale({ 2.f, 2.5f, 1.f });
-		SlashObj->SetPos(_PlayerPos);
+		SlashObj->SetPos(_PlayerPos + dir);
 
 		if (MousePos.x < GetOwner()->GetPos().x)
 			GetOwner()->SetLeft();

@@ -241,11 +241,11 @@ namespace dru
 
 		if (mBulletTimeGaugePrev > mBulletTimeGaugeCurrent)
 		{
-			mHudBatteryParts[mBulletTimeGaugePrev]->RenderingBlockOn();
+			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.5f, 0.5f, 1.f));
 		}
 		else if (mBulletTimeGaugePrev < mBulletTimeGaugeCurrent)
 		{
-			mHudBatteryParts[mBulletTimeGaugeCurrent]->RenderingBlockOff();
+			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
 		}
 		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
 	}

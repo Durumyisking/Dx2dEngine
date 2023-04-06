@@ -12,6 +12,7 @@ namespace dru::enums
 		Monster,
 		Player,
 		Platforms,
+		Ray,
 		Particle,
 		FX,
 		UI,
@@ -59,6 +60,7 @@ namespace dru::enums
 	{
 		Rect,
 		Circle,
+		Ray,
 		Box,
 		Sphere,
 		End,

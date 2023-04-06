@@ -161,6 +161,9 @@
     <Filter Include="GameObj\FX">
       <UniqueIdentifier>{b6cd7f64-0237-46e8-a61a-2740ecf28e5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Ray">
+      <UniqueIdentifier>{5e307f04-c8f1-47df-95fc-40b0eebf9be7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -380,6 +383,15 @@
     <ClInclude Include="BodyShadeScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
+    <ClInclude Include="GruntScript.h">
+      <Filter>GameObj\Monster\Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterRay.h">
+      <Filter>GameObj\Monster\Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterRayScript.h">
+      <Filter>GameObj\Monster\Ray</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -583,6 +595,15 @@
     </ClCompile>
     <ClCompile Include="BodyShadeScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
+    <ClCompile Include="GruntScript.cpp">
+      <Filter>GameObj\Monster\Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterRay.cpp">
+      <Filter>GameObj\Monster\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterRayScript.cpp">
+      <Filter>GameObj\Monster\Ray</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

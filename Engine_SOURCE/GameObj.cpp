@@ -127,6 +127,46 @@ namespace dru
 	{
 		if (nullptr != GetComponent<CTransform>())
 		{
+			if (eProjectionType::Orthographic == renderer::mainCamera->GetProjectionType())
+			{
+				switch (mType)
+				{
+				case dru::enums::eLayerType::None:
+					break;
+				case dru::enums::eLayerType::Camera:
+					break;
+				case dru::enums::eLayerType::Grid:
+					break;
+				case dru::enums::eLayerType::BackGround:
+					_Value.z = 5.f;
+					break;
+				case dru::enums::eLayerType::Monster:
+					_Value.z = 3.1f;
+					break;
+				case dru::enums::eLayerType::Player:
+					_Value.z = 3.f;
+					break;
+				case dru::enums::eLayerType::Platforms:
+					_Value.z = 4.9f;
+					break;
+				case dru::enums::eLayerType::Ray:
+					_Value.z = 4.f;
+					break;
+				case dru::enums::eLayerType::Particle:
+					_Value.z = 2.8f;
+					break;
+				case dru::enums::eLayerType::FX:
+					_Value.z = 2.9f;
+					break;
+				case dru::enums::eLayerType::UI:
+					_Value.z = 0.1f;
+					break;
+				case dru::enums::eLayerType::End:
+					break;
+				default:
+					break;
+				}
+			}
 			GetComponent<CTransform>()->SetPosition(_Value);
 		}
 	}

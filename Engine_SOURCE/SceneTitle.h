@@ -29,6 +29,7 @@ namespace dru
 		CGameObj*	mUITarget;
 
 		CBackgroundColor* mUIBg;
+		CGameObj*		  mUIMenu;
 		CBackgroundColor* mUIStart;
 
 

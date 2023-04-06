@@ -269,7 +269,7 @@ namespace dru
 				void* p = new int();
 				srand((int)p);
 				int randvalue = rand() % 5000000;
-				srand((int)p * CTimeMgr::DeltaTime() * randvalue);
+				srand((int)p * static_cast<UINT>(CTimeMgr::DeltaTime()) * randvalue);
 				float magnitude = mShakeParams.magnitude *
 					(1.f - mShakeTimer / mShakeParams.duration);
 

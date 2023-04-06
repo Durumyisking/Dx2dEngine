@@ -63,6 +63,7 @@ namespace dru
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Platforms);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Ray);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::Platforms);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::FX);
@@ -109,14 +110,6 @@ namespace dru
 		mDeleteObj = true;
 
 		{
-			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightMainScene");
-			directionalLight->SetPos({ 0.f, 0.f, -100.f });
-			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Directional);
-			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
-		}
-
-		{
 			// main 카메라
 			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
@@ -129,7 +122,7 @@ namespace dru
 			coll->SetType(eColliderType::Rect);
 			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
 			coll->Off();
-			
+
 		}
 		{
 			// ui 카메라
@@ -138,6 +131,14 @@ namespace dru
 			cameraComp->SetProjectionType(eProjectionType::Orthographic);
 			cameraComp->DisableLayerMasks();
 			cameraComp->TurnLayerMask(eLayerType::UI, true);
+		}
+
+		{
+			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightMainScene");
+			directionalLight->SetPos({ 0.f, 0.f, -100.f });
+			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Directional);
+			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
 		}
 
 		mStages[mCurrentStage]->InitStage();

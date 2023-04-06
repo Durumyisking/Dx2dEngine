@@ -76,7 +76,7 @@ namespace dru
 	{
 		mChangeColorTimer += CTimeMgr::DeltaTimeConstant();
 
-		if (mChangeColorTimer > 0.05f)
+		if (mChangeColorTimer > 0.15f)
 		{
 			CSpriteRenderer* sprrenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 			if (!mbMagenta)

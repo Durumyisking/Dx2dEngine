@@ -1,8 +1,10 @@
 #include "Monster.h"
+#include "Object.h"
 
 namespace dru
 {
 	CMonster::CMonster()
+		: mRay(nullptr)
 	{
 		SetLayerType(eLayerType::Monster);
 
@@ -14,6 +16,10 @@ namespace dru
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale(Vector2(0.2f, 0.6f));
 
+		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this ,L"MonsterRay");
+		//Vector3 vPos = GetPos();
+		//vPos += 2.5 * mRay->GetComponent<CTransform>()->Right();
+		//mRay->SetPos(vPos);
 	}
 
 
