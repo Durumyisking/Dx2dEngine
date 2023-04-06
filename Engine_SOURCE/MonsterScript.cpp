@@ -153,9 +153,7 @@ namespace dru
 				sp.magnitude = 0.0125f;
 				renderer::mainCamera->GetCamScript()->Shake(sp);
 
-			}
-			else
-			{
+
 				CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
 				CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
@@ -171,8 +169,8 @@ namespace dru
 				coll->SetType(eColliderType::Rect);
 				coll->SetScale(Vector2(1.f, 1.f));
 				coll->Initialize();
-			}
-			
+
+			}			
 		}
 	}
 

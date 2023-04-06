@@ -49,16 +49,16 @@ namespace dru
 		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"particle_spark");
 		material->SetTexture(eTextureSlot::T0, tex);
 
-		Particle particles[100] = {};
+		Particle particles[1000] = {};
 		for (size_t i = 0; i < mCount; i++)
 		{
-			particles[i].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
+			particles[i].position = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 			particles[i].active = 0;
 			particles[i].direction =
 				Vector4(cosf((float)i * (XM_2PI / (float)mCount))
 					, sin((float)i * (XM_2PI / (float)mCount)), 0.0f, 1.0f);
 
-			particles[i].speed = 50.f;
+			particles[i].speed = 10.f; 
 		}
 		//for (size_t i = 50; i < mCount; i++)
 		//{
@@ -77,7 +77,7 @@ namespace dru
 
 	void CParticleSystem::fixedUpdate()
 	{
-		float aliveTime = 1.0f / mFrequency;
+		float aliveTime = 0.1f / mFrequency;
 		//누적시간
 		mTime += CTimeMgr::DeltaTime();
 		if (aliveTime < mTime)
@@ -86,7 +86,7 @@ namespace dru
 			UINT iAliveCount = (UINT)f;
 			mTime = f - std::floor(f);
 
-			ParticleShared shared = { 5, };
+			ParticleShared shared = { 20, };
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else

@@ -62,6 +62,7 @@ namespace dru
 			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
 		}
+
 	}
 
 	void CStage1::LoadinReady()
@@ -121,7 +122,6 @@ namespace dru
 
 	void CStage1::LoadUIOperate()
 	{
-		renderer::mainCamera->GetCamScript()->CamFollowOffX();
 		CStage::LoadUIOperate();
 	}
 

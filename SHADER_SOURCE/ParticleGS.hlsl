@@ -27,10 +27,10 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output)
 	
     float3 NewPos[4] =
     {
-        vViewPos + float3(-0.5f, 0.5f, 0.0f) *  float3(0.1f, 0.1f, 0.1f), // 스케일
-        vViewPos + float3(0.5f, 0.5f, 0.0f) *   float3(0.1f, 0.1f, 0.1f),
-        vViewPos + float3(0.5f, -0.5f, 0.0f) *  float3(0.1f, 0.1f, 0.1f),
-        vViewPos + float3(-0.5f, -0.5f, 0.0f) * float3(0.1f, 0.1f, 0.1f)
+        vViewPos + float3(-0.5f, 0.5f, 0.0f) *  float3(0.01f, 0.01f, 0.01f), // 스케일
+        vViewPos + float3(0.5f, 0.5f, 0.0f) *   float3(0.01f, 0.01f, 0.01f),
+        vViewPos + float3(0.5f, -0.5f, 0.0f) *  float3(0.01f, 0.01f, 0.01f),
+        vViewPos + float3(-0.5f, -0.5f, 0.0f) * float3(0.01f, 0.01f, 0.01f)
     };
 	
     for (int i = 0; i < 4; i++)

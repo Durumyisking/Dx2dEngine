@@ -39,6 +39,7 @@ namespace dru
 	{
 		mCameraObject = GetOwner()->GetComponent<CCamera>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
+
 	}
 
 	void CCameraScript::update()
@@ -137,6 +138,7 @@ namespace dru
 			{
 				mDirBlock[(UINT)eDir::RIGHT] = false;
 			}
+			mbCamFollowPlayerX = true;
 
 		}
 		else if (L"col_outWall" == _oppo->GetName())
@@ -149,6 +151,7 @@ namespace dru
 			{
 				mDirBlock[(UINT)eDir::UP] = false;
 			}
+			mbCamFollowPlayerY = true;
 
 		}
 	}
