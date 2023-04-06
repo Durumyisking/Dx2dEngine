@@ -71,6 +71,22 @@ namespace dru
 		adjustTexture();
 	}
 
+	void CBaseRenderer::ChangeColor(Vector4 _color)
+	{
+		MulColor(Vector4::Zero);
+		AddColor(_color);
+	}
+
+	void CBaseRenderer::MulColor(Vector4 _color)
+	{
+		mMaterial->SetData(eGPUParam::Vector4_1, &_color);
+	}
+
+	void CBaseRenderer::AddColor(Vector4 _color)
+	{
+		mMaterial->SetData(eGPUParam::Vector4_2, &_color);
+	}
+
 	void CBaseRenderer::adjustTexture()
 	{
 		std::shared_ptr<CTexture> texture = GetMaterial()->GetTexture(eTextureSlot::T0);

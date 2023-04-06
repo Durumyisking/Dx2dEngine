@@ -123,7 +123,10 @@ namespace dru
 
 	void CCameraScript::OnCollision(CCollider2D* _oppo)
 	{
-
+		if ((L"col_outWallside" == _oppo->GetName()) || (L"col_outWall" == _oppo->GetName()))
+		{
+			mLookAt = Vector3::Zero;
+		}
 	}
 
 	void CCameraScript::OnCollisionExit(CCollider2D* _oppo)

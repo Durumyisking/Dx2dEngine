@@ -23,12 +23,17 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+
     private:
         CTransform* mTrans;
         Vector3 mPos;
         Vector3 mRot;
         Vector3 mDir;
+
         bool mbStart;
+
+        float mChangeColorTimer;
+        bool mbMagenta;
 
     };
 }

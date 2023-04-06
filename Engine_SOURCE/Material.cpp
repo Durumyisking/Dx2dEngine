@@ -15,6 +15,7 @@ namespace dru::graphics
 	{
 		mTexture[(UINT)eTextureSlot::T0] = CResources::Find<CTexture>(_TextureName);
 		mShader = CResources::Find<CShader>(_ShaderName);
+		mConstantBuffer.xyzw1 = Vector4{ 1.f, 1.f, 1.f, 1.f };
 	}
 	CMaterial::CMaterial(std::wstring _TextureName, eTextureSlot _Slot, std::wstring _ShaderName)
 		: CResource(eResourceType::Material)
@@ -22,6 +23,8 @@ namespace dru::graphics
 	{
 		mTexture[(UINT)_Slot] = CResources::Find<CTexture>(_TextureName);
 		mShader = CResources::Find<CShader>(_ShaderName);
+		mConstantBuffer.xyzw1 = Vector4{ 1.f, 1.f, 1.f, 1.f };
+		mConstantBuffer.xyzw2 = Vector4{ 0.f, 0.f, 0.f, 0.f };
 	}
 	CMaterial::~CMaterial()
 	{

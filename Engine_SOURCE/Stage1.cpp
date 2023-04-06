@@ -34,6 +34,20 @@ namespace dru
 
 		}
 
+
+		{
+			// 배경 black
+			CGameObj* bgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"Black", Material);
+			SpriteRenderer->SetMaterial(Material);
+			bgBlack->SetPos(Vector3(0.f, 0.f, 5.f));
+			bgBlack->SetScale(Vector3(100.f, 100.f, 1.f));
+
+		}
+
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{
 			// 배경 Stage1

@@ -26,6 +26,9 @@ namespace dru
 		std::shared_ptr<CMaterial> GetMaterial() { return mMaterial; }
 
 		void ChangeSize() { mbIsChanged = true; }
+		void ChangeColor(Vector4 _color);
+		void MulColor(Vector4 _color);
+		void AddColor(Vector4 _color);
 
 	private:
 		void adjustTexture();

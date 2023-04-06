@@ -14,6 +14,8 @@ namespace dru
 		,mRot{}
 		,mDir{}
 		, mbStart(false)
+		, mChangeColorTimer(0.f)
+
 	{
 	}
 
@@ -42,6 +44,10 @@ namespace dru
 		// 인자로 degree 넣음
 		mTrans->SetRotation(rotation);
 		
+		CSpriteRenderer* sprrenderer = GetOwner()->GetComponent<CSpriteRenderer>();
+		sprrenderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.5f));
+
+		mbMagenta = true;
 	}
 
 	void CSlashShadeScript::update()
@@ -61,13 +67,31 @@ namespace dru
 		else
 		{
 			mPos = mTrans->GetPosition();
-			mPos += (mTrans->Right() * 100.f * CTimeMgr::DeltaTimeConstant());
+			mPos += (mTrans->Right() * 150.f * CTimeMgr::DeltaTimeConstant());
 			mTrans->SetPosition(mPos);
 		}
 	}
 
 	void CSlashShadeScript::render()
 	{
+		mChangeColorTimer += CTimeMgr::DeltaTimeConstant();
+
+		if (mChangeColorTimer > 0.05f)
+		{
+			CSpriteRenderer* sprrenderer = GetOwner()->GetComponent<CSpriteRenderer>();
+			if (!mbMagenta)
+			{
+				sprrenderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.5f));
+				mbMagenta = true;
+
+			}
+			else
+			{
+				sprrenderer->ChangeColor(Vector4(0.f, 1.f, 1.f, 0.5f));
+				mbMagenta = false;
+			}
+			mChangeColorTimer = 0.f;
+		}
 	}
 
 	void CSlashShadeScript::OnCollisionEnter(CCollider2D* _oppo)
