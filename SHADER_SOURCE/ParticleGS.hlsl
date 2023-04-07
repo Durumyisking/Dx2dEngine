@@ -14,7 +14,6 @@ struct GSOutput
     uint iInstance : SV_InstanceID;
 };
 
-StructuredBuffer<Particle> particleBuffer : register(t15);
 
 [maxvertexcount(6)]
 void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input은 input output은 output (output 주소에 값을 넣고 그걸 cpu에서 받는 너낌)
@@ -38,9 +37,9 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input�
 	
     float3 NewPos[4] =
     {
-        vViewPos + float3(-0.5f, 0.5f, 0.0f) *  vScale, // 스케일
-        vViewPos + float3(0.5f, 0.5f, 0.0f) *   vScale,
-        vViewPos + float3(0.5f, -0.5f, 0.0f) *  vScale,
+        vViewPos + float3(-0.5f, 0.5f, 0.0f) * vScale, // 스케일
+        vViewPos + float3(0.5f, 0.5f, 0.0f) * vScale,
+        vViewPos + float3(0.5f, -0.5f, 0.0f) * vScale,
         vViewPos + float3(-0.5f, -0.5f, 0.0f) * vScale
     };
 	

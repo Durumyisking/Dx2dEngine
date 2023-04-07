@@ -24,6 +24,4 @@ namespace dru::graphics
 		const eCBType mType;
 	};
 
-
 }
-

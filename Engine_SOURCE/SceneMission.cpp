@@ -46,6 +46,17 @@ namespace dru
 	}
 	void CSceneMission::Enter()
 	{
+
+		{
+			// main 카메라
+			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
+			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
+			cameraComp->SetProjectionType(eProjectionType::Perspective);
+			cameraComp->TurnLayerMask(eLayerType::UI, false);
+			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
+			renderer::mainCamera = cameraComp;
+		}
+
 		{
 			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
 			directionalLight->SetPos({ 0.f, 0.f, -100.f });
@@ -64,15 +75,6 @@ namespace dru
 
 		}
 
-		{
-			// main 카메라
-			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
-			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->SetProjectionType(eProjectionType::Perspective);
-			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-			renderer::mainCamera = cameraComp;
-		}
 
 		{
 			//paint shader

@@ -71,8 +71,9 @@ cbuffer LightCount : register(b5)
 }
 cbuffer ParticleSystem : register(b6)
 {
-    float4 worldPosition;
+    float4 worldPosition; // 컬러 맥스파티클 델타타임
     float4 startColor;
+    float4 endColor;
     float4 startSize;
     
     uint maxParticles;
@@ -90,3 +91,4 @@ cbuffer ParticleSystem : register(b6)
 //{
 //    float4 NoiseSize;
 //}
+

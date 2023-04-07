@@ -26,7 +26,7 @@ namespace dru
 		}
 
 
-		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Main)];
+		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Mission)];
 		mActiveScene->Enter();
 
 		
