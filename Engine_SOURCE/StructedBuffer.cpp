@@ -8,7 +8,7 @@ namespace dru::graphics
 		, mUAV(nullptr)
 		, mType(eSRVType::SRV)
 		, mSize(0)
-		, mStride(0) // stride가 정확히 뭔지 
+		, mStride(0)
 		, mSRVSlot(0)
 		, mUAVSlot(0)
 		, mWriteBuffer(nullptr)
@@ -40,15 +40,15 @@ namespace dru::graphics
 		return true;
 	}
 
-	void CStructedBuffer::SetData(void* _data, UINT _bufferCount)
+	void CStructedBuffer::SetData(void* _data, UINT _stride)
 	{
-		if (mStride < _bufferCount)
+		if (mStride < _stride) // 그니까 내가 셋데이타 해줄껀데 이 버퍼로 넘겨줄 데이터 개수가 들어온 stride보다 크면 
 		{
-			Create(mSize, _bufferCount, eSRVType::SRV, _data);
+			Create(mSize, _stride, eSRVType::SRV, _data); // 그 크기만큼 새로 buffer 만들어버림
 		}
 		else
 		{
-			GetDevice()->SetData(mWriteBuffer.Get(), _data, mSize * _bufferCount); // writebuffer에 data 세팅 buffer count가 머임? 항상 size만큼 보내야 하는거 아닌가? 
+			GetDevice()->SetData(mWriteBuffer.Get(), _data, mSize * _stride); // 데이터 크기 * stride(개수)만큼 데이터 세팅한다.
 		}
 		GetDevice()->CopyResource(buffer.Get(), mWriteBuffer.Get()); // writebuffer에 있는거 내 buffer도 들고있게함
 	}

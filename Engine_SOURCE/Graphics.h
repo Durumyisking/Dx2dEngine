@@ -37,7 +37,7 @@ namespace dru::graphics
 		GS,
 		PS,
 		CS,
-
+		All,
 		End,
 
 	};

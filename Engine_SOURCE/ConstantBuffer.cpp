@@ -43,7 +43,19 @@ namespace dru::graphics
 
 	void CConstantBuffer::Bind(eShaderStage _Stage)
 	{
-		GetDevice()->BindConstantBuffer(_Stage, mType, buffer.Get());
+		if (_Stage == eShaderStage::All)
+		{
+			GetDevice()->BindConstantBuffer(eShaderStage::VS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::HS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::DS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::GS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::PS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::CS, mType, buffer.Get());
+		}
+		else
+		{
+			GetDevice()->BindConstantBuffer(_Stage, mType, buffer.Get());
+		}
 	}
 
 	void CConstantBuffer::Clear()

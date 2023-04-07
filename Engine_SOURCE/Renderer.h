@@ -96,10 +96,20 @@ namespace dru::renderer
 
 	CBUFFER(ParticleSystemCB, CBSLOT_LIGHTCOUNT)
 	{
-		Vector4 Color;
-		UINT elementCount;
+		Vector4 worldPosition; 
+		Vector4 startColor;
+		Vector4 endColor;
+		Vector4 startSize;
+
+		UINT maxParticles;
+		UINT simulationSpace;
+		float radius;
+		float startSpeed;
+
+		float startLifeTime;
 		float deltaTime;
-		float elapsedTime; // 경과시간
+		float elapsedTime; //누적시간
+		int padding;
 	};
 	CBUFFER(NoiseCB, CBSLOT_NOISE)
 	{

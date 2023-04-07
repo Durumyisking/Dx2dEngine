@@ -11,15 +11,15 @@ namespace dru::graphics
 		~CStructedBuffer();
 
 		bool Create(UINT _size, UINT _stride, graphics::eSRVType _type, void* _data, bool cpuAccess = false);
-		void SetData(void* _data, UINT _bufferCount);
+		void SetData(void* _data, UINT _stride);
 		void GetData(void* data, UINT size = 0); 
 		void BindSRV(graphics::eShaderStage _stage, UINT _slot);
 		void BindUAV(eShaderStage stage, UINT slot);
 
 		void Clear();
 
-		UINT GetSize() { return mSize; }
-		UINT GetStrideSize() { return mStride; }
+		UINT GetSize() { return mSize; } // 버퍼의 크기 (넘겨줄 데이터의? 크기)
+		UINT GetStride() { return mStride; } // 버퍼의 개수
 
 	private:
 		void setDiscription();

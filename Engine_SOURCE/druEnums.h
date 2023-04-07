@@ -32,8 +32,8 @@ namespace dru::enums
 		SpriteRenderer,
 		Animator,
 		Particle,
+		Light, 
 		UI,
-		Light,
 		Script,
 		End,
 

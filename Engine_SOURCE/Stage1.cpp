@@ -15,15 +15,7 @@ namespace dru
 
 	void CStage1::InitStage()
 	{
-		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
-			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
-			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(3.f);
-			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 1.f });
 
-		}
 		{
 			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
 			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
@@ -31,7 +23,6 @@ namespace dru
 			lightComp->SetType(eLightType::Point);
 			lightComp->SetRadius(3.f);
 			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 0.5f });
-
 		}
 
 
@@ -189,7 +180,7 @@ namespace dru
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-3.2f, 1.8f, 3.f));
+			Wall->SetPos(Vector3(-3.2f, 1.85f, 3.f));
 			Wall->SetColliderScale({ 0.5f, 5.f });
 		}
 
