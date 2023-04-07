@@ -23,7 +23,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Attack)
+		, mTutorStage(TutorialStage::BulletTime)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)

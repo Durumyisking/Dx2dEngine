@@ -712,7 +712,7 @@ namespace dru::renderer
 		noise->BindShaderResource(eShaderStage::CS, 16);
 
 		NoiseCB info = {};
-		info.noiseSize.x = noise->GetWidth();
+		info.noiseSize.x = noise->GetWidth(); // 노이즈 텍스처 사이즈를 상수버퍼로 전달해줌
 		info.noiseSize.y = noise->GetHeight();
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];

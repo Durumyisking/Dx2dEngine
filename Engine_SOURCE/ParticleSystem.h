@@ -27,6 +27,7 @@ namespace dru
 		Vector4 mEndSize;
 		Vector4 mStartColor;
 		Vector4 mEndColor;
+
 		float mStartLifeTime;
 		float mFrequency;
 		float mTime;

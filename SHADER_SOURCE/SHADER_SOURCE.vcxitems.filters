@@ -7,11 +7,11 @@
     <Filter Include="PS">
       <UniqueIdentifier>{040e3a35-33d9-49f9-b78a-f5b26ed66a32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CS">
-      <UniqueIdentifier>{d2af8696-7424-4b6a-bd50-7bfb8afc5417}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GS">
       <UniqueIdentifier>{d61c7604-d861-476f-925e-018f971dfcf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CS">
+      <UniqueIdentifier>{d2af8696-7424-4b6a-bd50-7bfb8afc5417}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

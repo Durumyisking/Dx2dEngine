@@ -8,7 +8,7 @@ namespace dru::graphics
 		, mUAV(nullptr)
 		, mType(eSRVType::SRV)
 		, mSize(0)
-		, mStride(0)
+		, mStride(0) // stride가 정확히 뭔지 
 		, mSRVSlot(0)
 		, mUAVSlot(0)
 		, mWriteBuffer(nullptr)
@@ -48,19 +48,19 @@ namespace dru::graphics
 		}
 		else
 		{
-			GetDevice()->SetData(mWriteBuffer.Get(), _data, mSize * _bufferCount);
+			GetDevice()->SetData(mWriteBuffer.Get(), _data, mSize * _bufferCount); // writebuffer에 data 세팅 buffer count가 머임? 항상 size만큼 보내야 하는거 아닌가? 
 		}
-		GetDevice()->CopyResource(buffer.Get(), mWriteBuffer.Get());
+		GetDevice()->CopyResource(buffer.Get(), mWriteBuffer.Get()); // writebuffer에 있는거 내 buffer도 들고있게함
 	}
 
-	void CStructedBuffer::GetData(void* data, UINT size)
+	void CStructedBuffer::GetData(void* data, UINT size) // 아직? 안쓰는중
 	{
-		GetDevice()->CopyResource(mReadBuffer.Get(), buffer.Get());
+		GetDevice()->CopyResource(mReadBuffer.Get(), buffer.Get()); // readbuffer에서 버퍼로 카피
 
 		//read buffer -> systemmemory
 		if (size == 0)
 		{
-			GetDevice()->SetData(mReadBuffer.Get(), data, mSize * mStride);
+			GetDevice()->SetData(mReadBuffer.Get(), data, mSize * mStride); // 근데 왜 setdata에요?
 		}
 		else
 		{

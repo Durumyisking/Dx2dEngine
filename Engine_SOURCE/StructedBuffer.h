@@ -4,7 +4,7 @@
 
 namespace dru::graphics
 {
-	class CStructedBuffer : public GpuBuffer
+	class CStructedBuffer : public GpuBuffer // 구조체 상속 클래스?
 	{
 	public:
 		CStructedBuffer();

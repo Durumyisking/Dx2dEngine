@@ -99,7 +99,7 @@ namespace dru::renderer
 		Vector4 Color;
 		UINT elementCount;
 		float deltaTime;
-		float elapsedTime;
+		float elapsedTime; // 경과시간
 	};
 	CBUFFER(NoiseCB, CBSLOT_NOISE)
 	{

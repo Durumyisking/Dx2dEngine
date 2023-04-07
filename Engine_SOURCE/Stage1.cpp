@@ -57,8 +57,8 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Stage1", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(7.f, 5.f, 5.f));
-			mStageBackground->SetScale(Vector3(8.f, 8.f, 1.f));
+			mStageBackground->SetPos(Vector3(4.3f, 3.125f, 5.f));
+			mStageBackground->SetScale(Vector3(6.5f, 6.5f, 1.f));
 		}
 
 
@@ -183,19 +183,19 @@ namespace dru
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(0.85f, -0.49f, 3.f));
+			Wall->SetPos(Vector3(-1.05f, -1.1f, 3.f));
 			Wall->SetColliderScale({ 0.5f, 6.5f });
 		}
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-1.8f, 1.8f, 3.f));
+			Wall->SetPos(Vector3(-3.2f, 1.8f, 3.f));
 			Wall->SetColliderScale({ 0.5f, 5.f });
 		}
 
 		{
 			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
-			Ceiling->SetPos(Vector3(-6.6f, -0.5f, 3.f));
+			Ceiling->SetPos(Vector3(-8.f, -0.47f, 3.f));
 			Ceiling->SetColliderScale({ 10.f, 0.4f });
 		}
 	}
@@ -204,7 +204,7 @@ namespace dru
 	{
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(5.63f, 2.58f, 3.f));
+			Floor->SetPos(Vector3(3.75f, 2.f, 3.f));
 			Floor->SetColliderScale({ 10.f, 0.4f });
 		}
 	}

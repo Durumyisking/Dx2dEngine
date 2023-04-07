@@ -50,8 +50,10 @@ namespace dru
 		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"particle_spark");
 		material->SetTexture(eTextureSlot::T0, tex);
 
+
 		Particle particles[100] = {};
 		Vector4 startPos = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+
 		for (size_t i = 0; i < mCount; i++)
 		{
 			particles[i].position = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -77,27 +79,25 @@ namespace dru
 	{
 	}
 
-	void CParticleSystem::fixedUpdate()
+	void CParticleSystem::fixedUpdate()//이해 안댐
 	{
-		float aliveTime = 0.1f / mFrequency;
+		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 머임?
 		//누적시간
 		mTime += CTimeMgr::DeltaTime();
-		if (aliveTime < mTime)
+		if (aliveTime < mTime) 
 		{
-			float f = (mTime / aliveTime);
+			float f = (mTime / aliveTime); // 이게 뭐시어
 			UINT iAliveCount = (UINT)f;
 			mTime = f - std::floor(f);
 
-			ParticleShared shared = { 20, };
+			ParticleShared shared = { 20 }; // 20을 computeShader에 보내겠다
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else
 		{
-			ParticleShared shared = {  };
+			ParticleShared shared = {  }; // if아닐때는 0을 보내네
 			mSharedBuffer->SetData(&shared, 1);
 		}
-
-
 
 		mCBData.elementCount = mBuffer->GetStrideSize();
 		mCBData.deltaTime = CTimeMgr::DeltaTime();
@@ -111,11 +111,11 @@ namespace dru
 		mCS->OnExcute();
 	}
 
-	void CParticleSystem::render()
+	void CParticleSystem::render() // cs는 fixedupdate에서 근데 왜?
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 		//mBuffer->BindSRV(eShaderStage::VS, 15);
-			//mBuffer->BindUAV(eShaderStage::VS, 0);
+		//mBuffer->BindUAV(eShaderStage::VS, 0);
 		mBuffer->BindSRV(eShaderStage::GS, 15);
 		//mBuffer->BindUAV(eShaderStage::GS, 0);
 		//mBuffer->BindSRV(eShaderStage::PS, 15);
