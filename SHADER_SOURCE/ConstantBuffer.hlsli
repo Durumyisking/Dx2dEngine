@@ -81,10 +81,16 @@ cbuffer ParticleSystem : register(b6)
     float radius;
     float startSpeed;
     
-    float startLifeTime;
+    float maxLifeTime;
+    float minLifeTime;
     float deltaTime;
     float elapsedTime; //누적시간
-    int padding;
+
+    float gravity;    
+    float force;
+    int padding1;
+    int padding2;
+
 }
 
 //cbuffer Noise : register(b7)

@@ -29,16 +29,22 @@ namespace dru
 
 		Vector4 mStartSize;
 		Vector4 mStartColor;
+		Vector4 mEndColor;
+		float mTime;
+		float mFrequency;
 
 		eSimulationSpace mSimulationSpace;
 		UINT mMaxParticles;
-		float mStartLifeTime;
-		float mFrequency;
+		
 		float mRadius;
-
 		float mStartSpeed;
-		float mTime;
+
+		float mMaxLifeTime;
+		float mMinLifeTime;
+
 		float mElapsedTime; //누적시간
+		float mGravity;
+		float mForce;
 	};
 
 }

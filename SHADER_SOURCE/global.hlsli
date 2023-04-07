@@ -40,3 +40,7 @@ struct VTX_OUT
 #define ALPHA(target, value) float4(target.r, target.g, target.b, (float)value)
 
 
+float Rand(float2 co)
+{
+    return 0.5 + (frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453)) * 0.5;
+}

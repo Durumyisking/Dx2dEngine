@@ -15,16 +15,20 @@ namespace dru
 	CParticleSystem::CParticleSystem()
 		: CBaseRenderer(eComponentType::Particle)
 		, mMaxParticles(100)
-		, mStartSize(Vector4(20.0f, 20.0f, 1.0f, 1.0f))
-		, mStartColor(Vector4(1.0f, 1.f, 1.f, 1.0f))
-		, mStartLifeTime(10.0f)
-		, mFrequency(1.0f)
-		, mTime(0.0f)
+		, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
+		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
+		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 0.f))
+		, mMaxLifeTime(1.f)
+		, mMinLifeTime(0.1f)
+		, mFrequency(100.f)
+		, mTime(0.f)
 		, mCBData{}
 		, mSimulationSpace(eSimulationSpace::World)
-		, mRadius(500.0f)
-		, mStartSpeed(10.0f)
-		, mElapsedTime(0.0f)
+		, mRadius(10.f)
+		, mStartSpeed(50.f)
+		, mElapsedTime(0.f)
+		, mGravity(0.f)
+		, mForce(0.f)
 	{
 		
 	}
@@ -53,15 +57,15 @@ namespace dru
 
 
 		Particle particles[100] = {};
-		Vector4 startPos = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		Vector4 startPos = Vector4(0.f, 0.f, 0.f, 0.f);
 
 		for (size_t i = 0; i < mMaxParticles; i++)
 		{
-			particles[i].position = Vector4(0.0f, 0.0f, 10.0f, 1.0f);
+			particles[i].position = Vector4(0.f, 0.f, 10.f, 1.f);
 			particles[i].active = 0;
 			particles[i].direction =
 				Vector4(cosf((float)i * (XM_2PI / (float)mMaxParticles))
-					, sin((float)i * (XM_2PI / (float)mMaxParticles)), 0.0f, 1.0f);
+					, sin((float)i * (XM_2PI / (float)mMaxParticles)), 0.f, 1.f);
 
 			particles[i].speed = 10.f; 
 		}
@@ -82,7 +86,7 @@ namespace dru
 
 	void CParticleSystem::fixedUpdate()
 	{
-		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 높을수록 빨리생성
+		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 높을수록 빨리생성 한번에 생성하는거
 		//누적시간
 		mTime += CTimeMgr::DeltaTime();
 		if (aliveTime < mTime) 
@@ -91,7 +95,7 @@ namespace dru
 			UINT iAliveCount = (UINT)f;
 			mTime = f - std::floor(f);
 
-			ParticleShared shared = { 5 ,}; // 20을 computeShader에 보내겠다
+			ParticleShared shared = { 5 }; // 20을 computeShader에 보내겠다
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else
@@ -109,7 +113,13 @@ namespace dru
 		mCBData.startSpeed = mStartSpeed;
 		mCBData.startSize = mStartSize;
 		mCBData.startColor = mStartColor;
-		mCBData.startLifeTime = mStartLifeTime;
+		mCBData.endColor = mEndColor;
+		mCBData.maxLifeTime = mMaxLifeTime;
+		mCBData.minLifeTime = mMinLifeTime;
+		mCBData.gravity = mGravity;
+		mCBData.force = mForce;
+
+
 		mCBData.deltaTime = CTimeMgr::DeltaTime();
 		mCBData.elapsedTime += CTimeMgr::DeltaTime();
 

@@ -14,8 +14,8 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
     {
         while (0 < ParticleSharedBuffer[0].gActiveCount) // 쉐어드버퍼 카운트의 값을 가져온다.
         {
-            int originValue = ParticleSharedBuffer[0].gActiveCount; // ex 20개라고 하자
-            int exchange = originValue - 1; // 19개가된다.
+            int originValue = ParticleSharedBuffer[0].gActiveCount; 
+            int exchange = originValue - 1; 
             
             // 스레드 동기화
             // dest값을 exchange값으로 바꾸는 동안
@@ -25,7 +25,7 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
                                         , originValue, exchange, exchange); // 값이 다르면 origin
             // ParticleSharedBuffer[0].gActiveCount 안에 exchange를 넣는다.
             
-            if (originValue == exchange) // 같다는건 동기화 실패임? 근데 왜 ParticleSharedBuffer[0].gActiveCount랑 비교하는게 아니지요
+            if (originValue == exchange) 
             {
                 ParticleBuffer[DTid.x].active = 1; // 위는 여기를 말함
                 break; //^ 
@@ -50,10 +50,11 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
               //// radius 원형 범위로 스폰
             float fTheta = Random.xy * 3.141592f * 2.0f;
             ParticleBuffer[DTid.x].position.xy = float2(cos(fTheta), sin(fTheta)) * Random.y * radius;
+//            ParticleBuffer[DTid.x].position.x += 200.f;
             ParticleBuffer[DTid.x].position.z = 100.0f; // z값은 고정
             
-            ParticleBuffer[DTid.x].direction.xy 
-                = normalize(float2(ParticleBuffer[DTid.x].position.xy));
+            //ParticleBuffer[DTid.x].direction.xy 
+            //    = normalize(float2(ParticleBuffer[DTid.x].position.xy));
             
             if (simulationSpace) // 1 world , 0 local
             {
@@ -62,8 +63,27 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             
             ////파티클 속력
             ParticleBuffer[DTid.x].time = 0.0f;
+            
+            float seedx = DTid.x;
+            float seedy = DTid.y;
+            float r1 = Rand(float2(seedx, seedy));
+            float r2 = Rand(float2(seedy, seedx));
+            float r3 = Rand(float2(seedx * elapsedTime, seedy));
+            float r4 = Rand(float2(seedx, seedy * elapsedTime));
+            float r5 = Rand(float2(seedx * elapsedTime, seedy * elapsedTime));
+            // [0.5~1] -> [0~1]
+            float4 noise =
+            {
+                2 * r1 - 1,
+                2 * r2 - 1,
+                2 * r3 - 1,
+                2 * r4 - 1
+            };
+            
             ParticleBuffer[DTid.x].speed = startSpeed;
-            ParticleBuffer[DTid.x].lifeTime = startLifeTime;
+
+            ParticleBuffer[DTid.x].lifeTime = (maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;
+            
         }
     }
     else // active == 1
