@@ -83,6 +83,7 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             ParticleBuffer[DTid.x].speed = startSpeed;
 
             ParticleBuffer[DTid.x].lifeTime = (maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;
+//            ParticleBuffer[DTid.x].lifeTime = maxLifeTime;
             
         }
     }

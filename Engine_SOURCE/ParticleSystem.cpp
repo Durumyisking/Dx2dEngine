@@ -14,9 +14,10 @@ namespace dru
 {
 	CParticleSystem::CParticleSystem()
 		: CBaseRenderer(eComponentType::Particle)
-		, mMaxParticles(100)
-		, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
-		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
+		, mMaxParticles(5)
+		, mStartSize(Vector4(0.1f, 1.f, 1.f, 1.f))
+		, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
+		//		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
 		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 0.f))
 		, mMaxLifeTime(1.f)
 		, mMinLifeTime(0.1f)
@@ -56,7 +57,7 @@ namespace dru
 		material->SetTexture(eTextureSlot::T0, tex);
 
 
-		Particle particles[100] = {};
+		Particle particles[5] = {};
 		Vector4 startPos = Vector4(0.f, 0.f, 0.f, 0.f);
 
 		for (size_t i = 0; i < mMaxParticles; i++)
@@ -64,9 +65,9 @@ namespace dru
 			particles[i].position = Vector4(0.f, 0.f, 10.f, 1.f);
 			particles[i].active = 0;
 			particles[i].direction =
-				Vector4(cosf((float)i * (XM_2PI / (float)mMaxParticles))
-					, sin((float)i * (XM_2PI / (float)mMaxParticles)), 0.f, 1.f);
-
+				Vector4(cosf((float)i * (XM_PI / (float)mMaxParticles))
+					, sin((float)i * -(XM_PI / (float)mMaxParticles)), 0.f, 1.f);
+			particles[i].direction.Normalize();
 			particles[i].speed = 10.f; 
 		}
 		//for (size_t i = 50; i < mCount; i++)
