@@ -250,6 +250,7 @@ namespace dru
 		if (mbDeleteOn)
 		{
 			GetOwner()->Die();
+			dynamic_cast<CMonster*>(GetOwner())->Die();
 		}
 	}
 

@@ -1,6 +1,7 @@
 #include "Monster.h"
 #include "Object.h"
 #include "TimeMgr.h"
+#include "MonsterRayScript.h"
 
 namespace dru
 {
@@ -27,6 +28,8 @@ namespace dru
 	void CMonster::Initialize()
 	{
 		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
+		mRay->GetScript<CMonsterRayScript>()->SetMonster(this);
+
 
 		CGameObj::Initialize();
 	}
