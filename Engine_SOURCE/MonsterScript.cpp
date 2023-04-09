@@ -8,6 +8,7 @@
 #include "SlashShadeScript.h"
 #include "BodyShadeScript.h"
 #include "Input.h"
+#include "Monster.h"
 
 namespace dru
 {
@@ -243,6 +244,9 @@ namespace dru
 	void CMonsterScript::deadgroundComplete()
 	{
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+		dynamic_cast<CMonster*>(GetOwner())->GetRay()->GetComponent<CCollider2D>()->Off();
+		dynamic_cast<CMonster*>(GetOwner())->GetRay()->GetComponent<CCollider2D>()->RenderingOff();
+
 		if (mbDeleteOn)
 		{
 			GetOwner()->Die();

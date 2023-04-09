@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "Object.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -32,11 +33,7 @@ namespace dru
 
 	void CMonster::update()
 	{
-		Vector3 vPos = GetPos();
-		float ScaleX = mRay->GetScale().x;
-		vPos += ScaleX / 2.f * mRay->GetComponent<CTransform>()->Right();
-
-		mRay->SetPos(vPos);
+		SetRayPos();
 
 		CGameObj::update();
 	}
@@ -49,5 +46,23 @@ namespace dru
 	void CMonster::render()
 	{
 		CGameObj::render();
+	}
+	void CMonster::SetRayPos()
+	{
+		if (mRay)
+		{
+
+			Vector3 vPos = GetPos();
+			float ScaleX = mRay->GetScale().x;
+			if (IsLeft())
+			{
+				vPos += ScaleX / 2.f * -GetComponent<CTransform>()->Right();
+			}
+			else
+			{
+				vPos += ScaleX / 2.f * GetComponent<CTransform>()->Right();
+			}
+			mRay->SetPos(vPos);
+		}
 	}
 }

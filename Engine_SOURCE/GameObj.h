@@ -144,7 +144,7 @@ namespace dru
 			{
 				return;
 			}
-
+			
 			mState = eState::Dead; 
 		}
 

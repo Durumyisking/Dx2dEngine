@@ -20,6 +20,10 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		void SetRayPos();
+
+		CMonsterRay* GetRay() const { return mRay; }
+
 
 	private:
 		CMonsterRay* mRay;
