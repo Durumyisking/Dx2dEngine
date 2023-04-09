@@ -117,7 +117,16 @@ namespace dru
 		CDebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
 		
 		CTransform* tr = debugObj->GetComponent<CTransform>();
-		tr->SetPosition(mesh.position);
+//		tr->SetPosition(mesh.position);
+		if (mainCamera->GetProjectionType() == eProjectionType::Perspective)
+		{
+			tr->SetPosition(mesh.position);
+		}
+		else
+		{
+			tr->SetPosition(Vector3(mesh.position.x, mesh.position.y, 0.1f));
+		}
+
 		tr->SetRotation(mesh.rotation);
 
 		switch (mesh.type)

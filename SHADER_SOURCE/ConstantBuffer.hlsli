@@ -88,8 +88,8 @@ cbuffer ParticleSystem : register(b6)
 
     float gravity;    
     float force;
+    float radian;
 
-    int padding1;
     int padding2;
 
 }

@@ -59,7 +59,7 @@ namespace dru
 		mRight = Vector3::TransformNormal(Vector3::Right, rotationMatrix);
 		mUp = Vector3::TransformNormal(Vector3::Up, rotationMatrix);
 
-
+		
 		if (mParent)
 		{
 			mWorld *= mParent->mWorld;

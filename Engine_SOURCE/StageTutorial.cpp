@@ -23,7 +23,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::BulletTime)
+		, mTutorStage(TutorialStage::Attack)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -70,7 +70,7 @@ namespace dru
 			mPlayer->SetRight();
 			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(3.f, 7.f, 0.f));
 			mPlayer->GetScript<CPlayerScript>()->InputBlocking();
-
+		
 			dynamic_cast<CSceneMain*>(mScene)->SetPlayer(mPlayer);
 		}
 
@@ -94,6 +94,8 @@ namespace dru
 		Vector3 pos = renderer::mainCamera->GetOwner()->GetPos();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3(pos.x, pos.y, -CAMTYPEGAP));
 		renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->SetScale(Vector2(10.f, 10.f));
+		mPlayer->SetPos(Vector3(mPlayer->GetPos().x, mPlayer->GetPos().y, 4.999f));
+
 
 		{
 			mCamTarget = object::Instantiate<CGameObj>(eLayerType::None, L"CamTargetTutorialStage");
@@ -134,6 +136,12 @@ namespace dru
 		{
 			NotReadyOperate();
 		}
+
+		if (mStageState == eStageState::Ready)
+		{
+			ReadyOperate();
+		}
+
 
 		if (mStageState == eStageState::ReadyEnd)
 		{
@@ -676,14 +684,17 @@ namespace dru
 		{
 			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			Mon->SetPos(Vector3(-4.f, -2.3f, 4.999f));
+			Mon->Initialize();
 		}
 		{
 			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			Mon->SetPos(Vector3(-0.f, -2.3f, 4.999f));
+			Mon->Initialize();
 		}
 		{
 			CGameObj* Mon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			Mon->SetPos(Vector3(4.f, -2.3f, 4.999f));
+			Mon->Initialize();
 		}
 	}
 

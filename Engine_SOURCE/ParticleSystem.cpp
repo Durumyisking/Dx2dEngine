@@ -67,7 +67,14 @@ namespace dru
 			particles[i].direction =
 				Vector4(cosf((float)i * (XM_PI / (float)mMaxParticles))
 					, sin((float)i * -(XM_PI / (float)mMaxParticles)), 0.f, 1.f);
+
 			particles[i].direction.Normalize();
+
+			XMVECTOR upVector = XMVectorSet(0.f, 1.f, 0.f, 0.f); 
+			float dotProduct = XMVectorGetX(XMVector3Dot(particles[i].direction, upVector));
+			float radian = acosf(dotProduct);
+			mCBData.radian = radian;
+
 			particles[i].speed = 10.f; 
 		}
 		//for (size_t i = 50; i < mCount; i++)
@@ -107,7 +114,10 @@ namespace dru
 	
 		mMaxParticles = mBuffer->GetStride();
 		Vector3 pos = GetOwner()->GetComponent<CTransform>()->GetPosition();
+		Vector3 rot = GetOwner()->GetComponent<CTransform>()->GetRotation();
+
 		mCBData.worldPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
+
 		mCBData.maxParticles = mMaxParticles;
 		mCBData.radius = mRadius;
 		mCBData.simulationSpace = (UINT)mSimulationSpace;

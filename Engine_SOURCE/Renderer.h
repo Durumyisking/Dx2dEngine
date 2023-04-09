@@ -113,7 +113,7 @@ namespace dru::renderer
 
 		float gravity;
 		float force;
-		int padding1;
+		float radian;
 		int padding2;
 	};
 	CBUFFER(NoiseCB, CBSLOT_NOISE)

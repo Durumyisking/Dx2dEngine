@@ -135,6 +135,7 @@ namespace dru
 
 			attack();
 
+			if(CSceneMgr::mActiveScene)
 			mTransform->SetPosition(mPos);
 			GetOwner()->Flip();
 

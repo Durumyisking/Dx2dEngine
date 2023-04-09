@@ -27,17 +27,17 @@ namespace dru
 	{
 		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
 
-		Vector3 vPos = GetPos();
-		vPos += 1.75f * mRay->GetComponent<CTransform>()->Right();
-		vPos -= 0.5f * mRay->GetComponent<CTransform>()->Up();
-
-		mRay->SetPos(vPos);
-
 		CGameObj::Initialize();
 	}
 
 	void CMonster::update()
 	{
+		Vector3 vPos = GetPos();
+		float ScaleX = mRay->GetScale().x;
+		vPos += ScaleX / 2.f * mRay->GetComponent<CTransform>()->Right();
+
+		mRay->SetPos(vPos);
+
 		CGameObj::update();
 	}
 

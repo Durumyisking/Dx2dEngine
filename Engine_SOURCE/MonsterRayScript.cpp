@@ -37,7 +37,11 @@ namespace dru
 
 	void CMonsterRayScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		if (L"col_player" == _oppo->GetName())
+		{
 
+
+		}
 	}
 
 	void CMonsterRayScript::OnCollision(CCollider2D* _oppo)

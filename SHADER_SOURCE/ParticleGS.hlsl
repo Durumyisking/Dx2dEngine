@@ -42,6 +42,18 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // inputÀ
         vViewPos + float3(0.5f, -0.5f, 0.0f) * vScale,
         vViewPos + float3(-0.5f, -0.5f, 0.0f) * vScale
     };
+    
+    
+        
+    // È¸Àü
+    
+    for (int i = 0; i < 4; i++)
+    {
+        NewPos[i] = RotatePointZ(NewPos[i], radian);
+    }
+    
+    
+    
 	
     for (int i = 0; i < 4; i++)
     {

@@ -44,3 +44,17 @@ float Rand(float2 co)
 {
     return 0.5 + (frac(sin(dot(co.xy, float2(12.9898, 78.233))) * 43758.5453)) * 0.5;
 }
+
+
+float3 RotatePointZ(float3 _point, float _radian)
+{
+    float cosTheta = cos(_radian);
+    float sinTheta = sin(_radian);
+    float3 rotatedPoint;
+    
+    rotatedPoint.x = _point.x * cosTheta - _point.y * sinTheta;
+    rotatedPoint.y = _point.x * sinTheta + _point.y * cosTheta;
+    rotatedPoint.z = _point.z;
+    
+    return rotatedPoint;
+}
