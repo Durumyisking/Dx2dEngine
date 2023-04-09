@@ -68,4 +68,14 @@ namespace dru
 			mRay->SetPos(vPos);
 		}
 	}
+	bool CMonster::IsMonsterDead()
+	{
+		CMonsterScript* script = GetScript<CMonsterScript>();
+		if (script)
+		{
+			return script->IsMonsterDead();
+		}
+
+		return false;
+	}
 }

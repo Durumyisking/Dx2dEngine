@@ -1,13 +1,16 @@
 #include "MonsterRayScript.h"
 #include "GameObj.h"
 #include "Monster.h"
+#include "Animator.h"
 
 namespace dru
 {
 
 	CMonsterRayScript::CMonsterRayScript()
 		: CScript()
-		, mTarget(nullptr)
+		, mRayOwner(nullptr)
+		, mAnimator(nullptr)
+		, mRigidBody(nullptr)
 	{
 
 	}
@@ -19,25 +22,11 @@ namespace dru
 
 	void CMonsterRayScript::Initialize()
 	{
-
 	}
 
 	void CMonsterRayScript::update()
 	{
 
-		if (mTarget && mRayOwner)
-		{
-			Vector3 vPos = mRayOwner->GetPos();
-			Vector3 vTargetPos = mTarget->GetPos();
-			Vector3 vDir = vTargetPos - vPos;
-			vDir.Normalize();
-			if (mRayOwner)
-			{
-				mRayOwner->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
-
-
-			}
-		}
 	}
 
 	void CMonsterRayScript::fixedUpdate()
@@ -54,8 +43,8 @@ namespace dru
 	{
 		if (L"col_player" == _oppo->GetName())
 		{
-			mTarget = _oppo->GetOwner();
-
+			mRayOwner->GetScript<CMonsterScript>()->SetTarget(_oppo->GetOwner());
+			mAnimator->Play(mRayOwner->GetName() + L"_Run");
 		}
 	}
 
@@ -71,5 +60,8 @@ namespace dru
 	void CMonsterRayScript::SetMonster(CMonster* _monster)
 	{
 		mRayOwner = _monster;
+
+		mAnimator = mRayOwner->GetComponent<CAnimator>();
+		mRigidBody = mRayOwner->GetComponent<CRigidBody>();
 	}
 }

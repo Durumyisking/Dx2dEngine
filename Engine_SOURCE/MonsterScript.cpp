@@ -17,6 +17,7 @@ namespace dru
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
 		, mTransform(nullptr)
+		, mTarget(nullptr)
 		, mPos(Vector3::Zero)
 		, mMoveDir(Vector3::Zero)
 		, mHitDir(Vector3::Zero)
@@ -48,44 +49,16 @@ namespace dru
 	void CMonsterScript::update()
 	{
 		mPos = mTransform->GetPosition();
+
+
+		run();
+
 		mMoveDir = mRigidbody->GetVelocity();
 		mMoveDir.Normalize();
 
-
-		if (mbDead)
-		{
-			if (mState[(UINT)eMonsterState::DieGround] == false)
-			{
-				mHitTimer += CTimeMgr::DeltaTime();
-
-				if (mHitTimer <= 0.25f)
-				{
-					mRigidbody->AddVelocity({ mHitDir.x * 0.5f, mHitDir.y * 0.5f, 0.f });
-				}
-				mMoveDir = mRigidbody->GetVelocity();
-				mMoveDir.Normalize();
-
-				if (mMoveDir.y > 0.f)
-				{
-					mState[(UINT)eMonsterState::DieAirUp] = true;
-					mAnimator->Play(mMonsterName + L"_DeadAirUp");
-				}
-				else if (mMoveDir.y < 0.f)
-				{
-					mState[(UINT)eMonsterState::DieAirDown] = true;
-					mAnimator->Play(mMonsterName + L"_DeadAirDown");
-				}
-				else if (mMoveDir.y == 0.f)
-				{
-					mState[(UINT)eMonsterState::DieGround] = true;
-					mAnimator->Play(mMonsterName + L"_DeadGround", false);
-				}
-
-			}
-		}
+		dead();
 
 		mTransform->SetPosition(mPos);
-
 		if (mMoveDir.x > 0.f)
 		{
 			GetOwner()->SetRight();
@@ -123,42 +96,18 @@ namespace dru
 		{
 			mbOnWall = true;
 
-			Vector3 vel = mRigidbody->GetVelocity();
-			Vector3 Mvel = mRigidbody->GetMaxVelocity();
-			mRigidbody->SetMaxVelocity({ 1.f, Mvel.y, Mvel.z });
-
-			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
-			{
-				mRigidbody->SetVelocity({ 1.f, vel.y, vel.z });
-			}
-			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
-			{
-				mRigidbody->SetVelocity({ -1.f, vel.y, vel.z });
-			}
+			wallBound(_oppo);
 		}
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			if (!mbDead)
-			{
-				mState.reset();
-				HitAddForce();
+			hitSlash();
+		}
 
-				mbDead = true;
-
-				// timeslow
-				CTimeMgr::BulletTime(0.25f);
-
-				// CamShake
-				ShakeParams sp = {};
-				sp.duration = 0.5f;
-				sp.magnitude = 0.0125f;
-				renderer::mainCamera->GetCamScript()->Shake(sp);
-
-
-				CreateSlashShade();
-				CreateBodySlash();
-			}			
+		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
+		{
+			Vector3 vel = mRigidbody->GetVelocity();
+			mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
 		}
 	}
 
@@ -175,6 +124,11 @@ namespace dru
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = false;
+
+			Vector3 vel = mRigidbody->GetVelocity();
+			Vector3 Mvel = mRigidbody->GetMaxVelocity();
+			mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+
 		}
 	}
 
@@ -241,15 +195,105 @@ namespace dru
 		script->SetMonster(GetOwner());
 	}
 
+	void CMonsterScript::run()
+	{
+		if (mTarget && !mbDead)
+		{
+			Vector3 vPos = GetOwner()->GetPos();
+			Vector3 vTargetPos = mTarget->GetPos();
+			Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
+			vDir.Normalize();
+			GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
+		}
+
+	}
+
+	void CMonsterScript::hitSlash()
+	{
+		if (!mbDead)
+		{
+			mState.reset();
+			HitAddForce();
+
+			mbDead = true;
+
+			// timeslow
+			CTimeMgr::BulletTime(0.25f);
+
+			// CamShake
+			ShakeParams sp = {};
+			sp.duration = 0.5f;
+			sp.magnitude = 0.0125f;
+			renderer::mainCamera->GetCamScript()->Shake(sp);
+
+			GetOwnerType<CMonster>()->SetRayDie();
+
+			CreateSlashShade();
+			CreateBodySlash();
+		}
+	}
+
+	void CMonsterScript::wallBound(CCollider2D* _oppo)
+	{
+		if (mbDead)
+		{
+
+			Vector3 vel = mRigidbody->GetVelocity();
+			Vector3 Mvel = mRigidbody->GetMaxVelocity();
+			mRigidbody->SetMaxVelocity({ 1.f, Mvel.y, Mvel.z });
+
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			{
+				mRigidbody->SetVelocity({ 1.f, vel.y, vel.z });
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+			{
+				mRigidbody->SetVelocity({ -1.f, vel.y, vel.z });
+			}
+		}
+	}
+
+	void CMonsterScript::dead()
+	{
+		if (mbDead)
+		{
+			if (mState[(UINT)eMonsterState::DieGround] == false)
+			{
+				mHitTimer += CTimeMgr::DeltaTime();
+
+				if (mHitTimer <= 0.25f)
+				{
+					mRigidbody->AddVelocity({ mHitDir.x * 0.5f, mHitDir.y * 0.5f, 0.f });
+				}
+				mMoveDir = mRigidbody->GetVelocity();
+				mMoveDir.Normalize();
+
+				if (mMoveDir.y > 0.f)
+				{
+					mState[(UINT)eMonsterState::DieAirUp] = true;
+					mAnimator->Play(mMonsterName + L"_DeadAirUp");
+				}
+				else if (mMoveDir.y < 0.f)
+				{
+					mState[(UINT)eMonsterState::DieAirDown] = true;
+					mAnimator->Play(mMonsterName + L"_DeadAirDown");
+				}
+				else if (mMoveDir.y == 0.f)
+				{
+					mState[(UINT)eMonsterState::DieGround] = true;
+					mAnimator->Play(mMonsterName + L"_DeadGround", false);
+				}
+
+			}
+		}
+	}
+
 	void CMonsterScript::deadgroundComplete()
 	{
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
-		dynamic_cast<CMonster*>(GetOwner())->GetRay()->GetComponent<CCollider2D>()->Off();
-		dynamic_cast<CMonster*>(GetOwner())->GetRay()->GetComponent<CCollider2D>()->RenderingOff();
 
 		if (mbDeleteOn)
 		{
-			GetOwner()->Die();
 			dynamic_cast<CMonster*>(GetOwner())->Die();
 		}
 	}

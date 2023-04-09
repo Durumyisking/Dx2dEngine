@@ -51,10 +51,11 @@ namespace dru
 			BulletTimeBatteryOperation();
 		}
 		if (CInput::GetKeyTap(eKeyCode::M))
-		{
+		{			
 			{
 				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-				mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
+				mMon->SetPos({ mPlayer->GetPos().x + 2.f, mPlayer->GetPos().y, 3.f });
+				mMon->Initialize();
 			}
 		}
 		if (CInput::GetKeyTap(eKeyCode::X))

@@ -25,6 +25,14 @@ namespace dru
 		void SetOwner(CGameObj* _Owner) { mOwner = _Owner; }
 		CGameObj* GetOwner() { return mOwner; }
 
+		template <typename T>
+		T* GetOwnerType()
+		{
+			CGameObj* owner = GetOwner();
+			return dynamic_cast<T*>(owner);
+
+		}
+
 		math::Vector3 GetOwnerPos() const; // component script에서 코드 사용 편하게 하기위함
 
 

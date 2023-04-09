@@ -48,7 +48,7 @@ namespace dru
 		Vector3 dir = MousePos - _PlayerPos;
 		dir.Normalize();
 
-		SlashObj->SetScale({ 2.f, 2.5f, 1.f });
+		SlashObj->SetScale({ 2.25f, 2.75f, 1.f });
 		SlashObj->SetPos(_PlayerPos + dir);
 
 		if (MousePos.x < GetOwner()->GetPos().x)

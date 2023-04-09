@@ -55,9 +55,9 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input¿
     
     
 	
-    for (int i = 0; i < 4; i++)
+    for (int j = 0; j < 4; j++)
     {
-        Out[i].Pos = mul(float4(NewPos[i], 1.0f), projection);
+        Out[j].Pos = mul(float4(NewPos[j], 1.0f), projection);
     }
 	
     Out[0].UV = float2(0.0f, 0.0f);

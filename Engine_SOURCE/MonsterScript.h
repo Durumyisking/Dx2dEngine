@@ -45,12 +45,24 @@ namespace dru
         void CreateSlashShade();
         void CreateBodySlash();
 
+        bool  IsMonsterDead() const { return mbDead; };
+
+        void SetTarget(CGameObj* _Target) { mTarget = _Target; }
+
+
     private:
+        void run();
+
+        void hitSlash();
+        void wallBound(CCollider2D* _oppo);
+        void dead();
+
         void deadgroundComplete();
 
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;
+        CGameObj* mTarget;
         Vector3 mPos;
         Vector3 mMoveDir;
         Vector3 mHitDir;

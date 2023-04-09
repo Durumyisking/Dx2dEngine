@@ -9,6 +9,7 @@ namespace dru
 	CPlayer::CPlayer()
 	{
 		SetLayerType(eLayerType::Player);
+		SetScale(Vector3(1.25f, 1.25f, 1.f));
 
 		renderer::mainCamera->GetCamScript()->SetPlayer(this);
 

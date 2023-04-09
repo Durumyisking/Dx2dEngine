@@ -24,7 +24,9 @@ namespace dru
 
 
 		CMonster* mRayOwner;
-		CGameObj* mTarget;
+
+		CAnimator* mAnimator;
+		CRigidBody* mRigidBody;
 
     };
 

@@ -9,6 +9,7 @@
 #define CAMTYPEGAP 2.785f
 #define BACKGROUNDZ 5.f
 
+#define DEFAULT_VELOCITY Vector3(5.f, 7.f, 0.f)
 
 #define arraysize(a) (sizeof(a) / sizeof(a[0]))
 

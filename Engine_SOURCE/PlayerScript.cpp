@@ -157,7 +157,7 @@ namespace dru
 			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{
 				mState.reset();
-				mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 
 				mState[(UINT)ePlayerState::RunToIdle] = true;
 				mAnimator->Play(L"Player_RunToIdle");
@@ -323,7 +323,7 @@ namespace dru
 					mState.reset();
 					mState[(UINT)ePlayerState::Fall] = true;
 					mAnimator->Play(L"Player_Fall");
-					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+					mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 				}
 			}
 			mbWallIsLeft = 0;
@@ -390,7 +390,7 @@ namespace dru
 	}
 	void CPlayerScript::rollEnd()
 	{
-		mRigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
+		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 	void CPlayerScript::rollComplete()
 	{
@@ -412,12 +412,12 @@ namespace dru
 			mState[(UINT)ePlayerState::RunToIdle] = true;
 			mAnimator->Play(L"Player_RunToIdle", false);
 		}
-		mRigidbody->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
+		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 
 	void CPlayerScript::wallkickComplete()
 	{
-		mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 		mState.reset();
 		mAnimator->Play(L"Player_Fall");
 		mState[(UINT)ePlayerState::Fall] = true;
@@ -554,7 +554,7 @@ namespace dru
 
 			if (CInput::GetKeyUp(eKeyCode::S))
 			{
-				mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 			}
 		}
 	}
@@ -813,7 +813,7 @@ namespace dru
 					vect.y = MousePos.y - mPos.y;
 					vect.Normalize();
 					mAttackDir = vect;
-					mRigidbody->SetMaxVelocity({ 5.f, 7.f, 0.f });
+					mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 					mRigidbody->AddVelocity(mAttackDir * 5.f);
 					mState.reset();
 					mState[(UINT)ePlayerState::TutorAttack] = true;

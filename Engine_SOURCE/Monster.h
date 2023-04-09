@@ -21,8 +21,14 @@ namespace dru
 		virtual void render();
 
 		void SetRayPos();
+		bool IsMonsterDead();
 
 		CMonsterRay* GetRay() const { return mRay; }
+		void SetRayDie() 
+		{
+			mRay->Die(); 
+			mRay = nullptr;
+		}
 
 
 	private:
