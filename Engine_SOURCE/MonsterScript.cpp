@@ -214,23 +214,8 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
-			Vector3 playerPos = mTarget->GetPos();
-			Vector3 monsterPos = GetOwner()->GetPos();
-			float dist = (playerPos - monsterPos).Length();
-			if (dist <= 1.5f)
-			{
-				mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
-				mAttackTimer = 0.f;
-			}
-			else
-			{
-				if (mState[(UINT)eMonsterState::Run] == false)
-				{
-					mAnimator->Play(GetOwner()->GetName() + L"_Run");
-					mState.reset();
-					mState[(UINT)eMonsterState::Run] = true;
-				}
-			}
+			mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
+			mAttackTimer = 0.f;
 
 		}
 	}
@@ -337,18 +322,26 @@ namespace dru
 
 		SlashObj->SetScale({ 1.f, 1.f, 1.f });
 
-		Vector3 vect;
-		vect.x = mTarget->GetPos().x - mPos.x;
-		vect.y = mTarget->GetPos().y - mPos.y;
-		vect.Normalize();
+//		Vector3 vect = {};
+//		vect.x = mTarget->GetPos().x - mPos.x;
+////		vect.y = mTarget->GetPos().y - mPos.y;
+//		vect.Normalize();
 
-		SlashObj->SetPos(GetOwnerPos() + vect);
+		SlashObj->SetPos(Vector3{ mTarget->GetPos().x, GetOwner()->GetPos().y, 0.f});
 
 		if (mTarget->GetPos().x < GetOwnerPos().x)
+		{
 			SlashObj->SetLeft();
+			GetOwner()->SetLeft();
+//			SlashObj->SetPos(GetOwnerPos() + Vector3{-1.f, 0.f, 0.f});
+		}
 		else
+		{
 			SlashObj->SetRight();
-
+			GetOwner()->SetRight();
+//			SlashObj->SetPos(GetOwnerPos() + Vector3{ 1.f, 0.f, 0.f });
+		}
+		GetOwner()->Flip();
 		SlashObj->Flip();
 
 

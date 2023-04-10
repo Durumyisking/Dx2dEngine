@@ -34,12 +34,26 @@ namespace dru
 	{
 		if (mRayOwner->GetScript<CMonsterScript>()->GetTarget())
 		{
-			
-			if (mMonsterScript->mAttackTimer >= 1.f)
+			Vector3 playerPos = mMonsterScript->mTarget->GetPos();
+			Vector3 monsterPos = mRayOwner->GetPos();
+			float dist = (playerPos - monsterPos).Length();
+			if (dist <= 1.5f)
 			{
-				mMonsterScript->mState.reset();
-				mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
-				mMonsterScript->attack();
+				if (mMonsterScript->mAttackTimer >= 1.f)
+				{
+					mMonsterScript->mState.reset();
+					mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
+					mMonsterScript->attack();
+				}
+			}	
+			else
+			{
+				if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
+				{
+					mAnimator->Play(mRayOwner->GetName() + L"_Run");
+					mMonsterScript->mState.reset();
+					mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+				}
 			}
 		}
 	}
