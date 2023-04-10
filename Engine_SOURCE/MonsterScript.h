@@ -1,6 +1,9 @@
 #pragma once
 #include "Script.h"
 #include "RigidBody.h"
+#include "Animator.h"
+#include "GameObj.h"
+
 
 namespace dru
 {

@@ -22,6 +22,9 @@ namespace dru
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
+
+    private:
+        void attackFrame2();
     };
 }
 

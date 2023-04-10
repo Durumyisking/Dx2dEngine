@@ -1,8 +1,6 @@
 #include "MonsterScript.h"
 #include "Transform.h"
-#include "GameObj.h"
 #include "TimeMgr.h"
-#include "Animator.h"
 #include "Object.h"
 #include "SlashScript.h"
 #include "SlashShadeScript.h"
@@ -39,10 +37,6 @@ namespace dru
 	{
 		mState[(UINT)eMonsterState::Idle] = true;
 
-		mAnimator = GetOwner()->GetComponent<CAnimator>();
-		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
-		mTransform = GetOwner()->GetComponent<CTransform>();
-		mMonsterName = GetOwner()->GetName();
 
 		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
 
@@ -54,7 +48,7 @@ namespace dru
 		mAttackTimer += CTimeMgr::DeltaTime();
 
 		run();
-		attack();
+		// attack();
 
 		mMoveDir = mRigidbody->GetVelocity();
 		mMoveDir.Normalize();
@@ -220,6 +214,23 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
+			Vector3 playerPos = mTarget->GetPos();
+			Vector3 monsterPos = GetOwner()->GetPos();
+			float dist = (playerPos - monsterPos).Length();
+			if (dist <= 1.5f)
+			{
+				mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
+				mAttackTimer = 0.f;
+			}
+			else
+			{
+				if (mState[(UINT)eMonsterState::Run] == false)
+				{
+					mAnimator->Play(GetOwner()->GetName() + L"_Run");
+					mState.reset();
+					mState[(UINT)eMonsterState::Run] = true;
+				}
+			}
 
 		}
 	}

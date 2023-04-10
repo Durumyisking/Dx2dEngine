@@ -10,6 +10,13 @@ namespace dru
 	}
 	void CGruntScript::Initialize()
 	{
+		mAnimator = GetOwner()->GetComponent<CAnimator>();
+		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
+		mTransform = GetOwner()->GetComponent<CTransform>();
+		mMonsterName = GetOwner()->GetName();
+
+
+		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = std::bind(&CGruntScript::attackFrame2, this);
 
 		CMonsterScript::Initialize();
 	}
@@ -33,18 +40,8 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
-			if (mTarget && !mbDead)
-			{
-				if (mAttackTimer >= 1.f)
-				{
-					makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 64.f, 64.f });
-	
-				}
-
-			}
+			CMonsterScript::attack();
 		}
-
-		CMonsterScript::attack();
 	}
 
 	void CGruntScript::OnCollisionEnter(CCollider2D* _oppo)
@@ -58,5 +55,9 @@ namespace dru
 	void CGruntScript::OnCollisionExit(CCollider2D* _oppo)
 	{
 		CMonsterScript::OnCollisionExit(_oppo);
+	}
+	void CGruntScript::attackFrame2()
+	{
+		makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 64.f, 64.f });
 	}
 }
