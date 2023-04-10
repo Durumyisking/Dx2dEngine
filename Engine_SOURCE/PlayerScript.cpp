@@ -797,7 +797,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{
-				MakeSlash(L"PlayerSlashMat", GetOwner()->GetPos(), 5, { 100, 100 });
+				makeSlash();
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
 				mRigidbody->SetVelocity(Vector3::Zero);
@@ -1077,6 +1077,55 @@ namespace dru
 			}
 			delete p;
 		}
+	}
+
+	void CPlayerScript::makeSlash()
+	{
+		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, L"Player_Slash");
+
+		CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetName(L"col_Player_Slash");
+		coll->Initialize();
+		coll->SetType(eColliderType::Rect);
+		coll->SetScale(Vector2(1.f, 0.15f));
+
+
+		Vector3 MousePos = CInput::GetMousePosition_world();
+
+		Vector3 dir = MousePos - GetOwnerPos();
+		dir.Normalize();
+
+		SlashObj->SetScale({ 2.25f, 2.75f, 1.f });
+		SlashObj->SetPos(GetOwnerPos() + dir);
+
+		if (MousePos.x < GetOwner()->GetPos().x)
+			GetOwner()->SetLeft();
+		else
+			GetOwner()->SetRight();
+
+		GetOwner()->Flip();
+
+
+		Vector3 rotation = SlashObj->GetRotation();
+
+		// x축과 mousepos <-> slashobj 각도 받음 라디안
+		rotation.z = atan2(MousePos.y - SlashObj->GetPos().y, MousePos.x - SlashObj->GetPos().x);
+		// radian to degree
+		rotation.z = rotation.z * 180 / XM_PI;
+		// 인자로 degree 넣음
+		SlashObj->SetRotation(rotation);
+
+
+		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerSlashMat");
+		SpriteRenderer->SetMaterial(Material);
+
+		CAnimator* mAnimator = SlashObj->AddComponent<CAnimator>(eComponentType::Animator);
+		std::wstring animname = L"Player_SlashAnim";
+		mAnimator->Create(animname, Material->GetTexture(), { 0.f, 0.f }, { 100.f, 100.f }, Vector2::Zero, 5, {100.f, 100.f}, 0.025f);
+		mAnimator->Play(animname, false);
+
+		SlashObj->AddComponent<CSlashScript>(eComponentType::Script)->Initialize();
 	}
 
 	void CPlayerScript::wallLRCheck()

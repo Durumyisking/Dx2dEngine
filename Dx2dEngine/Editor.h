@@ -18,6 +18,8 @@ namespace dru
 		void destroy();
 		void debugRender(graphics::DebugMesh& mesh);
 
+		std::shared_ptr<CMesh> GetLineMesh() const { mDebugObjects[(UINT)eColliderType::Ray]->GetComponent<CMesh>(); }
+
 	private:
 		std::vector<CWidget*> mWidgets;
 		std::vector<CEditorObject*> mEditorObjects;

@@ -11,6 +11,7 @@ namespace dru
 		, mRayOwner(nullptr)
 		, mAnimator(nullptr)
 		, mRigidBody(nullptr)
+		, mMonsterScript(nullptr)
 	{
 
 	}
@@ -31,7 +32,33 @@ namespace dru
 
 	void CMonsterRayScript::fixedUpdate()
 	{
+		if (mRayOwner->GetScript<CMonsterScript>()->GetTarget())
+		{
+			
+			if (mMonsterScript->mAttackTimer >= 1.f)
+			{
+				Vector3 playerPos = mRayOwner->GetScript<CMonsterScript>()->GetTarget()->GetPos();
+				Vector3 monsterPos = mRayOwner->GetPos();
+				float dist = (playerPos - monsterPos).Length();
+				if (dist <= 1.f)
+				{
+					mAnimator->Play(mRayOwner->GetName() + L"_Attack", false);
+					mMonsterScript->mState.reset();
+					mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
+					mMonsterScript->mAttackTimer = 0.f;
+				}
+				else
+				{
+					if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
+					{
+						mAnimator->Play(mRayOwner->GetName() + L"_Run");
+						mMonsterScript->mState.reset();
+						mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+					}
+				}
 
+			}
+		}
 	}
 
 	void CMonsterRayScript::render()
@@ -43,8 +70,11 @@ namespace dru
 	{
 		if (L"col_player" == _oppo->GetName())
 		{
-			mRayOwner->GetScript<CMonsterScript>()->SetTarget(_oppo->GetOwner());
+			mMonsterScript->SetTarget(_oppo->GetOwner());
 			mAnimator->Play(mRayOwner->GetName() + L"_Run");
+			mMonsterScript->mState.reset();
+			mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+
 		}
 	}
 
@@ -63,5 +93,6 @@ namespace dru
 
 		mAnimator = mRayOwner->GetComponent<CAnimator>();
 		mRigidBody = mRayOwner->GetComponent<CRigidBody>();
+		mMonsterScript = mRayOwner->GetScript<CMonsterScript>();
 	}
 }

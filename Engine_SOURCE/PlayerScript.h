@@ -90,6 +90,9 @@ namespace dru
 
         void createRolldust(UINT _Count);
 
+        void makeSlash();
+
+
 
         void wallLRCheck();
 

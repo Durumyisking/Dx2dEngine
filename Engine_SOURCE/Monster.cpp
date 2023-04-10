@@ -30,7 +30,6 @@ namespace dru
 		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
 		mRay->GetScript<CMonsterRayScript>()->SetMonster(this);
 
-
 		CGameObj::Initialize();
 	}
 

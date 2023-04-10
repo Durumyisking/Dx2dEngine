@@ -16,9 +16,10 @@ namespace dru
 		: CBaseRenderer(eComponentType::Particle)
 		, mMaxParticles(5)
 		, mStartSize(Vector4(0.1f, 1.f, 1.f, 1.f))
-		, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
-		//		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
-		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 0.f))
+		//, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
+		//, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
+		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
+		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
 		, mMaxLifeTime(1.f)
 		, mMinLifeTime(0.1f)
 		, mFrequency(100.f)
@@ -57,7 +58,7 @@ namespace dru
 		material->SetTexture(eTextureSlot::T0, tex);
 
 
-		Particle particles[5] = {};
+		Particle particles[256] = {};
 		Vector4 startPos = Vector4(0.f, 0.f, 0.f, 0.f);
 
 		for (size_t i = 0; i < mMaxParticles; i++)
@@ -72,8 +73,9 @@ namespace dru
 
 			XMVECTOR upVector = XMVectorSet(0.f, 1.f, 0.f, 0.f); 
 			float dotProduct = XMVectorGetX(XMVector3Dot(particles[i].direction, upVector));
-			float radian = acosf(dotProduct);
-			mCBData.radian = radian;
+			float radian = acosf(dotProduct);			
+			particles[i].radian = radian;
+
 
 			particles[i].speed = 10.f; 
 		}
@@ -133,6 +135,10 @@ namespace dru
 
 		mCBData.deltaTime = CTimeMgr::DeltaTime();
 		mCBData.elapsedTime += CTimeMgr::DeltaTime();
+		if (mCBData.elapsedTime > 1.f)
+		{
+			mCBData.elapsedTime = 0.f;
+		}
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
 		cb->SetData(&mCBData);
@@ -143,7 +149,7 @@ namespace dru
 		mCS->OnExcute();
 	}
 
-	void CParticleSystem::render() // cs는 fixedupdate에서 근데 왜?
+	void CParticleSystem::render() 
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 		mBuffer->BindSRV(eShaderStage::GS, 15);

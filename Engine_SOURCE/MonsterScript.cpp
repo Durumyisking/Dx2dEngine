@@ -25,6 +25,7 @@ namespace dru
 		, mbDead(false)
 		, mbDeleteOn(false)
 		, mHitTimer(0.f)
+		, mAttackTimer(1.f)
 		, mMonsterName{}
 	{
 
@@ -44,19 +45,23 @@ namespace dru
 		mMonsterName = GetOwner()->GetName();
 
 		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
+
 	}
 
 	void CMonsterScript::update()
 	{
 		mPos = mTransform->GetPosition();
-
+		mAttackTimer += CTimeMgr::DeltaTime();
 
 		run();
+		attack();
 
 		mMoveDir = mRigidbody->GetVelocity();
 		mMoveDir.Normalize();
 
 		dead();
+
+
 
 		mTransform->SetPosition(mPos);
 		if (mMoveDir.x > 0.f)
@@ -87,6 +92,7 @@ namespace dru
 
 			if (mbDead)
 			{
+				mState[(UINT)eMonsterState::DieAirUp] = false;
 				mState[(UINT)eMonsterState::DieGround] = true;
 				mAnimator->Play(mMonsterName+ L"_DeadGround", false);
 			}
@@ -197,15 +203,25 @@ namespace dru
 
 	void CMonsterScript::run()
 	{
-		if (mTarget && !mbDead)
+		if (mState[(UINT)eMonsterState::Run] == true)
 		{
-			Vector3 vPos = GetOwner()->GetPos();
-			Vector3 vTargetPos = mTarget->GetPos();
-			Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
-			vDir.Normalize();
-			GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
-		}
+			if (mTarget && !mbDead)
+			{
+				Vector3 vPos = GetOwner()->GetPos();
+				Vector3 vTargetPos = mTarget->GetPos();
+				Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
+				vDir.Normalize();
+				GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
+			}
+		} 
+	}
 
+	void CMonsterScript::attack()
+	{
+		if (mState[(UINT)eMonsterState::Attack] == true)
+		{
+
+		}
 	}
 
 	void CMonsterScript::hitSlash()
@@ -216,6 +232,9 @@ namespace dru
 			HitAddForce();
 
 			mbDead = true;
+			mState.reset();
+			mState[(UINT)eMonsterState::DieAirUp] = true;
+
 
 			// timeslow
 			CTimeMgr::BulletTime(0.25f);
@@ -235,8 +254,6 @@ namespace dru
 
 	void CMonsterScript::wallBound(CCollider2D* _oppo)
 	{
-		if (mbDead)
-		{
 
 			Vector3 vel = mRigidbody->GetVelocity();
 			Vector3 Mvel = mRigidbody->GetMaxVelocity();
@@ -250,7 +267,6 @@ namespace dru
 			{
 				mRigidbody->SetVelocity({ -1.f, vel.y, vel.z });
 			}
-		}
 	}
 
 	void CMonsterScript::dead()
@@ -296,6 +312,45 @@ namespace dru
 		{
 			dynamic_cast<CMonster*>(GetOwner())->Die();
 		}
+	}
+
+	void CMonsterScript::makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio)
+	{
+		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner()->GetName() + L"_Slash");
+
+		CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetName(L"col_Monster_Slash");
+		coll->Initialize();
+		coll->SetType(eColliderType::Rect);
+		coll->SetScale(Vector2(1.f, 1.f));
+
+		SlashObj->SetScale({ 1.f, 1.f, 1.f });
+
+		Vector3 vect;
+		vect.x = mTarget->GetPos().x - mPos.x;
+		vect.y = mTarget->GetPos().y - mPos.y;
+		vect.Normalize();
+
+		SlashObj->SetPos(GetOwnerPos() + vect);
+
+		if (mTarget->GetPos().x < GetOwnerPos().x)
+			SlashObj->SetLeft();
+		else
+			SlashObj->SetRight();
+
+		SlashObj->Flip();
+
+
+		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(GetOwner()->GetName() + L"Mat");
+		SpriteRenderer->SetMaterial(Material);
+
+		CAnimator* mAnimator = SlashObj->AddComponent<CAnimator>(eComponentType::Animator);
+		std::wstring animname = GetOwner()->GetName() + L"_SlashAnim";
+		mAnimator->Create(animname, Material->GetTexture(), _vLT, _FrameSize, Vector2::Zero, _AnimSize, _Ratio, 0.025f);
+		mAnimator->Play(animname, false);
+
+		SlashObj->AddComponent<CSlashScript>(eComponentType::Script)->Initialize();
 	}
 
 }

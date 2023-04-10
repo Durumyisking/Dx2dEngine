@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include "MonsterScript.h"
 
 
 namespace dru
@@ -24,9 +25,11 @@ namespace dru
 
 
 		CMonster* mRayOwner;
+		CMonsterScript* mMonsterScript;
 
 		CAnimator* mAnimator;
 		CRigidBody* mRigidBody;
+
 
     };
 

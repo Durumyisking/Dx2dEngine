@@ -72,5 +72,4 @@ namespace dru
 		GetDevice()->DrawIndexedInstanced(mIndexCount, _Count, 0, 0, 0);
 	}
 
-
 }

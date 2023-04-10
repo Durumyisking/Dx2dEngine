@@ -220,6 +220,7 @@ namespace dru::graphics
 		float lifeTime;
 		float time;
 		float speed;
+		float radian;
 		UINT active;
 
 	};

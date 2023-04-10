@@ -3,13 +3,13 @@
 struct VSIn
 {
     float4 Pos : POSITION;
-    uint iInstance : SV_InstanceID; // drawindexedinstance 하면 자동으로 들어간다.
+    uint Instance : SV_InstanceID; // drawindexedinstance 하면 자동으로 들어간다.
 };
 
 struct VSOut
 {
     float4 Pos : SV_Position;
-    uint iInstance : SV_InstanceID;
+    uint Instance : SV_InstanceID;
 };
 
 VSOut main(VSIn In)
@@ -17,7 +17,7 @@ VSOut main(VSIn In)
     VSOut Out = (VSOut) 0.0f;
     
     Out.Pos = In.Pos;
-    Out.iInstance = In.iInstance;
+    Out.Instance = In.Instance;
     
     return Out;
 }

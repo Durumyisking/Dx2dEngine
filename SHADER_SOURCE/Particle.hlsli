@@ -7,6 +7,7 @@ struct Particle
     float lifeTime;
     float time;
     float speed;
+    float radian;
     uint active;
 };
 

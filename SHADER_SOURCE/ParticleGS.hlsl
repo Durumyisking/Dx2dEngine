@@ -4,14 +4,14 @@
 struct VSOut
 {
     float4 Pos : SV_Position;
-    uint iInstance : SV_InstanceID;
+    uint Instance : SV_InstanceID;
 };
 
 struct GSOutput
 {
     float4 Pos : SV_POSITION;
     float2 UV : TEXCOORD;
-    uint iInstance : SV_InstanceID;
+    uint Instance : SV_InstanceID;
 };
 
 
@@ -20,10 +20,10 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // inputÀ
 {
     GSOutput Out[4] = { (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f };
 	
-    if (0 == particleBuffer[input[0].iInstance].active)
+    if (0 == particleBuffer[input[0].Instance].active)
         return;
 	
-    float3 vWorldPos = input[0].Pos.xyz + particleBuffer[input[0].iInstance].position.xyz;
+    float3 vWorldPos = input[0].Pos.xyz + particleBuffer[input[0].Instance].position.xyz;
     if (simulationSpace == 0)
     {
         vWorldPos += world._41_42_43;
@@ -45,15 +45,12 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // inputÀ
     
     
         
-    // È¸Àü
-    
+
     for (int i = 0; i < 4; i++)
     {
-        NewPos[i] = RotatePointZ(NewPos[i], radian);
+        NewPos[i] = RotatePointZ(NewPos[i], particleBuffer[input[0].Instance].radian);
     }
-    
-    
-    
+      
 	
     for (int j = 0; j < 4; j++)
     {
@@ -65,10 +62,10 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // inputÀ
     Out[2].UV = float2(1.0f, 1.0f);
     Out[3].UV = float2(0.0f, 1.0f);
 	
-    Out[0].iInstance = input[0].iInstance;
-    Out[1].iInstance = input[0].iInstance;
-    Out[2].iInstance = input[0].iInstance;
-    Out[3].iInstance = input[0].iInstance;
+    Out[0].Instance = input[0].Instance;
+    Out[1].Instance = input[0].Instance;
+    Out[2].Instance = input[0].Instance;
+    Out[3].Instance = input[0].Instance;
     
     // 0 -- 1
     // | \  |

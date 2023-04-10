@@ -1,10 +1,10 @@
 #pragma once
-#include "Script.h"
+#include "MonsterScript.h"
 
 namespace dru
 {
     class CGruntScript :
-        public CScript
+        public CMonsterScript
     {
     public:
 
@@ -15,6 +15,9 @@ namespace dru
         virtual void update() override;
         virtual void fixedUpdate() override;
         virtual void render() override;
+
+        virtual void attack();
+
 
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);

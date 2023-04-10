@@ -6,10 +6,10 @@ namespace dru
 {
     enum class eMonsterState
     {
-        Idle, //0
-        Run,// 2
-        TutorAttack,// 5 
-        Fall,// 11
+        Idle,
+        Run,
+        Attack,
+        Fall,
         DieAirUp,
         DieAirDown,
         DieGround,
@@ -20,6 +20,7 @@ namespace dru
     class CMonsterScript :
         public CScript
     {
+        friend class CMonsterRayScript;
     public:
         CMonsterScript();
         virtual ~CMonsterScript();
@@ -28,6 +29,9 @@ namespace dru
         virtual void update() override;
         virtual void fixedUpdate() override;
         virtual void render() override;
+
+        virtual void attack();
+
 
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
@@ -48,6 +52,7 @@ namespace dru
         bool  IsMonsterDead() const { return mbDead; };
 
         void SetTarget(CGameObj* _Target) { mTarget = _Target; }
+        CGameObj* GetTarget() const { return mTarget; }
 
 
     private:
@@ -58,6 +63,12 @@ namespace dru
         void dead();
 
         void deadgroundComplete();
+
+
+    protected:
+
+        void makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio);
+
 
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
@@ -72,6 +83,8 @@ namespace dru
         bool mbDeleteOn;
 
         float mHitTimer;
+
+        float mAttackTimer;
 
         std::wstring mMonsterName;
 

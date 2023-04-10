@@ -23,7 +23,7 @@ namespace dru
 
 		mAnimator->Play(L"Grunt_Idle");
 
-		this->AddComponent<CMonsterScript>(eComponentType::Script)->Initialize();
+		this->AddComponent<CGruntScript>(eComponentType::Script)->Initialize();
 
 	}
 
