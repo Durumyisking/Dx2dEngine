@@ -392,6 +392,12 @@
     <ClInclude Include="MonsterRayScript.h">
       <Filter>GameObj\Monster\Ray</Filter>
     </ClInclude>
+    <ClInclude Include="Stage3.h">
+      <Filter>Scene\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>Scene\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -604,6 +610,12 @@
     </ClCompile>
     <ClCompile Include="MonsterRayScript.cpp">
       <Filter>GameObj\Monster\Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3.cpp">
+      <Filter>Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>Scene\Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

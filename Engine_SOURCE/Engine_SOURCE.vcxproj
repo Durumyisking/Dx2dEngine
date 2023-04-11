@@ -231,6 +231,8 @@
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage2.h" />
+    <ClInclude Include="Stage3.h" />
     <ClInclude Include="StageTutorial.h" />
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
@@ -304,6 +306,8 @@
     <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
+    <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="StageTutorial.cpp" />
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />

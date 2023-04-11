@@ -17,6 +17,7 @@ namespace dru
         WallSlideDown,// 9
         WallKick,// 10
         Fall,// 11
+        Dead, // 12
 
         End,
     };
@@ -40,6 +41,8 @@ namespace dru
         virtual void OnTriggerEnter(CCollider2D* _oppo);
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
+
+        bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
 
     private:
         // anim function
@@ -66,6 +69,8 @@ namespace dru
         void LanddustComplete();
         void RolldustComplete();
 
+        void deadComplete();
+
 
         // player action
         void idleToRun();
@@ -80,6 +85,7 @@ namespace dru
         void wallKick();
         void attack();
         void bulletTime();
+        void dead();
 
         void initializeJumpdustComponent();
         void jumpdustSlideCheck();
@@ -92,9 +98,13 @@ namespace dru
 
         void makeSlash();
 
-
-
         void wallLRCheck();
+
+        void collEnter_Floor();
+        void collEnter_Wall(CCollider2D* _oppo);
+        void collEnter_MonsterSlash(CCollider2D* _oppo);
+
+        void coll_Wall();
 
 
         bool towardToWallCheck_KeyTap();
@@ -123,6 +133,8 @@ namespace dru
         Vector3 mAttackDir;
 
         float mBulletTimeGauge;
+        float mHitTimer;
+        Vector3 mHitDir;
 
         bool mbFirstAttack;
         bool mbOnWall;

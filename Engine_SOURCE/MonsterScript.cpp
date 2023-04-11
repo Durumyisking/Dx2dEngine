@@ -3,7 +3,6 @@
 #include "TimeMgr.h"
 #include "Object.h"
 #include "SlashScript.h"
-#include "SlashShadeScript.h"
 #include "BodyShadeScript.h"
 #include "Input.h"
 #include "Monster.h"
@@ -47,14 +46,21 @@ namespace dru
 		mPos = mTransform->GetPosition();
 		mAttackTimer += CTimeMgr::DeltaTime();
 
-		run();
-		// attack();
-
+		if (mState[(UINT)eMonsterState::Run] == true)
+		{
+			run();
+		}
+		if (mState[(UINT)eMonsterState::Attack] == true)
+		{
+			// attack();
+		}
 		mMoveDir = mRigidbody->GetVelocity();
 		mMoveDir.Normalize();
 
-		dead();
-
+		if (mState[(UINT)eMonsterState::Run] == true)
+		{
+			dead();
+		}
 
 
 		mTransform->SetPosition(mPos);
@@ -157,24 +163,7 @@ namespace dru
 		mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
 	}
 
-	void CMonsterScript::CreateSlashShade()
-	{
-		CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
-		CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slash", L"SpriteShader");
-		CResources::Insert<CMaterial>(L"SlashShadeMat", Material);
-		SpriteRenderer->SetMaterial(Material);
-		SlashShade->SetPos(GetOwner()->GetPos());
-		SlashShade->SetScale(Vector3(0.2f, 0.0125f, 0.f));
-		SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script)->Initialize();
-
-		CCollider2D* coll = SlashShade->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->SetName(L"col_slashshade");
-		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(1.f, 1.f));
-		coll->Initialize();
-	}
 
 	void CMonsterScript::CreateBodySlash()
 	{
@@ -197,27 +186,23 @@ namespace dru
 
 	void CMonsterScript::run()
 	{
-		if (mState[(UINT)eMonsterState::Run] == true)
+
+		if (mTarget && !mbDead)
 		{
-			if (mTarget && !mbDead)
-			{
-				Vector3 vPos = GetOwner()->GetPos();
-				Vector3 vTargetPos = mTarget->GetPos();
-				Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
-				vDir.Normalize();
-				GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
-			}
-		} 
+			Vector3 vPos = GetOwner()->GetPos();
+			Vector3 vTargetPos = mTarget->GetPos();
+			Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
+			vDir.Normalize();
+			GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
+		}
+		
 	}
 
 	void CMonsterScript::attack()
 	{
-		if (mState[(UINT)eMonsterState::Attack] == true)
-		{
-			mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
-			mAttackTimer = 0.f;
 
-		}
+		mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
+		mAttackTimer = 0.f;
 	}
 
 	void CMonsterScript::hitSlash()
@@ -322,12 +307,12 @@ namespace dru
 
 		SlashObj->SetScale({ 1.f, 1.f, 1.f });
 
-//		Vector3 vect = {};
-//		vect.x = mTarget->GetPos().x - mPos.x;
-////		vect.y = mTarget->GetPos().y - mPos.y;
-//		vect.Normalize();
+		Vector3 vect = {};
+		vect.x = mTarget->GetPos().x - mPos.x;
+//		vect.y = mTarget->GetPos().y - mPos.y;
+		vect.Normalize();
 
-		SlashObj->SetPos(Vector3{ mTarget->GetPos().x, GetOwner()->GetPos().y, 0.f});
+		SlashObj->SetPos(Vector3{ GetOwner()->GetPos().x + (vect.x / 3.f), GetOwner()->GetPos().y, 0.f});
 
 		if (mTarget->GetPos().x < GetOwnerPos().x)
 		{

@@ -24,6 +24,8 @@ namespace dru
 		virtual void OnTriggerExit(CCollider2D* _oppo) {};
 
 
+		void CreateSlashShade();
+
 	};
 }
 

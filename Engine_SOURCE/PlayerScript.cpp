@@ -27,6 +27,8 @@ namespace dru
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
 		, mBulletTimeGauge(10.f)
+		, mHitTimer(0.f)
+		, mHitDir(Vector3::Zero)
 		, mbLRKeyupTimerOn(false)
 		, mbInputBlock(false)
 		, mbOnWall(false)
@@ -66,10 +68,17 @@ namespace dru
 		mAnimator->GetCompleteEvent(L"Player_Roll") = std::bind(&CPlayerScript::rollComplete, this);
 
 		mAnimator->GetCompleteEvent(L"Player_WallKick") = std::bind(&CPlayerScript::wallkickComplete, this);
+		mAnimator->GetCompleteEvent(L"Player_Dead") = std::bind(&CPlayerScript::deadComplete, this);
 	}
 	void CPlayerScript::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+		if (mState[(UINT)ePlayerState::Dead] == true)
+		{
+			dead();
+		}
+
+
 		if (!mbInputBlock)
 		{
 
@@ -152,91 +161,11 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
-			mbFirstAttack = true;
-			mWallSlideUpTime = 0.f;
-			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
-			{
-				mState.reset();
-				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-
-				mState[(UINT)ePlayerState::RunToIdle] = true;
-				mAnimator->Play(L"Player_RunToIdle");
-			}
-			if (NotowardToWallCheck_KeyDown())
-			{
-				mState[(UINT)ePlayerState::RunToIdle] = false;
-				mState[(UINT)ePlayerState::Run] = true;
-				mAnimator->Play(L"Player_Run");
-			}
-
-			if (CInput::GetKeyDown(eKeyCode::A))
-				GetOwner()->SetLeft();
-			if (CInput::GetKeyDown(eKeyCode::D))
-				GetOwner()->SetRight();
-
-			if (CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
-			{
-				Vector3 vel = mRigidbody->GetMaxVelocity();
-				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-				mState.reset();
-				mState[(UINT)ePlayerState::Roll] = true;
-				mAnimator->Play(L"Player_Roll", false);
-			}
-			else
-			{
-				Vector3 vel = mRigidbody->GetVelocity();
-				mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
-			}
-
-			mRigidbody->SetGround();
-
-			// 처음 호출됐다면? LanddustObject Create
-			// 그 이후부터는? LanddustObject Get
-			if (GetOrCreateLanddustObject()) // 객체 있으면
-			{
-				PlayLanddust();
-			}
+			collEnter_Floor();
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
-			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
-				mbWallIsLeft = -1;
-			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
-				mbWallIsLeft = 1;
-
-			wallLRCheck();
-
-			if (mLRKeyupTime < 0.2f)
-			{
-				if (mState[(UINT)ePlayerState::WallKick] == false)
-				{
-					if (mRigidbody->GetVelocity().y > 0.f)
-						mState[(UINT)ePlayerState::WallSlideUp] = true;
-					else
-					{
-						mState[(UINT)ePlayerState::WallSlideDown] = true;
-						mRigidbody->SetVelocity(Vector3::Zero);
-					}
-					mAnimator->Play(L"Player_WallSlide");
-				}
-			}
-
-			if (mState[(UINT)ePlayerState::WallKick] == true)
-			{
-				mRigidbody->SetVelocity(Vector3::Zero);
-				mState[(UINT)ePlayerState::WallKick] = false;
-				mState[(UINT)ePlayerState::WallSlideDown] = true;
-				mAnimator->Play(L"Player_WallSlide");
-			}
-
-			if (!mRigidbody->IsOnAir())
-			{
-				mState.reset();
-				mState[(UINT)ePlayerState::Idle] = true;
-				mAnimator->Play(L"Player_Idle");
-			}
-
-			mbOnWall = true;
+			collEnter_Wall(_oppo);
 		}
 		else if (L"col_ceiling" == _oppo->GetName())
 		{
@@ -265,6 +194,10 @@ namespace dru
 				mRigidbody->SetVelocity(Vector3::Zero);
 			}
 		}
+		else if (L"col_Monster_Slash" == _oppo->GetName())
+		{
+			collEnter_MonsterSlash(_oppo);
+		}
 
 	}
 	void CPlayerScript::OnCollision(CCollider2D* _oppo)
@@ -275,24 +208,7 @@ namespace dru
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
-			wallLRCheck();
-
-			if (mRigidbody->IsOnAir())
-			{
-				if (towardToWallCheck_KeyDown())
-				{
-					if (mState[(UINT)ePlayerState::WallKick] == false)
-					{
-						if (mRigidbody->GetVelocity().y > 0.f)
-							mState[(UINT)ePlayerState::WallSlideUp] = true;
-						else
-						{
-							mState[(UINT)ePlayerState::WallSlideDown] = true;
-						}
-						mAnimator->Play(L"Player_WallSlide");
-					}
-				}
-			}
+			coll_Wall();
 		}
 		else if (L"col_ceiling" == _oppo->GetName())
 		{
@@ -474,6 +390,11 @@ namespace dru
 
 	void CPlayerScript::RolldustComplete()
 	{
+	}
+
+	void CPlayerScript::deadComplete()
+	{
+		//GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
 	}
 
 	void CPlayerScript::idleToRun()
@@ -860,6 +781,17 @@ namespace dru
 
 	}
 
+	void CPlayerScript::dead()
+	{
+		mHitTimer += CTimeMgr::DeltaTime();
+
+		if (mHitTimer <= 0.25f)
+		{
+			mRigidbody->AddVelocity({ mHitDir.x * 0.5f, mHitDir.y * 0.5f, 0.f });
+		}
+
+	}
+
 
 	void CPlayerScript::initializeJumpdustComponent()
 	{
@@ -1141,6 +1073,150 @@ namespace dru
 				mRigidbody->SetVelocity(Vector3(0.f, mRigidbody->GetVelocity().y, mRigidbody->GetVelocity().z));
 		}
 
+	}
+
+	void CPlayerScript::collEnter_Floor()
+	{
+		mbFirstAttack = true;
+		mWallSlideUpTime = 0.f;
+
+		if (mState[(UINT)ePlayerState::Dead] == false)
+		{
+
+			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
+			{
+				mState.reset();
+				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+
+				mState[(UINT)ePlayerState::RunToIdle] = true;
+				mAnimator->Play(L"Player_RunToIdle");
+			}
+			if (NotowardToWallCheck_KeyDown())
+			{
+				mState[(UINT)ePlayerState::RunToIdle] = false;
+				mState[(UINT)ePlayerState::Run] = true;
+				mAnimator->Play(L"Player_Run");
+			}
+
+			if (CInput::GetKeyDown(eKeyCode::A))
+				GetOwner()->SetLeft();
+			if (CInput::GetKeyDown(eKeyCode::D))
+				GetOwner()->SetRight();
+
+			if (CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
+			{
+				Vector3 vel = mRigidbody->GetMaxVelocity();
+				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+				mState.reset();
+				mState[(UINT)ePlayerState::Roll] = true;
+				mAnimator->Play(L"Player_Roll", false);
+			}
+			else
+			{
+				Vector3 vel = mRigidbody->GetVelocity();
+				mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
+			}
+
+			// 처음 호출됐다면? LanddustObject Create
+			// 그 이후부터는? LanddustObject Get
+			if (GetOrCreateLanddustObject()) // 객체 있으면
+			{
+				PlayLanddust();
+			}
+		}
+		mRigidbody->SetGround();
+	}
+
+	void CPlayerScript::collEnter_Wall(CCollider2D* _oppo)
+	{
+		if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			mbWallIsLeft = -1;
+		else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+			mbWallIsLeft = 1;
+
+		wallLRCheck();
+
+		if (mState[(UINT)ePlayerState::Dead] == false)
+		{
+			if (mLRKeyupTime < 0.2f)
+			{
+				if (mState[(UINT)ePlayerState::WallKick] == false)
+				{
+					if (mRigidbody->GetVelocity().y > 0.f)
+						mState[(UINT)ePlayerState::WallSlideUp] = true;
+					else
+					{
+						mState[(UINT)ePlayerState::WallSlideDown] = true;
+						mRigidbody->SetVelocity(Vector3::Zero);
+					}
+					mAnimator->Play(L"Player_WallSlide");
+				}
+			}
+
+			if (mState[(UINT)ePlayerState::WallKick] == true)
+			{
+				mRigidbody->SetVelocity(Vector3::Zero);
+				mState[(UINT)ePlayerState::WallKick] = false;
+				mState[(UINT)ePlayerState::WallSlideDown] = true;
+				mAnimator->Play(L"Player_WallSlide");
+			}
+
+			if (!mRigidbody->IsOnAir())
+			{
+				mState.reset();
+				mState[(UINT)ePlayerState::Idle] = true;
+				mAnimator->Play(L"Player_Idle");
+			}
+		}
+
+		mbOnWall = true;
+	}
+
+	void CPlayerScript::collEnter_MonsterSlash(CCollider2D* _oppo)
+	{
+		if (mState[(UINT)ePlayerState::Dead] == false)
+		{
+			mState.reset();
+			mState[(UINT)ePlayerState::Dead] = true;
+			mAnimator->Play(L"Player_Dead", false);
+			mbInputBlock = true;
+			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+			mHitDir = GetOwnerPos() - _oppo->GetOwnerPos();
+			mHitDir.Normalize();
+
+			// timeslow
+			CTimeMgr::BulletTime(0.5f);
+
+			// CamShake
+			ShakeParams sp = {};
+			sp.duration = 0.5f;
+			sp.magnitude = 0.0125f;
+			renderer::mainCamera->GetCamScript()->Shake(sp);
+
+			CreateSlashShade();
+		}
+	}
+
+	void CPlayerScript::coll_Wall()
+	{
+		wallLRCheck();
+
+		if (mRigidbody->IsOnAir())
+		{
+			if (towardToWallCheck_KeyDown())
+			{
+				if (mState[(UINT)ePlayerState::WallKick] == false)
+				{
+					if (mRigidbody->GetVelocity().y > 0.f)
+						mState[(UINT)ePlayerState::WallSlideUp] = true;
+					else
+					{
+						mState[(UINT)ePlayerState::WallSlideDown] = true;
+					}
+					mAnimator->Play(L"Player_WallSlide");
+				}
+			}
+		}
 	}
 
 	bool CPlayerScript::towardToWallCheck_KeyTap()

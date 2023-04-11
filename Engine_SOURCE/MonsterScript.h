@@ -49,7 +49,6 @@ namespace dru
 
         void HitAddForce();
 
-        void CreateSlashShade();
         void CreateBodySlash();
 
         bool  IsMonsterDead() const { return mbDead; };

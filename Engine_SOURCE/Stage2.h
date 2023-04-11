@@ -1,16 +1,14 @@
 #pragma once
 #include "Stage.h"
 
-
-
 namespace dru
 {
-    class CStage1 :
+    class CStage2 :
         public CStage
     {
     public:
-        CStage1();
-        virtual ~CStage1();
+        CStage2();
+        virtual ~CStage2();
 
         virtual void InitStage();
         virtual void LoadinReady();
@@ -28,9 +26,8 @@ namespace dru
         void CreateSecondFloor();
 
 
-
     private:
-		CBackground* mStageBackground;
-
+        CBackground* mStageBackground;
     };
+
 }

@@ -24,6 +24,7 @@
 
 #include "StageTutorial.h"
 #include "Stage1.h"
+#include "Stage2.h"
 
 #include "GraphicDevice.h"
 
@@ -38,7 +39,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(1)
+		, mCurrentStage(2)
 		, mPlayer(nullptr)
 
 	{
@@ -54,6 +55,7 @@ namespace dru
 	{
 		mStages.push_back(new CStageTutorial);
 		mStages.push_back(new CStage1);
+		mStages.push_back(new CStage2);
 
 		for (size_t i = 0; i < mStages.size(); i++)
 		{

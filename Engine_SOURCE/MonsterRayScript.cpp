@@ -2,6 +2,8 @@
 #include "GameObj.h"
 #include "Monster.h"
 #include "Animator.h"
+#include "Player.h"
+#include "PlayerScript.h"
 
 namespace dru
 {
@@ -34,25 +36,39 @@ namespace dru
 	{
 		if (mRayOwner->GetScript<CMonsterScript>()->GetTarget())
 		{
-			Vector3 playerPos = mMonsterScript->mTarget->GetPos();
-			Vector3 monsterPos = mRayOwner->GetPos();
-			float dist = (playerPos - monsterPos).Length();
-			if (dist <= 1.5f)
+			bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
+
+			if (!state)
 			{
-				if (mMonsterScript->mAttackTimer >= 1.f)
+				Vector3 playerPos = mMonsterScript->mTarget->GetPos();
+				Vector3 monsterPos = mRayOwner->GetPos();
+				float dist = (playerPos - monsterPos).Length();
+				if (dist <= 1.5f)
 				{
-					mMonsterScript->mState.reset();
-					mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
-					mMonsterScript->attack();
+					if (mMonsterScript->mAttackTimer >= 1.f)
+					{
+						mMonsterScript->mState.reset();
+						mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
+						mMonsterScript->attack();
+					}
 				}
-			}	
+				else
+				{
+					if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
+					{
+						mAnimator->Play(mRayOwner->GetName() + L"_Run");
+						mMonsterScript->mState.reset();
+						mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+					}
+				}
+			}
 			else
 			{
-				if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
+				if (mMonsterScript->mState[(UINT)eMonsterState::Idle] == false)
 				{
-					mAnimator->Play(mRayOwner->GetName() + L"_Run");
 					mMonsterScript->mState.reset();
-					mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+					mAnimator->Play(mRayOwner->GetName() + L"_Idle");
+					mMonsterScript->mState[(UINT)eMonsterState::Idle] = true;
 				}
 			}
 		}
@@ -68,10 +84,14 @@ namespace dru
 		if (L"col_player" == _oppo->GetName())
 		{
 			mMonsterScript->SetTarget(_oppo->GetOwner());
-			mAnimator->Play(mRayOwner->GetName() + L"_Run");
-			mMonsterScript->mState.reset();
-			mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+			bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
 
+			if (!state)
+			{
+				mAnimator->Play(mRayOwner->GetName() + L"_Run");
+				mMonsterScript->mState.reset();
+				mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+			}
 		}
 	}
 
