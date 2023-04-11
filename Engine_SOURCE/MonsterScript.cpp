@@ -298,36 +298,34 @@ namespace dru
 	void CMonsterScript::makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio)
 	{
 		CGameObj* SlashObj = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner()->GetName() + L"_Slash");
+		SlashObj->SetScale({ 1.f, 1.f, 1.f });
 
 		CCollider2D* coll = SlashObj->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetName(L"col_Monster_Slash");
 		coll->Initialize();
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(1.f, 1.f));
+		coll->SetScale(Vector2(0.5f, 0.5f));
 
-		SlashObj->SetScale({ 1.f, 1.f, 1.f });
 
-		Vector3 vect = {};
-		vect.x = mTarget->GetPos().x - mPos.x;
-//		vect.y = mTarget->GetPos().y - mPos.y;
-		vect.Normalize();
-
-		SlashObj->SetPos(Vector3{ GetOwner()->GetPos().x + (vect.x / 3.f), GetOwner()->GetPos().y, 0.f});
-
+		Vector3 slashpos = {}; 
 		if (mTarget->GetPos().x < GetOwnerPos().x)
 		{
 			SlashObj->SetLeft();
 			GetOwner()->SetLeft();
-//			SlashObj->SetPos(GetOwnerPos() + Vector3{-1.f, 0.f, 0.f});
+			slashpos = Vector3{ GetOwner()->GetPos().x - 0.5f, GetOwner()->GetPos().y, 0.f };
 		}
 		else
 		{
 			SlashObj->SetRight();
 			GetOwner()->SetRight();
-//			SlashObj->SetPos(GetOwnerPos() + Vector3{ 1.f, 0.f, 0.f });
+			slashpos = Vector3{ GetOwner()->GetPos().x + 0.5f, GetOwner()->GetPos().y, 0.f };
 		}
+		SlashObj->SetPos(slashpos);
+
 		GetOwner()->Flip();
 		SlashObj->Flip();
+
+
 
 
 		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
