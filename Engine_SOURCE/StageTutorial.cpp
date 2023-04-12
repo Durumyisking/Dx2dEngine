@@ -167,16 +167,17 @@ namespace dru
 		mStageState = eStageState::NotReady;
 		mbZoomDone = false;
 	}
+	void CStageTutorial::Reset()
+	{
+	}
 	void CStageTutorial::NotReadyOperate()
 	{
 		mPlayer->GetComponent<CRigidBody>()->AddForce({ 100.f, 0.f, 0.f });
 
-		CStage::NotReadyOperate();
 	}
 	void CStageTutorial::ReadyOperate()
 	{
 
-		CStage::ReadyOperate();
 	}
 	void CStageTutorial::ReadyEndOperate()
 	{
@@ -203,8 +204,6 @@ namespace dru
 				mbFadeDone = true;
 			}
 		}
-
-		CStage::ReadyEndOperate();
 	}
 	void CStageTutorial::LoadUIOperate()
 	{
@@ -233,7 +232,6 @@ namespace dru
 		}
 
 		LoadKeyUI();
-		CStage::LoadUIOperate();
 	}
 
 
@@ -241,7 +239,6 @@ namespace dru
 	{
 		TutorialOperation(mTutorStage);
 
-		CStage::LoadEndOperate();
 	}
 
 

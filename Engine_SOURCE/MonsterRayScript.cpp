@@ -34,10 +34,9 @@ namespace dru
 
 	void CMonsterRayScript::fixedUpdate()
 	{
-		if (mRayOwner->GetScript<CMonsterScript>()->GetTarget())
+		if (mRayOwner->GetScript<CMonsterScript>()->GetTarget() && !mRayOwner->IsMonsterDead())
 		{
 			bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
-
 			if (!state)
 			{
 				Vector3 playerPos = mMonsterScript->mTarget->GetPos();

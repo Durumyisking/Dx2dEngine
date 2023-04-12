@@ -57,10 +57,7 @@ namespace dru
 		mMoveDir = mRigidbody->GetVelocity();
 		mMoveDir.Normalize();
 
-		if (mState[(UINT)eMonsterState::Run] == true)
-		{
-			dead();
-		}
+		dead();
 
 
 		mTransform->SetPosition(mPos);

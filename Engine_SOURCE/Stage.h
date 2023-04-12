@@ -66,7 +66,7 @@ namespace dru
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
 
-        void Reset();
+        virtual void Reset() = 0;
 
         void BulletTimeBatteryOperation();
 
@@ -74,8 +74,12 @@ namespace dru
 
     protected:
         CScene* mScene;
+        CBackgroundColor* mDeadBg;
+        bool mbIsDeadBgOn;
 
         CPlayer* mPlayer;
+        Vector3 mPlayerDefaultPos;
+
 
         CGameObj* mUICursor;
 
@@ -88,6 +92,9 @@ namespace dru
 
         UINT mBulletTimeGaugePrev;
         UINT mBulletTimeGaugeCurrent;
+
+    private:
+        CGameObj* mKeyEnter;
 
     };
 }

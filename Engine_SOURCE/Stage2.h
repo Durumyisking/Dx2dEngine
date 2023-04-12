@@ -15,6 +15,8 @@ namespace dru
         virtual void Update();
         virtual void Exit();
 
+        virtual void Reset();
+
         virtual void NotReadyOperate();
         virtual void ReadyOperate();
         virtual void ReadyEndOperate();
@@ -28,6 +30,10 @@ namespace dru
 
     private:
         CBackground* mStageBackground;
+
+        CGameObj* mGrunt1;
+        Vector3 mGrunt1DefaultPos;
+
     };
 
 }

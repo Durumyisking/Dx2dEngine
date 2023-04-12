@@ -4,8 +4,12 @@ namespace dru
 {
 	CStage2::CStage2()
 		: mStageBackground(nullptr)
+		, mGrunt1(nullptr)
+		, mGrunt1DefaultPos{}
 	{
 		mStageState = eStageState::ReadyEnd;
+		mPlayerDefaultPos = Vector3(-6.f, -2.5f, 3.f);
+		mGrunt1DefaultPos = Vector3(-2.f, -2.5f, 3.f);
 	}
 
 	CStage2::~CStage2()
@@ -43,18 +47,18 @@ namespace dru
 
 		{
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
+			mPlayer->SetPos(mPlayerDefaultPos);
+		}
+
+		{
+			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt1->SetPos(mGrunt1DefaultPos);
 		}
 
 		CreateOutWall();
 		CreateFirstFloor();
 		CreateSecondFloor();
 
-
-		{
-			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
-		}
 	}
 
 	void CStage2::LoadinReady()
@@ -86,6 +90,8 @@ namespace dru
 		if (mStageState == eStageState::LoadEnd)
 		{
 			BulletTimeBatteryOperation();
+			LoadEndOperate();
+
 		}
 
 		CStage::Update();
@@ -95,29 +101,30 @@ namespace dru
 	{
 	}
 
+	void CStage2::Reset()
+	{
+		mPlayer->SetPos(mPlayerDefaultPos);
+		mGrunt1->SetPos(mGrunt1DefaultPos);
+	}
+
 	void CStage2::NotReadyOperate()
 	{
-		CStage::NotReadyOperate();
 	}
 
 	void CStage2::ReadyOperate()
 	{
-		CStage::ReadyOperate();
 	}
 
 	void CStage2::ReadyEndOperate()
 	{
-		CStage::ReadyEndOperate();
 	}
 
 	void CStage2::LoadUIOperate()
 	{
-		CStage::LoadUIOperate();
 	}
 
 	void CStage2::LoadEndOperate()
 	{
-		CStage::LoadEndOperate();
 	}
 
 	void CStage2::CreateOutWall()
