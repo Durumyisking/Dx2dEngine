@@ -206,6 +206,7 @@ namespace dru
 
 	void CStage::NotReadyOperate()
 	{
+
 	}
 
 	void CStage::ReadyOperate()
@@ -219,9 +220,14 @@ namespace dru
 	{
 		if (CInput::GetKeyTap(eKeyCode::ENTER))
 		{
+			LoadUI();
+			renderer::mainCamera->GetCamScript()->CamFollowOnX();
+			renderer::mainCamera->GetCamScript()->CamFollowOnY();
+			renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->On();
+
 			CPlayerScript* playerscript = mPlayer->GetScript<CPlayerScript>();
 			bool state = playerscript->GetPlayerState(ePlayerState::Dead);
-			if (state)
+			if (!state)
 			{
 				mStageState = eStageState::LoadUI;
 				mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();

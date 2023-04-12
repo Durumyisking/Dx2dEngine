@@ -49,6 +49,8 @@ namespace dru
 
 		mState[(UINT)ePlayerState::Idle] = true;
 
+		InputBlocking();
+
 		mAnimator->GetFrameEvent(L"Player_IdleToRun", 1) = std::bind(&CPlayerScript::idletorunFrame, this);
 		mAnimator->GetCompleteEvent(L"Player_IdleToRun") = std::bind(&CPlayerScript::idletorunEnd, this);
 		mAnimator->GetCompleteEvent(L"Player_RunToIdle") = std::bind(&CPlayerScript::runtoidleEnd, this);
@@ -99,7 +101,7 @@ namespace dru
 			bulletTime();
 
 			// set left right
-			if (mState[(UINT)ePlayerState::TutorAttack] == false)
+			if (mState[(UINT)ePlayerState::Attack] == false)
 			{
 				if (mState[(UINT)ePlayerState::WallKick] == false)
 				{
@@ -737,18 +739,18 @@ namespace dru
 					mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 					mRigidbody->AddVelocity(mAttackDir * 5.f);
 					mState.reset();
-					mState[(UINT)ePlayerState::TutorAttack] = true;
+					mState[(UINT)ePlayerState::Attack] = true;
 					mAnimator->Play(L"Player_Attack", false);
 				}
 				mAttackCooldown = 0.f;
 			}
 		}
-		if (mState[(UINT)ePlayerState::TutorAttack] == true)
+		if (mState[(UINT)ePlayerState::Attack] == true)
 		{
 			mAttackTime += CTimeMgr::DeltaTime();
 			if (0.15f <= mAttackTime)
 			{
-				mState[(UINT)ePlayerState::TutorAttack] = false;
+				mState[(UINT)ePlayerState::Attack] = false;
 				mAttackTime = 0.f;
 				mbFirstAttack = false;
 				mAttackDir = Vector3::Zero;

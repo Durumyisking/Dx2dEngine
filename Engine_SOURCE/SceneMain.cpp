@@ -77,16 +77,9 @@ namespace dru
 
 	void CSceneMain::update()
 	{
-		if (CInput::GetKeyTap(eKeyCode::ENTER))
-		{
-			if (mStages[mCurrentStage]->GetReadyState() == eStageState::ReadyEnd)
-			{
-				mStages[mCurrentStage]->LoadUI();
-				renderer::mainCamera->GetCamScript()->CamFollowOnX();
-				renderer::mainCamera->GetCamScript()->CamFollowOnY();
-				renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->On();
-			}
-		}
+		//if (CInput::GetKeyTap(eKeyCode::ENTER))
+		//{
+		//}
 
 		mStages[mCurrentStage]->Update();
 

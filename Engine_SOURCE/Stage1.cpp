@@ -80,30 +80,6 @@ namespace dru
 	void CStage1::Update()
 	{
 
-		if (mStageState == eStageState::NotReady)
-		{
-			NotReadyOperate();
-		}
-
-		if (mStageState == eStageState::Ready)
-		{
-			ReadyOperate();
-		}
-
-		if (mStageState == eStageState::ReadyEnd)
-		{
-			ReadyEndOperate();
-		}
-
-		if (mStageState == eStageState::LoadUI)
-		{
-			LoadUIOperate();
-		}
-
-		if (mStageState == eStageState::LoadEnd)
-		{
-			BulletTimeBatteryOperation();
-		}
 
 		CStage::Update();
 	}
@@ -118,22 +94,27 @@ namespace dru
 
 	void CStage1::NotReadyOperate()
 	{
+		CStage::NotReadyOperate();
 	}
 
 	void CStage1::ReadyOperate()
 	{
+		CStage::ReadyOperate();
 	}
 
 	void CStage1::ReadyEndOperate()
 	{
+		CStage::ReadyEndOperate();
 	}
 
 	void CStage1::LoadUIOperate()
 	{
+		CStage::LoadUIOperate();
 	}
 
 	void CStage1::LoadEndOperate()
 	{
+		CStage::LoadEndOperate();
 	}
 
 	void CStage1::CreateOutWall()

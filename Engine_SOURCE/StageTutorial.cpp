@@ -132,31 +132,6 @@ namespace dru
 
 	void CStageTutorial::Update()
 	{
-		if (mStageState == eStageState::NotReady)
-		{
-			NotReadyOperate();
-		}
-
-		if (mStageState == eStageState::Ready)
-		{
-			ReadyOperate();
-		}
-
-
-		if (mStageState == eStageState::ReadyEnd)
-		{
-			ReadyEndOperate();
-		}
-
-		if (mStageState == eStageState::LoadUI)
-		{
-			LoadUIOperate();
-		}
-
-		if (mStageState == eStageState::LoadEnd)
-		{
-			LoadEndOperate();
-		}
 
 		CStage::Update();
 	}
@@ -173,10 +148,12 @@ namespace dru
 	void CStageTutorial::NotReadyOperate()
 	{
 		mPlayer->GetComponent<CRigidBody>()->AddForce({ 100.f, 0.f, 0.f });
-
+		CStage::NotReadyOperate();
 	}
 	void CStageTutorial::ReadyOperate()
 	{
+
+		CStage::ReadyOperate();
 
 	}
 	void CStageTutorial::ReadyEndOperate()
@@ -204,6 +181,7 @@ namespace dru
 				mbFadeDone = true;
 			}
 		}
+		CStage::ReadyEndOperate();
 	}
 	void CStageTutorial::LoadUIOperate()
 	{
@@ -232,6 +210,7 @@ namespace dru
 		}
 
 		LoadKeyUI();
+		CStage::LoadUIOperate();
 	}
 
 
@@ -239,6 +218,7 @@ namespace dru
 	{
 		TutorialOperation(mTutorStage);
 
+		CStage::LoadEndOperate();
 	}
 
 

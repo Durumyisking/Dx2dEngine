@@ -6,6 +6,7 @@
 #include "BodyShadeScript.h"
 #include "Input.h"
 #include "Monster.h"
+#include "SceneMain.h"
 
 namespace dru
 {
@@ -43,33 +44,37 @@ namespace dru
 
 	void CMonsterScript::update()
 	{
-		mPos = mTransform->GetPosition();
-		mAttackTimer += CTimeMgr::DeltaTime();
-
-		if (mState[(UINT)eMonsterState::Run] == true)
+		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
+		if (stagestate == eStageState::LoadEnd)
 		{
-			run();
-		}
-		if (mState[(UINT)eMonsterState::Attack] == true)
-		{
-			// attack();
-		}
-		mMoveDir = mRigidbody->GetVelocity();
-		mMoveDir.Normalize();
 
-		dead();
+			mPos = mTransform->GetPosition();
+			mAttackTimer += CTimeMgr::DeltaTime();
+
+			if (mState[(UINT)eMonsterState::Run] == true)
+			{
+				run();
+			}
+			if (mState[(UINT)eMonsterState::Attack] == true)
+			{
+				// attack();
+			}
+			mMoveDir = mRigidbody->GetVelocity();
+			mMoveDir.Normalize();
+
+			dead();
 
 
-		mTransform->SetPosition(mPos);
-		if (mMoveDir.x > 0.f)
-		{
-			GetOwner()->SetRight();
+			mTransform->SetPosition(mPos);
+			if (mMoveDir.x > 0.f)
+			{
+				GetOwner()->SetRight();
+			}
+			else if (mMoveDir.x < 0.f)
+			{
+				GetOwner()->SetLeft();
+			}
 		}
-		else if (mMoveDir.x < 0.f)
-		{
-			GetOwner()->SetLeft();
-		}
-		
 		GetOwner()->Flip();
 	}
 
