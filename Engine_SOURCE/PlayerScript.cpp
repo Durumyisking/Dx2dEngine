@@ -1176,24 +1176,8 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Dead] == false)
 		{
-			mState.reset();
-			mState[(UINT)ePlayerState::Dead] = true;
-			mAnimator->Play(L"Player_Dead", false);
-			mbInputBlock = true;
-			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
-			mHitDir = GetOwnerPos() - _oppo->GetOwnerPos();
-			mHitDir.Normalize();
-
-			// timeslow
-			CTimeMgr::BulletTime(0.5f);
-
-			// CamShake
-			ShakeParams sp = {};
-			sp.duration = 0.5f;
-			sp.magnitude = 0.0125f;
-			renderer::mainCamera->GetCamScript()->Shake(sp);
-
-			CreateSlashShade();
+			Vector3 pos = _oppo->GetOwnerPos();
+			hit(pos);
 		}
 	}
 
@@ -1216,6 +1200,31 @@ namespace dru
 					mAnimator->Play(L"Player_WallSlide");
 				}
 			}
+		}
+	}
+
+	void CPlayerScript::hit(Vector3& _enemyPos)
+	{
+		if (mState[(UINT)ePlayerState::Roll] == false)
+		{
+			mState.reset();
+			mState[(UINT)ePlayerState::Dead] = true;
+			mAnimator->Play(L"Player_Dead", false);
+			mbInputBlock = true;
+			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+			mHitDir = GetOwnerPos() - _enemyPos;
+			mHitDir.Normalize();
+
+			// timeslow
+			CTimeMgr::BulletTime(0.5f);
+
+			// CamShake
+			ShakeParams sp = {};
+			sp.duration = 0.5f;
+			sp.magnitude = 0.0125f;
+			renderer::mainCamera->GetCamScript()->Shake(sp);
+
+			CreateSlashShade();
 		}
 	}
 

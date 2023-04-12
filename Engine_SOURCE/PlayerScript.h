@@ -107,6 +107,8 @@ namespace dru
         void coll_Wall();
 
 
+        void hit(Vector3& _enemyPos);
+
         bool towardToWallCheck_KeyTap();
         bool towardToWallCheck_KeyDown();
         bool NotowardToWallCheck_KeyTap();

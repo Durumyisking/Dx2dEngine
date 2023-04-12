@@ -43,7 +43,7 @@ namespace dru
 				Vector3 playerPos = mMonsterScript->mTarget->GetPos();
 				Vector3 monsterPos = mRayOwner->GetPos();
 				float dist = (playerPos - monsterPos).Length();
-				if (dist <= 1.5f)
+				if (dist <= 1.25f)
 				{
 					if (mMonsterScript->mAttackTimer >= 1.f)
 					{
