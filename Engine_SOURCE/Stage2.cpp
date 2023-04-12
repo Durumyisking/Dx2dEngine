@@ -9,7 +9,7 @@ namespace dru
 	{
 		mStageState = eStageState::ReadyEnd;
 		mPlayerDefaultPos = Vector3(-6.f, -2.5f, 3.f);
-		mGrunt1DefaultPos = Vector3(-2.f, -2.5f, 3.f);
+		mGrunt1DefaultPos = Vector3(0.f, -2.5f, 3.f);
 	}
 
 	CStage2::~CStage2()

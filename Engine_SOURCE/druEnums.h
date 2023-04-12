@@ -60,7 +60,7 @@ namespace dru::enums
 	{
 		Rect,
 		Circle,
-		Ray,
+		Line,
 		Box,
 		Sphere,
 		End,

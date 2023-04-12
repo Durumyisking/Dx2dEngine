@@ -867,7 +867,7 @@ namespace dru::math
     Color operator* (float S, const Color& C) noexcept;
 
     //------------------------------------------------------------------------------
-    // Ray
+    // Line
     class Ray
     {
     public:
@@ -887,7 +887,7 @@ namespace dru::math
         bool operator == (const Ray& r) const noexcept;
         bool operator != (const Ray& r) const noexcept;
 
-        // Ray operations
+        // Line operations
         bool Intersects(const BoundingSphere& sphere, _Out_ float& Dist) const noexcept;
         bool Intersects(const BoundingBox& box, _Out_ float& Dist) const noexcept;
         bool Intersects(const Vector3& tri0, const Vector3& tri1, const Vector3& tri2, _Out_ float& Dist) const noexcept;

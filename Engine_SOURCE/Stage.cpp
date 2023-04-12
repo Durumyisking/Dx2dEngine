@@ -35,23 +35,24 @@ namespace dru
 			NotReadyOperate();
 		}
 
-		if (mStageState == eStageState::Ready)
+		else if (mStageState == eStageState::Ready)
 		{
 			ReadyOperate();
 		}
 
-		if (mStageState == eStageState::ReadyEnd)
+		else if (mStageState == eStageState::ReadyEnd)
 		{
 			ReadyEndOperate();
 		}
 
-		if (mStageState == eStageState::LoadUI)
+		else if (mStageState == eStageState::LoadUI)
 		{
 			LoadUIOperate();
 		}
 
-		if (mStageState == eStageState::LoadEnd)
+		else if (mStageState == eStageState::LoadEnd)
 		{
+			LoadEndOperate();
 			BulletTimeBatteryOperation();
 		}
 		if (CInput::GetKeyTap(eKeyCode::M))

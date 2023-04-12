@@ -56,6 +56,7 @@ namespace dru
         void SetTarget(CGameObj* _Target) { mTarget = _Target; }
         CGameObj* GetTarget() const { return mTarget; }
 
+        float GetPlayerDistance();
 
     private:
         void run();
@@ -65,6 +66,7 @@ namespace dru
         void dead();
 
         void deadgroundComplete();
+        void attackComplete();
 
 
     protected:

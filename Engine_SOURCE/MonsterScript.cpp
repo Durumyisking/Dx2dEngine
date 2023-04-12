@@ -39,6 +39,7 @@ namespace dru
 
 
 		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
+		mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
 
 	}
 
@@ -186,9 +187,17 @@ namespace dru
 		script->SetMonster(GetOwner());
 	}
 
+	float CMonsterScript::GetPlayerDistance()
+	{
+		Vector3 playerPos = mTarget->GetPos();
+		Vector3 monsterPos = GetOwnerPos();
+		float dist = (playerPos - monsterPos).Length();
+
+		return dist;
+	}
+
 	void CMonsterScript::run()
 	{
-
 		if (mTarget && !mbDead)
 		{
 			Vector3 vPos = GetOwner()->GetPos();
@@ -294,6 +303,25 @@ namespace dru
 		if (mbDeleteOn)
 		{
 			dynamic_cast<CMonster*>(GetOwner())->Die();
+		}
+	}
+
+	void CMonsterScript::attackComplete()
+	{
+		if (!mTarget)
+		{
+			mState.reset();
+			mState[(UINT)eMonsterState::Idle] = true;
+			mAnimator->Play(mMonsterName + L"_Idle");
+		}
+		else
+		{
+			if (GetPlayerDistance() > 1.f)
+			{
+				mState.reset();
+				mState[(UINT)eMonsterState::Run] = true;
+				mAnimator->Play(mMonsterName + L"_Run");
+			}
 		}
 	}
 

@@ -279,7 +279,11 @@ namespace dru
 	#pragma endregion
 
 
-	#pragma region RectVsCircle
+	#pragma region RectVsLine
+		else if (eColliderType::Rect == _left->GetType() && eColliderType::Line == _right->GetType())
+		{
+
+		}
 
 	#pragma endregion
 

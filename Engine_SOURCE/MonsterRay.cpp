@@ -10,10 +10,10 @@ namespace dru
 		CCollider2D* ray = AddComponent<CCollider2D>(eComponentType::Collider);
 		ray->Initialize();
 		ray->SetName(L"col_monsterray");
-		ray->SetType(eColliderType::Ray);
+		ray->SetType(eColliderType::Rect);
 
 
-		SetScale(Vector3(5.f, 2.f, 1.f));
+		SetScale(Vector3(5.f, 1.f, 1.f));
 
 		CMonsterRayScript* script = AddComponent<CMonsterRayScript>(eComponentType::Script);
 		script->Initialize();

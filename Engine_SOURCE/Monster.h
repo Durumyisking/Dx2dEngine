@@ -21,9 +21,9 @@ namespace dru
 		virtual void render();
 
 		void SetRayPos();
+		CMonsterRay* GetRay() const { return mRay; }
 		bool IsMonsterDead();
 
-		CMonsterRay* GetRay() const { return mRay; }
 		void SetRayDie() 
 		{
 			mRay->Die(); 

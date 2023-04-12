@@ -35,8 +35,8 @@ namespace dru
 		// lineemesh
 		std::shared_ptr<CMesh> LineMesh = CResources::Find<CMesh>(L"Linemesh");
 
-		mDebugObjects[(UINT)eColliderType::Ray] = new CDebugObject();
-		CMeshRenderer* LineMeshrenderer = mDebugObjects[(UINT)eColliderType::Ray]->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
+		mDebugObjects[(UINT)eColliderType::Line] = new CDebugObject();
+		CMeshRenderer* LineMeshrenderer = mDebugObjects[(UINT)eColliderType::Line]->AddComponent<CMeshRenderer>(eComponentType::MeshRenderer);
 
 		LineMeshrenderer->SetMaterial(material);
 		LineMeshrenderer->SetMesh(LineMesh);
@@ -109,7 +109,7 @@ namespace dru
 
 		delete mDebugObjects[(UINT)eColliderType::Rect];
 		delete mDebugObjects[(UINT)eColliderType::Circle];
-		delete mDebugObjects[(UINT)eColliderType::Ray];
+		delete mDebugObjects[(UINT)eColliderType::Line];
 	}
 
 	void CEditor::debugRender(graphics::DebugMesh& mesh)
@@ -137,7 +137,7 @@ namespace dru
 		case dru::enums::eColliderType::Circle:
 			tr->SetScale(Vector3(mesh.radius));
 			break;
-		case dru::enums::eColliderType::Ray:
+		case dru::enums::eColliderType::Line:
 			tr->SetScale(Vector3(mesh.scale.x, 1.f, 0.f));
 			break;
 		case dru::enums::eColliderType::Box:

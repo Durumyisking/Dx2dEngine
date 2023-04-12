@@ -44,25 +44,14 @@ namespace dru
 				bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
 				if (!state)
 				{
-					Vector3 playerPos = mMonsterScript->mTarget->GetPos();
-					Vector3 monsterPos = mRayOwner->GetPos();
-					float dist = (playerPos - monsterPos).Length();
-					if (dist <= 1.25f)
+					if (mMonsterScript->GetPlayerDistance() <= 1.f)
 					{
+						mRayOwner->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
 						if (mMonsterScript->mAttackTimer >= 1.f)
 						{
 							mMonsterScript->mState.reset();
 							mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
 							mMonsterScript->attack();
-						}
-					}
-					else
-					{
-						if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
-						{
-							mAnimator->Play(mRayOwner->GetName() + L"_Run");
-							mMonsterScript->mState.reset();
-							mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
 						}
 					}
 				}
@@ -86,16 +75,20 @@ namespace dru
 
 	void CMonsterRayScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
-		if (L"col_player" == _oppo->GetName())
+		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
+		if (stagestate == eStageState::LoadEnd)
 		{
-			mMonsterScript->SetTarget(_oppo->GetOwner());
-			bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
-
-			if (!state)
+			if (L"col_player" == _oppo->GetName())
 			{
-				mAnimator->Play(mRayOwner->GetName() + L"_Run");
-				mMonsterScript->mState.reset();
-				mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+				mMonsterScript->SetTarget(_oppo->GetOwner());
+				bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
+
+				if (!state)
+				{
+					mAnimator->Play(mRayOwner->GetName() + L"_Run");
+					mMonsterScript->mState.reset();
+					mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
+				}
 			}
 		}
 	}
