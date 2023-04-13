@@ -79,7 +79,11 @@ namespace dru
 	void CStage2::Reset()
 	{
 		mPlayer->SetPos(mPlayerDefaultPos);
+		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
+		playerScript->Reset();
+
 		mGrunt1->SetPos(mGrunt1DefaultPos);
+		mGrunt1->GetScript<CMonsterScript>()->Reset();
 	}
 
 	void CStage2::NotReadyOperate()

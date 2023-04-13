@@ -1,5 +1,4 @@
 #include "Stage.h"
-#include "PlayerScript.h"
 
 namespace dru
 {
@@ -245,41 +244,44 @@ namespace dru
 	{
 		CPlayerScript* playerscript = mPlayer->GetScript<CPlayerScript>();
 		bool state = playerscript->GetPlayerState(ePlayerState::Dead);
-		if (!mbIsDeadBgOn && state)
+		if (state)
 		{
+			if (!mbIsDeadBgOn)
 			{
-				// 튜토리얼 배경
-				mDeadBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
-				CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				{
+					// 튜토리얼 배경
+					mDeadBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
+					CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-				CResources::Insert<CMaterial>(L"TB1Mat", Material);
-				SpriteRenderer->SetMaterial(Material);
+					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+					CResources::Insert<CMaterial>(L"TB1Mat", Material);
+					SpriteRenderer->SetMaterial(Material);
 
-				mDeadBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
-				mDeadBg->SetPos(Vector3(0.f, 0.f, 4.999f));
-				mDeadBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
+					mDeadBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+					mDeadBg->SetPos(Vector3(0.f, 0.f, 4.999f));
+					mDeadBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
+
+				}
+				{
+					mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mDeadBg, L"keyEnter");
+					CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+					SpriteRenderer->SetMaterial(Material);
+					mKeyEnter->SetPos(Vector3(0.f, 0.75f, 0.f));
+
+					CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
+					mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, { 100.f, 80.f }, 1.f);
+					mAnimator->Play(L"KeyEnter_anim");
+				}
+				mbIsDeadBgOn = true;
 
 			}
+
+			if (CInput::GetKeyTap(eKeyCode::ENTER))
 			{
-				mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mDeadBg, L"keyEnter");
-				CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
-				SpriteRenderer->SetMaterial(Material);
-				mKeyEnter->SetPos(Vector3(0.f, 0.75f, 0.f));
-
-				CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
-				mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, { 100.f, 80.f }, 1.f);
-				mAnimator->Play(L"KeyEnter_anim");
+				mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+				Reset();
 			}
-			mbIsDeadBgOn = true;
-
-		}
-
-		if (CInput::GetKeyTap(eKeyCode::ENTER))
-		{
-			mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
-			Reset();
 		}
 	}
 

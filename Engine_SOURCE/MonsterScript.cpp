@@ -196,6 +196,18 @@ namespace dru
 		return dist;
 	}
 
+	void CMonsterScript::Reset()
+	{
+		mbDead = false;
+		mState.reset();
+		mState[(UINT)eMonsterState::Idle] = true;
+		mAnimator->Play(GetOwner()->GetName() + L"_Idle");
+
+
+		GetOwnerType<CMonster>()->AddRay();
+
+	}
+
 	void CMonsterScript::run()
 	{
 		if (mTarget && !mbDead)
@@ -334,7 +346,7 @@ namespace dru
 		coll->SetName(L"col_Monster_Slash");
 		coll->Initialize();
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.5f, 0.5f));
+		coll->SetScale(Vector2(0.75f, 0.75f));
 
 
 		Vector3 slashpos = {}; 

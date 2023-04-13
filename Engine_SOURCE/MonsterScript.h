@@ -58,6 +58,8 @@ namespace dru
 
         float GetPlayerDistance();
 
+        void Reset();
+
     private:
         void run();
 

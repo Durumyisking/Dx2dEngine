@@ -27,9 +27,8 @@ namespace dru
 
 	void CMonster::Initialize()
 	{
-		mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
-		mRay->GetScript<CMonsterRayScript>()->SetMonster(this);
 
+		AddRay();
 		CGameObj::Initialize();
 	}
 
@@ -48,6 +47,14 @@ namespace dru
 	void CMonster::render()
 	{
 		CGameObj::render();
+	}
+	void CMonster::AddRay()
+	{
+		if (!mRay)
+		{
+			mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
+			mRay->GetScript<CMonsterRayScript>()->SetMonster(this);
+		}
 	}
 	void CMonster::SetRayPos()
 	{

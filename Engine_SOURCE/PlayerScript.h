@@ -43,6 +43,9 @@ namespace dru
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
         bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
+        void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
+
+        void Reset();
 
     private:
         // anim function

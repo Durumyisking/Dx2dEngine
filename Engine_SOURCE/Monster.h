@@ -20,9 +20,12 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		void AddRay();
 		void SetRayPos();
 		CMonsterRay* GetRay() const { return mRay; }
 		bool IsMonsterDead();
+
+
 
 		void SetRayDie() 
 		{

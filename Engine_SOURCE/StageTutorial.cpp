@@ -1,6 +1,5 @@
 #include "StageTutorial.h"
 #include "SceneMain.h"
-#include "PlayerScript.h"
 
 namespace dru
 {

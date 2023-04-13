@@ -29,6 +29,7 @@
 
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"
+#include "PlayerScript.h"
 
 
 namespace dru

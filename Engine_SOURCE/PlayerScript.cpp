@@ -261,6 +261,14 @@ namespace dru
 	{
 	}
 
+	void CPlayerScript::Reset()
+	{
+		mState.reset();
+		mState[(UINT)ePlayerState::Idle] = true;
+		mAnimator->Play(L"Player_Idle");
+		UnInputBlocking();
+	}
+
 	void CPlayerScript::idletorunFrame()
 	{
 		mState[(UINT)ePlayerState::IdleToRun] = false;
