@@ -251,7 +251,9 @@ namespace dru
 
 			GetOwnerType<CMonster>()->SetRayDie();
 
-			CreateSlashShade();
+			Vector3 MousePos = CInput::GetMousePosition_world();
+
+			CreateSlashShade(MousePos);
 			CreateBodySlash();
 		}
 	}

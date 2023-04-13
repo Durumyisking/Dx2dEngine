@@ -263,6 +263,7 @@ namespace dru
 
 	void CPlayerScript::Reset()
 	{
+		mHitTimer = 0.f;
 		mState.reset();
 		mState[(UINT)ePlayerState::Idle] = true;
 		mAnimator->Play(L"Player_Idle");
@@ -1234,7 +1235,8 @@ namespace dru
 			sp.magnitude = 0.0125f;
 			renderer::mainCamera->GetCamScript()->Shake(sp);
 
-			CreateSlashShade();
+			CreateSlashShade(_enemyPos);
+
 		}
 	}
 

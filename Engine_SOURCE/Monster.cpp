@@ -35,7 +35,7 @@ namespace dru
 	void CMonster::update()
 	{
 		SetRayPos();
-
+		 
 		CGameObj::update();
 	}
 

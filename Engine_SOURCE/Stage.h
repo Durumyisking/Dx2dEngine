@@ -71,6 +71,8 @@ namespace dru
 
         void BulletTimeBatteryOperation();
 
+        void CreateDeadUI();
+
         
 
     protected:

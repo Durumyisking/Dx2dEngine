@@ -248,38 +248,16 @@ namespace dru
 		{
 			if (!mbIsDeadBgOn)
 			{
-				{
-					// 튜토리얼 배경
-					mDeadBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
-					CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-					CResources::Insert<CMaterial>(L"TB1Mat", Material);
-					SpriteRenderer->SetMaterial(Material);
-
-					mDeadBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
-					mDeadBg->SetPos(Vector3(0.f, 0.f, 4.999f));
-					mDeadBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
-
-				}
-				{
-					mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mDeadBg, L"keyEnter");
-					CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
-					SpriteRenderer->SetMaterial(Material);
-					mKeyEnter->SetPos(Vector3(0.f, 0.75f, 0.f));
-
-					CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
-					mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, { 100.f, 80.f }, 1.f);
-					mAnimator->Play(L"KeyEnter_anim");
-				}
-				mbIsDeadBgOn = true;
-
+				CreateDeadUI();
 			}
 
 			if (CInput::GetKeyTap(eKeyCode::ENTER))
 			{
 				mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+				mDeadBg->RenderingBlockOn();
+				mKeyEnter->RenderingBlockOn();
+				mbIsDeadBgOn = false;
+
 				Reset();
 			}
 		}
@@ -300,6 +278,43 @@ namespace dru
 			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
 		}
 		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
+	}
+
+	void CStage::CreateDeadUI()
+	{
+		{
+			if (!mDeadBg)
+			{
+				// 튜토리얼 배경
+				mDeadBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
+				CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+				CResources::Insert<CMaterial>(L"TB1Mat", Material);
+				SpriteRenderer->SetMaterial(Material);
+
+				mDeadBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+				mDeadBg->SetPos(Vector3(0.f, 0.f, 4.999f));
+				mDeadBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
+			}
+		}
+		{
+			if (!mKeyEnter)
+			{
+				mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mDeadBg, L"keyEnter");
+				CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+				SpriteRenderer->SetMaterial(Material);
+				mKeyEnter->SetPos(Vector3(0.f, -0.5f, 0.f));
+
+				CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
+				mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, { 100.f, 70.f }, 1.f);
+				mAnimator->Play(L"KeyEnter_anim");
+			}
+		}
+		mDeadBg->RenderingBlockOff();
+		mKeyEnter->RenderingBlockOff();
+		mbIsDeadBgOn = true;
 	}
 
 }

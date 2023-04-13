@@ -34,7 +34,7 @@ namespace dru
 	{
 
 	}
-	void CScript::CreateSlashShade()
+	void CScript::CreateSlashShade(Vector3& _targetPos)
 	{
 		CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
 		CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
@@ -44,7 +44,10 @@ namespace dru
 		SpriteRenderer->SetMaterial(Material);
 		SlashShade->SetPos(GetOwner()->GetPos());
 		SlashShade->SetScale(Vector3(0.2f, 0.0125f, 0.f));
-		SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script)->Initialize();
+		CSlashShadeScript* script = SlashShade->AddComponent<CSlashShadeScript>(eComponentType::Script);
+		script->Initialize();
+		script->SlashOperate(_targetPos);
+
 
 		CCollider2D* coll = SlashShade->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetName(L"col_slashshade");

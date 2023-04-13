@@ -23,10 +23,16 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+        void SetTargetPos(Vector3& _targetPos) { mTargetPos = _targetPos; }
+        void SetDir();
+        void SetRotation();
+
+        void SlashOperate(Vector3& _targetPos);
 
     private:
         CTransform* mTrans;
         Vector3 mPos;
+        Vector3 mTargetPos;
         Vector3 mRot;
         Vector3 mDir;
 

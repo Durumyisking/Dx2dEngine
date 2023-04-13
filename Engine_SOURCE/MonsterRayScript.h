@@ -23,7 +23,12 @@ namespace dru
 
 		void SetMonster(CMonster* _monster);
 
+		void SetMonsterAttack();
+		void SetMonsterIdle();
+		void SetMonsterRun();
 
+
+	private:
 		CMonster* mRayOwner;
 		CMonsterScript* mMonsterScript;
 
