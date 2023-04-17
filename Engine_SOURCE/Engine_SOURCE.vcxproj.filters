@@ -398,6 +398,9 @@
     <ClInclude Include="Stage2.h">
       <Filter>Scene\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -616,6 +619,9 @@
     </ClCompile>
     <ClCompile Include="Stage2.cpp">
       <Filter>Scene\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>GameObj\Platforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

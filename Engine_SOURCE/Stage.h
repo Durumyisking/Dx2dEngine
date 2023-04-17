@@ -26,6 +26,7 @@
 #include "Ceiling.h"
 #include "OutWall.h"
 #include "OutWallSide.h"
+#include "Stair.h"
 
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"

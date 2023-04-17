@@ -283,11 +283,106 @@ namespace dru
 		else if (eColliderType::Rect == _left->GetType() && eColliderType::Line == _right->GetType())
 		{
 
+			Vector3 rightPos = _right->GetColliderPos();
+			Vector2 rightScale = _right->GetScale();
+
+
+			Vector2 lineP1 = {};
+			Vector2 lineP2 = {};
+
+			lineP1.x = rightPos.x - rightScale.x;
+			lineP2.x = rightPos.x + rightScale.x;
+			lineP1.y = rightPos.y;
+			lineP2.y = rightPos.y;
+				
+
 		}
 
 	#pragma endregion
 
 
 		return true;
+	}
+	bool CCollisionMgr::lineLine(Vector2 _lineA_p1, Vector2 _lineA_p2, Vector2 _lineB_p1, Vector2 _lineB_p2)
+	{
+		// calculate the distance to intersection point
+		  // uA의 분모는 직선의 기울기
+		  // uA는 선분 A위에 있는 B 즉 A와 B의 교차점이 A선 위의 어느정도 비율인가
+		  // (uA가 0.5면 선분 B는 A의 중간지점에서 겹치고 0이면 A의 시작지점에서 겹친다)
+		float uA =
+			((_lineB_p2.x - _lineB_p1.x) * (_lineA_p1.y - _lineB_p1.y)
+				- (_lineB_p2.y - _lineB_p1.y) * (_lineA_p1.x - _lineB_p1.x))
+			/ ((_lineB_p2.y - _lineB_p1.y) * (_lineA_p2.x - _lineA_p1.x)
+				- (_lineB_p2.x - _lineB_p1.x) * (_lineA_p2.y - _lineA_p1.y));
+		float uB =
+			((_lineA_p2.x - _lineA_p1.x) * (_lineA_p1.y - _lineB_p1.y)
+				- (_lineA_p2.y - _lineA_p1.y) * (_lineA_p1.x - _lineB_p1.x))
+			/ ((_lineB_p2.y - _lineB_p1.y) * (_lineA_p2.x - _lineA_p1.x)
+				- (_lineB_p2.x - _lineB_p1.x) * (_lineA_p2.y - _lineA_p1.y));
+
+		// uA와 uB가 둘 다 0~1사이면 충돌중이다!
+		if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1)
+		{
+			return true;
+		}
+		return false;
+
+	}
+	bool CCollisionMgr::lineRect(CCollider2D* _left, CCollider2D* _right)
+	{
+		Vector3 rightPos = _right->GetColliderPos();
+		Vector2 rightScale = _right->GetScale();
+
+		Vector2 lineP1 = {};
+		Vector2 lineP2 = {};
+
+		lineP1.x = rightPos.x - rightScale.x;
+		lineP2.x = rightPos.x + rightScale.x;
+		lineP1.y = rightPos.y;
+		lineP2.y = rightPos.y;
+
+
+
+		Vector3 leftPos = _left->GetColliderPos();
+		Vector2 leftScale = _left->GetScale();
+
+		Vector2 rectlineP1 = {};
+		Vector2 rectlineP2 = {};
+
+		rectlineP1.x = leftPos.x - leftScale.x;
+		rectlineP2.x = leftPos.x + leftScale.x;
+		rectlineP1.y = leftPos.y - leftScale.y;
+		rectlineP2.y = leftPos.y - leftScale.y;
+
+		bool bTop = lineLine(rectlineP1, rectlineP2, lineP1, lineP2);
+
+		rectlineP1.x = leftPos.x - leftScale.x;
+		rectlineP2.x = leftPos.x + leftScale.x;
+		rectlineP1.y = leftPos.y + leftScale.y;
+		rectlineP2.y = leftPos.y + leftScale.y;
+
+		bool bBottom = lineLine(rectlineP1, rectlineP2, lineP1, lineP2);
+
+		rectlineP1.x = leftPos.x - leftScale.x;
+		rectlineP2.x = leftPos.x - leftScale.x;
+		rectlineP1.y = leftPos.y - leftScale.y;
+		rectlineP2.y = leftPos.y + leftScale.y;
+		
+		bool bLeft = lineLine(rectlineP1, rectlineP2, lineP1, lineP2);
+		
+		rectlineP1.x = leftPos.x + leftScale.x;
+		rectlineP2.x = leftPos.x + leftScale.x;
+		rectlineP1.y = leftPos.y - leftScale.y;
+		rectlineP2.y = leftPos.y + leftScale.y;
+		
+		bool bRight = lineLine(rectlineP1, rectlineP2, lineP1, lineP2);
+
+
+		if (bTop && bBottom && bLeft && bRight)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -234,6 +234,7 @@
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />
     <ClInclude Include="StageTutorial.h" />
+    <ClInclude Include="Stair.h" />
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
@@ -309,6 +310,7 @@
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="StageTutorial.cpp" />
+    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />

@@ -149,11 +149,16 @@ namespace dru
 
 		}
 
-
 		{
 			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
 			Ceiling->SetPos(Vector3(-5.625f, -0.65f, 3.f));
 			Ceiling->SetColliderScale({ 10.f, 0.1f });
+		}
+
+		{
+			CStair* stair = object::Instantiate<CStair>(eLayerType::Platforms, L"stair");
+			stair->SetPos(Vector3(0.f, 0.f, 3.f));
+			stair->SetColliderScale({ 1.f, 1.f });
 		}
 	}
 
