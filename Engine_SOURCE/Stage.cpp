@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "BlinkScript.h"
 
 namespace dru
 {
@@ -258,6 +259,10 @@ namespace dru
 				mKeyEnter->RenderingBlockOn();
 				mbIsDeadBgOn = false;
 
+				CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
+				blinkscript->SwitchOff();
+
+
 				Reset();
 			}
 		}
@@ -273,7 +278,7 @@ namespace dru
 		{
 			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.25f, 0.25f, 1.f));
 		}
-		else if (mBulletTimeGaugePrev < mBulletTimeGaugeCurrent)
+		else if (mBulletTimeGaugePrev <= mBulletTimeGaugeCurrent)
 		{
 			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
 		}
@@ -296,6 +301,13 @@ namespace dru
 				mDeadBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
 				mDeadBg->SetPos(Vector3(0.f, 0.f, 4.999f));
 				mDeadBg->SetScale(Vector3(0.3f, 0.3f, 1.f));
+
+				mDeadBg->AddComponent<CBlinkScript>(eComponentType::Script)->SetOnTime(0.5f);
+				CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
+				blinkscript->SetOffTime(0.1f);
+				blinkscript->SetOnTime(0.1f);
+				blinkscript->SwitchOn();
+
 			}
 		}
 		{
@@ -314,6 +326,9 @@ namespace dru
 		}
 		mDeadBg->RenderingBlockOff();
 		mKeyEnter->RenderingBlockOff();
+		CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
+		blinkscript->SwitchOn();
+
 		mbIsDeadBgOn = true;
 	}
 

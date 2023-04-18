@@ -51,8 +51,8 @@ namespace dru
 		}
 
 		{
-			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mGrunt1->SetPos(mGrunt1DefaultPos);
+			//mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			//mGrunt1->SetPos(mGrunt1DefaultPos);
 		}
 
 		CreateOutWall();
@@ -82,8 +82,8 @@ namespace dru
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
-		mGrunt1->SetPos(mGrunt1DefaultPos);
-		mGrunt1->GetScript<CMonsterScript>()->Reset();
+		//mGrunt1->SetPos(mGrunt1DefaultPos);
+		//mGrunt1->GetScript<CMonsterScript>()->Reset();
 	}
 
 	void CStage2::NotReadyOperate()
@@ -117,26 +117,26 @@ namespace dru
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
 			LeftOutWall->SetPos(Vector3(-8.2f, 0.f, 4.999f));
-			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 100.f));
 		}
 
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
 			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
-			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 100.f));
 		}
 
 		{
 			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
 			UpOutWall->SetPos(Vector3(0.f, 18.f, 4.999f));
-			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+			UpOutWall->SetColliderScale(Vector2(100.f, 0.5f));
 		}
 
 		{
 			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
 			DownOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
-			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+			DownOutWall->SetColliderScale(Vector2(100.f, 0.5f));
 		}
 	}
 
@@ -157,8 +157,9 @@ namespace dru
 
 		{
 			CStair* stair = object::Instantiate<CStair>(eLayerType::Platforms, L"stair");
-			stair->SetPos(Vector3(0.f, 0.f, 3.f));
-			stair->SetColliderScale({ 1.f, 1.f });
+			stair->SetPos(Vector3(-3.f, -2.5f, 3.f));
+//			stair->GetComponent<CTransform>()->SetRotationZ(45.f);
+			stair->SetColliderScale({ 3.f, 1.f });
 		}
 	}
 

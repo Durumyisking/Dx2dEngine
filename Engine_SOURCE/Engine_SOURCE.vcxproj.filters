@@ -401,6 +401,9 @@
     <ClInclude Include="Stair.h">
       <Filter>GameObj\Platforms</Filter>
     </ClInclude>
+    <ClInclude Include="BlinkScript.h">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -622,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="Stair.cpp">
       <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinkScript.cpp">
+      <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

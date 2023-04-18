@@ -21,6 +21,12 @@ namespace dru
 			Dead,
 		};
 
+		struct Blink
+		{
+			bool IsBlink;
+			float BlinkTimer;
+		};
+
 
 	public:
 		CGameObj();
@@ -167,6 +173,16 @@ namespace dru
 
 		bool MoveToTarget_Smooth_bool(CGameObj* _target, float _speed, bool _zOn, eDir _dir = eDir::END);
 		Vector3 MoveToTarget_Smooth_vector3(CGameObj* _target, float _speed, bool _zOn, eDir _dir = eDir::END);
+
+		CGameObj* GetParent() 
+		{
+			CTransform* tr = GetComponent<CTransform>()->GetParent();
+			if (nullptr != tr)
+			{
+				return tr->GetOwner();
+			}
+			return nullptr; 
+		}
 
 	protected:
 		std::vector<CComponent*> mComponents;

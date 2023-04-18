@@ -214,9 +214,7 @@ namespace dru
 	{
 		for (CGameObj* obj : mOpaqueGameObjects)
 		{
-			if(nullptr == obj)
-				continue;
-			if(!obj->IsRenderingBlock())
+			if (renderPassCheck(obj))
 				obj->render();
 
 		}
@@ -226,9 +224,7 @@ namespace dru
 	{
 		for (CGameObj* obj : mCutoutGameObjects)
 		{
-			if (nullptr == obj)
-				continue;
-			if (!obj->IsRenderingBlock())
+			if (renderPassCheck(obj))
 				obj->render();
 
 		}
@@ -238,9 +234,7 @@ namespace dru
 	{
 		for (CGameObj* obj : mTransparentGameObjects)
 		{
-			if (nullptr == obj)
-				continue;
-			if (!obj->IsRenderingBlock())
+			if(renderPassCheck(obj))
 				obj->render();
 		}
 	}
@@ -270,6 +264,21 @@ namespace dru
 		default:
 			break;
 		}
+	}
+
+	bool CCamera::renderPassCheck(CGameObj* _obj)
+	{
+		if (nullptr == _obj)
+			return false;
+		if (_obj->IsRenderingBlock())
+			return false;
+		if (nullptr != _obj->GetParent())
+		{
+			if (_obj->GetParent()->IsRenderingBlock())
+				return false;
+		}
+
+		return true;
 	}
 
 }
