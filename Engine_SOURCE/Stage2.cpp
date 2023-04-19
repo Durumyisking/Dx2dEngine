@@ -157,7 +157,7 @@ namespace dru
 
 		{
 			CStair* stair = object::Instantiate<CStair>(eLayerType::Platforms, L"stair");
-			stair->SetPos(Vector3(0.f, -1.5f, 3.f));
+			stair->SetPos(Vector3(2.75f, -1.7f, 3.f));
 			stair->GetComponent<CTransform>()->SetRotationZ(45.f);
 			stair->SetColliderScale({ 5.f, 0.01f });
 		}

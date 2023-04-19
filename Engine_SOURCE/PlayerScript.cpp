@@ -217,6 +217,7 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			mbFirstAttack = true;
+			GetOwner()->GetComponent<CRigidBody>()->SetGround();
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -241,6 +242,7 @@ namespace dru
 		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
+			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 			GetOwner()->SetStairOff();
 		}
 

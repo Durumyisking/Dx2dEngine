@@ -178,6 +178,7 @@ namespace dru
 			mOnStair = false;
 			mMoveDegree = 0.f;
 		}
+		float GetSlope() const { return mMoveDegree; }
 
 		bool IsRenderingBlock() const { return mbBlockRendering; }
 		void RenderingBlockOn() { mbBlockRendering = true; }

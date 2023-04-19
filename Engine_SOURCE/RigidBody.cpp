@@ -116,11 +116,11 @@ namespace dru
 			if (GetOwner()->IsOnStair())
 			{
 				float slope = GetOwner()->GetSlope();
-				RotateZ(Dir, slope);
+				mVelocity = RotateZ(mVelocity, slope);
 			}
 
 			Vector3 Pos = GetOwner()->GetPos();
-
+			
 			Pos.x += mVelocity.x * CTimeMgr::DeltaTime();
 
 			if (!(!mbOnAir && mVelocity.y < 0.f))
