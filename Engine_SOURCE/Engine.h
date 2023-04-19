@@ -18,4 +18,4 @@
 
 #include "CommonInclude.h"
 #include "druEnums.h"
-
+#include "SimpleMath.h"

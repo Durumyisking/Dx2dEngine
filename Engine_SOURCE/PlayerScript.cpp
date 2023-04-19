@@ -165,6 +165,16 @@ namespace dru
 		{
 			collEnter_Floor();
 		}
+		else if (L"col_stair" == _oppo->GetName())
+		{
+			collEnter_Floor();
+
+			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
+			GetOwner()->SetStairOn(degree);
+
+
+		}
+
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			collEnter_Wall(_oppo);
@@ -229,6 +239,11 @@ namespace dru
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 		}
+		else if (L"col_stair" == _oppo->GetName())
+		{
+			GetOwner()->SetStairOff();
+		}
+
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = false;

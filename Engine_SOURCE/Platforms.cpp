@@ -31,7 +31,8 @@ namespace dru
 			break;
 		case dru::ePlatformType::Stair:
 			coll->SetName(L"col_stair");
-			coll->SetType(eColliderType::Line); // 라인으로 변경해야해
+//			coll->SetType(eColliderType::Line); // 라인으로 변경해야해
+			coll->SetType(eColliderType::Rect);
 			break;
 		case dru::ePlatformType::OutWall:
 			coll->SetName(L"col_outWall");

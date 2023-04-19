@@ -404,6 +404,9 @@
     <ClInclude Include="BlinkScript.h">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleMath.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -628,6 +631,9 @@
     </ClCompile>
     <ClCompile Include="BlinkScript.cpp">
       <Filter>GameObj\Scripts%28ETC%29</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMath.cpp">
+      <Filter>Common\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

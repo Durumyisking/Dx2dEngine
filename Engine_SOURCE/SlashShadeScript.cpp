@@ -120,10 +120,8 @@ namespace dru
 		Vector3 rotation = mTrans->GetRotation();
 
 		// x축과 mousepos <-> slashobj 각도 받음 라디안
-		rotation.z = atan2(mTargetPos.y - mPos.y, mTargetPos.x - mPos.x);
-		// radian to degree
-		rotation.z = rotation.z * 180 / XM_PI;
-		// 인자로 degree 넣음
+		rotation.z  = toDegree(GetRadianFromTwoPointZ(mTargetPos, mPos));
+
 		mTrans->SetRotation(rotation);
 	}
 

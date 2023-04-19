@@ -4,6 +4,7 @@ namespace dru
 {
 	CStair::CStair()
 		: CPlatforms(ePlatformType::Stair)
+		, mSlopeDegree(0.f)
 	{
 	}
 
@@ -18,6 +19,8 @@ namespace dru
 
 	void CStair::update()
 	{
+		mSlopeDegree =  GetComponent<CTransform>()->GetRotation().z;
+
 		CGameObj::update();
 	}
 

@@ -15,6 +15,10 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		float GetDegree() const { return mSlopeDegree; }
+
+	private:
+		float mSlopeDegree;
 	};
 
 }

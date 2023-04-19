@@ -227,6 +227,7 @@
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="SlashScript.h" />
     <ClInclude Include="SlashShadeScript.h" />
     <ClInclude Include="SpriteRenderer.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SimpleMath.cpp" />
     <ClCompile Include="SlashScript.cpp" />
     <ClCompile Include="SlashShadeScript.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />

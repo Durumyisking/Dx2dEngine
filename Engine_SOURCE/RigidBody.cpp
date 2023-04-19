@@ -112,6 +112,13 @@ namespace dru
 
 			Dir.Normalize();
 
+			// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
+			if (GetOwner()->IsOnStair())
+			{
+				float slope = GetOwner()->GetSlope();
+				RotateZ(Dir, slope);
+			}
+
 			Vector3 Pos = GetOwner()->GetPos();
 
 			Pos.x += mVelocity.x * CTimeMgr::DeltaTime();
