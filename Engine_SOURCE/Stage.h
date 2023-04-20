@@ -74,6 +74,10 @@ namespace dru
 
         void CreateDeadUI();
 
+        void TimerBarOperate();
+        void TimerBarScaling(float _Ratio);
+
+        bool GetPlayerState(ePlayerState _State);
         
 
     protected:
@@ -96,6 +100,11 @@ namespace dru
 
         UINT mBulletTimeGaugePrev;
         UINT mBulletTimeGaugeCurrent;
+
+        Vector3 mDefaultTimerBarPos;
+        Vector3 mDefaultTimerBarScale;
+        float mTimer;
+        float mElapsedTime;
 
     private:
         CGameObj* mKeyEnter;

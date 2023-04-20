@@ -75,5 +75,15 @@ namespace dru
 		CGameObj::render();
 	}
 
+	void CPlayer::PushFrameCpaturedData()
+	{
+		// ¿ªÀç»ý
+		FrameCapturedData* Data = new FrameCapturedData();
+		Data->Position = GetComponent<CTransform>()->GetPosition();
+		Data->Texture = GetComponent<CMaterial>()->GetTexture();
+		Data->TextureScale = GetComponent<CTransform>()->GetScale();
+		mFrameCaptureData.push_back(Data);
+	}
+
 
 }

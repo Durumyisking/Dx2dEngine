@@ -45,6 +45,8 @@ namespace dru
         bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
         void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
 
+        void PlayerDead();
+
         void Reset();
 
     private:

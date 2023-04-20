@@ -16,5 +16,6 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		virtual void PushFrameCpaturedData();
 	};
 }

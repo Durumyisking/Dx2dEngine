@@ -19,6 +19,10 @@ namespace dru
 		, mBulletTimeGaugePrev(10)
 		, mBulletTimeGaugeCurrent(10)
 		, mPlayerDefaultPos{}
+		, mDefaultTimerBarPos{}
+		, mDefaultTimerBarScale{}
+		, mTimer(10.f)
+		, mElapsedTime(0.f)
 
 	{
 	}
@@ -118,6 +122,7 @@ namespace dru
 
 			mHudTimerBar->SetPos(Vector3(0.228f, 4.248f, 1.f));
 			mHudTimerBar->SetScale(Vector3(0.275f, 0.275f, 1.f));
+
 
 		}
 
@@ -238,13 +243,15 @@ namespace dru
 
 	void CStage::LoadUIOperate()
 	{
+		mDefaultTimerBarPos = mHudTimerBar->GetPos();
+		mDefaultTimerBarScale = mHudTimerBar->GetScale();
 		mStageState = eStageState::LoadEnd;
 	}
 
 	void CStage::LoadEndOperate()
 	{
-		CPlayerScript* playerscript = mPlayer->GetScript<CPlayerScript>();
-		bool state = playerscript->GetPlayerState(ePlayerState::Dead);
+
+		bool state = GetPlayerState(ePlayerState::Dead);
 		if (state)
 		{
 			if (!mbIsDeadBgOn)
@@ -266,6 +273,10 @@ namespace dru
 				Reset();
 			}
 		}
+
+		mElapsedTime += CTimeMgr::DeltaTime();
+		TimerBarOperate();
+
 	}
 
 
@@ -332,4 +343,37 @@ namespace dru
 		mbIsDeadBgOn = true;
 	}
 
+	void CStage::TimerBarOperate()
+	{
+		// 시간 넘어가면 플레이어 사망처리
+
+		bool state = GetPlayerState(ePlayerState::Dead);
+		if (mElapsedTime >= mTimer && false == state)
+		{
+			mPlayer->GetScript<CPlayerScript>()->PlayerDead();
+			return;
+		}
+
+		// UI
+		float Ratio = 1 - mElapsedTime / mTimer;
+		if (Ratio >= 0.0f)
+		{
+			TimerBarScaling(Ratio);
+		}
+	}
+
+	void CStage::TimerBarScaling(float _Ratio)
+	{
+	
+		float NewX = mDefaultTimerBarScale.x * _Ratio;
+		mHudTimerBar->GetComponent<CTransform>()->SetScale({ NewX, mDefaultTimerBarScale.y , mDefaultTimerBarScale.z });
+		mHudTimerBar->GetComponent<CTransform>()->SetPosition({ mDefaultTimerBarPos.x - (mDefaultTimerBarScale.x - NewX) * 0.5f, mDefaultTimerBarPos.y, mDefaultTimerBarPos.z });
+	}
+	bool CStage::GetPlayerState(ePlayerState _State)
+	{
+		CPlayerScript* playerscript = mPlayer->GetScript<CPlayerScript>();
+		bool state = playerscript->GetPlayerState(_State);
+
+		return state;
+	}
 }

@@ -279,6 +279,14 @@ namespace dru
 	{
 	}
 
+	void CPlayerScript::PlayerDead()
+	{
+		mState.reset();
+		mState[(UINT)ePlayerState::Dead] = true;
+		mAnimator->Play(L"Player_Dead", false);
+		mbInputBlock = true;
+	}
+
 	void CPlayerScript::Reset()
 	{
 		mHitTimer = 0.f;

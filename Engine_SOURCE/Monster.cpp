@@ -48,6 +48,9 @@ namespace dru
 	{
 		CGameObj::render();
 	}
+	void CMonster::PushFrameCpaturedData()
+	{
+	}
 	void CMonster::AddRay()
 	{
 		if (!mRay)

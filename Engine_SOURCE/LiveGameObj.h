@@ -3,6 +3,19 @@
 
 namespace dru
 {
+
+	struct FrameCapturedData
+	{
+	public:
+		FrameCapturedData() : Texture(nullptr), TextureScale(Vector3::Zero) {};
+		~FrameCapturedData() {};
+
+		std::shared_ptr<CTexture> Texture;
+		Vector3 Position;
+		Vector3 TextureScale;
+
+	};
+
     class CLiveGameObj :
         public CGameObj
     {
@@ -14,6 +27,7 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void PushFrameCpaturedData() = 0;
 
 
 		bool IsOnStair() { return mOnStair; }
@@ -29,9 +43,13 @@ namespace dru
 		}
 		float GetSlope() const { return mMoveDegree; }
 
-	public:
+	protected:
+		std::vector<FrameCapturedData*> mFrameCaptureData;
+		bool mbReWind;
+
 		bool mOnStair;
 		float mMoveDegree;
+
 
     };
 

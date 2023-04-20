@@ -4,7 +4,9 @@
 namespace dru
 {
 	CLiveGameObj::CLiveGameObj()
-		: mOnStair(false)
+		: mFrameCaptureData{}
+		, mbReWind(false)
+		, mOnStair(false)
 		, mMoveDegree(0.f)
 	{
 	}

@@ -19,6 +19,7 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void PushFrameCpaturedData();
 
 		void AddRay();
 		void SetRayPos();
