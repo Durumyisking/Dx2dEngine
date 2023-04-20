@@ -407,6 +407,9 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>Common\Math</Filter>
     </ClInclude>
+    <ClInclude Include="LiveGameObj.h">
+      <Filter>GameObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -634,6 +637,9 @@
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveGameObj.cpp">
+      <Filter>GameObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

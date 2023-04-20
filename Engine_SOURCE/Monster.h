@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObj.h"
+#include "LiveGameObj.h"
 #include "Animator.h"
 #include "MonsterScript.h"
 #include "RigidBody.h"
@@ -9,7 +9,7 @@
 namespace dru
 {
     class CMonster :
-        public CGameObj
+        public CLiveGameObj
     {
 	public:
 		CMonster();

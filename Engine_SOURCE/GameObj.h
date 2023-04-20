@@ -167,19 +167,7 @@ namespace dru
 		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
-		bool IsOnStair() { return mOnStair; }
-		void SetStairOn(float _moveDegree) 
-		{
-			mOnStair = true;
-			mMoveDegree = _moveDegree;
-		}
-		void SetStairOff() 
-		{
-			mOnStair = false;
-			mMoveDegree = 0.f;
-		}
-		float GetSlope() const { return mMoveDegree; }
-
+		
 		bool IsRenderingBlock() const { return mbBlockRendering; }
 		void RenderingBlockOn() { mbBlockRendering = true; }
 		void RenderingBlockOff() { mbBlockRendering = false; }
@@ -209,9 +197,6 @@ namespace dru
 
 		bool mbIsLeft;
 		bool mbBlockRendering;
-
-		bool mOnStair;
-		float mMoveDegree;
 
 	};
 

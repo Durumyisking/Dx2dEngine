@@ -2,11 +2,13 @@
 #include "Entity.h"
 #include "druMath.h"
 
+
 namespace dru
 {
 	using namespace enums;
 
 	class CGameObj;
+	class CLiveGameObj;
 	class CComponent : public CEntity
 	{
 	public:
@@ -24,6 +26,7 @@ namespace dru
 
 		void SetOwner(CGameObj* _Owner) { mOwner = _Owner; }
 		CGameObj* GetOwner() { return mOwner; }
+		CLiveGameObj* GetOwner_LiveObject();
 
 		template <typename T>
 		T* GetOwnerType()

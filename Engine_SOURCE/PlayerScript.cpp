@@ -1,6 +1,7 @@
 ﻿#include "PlayerScript.h"
 #include "Transform.h"
 #include "GameObj.h"
+#include "LiveGameObj.h"
 #include "Input.h"
 #include "TimeMgr.h"
 #include "RigidBody.h"
@@ -170,7 +171,7 @@ namespace dru
 			collEnter_Floor();
 
 			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
-			GetOwner()->SetStairOn(degree);
+			GetOwner_LiveObject()->SetStairOn(degree);
 
 
 		}
@@ -243,7 +244,7 @@ namespace dru
 		else if (L"col_stair" == _oppo->GetName())
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
-			GetOwner()->SetStairOff();
+			GetOwner_LiveObject()->SetStairOff();
 		}
 
 		else if (L"col_wall" == _oppo->GetName())

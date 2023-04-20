@@ -151,20 +151,47 @@ namespace dru
 
 		{
 			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
-			Ceiling->SetPos(Vector3(-5.625f, -0.65f, 3.f));
+			Ceiling->SetPos(Vector3(-5.7f, -0.65f, 3.f));
 			Ceiling->SetColliderScale({ 10.f, 0.1f });
 		}
 
 		{
 			CStair* stair = object::Instantiate<CStair>(eLayerType::Platforms, L"stair");
-			stair->SetPos(Vector3(2.75f, -1.7f, 3.f));
+			stair->SetPos(Vector3(2.65f, -1.9f, 3.f));
 			stair->GetComponent<CTransform>()->SetRotationZ(45.f);
-			stair->SetColliderScale({ 5.f, 0.01f });
+			stair->SetColliderScale({ 5.5f, 0.01f });
 		}
 	}
 
 	void CStage2::CreateSecondFloor()
 	{
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-11.5f, -0.11f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
+
+		}
+
+		{
+			CStair* stair = object::Instantiate<CStair>(eLayerType::Platforms, L"stair");
+			stair->SetPos(Vector3(-1.025f, -0.29f, 3.f));
+			stair->GetComponent<CTransform>()->SetRotationZ(-45.f);
+			stair->SetColliderScale({ 1.f, 0.01f });
+		}
+
+
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(14.75f, -0.11f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
+
+		}
+
+		{
+			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+			Ceiling->SetPos(Vector3(-5.625f, 5.f, 3.f));
+			Ceiling->SetColliderScale({ 10.f, 0.1f });
+		}
 	}
 
 }

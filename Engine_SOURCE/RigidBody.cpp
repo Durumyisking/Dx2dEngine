@@ -112,12 +112,12 @@ namespace dru
 
 			Dir.Normalize();
 
-			// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
-			if (GetOwner()->IsOnStair())
-			{
-				float slope = GetOwner()->GetSlope();
-				mVelocity = RotateZ(mVelocity, slope);
-			}
+			//// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
+			//if (GetOwner()->IsOnStair())
+			//{
+			//	float slope = GetOwner()->GetSlope();
+			//	mVelocity = RotateZ(mVelocity, slope);
+			//}
 
 			Vector3 Pos = GetOwner()->GetPos();
 			

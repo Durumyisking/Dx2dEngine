@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObj.h"
+#include "LiveGameObj.h"
 
 namespace dru
 {
 	class CPlayer :
-		public CGameObj
+		public CLiveGameObj
 	{
 
 	public:
