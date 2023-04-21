@@ -4,6 +4,9 @@
 #include <Windows.h>
 
 #include <vector>
+#include <queue>
+#include <stack>
+
 #include <list>
 #include <map>
 #include <bitset>

@@ -28,6 +28,7 @@ namespace dru
         virtual void Exit();
 
         virtual void Reset();
+        virtual void AddStartingLiveObjects();
 
         virtual void NotReadyOperate();
         virtual void ReadyOperate();

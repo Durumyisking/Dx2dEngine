@@ -5,7 +5,7 @@ namespace dru
 {
 	CLiveGameObj::CLiveGameObj()
 		: mFrameCaptureData{}
-		, mbReWind(false)
+		, mbRewind(false)
 		, mOnStair(false)
 		, mMoveDegree(0.f)
 	{
@@ -17,22 +17,74 @@ namespace dru
 
 	void CLiveGameObj::Initialize()
 	{
-		CGameObj::Initialize();
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+			comp->Initialize();
+		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
+		}
 	}
 
 	void CLiveGameObj::update()
 	{
-		CGameObj::update();
+		if (mbRewind)
+		{
+			RewindOperate();
+		}
+
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+			comp->update();
+		}
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->update();
+		}
 	}
 
 	void CLiveGameObj::fixedUpdate()
 	{
-		CGameObj::fixedUpdate();
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+			comp->fixedUpdate();
+		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->fixedUpdate();
+		}
 	}
 
 	void CLiveGameObj::render()
 	{
-		CGameObj::render();
+		for (CComponent* comp : mComponents)
+		{
+			if (nullptr == comp)
+				continue;
+			comp->render();
+		}
+
+		for (CComponent* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->render();
+		}
 	}
 
 

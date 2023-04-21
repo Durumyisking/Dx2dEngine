@@ -90,6 +90,13 @@ namespace dru
 
 	void CStage1::Reset()
 	{
+	
+		CStage::Reset();
+
+	}
+
+	void CStage1::AddStartingLiveObjects()
+	{
 	}
 
 	void CStage1::NotReadyOperate()

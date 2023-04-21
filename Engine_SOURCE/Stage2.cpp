@@ -45,15 +45,7 @@ namespace dru
 		}
 
 
-		{
-			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(mPlayerDefaultPos);
-		}
-
-		{
-			//mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			//mGrunt1->SetPos(mGrunt1DefaultPos);
-		}
+		AddStartingLiveObjects();
 
 		CreateOutWall();
 		CreateFirstFloor();
@@ -84,6 +76,23 @@ namespace dru
 
 		mGrunt1->SetPos(mGrunt1DefaultPos);
 		mGrunt1->GetScript<CMonsterScript>()->Reset();
+
+		CStage::Reset();
+	}
+
+	void CStage2::AddStartingLiveObjects()
+	{
+		{
+			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
+			mPlayer->SetPos(mPlayerDefaultPos);
+			mRewindObjects.push_back(mPlayer);
+		}
+
+		{
+			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt1->SetPos(mGrunt1DefaultPos);
+			mRewindObjects.push_back(mGrunt1);
+		}
 	}
 
 	void CStage2::NotReadyOperate()

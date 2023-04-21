@@ -143,6 +143,12 @@ namespace dru
 	}
 	void CStageTutorial::Reset()
 	{
+	
+		
+		CStage::Reset();
+	}
+	void CStageTutorial::AddStartingLiveObjects()
+	{
 	}
 	void CStageTutorial::NotReadyOperate()
 	{

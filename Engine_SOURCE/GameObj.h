@@ -13,6 +13,7 @@ namespace dru
 	using namespace math;
 	class CGameObj : public CEntity
 	{
+		friend class CLiveGameObj;
 	public:
 		enum class eState
 		{

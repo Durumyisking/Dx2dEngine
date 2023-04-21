@@ -68,7 +68,8 @@ namespace dru
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
 
-        virtual void Reset() = 0;
+        virtual void Reset();
+        virtual void AddStartingLiveObjects() = 0;
 
         void BulletTimeBatteryOperation();
 
@@ -79,6 +80,10 @@ namespace dru
 
         bool GetPlayerState(ePlayerState _State);
         
+        void RewindStart();
+        void Rewinding();
+        bool RewindEndCheck();
+        void RewindEnd();
 
     protected:
         CScene* mScene;
@@ -105,6 +110,11 @@ namespace dru
         Vector3 mDefaultTimerBarScale;
         float mTimer;
         float mElapsedTime;
+
+        bool mbRewinding;
+        float mRewindTimer;
+
+        std::vector<CLiveGameObj*> mRewindObjects;
 
     private:
         CGameObj* mKeyEnter;

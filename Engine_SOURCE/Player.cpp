@@ -57,22 +57,27 @@ namespace dru
 
 	void CPlayer::Initialize()
 	{
-		CGameObj::Initialize();
+		CLiveGameObj::Initialize();
 	}
 
 	void CPlayer::update()
 	{
-		CGameObj::update();
+		CLiveGameObj::update();
+
+		if (!mbRewind)
+		{
+			PushFrameCpaturedData();
+		}
 	}
 
 	void CPlayer::fixedUpdate()
 	{
-		CGameObj::fixedUpdate();
+		CLiveGameObj::fixedUpdate();
 	}
 
 	void CPlayer::render()
 	{
-		CGameObj::render();
+		CLiveGameObj::render();
 	}
 
 	void CPlayer::PushFrameCpaturedData()
@@ -80,9 +85,21 @@ namespace dru
 		// ¿ªÀç»ý
 		FrameCapturedData* Data = new FrameCapturedData();
 		Data->Position = GetComponent<CTransform>()->GetPosition();
-		Data->Texture = GetComponent<CMaterial>()->GetTexture();
+		Data->Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
 		Data->TextureScale = GetComponent<CTransform>()->GetScale();
-		mFrameCaptureData.push_back(Data);
+		mFrameCaptureData.push(Data);
+	}
+
+	void CPlayer::RewindOperate()
+	{
+		if (mFrameCaptureData.empty())
+			mbRewind = false;
+		else
+		{
+			Vector3 p = mFrameCaptureData.top()->Position;
+			SetPos(p);
+			mFrameCaptureData.pop();
+		}
 	}
 
 

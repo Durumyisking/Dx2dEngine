@@ -29,6 +29,8 @@ namespace dru
 		virtual void render();
 		virtual void PushFrameCpaturedData() = 0;
 
+		virtual void RewindOperate() = 0;
+
 
 		bool IsOnStair() { return mOnStair; }
 		void SetStairOn(float _moveDegree)
@@ -43,9 +45,15 @@ namespace dru
 		}
 		float GetSlope() const { return mMoveDegree; }
 
+		void SetRewindOn() { mbRewind = true; }
+		void SetRewindOff() { mbRewind = false; }
+
+		bool IsRewinding() const { return mbRewind; };
+
+
 	protected:
-		std::vector<FrameCapturedData*> mFrameCaptureData;
-		bool mbReWind;
+		std::stack<FrameCapturedData*> mFrameCaptureData;
+		bool mbRewind;
 
 		bool mOnStair;
 		float mMoveDegree;

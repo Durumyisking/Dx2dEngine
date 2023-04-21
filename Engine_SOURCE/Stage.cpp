@@ -23,6 +23,9 @@ namespace dru
 		, mDefaultTimerBarScale{}
 		, mTimer(10.f)
 		, mElapsedTime(0.f)
+		, mbRewinding(false)
+		, mRewindTimer(0.f)
+		, mRewindObjects{}
 
 	{
 	}
@@ -250,33 +253,50 @@ namespace dru
 
 	void CStage::LoadEndOperate()
 	{
-
-		bool state = GetPlayerState(ePlayerState::Dead);
-		if (state)
+		if (mbRewinding)
 		{
-			if (!mbIsDeadBgOn)
+			Rewinding();
+		}
+		else
+		{
+			bool state = GetPlayerState(ePlayerState::Dead);
+			if (state)
 			{
-				CreateDeadUI();
+				if (!mbIsDeadBgOn)
+				{
+					CreateDeadUI();
+				}
+
+				if (CInput::GetKeyTap(eKeyCode::ENTER))
+				{
+					mDeadBg->RenderingBlockOn();
+					mKeyEnter->RenderingBlockOn();
+					mbIsDeadBgOn = false;
+
+					CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
+					blinkscript->SwitchOff();
+					
+					RewindStart();
+				}
+			}
+			else
+			{
+				mElapsedTime += CTimeMgr::DeltaTime();
+				TimerBarOperate();
 			}
 
-			if (CInput::GetKeyTap(eKeyCode::ENTER))
+			if (CInput::GetKeyTap(eKeyCode::R))
 			{
-				mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
-				mDeadBg->RenderingBlockOn();
-				mKeyEnter->RenderingBlockOn();
-				mbIsDeadBgOn = false;
-
-				CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
-				blinkscript->SwitchOff();
-
-
-				Reset();
+				RewindStart();
 			}
 		}
 
-		mElapsedTime += CTimeMgr::DeltaTime();
-		TimerBarOperate();
+	}
 
+	void CStage::Reset()
+	{
+
+		mElapsedTime = 0.f;
 	}
 
 
@@ -375,5 +395,42 @@ namespace dru
 		bool state = playerscript->GetPlayerState(_State);
 
 		return state;
+	}
+	void CStage::RewindStart()
+	{
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			mRewindObjects[i]->SetRewindOn();
+		}
+
+		mbRewinding = true;
+	}
+	void CStage::Rewinding()
+	{
+		if(RewindEndCheck())
+			RewindEnd();
+
+	}
+	bool CStage::RewindEndCheck()
+	{
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			if (mRewindObjects[i]->IsRewinding())
+				return false;
+		}
+
+		return true;
+	}
+	void CStage::RewindEnd()
+	{
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			mRewindObjects[i]->SetRewindOff();
+		}
+
+		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+		Reset();
+
+		mbRewinding = false;
 	}
 }

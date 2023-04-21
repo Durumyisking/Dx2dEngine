@@ -29,28 +29,42 @@ namespace dru
 	{
 
 		AddRay();
-		CGameObj::Initialize();
+		CLiveGameObj::Initialize();
 	}
 
 	void CMonster::update()
 	{
 		SetRayPos();
 		 
-		CGameObj::update();
+		CLiveGameObj::update();
 	}
 
 	void CMonster::fixedUpdate()
 	{
-		CGameObj::fixedUpdate();
+		CLiveGameObj::fixedUpdate();
 	}
 
 	void CMonster::render()
 	{
-		CGameObj::render();
+		CLiveGameObj::render();
 	}
+
 	void CMonster::PushFrameCpaturedData()
 	{
 	}
+
+	void CMonster::RewindOperate()
+	{
+		if (mFrameCaptureData.empty())
+			mbRewind = false;
+		else
+		{
+			Vector3 p = mFrameCaptureData.top()->Position;
+			SetPos(p);
+			mFrameCaptureData.pop();
+		}
+	}
+
 	void CMonster::AddRay()
 	{
 		if (!mRay)
@@ -63,7 +77,6 @@ namespace dru
 	{
 		if (mRay)
 		{
-
 			Vector3 vPos = GetPos();
 			float ScaleX = mRay->GetScale().x;
 			if (IsLeft())

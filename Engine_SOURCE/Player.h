@@ -17,5 +17,6 @@ namespace dru
 		virtual void render();
 
 		virtual void PushFrameCpaturedData();
+		virtual void RewindOperate();
 	};
 }
