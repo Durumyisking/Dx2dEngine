@@ -20,7 +20,7 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 		virtual void PushFrameCpaturedData();
-		virtual void RewindOperate();
+		virtual void RewindOperate(float _ElapsedTime);
 
 
 		void AddRay();
@@ -28,7 +28,7 @@ namespace dru
 		CMonsterRay* GetRay() const { return mRay; }
 		bool IsMonsterDead();
 
-
+		void Disable();
 
 		void SetRayDie() 
 		{

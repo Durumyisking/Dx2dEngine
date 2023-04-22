@@ -53,6 +53,7 @@ namespace dru
             }
         }
 
+
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 
         mAccumulatedTime += mDeltaTime;

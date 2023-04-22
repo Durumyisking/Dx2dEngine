@@ -17,6 +17,6 @@ namespace dru
 		virtual void render();
 
 		virtual void PushFrameCpaturedData();
-		virtual void RewindOperate();
+		virtual void RewindOperate(float _ElapsedTime);
 	};
 }

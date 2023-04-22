@@ -1,6 +1,5 @@
 #include "LiveGameObj.h"
 
-
 namespace dru
 {
 	CLiveGameObj::CLiveGameObj()
@@ -13,6 +12,10 @@ namespace dru
 
 	CLiveGameObj::~CLiveGameObj()
 	{
+		while (!mFrameCaptureData.empty())
+		{
+			mFrameCaptureData.pop();
+		}
 	}
 
 	void CLiveGameObj::Initialize()
@@ -36,7 +39,9 @@ namespace dru
 	{
 		if (mbRewind)
 		{
-			RewindOperate();
+			CSceneMain* scene =  dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			CStage* stage =  scene->GetCurrentStage();	
+			RewindOperate(stage->GetElapsedTime());
 		}
 
 		for (CComponent* comp : mComponents)

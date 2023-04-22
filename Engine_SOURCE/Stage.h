@@ -85,6 +85,8 @@ namespace dru
         bool RewindEndCheck();
         void RewindEnd();
 
+        float GetElapsedTime() const { return mElapsedTime; };
+
     protected:
         CScene* mScene;
         CBackgroundColor* mDeadBg;

@@ -29,7 +29,7 @@ namespace dru
 		virtual void render();
 		virtual void PushFrameCpaturedData() = 0;
 
-		virtual void RewindOperate() = 0;
+		virtual void RewindOperate(float _ElapsedTime) = 0;
 
 
 		bool IsOnStair() { return mOnStair; }
@@ -52,7 +52,7 @@ namespace dru
 
 
 	protected:
-		std::stack<FrameCapturedData*> mFrameCaptureData;
+		std::stack<FrameCapturedData> mFrameCaptureData;
 		bool mbRewind;
 
 		bool mOnStair;

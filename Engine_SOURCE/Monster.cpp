@@ -37,6 +37,13 @@ namespace dru
 		SetRayPos();
 		 
 		CLiveGameObj::update();
+
+		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+
+		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		{
+			PushFrameCpaturedData();
+		}
 	}
 
 	void CMonster::fixedUpdate()
@@ -51,17 +58,38 @@ namespace dru
 
 	void CMonster::PushFrameCpaturedData()
 	{
+		FrameCapturedData Data = {};
+		Data.Position = GetComponent<CTransform>()->GetPosition();
+		Data.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
+		Data.TextureScale = GetComponent<CTransform>()->GetScale();
+		mFrameCaptureData.push(Data);
 	}
 
-	void CMonster::RewindOperate()
+	void CMonster::RewindOperate(float _ElapsedTime)
 	{
+
 		if (mFrameCaptureData.empty())
 			mbRewind = false;
 		else
 		{
-			Vector3 p = mFrameCaptureData.top()->Position;
+			Vector3 p = mFrameCaptureData.top().Position;
 			SetPos(p);
-			mFrameCaptureData.pop();
+
+
+			if (_ElapsedTime > 3.f)
+			{
+				int a = (_ElapsedTime / 3.f) + 1;
+
+				for (int i = 0; i < a; i++)
+				{
+					if (!mFrameCaptureData.empty())
+						mFrameCaptureData.pop();
+				}
+			}
+			else
+			{
+				mFrameCaptureData.pop();
+			}
 		}
 	}
 
@@ -99,5 +127,10 @@ namespace dru
 		}
 
 		return false;
+	}
+	void CMonster::Disable()
+	{
+		GetScript<CMonsterScript>()->Reset();
+		SetRayDie();
 	}
 }

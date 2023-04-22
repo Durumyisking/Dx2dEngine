@@ -21,7 +21,7 @@ namespace dru
 		, mPlayerDefaultPos{}
 		, mDefaultTimerBarPos{}
 		, mDefaultTimerBarScale{}
-		, mTimer(10.f)
+		, mTimer(20.f)
 		, mElapsedTime(0.f)
 		, mbRewinding(false)
 		, mRewindTimer(0.f)
@@ -398,9 +398,15 @@ namespace dru
 	}
 	void CStage::RewindStart()
 	{
+		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetRewindOn();
+
+			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();
+			}
 		}
 
 		mbRewinding = true;
@@ -429,8 +435,11 @@ namespace dru
 		}
 
 		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+		mPlayer->SetRight();
+		mPlayer->Flip();
 		Reset();
 
 		mbRewinding = false;
+
 	}
 }
