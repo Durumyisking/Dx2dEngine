@@ -259,6 +259,7 @@ namespace dru
 		}
 		else
 		{
+
 			bool state = GetPlayerState(ePlayerState::Dead);
 			if (state)
 			{
@@ -413,6 +414,7 @@ namespace dru
 	}
 	void CStage::Rewinding()
 	{
+	
 		if(RewindEndCheck())
 			RewindEnd();
 

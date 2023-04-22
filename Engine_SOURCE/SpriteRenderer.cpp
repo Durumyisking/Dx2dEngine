@@ -2,6 +2,7 @@
 #include "GameObj.h"
 #include "Transform.h"
 #include "Animator.h"
+#include "LiveGameObj.h"
 
 namespace dru
 {
@@ -40,7 +41,25 @@ namespace dru
 		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 
 		if (animator)
-			animator->Binds();
+		{
+			if (CGameObj::eObjectType::None == GetOwner()->GetObjectType())
+			{
+				animator->Binds();
+			}
+			else if (CGameObj::eObjectType::Live == GetOwner()->GetObjectType())
+			{
+				CLiveGameObj* liveObj = dynamic_cast<CLiveGameObj*>(GetOwner());
+				if (liveObj->IsRewinding())
+				{
+					renderer::AnimationCB data = liveObj->GetCurrentAnimData();
+					animator->BindSprite(data);
+				}
+				else
+				{
+					animator->Binds();
+				}
+			}
+		}
 		
 
 		GetMesh()->Render();

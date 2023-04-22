@@ -7,7 +7,9 @@ namespace dru
 		, mbRewind(false)
 		, mOnStair(false)
 		, mMoveDegree(0.f)
+		, mCurrentAnimData{}
 	{
+		mObjectType = eObjectType::Live;
 	}
 
 	CLiveGameObj::~CLiveGameObj()
@@ -37,13 +39,7 @@ namespace dru
 
 	void CLiveGameObj::update()
 	{
-		if (mbRewind)
-		{
-			CSceneMain* scene =  dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-			CStage* stage =  scene->GetCurrentStage();	
-			RewindOperate(stage->GetElapsedTime());
-		}
-
+	
 		for (CComponent* comp : mComponents)
 		{
 			if (nullptr == comp)
@@ -77,6 +73,13 @@ namespace dru
 
 	void CLiveGameObj::render()
 	{
+		if (mbRewind)
+		{
+			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			CStage* stage = scene->GetCurrentStage();
+			RewindOperate(stage->GetElapsedTime());
+		}
+
 		for (CComponent* comp : mComponents)
 		{
 			if (nullptr == comp)

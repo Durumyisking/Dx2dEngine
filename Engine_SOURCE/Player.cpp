@@ -63,12 +63,7 @@ namespace dru
 	void CPlayer::update()
 	{
 		CLiveGameObj::update();
-		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		
-		if ((eStageState::LoadEnd ==  scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
-		{
-			PushFrameCpaturedData();
-		}
+
 	}
 
 	void CPlayer::fixedUpdate()
@@ -78,6 +73,12 @@ namespace dru
 
 	void CPlayer::render()
 	{
+		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+
+		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		{
+			PushFrameCpaturedData();
+		}
 		CLiveGameObj::render();
 	}
 
@@ -86,7 +87,7 @@ namespace dru
 		FrameCapturedData Data = {};
 		Data.Position = GetComponent<CTransform>()->GetPosition();
 		Data.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		Data.TextureScale = GetComponent<CTransform>()->GetScale();
+		Data.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
 		mFrameCaptureData.push(Data);
 	}
 
@@ -97,6 +98,7 @@ namespace dru
 		else
 		{
 			Vector3 p = mFrameCaptureData.top().Position;
+			mCurrentAnimData = mFrameCaptureData.top().AnimData;
 			SetPos(p);
 
 

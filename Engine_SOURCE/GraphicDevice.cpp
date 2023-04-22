@@ -7,6 +7,11 @@
 #include "Texture.h"
 #include "Resources.h"
 
+#include <wincodec.h>
+//#include <winrt/Windows.Storage.Pickers.h>
+//#include <winrt/Windows.Storage.Streams.h>
+//#include <winrt/Windows.Foundation.Collections.h>
+
 extern dru::CApplication application;
 
 
@@ -444,8 +449,6 @@ namespace dru::graphics
 	{
 		mContext->OMSetBlendState(_pBlendState, nullptr, 0xffffff);
 	}
-
-
 
 
 	void CGraphicDevice::Clear()

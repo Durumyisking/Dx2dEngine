@@ -21,6 +21,12 @@ namespace dru
 			Paused,
 			Dead,
 		};
+		enum class eObjectType
+		{
+			None,
+			Live,
+		};
+
 
 		struct Blink
 		{
@@ -186,12 +192,15 @@ namespace dru
 			return nullptr; 
 		}
 
+		eObjectType GetObjectType() const { return mObjectType; }
+
 	protected:
 		std::vector<CComponent*> mComponents;
 
 
 	private:
 		eLayerType mType;
+		eObjectType mObjectType;
 		eState mState;
 		std::vector<CScript*> mScripts;
 		bool mbDestroy;

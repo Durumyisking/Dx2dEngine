@@ -139,6 +139,14 @@ namespace dru
 		mCurrentAnimation->BindShader();
 	}
 
+	void CAnimator::BindSprite(renderer::AnimationCB _Sprite)
+	{
+		if (!mCurrentAnimation)
+			return;
+
+		mCurrentAnimation->BindSpriteToShader(_Sprite);
+	}
+
 	void CAnimator::Reset()
 	{
 		mCurrentAnimation->Reset();

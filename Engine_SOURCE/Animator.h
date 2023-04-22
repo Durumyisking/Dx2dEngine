@@ -48,6 +48,7 @@ namespace dru
 		void Play(std::wstring _name, bool _bLoop = true);
 
 		void Binds();
+		void BindSprite(renderer::AnimationCB _Sprite);
 		void Reset();
 		void Clear();
 

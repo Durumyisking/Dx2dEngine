@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "Graphics.h"
 #include "Texture.h"
+#include "Renderer.h"
+
 
 using namespace dru::math;
 using namespace dru::graphics;
@@ -40,6 +42,7 @@ namespace dru
 
 		void Create(const std::wstring& _name, std::shared_ptr<CTexture> _atlas, Vector2 _leftTop, Vector2 _size, Vector2 _offset, UINT _spriteLength, Vector2 _Ratio, float _duration, bool _Reverse);
 		void BindShader();
+		void BindSpriteToShader(renderer::AnimationCB _Sprite);
 		void Clear();
 		void Reset();
 		void SetDuration(float _Value);
@@ -47,6 +50,8 @@ namespace dru
 		bool IsCompleted() { return mbComplete; }
 
 		std::wstring& GetAnimationName() { return mAnimationName; }
+
+		renderer::AnimationCB GetAnimationData();
 
 	private:
 		class CAnimator* mAnimator;

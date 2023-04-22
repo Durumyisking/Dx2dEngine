@@ -7,6 +7,7 @@ namespace dru
 	CGameObj::CGameObj()
 		:mState(eState::Active)
 		, mType(eLayerType::None)
+		, mObjectType(eObjectType::None)
 		, mScripts{}
 		, mbDestroy(false)
 		, mbIsLeft(false)

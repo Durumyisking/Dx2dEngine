@@ -10,6 +10,8 @@
 #pragma comment(lib, "../External/DirectXTex/lib/Release/DirectXTex.lib")
 #endif
 
+
+
 namespace dru::graphics
 {
 

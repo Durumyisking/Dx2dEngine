@@ -1,7 +1,6 @@
 #include "Animation.h"
 #include "TimeMgr.h"
-#include "Texture.h"
-#include "Renderer.h"
+
 
 namespace dru
 {
@@ -13,6 +12,7 @@ namespace dru
 		, mTime(0.f)
 		, mbComplete(false)
 		, mSpriteLength(0)
+		, mbReversePlay(false)
 	{
 
 	}
@@ -99,7 +99,7 @@ namespace dru
 
 	void CAnimation::BindShader()
 	{
-		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+		mAtlas->BindShaderResource(eShaderStage::PS, 12); // 아틀라스 srv에 바인딩
 
 		CConstantBuffer* cb =  renderer::constantBuffers[(UINT)eCBType::Animation];
 
@@ -114,6 +114,17 @@ namespace dru
 		cb->SetData(&data);
 		cb->Bind(eShaderStage::PS);
 	}
+
+	void CAnimation::BindSpriteToShader(renderer::AnimationCB _Sprite)
+	{
+		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
+
+		cb->SetData(&_Sprite);
+		cb->Bind(eShaderStage::PS);
+	}
+
 
 	void CAnimation::Clear()
 	{
@@ -147,6 +158,19 @@ namespace dru
 		{	
 			mSpriteSheet[i].duration = _Value;
 		}
+	}
+
+	renderer::AnimationCB CAnimation::GetAnimationData()
+	{
+		renderer::AnimationCB data = {};
+
+		data.type = (UINT)eAnimationType::SecondDimension;
+		data.LT = mSpriteSheet[mIndex].LT;
+		data.offset = mSpriteSheet[mIndex].offset;
+		data.size = mSpriteSheet[mIndex].size;
+		data.atlasSize = mSpriteSheet[mIndex].altasSize;
+
+		return data;
 	}
 
 }

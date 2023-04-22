@@ -1,18 +1,19 @@
 #pragma once
 #include "GameObj.h"
 
+
 namespace dru
 {
 
 	struct FrameCapturedData
 	{
 	public:
-		FrameCapturedData() : Texture(nullptr), TextureScale(Vector3::Zero) {};
+		FrameCapturedData() : Texture(nullptr), AnimData{} {};
 		~FrameCapturedData() {};
 
 		std::shared_ptr<CTexture> Texture;
 		Vector3 Position;
-		Vector3 TextureScale;
+		renderer::AnimationCB AnimData;
 
 	};
 
@@ -50,9 +51,12 @@ namespace dru
 
 		bool IsRewinding() const { return mbRewind; };
 
+		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
+
 
 	protected:
 		std::stack<FrameCapturedData> mFrameCaptureData;
+		renderer::AnimationCB mCurrentAnimData;
 		bool mbRewind;
 
 		bool mOnStair;

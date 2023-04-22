@@ -1,6 +1,5 @@
 #pragma once
 #include "Graphics.h"
-
 namespace dru::graphics
 {
 	class CGraphicDevice
@@ -63,7 +62,6 @@ namespace dru::graphics
 		void BindBlendState(ID3D11BlendState* _pBlendState);
 
 
-
 		void Clear();
 		void AdjustViewPorts();
 
@@ -77,6 +75,7 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> GetDeviceContext() const { return mContext; }
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
 
+		D3D11_VIEWPORT GetViewPort() const { return mViewPort; }
 		float ViewportWidth() { return (float)mViewPort.Width; }
 		float ViewportHeight() { return (float)mViewPort.Height; }
 

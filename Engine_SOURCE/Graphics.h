@@ -8,6 +8,12 @@
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
+#ifdef _DEBUG
+#pragma comment(lib, "../External/DirectXTK/lib/Debug/DirectXTK.lib")
+#else
+#pragma comment(lib, "../External/DirectXTK/lib/Release/DirectXTK.lib")
+#endif
+
 #define CB_GETBINDSLOT(name) __CBUFFERBINDSLOT__##name##__
 #define CBUFFER(name, slot) static const int CB_GETBINDSLOT(name) = slot; struct alignas(16) name
 
