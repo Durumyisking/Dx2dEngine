@@ -17,6 +17,8 @@ namespace dru
 		, mbStart(false)
 		, mChangeColorTimer(0.f)
 		, mbMagenta(false)
+		, mMagenta(Vector4(0.f, 1.f, 1.f, 0.5f))
+		, mSkyBlue(Vector4(1.f, 0.f, 1.f, 0.5f))
 	{
 	}
 
@@ -66,13 +68,13 @@ namespace dru
 			CSpriteRenderer* sprrenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 			if (!mbMagenta)
 			{
-				sprrenderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.5f));
+				sprrenderer->ChangeColor(mMagenta);
 				mbMagenta = true;
 
 			}
 			else
 			{
-				sprrenderer->ChangeColor(Vector4(0.f, 1.f, 1.f, 0.5f));
+				sprrenderer->ChangeColor(mSkyBlue);
 				mbMagenta = false;
 			}
 			mChangeColorTimer = 0.f;

@@ -289,6 +289,8 @@ namespace dru
 
 	void CPlayerScript::Reset()
 	{
+		SetAfterImageCount(10);
+
 		mHitTimer = 0.f;
 		mState.reset();
 		mState[(UINT)ePlayerState::Idle] = true;
@@ -320,6 +322,8 @@ namespace dru
 	}
 	void CPlayerScript::attacktoidleEnd()
 	{
+		SetAfterImageCount(10);
+
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
 			mState[(UINT)ePlayerState::Fall] = true;
@@ -366,6 +370,7 @@ namespace dru
 			mAnimator->Play(L"Player_RunToIdle", false);
 		}
 		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+		SetAfterImageCount(10);
 	}
 
 	void CPlayerScript::wallkickComplete()
@@ -530,13 +535,7 @@ namespace dru
 					if (CInput::GetKeyTap(eKeyCode::D))
 						GetOwner()->SetRight();
 
-
-					Vector3 vel = mRigidbody->GetMaxVelocity();
-					mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-					mState.reset();
-					mState[(UINT)ePlayerState::Roll] = true;
-					mAnimator->Play(L"Player_Roll", false);
-
+					rollStart();
 				}
 			}
 			else if (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D))
@@ -545,17 +544,22 @@ namespace dru
 				{
 					if (CInput::GetKeyTap(eKeyCode::S))
 					{
-						Vector3 vel = mRigidbody->GetMaxVelocity();
-						mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-						mState.reset();
-						mState[(UINT)ePlayerState::Roll] = true;
-						mAnimator->Play(L"Player_Roll", false);
+						rollStart();
 					}
 				}
 			}
-
 		}
 
+	}
+	void CPlayerScript::rollStart()
+	{
+		Vector3 vel = mRigidbody->GetMaxVelocity();
+		mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
+		mState.reset();
+		mState[(UINT)ePlayerState::Roll] = true;
+		mAnimator->Play(L"Player_Roll", false);
+
+		SetAfterImageCount(50);
 	}
 	void CPlayerScript::roll()
 	{
@@ -752,9 +756,9 @@ namespace dru
 
 		if (0.4f <= mAttackCooldown)
 		{
-
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{
+				SetAfterImageCount(30);
 				makeSlash();
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
@@ -1242,6 +1246,8 @@ namespace dru
 
 	void CPlayerScript::hit(Vector3& _enemyPos)
 	{
+		SetAfterImageCount(0);
+
 		if (mState[(UINT)ePlayerState::Roll] == false)
 		{
 			mState.reset();
@@ -1285,6 +1291,11 @@ namespace dru
 	bool CPlayerScript::NotowardToWallCheck_KeyDown()
 	{
 		return (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1)) || (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1));
+	}
+
+	void CPlayerScript::SetAfterImageCount(int _Count)
+	{
+		dynamic_cast<CPlayer*>(GetOwner())->SetAfterImageCount(_Count);
 	}
 
 }

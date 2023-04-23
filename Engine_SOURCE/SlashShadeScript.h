@@ -41,5 +41,8 @@ namespace dru
         float mChangeColorTimer;
         bool mbMagenta;
 
+        Vector4 mMagenta;
+        Vector4 mSkyBlue;
+
     };
 }

@@ -12,9 +12,21 @@ namespace dru
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
 
 
-		CResources::Insert<CMaterial>(L"PlayerMat", Material);
-
+		CResources::Insert<CMaterial>(L"PlayerMatAfterImage", Material);
 		Renderer->SetMaterial(Material);
+
+		void* p = new int();
+		srand((int)p);
+		int randvalue = rand() % 2;
+		if (0 == randvalue)
+		{
+			Renderer->ChangeColor(Vector4(0.f, 1.f, 1.f, 0.05f));
+		}
+		else if(1 == randvalue)
+		{
+			Renderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.05f));
+		}
+		delete p;
 		Renderer->SetAfterImageOwner(this);
 
 		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);

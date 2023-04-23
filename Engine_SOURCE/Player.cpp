@@ -12,7 +12,7 @@ namespace dru
 {
 	CPlayer::CPlayer()
 		:mAfterImages{}
-		, mAfterImageCount(20)
+		, mAfterImageCount(10)
 	{
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
@@ -93,14 +93,7 @@ namespace dru
 
 	void CPlayer::render()
 	{
-		//CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-
-		//if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
-		//{
-		//	MakeFrameCaptureData();
-		//	PushFrameCapturedData();
-		//	MakeAfterImage();
-		//}
+		
 		CLiveGameObj::render();
 	}
 
@@ -153,6 +146,19 @@ namespace dru
 		}
 	}
 
+	void CPlayer::SetAfterImageCount(int _Count)
+	{
+		mAfterImageCount = _Count; 
+
+		// 잔상 한번에 제거
+		/*while (mAfterImages.size() > mAfterImageCount)
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop();
+		}*/
+
+	}
+
 	void CPlayer::MakeAfterImage()
 	{
 		// 잔상 생성
@@ -180,14 +186,19 @@ namespace dru
 
 	void CPlayer::SetAfterImage(CPlayerAfterImage* _AfterImage)
 	{
+
+
 		if (mAfterImageCount >= mAfterImages.size())
 		{
 			mAfterImages.push(_AfterImage);
 		}
 		else
 		{
+			mAfterImages.front()->Die(); // 두개씩 빼야지 50에서 10됐을때 다시 돌아감 (한번에 빼면 잔상 한번에 사라져서 안이쁨)
+			mAfterImages.pop();
 			mAfterImages.front()->Die();
 			mAfterImages.pop();
+
 			mAfterImages.push(_AfterImage);
 		}
 	}

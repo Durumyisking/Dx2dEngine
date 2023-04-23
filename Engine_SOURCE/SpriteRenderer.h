@@ -16,6 +16,7 @@ namespace dru
 		virtual void update() override;
 		virtual void fixedUpdate() override;
 		virtual void render() override;
+
 	};
 
 }

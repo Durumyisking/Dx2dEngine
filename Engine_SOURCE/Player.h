@@ -22,8 +22,7 @@ namespace dru
 		virtual void MakeFrameCaptureData();
 
 		void RemoveAfterImage();
-		void SetAfterImageCount(int _Count) { mAfterImageCount = _Count; }
-
+		void SetAfterImageCount(int _Count);
 	private:
 		void MakeAfterImage();
 		void FlipAfterImage(CPlayerAfterImage* _AfterImage);

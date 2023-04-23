@@ -29,6 +29,9 @@ float4 main(VTX_OUT _in) : SV_Target
         
     }
     
+    if(color.w == 0)
+        discard;
+    
     color *= cbxyzw1; // 곱할 색
     color += cbxyzw2; // 더할 색
      

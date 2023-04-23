@@ -83,6 +83,7 @@ namespace dru
         void crouch();
         void fall();
         void rollTrigger();
+        void rollStart();
         void roll();
         void jump();
         void wallSlide();
@@ -118,6 +119,8 @@ namespace dru
         bool towardToWallCheck_KeyDown();
         bool NotowardToWallCheck_KeyTap();
         bool NotowardToWallCheck_KeyDown();
+
+        void SetAfterImageCount(int _Count);
 
 
         CAnimator* mAnimator;
