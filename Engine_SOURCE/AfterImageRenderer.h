@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	class CPlayerAfterImage;
 	class CAfterImageRenderer :
 		public CBaseRenderer
 	{
@@ -15,8 +16,10 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-	//private:
-	//	CPlayerAfterImage* mAfterImageOwner;
+		void SetAfterImageOwner(CPlayerAfterImage* _Owner) { mAfterImageOwner = _Owner; }
+
+	private:
+		CPlayerAfterImage* mAfterImageOwner;
 	};
 
 }

@@ -400,6 +400,7 @@ namespace dru
 	void CStage::RewindStart()
 	{
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetRewindOn();

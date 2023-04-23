@@ -60,8 +60,9 @@ namespace dru
 
 	CPlayer::~CPlayer()
 	{
-		for (size_t i = 0; i < mAfterImages.size(); i++)
+		while (!mAfterImages.empty())
 		{
+			mAfterImages.front()->Die();
 			mAfterImages.pop();
 		}
 	}
@@ -73,8 +74,16 @@ namespace dru
 
 	void CPlayer::update()
 	{
-		CLiveGameObj::update();
+		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 
+		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		{
+			MakeFrameCaptureData();
+			PushFrameCapturedData();
+			MakeAfterImage();
+		}
+
+		CLiveGameObj::update();
 	}
 
 	void CPlayer::fixedUpdate()
@@ -84,38 +93,20 @@ namespace dru
 
 	void CPlayer::render()
 	{
-		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+		//CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 
-		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
-		{
-			MakeFrameCaptureData();
-			PushFrameCapturedData();
-
-
-			// 잔상 생성
-			CPlayerAfterImage* afterImage = object::Instantiate<CPlayerAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
-			// 위치 및 텍스처 데이터 삽입
-			afterImage->SetFrameCapturedData(mFrameCapture);
-
-			if (mAfterImageCount >= mAfterImages.size())
-			{
-				mAfterImages.push(afterImage);
-			}
-			else
-			{
-				mAfterImages.front()->Die();
-				mAfterImages.pop();
-				mAfterImages.push(afterImage);
-			}
-		}
+		//if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		//{
+		//	MakeFrameCaptureData();
+		//	PushFrameCapturedData();
+		//	MakeAfterImage();
+		//}
 		CLiveGameObj::render();
 	}
 
 	void CPlayer::PushFrameCapturedData()
 	{
 		mFrameCaptureData.push(mFrameCapture);
-
-
 	}
 
 	void CPlayer::RewindOperate(float _ElapsedTime)
@@ -153,9 +144,52 @@ namespace dru
 		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
 	}
 
-	void CPlayer::PushFrameCapturedDataToAfterImage()
+	void CPlayer::RemoveAfterImage()
 	{
+		while(!mAfterImages.empty())
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop();
+		}
+	}
 
+	void CPlayer::MakeAfterImage()
+	{
+		// 잔상 생성
+		CPlayerAfterImage* afterImage = object::Instantiate<CPlayerAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
+		afterImage->SetScale(Vector3(1.25f, 1.25f, 1.f));
+		// 위치 및 텍스처 데이터 삽입
+		FlipAfterImage(afterImage);
+		SetAfterImage(afterImage);
+	}
+
+	void CPlayer::FlipAfterImage(CPlayerAfterImage* _AfterImage)
+	{
+		_AfterImage->SetFrameCapturedData(mFrameCapture);
+
+		if (IsLeft())
+		{
+			_AfterImage->SetLeft();
+		}
+		else
+		{
+			_AfterImage->SetRight();
+		}
+		_AfterImage->Flip();
+	}
+
+	void CPlayer::SetAfterImage(CPlayerAfterImage* _AfterImage)
+	{
+		if (mAfterImageCount >= mAfterImages.size())
+		{
+			mAfterImages.push(_AfterImage);
+		}
+		else
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop();
+			mAfterImages.push(_AfterImage);
+		}
 	}
 
 

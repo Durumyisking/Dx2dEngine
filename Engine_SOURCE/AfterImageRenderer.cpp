@@ -1,7 +1,8 @@
 #include "AfterImageRenderer.h"
-//#include "Animator.h"
-//#include "Transform.h"
-//#include "PlayerAfterImage.h"
+#include "GameObj.h"
+#include "Transform.h"
+#include "Animator.h"
+#include "PlayerAfterImage.h"
 
 namespace dru
 {
@@ -31,27 +32,27 @@ namespace dru
 
 	void CAfterImageRenderer::render()
 	{
-		//GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
+		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 
-		//GetMesh()->BindBuffer();
-		//GetMaterial()->Bind();
-
-
-		//CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
-
-		//if (animator)
-		//{			
-		//	renderer::AnimationCB data = mAfterImageOwner->GetAnimCB();
-		//	animator->BindSprite(data);
-		//}
+		GetMesh()->BindBuffer();
+		GetMaterial()->Bind();
 
 
-		//GetMesh()->Render();
+		CAnimator* animator = GetOwner()->GetComponent<CAnimator>();
 
-		//GetMaterial()->Clear();
+		if (animator)
+		{			
+			renderer::AnimationCB data = mAfterImageOwner->GetAnimCB();
+			animator->BindSprite(data);
+		}
 
-		//if (animator)
-		//	animator->Clear();
+
+		GetMesh()->Render();
+
+		GetMaterial()->Clear();
+
+		if (animator)
+			animator->Clear();
 
 		CBaseRenderer::render();
 	}

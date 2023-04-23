@@ -1,8 +1,10 @@
 #pragma once
 #include "GameObj.h"
+#include "LiveGameObj.h"
 
 namespace dru
 {
+	class CPlayer;
     class CPlayerAfterImage :
         public CGameObj
     {
