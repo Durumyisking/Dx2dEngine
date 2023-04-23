@@ -19,8 +19,9 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-		virtual void PushFrameCpaturedData();
+		virtual void PushFrameCapturedData();
 		virtual void RewindOperate(float _ElapsedTime);
+		virtual void MakeFrameCaptureData();
 
 
 		void AddRay();

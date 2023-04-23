@@ -3,15 +3,22 @@
 #include "RigidBody.h"
 #include "Animator.h"
 #include "CameraScript.h"
+#include "PlayerAfterImage.h"
+#include "SceneMain.h"
+
+using namespace dru::object;
 
 namespace dru
 {
 	CPlayer::CPlayer()
+		:mAfterImages{}
+		, mAfterImageCount(20)
 	{
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
 
 		renderer::mainCamera->GetCamScript()->SetPlayer(this);
+
 
 		CRigidBody* rigidbody = this->AddComponent<CRigidBody>(eComponentType::RigidBody);
 
@@ -53,6 +60,10 @@ namespace dru
 
 	CPlayer::~CPlayer()
 	{
+		for (size_t i = 0; i < mAfterImages.size(); i++)
+		{
+			mAfterImages.pop();
+		}
 	}
 
 	void CPlayer::Initialize()
@@ -77,18 +88,34 @@ namespace dru
 
 		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
 		{
-			PushFrameCpaturedData();
+			MakeFrameCaptureData();
+			PushFrameCapturedData();
+
+
+			// 잔상 생성
+			CPlayerAfterImage* afterImage = object::Instantiate<CPlayerAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
+			// 위치 및 텍스처 데이터 삽입
+			afterImage->SetFrameCapturedData(mFrameCapture);
+
+			if (mAfterImageCount >= mAfterImages.size())
+			{
+				mAfterImages.push(afterImage);
+			}
+			else
+			{
+				mAfterImages.front()->Die();
+				mAfterImages.pop();
+				mAfterImages.push(afterImage);
+			}
 		}
 		CLiveGameObj::render();
 	}
 
-	void CPlayer::PushFrameCpaturedData()
+	void CPlayer::PushFrameCapturedData()
 	{
-		FrameCapturedData Data = {};
-		Data.Position = GetComponent<CTransform>()->GetPosition();
-		Data.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		Data.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
-		mFrameCaptureData.push(Data);
+		mFrameCaptureData.push(mFrameCapture);
+
+
 	}
 
 	void CPlayer::RewindOperate(float _ElapsedTime)
@@ -117,6 +144,18 @@ namespace dru
 				mFrameCaptureData.pop();
 			}
 		}
+	}
+
+	void CPlayer::MakeFrameCaptureData()
+	{
+		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
+		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
+		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
+	}
+
+	void CPlayer::PushFrameCapturedDataToAfterImage()
+	{
+
 	}
 
 

@@ -52,19 +52,15 @@ namespace dru
 
 		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
 		{
-			PushFrameCpaturedData();
+			MakeFrameCaptureData();
+			PushFrameCapturedData();
 		}
 		CLiveGameObj::render();
 	}
 
-	void CMonster::PushFrameCpaturedData()
+	void CMonster::PushFrameCapturedData()
 	{
-		FrameCapturedData Data = {};
-		Data.Position = GetComponent<CTransform>()->GetPosition();
-		Data.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		Data.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
-
-		mFrameCaptureData.push(Data);
+		mFrameCaptureData.push(mFrameCapture);
 	}
 
 	void CMonster::RewindOperate(float _ElapsedTime)
@@ -94,6 +90,13 @@ namespace dru
 				mFrameCaptureData.pop();
 			}
 		}
+	}
+
+	void CMonster::MakeFrameCaptureData()
+	{
+		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
+		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
+		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
 	}
 
 	void CMonster::AddRay()

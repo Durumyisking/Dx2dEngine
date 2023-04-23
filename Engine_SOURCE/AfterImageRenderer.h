@@ -1,21 +1,22 @@
 #pragma once
 #include "BaseRenderer.h"
-#include "Mesh.h"
-#include "Material.h"
 
 namespace dru
 {
-	 
-	class CSpriteRenderer : public CBaseRenderer
+	class CAfterImageRenderer :
+		public CBaseRenderer
 	{
 	public:
-		CSpriteRenderer();
-		virtual ~CSpriteRenderer();
+		CAfterImageRenderer();
+		virtual ~CAfterImageRenderer();
 
 		virtual void Initialize() override;
 		virtual void update() override;
 		virtual void fixedUpdate() override;
 		virtual void render() override;
+
+	//private:
+	//	CPlayerAfterImage* mAfterImageOwner;
 	};
 
 }

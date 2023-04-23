@@ -28,9 +28,10 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-		virtual void PushFrameCpaturedData() = 0;
+		virtual void PushFrameCapturedData() = 0;
 
 		virtual void RewindOperate(float _ElapsedTime) = 0;
+		virtual void MakeFrameCaptureData() = 0;
 
 
 		bool IsOnStair() { return mOnStair; }
@@ -56,6 +57,8 @@ namespace dru
 
 	protected:
 		std::stack<FrameCapturedData> mFrameCaptureData;
+		FrameCapturedData mFrameCapture;
+
 		renderer::AnimationCB mCurrentAnimData;
 		bool mbRewind;
 

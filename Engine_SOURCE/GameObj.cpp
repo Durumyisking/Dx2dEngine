@@ -147,6 +147,9 @@ namespace dru
 				case dru::enums::eLayerType::Player:
 					_Value.z = 3.f;
 					break;
+				case dru::enums::eLayerType::AfterImage:
+					_Value.z = 3.01f;
+					break;
 				case dru::enums::eLayerType::Platforms:
 					_Value.z = 4.9f;
 					break;

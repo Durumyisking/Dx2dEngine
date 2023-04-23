@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	class CPlayerAfterImage;
 	class CPlayer :
 		public CLiveGameObj
 	{
@@ -16,7 +17,16 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
-		virtual void PushFrameCpaturedData();
+		virtual void PushFrameCapturedData();
 		virtual void RewindOperate(float _ElapsedTime);
+		virtual void MakeFrameCaptureData();
+
+	private:
+		void PushFrameCapturedDataToAfterImage();
+
+
+	private:
+		std::queue<CPlayerAfterImage*> mAfterImages;
+		int mAfterImageCount;
 	};
 }

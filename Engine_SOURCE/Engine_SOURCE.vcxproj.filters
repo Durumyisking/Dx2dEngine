@@ -164,6 +164,12 @@
     <Filter Include="GameObj\Monster\Ray">
       <UniqueIdentifier>{5e307f04-c8f1-47df-95fc-40b0eebf9be7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Player\AfterImage">
+      <UniqueIdentifier>{65740be8-d710-4df2-b816-9422991c25d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Component\Renderer\Afterimage">
+      <UniqueIdentifier>{a4f50b81-a8cd-4d21-867e-1a9c8516a6f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -410,6 +416,12 @@
     <ClInclude Include="LiveGameObj.h">
       <Filter>GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerAfterImage.h">
+      <Filter>GameObj\Player\AfterImage</Filter>
+    </ClInclude>
+    <ClInclude Include="AfterImageRenderer.h">
+      <Filter>Common\Component\Renderer\Afterimage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -640,6 +652,12 @@
     </ClCompile>
     <ClCompile Include="LiveGameObj.cpp">
       <Filter>GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAfterImage.cpp">
+      <Filter>GameObj\Player\AfterImage</Filter>
+    </ClCompile>
+    <ClCompile Include="AfterImageRenderer.cpp">
+      <Filter>Common\Component\Renderer\Afterimage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
