@@ -143,6 +143,9 @@ namespace dru
         Vector3 mAttackDir;
 
         float mBulletTimeGauge;
+        float mBulletTimeCooldown;
+        bool mbBulletTimeStun;
+
         float mHitTimer;
         Vector3 mHitDir;
 
@@ -162,6 +165,8 @@ namespace dru
 
         void InputBlocking() { mbInputBlock = true; }
         void UnInputBlocking() { mbInputBlock = false; }
+
+        void BulletTimeStun() { mbBulletTimeStun = true; }
 
 	private:
         void PlayLanddust();

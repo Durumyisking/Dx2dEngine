@@ -306,14 +306,21 @@ namespace dru
 		float gauge = mPlayer->GetScript<CPlayerScript>()->GetBulletTimeGauge();
 		mBulletTimeGaugeCurrent = static_cast<UINT>(gauge);
 
+		if (mBulletTimeGaugePrev <= mBulletTimeGaugeCurrent)
+		{
+			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
+		}
+
 		if (mBulletTimeGaugePrev > mBulletTimeGaugeCurrent)
 		{
 			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.25f, 0.25f, 1.f));
 		}
-		else if (mBulletTimeGaugePrev <= mBulletTimeGaugeCurrent)
+		if (gauge == 0.f)
 		{
-			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
+			mHudBatteryParts[0]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.25f, 0.25f, 1.f));
+			mPlayer->GetScript<CPlayerScript>()->BulletTimeStun();
 		}
+
 		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
 	}
 

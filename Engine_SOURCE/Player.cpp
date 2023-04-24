@@ -187,7 +187,6 @@ namespace dru
 	void CPlayer::SetAfterImage(CPlayerAfterImage* _AfterImage)
 	{
 
-
 		if (mAfterImageCount >= mAfterImages.size())
 		{
 			mAfterImages.push(_AfterImage);
@@ -196,8 +195,11 @@ namespace dru
 		{
 			mAfterImages.front()->Die(); // 두개씩 빼야지 50에서 10됐을때 다시 돌아감 (한번에 빼면 잔상 한번에 사라져서 안이쁨)
 			mAfterImages.pop();
-			mAfterImages.front()->Die();
-			mAfterImages.pop();
+			if (!mAfterImages.empty()) // 0개가 됐을때 오류 안나게함
+			{
+				mAfterImages.front()->Die();
+				mAfterImages.pop();
+			}
 
 			mAfterImages.push(_AfterImage);
 		}

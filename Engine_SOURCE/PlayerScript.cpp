@@ -28,6 +28,8 @@ namespace dru
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
 		, mBulletTimeGauge(10.f)
+		, mbBulletTimeStun(false)
+		, mBulletTimeCooldown(0.f)
 		, mHitTimer(0.f)
 		, mHitDir(Vector3::Zero)
 		, mbLRKeyupTimerOn(false)
@@ -804,22 +806,45 @@ namespace dru
 
 	void CPlayerScript::bulletTime()
 	{
-		if (10.f > mBulletTimeGauge && (CInput::GetKeyNone(eKeyCode::LSHIFT)))
-		{
-			mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
-		}
-
-		if (CInput::GetKeyDown(eKeyCode::LSHIFT))
-		{
-			CTimeMgr::BulletTimeOn();
-			mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
-		}
-
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
 			CTimeMgr::BulletTimeOff();
 		}
 
+		if (mbBulletTimeStun)
+		{
+			CTimeMgr::BulletTimeOff();
+			mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
+
+			if (mBulletTimeCooldown >= 3.f)
+			{
+				mbBulletTimeStun = false;
+				mBulletTimeGauge = 1.f;
+				mBulletTimeCooldown = 0.f;
+			}
+		}
+		else
+		{
+			if (CInput::GetKeyNone(eKeyCode::LSHIFT))
+			{
+				mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
+				if (mBulletTimeGauge > 10.f)
+				{
+					mBulletTimeGauge = 10.f;
+				}
+			}
+			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
+			{
+				CTimeMgr::BulletTimeOn();
+				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
+				if (mBulletTimeGauge < 0.f)
+				{
+					mBulletTimeGauge = 0.f;
+				}
+
+			}
+
+		}
 	}
 
 	void CPlayerScript::dead()
