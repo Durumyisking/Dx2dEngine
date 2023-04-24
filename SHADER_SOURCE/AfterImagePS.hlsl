@@ -19,21 +19,22 @@ float4 main(VTX_OUT _in) : SV_Target
     color = atlasTexture.Sample(pointSampler, UV);
 
     
-    if (color.w == 0)
+    if (color.w == 0.f)
         discard;
     
     color *= cbxyzw1; // 곱할 색
     color += cbxyzw2; // 더할 색
-     
+    
+    
     LightColor lightcolor = (LightColor) 0.f;
     for (int i = 0; i < lightCount; i++)
     {
         CalculateLight(lightcolor, _in.vWorldPos.xyz, i);
     }
     
-
     color *= lightcolor.diffuse;
-    
+
+    color.w = cbfData4; 
        
     return color;
     

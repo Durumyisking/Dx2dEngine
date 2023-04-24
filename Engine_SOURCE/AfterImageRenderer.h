@@ -18,6 +18,8 @@ namespace dru
 
 		void SetAfterImageOwner(CPlayerAfterImage* _Owner) { mAfterImageOwner = _Owner; }
 
+		float GetIndexAlpha(int _Idx, UINT _MaxCount);
+		void ColorSetting();
 	private:
 		CPlayerAfterImage* mAfterImageOwner;
 	};

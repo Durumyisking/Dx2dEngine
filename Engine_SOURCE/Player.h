@@ -19,7 +19,7 @@ namespace dru
 
 
 		void RemoveAfterImage();
-		void SetAfterImageCount(int _Count);
+
 
 	private:
 		void MakeAfterImage();
@@ -27,7 +27,11 @@ namespace dru
 		void SetAfterImage(CPlayerAfterImage* _AfterImage);
 
 	private:
-		std::queue<CPlayerAfterImage*> mAfterImages;
-		int mAfterImageCount;
+		std::deque<CPlayerAfterImage*> mAfterImages; // 매번 모든 원소의 쉐이더에 보낼 인덱스를 수정해야함으로 일반 큐보다는 원형큐가 적합하다.
+		UINT mAfterImageCount;
+
+	public:
+		void SetAfterImageCount(UINT _Count) { mAfterImageCount = _Count; }
+		UINT GetAfterImageCount() const { return mAfterImageCount; }
 	};
 }

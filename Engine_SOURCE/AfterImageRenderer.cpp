@@ -3,6 +3,7 @@
 #include "Transform.h"
 #include "Animator.h"
 #include "PlayerAfterImage.h"
+#include "Player.h"
 
 namespace dru
 {
@@ -34,8 +35,16 @@ namespace dru
 	void CAfterImageRenderer::render()
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
-
 		GetMesh()->BindBuffer();
+
+
+		int idx = mAfterImageOwner->GetIndex();
+		UINT maxCount = mAfterImageOwner->GetOwner()->GetAfterImageCount();
+
+		float alpha = GetIndexAlpha(idx, maxCount);
+		ColorSetting();
+		GetMaterial()->SetData(eGPUParam::Float_4, &alpha);
+		
 		GetMaterial()->Bind();
 
 
@@ -49,13 +58,34 @@ namespace dru
 
 
 		GetMesh()->Render();
-
 		GetMaterial()->Clear();
 
 		if (animator)
 			animator->Clear();
 
 		CBaseRenderer::render();
+	}
+
+	float CAfterImageRenderer::GetIndexAlpha(int _Idx, UINT _MaxCount)
+	{
+		float alpha = 0.1f / _MaxCount;
+		float alpharesult = alpha * _Idx; // 플레이어의 전체 잔상 개수 - 잔상 인덱스 (늦은 잔상일수록 작은값)
+
+		return alpharesult;
+	}
+
+	void CAfterImageRenderer::ColorSetting()
+	{
+		int randvalue = GetRandomNumber(1, 0);
+		if (0 == randvalue)
+		{
+			AddColor(Vector4(0.f, 2.f, 2.f, 1.f));
+		}
+		else if (1 == randvalue)
+		{
+			AddColor(Vector4(2.f, 0.f, 2.f, 1.f));
+		}
+
 	}
 
 }

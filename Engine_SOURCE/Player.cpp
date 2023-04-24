@@ -12,7 +12,7 @@ namespace dru
 {
 	CPlayer::CPlayer()
 		:mAfterImages{}
-		, mAfterImageCount(10)
+		, mAfterImageCount(20)
 	{
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
@@ -63,7 +63,7 @@ namespace dru
 		while (!mAfterImages.empty())
 		{
 			mAfterImages.front()->Die();
-			mAfterImages.pop();
+			mAfterImages.pop_front();
 		}
 	}
 
@@ -100,23 +100,23 @@ namespace dru
 		while(!mAfterImages.empty())
 		{
 			mAfterImages.front()->Die();
-			mAfterImages.pop();
+			mAfterImages.pop_front();
 		}
 	}
 
-	void CPlayer::SetAfterImageCount(int _Count)
-	{
-		mAfterImageCount = _Count; 
-	}
 
 	void CPlayer::MakeAfterImage()
 	{
 		// 잔상 생성
 		CPlayerAfterImage* afterImage = object::Instantiate<CPlayerAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
 		afterImage->SetScale(Vector3(1.25f, 1.25f, 1.f));
+
+		SetAfterImage(afterImage);
+		afterImage->SetOwner(this);
+		afterImage->Initialize(); 
+
 		// 위치 및 텍스처 데이터 삽입
 		FlipAfterImage(afterImage);
-		SetAfterImage(afterImage);
 	}
 
 	void CPlayer::FlipAfterImage(CPlayerAfterImage* _AfterImage)
@@ -139,22 +139,27 @@ namespace dru
 
 		if (mAfterImageCount >= mAfterImages.size())
 		{
-			mAfterImages.push(_AfterImage);
+			mAfterImages.push_back(_AfterImage);
 		}
 		else
 		{
 			mAfterImages.front()->Die(); // 두개씩 빼야지 50에서 10됐을때 다시 돌아감 (한번에 빼면 잔상 한번에 사라져서 안이쁨)
-			mAfterImages.pop();
-			if (!mAfterImages.empty()) // 0개가 됐을때 오류 안나게함
+			mAfterImages.pop_front();
+
+			if (!mAfterImages.empty()) // 0개가 됐을때 오류 안나게함 2개씩뺄때 1개에서 여기 진입하면 오류뜸
 			{
 				mAfterImages.front()->Die();
-				mAfterImages.pop();
+				mAfterImages.pop_front();
 			}
 
-			mAfterImages.push(_AfterImage);
+			mAfterImages.push_back(_AfterImage);
 		}
 		
 
+		for (size_t i = 0; i < mAfterImages.size(); i++)
+		{
+			mAfterImages[i]->SetIndex(i);
+		}
 
 	}
 

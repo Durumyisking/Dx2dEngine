@@ -10,6 +10,7 @@ namespace dru
 		, mRSType(eRasterizerType::SolidBack)
 		, mDSType(eDepthStencilType::Less)
 		, mBSType(eBlendStateType::AlphaBlend)
+		, mCurrentStage(eShaderStage::End)
 	{
 	}
 	CShader::~CShader()

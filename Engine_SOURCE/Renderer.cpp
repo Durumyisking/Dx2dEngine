@@ -647,6 +647,19 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"BodySlashMat", Material);
 		}
 
+
+		{
+			for (int i = 0; i <= 100; ++i)
+			{
+				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
+				std::wstring matName = L"PlayerMatAfterImage_";
+				std::wstring idx = std::to_wstring(i);
+				matName += idx;
+				CResources::Insert<CMaterial>(matName, Material);
+			}
+		}
+
+
 	}
 
 	void Initialize()

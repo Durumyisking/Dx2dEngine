@@ -1,33 +1,16 @@
 #include "PlayerAfterImage.h"
 #include "AfterImageRenderer.h"
 #include "Animator.h"
+#include "Player.h"
 
 namespace dru
 {
 	CPlayerAfterImage::CPlayerAfterImage()
 		: mPlayerFrameCaptures{}
 		, mOwner(nullptr)
+		, mAlpha(1.f)
+		, mIndex(0)
 	{
-		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::AfterImageRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
-		CResources::Insert<CMaterial>(L"PlayerMatAfterImage", Material);
-
-		Renderer->SetMaterial(Material);
-
-		int randvalue = GetRandomNumber(1, 0);
-		if (0 == randvalue)
-		{
-			Renderer->ChangeColor(Vector4(0.f, 1.f, 1.f, 0.05f));
-		}
-		else if(1 == randvalue)
-		{
-			Renderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.05f));
-		}
-		Renderer->SetAfterImageOwner(this);
-
-		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"AfterImage", Material->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
-		mAnimator->Play(L"AfterImage");
 	}
 
 	CPlayerAfterImage::~CPlayerAfterImage()
@@ -36,6 +19,21 @@ namespace dru
 
 	void CPlayerAfterImage::Initialize()
 	{
+		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::AfterImageRenderer);
+		std::wstring matName = L"PlayerMatAfterImage_";
+		std::wstring idx = std::to_wstring(mIndex);
+		matName += idx;
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(matName);
+	
+		Renderer->SetMaterial(Material);
+
+		Renderer->SetAfterImageOwner(this);
+
+		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
+		mAnimator->Create(L"AfterImage", Material->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Play(L"AfterImage");
+
+
 		CGameObj::Initialize();
 	}
 

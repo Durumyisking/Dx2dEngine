@@ -291,7 +291,7 @@ namespace dru
 
 	void CPlayerScript::Reset()
 	{
-		SetAfterImageCount(10);
+		SetAfterImageCount(20);
 
 		mHitTimer = 0.f;
 
@@ -331,7 +331,7 @@ namespace dru
 	}
 	void CPlayerScript::attacktoidleEnd()
 	{
-		SetAfterImageCount(10);
+		SetAfterImageCount(20);
 
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
@@ -379,7 +379,7 @@ namespace dru
 			mAnimator->Play(L"Player_RunToIdle", false);
 		}
 		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-		SetAfterImageCount(10);
+		SetAfterImageCount(20);
 	}
 
 	void CPlayerScript::wallkickComplete()
@@ -567,7 +567,7 @@ namespace dru
 		mState.reset();
 		mState[(UINT)ePlayerState::Roll] = true;
 		mAnimator->Play(L"Player_Roll", false);
-		SetAfterImageCount(50);
+		SetAfterImageCount(100);
 
 	}
 	void CPlayerScript::roll()
@@ -608,7 +608,7 @@ namespace dru
 				PlayJumpdust();
 				jumpdustRotate(0.f);
 
-				SetAfterImageCount(10);
+				SetAfterImageCount(20);
 			}
 		}
 		else
@@ -768,7 +768,7 @@ namespace dru
 		{
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{
-				SetAfterImageCount(30);
+				SetAfterImageCount(50);
 				makeSlash();
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
