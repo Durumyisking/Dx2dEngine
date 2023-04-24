@@ -259,7 +259,6 @@ namespace dru
 		}
 		else
 		{
-
 			bool state = GetPlayerState(ePlayerState::Dead);
 			if (state)
 			{
@@ -270,6 +269,9 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::ENTER))
 				{
+					if (CTimeMgr::IsBulletTimeOn())
+						CTimeMgr::BulletTimeOff();
+
 					mDeadBg->RenderingBlockOn();
 					mKeyEnter->RenderingBlockOn();
 					mbIsDeadBgOn = false;
@@ -296,7 +298,12 @@ namespace dru
 
 	void CStage::Reset()
 	{
-
+		for (size_t i = mBulletTimeGaugePrev; i < mHudBatteryParts.size(); i++)
+		{
+			mHudBatteryParts[i]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
+		}
+		mBulletTimeGaugePrev = 10;
+		mBulletTimeGaugeCurrent = 10;
 		mElapsedTime = 0.f;
 	}
 
@@ -406,6 +413,9 @@ namespace dru
 	}
 	void CStage::RewindStart()
 	{
+		if (CTimeMgr::IsBulletTimeOn())
+			CTimeMgr::BulletTimeOff();
+
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)

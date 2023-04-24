@@ -294,6 +294,9 @@ namespace dru
 		SetAfterImageCount(10);
 
 		mHitTimer = 0.f;
+		mBulletTimeCooldown = 0.f;
+		mBulletTimeGauge = 10.f;
+		mbBulletTimeStun = false;
 		mState.reset();
 		mState[(UINT)ePlayerState::Idle] = true;
 		mAnimator->Play(L"Player_Idle");
@@ -808,20 +811,13 @@ namespace dru
 	{
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
-			CTimeMgr::BulletTimeOff();
+			if (CTimeMgr::IsBulletTimeOn())
+				CTimeMgr::BulletTimeOff();
 		}
 
 		if (mbBulletTimeStun)
 		{
-			CTimeMgr::BulletTimeOff();
-			mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
-
-			if (mBulletTimeCooldown >= 3.f)
-			{
-				mbBulletTimeStun = false;
-				mBulletTimeGauge = 1.f;
-				mBulletTimeCooldown = 0.f;
-			}
+			bulletTimeStunOperate();
 		}
 		else
 		{
@@ -835,7 +831,8 @@ namespace dru
 			}
 			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
 			{
-				CTimeMgr::BulletTimeOn();
+				if(!CTimeMgr::IsBulletTimeOn())
+					CTimeMgr::BulletTimeOn();
 				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
 				if (mBulletTimeGauge < 0.f)
 				{
@@ -1047,6 +1044,20 @@ namespace dru
 					assert(false);
 				}
 			}
+		}
+	}
+
+	void CPlayerScript::bulletTimeStunOperate()
+	{
+		// bullet타임 스턴상태면 3초간 쿨타임 있음
+		CTimeMgr::BulletTimeOff();
+		mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
+
+		if (mBulletTimeCooldown >= 3.f)
+		{
+			mbBulletTimeStun = false;
+			mBulletTimeGauge = 1.f;	
+			mBulletTimeCooldown = 0.f;
 		}
 	}
 

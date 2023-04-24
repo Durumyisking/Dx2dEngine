@@ -99,6 +99,7 @@ namespace dru
 
         void initializeLanddustComponent();
 
+        void bulletTimeStunOperate();
 
         void createRolldust(UINT _Count);
 
@@ -121,6 +122,7 @@ namespace dru
         bool NotowardToWallCheck_KeyDown();
 
         void SetAfterImageCount(int _Count);
+
 
 
         CAnimator* mAnimator;

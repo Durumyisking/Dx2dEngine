@@ -15,6 +15,9 @@ namespace dru
     float			CTimeMgr::mbBulletTimeTimer= 0.0f;
     float			CTimeMgr::mbBulletTimeTimerMax = 0.0f;
     bool			CTimeMgr::mbBulletTime = false;
+    UINT			CTimeMgr::mFramePass = 0;
+    UINT			CTimeMgr::mFramePassCount = 0;
+    bool            CTimeMgr::mbFramePassCheck = true;
 
 
     void CTimeMgr::Initialize()
@@ -38,6 +41,12 @@ namespace dru
 
         if (mbBulletTime)
         {
+            if (mbFramePassCheck)
+            {
+                mFramePassCount = 0;
+                mbFramePassCheck = false;
+            }
+
             mbBulletTimeTimer += mDeltaTime;
             mDeltaTime /= 3.f;
 
@@ -53,10 +62,19 @@ namespace dru
             }
         }
 
-
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 
         mAccumulatedTime += mDeltaTime;
+
+        if (mFramePass == mFramePassCount)
+        {
+            mbFramePassCheck = true;
+        }
+        if (mFramePass > 0)
+        {
+            ++mFramePassCount;
+        }
+
 
 #ifdef _DEBUG
         if (mDeltaTime > (1.f / 60.f))
@@ -64,14 +82,12 @@ namespace dru
         if (mDeltaTimeConstant > (1.f / 60.f))
             mDeltaTimeConstant = (1.f / 60.f);
 #endif
-
     }
 
     void CTimeMgr::Render(HDC hdc)
     {
         static int iCount = 0;
         ++iCount;
-
 
         // 1 초에 한번
         mOneSecond += mDeltaTime;

@@ -10,8 +10,24 @@ namespace dru
 		static __forceinline float DeltaTime() { return mDeltaTime; }
 		static __forceinline float DeltaTimeConstant() { return mDeltaTimeConstant; }
 		static __forceinline float AccumulatedTime() { return mAccumulatedTime; }
-		static __forceinline void BulletTimeOn() { mbBulletTime = true; }
-		static __forceinline void BulletTimeOff() { mbBulletTime = false; }
+		static __forceinline void BulletTimeOn() 
+		{
+			mFramePass = 3;
+			mbBulletTime = true;
+			mbFramePassCheck = false;
+		}
+		static __forceinline void BulletTimeOff()
+		{
+			mFramePass = 0;
+			mFramePassCount = 0;
+			mbBulletTime = false;
+			mbFramePassCheck = true;
+		}
+		static __forceinline bool IsBulletTimeOn() { return mbBulletTime; }
+
+		static __forceinline void SetFramePass(UINT _Value) { mFramePass = _Value; }
+		static __forceinline bool IsFramePass() { return mbFramePassCheck; }
+
 
 		static void Initialize();
 		static void update();
@@ -34,7 +50,9 @@ namespace dru
 		static float			mbBulletTimeTimerMax;
 		static bool				mbBulletTime;
 	
-
+		static UINT				mFramePass; // 설정한 FramePass만큼의 Frame이 지났는지 확인합니다
+		static UINT				mFramePassCount;
+		static bool				mbFramePassCheck; // 설정한 FramePass가 지나면 true가 되고 다음 프레임에 false가 됩니다.
 
 	};
 }

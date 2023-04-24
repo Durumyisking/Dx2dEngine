@@ -31,5 +31,8 @@ namespace dru
 	private:
 		std::queue<CPlayerAfterImage*> mAfterImages;
 		int mAfterImageCount;
+		float mRewindTime;
+
+		int a ;
 	};
 }

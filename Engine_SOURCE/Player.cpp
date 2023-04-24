@@ -13,7 +13,9 @@ namespace dru
 	CPlayer::CPlayer()
 		:mAfterImages{}
 		, mAfterImageCount(10)
+		, mRewindTime(3.f)
 	{
+		a = 0;
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
 
@@ -75,14 +77,18 @@ namespace dru
 	void CPlayer::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-
+		
 		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
 		{
-			MakeFrameCaptureData();
-			PushFrameCapturedData();
+			// 불릿타임 틀어져있으면 3프레임당 1번 캡쳐를한다.
+			if (CTimeMgr::IsFramePass())
+			{
+				MakeFrameCaptureData();
+				PushFrameCapturedData();
+			}
 			MakeAfterImage();
-		}
 
+		}
 		CLiveGameObj::update();
 	}
 
@@ -113,9 +119,9 @@ namespace dru
 			SetPos(p);
 
 
-			if (_ElapsedTime > 3.f)
+			if (_ElapsedTime > mRewindTime)
 			{
-				int a = (_ElapsedTime / 3.f) + 1;
+				int a = (_ElapsedTime / mRewindTime) + 1;
 
 				for (int i = 0; i < a; i++)
 				{
@@ -149,14 +155,6 @@ namespace dru
 	void CPlayer::SetAfterImageCount(int _Count)
 	{
 		mAfterImageCount = _Count; 
-
-		// 잔상 한번에 제거
-		/*while (mAfterImages.size() > mAfterImageCount)
-		{
-			mAfterImages.front()->Die();
-			mAfterImages.pop();
-		}*/
-
 	}
 
 	void CPlayer::MakeAfterImage()
