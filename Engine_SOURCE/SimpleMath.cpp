@@ -42,4 +42,15 @@ namespace dru::math
 		return rotation.z;
 	}
 
+	int GetRandomNumber(int _Range, int _StartNumber)
+	{
+		void* p = new int();
+		srand((int)p);
+		int randvalue = (rand() % (_Range + 1)) + _StartNumber;;
+		delete p;
+
+		return randvalue;
+	}
+
+
 }

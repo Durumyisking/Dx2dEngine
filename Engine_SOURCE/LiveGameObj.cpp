@@ -114,14 +114,17 @@ namespace dru
 			mbRewind = false;
 		else
 		{
-			Vector3 p = mFrameCaptureData.top().Position;
+			// 캡쳐스택을 pop하면서 로꾸꺼함
 			mCurrentAnimData = mFrameCaptureData.top().AnimData;
-			SetPos(p);
 
+			Vector3 pos = mFrameCaptureData.top().Position;
+			SetPos(pos);
 
 			if (_ElapsedTime > mRewindTime)
 			{
-				int a = (_ElapsedTime / mRewindTime) + 1;
+				// ElapsedTime이 몇이든 RewindTime 초만큼 돌리기 위함
+				// ElapsedTime이 높을수록 한번에 많은 캡쳐 데이터들을 pop해준다.
+				int a = static_cast<int>( (_ElapsedTime / mRewindTime) + 1.f);
 
 				for (int i = 0; i < a; i++)
 				{

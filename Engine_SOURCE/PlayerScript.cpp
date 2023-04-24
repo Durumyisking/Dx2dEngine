@@ -1072,10 +1072,8 @@ namespace dru
 			playerPos.z -= 0.001f;
 			dust->SetPos(playerPos);
 
-			void* p = new int();
-			srand((int)p);
-			float x = static_cast<float>(rand() % 31 / 10.f); // 0~3.f
-			float y = static_cast<float>(rand() % 21 / 10.f); // 0~2.f
+			float x =  static_cast<float>(GetRandomNumber(30) / 10.f); 
+			float y = static_cast<float>(GetRandomNumber(20) / 10.f); 
 
 			if (0 < mRigidbody->GetVelocity().x)
 			{
@@ -1085,7 +1083,6 @@ namespace dru
 			{
 				dust->SetVelocity({ x, y, 0.f });
 			}
-			delete p;
 		}
 	}
 

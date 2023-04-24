@@ -8,6 +8,6 @@ namespace dru::math
 	float toDegree(float _radian);
 	float GetRadianFromTwoPointZ(const Vector3& V1, const Vector3& V2);
 
-
+	int GetRandomNumber(int _Range, int _StartNumber = 0);
 }
 

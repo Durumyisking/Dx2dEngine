@@ -264,17 +264,16 @@ namespace dru
 				// 흔들림 지속 시간이 지나면 효과 종료
 				CancelShake();
 			}
-			else {
+			else {				
 				// 흔들림 효과 계산
-				void* p = new int();
-				srand((int)p);
-				int randvalue = rand() % 5000000;
-				srand((int)p * static_cast<UINT>(CTimeMgr::DeltaTime()) * randvalue);
 				float magnitude = mShakeParams.magnitude *
 					(1.f - mShakeTimer / mShakeParams.duration);
 
-				float x = (rand() % 1000 / 500.f - 1.f) * magnitude;
-				float y = (rand() % 1000 / 500.f - 1.f) * magnitude;
+
+				float randvalue = static_cast<float>(GetRandomNumber(1000) / 500.f) - 1.f;
+				float x = randvalue * magnitude;
+				randvalue = static_cast<float>(GetRandomNumber(1000) / 500.f) - 1.f;
+				float y = randvalue * magnitude;
 
 				if (mDirBlock[(UINT)eDir::LEFT] == true)
 				{
@@ -299,7 +298,6 @@ namespace dru
 
 				mLookAt.x += x;
 				mLookAt.y += y;
-				delete p;
 			}
 		}
 	}
