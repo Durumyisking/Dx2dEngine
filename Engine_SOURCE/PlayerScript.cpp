@@ -102,6 +102,10 @@ namespace dru
 				mLRKeyupTime += CTimeMgr::DeltaTime();
 
 			bulletTime();
+			if (mState[(UINT)ePlayerState::Idle] == true)
+			{
+				SetAfterImageCount(20);
+			}
 
 			// set left right
 			if (mState[(UINT)ePlayerState::Attack] == false)
@@ -331,7 +335,6 @@ namespace dru
 	}
 	void CPlayerScript::attacktoidleEnd()
 	{
-		SetAfterImageCount(20);
 
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
@@ -379,7 +382,6 @@ namespace dru
 			mAnimator->Play(L"Player_RunToIdle", false);
 		}
 		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-		SetAfterImageCount(20);
 	}
 
 	void CPlayerScript::wallkickComplete()
