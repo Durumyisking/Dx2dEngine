@@ -294,12 +294,16 @@ namespace dru
 		SetAfterImageCount(10);
 
 		mHitTimer = 0.f;
+
 		mBulletTimeCooldown = 0.f;
 		mBulletTimeGauge = 10.f;
 		mbBulletTimeStun = false;
+
 		mState.reset();
 		mState[(UINT)ePlayerState::Idle] = true;
+
 		mAnimator->Play(L"Player_Idle");
+
 		UnInputBlocking();
 	}
 
@@ -563,8 +567,8 @@ namespace dru
 		mState.reset();
 		mState[(UINT)ePlayerState::Roll] = true;
 		mAnimator->Play(L"Player_Roll", false);
-
 		SetAfterImageCount(50);
+
 	}
 	void CPlayerScript::roll()
 	{
@@ -604,6 +608,7 @@ namespace dru
 				PlayJumpdust();
 				jumpdustRotate(0.f);
 
+				SetAfterImageCount(10);
 			}
 		}
 		else
@@ -838,7 +843,6 @@ namespace dru
 				{
 					mBulletTimeGauge = 0.f;
 				}
-
 			}
 
 		}
@@ -898,7 +902,6 @@ namespace dru
 	void CPlayerScript::jumpdustSlideCheck()
 	{
 		Vector3 playerPos = GetOwnerPos();
-		playerPos.z -= 0.001f;
 		if (mState[(UINT)ePlayerState::WallKick] == true)
 		{
 			if (GetOwner()->IsLeft())
@@ -914,7 +917,6 @@ namespace dru
 		}
 		else
 		{
-			playerPos.y += 0.1f;
 			mJumpdust->SetPos(playerPos);
 		}
 	}
@@ -930,8 +932,7 @@ namespace dru
 		if (LandDustObject)
 		{
 			Vector3 playerPos = GetOwner()->GetPos();
-			playerPos.y -= 0.55f;
-			playerPos.z -= 0.001f;
+			playerPos.y -= 0.6f;
 			LandDustObject->SetPos(playerPos);
 
 			CAnimator* LandDustAnimator = LandDustObject->GetComponent<CAnimator>();
@@ -1182,11 +1183,7 @@ namespace dru
 
 			if (CInput::GetKeyDown(eKeyCode::S) && (CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
 			{
-				Vector3 vel = mRigidbody->GetMaxVelocity();
-				mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-				mState.reset();
-				mState[(UINT)ePlayerState::Roll] = true;
-				mAnimator->Play(L"Player_Roll", false);
+				rollStart();
 			}
 			else
 			{

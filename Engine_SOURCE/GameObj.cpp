@@ -160,7 +160,7 @@ namespace dru
 					_Value.z = 2.8f;
 					break;
 				case dru::enums::eLayerType::FX:
-					_Value.z = 2.9f;
+					_Value.z = 3.01f;
 					break;
 				case dru::enums::eLayerType::UI:
 					_Value.z = 0.1f;

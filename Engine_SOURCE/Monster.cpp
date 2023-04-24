@@ -35,7 +35,12 @@ namespace dru
 	void CMonster::update()
 	{
 		SetRayPos();
-		 
+
+		if (FrameCaptureCheck())
+		{
+			FrameCaptureOperate();
+		}
+
 		CLiveGameObj::update();
 
 	}
@@ -47,57 +52,9 @@ namespace dru
 
 	void CMonster::render()
 	{
-
-		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-
-		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
-		{
-			MakeFrameCaptureData();
-			PushFrameCapturedData();
-		}
 		CLiveGameObj::render();
 	}
 
-	void CMonster::PushFrameCapturedData()
-	{
-		mFrameCaptureData.push(mFrameCapture);
-	}
-
-	void CMonster::RewindOperate(float _ElapsedTime)
-	{
-
-		if (mFrameCaptureData.empty())
-			mbRewind = false;
-		else
-		{
-			Vector3 p = mFrameCaptureData.top().Position;
-			mCurrentAnimData = mFrameCaptureData.top().AnimData; 
-			SetPos(p);
-
-
-			if (_ElapsedTime > 3.f)
-			{
-				int a = (_ElapsedTime / 3.f) + 1;
-
-				for (int i = 0; i < a; i++)
-				{
-					if (!mFrameCaptureData.empty())
-						mFrameCaptureData.pop();
-				}
-			}
-			else
-			{
-				mFrameCaptureData.pop();
-			}
-		}
-	}
-
-	void CMonster::MakeFrameCaptureData()
-	{
-		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
-		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
-	}
 
 	void CMonster::AddRay()
 	{

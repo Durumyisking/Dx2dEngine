@@ -4,7 +4,7 @@
 #include "Animator.h"
 #include "CameraScript.h"
 #include "PlayerAfterImage.h"
-#include "SceneMain.h"
+#include "GameObj.h"
 
 using namespace dru::object;
 
@@ -13,9 +13,7 @@ namespace dru
 	CPlayer::CPlayer()
 		:mAfterImages{}
 		, mAfterImageCount(10)
-		, mRewindTime(3.f)
 	{
-		a = 0;
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
 
@@ -76,19 +74,12 @@ namespace dru
 
 	void CPlayer::update()
 	{
-		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		
-		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		if (FrameCaptureCheck())
 		{
-			// 불릿타임 틀어져있으면 3프레임당 1번 캡쳐를한다.
-			if (CTimeMgr::IsFramePass())
-			{
-				MakeFrameCaptureData();
-				PushFrameCapturedData();
-			}
+			FrameCaptureOperate();
 			MakeAfterImage();
-
 		}
+
 		CLiveGameObj::update();
 	}
 
@@ -103,46 +94,7 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
-	void CPlayer::PushFrameCapturedData()
-	{
-		mFrameCaptureData.push(mFrameCapture);
-	}
-
-	void CPlayer::RewindOperate(float _ElapsedTime)
-	{
-		if (mFrameCaptureData.empty())
-			mbRewind = false;
-		else
-		{
-			Vector3 p = mFrameCaptureData.top().Position;
-			mCurrentAnimData = mFrameCaptureData.top().AnimData;
-			SetPos(p);
-
-
-			if (_ElapsedTime > mRewindTime)
-			{
-				int a = (_ElapsedTime / mRewindTime) + 1;
-
-				for (int i = 0; i < a; i++)
-				{
-					if (!mFrameCaptureData.empty())
-						mFrameCaptureData.pop();
-				}
-			}
-			else
-			{
-				mFrameCaptureData.pop();
-			}
-		}
-	}
-
-	void CPlayer::MakeFrameCaptureData()
-	{
-		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
-		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
-	}
-
+	
 	void CPlayer::RemoveAfterImage()
 	{
 		while(!mAfterImages.empty())

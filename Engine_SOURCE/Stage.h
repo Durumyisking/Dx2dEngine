@@ -85,6 +85,8 @@ namespace dru
         bool RewindEndCheck();
         void RewindEnd();
 
+        void DeadReset();
+
         float GetElapsedTime() const { return mElapsedTime; };
 
     protected:

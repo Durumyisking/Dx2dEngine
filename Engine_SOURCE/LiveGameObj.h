@@ -28,11 +28,14 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-		virtual void PushFrameCapturedData() = 0;
 
-		virtual void RewindOperate(float _ElapsedTime) = 0;
-		virtual void MakeFrameCaptureData() = 0;
+		void FrameCaptureOperate();
 
+		void PushFrameCapturedData();
+		void RewindOperate(float _ElapsedTime);
+		void MakeFrameCaptureData() ;
+
+		bool FrameCaptureCheck();
 
 		bool IsOnStair() { return mOnStair; }
 		void SetStairOn(float _moveDegree)
@@ -52,6 +55,7 @@ namespace dru
 
 		bool IsRewinding() const { return mbRewind; };
 
+
 		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
 
 
@@ -64,7 +68,7 @@ namespace dru
 
 		bool mOnStair;
 		float mMoveDegree;
-
+		float mRewindTime;
 
     };
 

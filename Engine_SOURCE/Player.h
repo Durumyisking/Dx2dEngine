@@ -17,12 +17,10 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
-		virtual void PushFrameCapturedData();
-		virtual void RewindOperate(float _ElapsedTime);
-		virtual void MakeFrameCaptureData();
 
 		void RemoveAfterImage();
 		void SetAfterImageCount(int _Count);
+
 	private:
 		void MakeAfterImage();
 		void FlipAfterImage(CPlayerAfterImage* _AfterImage);
@@ -31,8 +29,5 @@ namespace dru
 	private:
 		std::queue<CPlayerAfterImage*> mAfterImages;
 		int mAfterImageCount;
-		float mRewindTime;
-
-		int a ;
 	};
 }

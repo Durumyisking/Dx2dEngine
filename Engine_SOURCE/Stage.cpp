@@ -269,17 +269,7 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::ENTER))
 				{
-					if (CTimeMgr::IsBulletTimeOn())
-						CTimeMgr::BulletTimeOff();
-
-					mDeadBg->RenderingBlockOn();
-					mKeyEnter->RenderingBlockOn();
-					mbIsDeadBgOn = false;
-
-					CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
-					blinkscript->SwitchOff();
-					
-					RewindStart();
+					DeadReset();
 				}
 			}
 			else
@@ -461,5 +451,19 @@ namespace dru
 
 		mbRewinding = false;
 
+	}
+	void CStage::DeadReset()
+	{
+		if (CTimeMgr::IsBulletTimeOn())
+			CTimeMgr::BulletTimeOff();
+
+		mDeadBg->RenderingBlockOn();
+		mKeyEnter->RenderingBlockOn();
+		mbIsDeadBgOn = false;
+
+		CBlinkScript* blinkscript = mDeadBg->GetScript<CBlinkScript>();
+		blinkscript->SwitchOff();
+
+		RewindStart();
 	}
 }
