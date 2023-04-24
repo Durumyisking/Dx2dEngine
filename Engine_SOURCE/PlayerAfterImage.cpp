@@ -9,10 +9,9 @@ namespace dru
 		, mOwner(nullptr)
 	{
 		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::AfterImageRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
-
-
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
 		CResources::Insert<CMaterial>(L"PlayerMatAfterImage", Material);
+
 		Renderer->SetMaterial(Material);
 
 		int randvalue = GetRandomNumber(1, 0);

@@ -69,6 +69,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
       <Filter>CS</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)AfterImagePS.hlsl">
+      <Filter>PS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

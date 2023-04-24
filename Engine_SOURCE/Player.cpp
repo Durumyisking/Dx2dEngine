@@ -153,6 +153,9 @@ namespace dru
 
 			mAfterImages.push(_AfterImage);
 		}
+		
+
+
 	}
 
 

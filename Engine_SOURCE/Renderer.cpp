@@ -251,6 +251,11 @@ namespace dru::renderer
 			, particleShader->GetVSBlobBufferSize()
 			, particleShader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> afterimageShader = CResources::Find<CShader>(L"AfterImageShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, afterimageShader->GetVSBlobBufferPointer()
+			, afterimageShader->GetVSBlobBufferSize()
+			, afterimageShader->GetInputLayoutAddr());
 
 
 #pragma endregion
@@ -454,6 +459,11 @@ namespace dru::renderer
 		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
 
+		std::shared_ptr<CShader> AfterImageShader = std::make_shared<CShader>();
+		AfterImageShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		AfterImageShader->Create(graphics::eShaderStage::PS, L"AfterImagePS.hlsl", "main"); 
+		CResources::Insert<CShader>(L"AfterImageShader", AfterImageShader);
+
 	}
 
 	void LoadTexture()
@@ -535,6 +545,7 @@ namespace dru::renderer
 			DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM, 
 			D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS);
 		CResources::Insert<CTexture>(L"PaintTexture", uavTexture);
+
 	}
 
 
@@ -605,9 +616,6 @@ namespace dru::renderer
 		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		particleMaterial->SetShader(particleShader);
 		CResources::Insert<CMaterial>(L"ParticleMaterial", particleMaterial);
-
-
-
 
 		// etc
 		{
