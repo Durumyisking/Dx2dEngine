@@ -8,8 +8,8 @@ namespace dru
 		SetName(L"Grunt");
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
 		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
-		CResources::Insert<CMaterial>(L"GruntMat", Material);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GruntMat");
+
 		SpriteRenderer->SetMaterial(Material);
 
 

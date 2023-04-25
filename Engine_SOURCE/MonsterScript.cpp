@@ -37,9 +37,13 @@ namespace dru
 	{
 		mState[(UINT)eMonsterState::Idle] = true;
 
+		mAnimator = GetOwner()->GetComponent<CAnimator>();
+		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
+		mTransform = GetOwner()->GetComponent<CTransform>();
+		mMonsterName = GetOwner()->GetName();
 
-		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
-		mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
+		//mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
+		//mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
 
 	}
 

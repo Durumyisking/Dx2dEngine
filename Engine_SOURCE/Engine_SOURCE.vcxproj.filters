@@ -170,6 +170,9 @@
     <Filter Include="Common\Component\Renderer\Afterimage">
       <UniqueIdentifier>{a4f50b81-a8cd-4d21-867e-1a9c8516a6f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Cop">
+      <UniqueIdentifier>{95685608-06f6-4de9-afa7-6f36a506d95b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -422,6 +425,12 @@
     <ClInclude Include="AfterImageRenderer.h">
       <Filter>Common\Component\Renderer\Afterimage</Filter>
     </ClInclude>
+    <ClInclude Include="Cop.h">
+      <Filter>GameObj\Monster\Cop</Filter>
+    </ClInclude>
+    <ClInclude Include="CopScript.h">
+      <Filter>GameObj\Monster\Cop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -658,6 +667,12 @@
     </ClCompile>
     <ClCompile Include="AfterImageRenderer.cpp">
       <Filter>Common\Component\Renderer\Afterimage</Filter>
+    </ClCompile>
+    <ClCompile Include="Cop.cpp">
+      <Filter>GameObj\Monster\Cop</Filter>
+    </ClCompile>
+    <ClCompile Include="CopScript.cpp">
+      <Filter>GameObj\Monster\Cop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

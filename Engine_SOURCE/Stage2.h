@@ -33,7 +33,11 @@ namespace dru
         CBackground* mStageBackground;
 
         CMonster* mGrunt1;
+
+        CMonster* mCop1;
+
         Vector3 mGrunt1DefaultPos;
+        Vector3 mCop1DefaultPos;
 
     };
 

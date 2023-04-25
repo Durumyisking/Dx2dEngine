@@ -10,11 +10,6 @@ namespace dru
 	}
 	void CGruntScript::Initialize()
 	{
-		mAnimator = GetOwner()->GetComponent<CAnimator>();
-		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
-		mTransform = GetOwner()->GetComponent<CTransform>();
-		mMonsterName = GetOwner()->GetName();
-
 
 		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = std::bind(&CGruntScript::attackFrame2, this);
 

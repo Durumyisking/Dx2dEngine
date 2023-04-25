@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Grunt.h"
+#include "Cop.h"
 
 #include "GridScript.h"
 #include "FadeScript.h"
