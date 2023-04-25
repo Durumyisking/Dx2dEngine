@@ -191,7 +191,11 @@ namespace dru
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
 			Floor->SetPos(Vector3(-11.5f, -0.11f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
-
+		}
+		{
+			CFloor2* Floor2 = object::Instantiate<CFloor2>(eLayerType::Platforms, L"floor2");
+			Floor2->SetPos(Vector3(1.6f, -0.025f, 3.f));
+			Floor2->SetColliderScale({ 6.f, 0.2f });
 		}
 
 		{

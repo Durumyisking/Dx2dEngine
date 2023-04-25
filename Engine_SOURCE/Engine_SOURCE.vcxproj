@@ -194,6 +194,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="FadeScript.h" />
     <ClInclude Include="Floor.h" />
+    <ClInclude Include="Floor2.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
@@ -281,6 +282,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FadeScript.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="Floor2.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />

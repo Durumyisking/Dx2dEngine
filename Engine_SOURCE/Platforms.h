@@ -6,6 +6,7 @@ namespace dru
 	enum class ePlatformType
 	{
 		Floor,
+		Floor2,
 		Wall,
 		Ceiling,
 		Stair,

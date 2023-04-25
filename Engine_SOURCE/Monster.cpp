@@ -97,4 +97,5 @@ namespace dru
 		GetScript<CMonsterScript>()->Reset();
 		SetRayDie();
 	}
+
 }

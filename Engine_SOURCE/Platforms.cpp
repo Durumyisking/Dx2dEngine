@@ -21,6 +21,10 @@ namespace dru
 			coll->SetName(L"col_floor");
 			coll->SetType(eColliderType::Rect);
 			break;
+		case dru::ePlatformType::Floor2:
+			coll->SetName(L"col_floor2");
+			coll->SetType(eColliderType::Rect);
+			break;
 		case dru::ePlatformType::Wall:
 			coll->SetName(L"col_wall");
 			coll->SetType(eColliderType::Rect);

@@ -29,7 +29,7 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
-
+			CreateBullet();
 
 			CMonsterScript::attack();
 		}

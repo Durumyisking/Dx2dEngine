@@ -504,7 +504,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");
 		CResources::Load<CTexture>(L"hud_timerbar", L"MainScene/Hud/hud_timerbar.png");
 		CResources::Load<CTexture>(L"hud_battery", L"MainScene/Hud/hud_battery.png");
-		CResources::Load<CTexture>(L"hud_batterypart", L"~MainScene/Hud/hud_batterypart.png");
+		CResources::Load<CTexture>(L"hud_batterypart", L"MainScene/Hud/hud_batterypart.png");
 		CResources::Load<CTexture>(L"hud_inventory", L"MainScene/Hud/hud_inventory.png");
 		CResources::Load<CTexture>(L"hud_keys", L"MainScene/Hud/hud_keys.png");
 		CResources::Load<CTexture>(L"icon_hand", L"MainScene/Hud/Itemicons/Hand.png");

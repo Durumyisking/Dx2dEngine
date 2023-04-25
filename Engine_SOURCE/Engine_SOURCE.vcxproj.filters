@@ -440,6 +440,9 @@
     <ClInclude Include="BulletScript.h">
       <Filter>GameObj\Monster\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="Floor2.h">
+      <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -688,6 +691,9 @@
     </ClCompile>
     <ClCompile Include="BulletScript.cpp">
       <Filter>GameObj\Monster\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor2.cpp">
+      <Filter>GameObj\Platforms</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

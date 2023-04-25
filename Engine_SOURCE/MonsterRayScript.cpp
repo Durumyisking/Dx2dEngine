@@ -67,7 +67,7 @@ namespace dru
 		{
 			if (L"col_player" == _oppo->GetName())
 			{
-				mMonsterScript->SetTarget(_oppo->GetOwner());
+				mMonsterScript->SetTarget(_oppo->GetOwner_LiveObject());
 				bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
 
 				if (!state)

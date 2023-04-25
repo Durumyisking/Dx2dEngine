@@ -44,6 +44,7 @@ namespace dru
 
         bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
         void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
+        void SetPlayerSingleState(ePlayerState _state);
 
         void PlayerDead();
 
@@ -72,7 +73,6 @@ namespace dru
 
         void JumpdustComplete();
         void LanddustComplete();
-        void RolldustComplete();
 
         void deadComplete();
 
@@ -82,6 +82,7 @@ namespace dru
         void run();
         void crouch();
         void fall();
+        void fallStart();
         void rollTrigger();
         void rollStart();
         void roll();
@@ -108,6 +109,7 @@ namespace dru
         void wallLRCheck();
 
         void collEnter_Floor();
+        void collEnter_Floor2(CCollider2D* _oppo);
         void collEnter_Wall(CCollider2D* _oppo);
         void collEnter_MonsterSlash(CCollider2D* _oppo);
 
@@ -157,6 +159,8 @@ namespace dru
 
         bool mbLRKeyupTimerOn;
         bool mbInputBlock;
+
+        bool mbOnFloor2;
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 

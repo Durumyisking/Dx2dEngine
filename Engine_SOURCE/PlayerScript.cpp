@@ -39,6 +39,7 @@ namespace dru
 		, mRigidbody(nullptr)
 		, mJumpdust(nullptr)
 		, mLanddust(nullptr)
+		, mbOnFloor2(false)
 	{
 	}
 	CPlayerScript::~CPlayerScript()
@@ -172,16 +173,18 @@ namespace dru
 		{
 			collEnter_Floor();
 		}
+		else if (L"col_floor2" == _oppo->GetName())
+		{
+			collEnter_Floor2(_oppo);
+			GetOwner()->SetFloorOn();
+		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
 			collEnter_Floor();
 
 			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
 			GetOwner_LiveObject()->SetStairOn(degree);
-
-
 		}
-
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			collEnter_Wall(_oppo);
@@ -226,9 +229,24 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			mbFirstAttack = true;
-			GetOwner()->GetComponent<CRigidBody>()->SetGround();
+			mRigidbody->SetGround();
 			GetOwner()->SetFloorOn();
 
+		}
+		else if (L"col_floor2" == _oppo->GetName())
+		{
+			if (mbOnFloor2)
+			{
+				if (CInput::GetKeyDown(eKeyCode::S))
+				{
+					if ( !(CInput::GetKeyDown(eKeyCode::A) || CInput::GetKeyDown(eKeyCode::D)))
+					{
+						mRigidbody->SetAir();
+						fallStart();
+						mbOnFloor2 = false;
+					}
+				}
+			}
 		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
@@ -258,6 +276,11 @@ namespace dru
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 			GetOwner()->SetFloorOff();
 		}
+		else if (L"col_floor2" == _oppo->GetName())
+		{
+			GetOwner()->GetComponent<CRigidBody>()->SetAir();
+			GetOwner()->SetFloorOff();
+		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
 			if (!GetOwner()->IsOnFloor())
@@ -277,10 +300,7 @@ namespace dru
 				//if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
 				//	|| ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == 1))))
 				{
-					mState.reset();
-					mState[(UINT)ePlayerState::Fall] = true;
-					mAnimator->Play(L"Player_Fall");
-					mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+					fallStart();
 				}
 			}
 			mbWallIsLeft = 0;
@@ -300,11 +320,59 @@ namespace dru
 	{
 	}
 
-	void CPlayerScript::PlayerDead()
+	void CPlayerScript::SetPlayerSingleState(ePlayerState _state)
 	{
 		mState.reset();
-		mState[(UINT)ePlayerState::Dead] = true;
-		mAnimator->Play(L"Player_Dead", false);
+		mState[(UINT)_state] = true;
+
+		switch (_state)
+		{
+		case dru::ePlayerState::Idle:
+			SetAfterImageCount(20);
+			mAnimator->Play(L"Player_Idle");
+			break;
+		case dru::ePlayerState::IdleToRun:
+			mAnimator->Play(L"Player_IdleToRun", false);
+			break;
+		case dru::ePlayerState::Run:
+			break;
+		case dru::ePlayerState::RunToIdle:
+			mAnimator->Play(L"Player_RunToIdle", false); 
+			break;
+		case dru::ePlayerState::Jump:
+			SetAfterImageCount(20); 
+			break;
+		case dru::ePlayerState::Attack:
+			SetAfterImageCount(50);
+			mAnimator->Play(L"Player_Attack", false); 
+			break;
+		case dru::ePlayerState::Crouch:
+			mAnimator->Play(L"Player_PreCrouch", false);
+			break;
+		case dru::ePlayerState::Roll:
+			SetAfterImageCount(100);
+			mAnimator->Play(L"Player_Roll", false);
+			break;
+		case dru::ePlayerState::WallKick:
+			SetAfterImageCount(50);
+			mAnimator->Play(L"Player_WallKick", false); 
+			break;
+		case dru::ePlayerState::Fall:
+			mAnimator->Play(L"Player_Fall");
+			break;
+		case dru::ePlayerState::Dead:
+			mAnimator->Play(L"Player_Dead", false);
+			break;
+		case dru::ePlayerState::End:
+			break;
+		default:
+			break;
+		}
+	}
+
+	void CPlayerScript::PlayerDead()
+	{
+		SetPlayerSingleState(ePlayerState::Dead);
 		mbInputBlock = true;
 	}
 
@@ -318,48 +386,35 @@ namespace dru
 		mBulletTimeGauge = 10.f;
 		mbBulletTimeStun = false;
 
-		mState.reset();
-		mState[(UINT)ePlayerState::Idle] = true;
-
-		mAnimator->Play(L"Player_Idle");
+		SetPlayerSingleState(ePlayerState::Idle);
 
 		UnInputBlocking();
 	}
 
 	void CPlayerScript::idletorunFrame()
 	{
-		mState[(UINT)ePlayerState::IdleToRun] = false;
-		mState[(UINT)ePlayerState::Run] = true;
+		SetPlayerSingleState(ePlayerState::Run);
 	}
 	void CPlayerScript::idletorunEnd()
 	{
 		mAnimator->Play(L"Player_Run");
-
-		{
-			createRolldust(5);
-		}
-
+		createRolldust(5);
 	}
 	void CPlayerScript::runtoidleEnd()
 	{
-
-		mState.reset();
-		mState[(UINT)ePlayerState::Idle] = true;
-
-		mAnimator->Play(L"Player_Idle");
+		SetPlayerSingleState(ePlayerState::Idle);
 	}
 	void CPlayerScript::attacktoidleEnd()
 	{
 
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
-			mState[(UINT)ePlayerState::Fall] = true;
-			mAnimator->Play(L"Player_Fall");
+			SetPlayerSingleState(ePlayerState::Fall);
+
 		}
 		else
 		{
-			mState[(UINT)ePlayerState::Idle] = true;
-			mAnimator->Play(L"Player_Idle");
+			SetPlayerSingleState(ePlayerState::Idle);
 		}
 	}
 	void CPlayerScript::precrouch()
@@ -368,9 +423,7 @@ namespace dru
 	}
 	void CPlayerScript::postcrouch()
 	{
-		mState.reset();
-		mState[(UINT)ePlayerState::Idle] = true;
-		mAnimator->Play(L"Player_Idle");
+		SetPlayerSingleState(ePlayerState::Idle);
 	}
 	void CPlayerScript::rollEnd()
 	{
@@ -382,32 +435,24 @@ namespace dru
 		if (CInput::GetKeyDown(eKeyCode::A))
 		{
 			GetOwner()->SetLeft();
-			mState[(UINT)ePlayerState::IdleToRun] = true;
-			mAnimator->Play(L"Player_IdleToRun", false);
+			SetPlayerSingleState(ePlayerState::IdleToRun);
 		}
 		else if (CInput::GetKeyDown(eKeyCode::D))
 		{
+			SetPlayerSingleState(ePlayerState::IdleToRun);
 			GetOwner()->SetRight();
-			mState[(UINT)ePlayerState::IdleToRun] = true;
-			mAnimator->Play(L"Player_IdleToRun", false);
 		}
 		else
 		{
-			mState[(UINT)ePlayerState::RunToIdle] = true;
-			mAnimator->Play(L"Player_RunToIdle", false);
+			SetPlayerSingleState(ePlayerState::RunToIdle);
 		}
 		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 
 	void CPlayerScript::wallkickComplete()
 	{
-		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-		mState.reset();
-		mAnimator->Play(L"Player_Fall");
-		mState[(UINT)ePlayerState::Fall] = true;
-
+		fallStart();
 		mLRKeyupTime = 0.f;
-
 	}
 
 	void CPlayerScript::rollFrame1()
@@ -455,11 +500,6 @@ namespace dru
 		mLanddust->RenderingBlockOn();
 	}
 
-
-	void CPlayerScript::RolldustComplete()
-	{
-	}
-
 	void CPlayerScript::deadComplete()
 	{
 		//GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
@@ -469,17 +509,13 @@ namespace dru
 	{
 		if (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1))
 		{
-			mAnimator->Play(L"Player_IdleToRun", false);
 			mRigidbody->AddForce(mTransform->Right() * -500.f);
-			mState[(UINT)ePlayerState::IdleToRun] = true;
-			mState[(UINT)ePlayerState::Idle] = false;
+			SetPlayerSingleState(ePlayerState::IdleToRun);
 		}
 		if (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1))
 		{
-			mAnimator->Play(L"Player_IdleToRun", false);
 			mRigidbody->AddForce(mTransform->Right() * 500.f);
-			mState[(UINT)ePlayerState::IdleToRun] = true;
-			mState[(UINT)ePlayerState::Idle] = false;
+			SetPlayerSingleState(ePlayerState::IdleToRun);
 		}
 	}
 
@@ -517,9 +553,7 @@ namespace dru
 		{
 			if (mState[(UINT)ePlayerState::Idle] == true)
 			{
-				mState.reset();
-				mState[(UINT)ePlayerState::Crouch] = true;
-				mAnimator->Play(L"Player_PreCrouch", false);
+				SetPlayerSingleState(ePlayerState::Crouch);
 			}
 		}
 		if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
@@ -546,6 +580,14 @@ namespace dru
 				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 			}
 		}
+	}
+
+	void CPlayerScript::fallStart()
+	{
+		mState.reset();
+		mState[(UINT)ePlayerState::Fall] = true;
+		mAnimator->Play(L"Player_Fall");
+		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 
 	void CPlayerScript::rollTrigger()
@@ -581,10 +623,7 @@ namespace dru
 	{
 		Vector3 vel = mRigidbody->GetMaxVelocity();
 		mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
-		mState.reset();
-		mState[(UINT)ePlayerState::Roll] = true;
-		mAnimator->Play(L"Player_Roll", false);
-		SetAfterImageCount(100);
+		SetPlayerSingleState(ePlayerState::Roll);
 
 	}
 	void CPlayerScript::roll()
@@ -618,8 +657,7 @@ namespace dru
 			if (CInput::GetKeyTap(eKeyCode::W))
 			{
 				mRigidbody->SetVelocity(Vector3::Zero);
-				mState.reset();
-				mState[(UINT)ePlayerState::Jump] = true;
+				SetPlayerSingleState(ePlayerState::Jump);
 				mAnimator->Play(L"Player_Jump", false);
 
 				PlayJumpdust();
@@ -665,10 +703,7 @@ namespace dru
 			{
 				if (mState[(UINT)ePlayerState::WallSlideUp] == false)
 				{
-					mState[(UINT)ePlayerState::Jump] = false;
-					mState[(UINT)ePlayerState::Fall] = true;
-					mAnimator->Play(L"Player_Fall", true);
-					mAirTime = 0.f;
+					fallStart();
 				}
 			}
 
@@ -739,9 +774,8 @@ namespace dru
 		{
 			if (CInput::GetKeyTap(eKeyCode::W))
 			{
-				mState.reset();
-				mState[(UINT)ePlayerState::WallKick] = true;
-				mAnimator->Play(L"Player_WallKick", false);
+				SetPlayerSingleState(ePlayerState::WallKick);
+
 				mRigidbody->SetVelocity({ 0.f, 0.f, 0.f });
 
 				mRigidbody->SetMaxVelocity({ 6.f, 3.f, 0.f });
@@ -784,8 +818,7 @@ namespace dru
 		if (0.4f <= mAttackCooldown)
 		{
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
-			{
-				SetAfterImageCount(50);
+			{				
 				makeSlash();
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
@@ -804,9 +837,8 @@ namespace dru
 					mAttackDir = vect;
 					mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 					mRigidbody->AddVelocity(mAttackDir * 5.f);
-					mState.reset();
-					mState[(UINT)ePlayerState::Attack] = true;
-					mAnimator->Play(L"Player_Attack", false);
+
+					SetPlayerSingleState(ePlayerState::Attack);
 				}
 				mAttackCooldown = 0.f;
 			}
@@ -1215,6 +1247,18 @@ namespace dru
 		mRigidbody->SetGround();
 	}
 
+	void CPlayerScript::collEnter_Floor2(CCollider2D* _oppo)
+	{
+		CCollider2D* playerCollier = GetOwner()->GetComponent<CCollider2D>();
+		float PosCheckPlayer = playerCollier->GetColliderPos().y - playerCollier->GetScale().y / 2.f;
+		float PosCheckFloor = _oppo->GetColliderPos().y + _oppo->GetScale().y / 2.f;
+		if (PosCheckPlayer >= PosCheckFloor)
+		{
+			collEnter_Floor();
+			mbOnFloor2 = true;
+		}
+	}
+
 	void CPlayerScript::collEnter_Wall(CCollider2D* _oppo)
 	{
 		if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
@@ -1251,9 +1295,7 @@ namespace dru
 
 			if (!mRigidbody->IsOnAir())
 			{
-				mState.reset();
-				mState[(UINT)ePlayerState::Idle] = true;
-				mAnimator->Play(L"Player_Idle");
+				SetPlayerSingleState(ePlayerState::Idle);
 			}
 		}
 

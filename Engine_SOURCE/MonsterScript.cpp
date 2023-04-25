@@ -390,4 +390,11 @@ namespace dru
 		SlashObj->AddComponent<CSlashScript>(eComponentType::Script)->Initialize();
 	}
 
+	void CMonsterScript::CreateBullet()
+	{
+		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
+		bullet->Initialize();
+		bullet->SetTarget(mTarget);
+	}
+
 }

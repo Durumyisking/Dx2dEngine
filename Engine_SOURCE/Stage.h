@@ -23,6 +23,7 @@
 #include "Animator.h"
 
 #include "Floor.h"
+#include "Floor2.h"
 #include "Wall.h"
 #include "Ceiling.h"
 #include "OutWall.h"

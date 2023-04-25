@@ -36,7 +36,13 @@ namespace dru
         Vector2 GetScale() const { return mScale; }
 
         void SetRadius(float _Radius) { mRadius = _Radius; }
-        float GetRadius() const { if (eColliderType::Circle == mType) return mRadius; }
+        float GetRadius() const 
+        {
+            if (eColliderType::Circle == mType)
+                return mRadius;
+            else
+                return 0.f;
+        }
 
         Vector3 GetColliderPos() const { return mPosition; }
 

@@ -2,6 +2,7 @@
 #include "LiveGameObj.h"
 #include "MonsterScript.h"
 #include "MonsterRay.h"
+#include "Bullet.h"
 
 
 namespace dru

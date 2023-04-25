@@ -44,8 +44,6 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-        void DeleteOn() { mbDeleteOn = true; }
-        void DeleteOff() { mbDeleteOn = false; }
 
         void HitAddForce();
 
@@ -53,10 +51,6 @@ namespace dru
 
         bool  IsMonsterDead() const { return mbDead; };
 
-        void SetTarget(CGameObj* _Target) { mTarget = _Target; }
-        CGameObj* GetTarget() const { return mTarget; }
-
-        float GetPlayerDistance();
 
         void Reset();
 
@@ -74,12 +68,13 @@ namespace dru
     protected:
 
         void makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio);
+        void CreateBullet();
 
 
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;
-        CGameObj* mTarget;
+        CLiveGameObj* mTarget;
         Vector3 mPos;
         Vector3 mMoveDir;
         Vector3 mHitDir;
@@ -96,7 +91,15 @@ namespace dru
 
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
 
-    };
 
+    public:
+        void DeleteOn() { mbDeleteOn = true; }
+        void DeleteOff() { mbDeleteOn = false; }
+
+        void SetTarget(CLiveGameObj* _Target) { mTarget = _Target; }
+        CLiveGameObj* GetTarget() const { return mTarget; }
+
+        float GetPlayerDistance();
+    };
 }
 
