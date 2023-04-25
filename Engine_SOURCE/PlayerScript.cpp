@@ -332,12 +332,16 @@ namespace dru
 			mAnimator->Play(L"Player_Idle");
 			break;
 		case dru::ePlayerState::IdleToRun:
+			SetAfterImageCount(20);
 			mAnimator->Play(L"Player_IdleToRun", false);
 			break;
 		case dru::ePlayerState::Run:
+			SetAfterImageCount(20);
+			mAnimator->Play(L"Player_Run");
 			break;
 		case dru::ePlayerState::RunToIdle:
-			mAnimator->Play(L"Player_RunToIdle", false); 
+			SetAfterImageCount(20);
+			mAnimator->Play(L"Player_RunToIdle", false);
 			break;
 		case dru::ePlayerState::Jump:
 			SetAfterImageCount(20); 
@@ -406,11 +410,9 @@ namespace dru
 	}
 	void CPlayerScript::attacktoidleEnd()
 	{
-
 		if (GetOwner()->GetComponent<CRigidBody>()->IsOnAir())
 		{
 			SetPlayerSingleState(ePlayerState::Fall);
-
 		}
 		else
 		{
@@ -1209,17 +1211,12 @@ namespace dru
 
 			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{
-				mState.reset();
 				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-
-				mState[(UINT)ePlayerState::RunToIdle] = true;
-				mAnimator->Play(L"Player_RunToIdle");
+				SetPlayerSingleState(ePlayerState::RunToIdle);
 			}
 			if (NotowardToWallCheck_KeyDown())
 			{
-				mState[(UINT)ePlayerState::RunToIdle] = false;
-				mState[(UINT)ePlayerState::Run] = true;
-				mAnimator->Play(L"Player_Run");
+				SetPlayerSingleState(ePlayerState::Run);
 			}
 
 			if (CInput::GetKeyDown(eKeyCode::A))

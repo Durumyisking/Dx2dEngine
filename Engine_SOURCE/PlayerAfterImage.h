@@ -23,6 +23,7 @@ namespace dru
 		UINT mIndex;
 		float mAlpha;
 
+
 	public:
 		UINT GetIndex() { return mIndex; }
 		void SetIndex(UINT _Idx) { mIndex = _Idx; }
@@ -33,6 +34,7 @@ namespace dru
 
 		renderer::AnimationCB GetAnimCB() { return mPlayerFrameCaptures.AnimData; }
 		void SetFrameCapturedData(FrameCapturedData& _FrameCapturedData) { mPlayerFrameCaptures = _FrameCapturedData; }
+
 
 
     };

@@ -11,6 +11,8 @@ namespace dru
 	CPlayer::CPlayer()
 		:mAfterImages{}
 		, mAfterImageCount(20)
+		, mPrevAfterImageCount(20)
+
 	{
 		SetLayerType(eLayerType::Player);
 		SetScale(Vector3(1.25f, 1.25f, 1.f));
@@ -26,12 +28,12 @@ namespace dru
 		coll->SetScale(Vector2(0.2f, 0.6f));
 
 
-		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"PlayerMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
-		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
+		CAnimator* mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Player_Idle", Material->GetTexture(), { 2718.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Player_Run", Material->GetTexture(), { 4954.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Player_IdleToRun", Material->GetTexture(), { 3342.f, 0.f }, { 62.f, 50.f },	Vector2::Zero, 4, { 50.f, 50.f }, 0.1f);
@@ -52,7 +54,7 @@ namespace dru
 		//mAnimator->Create(L"Player_DeadEnd", Material->GetTexture(), { 1736.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.05f);
 		mAnimator->Play(L"Player_Idle");
 
-		this->AddComponent<CPlayerScript>(eComponentType::Script);
+		AddComponent<CPlayerScript>(eComponentType::Script);
 
 	}
 

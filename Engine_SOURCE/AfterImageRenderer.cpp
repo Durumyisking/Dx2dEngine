@@ -39,9 +39,9 @@ namespace dru
 
 
 		int idx = mAfterImageOwner->GetIndex();
-		UINT maxCount = mAfterImageOwner->GetOwner()->GetAfterImageCount();
+		UINT Size = mAfterImageOwner->GetOwner()->GetAfterImageCount();
 
-		float alpha = GetIndexAlpha(idx, maxCount);
+		float alpha = GetIndexAlpha(idx, Size);
 		ColorSetting();
 		GetMaterial()->SetData(eGPUParam::Float_4, &alpha);
 		
