@@ -171,6 +171,8 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BlinkScript.h" />
     <ClInclude Include="BodyShadeScript.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletScript.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraScript.h" />
     <ClInclude Include="Ceiling.h" />
@@ -259,6 +261,8 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BlinkScript.cpp" />
     <ClCompile Include="BodyShadeScript.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraScript.cpp" />
     <ClCompile Include="Ceiling.cpp" />

@@ -1,8 +1,6 @@
 #pragma once
 #include "LiveGameObj.h"
-#include "Animator.h"
 #include "MonsterScript.h"
-#include "RigidBody.h"
 #include "MonsterRay.h"
 
 

@@ -49,6 +49,8 @@ namespace dru
 		void AffectedGravityOn() { mbAffectedGravity = true; }
 		void AffectedGravityOff() { mbAffectedGravity = false; }
 
+		bool ObjOnStair();
+
 	private:
 		void objMove();
 

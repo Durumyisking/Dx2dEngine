@@ -111,67 +111,15 @@ namespace dru
 			return nullptr;
 		}
 
-		void SetPos(Vector3 _Value);
-		void SetScale(Vector3 _Value);
-		void SetRotation(Vector3 _Value);
 
-
-		Vector3 GetPos();
-		Vector3 GetScale();
-		Vector3 GetRotation();
 
 		Vector3 Forward() { return GetComponent<CTransform>()->Forward(); }
 		Vector3 Right() { return GetComponent<CTransform>()->Right(); }
 		Vector3 Up() { return GetComponent<CTransform>()->Up(); }
 
 
-		void SetMaterial(std::shared_ptr<CMaterial> _Material);
-		void SetMesh(std::shared_ptr<CMesh> _Mesh);
 
-		bool IsDead()
-		{
-			if (eState::Dead == mState)
-				return true;
-			return false;
-		}
 
-		void Active() 
-		{
-			if (!this)
-			{
-				return;
-			}
-			mState = eState::Active; 
-		}
-		void Pause() 
-		{
-			if (!this)
-			{
-				return;
-			}
-			mState = eState::Paused; 
-		}
-		void Die() 
-		{
-			if (!this)
-			{
-				return;
-			}
-			
-			mState = eState::Dead; 
-		}
-
-		eState GetState() const { return mState; }
-
-		bool IsDontDestroy(){ return mbDestroy;	}
-		void DontDestroy() { mbDestroy = true; }
-
-		eLayerType GetLayerType() const { return mType; }
-		void SetLayerType(eLayerType _Type) { mType = _Type; }
-
-		bool IsLeft() { return mbIsLeft; }
-		void SetLeft() { mbIsLeft = true; }
-		void SetRight() { mbIsLeft = false; }
 		void Flip();
 
 		
@@ -206,8 +154,72 @@ namespace dru
 		bool mbDestroy;
 
 		bool mbIsLeft;
+		bool mbOnFloor;
 		bool mbBlockRendering;
 
+	public:
+
+		void SetPos(Vector3 _Value);
+		void SetScale(Vector3 _Value);
+		void SetRotation(Vector3 _Value);
+
+
+		Vector3 GetPos();
+		Vector3 GetScale();
+		Vector3 GetRotation();
+
+
+		void SetMaterial(std::shared_ptr<CMaterial> _Material);
+		void SetMesh(std::shared_ptr<CMesh> _Mesh);
+
+		bool IsDead()
+		{
+			if (eState::Dead == mState)
+				return true;
+			return false;
+		}
+
+		void Active()
+		{
+			if (!this)
+			{
+				return;
+			}
+			mState = eState::Active;
+		}
+		void Pause()
+		{
+			if (!this)
+			{
+				return;
+			}
+			mState = eState::Paused;
+		}
+		void Die()
+		{
+			if (!this)
+			{
+				return;
+			}
+
+			mState = eState::Dead;
+		}
+
+		eState GetState() const { return mState; }
+
+		bool IsDontDestroy() { return mbDestroy; }
+		void DontDestroy() { mbDestroy = true; }
+
+		eLayerType GetLayerType() const { return mType; }
+		void SetLayerType(eLayerType _Type) { mType = _Type; }
+
+		bool IsLeft() { return mbIsLeft; }
+		void SetLeft() { mbIsLeft = true; }
+		void SetRight() { mbIsLeft = false; }
+
+		bool IsOnFloor() const { return mbOnFloor; }
+		void SetFloorOn() { mbOnFloor = true; }
+		void SetFloorOff() { mbOnFloor = false; }
 	};
 
 }

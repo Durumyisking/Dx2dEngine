@@ -173,6 +173,9 @@
     <Filter Include="GameObj\Monster\Cop">
       <UniqueIdentifier>{95685608-06f6-4de9-afa7-6f36a506d95b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Bullet">
+      <UniqueIdentifier>{387acadf-01fe-4729-a4fe-e3ca3f6a13ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -431,6 +434,12 @@
     <ClInclude Include="CopScript.h">
       <Filter>GameObj\Monster\Cop</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>GameObj\Monster\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletScript.h">
+      <Filter>GameObj\Monster\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -673,6 +682,12 @@
     </ClCompile>
     <ClCompile Include="CopScript.cpp">
       <Filter>GameObj\Monster\Cop</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>GameObj\Monster\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletScript.cpp">
+      <Filter>GameObj\Monster\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

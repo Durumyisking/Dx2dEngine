@@ -31,7 +31,6 @@ namespace dru
 
 		void SetConstantBuffer();
 
-		Vector3 DegreeToRadian(Vector3 _Degree);
 
 		CTransform* GetParent() const { return mParent; }
 		void SetParent(CGameObj* _Parent);

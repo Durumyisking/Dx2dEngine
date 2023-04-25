@@ -1,14 +1,14 @@
 #pragma once
-#include "MonsterScript.h"
+#include "Script.h"
 
 namespace dru
 {
-    class CCopScript :
-        public CMonsterScript
-    {
+	class CBulletScript :
+		public CScript
+	{
     public:
-        CCopScript();
-        virtual ~CCopScript();
+        CBulletScript();
+        virtual ~CBulletScript();
 
         virtual void Initialize() override;
         virtual void update() override;
@@ -22,7 +22,11 @@ namespace dru
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
+        virtual void OnTriggerEnter(CCollider2D* _oppo);
+        virtual void OnTrigger(CCollider2D* _oppo);
+        virtual void OnTriggerExit(CCollider2D* _oppo);
 
-    };
+
+	};
 }
 

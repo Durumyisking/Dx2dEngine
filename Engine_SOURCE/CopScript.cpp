@@ -27,7 +27,12 @@ namespace dru
 	}
 	void CCopScript::attack()
 	{
-		CMonsterScript::attack();
+		if (mState[(UINT)eMonsterState::Attack] == true)
+		{
+
+
+			CMonsterScript::attack();
+		}
 	}
 	void CCopScript::OnCollisionEnter(CCollider2D* _oppo)
 	{

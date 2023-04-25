@@ -1,7 +1,5 @@
 #include "Player.h"
 #include "PlayerScript.h"
-#include "RigidBody.h"
-#include "Animator.h"
 #include "CameraScript.h"
 #include "PlayerAfterImage.h"
 #include "GameObj.h"

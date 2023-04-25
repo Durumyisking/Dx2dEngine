@@ -44,7 +44,7 @@ namespace dru
 		Matrix scale = Matrix::CreateScale(mScale);
 	
 		
-		Vector3 rotation = DegreeToRadian(mRotation);
+		Vector3 rotation = mRotation* XM_PI / 180;
 		Matrix rotationMatrix;
 		rotationMatrix = Matrix::CreateRotationX(rotation.x);
 		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
@@ -86,11 +86,6 @@ namespace dru
 		cb->Bind(eShaderStage::PS);
 		cb->Bind(eShaderStage::CS);
 
-	}
-
-	Vector3 CTransform::DegreeToRadian(Vector3 _Degree)
-	{
-		return _Degree * XM_PI / 180;
 	}
 
 

@@ -12,6 +12,7 @@ namespace dru
 		, mbDestroy(false)
 		, mbIsLeft(false)
 		, mbBlockRendering(false)
+		, mbOnFloor(false)
 	{
 		mComponents.resize(static_cast<UINT>(eComponentType::End));
 		this->AddComponent<CTransform>(eComponentType::Transform);

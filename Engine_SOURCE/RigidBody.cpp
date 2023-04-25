@@ -1,6 +1,7 @@
 #include "RigidBody.h"
 #include "TimeMgr.h"
 #include "GameObj.h"
+#include "LiveGameObj.h"
 
 namespace dru
 {
@@ -41,6 +42,14 @@ namespace dru
 
 		if (mbOnAir && mbAffectedGravity)
 		{
+			if (ObjOnStair())
+			{
+				mGravity = Vector3::Zero;
+				float slope = GetOwner_LiveObject()->GetSlope();
+				Vector3 floorVectorNormal = { 0.f, 0.f, 1.f };
+				floorVectorNormal = RotateVector(floorVectorNormal, slope);
+				int i = 0;
+			}
 			mAccel += mGravity;
 		}
 		else
@@ -101,6 +110,18 @@ namespace dru
 	{
 	}
 
+	bool CRigidBody::ObjOnStair()
+	{
+		if (GetOwner()->GetObjectType() == CGameObj::eObjectType::Live)
+		{
+			if (GetOwner_LiveObject()->IsOnStair())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void CRigidBody::objMove()
 	{
 		float Speed = mVelocity.Length();
@@ -109,16 +130,16 @@ namespace dru
 		{
 			// 이동방향
 			Vector3 Dir = mVelocity;
-
-			Dir.Normalize();
+			
+			// Dir.Normalize();
 
 			//// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
-			//if (GetOwner()->IsOnStair())
-			//{
-			//	float slope = GetOwner()->GetSlope();
-			//	mVelocity = RotateZ(mVelocity, slope);
-			//}
+			if(ObjOnStair())
+			{
+				float slope = GetOwner_LiveObject()->GetSlope();
+				mVelocity = RotateZ(mVelocity, slope);
 
+			}
 			Vector3 Pos = GetOwner()->GetPos();
 			
 			Pos.x += mVelocity.x * CTimeMgr::DeltaTime();
