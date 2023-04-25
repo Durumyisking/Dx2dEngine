@@ -10,9 +10,9 @@ namespace dru
 		, mCop1DefaultPos{}
 	{
 		mStageState = eStageState::ReadyEnd;
-		mPlayerDefaultPos = Vector3(-6.f, -2.5f, 3.f);
-		mGrunt1DefaultPos = Vector3(0.f, -2.5f, 3.f);
-		mCop1DefaultPos = Vector3(0.f, -2.5f, 3.f);
+		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
+		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
+		mCop1DefaultPos = Vector3(0.f, -3.f, 3.f);
 	}
 
 	CStage2::~CStage2()
@@ -77,11 +77,11 @@ namespace dru
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
-		//mGrunt1->SetPos(mGrunt1DefaultPos);
-		//mGrunt1->GetScript<CMonsterScript>()->Reset();
+		mGrunt1->SetPos(mGrunt1DefaultPos);
+		mGrunt1->GetScript<CMonsterScript>()->Reset();
 
-		mCop1->SetPos(mCop1DefaultPos);
-		mCop1->GetScript<CMonsterScript>()->Reset();
+		//mCop1->SetPos(mCop1DefaultPos);
+		//mCop1->GetScript<CMonsterScript>()->Reset();
 
 		CStage::Reset();
 	}
@@ -94,16 +94,16 @@ namespace dru
 			mRewindObjects.push_back(mPlayer);
 		}
 
-		//{
-		//	mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-		//	mGrunt1->SetPos(mGrunt1DefaultPos);
-		//	mRewindObjects.push_back(mGrunt1);
-		//}
 		{
-			mCop1 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
-			mCop1->SetPos(mCop1DefaultPos);
-			mRewindObjects.push_back(mCop1);
+			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt1->SetPos(mGrunt1DefaultPos);
+			mRewindObjects.push_back(mGrunt1);
 		}
+		//{
+		//	mCop1 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
+		//	mCop1->SetPos(mCop1DefaultPos);
+		//	mRewindObjects.push_back(mCop1);
+		//}
 
 	}
 

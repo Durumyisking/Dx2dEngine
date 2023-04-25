@@ -27,8 +27,6 @@ namespace dru
 
 	void CMonster::Initialize()
 	{
-
-		AddRay();
 		CLiveGameObj::Initialize();
 	}
 
@@ -56,12 +54,15 @@ namespace dru
 	}
 
 
-	void CMonster::AddRay()
+	void CMonster::AddRay(Vector3 _Scale)
 	{
 		if (!mRay)
 		{
 			mRay = object::Instantiate<CMonsterRay>(eLayerType::Ray, this, L"MonsterRay");
 			mRay->GetScript<CMonsterRayScript>()->SetMonster(this);
+
+			if(_Scale != Vector3::Zero)
+				mRay->SetScale(_Scale);
 		}
 	}
 	void CMonster::SetRayPos()

@@ -12,8 +12,8 @@ namespace dru
 		ray->SetName(L"col_monsterray");
 		ray->SetType(eColliderType::Rect);
 
-
-		SetScale(Vector3(5.f, 1.f, 1.f));
+		Vector3 defaultScale = Vector3(5.f, 1.f, 1.f);
+		SetScale(defaultScale);
 
 		CMonsterRayScript* script = AddComponent<CMonsterRayScript>(eComponentType::Script);
 		script->Initialize();

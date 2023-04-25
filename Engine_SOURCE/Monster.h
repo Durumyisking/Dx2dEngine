@@ -21,7 +21,7 @@ namespace dru
 		virtual void render();
 
 
-		void AddRay();
+		void AddRay(Vector3 _Scale = Vector3::Zero);
 		void SetRayPos();
 		CMonsterRay* GetRay() const { return mRay; }
 		bool IsMonsterDead();

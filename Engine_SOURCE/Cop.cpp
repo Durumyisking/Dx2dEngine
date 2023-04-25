@@ -14,11 +14,11 @@ namespace dru
 
 		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Cop_Idle", Material->GetTexture(), { 2112.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
-	/*	mAnimator->Create(L"Cop_Run", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Cop_Attack", Material->GetTexture(), { 0.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Cop_DeadAirUp", Material->GetTexture(), { 3328.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Cop_DeadAirDown", Material->GetTexture(), { 3392.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Cop_DeadGround", Material->GetTexture(), { 3328.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 18, { 50.f, 50.f }, 0.1f);*/
+		mAnimator->Create(L"Cop_Run", Material->GetTexture(), { 2622.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Cop_Attack", Material->GetTexture(), { 0.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Cop_DeadAirUp", Material->GetTexture(), { 1152.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Cop_DeadAirDown", Material->GetTexture(), { 1216.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Cop_DeadGround", Material->GetTexture(), { 1280.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 13, { 50.f, 50.f }, 0.1f);
 
 		mAnimator->Play(L"Cop_Idle");
 
@@ -29,7 +29,8 @@ namespace dru
 	}
 	void CCop::Initialize()
 	{
-
+		Vector3 defaultScale = Vector3(6.f, 1.f, 1.f);
+		AddRay(defaultScale);
 		CMonster::Initialize();
 	}
 	void CCop::update()

@@ -42,8 +42,8 @@ namespace dru
 		mTransform = GetOwner()->GetComponent<CTransform>();
 		mMonsterName = GetOwner()->GetName();
 
-		//mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
-		//mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
+		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
+		mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
 
 	}
 
@@ -203,9 +203,11 @@ namespace dru
 	void CMonsterScript::Reset()
 	{
 		mbDead = false;
+		mHitTimer = 0.f;
 		mState.reset();
 		mState[(UINT)eMonsterState::Idle] = true;
 		mAnimator->Play(GetOwner()->GetName() + L"_Idle");
+		GetOwner()->GetComponent<CCollider2D>()->RenderingOn();
 
 
 		GetOwnerType<CMonster>()->AddRay();

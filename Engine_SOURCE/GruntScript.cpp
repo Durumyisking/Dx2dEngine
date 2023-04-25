@@ -10,10 +10,10 @@ namespace dru
 	}
 	void CGruntScript::Initialize()
 	{
+		CMonsterScript::Initialize();
 
 		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = std::bind(&CGruntScript::attackFrame2, this);
 
-		CMonsterScript::Initialize();
 	}
 	void CGruntScript::update()
 	{
