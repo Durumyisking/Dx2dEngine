@@ -10,6 +10,8 @@ namespace dru
 	}
 	void CGruntScript::Initialize()
 	{
+		mAttackRadius = 1.f;
+
 		CMonsterScript::Initialize();
 
 		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = std::bind(&CGruntScript::attackFrame2, this);
@@ -53,17 +55,16 @@ namespace dru
 	}
 	void CGruntScript::SetMonsterAttack()
 	{
-		if (GetPlayerDistance() <= 1.f)
+		GetOwner()->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
+		if (mAttackTimer >= 0.5f)
 		{
-			GetOwner()->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
-			if (mAttackTimer >= 1.f)
-			{
-				mState.reset();
-				mState[(UINT)eMonsterState::Attack] = true;
-				attack();
-			}
+			SetSingleState(eMonsterState::Attack);
+			attack();
 		}
-
+		else
+		{
+			runTrigger();
+		}
 	}
 	void CGruntScript::attackFrame2()
 	{

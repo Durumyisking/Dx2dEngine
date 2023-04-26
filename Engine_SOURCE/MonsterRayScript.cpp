@@ -41,9 +41,8 @@ namespace dru
 
 			if (mRayOwner->GetScript<CMonsterScript>()->GetTarget() && !mRayOwner->IsMonsterDead())
 			{
-				// 플레이어 상태 dead면
-				bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
-				if (!state)
+				// 플레이어 살아있으면
+				if (!IsPlayerDead())
 				{
 					SetMonsterAttack();
 				}
@@ -68,12 +67,6 @@ namespace dru
 			if (L"col_player" == _oppo->GetName())
 			{
 				mMonsterScript->SetTarget(_oppo->GetOwner_LiveObject());
-				bool state = dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
-
-				if (!state)
-				{
-					SetMonsterRun();
-				}
 			}
 		}
 	}
@@ -97,24 +90,23 @@ namespace dru
 	}
 	void CMonsterRayScript::SetMonsterAttack()
 	{
-		mMonsterScript->SetMonsterAttack();
+		float dist = mMonsterScript->GetPlayerDistance();
+
+		if (dist < mMonsterScript->GetAttackRadius())
+		{
+			mMonsterScript->SetMonsterAttack();
+		}
 	}
 	void CMonsterRayScript::SetMonsterIdle()
 	{
-		if (mMonsterScript->mState[(UINT)eMonsterState::Idle] == false)
-		{
-			mMonsterScript->mState.reset();
-			mAnimator->Play(mRayOwner->GetName() + L"_Idle");
-			mMonsterScript->mState[(UINT)eMonsterState::Idle] = true;
-		}
+		mMonsterScript->SetSingleState(eMonsterState::Idle);
 	}
 	void CMonsterRayScript::SetMonsterRun()
 	{
-		if (mMonsterScript->mState[(UINT)eMonsterState::Run] == false)
-		{
-			mAnimator->Play(mRayOwner->GetName() + L"_Run");
-			mMonsterScript->mState.reset();
-			mMonsterScript->mState[(UINT)eMonsterState::Run] = true;
-		}
+		mMonsterScript->SetSingleState(eMonsterState::Idle);
+	}
+	bool CMonsterRayScript::IsPlayerDead()
+	{
+		return dynamic_cast<CPlayer*>(mMonsterScript->mTarget)->GetScript<CPlayerScript>()->GetPlayerState(ePlayerState::Dead);
 	}
 }

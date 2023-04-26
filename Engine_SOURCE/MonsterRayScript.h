@@ -27,6 +27,7 @@ namespace dru
 		void SetMonsterIdle();
 		void SetMonsterRun();
 
+		bool IsPlayerDead();
 
 	private:
 		CMonster* mRayOwner;

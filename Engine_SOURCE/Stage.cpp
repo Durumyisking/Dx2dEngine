@@ -21,7 +21,7 @@ namespace dru
 		, mPlayerDefaultPos{}
 		, mDefaultTimerBarPos{}
 		, mDefaultTimerBarScale{}
-		, mTimer(20.f)
+		, mTimer(2000.f)
 		, mElapsedTime(0.f)
 		, mbRewinding(false)
 		, mRewindTimer(0.f)
@@ -388,8 +388,7 @@ namespace dru
 	}
 
 	void CStage::TimerBarScaling(float _Ratio)
-	{
-	
+	{	
 		float NewX = mDefaultTimerBarScale.x * _Ratio;
 		mHudTimerBar->GetComponent<CTransform>()->SetScale({ NewX, mDefaultTimerBarScale.y , mDefaultTimerBarScale.z });
 		mHudTimerBar->GetComponent<CTransform>()->SetPosition({ mDefaultTimerBarPos.x - (mDefaultTimerBarScale.x - NewX) * 0.5f, mDefaultTimerBarPos.y, mDefaultTimerBarPos.z });

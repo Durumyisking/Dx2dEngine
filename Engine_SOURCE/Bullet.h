@@ -19,6 +19,7 @@ namespace dru
 		CLiveGameObj* mTarget;
 		bool mbReflected;
 		Vector3 mDir;
+		float mBulletSpeed;
 
 	public:
 		void SetTarget(CLiveGameObj* _Target) { mTarget = _Target; }
@@ -27,5 +28,7 @@ namespace dru
 		void SetDir(Vector3 _Dir) { mDir = _Dir; }
 		Vector3 GetDir() const { return mDir; }
 
+		void SetSpeed(float _Speed) { mBulletSpeed = _Speed; }
+		float GetSpeed() const { return mBulletSpeed ; }
 	};
 }

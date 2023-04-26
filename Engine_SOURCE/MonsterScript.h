@@ -50,10 +50,15 @@ namespace dru
         void CreateBodySlash();
         bool IsMonsterDead() const { return mbDead; };
 
-
+        void FlipCheck();
         void Reset();
 
-    private:
+        void SetSingleState(eMonsterState _Type);
+
+        void DeleteTarget() { mTarget = nullptr; }
+
+    protected:
+        void runTrigger();
         void run();
 
         void hitSlash();
@@ -86,6 +91,9 @@ namespace dru
 
         float mAttackTimer;
 
+        float mDetectRadius;
+        float mAttackRadius;
+
         std::wstring mMonsterName;
 
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
@@ -99,6 +107,11 @@ namespace dru
         CLiveGameObj* GetTarget() const { return mTarget; }
 
         float GetPlayerDistance();
+
+        void SetDetectRadius(float _Value) { mDetectRadius = _Value; }
+        float GetDetectRadius() const { return mDetectRadius; }
+        void SetAttackRadius(float _Value) { mAttackRadius = _Value; }
+        float GetAttackRadius() const { return mAttackRadius; }
     };
 }
 

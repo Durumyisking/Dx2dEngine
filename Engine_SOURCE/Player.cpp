@@ -156,7 +156,7 @@ namespace dru
 		}
 		
 
-		for (size_t i = 0; i < mAfterImages.size(); i++)
+		for (UINT i = 0; i < mAfterImages.size(); i++)
 		{
 			mAfterImages[i]->SetIndex(i);
 		}

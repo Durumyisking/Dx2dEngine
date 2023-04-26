@@ -10,7 +10,7 @@ namespace dru
 	}
 	void CCopScript::Initialize()
 	{
-		
+		mAttackRadius = 5.f;
 		CMonsterScript::Initialize();
 	}
 	void CCopScript::update()
@@ -33,11 +33,11 @@ namespace dru
 			pos.y += 1.f;
 			if (GetOwner()->IsLeft())
 			{
-				pos.x -= 1.f;
+				pos.x -= 0.5f;
 			}
 			else
 			{
-				pos.x += 1.f;
+				pos.x += 0.1f;
 			}
 
 			CreateBullet(pos);
@@ -60,11 +60,14 @@ namespace dru
 	void CCopScript::SetMonsterAttack()
 	{
 		GetOwner()->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
-		if (mAttackTimer >= 5.f)
+		if (mAttackTimer >= 1.f)
 		{
-			mState.reset();
-			mState[(UINT)eMonsterState::Attack] = true;
+			SetSingleState(eMonsterState::Attack);
 			attack();
+		}
+		else
+		{
+			runTrigger();
 		}
 	}
 }

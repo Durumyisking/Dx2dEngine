@@ -25,6 +25,8 @@ namespace dru
 		, mHitTimer(0.f)
 		, mAttackTimer(1.f)
 		, mMonsterName{}
+		, mDetectRadius(7.f)
+		, mAttackRadius(4.f)
 	{
 
 	}
@@ -52,33 +54,26 @@ namespace dru
 		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
 		if (stagestate == eStageState::LoadEnd)
 		{
-
 			mPos = mTransform->GetPosition();
-			mAttackTimer += CTimeMgr::DeltaTime();
 
-			if (mState[(UINT)eMonsterState::Run] == true)
+			if (!mbDead)
 			{
-				run();
-			}
-			if (mState[(UINT)eMonsterState::Attack] == true)
-			{
-				// attack();
-			}
-			mMoveDir = mRigidbody->GetVelocity();
-			mMoveDir.Normalize();
+				mAttackTimer += CTimeMgr::DeltaTime();
 
+				runTrigger();
+				if (mState[UINT(eMonsterState::Run)] == true)
+				{
+					run();
+				}
+
+				mMoveDir = mRigidbody->GetVelocity();
+				mMoveDir.Normalize();
+
+				mTransform->SetPosition(mPos);
+			}
+			FlipCheck();
 			dead();
 
-
-			mTransform->SetPosition(mPos);
-			if (mMoveDir.x > 0.f)
-			{
-				GetOwner()->SetRight();
-			}
-			else if (mMoveDir.x < 0.f)
-			{
-				GetOwner()->SetLeft();
-			}
 		}
 		GetOwner()->Flip();
 	}
@@ -222,24 +217,106 @@ namespace dru
 		return dist;
 	}
 
+	void CMonsterScript::FlipCheck()
+	{
+		if (mMoveDir.x > 0.f)
+		{
+			GetOwner()->SetRight();
+		}
+		else if (mMoveDir.x < 0.f)
+		{
+			GetOwner()->SetLeft();
+		}
+		else if (mMoveDir.x == 0.f)
+		{
+			if (mTarget && !mbDead)
+			{
+				if (mTarget->GetPos().x > GetOwnerPos().x)
+				{
+					GetOwner()->SetRight();
+				}
+				else
+				{
+					GetOwner()->SetLeft();
+				}
+			}
+		}
+	}
+
 	void CMonsterScript::Reset()
 	{
 		mbDead = false;
 		mHitTimer = 0.f;
-		mState.reset();
-		mState[(UINT)eMonsterState::Idle] = true;
-		mAnimator->Play(GetOwner()->GetName() + L"_Idle");
+		SetSingleState(eMonsterState::Idle);
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOn();
-
 
 		GetOwnerType<CMonster>()->AddRay();
 
 	}
 
+	void CMonsterScript::SetSingleState(eMonsterState _Type)
+	{
+		if (mState[(UINT)_Type] == false)
+		{
+			mState.reset();
+			switch (_Type)
+			{
+			case dru::eMonsterState::Idle:
+				mAnimator->Play(GetOwner()->GetName() + L"_Idle");
+				break;
+			case dru::eMonsterState::Run:
+				mAnimator->Play(GetOwner()->GetName() + L"_Run");
+				break;
+			case dru::eMonsterState::Attack:
+				mAnimator->Play(GetOwner()->GetName() + L"_Attack");
+				break;
+			case dru::eMonsterState::Fall:
+				break;
+			case dru::eMonsterState::DieAirUp:
+				break;
+			case dru::eMonsterState::DieAirDown:
+				break;
+			case dru::eMonsterState::DieGround:
+				break;
+			case dru::eMonsterState::End:
+				break;
+			default:
+				break;
+			}
+			mState[(UINT)_Type] = true;
+		}
+	}
+
+	void CMonsterScript::runTrigger()
+	{
+		if (mTarget)
+		{
+			float dist = GetPlayerDistance();
+			if (dist < mDetectRadius)
+			{
+				if (dist > mAttackRadius)
+				{
+					if (mState[(UINT)eMonsterState::Run] == false)
+						SetSingleState(eMonsterState::Run);
+				}
+				else
+				{
+					if (mState[(UINT)eMonsterState::Attack] == false)
+						SetSingleState(eMonsterState::Idle);
+				}
+			}
+			else
+			{
+				SetSingleState(eMonsterState::Idle);
+			}
+		}
+	}
+
 	void CMonsterScript::run()
 	{
-		if (mTarget && !mbDead)
-		{
+		bool playerDead = dynamic_cast<CPlayer*>(mTarget)->IsPlayerDead();
+		if (mTarget && !mbDead && !playerDead)
+		{			
 			Vector3 vPos = GetOwner()->GetPos();
 			Vector3 vTargetPos = mTarget->GetPos();
 			Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
@@ -251,7 +328,6 @@ namespace dru
 
 	void CMonsterScript::attack()
 	{
-
 		mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
 		mAttackTimer = 0.f;
 	}
@@ -264,9 +340,8 @@ namespace dru
 			HitAddForce();
 
 			mbDead = true;
-			mState.reset();
-			mState[(UINT)eMonsterState::DieAirUp] = true;
 
+			SetSingleState(eMonsterState::DieAirUp);
 
 			// timeslow
 			CTimeMgr::BulletTime(0.25f);
@@ -352,18 +427,7 @@ namespace dru
 	{
 		if (!mTarget)
 		{
-			mState.reset();
-			mState[(UINT)eMonsterState::Idle] = true;
-			mAnimator->Play(mMonsterName + L"_Idle");
-		}
-		else
-		{
-			if (GetPlayerDistance() > 1.f)
-			{
-				mState.reset();
-				mState[(UINT)eMonsterState::Run] = true;
-				mAnimator->Play(mMonsterName + L"_Run");
-			}
+			SetSingleState(eMonsterState::Idle);
 		}
 	}
 
@@ -396,8 +460,6 @@ namespace dru
 
 		GetOwner()->Flip();
 		SlashObj->Flip();
-
-
 
 
 		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);

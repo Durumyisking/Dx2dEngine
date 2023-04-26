@@ -390,6 +390,8 @@ namespace dru
 		mBulletTimeGauge = 10.f;
 		mbBulletTimeStun = false;
 
+		dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(false);
+
 		SetPlayerSingleState(ePlayerState::Idle);
 
 		UnInputBlocking();
@@ -1343,6 +1345,8 @@ namespace dru
 			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
 			mHitDir = GetOwnerPos() - _enemyPos;
 			mHitDir.Normalize();
+			
+			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
 
 			// timeslow
 			CTimeMgr::BulletTime(0.5f);
