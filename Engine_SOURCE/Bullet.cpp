@@ -10,7 +10,11 @@ namespace dru
 		:mTarget(nullptr)
 		, mbReflected(false)
 		, mDir(Vector3::Zero)
-		, mBulletSpeed(1.f)
+		, mBulletSpeed(10.1f)
+		, collScaleX(1.f / 17.f)
+		, LcollPosX(collScaleX * -7.f)
+		, RcollPosX(collScaleX * 7.f)
+
 	{
 	}
 
@@ -22,7 +26,7 @@ namespace dru
 	{
 		SetLayerType(eLayerType::Bullet);
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		SetScale({ 0.1f, 0.05f, 1.f });
+		SetScale({ 0.05f, 0.05f, 1.f }); //  / 17.f
 
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"Bullet");
 		SpriteRenderer->SetMaterial(Material);
@@ -31,7 +35,8 @@ namespace dru
 		coll->Initialize();
 		coll->SetName(L"col_bullet");
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.05f, 0.05f));
+		float collScaleX = 1.f / 17.f;
+		coll->SetScale(Vector2(collScaleX, 1.f));
 
 		CBulletScript* script = AddComponent<CBulletScript>(eComponentType::Script);
 		script->Initialize();

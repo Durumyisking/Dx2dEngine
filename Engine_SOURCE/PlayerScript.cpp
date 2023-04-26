@@ -75,6 +75,7 @@ namespace dru
 
 		mAnimator->GetCompleteEvent(L"Player_WallKick") = std::bind(&CPlayerScript::wallkickComplete, this);
 		mAnimator->GetCompleteEvent(L"Player_Dead") = std::bind(&CPlayerScript::deadComplete, this);
+
 	}
 	void CPlayerScript::update()
 	{

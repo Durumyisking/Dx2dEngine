@@ -17,6 +17,8 @@ namespace dru::math
 
 	int GetRandomNumber(int _Range, int _StartNumber = 0);
 
+	float RotateToHead(Vector3 _Direction);
+
 
 }
 

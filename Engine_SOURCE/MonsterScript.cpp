@@ -245,6 +245,7 @@ namespace dru
 
 	void CMonsterScript::Reset()
 	{
+		mTarget = nullptr;
 		mbDead = false;
 		mHitTimer = 0.f;
 		SetSingleState(eMonsterState::Idle);
@@ -481,8 +482,28 @@ namespace dru
 		bullet->SetPos(_StartPos);
 		bullet->SetTarget(mTarget);
 
-		Vector3 dir = GetOwnerPos() - mTarget->GetPos();
+		CCollider2D* coll = bullet->GetComponent<CCollider2D>();
+
+		if (GetOwner()->IsLeft())
+		{
+			coll->SetCenter({ bullet->GetLCollPos(), 0.f });
+		}
+		else
+		{
+			coll->SetCenter({ bullet->GetRCollPos(), 0.f });
+		}
+
+		Vector3 dir = mTarget->GetPos() - bullet->GetPos();
 		dir.Normalize();
+		dir.z = 0.f;
+
+		// bullet의 진행방향으로 head를 돌린다.
+		float angle = RotateToHead(dir);
+		bullet->GetComponent<CTransform>()->SetRotationZ(angle);
+
+		// collider의 위치도 
+
+
 		bullet->SetDir(dir);
 
 	}

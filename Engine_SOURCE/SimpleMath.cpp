@@ -94,6 +94,21 @@ namespace dru::math
 		return randvalue;
 	}
 
+	float RotateToHead(Vector3 _Direction)
+	{
+		Vector3 forward = { 1.f, 0.f, 0.f }; // 초기값으로 x축을 사용합니다.
+
+		// 이동 방향과 forward 벡터 간의 각도를 구합니다.
+		float angle = acos(_Direction.Dot(forward)) * 180.f / XM_PI;
+
+		// 이동 방향이 y축을 향할 경우, 각도를 조정합니다.
+		if (_Direction.y < 0.f)
+		{
+			angle = -angle;
+		}
+		return angle;
+	}
+
 
 
 }

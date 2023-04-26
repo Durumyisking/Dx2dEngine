@@ -37,6 +37,10 @@ namespace dru
 
 	void CBulletScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		if (L"col_floor" == _oppo->GetName() || L"col_stair" == _oppo->GetName() || L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
+		{
+			GetOwner()->Die();
+		}
 	}
 
 	void CBulletScript::OnCollision(CCollider2D* _oppo)
