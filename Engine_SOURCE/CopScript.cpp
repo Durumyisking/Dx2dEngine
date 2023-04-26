@@ -29,7 +29,18 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
-			CreateBullet();
+			Vector3 pos = GetOwnerPos();
+			pos.y += 1.f;
+			if (GetOwner()->IsLeft())
+			{
+				pos.x -= 1.f;
+			}
+			else
+			{
+				pos.x += 1.f;
+			}
+
+			CreateBullet(pos);
 
 			CMonsterScript::attack();
 		}
@@ -45,5 +56,15 @@ namespace dru
 	void CCopScript::OnCollisionExit(CCollider2D* _oppo)
 	{
 		CMonsterScript::OnCollisionExit(_oppo);
+	}
+	void CCopScript::SetMonsterAttack()
+	{
+		GetOwner()->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
+		if (mAttackTimer >= 5.f)
+		{
+			mState.reset();
+			mState[(UINT)eMonsterState::Attack] = true;
+			attack();
+		}
 	}
 }

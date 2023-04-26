@@ -97,16 +97,7 @@ namespace dru
 	}
 	void CMonsterRayScript::SetMonsterAttack()
 	{
-		if (mMonsterScript->GetPlayerDistance() <= 1.f)
-		{
-			mRayOwner->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
-			if (mMonsterScript->mAttackTimer >= 1.f)
-			{
-				mMonsterScript->mState.reset();
-				mMonsterScript->mState[(UINT)eMonsterState::Attack] = true;
-				mMonsterScript->attack();
-			}
-		}
+		mMonsterScript->SetMonsterAttack();
 	}
 	void CMonsterRayScript::SetMonsterIdle()
 	{

@@ -176,6 +176,9 @@
     <Filter Include="GameObj\Monster\Bullet">
       <UniqueIdentifier>{387acadf-01fe-4729-a4fe-e3ca3f6a13ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\liveGameObj">
+      <UniqueIdentifier>{9cd9dd30-a859-4d4e-ac95-05c5e50bb738}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -419,9 +422,6 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>Common\Math</Filter>
     </ClInclude>
-    <ClInclude Include="LiveGameObj.h">
-      <Filter>GameObj</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerAfterImage.h">
       <Filter>GameObj\Player\AfterImage</Filter>
     </ClInclude>
@@ -442,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="Floor2.h">
       <Filter>GameObj\Platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveGameObj.h">
+      <Filter>GameObj\liveGameObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -671,9 +674,6 @@
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Common\Math</Filter>
     </ClCompile>
-    <ClCompile Include="LiveGameObj.cpp">
-      <Filter>GameObj</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerAfterImage.cpp">
       <Filter>GameObj\Player\AfterImage</Filter>
     </ClCompile>
@@ -694,6 +694,9 @@
     </ClCompile>
     <ClCompile Include="Floor2.cpp">
       <Filter>GameObj\Platforms</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveGameObj.cpp">
+      <Filter>GameObj\liveGameObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

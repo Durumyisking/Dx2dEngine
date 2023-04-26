@@ -51,6 +51,20 @@ namespace dru
 	{
 		CMonsterScript::OnCollisionExit(_oppo);
 	}
+	void CGruntScript::SetMonsterAttack()
+	{
+		if (GetPlayerDistance() <= 1.f)
+		{
+			GetOwner()->GetComponent<CRigidBody>()->SetVelocity(Vector3::Zero);
+			if (mAttackTimer >= 1.f)
+			{
+				mState.reset();
+				mState[(UINT)eMonsterState::Attack] = true;
+				attack();
+			}
+		}
+
+	}
 	void CGruntScript::attackFrame2()
 	{
 		makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 64.f, 64.f });

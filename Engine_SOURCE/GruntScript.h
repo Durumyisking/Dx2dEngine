@@ -18,10 +18,11 @@ namespace dru
 
         virtual void attack();
 
-
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
+
+        virtual void SetMonsterAttack();
 
     private:
         void attackFrame2();

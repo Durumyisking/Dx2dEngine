@@ -22,7 +22,7 @@ namespace dru
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
-
+        virtual void SetMonsterAttack();
     };
 }
 

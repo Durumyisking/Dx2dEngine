@@ -105,6 +105,13 @@ namespace dru
 			}
 
 		}
+		else if (L"col_stair" == _oppo->GetName())
+		{
+			mRigidbody->SetGround();
+			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
+			GetOwner_LiveObject()->SetStairOn(degree);
+		}
+
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = true;
@@ -126,6 +133,12 @@ namespace dru
 
 	void CMonsterScript::OnCollision(CCollider2D* _oppo)
 	{
+		if (L"col_stair" == _oppo->GetName())
+		{
+		float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
+		GetOwner_LiveObject()->SetStairOn(degree);
+		}
+
 	}
 
 	void CMonsterScript::OnCollisionExit(CCollider2D* _oppo)
@@ -133,6 +146,15 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName())
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
+		}
+		else if (L"col_stair" == _oppo->GetName())
+		{
+			if (!GetOwner()->IsOnFloor())
+			{
+				GetOwner()->GetComponent<CRigidBody>()->SetAir();
+			}
+
+			GetOwner_LiveObject()->SetStairOff();
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -390,11 +412,17 @@ namespace dru
 		SlashObj->AddComponent<CSlashScript>(eComponentType::Script)->Initialize();
 	}
 
-	void CMonsterScript::CreateBullet()
+	void CMonsterScript::CreateBullet(Vector3 _StartPos)
 	{
 		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
 		bullet->Initialize();
+		bullet->SetPos(_StartPos);
 		bullet->SetTarget(mTarget);
+
+		Vector3 dir = GetOwnerPos() - mTarget->GetPos();
+		dir.Normalize();
+		bullet->SetDir(dir);
+
 	}
 
 }

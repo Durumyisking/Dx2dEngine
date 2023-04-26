@@ -24,9 +24,11 @@ namespace dru
 
 		this->AddComponent<CCopScript>(eComponentType::Script)->Initialize();
 	}
+
 	CCop::~CCop()
 	{
 	}
+
 	void CCop::Initialize()
 	{
 		Vector3 defaultScale = Vector3(6.f, 1.f, 1.f);

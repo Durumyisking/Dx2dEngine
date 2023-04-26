@@ -44,12 +44,11 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
+        virtual void SetMonsterAttack() = 0;
 
         void HitAddForce();
-
         void CreateBodySlash();
-
-        bool  IsMonsterDead() const { return mbDead; };
+        bool IsMonsterDead() const { return mbDead; };
 
 
         void Reset();
@@ -68,7 +67,7 @@ namespace dru
     protected:
 
         void makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio);
-        void CreateBullet();
+        void CreateBullet(Vector3 _StartPos);
 
 
         CAnimator* mAnimator;
