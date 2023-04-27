@@ -871,7 +871,11 @@ namespace dru
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
 			if (CTimeMgr::IsBulletTimeOn())
+			{
+				SetAfterImageCount(20);
+//				GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 0.5f, 0.5f, 2.f));
 				CTimeMgr::BulletTimeOff();
+			}
 		}
 
 		if (mbBulletTimeStun)
@@ -890,8 +894,13 @@ namespace dru
 			}
 			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
 			{
-				if(!CTimeMgr::IsBulletTimeOn())
+				if (!CTimeMgr::IsBulletTimeOn())
+				{
+//					GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 2.f, 2.f, 0.5f));
 					CTimeMgr::BulletTimeOn();
+				}
+				SetAfterImageCount(20);
+
 				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
 				if (mBulletTimeGauge < 0.f)
 				{
@@ -1110,6 +1119,8 @@ namespace dru
 
 		if (mBulletTimeCooldown >= 3.f)
 		{
+			GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 0.75f, 0.75f, 2.f));
+
 			mbBulletTimeStun = false;
 			mBulletTimeGauge = 1.f;	
 			mBulletTimeCooldown = 0.f;

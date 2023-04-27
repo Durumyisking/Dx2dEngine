@@ -27,10 +27,20 @@ namespace dru
         void CreateGun();
         void CreateBullet(Vector3 _StartPos);
 
+        void GunFlip();
+        void RotateBullet(Vector3 _Dir, CBullet* _Bullet);
+        void RotateBulletCollider( CBullet* _Bullet);
+        void RotateGun(Vector3 _Dir);
+
     private:
         CGameObj* mCopGun;
         CGameObj* mGunMuzzle;
         CGameObj* mGunFire;
+        CGameObj* mGunSmoke;
+        CGameObj* mBulletReflect;
+
+
+        float mAngle;
     };
 }
 

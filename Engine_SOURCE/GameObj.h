@@ -160,6 +160,12 @@ namespace dru
 	public:
 
 		void SetPos(Vector3 _Value);
+		void SetPosZ(float _Z) 
+		{
+			Vector3 pos = GetPos();
+			pos.z = _Z;
+			GetComponent<CTransform>()->SetPosition(pos);
+		};
 		void SetScale(Vector3 _Value);
 		void SetRotation(Vector3 _Value);
 

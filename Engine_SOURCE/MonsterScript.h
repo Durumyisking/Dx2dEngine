@@ -106,6 +106,7 @@ namespace dru
         CLiveGameObj* GetTarget() const { return mTarget; }
 
         float GetPlayerDistance();
+        Vector3 GetPlayerTowardDir(CGameObj* _Obj);
 
         void SetDetectRadius(float _Value) { mDetectRadius = _Value; }
         float GetDetectRadius() const { return mDetectRadius; }

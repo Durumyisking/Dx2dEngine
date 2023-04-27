@@ -10,7 +10,7 @@ namespace dru
 		:mTarget(nullptr)
 		, mbReflected(false)
 		, mDir(Vector3::Zero)
-		, mBulletSpeed(0.1f)
+		, mBulletSpeed(10.1f)
 		, collScaleX(1.f / 17.f)
 		, collPosX(collScaleX * 3.5f)
 

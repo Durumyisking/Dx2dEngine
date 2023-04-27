@@ -524,6 +524,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"fx_blood", L"MainScene/FX/fx_blood.png");
 		CResources::Load<CTexture>(L"fx_landdust", L"MainScene/FX/fx_landdust.png");
 		CResources::Load<CTexture>(L"fx_bulletReflect", L"MainScene/FX/fx_bulletReflect.png");
+		CResources::Load<CTexture>(L"fx_gunSmoke", L"MainScene/FX/fx_gunSmoke.png");
+		CResources::Load<CTexture>(L"fx_gunFire", L"MainScene/FX/fx_gunFire.png");
 
 
 		// mission

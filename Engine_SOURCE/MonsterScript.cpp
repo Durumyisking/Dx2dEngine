@@ -217,6 +217,14 @@ namespace dru
 		return dist;
 	}
 
+	Vector3 CMonsterScript::GetPlayerTowardDir(CGameObj* _Obj)
+	{
+		Vector3 dir = mTarget->GetPos() - _Obj->GetPos();
+		dir.Normalize();
+		dir.z = 0.f;
+		return dir;
+	}
+
 	void CMonsterScript::FlipCheck()
 	{
 		if (mMoveDir.x > 0.f)

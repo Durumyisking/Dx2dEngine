@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "PlayerAfterImage.h"
 #include "Player.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -24,6 +25,11 @@ namespace dru
 
 	void CAfterImageRenderer::update()
 	{
+		if (CTimeMgr::IsBulletTimeOn())
+		{
+			mAfterImageOwner->SetPosZ(2.f);
+		}
+
 		CBaseRenderer::update();
 	}
 
@@ -42,6 +48,7 @@ namespace dru
 		UINT Size = mAfterImageOwner->GetOwner()->GetAfterImageCount();
 
 		float alpha = GetIndexAlpha(idx, Size);
+
 		ColorSetting();
 		GetMaterial()->SetData(eGPUParam::Float_4, &alpha);
 		
@@ -76,16 +83,22 @@ namespace dru
 
 	void CAfterImageRenderer::ColorSetting()
 	{
-		int randvalue = GetRandomNumber(1, 0);
-		if (0 == randvalue)
+		if (CTimeMgr::IsBulletTimeOn())
 		{
-			AddColor(Vector4(0.f, 2.f, 2.f, 1.f));
+			MulColor(Vector4(0.f, 2.f, 2.f, 1.f));
 		}
-		else if (1 == randvalue)
+		else
 		{
-			AddColor(Vector4(2.f, 0.f, 2.f, 1.f));
+			int randvalue = GetRandomNumber(1, 0);
+			if (0 == randvalue)
+			{
+				MulColor(Vector4(0.f, 2.f, 2.f, 0.5f));
+			}
+			else if (1 == randvalue)
+			{
+				MulColor(Vector4(2.f, 0.f, 2.f, 0.5f));
+			}
 		}
-
 	}
 
 }

@@ -7,6 +7,9 @@ namespace dru
 		:mCopGun(nullptr)
 		, mGunMuzzle(nullptr)
 		, mGunFire(nullptr)
+		, mGunSmoke(nullptr)
+		, mBulletReflect(nullptr)
+		, mAngle(0.f)
 
 	{
 	}
@@ -26,16 +29,16 @@ namespace dru
 		{
 			mCopGun->RenderingBlockOn();
 		}
-		if (GetOwner()->IsLeft())
-		{
-			mCopGun->SetLeft();
-		}
-		else
-		{
-			mCopGun->SetRight();
-		}
-		mCopGun->Flip();
 
+		if(mTarget)
+		{
+			if (GetPlayerDistance() < mAttackRadius)
+			{
+				Vector3 dir = GetPlayerTowardDir(GetOwner());
+				RotateGun(dir);
+			}
+		}
+		GunFlip();
 
 		CMonsterScript::update();
 	}
@@ -84,6 +87,7 @@ namespace dru
 	}
 	void CCopScript::CreateGun()
 	{
+		// 총
 		mCopGun = object::Instantiate<CGameObj>(eLayerType::MonsterGun,  GetOwner(), L"copgun");
 		CSpriteRenderer* SpriteRenderer = mCopGun->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
@@ -94,46 +98,94 @@ namespace dru
 		mCopGun->SetScale(Vector3(0.06f, 0.06f, 1.f));
 		mCopGun->RenderingBlockOn();
 
+		// 총구
 		mGunMuzzle = object::Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun, L"gunMuzzle");
+//		mGunMuzzle->SetPos({0.5f, -3.f, 3.f});
 		CCollider2D* coll = mGunMuzzle->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->Initialize();
 		coll->SetName(L"col_mullze");
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale({ 0.1f, 0.1f });
-		mGunMuzzle->SetPos(mCopGun->GetPos());
 
 	}
 	void CCopScript::CreateBullet(Vector3 _StartPos)
 	{
-
 		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
 		bullet->Initialize();
 		bullet->SetTarget(mTarget);
 		bullet->SetPos(_StartPos);
 
-		CCollider2D* coll = bullet->GetComponent<CCollider2D>();
-		coll->SetCenter({ bullet->GetCollPosX(), 0.f });
-		Vector3 dir = mTarget->GetPos() - bullet->GetPos();
-		dir.Normalize();
-		dir.z = 0.f;
+		Vector3 dir = GetPlayerTowardDir(bullet);
 
 		// bullet의 진행방향으로 head를 돌린다.
-		float angle = RotateToHead(dir);
-		bullet->GetComponent<CTransform>()->SetRotationZ(angle);
+		Vector3 Right = { 1.f, 0.f, 0.f };
+		mAngle = RotateToHead(dir, Right);
 
+		RotateBullet(dir, bullet);
 
 		// collider의 위치도 변경해줘야한다.
-		Vector3 collPos = { coll->GetCenter().x, coll->GetCenter().y, 0.f };
-		collPos = RotateZ(collPos, angle);
-		coll->SetCenter({ collPos.x, collPos.y });
+		RotateBulletCollider(bullet);
 
-		bullet->SetDir(dir);
+	}
 
+	void CCopScript::GunFlip()
+	{
+		Vector3 CopGunPos = mCopGun->GetPos();
+		if (GetOwner()->IsLeft())
+		{
+			CopGunPos.x = -0.2f;
+			mCopGun->SetPos(CopGunPos);
+			mCopGun->SetLeft();
+		}
+		else
+		{
+			CopGunPos.x = 0.2f;
+			mCopGun->SetPos(CopGunPos);
+			mCopGun->SetRight();
+		}
+		mCopGun->Flip();
+	}
+
+	void CCopScript::RotateBullet(Vector3 _Dir, CBullet* _Bullet)
+	{
+		_Bullet->GetComponent<CTransform>()->SetRotationZ(mAngle);
+		_Bullet->SetDir(_Dir);
 
 		Vector3 pos = mGunMuzzle->GetPos();
-		pos += (dir * 0.2325f);
+		pos += (_Dir * 0.2325f); // 총구 위치 에서 미사일 나가게
 
-		bullet->SetPos(pos);
+		_Bullet->SetPos(pos);
+	}
+	void CCopScript::RotateBulletCollider(CBullet* _Bullet)
+	{
+		CCollider2D* coll = _Bullet->GetComponent<CCollider2D>();
+		coll->SetCenter({ _Bullet->GetCollPosX(), 0.f });
+		Vector3 collPos = { coll->GetCenter().x, coll->GetCenter().y, 0.f };
+		collPos = RotateZ(collPos, mAngle);
+		coll->SetCenter({ collPos.x, collPos.y });
+	}
+	void CCopScript::RotateGun(Vector3 _Dir)
+	{
+		float angleTemp = 0.f;
+		Vector3 Right = { 1.f, 0.f, 0.f };
+
+		if (GetOwner()->IsLeft())
+		{
+			Right.x = -1.f;
+		}
+		angleTemp = RotateToHead(_Dir, Right);
+		if (GetOwner()->IsLeft())
+		{
+			angleTemp *= -1.f;
+		}
+
+		if (35.f < fabs(angleTemp))
+			return;
+
+		mCopGun->GetComponent<CTransform>()->SetRotationZ(angleTemp);
+
+		// 총구도 돌려준다.
+		//Vector3 newMuzzlePos =  RotateZ(mGunMuzzle->GetPos(), mAngle);
+		//mGunMuzzle->SetPos(newMuzzlePos);
 
 	}
 }
