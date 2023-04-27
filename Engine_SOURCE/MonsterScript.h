@@ -72,7 +72,6 @@ namespace dru
     protected:
 
         void makeSlash(Vector2 _vLT, Vector2 _FrameSize, UINT _AnimSize, Vector2 _Ratio);
-        void CreateBullet(Vector3 _StartPos);
 
 
         CAnimator* mAnimator;

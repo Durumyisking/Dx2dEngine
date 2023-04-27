@@ -19,6 +19,12 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
+		void SetConstantBuffer();
+
+
+		CTransform* GetParent() const { return mParent; }
+		void SetParent(CGameObj* _Parent);
+
 
 		void SetPosition(Vector3 _Value) { mPosition = _Value; }
 		void SetRotation(Vector3 _Value) { mRotation = _Value; }
@@ -29,17 +35,15 @@ namespace dru
 
 		void SetWorldMatrix();
 
-		void SetConstantBuffer();
-
-
-		CTransform* GetParent() const { return mParent; }
-		void SetParent(CGameObj* _Parent);
 
 		Vector3 Forward() { return mForward; }
 		Vector3 Right() { return mRight; }
 		Vector3 Up() { return mUp; }
 
-		Vector3 GetPosition() { return mPosition; }
+		Vector3 GetPosition() 
+		{
+			return mPosition;
+		}
 		Vector3 GetRotation() { return mRotation; }
 		Vector3 GetScale() { return mScale; }
 

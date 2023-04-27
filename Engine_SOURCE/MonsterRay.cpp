@@ -16,7 +16,7 @@ namespace dru
 		SetScale(defaultScale);
 
 		CMonsterRayScript* script = AddComponent<CMonsterRayScript>(eComponentType::Script);
-		script->Initialize();
+		//script->Initialize();
 	}
 
 	CMonsterRay::~CMonsterRay()

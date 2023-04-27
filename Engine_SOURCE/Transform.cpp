@@ -12,7 +12,7 @@ namespace dru
 		, mScale(Vector3::One)
 		, mForward(Vector3::Forward)
 		, mRight(Vector3::Right)
-		, mUp (Vector3::Up)
+		, mUp(Vector3::Up)
 	{
 	}
 

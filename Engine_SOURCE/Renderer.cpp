@@ -498,6 +498,7 @@ namespace dru::renderer
 		// monster
 		CResources::Load<CTexture>(L"grunt", L"MainScene/Monster/Grunt.png");
 		CResources::Load<CTexture>(L"cop", L"MainScene/Monster/Cop.png");
+		CResources::Load<CTexture>(L"cop_gun", L"MainScene/Monster/Cop_Gun.png");
 
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");

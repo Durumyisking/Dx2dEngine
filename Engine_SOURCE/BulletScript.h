@@ -35,6 +35,7 @@ namespace dru
         Vector3 mDefaultBulletScale;
 
         bool mbScalingDone;
+        bool mbCreated;
 
 	};
 }

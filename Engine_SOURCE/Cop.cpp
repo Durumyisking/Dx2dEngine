@@ -37,7 +37,6 @@ namespace dru
 	}
 	void CCop::update()
 	{
-
 		CMonster::update();
 	}
 	void CCop::fixedUpdate()

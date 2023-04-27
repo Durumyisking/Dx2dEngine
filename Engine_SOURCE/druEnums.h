@@ -11,6 +11,7 @@ namespace dru::enums
 		BackGround,
 		Bullet,
 		Monster,
+		MonsterGun,
 		Player,
 		AfterImage,
 		Platforms,

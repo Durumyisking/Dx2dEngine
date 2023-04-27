@@ -9,6 +9,7 @@ namespace dru
 		, mElapsedTime(0.f)
 		, mDefaultBulletScale(Vector3::Zero)	
 		, mbScalingDone(false)
+		, mbCreated(false)
 	{
 	}
 
@@ -79,6 +80,17 @@ namespace dru
 
 	void CBulletScript::BulletMove()
 	{
+
+		//if (!mbCreated)
+		//{
+		//	Vector3 pos = GetOwnerPos();
+
+		//	pos += dir * GetOwner()->GetScale().x 
+
+		//	GetOwner()->SetPos(pos);
+		//	mbCreated = true;
+		//}
+
 		Vector3 dir = mBullet->GetDir();
 		Vector3 pos = GetOwnerPos();
 

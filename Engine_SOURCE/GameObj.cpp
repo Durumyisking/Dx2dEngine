@@ -145,8 +145,14 @@ namespace dru
 				case dru::enums::eLayerType::Monster:
 					_Value.z = 3.1f;
 					break;
+				case dru::enums::eLayerType::MonsterGun:
+					//_Value.z = 3.09f;
+					break;
 				case dru::enums::eLayerType::Player:
 					_Value.z = 3.f;
+					break;
+				case dru::enums::eLayerType::Bullet:
+					_Value.z = 2.81f;
 					break;
 				case dru::enums::eLayerType::AfterImage:
 					_Value.z = 3.01f;

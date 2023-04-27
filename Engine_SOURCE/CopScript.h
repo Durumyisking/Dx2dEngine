@@ -23,6 +23,14 @@ namespace dru
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
         virtual void SetMonsterAttack();
+
+        void CreateGun();
+        void CreateBullet(Vector3 _StartPos);
+
+    private:
+        CGameObj* mCopGun;
+        CGameObj* mGunMuzzle;
+        CGameObj* mGunFire;
     };
 }
 

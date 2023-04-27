@@ -21,8 +21,7 @@ namespace dru
 		Vector3 mDir;
 		float mBulletSpeed;
 		float collScaleX;
-		float LcollPosX;
-		float RcollPosX;
+		float collPosX;
 
 	public:
 		void SetTarget(CLiveGameObj* _Target) { mTarget = _Target; }
@@ -34,7 +33,6 @@ namespace dru
 		void SetSpeed(float _Speed) { mBulletSpeed = _Speed; }
 		float GetSpeed() const { return mBulletSpeed ; }
 
-		float GetLCollPos() const { return LcollPosX; }
-		float GetRCollPos() const { return RcollPosX; }
+		float GetCollPosX() const { return collPosX; }
 	};
 }
