@@ -653,6 +653,17 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"Bullet", Material);
 		}
 		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"PlayerMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"PlayerBulletTimeMat", Material);
+			Vector4 color = Vector4(0.f, 2.f, 2.f, 0.5f);
+			Material->SetData(eGPUParam::Vector4_1, &color);
+		}
+
+		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"GruntMat", Material);
 		}

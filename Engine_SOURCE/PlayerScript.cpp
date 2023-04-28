@@ -873,7 +873,8 @@ namespace dru
 			if (CTimeMgr::IsBulletTimeOn())
 			{
 				SetAfterImageCount(20);
-//				GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 0.5f, 0.5f, 2.f));
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
+				GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
 				CTimeMgr::BulletTimeOff();
 			}
 		}
@@ -896,7 +897,8 @@ namespace dru
 			{
 				if (!CTimeMgr::IsBulletTimeOn())
 				{
-//					GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 2.f, 2.f, 0.5f));
+					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerBulletTimeMat");
+					GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
 					CTimeMgr::BulletTimeOn();
 				}
 				SetAfterImageCount(20);

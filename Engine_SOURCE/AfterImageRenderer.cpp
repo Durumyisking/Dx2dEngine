@@ -25,11 +25,6 @@ namespace dru
 
 	void CAfterImageRenderer::update()
 	{
-		if (CTimeMgr::IsBulletTimeOn())
-		{
-			mAfterImageOwner->SetPosZ(2.f);
-		}
-
 		CBaseRenderer::update();
 	}
 

@@ -29,8 +29,7 @@ namespace dru
 
 
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
-		CResources::Insert<CMaterial>(L"PlayerMat", Material);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
