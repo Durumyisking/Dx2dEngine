@@ -1,18 +1,18 @@
+#include "Texture.hlsli"
 #include "Light.hlsli"
 #include "Particle.hlsli"
-#include "ConstantBuffer.hlsli"
-#include "Texture.hlsli"
 #include "Sampler.hlsli"
+#include "ConstantBuffer.hlsli"
 #include "Blur.hlsli"
 
 
 struct VTX_IN
 {
-    float4 vPos : POSITION; // 오른쪽에 오는놈은 시멘틱이라고 해요
-                            // 태그같은거임
-                            // 외부에서 태그 적으면 해당 바이트 크기(12) 만큼 보내겠다~
+    float4 vPos : POSITION;
+                           
+                           
     float4 vColor : COLOR;
-    float2 vUV : TEXCOORD; // 텍스처 UV좌표 (픽셀쉐이더에서 할 수 있지민 U*V만큼 연산해줘야되니까 버텍스 쉐이더에서 넘겨줘서 보간하게끔 한다)
+    float2 vUV : TEXCOORD; 
                             
     
 };

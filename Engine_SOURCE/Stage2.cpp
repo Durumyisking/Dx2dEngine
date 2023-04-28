@@ -94,6 +94,7 @@ namespace dru
 			mRewindObjects.push_back(mPlayer);
 		}
 
+
 		//{
 		//	mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 		//	mGrunt1->SetPos(mGrunt1DefaultPos);

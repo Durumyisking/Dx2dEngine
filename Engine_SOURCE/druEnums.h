@@ -19,6 +19,7 @@ namespace dru::enums
 		Particle,
 		FX,
 		UI,
+		PostProcess,
 		End = 16,
 	};
 

@@ -76,8 +76,8 @@ namespace dru::graphics
 		// Get rendertarget for swapchain
 		//						0¹ø ¹öÆÛ°¡ ·»´õÅ¸°Ù							·»´õÅ¸°Ù Æ÷ÀÎÅÍ
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)renderTarget.GetAddressOf());
-
 		mRenderTargetTexture->Create(renderTarget);
+		CResources::Insert<CTexture>(L"RenderTargetTexture", mRenderTargetTexture);
 		// Create Rendertarget View
 
 		mDepthStencilBufferTexture = std::make_shared<CTexture>();

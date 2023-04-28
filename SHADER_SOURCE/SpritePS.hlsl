@@ -29,6 +29,12 @@ float4 main(VTX_OUT _in) : SV_Target
         
     }
     
+    // Masking effect
+    //if (0.f < NoiseTime)
+    //{
+    //    color.a -= NoiseTexture.Sample(anisotropicSampler, _in.vUV).x * 0.25f * (10.0f - NoiseTime);
+    //}
+    
     if(color.w == 0)
         discard;
     
@@ -44,8 +50,7 @@ float4 main(VTX_OUT _in) : SV_Target
 
     color *= lightcolor.diffuse;
     
-    
-    
+     
     return color;
     
 }

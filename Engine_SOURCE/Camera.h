@@ -4,6 +4,7 @@
 namespace dru
 {
 	using namespace math;
+	class CCameraScript;
 
 	enum class eProjectionType
 	{
@@ -62,8 +63,9 @@ namespace dru
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
+		void renderPostProcess(); 
+		
 		void pushGameObjectToRenderingModes(CGameObj* obj);
-
 		bool renderPassCheck(CGameObj* _obj);
 
 	private:
@@ -85,7 +87,7 @@ namespace dru
 		std::vector<CGameObj*> mOpaqueGameObjects;
 		std::vector<CGameObj*> mCutoutGameObjects;
 		std::vector<CGameObj*> mTransparentGameObjects;
-
+		std::vector<CGameObj*> mPostProcessGameObjects;
 
 		CGameObj*	mTargetObj;
 		Vector3		mCamDir;

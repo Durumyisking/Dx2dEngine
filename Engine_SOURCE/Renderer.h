@@ -119,6 +119,7 @@ namespace dru::renderer
 	CBUFFER(NoiseCB, CBSLOT_NOISE)
 	{
 		Vector4 noiseSize;
+		float noiseTime;
 	};
 
 
@@ -151,5 +152,6 @@ namespace dru::renderer
 	void PushLightAttribute(LightAttribute _attribute);
 	void BindLight();
 	void BindNoiseTexture();
+	void CopyRenderTarget();
 }
 

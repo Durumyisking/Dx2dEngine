@@ -109,6 +109,7 @@ namespace dru
 		renderOpaque();
 		renderCutout();
 		renderTransparent();
+		renderPostProcess();
 	}	
 
 	void CCamera::CreateViewMatrix()
@@ -188,6 +189,7 @@ namespace dru
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
 		mTransparentGameObjects.clear();
+		mPostProcessGameObjects.clear();
 
 		CScene* scene = CSceneMgr::mActiveScene;
 		for (size_t i = 0; i < (UINT)eLayerType::End; i++)
@@ -239,6 +241,19 @@ namespace dru
 		}
 	}
 
+	void CCamera::renderPostProcess()
+	{
+
+		for (CGameObj* obj : mPostProcessGameObjects)
+		{
+			if (obj == nullptr)
+				continue;
+			renderer::CopyRenderTarget();
+			obj->render();
+		}
+	}
+
+
 	void CCamera::pushGameObjectToRenderingModes(CGameObj* obj)
 	{
 		CBaseRenderer* renderer = obj->GetComponent<CBaseRenderer>();
@@ -260,6 +275,9 @@ namespace dru
 			break;
 		case dru::graphics::eRenderingMode::Transparent:
 			mTransparentGameObjects.push_back(obj);
+			break;
+		case dru::graphics::eRenderingMode::PostProcess:
+			mPostProcessGameObjects.push_back(obj);
 			break;
 		default:
 			break;

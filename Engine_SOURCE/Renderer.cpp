@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "PaintShader.h"
 #include "ParticleShader.h"
+#include "TimeMgr.h"
 
 
 namespace dru::renderer
@@ -22,6 +23,8 @@ namespace dru::renderer
 	std::vector<DebugMesh> debugMeshes;
 	std::vector<LightAttribute> lights;
 	CStructedBuffer* lightBuffer = nullptr;
+
+	std::shared_ptr<CTexture> postProcessTexture = nullptr;
 
 	void LoadMesh()
 	{
@@ -257,6 +260,11 @@ namespace dru::renderer
 			, afterimageShader->GetVSBlobBufferSize()
 			, afterimageShader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> postProcessShader = CResources::Find<CShader>(L"PostProcessShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, postProcessShader->GetVSBlobBufferPointer()
+			, postProcessShader->GetVSBlobBufferSize()
+			, postProcessShader->GetInputLayoutAddr());
 
 #pragma endregion
 
@@ -464,6 +472,14 @@ namespace dru::renderer
 		AfterImageShader->Create(graphics::eShaderStage::PS, L"AfterImagePS.hlsl", "main"); 
 		CResources::Insert<CShader>(L"AfterImageShader", AfterImageShader);
 
+		std::shared_ptr<CShader> postProcessShader = std::make_shared<CShader>();
+		postProcessShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		postProcessShader->Create(eShaderStage::PS, L"PostProcessPS.hlsl", "main");
+		postProcessShader->SetDSState(eDepthStencilType::NoWrite);
+		CResources::Insert<CShader>(L"PostProcessShader", postProcessShader);
+
+
+
 	}
 
 	void LoadTexture()
@@ -538,9 +554,13 @@ namespace dru::renderer
 
 
 		// noise
-		CResources::Load<CTexture>(L"noise_01", L"noise/noise_01.png");
-		CResources::Load<CTexture>(L"noise_02", L"noise/noise_02.png");
+		CResources::Load<CTexture>(L"noise1", L"noise/noise_01.png");
+		CResources::Load<CTexture>(L"noise2", L"noise/noise_02.png");
+		CResources::Load<CTexture>(L"noise3", L"noise/noise_03.jpg");
 
+		// #Todo 번 노이즈 텍스처 추가
+		CResources::Load<CTexture>(L"burn", L"noise/burn.png");
+		CResources::Load<CTexture>(L"glitch", L"noise/glitch.png");
 
 		std::shared_ptr<CTexture> uavTexture = std::make_shared<CTexture>();
 		uavTexture->Create(1024, 1024, 
@@ -548,6 +568,9 @@ namespace dru::renderer
 			D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS);
 		CResources::Insert<CTexture>(L"PaintTexture", uavTexture);
 
+		postProcessTexture = std::make_shared<CTexture>();
+		postProcessTexture->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
 	}
 
 
@@ -618,6 +641,12 @@ namespace dru::renderer
 		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		particleMaterial->SetShader(particleShader);
 		CResources::Insert<CMaterial>(L"ParticleMaterial", particleMaterial);
+
+		std::shared_ptr<CShader> postProcessShader = CResources::Find<CShader>(L"PostProcessShader");
+		std::shared_ptr<CMaterial> postProcessMaterial = std::make_shared<CMaterial>();
+		postProcessMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		postProcessMaterial->SetShader(postProcessShader);
+		CResources::Insert<CMaterial>(L"PostProcessMaterial", postProcessMaterial);
 
 		// etc
 		{
@@ -760,9 +789,10 @@ namespace dru::renderer
 		cb->Bind(eShaderStage::PS);
 	}
 
+	float noiseTime = 10.0f;
 	void BindNoiseTexture()
 	{
-		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise_01");
+		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise3");
 		noise->BindShaderResource(eShaderStage::VS, 16);
 		noise->BindShaderResource(eShaderStage::HS, 16);
 		noise->BindShaderResource(eShaderStage::DS, 16);
@@ -773,6 +803,8 @@ namespace dru::renderer
 		NoiseCB info = {};
 		info.noiseSize.x = static_cast<float>(noise->GetWidth()); // 노이즈 텍스처 사이즈를 상수버퍼로 전달해줌
 		info.noiseSize.y = static_cast<float>(noise->GetHeight());
+		noiseTime -= CTimeMgr::DeltaTime();
+		info.noiseTime = noiseTime;
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
 		cb->SetData(&info);
@@ -782,5 +814,19 @@ namespace dru::renderer
 		cb->Bind(eShaderStage::GS);
 		cb->Bind(eShaderStage::PS);
 		cb->Bind(eShaderStage::CS);
+	}
+	void CopyRenderTarget()
+	{
+		std::shared_ptr<CTexture> renderTarget = CResources::Find<CTexture>(L"RenderTargetTexture");
+
+		ID3D11ShaderResourceView* srv = nullptr;
+		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);
+
+		ID3D11Texture2D* dest = postProcessTexture->GetTexture().Get();
+		ID3D11Texture2D* source = renderTarget->GetTexture().Get();
+
+		GetDevice()->CopyResource(dest, source);
+
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
 	}
 }
