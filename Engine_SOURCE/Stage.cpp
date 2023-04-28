@@ -16,6 +16,7 @@ namespace dru
 		, mHudLeftHand(nullptr)
 		, mHudRightHand(nullptr)
 		, mKeyEnter(nullptr)
+		, mBulletTimeMask(nullptr)
 		, mBulletTimeGaugePrev(10)
 		, mBulletTimeGaugeCurrent(10)
 		, mPlayerDefaultPos{}
@@ -211,6 +212,19 @@ namespace dru
 			mUICursor->SetPos(Vector3(0.f, 0.f, 3.f));
 			mUICursor->SetScale(Vector3(0.7f, 0.7f, 4.9999f));
 		}
+		{			
+			mBulletTimeMask = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"UITitleBg");
+
+			CSpriteRenderer* SpriteRenderer = mBulletTimeMask->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+			CResources::Insert<CMaterial>(L"BulletTimeMaskMat", Material);
+			SpriteRenderer->SetMaterial(Material);
+
+			mBulletTimeMask->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.75f });
+			mBulletTimeMask->SetPos(Vector3(0.f, 0.f, 5.f));
+			mBulletTimeMask->SetScale(Vector3(30.f, 30.f, 0.f));
+			mBulletTimeMask->RenderingBlockOn();
+		}
 	}
 
 	void CStage::NotReadyOperate()
@@ -276,6 +290,16 @@ namespace dru
 			{
 				mElapsedTime += CTimeMgr::DeltaTime();
 				TimerBarOperate();
+
+				if (CInput::GetKeyDown(eKeyCode::LSHIFT))
+				{
+					mBulletTimeMask->RenderingBlockOff();
+				}
+				if (CInput::GetKeyUp(eKeyCode::LSHIFT))
+				{
+					mBulletTimeMask->RenderingBlockOn();
+				}
+
 			}
 
 			if (CInput::GetKeyTap(eKeyCode::R))

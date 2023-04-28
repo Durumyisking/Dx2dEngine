@@ -293,7 +293,7 @@ namespace dru
 				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
 				SpriteRenderer->SetMaterial(Material);
 
-				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 124.f, 124.f, 124.f, 0.125f });
+				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 124.f, 124.f, 124.f, 0.0125f });
 				mUIBg->SetPos(Vector3(0.f, -10.f, 2.5f));
 				mUIBg->SetScale(Vector3(0.1f, 0.1f, 1.f));
 

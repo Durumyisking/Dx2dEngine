@@ -42,9 +42,6 @@ namespace dru
         virtual void OnTrigger(CCollider2D* _oppo);
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
-        bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
-        void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
-        void SetPlayerSingleState(ePlayerState _state);
 
         void PlayerDead();
 
@@ -76,6 +73,8 @@ namespace dru
 
         void deadComplete();
 
+        void BulletTimeSwitchOn();
+        void BulletTimeSwitchOff();
 
         // player action
         void idleToRun();
@@ -173,6 +172,11 @@ namespace dru
         void UnInputBlocking() { mbInputBlock = false; }
 
         void BulletTimeStun() { mbBulletTimeStun = true; }
+
+        bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
+        void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
+        void SetPlayerSingleState(ePlayerState _state);
+
 
 	private:
         void PlayLanddust();

@@ -643,6 +643,18 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slashPlayer", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"BodySlashMat", Material);
+		}	
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_gunFire", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"GunFireMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_gunSmoke", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"GunSmokeMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_bulletReflect", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"BulletReflectMat", Material);
 		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"wall", L"SpriteShader");

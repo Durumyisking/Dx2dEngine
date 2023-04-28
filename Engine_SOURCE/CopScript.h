@@ -3,6 +3,7 @@
 
 namespace dru
 {
+    class CBullet;
     class CCopScript :
         public CMonsterScript
     {
@@ -29,18 +30,32 @@ namespace dru
 
         void GunFlip();
         void RotateBullet(Vector3 _Dir, CBullet* _Bullet);
-        void RotateBulletCollider( CBullet* _Bullet);
+        void RotateBulletCollider(CBullet* _Bullet);
         void RotateGun(Vector3 _Dir);
+
+        void InitializeGunFireComponent();
+        void InitializemGunSmokeComponent();
+
+    private:
+        void GunFireComplete();
+        void GunSmokeComplete();
+
+        void PlayGunFire();
+        void PlayGunSmoke();
+
 
     private:
         CGameObj* mCopGun;
         CGameObj* mGunMuzzle;
         CGameObj* mGunFire;
         CGameObj* mGunSmoke;
-        CGameObj* mBulletReflect;
-
 
         float mAngle;
+
+    public:
+        CGameObj* GetOrCreateGunFireObject();
+        CGameObj* GetOrCreateGunSmokeObject();
+
     };
 }
 

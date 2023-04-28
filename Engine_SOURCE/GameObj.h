@@ -11,6 +11,7 @@
 namespace dru
 {
 	using namespace math;
+
 	class CGameObj : public CEntity
 	{
 		friend class CLiveGameObj;
@@ -221,6 +222,7 @@ namespace dru
 
 		bool IsLeft() { return mbIsLeft; }
 		void SetLeft() { mbIsLeft = true; }
+
 		void SetRight() { mbIsLeft = false; }
 
 		bool IsOnFloor() const { return mbOnFloor; }

@@ -22,6 +22,7 @@ namespace dru
 		float mBulletSpeed;
 		float collScaleX;
 		float collPosX;
+		CGameObj* mBulletReflect;
 
 	public:
 		void SetTarget(CLiveGameObj* _Target) { mTarget = _Target; }
@@ -34,5 +35,8 @@ namespace dru
 		float GetSpeed() const { return mBulletSpeed ; }
 
 		float GetCollPosX() const { return collPosX; }
+
+		CGameObj* GetOrCreatemBulletReflectObject();
+
 	};
 }

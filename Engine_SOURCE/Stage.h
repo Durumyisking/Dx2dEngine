@@ -107,6 +107,8 @@ namespace dru
         CGameObj* mHudLeftHand;
         CGameObj* mHudRightHand;
 
+        CBackgroundColor* mBulletTimeMask;
+
         eStageState mStageState;
 
         UINT mBulletTimeGaugePrev;

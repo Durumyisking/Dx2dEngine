@@ -1,6 +1,8 @@
 #include "CopScript.h"
 #include "Bullet.h"
+#include "Object.h"
 
+using namespace dru::object;
 namespace dru
 {
 	CCopScript::CCopScript()
@@ -8,7 +10,6 @@ namespace dru
 		, mGunMuzzle(nullptr)
 		, mGunFire(nullptr)
 		, mGunSmoke(nullptr)
-		, mBulletReflect(nullptr)
 		, mAngle(0.f)
 
 	{
@@ -20,7 +21,8 @@ namespace dru
 	{
 		mAttackRadius = 5.f;
 		CreateGun();
-
+		GetOrCreateGunFireObject();
+		GetOrCreateGunSmokeObject();
 		CMonsterScript::Initialize();
 	}
 	void CCopScript::update()
@@ -88,7 +90,7 @@ namespace dru
 	void CCopScript::CreateGun()
 	{
 		// ÃÑ
-		mCopGun = object::Instantiate<CGameObj>(eLayerType::MonsterGun,  GetOwner(), L"copgun");
+		mCopGun = Instantiate<CGameObj>(eLayerType::MonsterGun,  GetOwner(), L"copgun");
 		CSpriteRenderer* SpriteRenderer = mCopGun->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"cop_gun", L"SpriteShader");
@@ -99,7 +101,7 @@ namespace dru
 		mCopGun->RenderingBlockOn();
 
 		// ÃÑ±¸
-		mGunMuzzle = object::Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun, L"gunMuzzle");
+		mGunMuzzle = Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun, L"gunMuzzle");
 //		mGunMuzzle->SetPos({0.5f, -3.f, 3.f});
 		CCollider2D* coll = mGunMuzzle->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->SetName(L"col_mullze");
@@ -109,7 +111,7 @@ namespace dru
 	}
 	void CCopScript::CreateBullet(Vector3 _StartPos)
 	{
-		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
+		CBullet* bullet = Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
 		bullet->Initialize();
 		bullet->SetTarget(mTarget);
 		bullet->SetPos(_StartPos);
@@ -125,6 +127,8 @@ namespace dru
 		// colliderÀÇ À§Ä¡µµ º¯°æÇØÁà¾ßÇÑ´Ù.
 		RotateBulletCollider(bullet);
 
+		PlayGunFire();
+		PlayGunSmoke();
 	}
 
 	void CCopScript::GunFlip()
@@ -135,14 +139,20 @@ namespace dru
 			CopGunPos.x = -0.2f;
 			mCopGun->SetPos(CopGunPos);
 			mCopGun->SetLeft();
+			mGunFire->SetLeft();
+			mGunSmoke->SetLeft();
 		}
 		else
 		{
 			CopGunPos.x = 0.2f;
 			mCopGun->SetPos(CopGunPos);
 			mCopGun->SetRight();
+			mGunFire->SetRight();
+			mGunSmoke->SetRight();
 		}
 		mCopGun->Flip();
+		mGunFire->Flip();
+		mGunSmoke->Flip();
 	}
 
 	void CCopScript::RotateBullet(Vector3 _Dir, CBullet* _Bullet)
@@ -187,5 +197,164 @@ namespace dru
 		//Vector3 newMuzzlePos =  RotateZ(mGunMuzzle->GetPos(), mAngle);
 		//mGunMuzzle->SetPos(newMuzzlePos);
 
+	}
+	void CCopScript::InitializeGunFireComponent()
+	{
+		CGameObj* GunFireObject = GetOrCreateGunFireObject();
+		if (GunFireObject)
+		{
+			GunFireObject->SetScale({ 0.5f, 0.5f, 1.f });
+
+			std::shared_ptr<CTexture> GunFireObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = GunFireObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GunFireMat");
+				if (Material)
+				{
+					GunFireObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			if (GunFireObjectTexture)
+			{
+				CAnimator* GunFireObjectAnimator = GunFireObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (GunFireObjectAnimator)
+				{
+					GunFireObjectAnimator->Create(L"gunfire", GunFireObjectTexture, { 0.f, 0.f }, { 50.f, 42.f }, Vector2::Zero, 8, { 50.f, 42.f }, 0.05f);
+					GunFireObjectAnimator->GetCompleteEvent(L"gunfire") = std::bind(&CCopScript::GunFireComplete, this);
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			GunFireObject->RenderingBlockOn();
+
+		}
+	}
+	void CCopScript::InitializemGunSmokeComponent()
+	{
+		CGameObj* GunSmokeObject = GetOrCreateGunSmokeObject();
+		if (GunSmokeObject)
+		{
+			GunSmokeObject->SetScale({ 0.5f, 0.5f, 1.f });
+
+			std::shared_ptr<CTexture> GunSmokeObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = GunSmokeObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GunSmokeMat");
+				if (Material)
+				{
+					GunSmokeObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			if (GunSmokeObjectTexture)
+			{
+				CAnimator* GunSmokeObjectAnimator = GunSmokeObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (GunSmokeObjectAnimator)
+				{
+					GunSmokeObjectAnimator->Create(L"gunsmoke", GunSmokeObjectTexture, { 0.f, 0.f }, { 30.f, 22.f }, Vector2::Zero, 10, { 30.f, 22.f }, 0.05f);
+					GunSmokeObjectAnimator->GetCompleteEvent(L"gunsmoke") = std::bind(&CCopScript::GunSmokeComplete, this);
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			GunSmokeObject->RenderingBlockOn();
+		}
+	}
+	void CCopScript::GunFireComplete()
+	{
+		mGunFire->RenderingBlockOn();
+	}
+	void CCopScript::GunSmokeComplete()
+	{
+		mGunSmoke->RenderingBlockOn();
+	}
+	void CCopScript::PlayGunFire()
+	{
+		CGameObj* GunFireObject = GetOrCreateGunFireObject();
+		if (GunFireObject)
+		{
+			Vector3 gunPos = mCopGun->GetPos();
+			//gunPos.y -= 0.6f;
+			GunFireObject->SetPos(gunPos);
+
+			CAnimator* GunFireObjectAnimator = GunFireObject->GetComponent<CAnimator>();
+			if (GunFireObjectAnimator)
+			{
+				GunFireObject->RenderingBlockOff();
+				GunFireObjectAnimator->Play(L"gunfire", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+	void CCopScript::PlayGunSmoke()
+	{
+		CGameObj* GunSmokeObject= GetOrCreateGunSmokeObject();
+		if (GunSmokeObject)
+		{
+			Vector3 gunPos = mCopGun->GetPos();
+//			gunPos.y -= 0.6f;
+			GunSmokeObject->SetPos(gunPos);
+
+			CAnimator* GunSmokeObjectAnimator = GunSmokeObject->GetComponent<CAnimator>();
+			if (GunSmokeObjectAnimator)
+			{
+				GunSmokeObject->RenderingBlockOff();
+				GunSmokeObjectAnimator->Play(L"gunsmoke", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+	CGameObj* CCopScript::GetOrCreateGunFireObject()
+	{
+		if (!mGunFire)
+		{
+			// create
+			mGunFire = Instantiate<CGameObj>(eLayerType::FX, L"gunfire");
+			if (mGunFire)
+			{
+				// intialize
+				InitializeGunFireComponent();
+			}
+		}
+
+		return mGunFire;
+	}
+	CGameObj* CCopScript::GetOrCreateGunSmokeObject()
+	{
+		if (!mGunSmoke)
+		{
+			// create
+			mGunSmoke = Instantiate<CGameObj>(eLayerType::FX, L"gunsmoke");
+			if (mGunSmoke)
+			{
+				// intialize
+				InitializemGunSmokeComponent();
+			}
+		}
+
+		return mGunSmoke;
 	}
 }

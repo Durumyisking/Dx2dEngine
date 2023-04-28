@@ -13,6 +13,7 @@ namespace dru
 		, mBulletSpeed(10.1f)
 		, collScaleX(1.f / 17.f)
 		, collPosX(collScaleX * 3.5f)
+		, mBulletReflect(nullptr)
 
 	{
 	}

@@ -10,6 +10,7 @@
 #include "SlashScript.h"
 
 #include "SceneMain.h"
+#include "BackgroundColor.h"
 
 #include "Dust.h"
 
@@ -510,6 +511,23 @@ namespace dru
 		//GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
 	}
 
+	void CPlayerScript::BulletTimeSwitchOn()
+	{
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerBulletTimeMat");
+		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
+
+
+		CTimeMgr::BulletTimeOn();
+	}
+
+	void CPlayerScript::BulletTimeSwitchOff()
+	{
+		SetAfterImageCount(20);
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
+		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
+		CTimeMgr::BulletTimeOff();
+	}
+
 	void CPlayerScript::idleToRun()
 	{
 		if (CInput::GetKeyTap(eKeyCode::A) && (mbWallIsLeft != -1))
@@ -872,10 +890,7 @@ namespace dru
 		{
 			if (CTimeMgr::IsBulletTimeOn())
 			{
-				SetAfterImageCount(20);
-				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
-				GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
-				CTimeMgr::BulletTimeOff();
+				BulletTimeSwitchOff();
 			}
 		}
 
@@ -897,9 +912,7 @@ namespace dru
 			{
 				if (!CTimeMgr::IsBulletTimeOn())
 				{
-					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerBulletTimeMat");
-					GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
-					CTimeMgr::BulletTimeOn();
+					BulletTimeSwitchOn();
 				}
 				SetAfterImageCount(20);
 

@@ -133,8 +133,6 @@ namespace dru
 			{
 				switch (mType)
 				{
-				case dru::enums::eLayerType::None:
-					break;
 				case dru::enums::eLayerType::Camera:
 					break;
 				case dru::enums::eLayerType::Grid:

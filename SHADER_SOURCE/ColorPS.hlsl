@@ -16,5 +16,9 @@ float4 main() : SV_TARGET
         alpha = saturate(0 + (cbfData1));
     }    
     
-    return RGBA * alpha;
+    color *= cbxyzw1; // 곱할 색
+    color += cbxyzw2; // 더할 색
+
+    
+    return color * alpha;
 }
