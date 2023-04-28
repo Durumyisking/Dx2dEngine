@@ -31,7 +31,6 @@ namespace dru
 		{
 			mCopGun->RenderingBlockOn();
 		}
-
 		if(mTarget)
 		{
 			if (GetPlayerDistance() < mAttackRadius)
@@ -56,11 +55,16 @@ namespace dru
 	{
 		if (mState[(UINT)eMonsterState::Attack] == true)
 		{
-			mCopGun->RenderingBlockOff();
-
-			CreateBullet(mCopGun->GetPos());
-
-			CMonsterScript::attack();
+			if (35.f >= fabs(mAngle))
+			{
+				mCopGun->RenderingBlockOff();
+				CreateBullet(mCopGun->GetPos());
+				CMonsterScript::attack();
+			}
+			else
+			{
+				SetSingleState(eMonsterState::Idle);
+			}
 		}
 	}
 	void CCopScript::OnCollisionEnter(CCollider2D* _oppo)
@@ -183,12 +187,14 @@ namespace dru
 			Right.x = -1.f;
 		}
 		angleTemp = RotateToHead(_Dir, Right);
+		mAngle = RotateToHead(_Dir, Right);
 		if (GetOwner()->IsLeft())
 		{
 			angleTemp *= -1.f;
 		}
 
-		if (35.f < fabs(angleTemp))
+
+		if (35.f <= fabs(angleTemp))
 			return;
 
 		mCopGun->GetComponent<CTransform>()->SetRotationZ(angleTemp);
@@ -277,6 +283,7 @@ namespace dru
 			GunSmokeObject->RenderingBlockOn();
 		}
 	}
+
 	void CCopScript::GunFireComplete()
 	{
 		mGunFire->RenderingBlockOn();
