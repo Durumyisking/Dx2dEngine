@@ -143,12 +143,14 @@ namespace dru
 	}
 	void CStageTutorial::Reset()
 	{
-	
+		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
+		playerScript->Reset();
 		
 		CStage::Reset();
 	}
 	void CStageTutorial::AddStartingLiveObjects()
 	{
+		CStage::AddStartingLiveObjects();
 	}
 	void CStageTutorial::NotReadyOperate()
 	{

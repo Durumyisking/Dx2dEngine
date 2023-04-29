@@ -106,9 +106,9 @@ namespace dru
 
 		// ÃÑ±¸
 		mGunMuzzle = Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun, L"gunMuzzle");
-//		mGunMuzzle->SetPos({0.5f, -3.f, 3.f});
+		//		mGunMuzzle->SetPos({0.5f, -3.f, 3.f});
 		CCollider2D* coll = mGunMuzzle->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->SetName(L"col_mullze");
+		coll->SetName(L"col_muzzle");
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale({ 0.1f, 0.1f });
 

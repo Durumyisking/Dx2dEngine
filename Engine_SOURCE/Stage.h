@@ -71,7 +71,7 @@ namespace dru
         virtual void LoadEndOperate();
 
         virtual void Reset();
-        virtual void AddStartingLiveObjects() = 0;
+        virtual void AddStartingLiveObjects();
 
         void BulletTimeBatteryOperation();
 

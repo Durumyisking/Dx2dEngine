@@ -97,6 +97,7 @@ namespace dru
 
 	void CStage1::AddStartingLiveObjects()
 	{
+		CStage::AddStartingLiveObjects();
 	}
 
 	void CStage1::NotReadyOperate()

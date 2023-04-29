@@ -289,8 +289,7 @@ namespace dru
 				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"UITitleBg");
 				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
-				CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
+				std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
 				SpriteRenderer->SetMaterial(Material);
 
 				mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 124.f, 124.f, 124.f, 0.0125f });

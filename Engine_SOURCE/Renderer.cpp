@@ -650,6 +650,10 @@ namespace dru::renderer
 
 		// etc
 		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+			CResources::Insert<CMaterial>(L"UITitleBgMat", Material);
+		}
+		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"texCursor", L"UIShader");
 			CResources::Insert<CMaterial>(L"CursorMat", Material);
 		}

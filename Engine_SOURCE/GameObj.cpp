@@ -153,7 +153,7 @@ namespace dru
 					_Value.z = 2.81f;
 					break;
 				case dru::enums::eLayerType::AfterImage:
-					_Value.z = 3.01f;
+//					_Value.z = 3.000001f;
 					break;
 				case dru::enums::eLayerType::Platforms:
 					_Value.z = 4.9f;

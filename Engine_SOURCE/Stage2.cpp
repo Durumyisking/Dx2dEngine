@@ -88,12 +88,6 @@ namespace dru
 
 	void CStage2::AddStartingLiveObjects()
 	{
-		{
-			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(mPlayerDefaultPos);
-			mRewindObjects.push_back(mPlayer);
-		}
-
 
 		//{
 		//	mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
@@ -107,6 +101,7 @@ namespace dru
 			mRewindObjects.push_back(mCop1);
 		}
 
+		CStage::AddStartingLiveObjects();
 	}
 
 	void CStage2::NotReadyOperate()
