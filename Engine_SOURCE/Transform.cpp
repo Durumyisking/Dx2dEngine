@@ -16,7 +16,7 @@ namespace dru
 		, mRelativePosition(Vector3::Zero)
 		, mRelativeRotation(Vector3::Zero)
 		, mRelativeScale(Vector3::One)
-		, mInheritParentScale(false)
+		, mInheritParentScale(true)
 		, mWorldPosition(Vector3::Zero)
 		, mWorldRotation(Vector3::Zero)
 		, mWorldScale(Vector3::One)
@@ -45,7 +45,7 @@ namespace dru
 		mWorldScale = mRelativeScale;
 
 		// - 회전 변환 행렬
-		Vector3 rot = mRelativeRotation * XM_PI / 180;
+		Vector3 rot = mRelativeRotation * XM_PI / 180; // to radian
 		Matrix rotation;
 		rotation = Matrix::CreateRotationX(rot.x);
 		rotation *= Matrix::CreateRotationY(rot.y);

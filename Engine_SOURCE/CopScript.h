@@ -44,6 +44,8 @@ namespace dru
         void PlayGunFire();
         void PlayGunSmoke();
 
+        void GunFireSmokePositioning(CGameObj* GunFireOrSmoke);
+
 
     private:
         CGameObj* mCopGun;

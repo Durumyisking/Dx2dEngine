@@ -172,6 +172,7 @@ namespace dru
 
 
 		Vector3 GetPos();
+		Vector3 GetWorldPos();
 		Vector3 GetScale();
 		Vector3 GetRotation();
 

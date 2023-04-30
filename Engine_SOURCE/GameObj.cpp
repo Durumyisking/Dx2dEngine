@@ -144,7 +144,7 @@ namespace dru
 					_Value.z = 3.1f;
 					break;
 				case dru::enums::eLayerType::MonsterGun:
-					//_Value.z = 3.09f;
+					_Value.z = 0.f;
 					break;
 				case dru::enums::eLayerType::Player:
 					_Value.z = 3.f;
@@ -207,6 +207,10 @@ namespace dru
 	Vector3 CGameObj::GetPos()
 	{
 		return GetComponent<CTransform>()->GetPosition();
+	}
+	Vector3 CGameObj::GetWorldPos()
+	{
+		return GetComponent<CTransform>()->GetWorldPosition();
 	}
 
 	Vector3 CGameObj::GetScale()

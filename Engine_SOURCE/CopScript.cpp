@@ -58,7 +58,8 @@ namespace dru
 			if (35.f >= fabs(mAngle))
 			{
 				mCopGun->RenderingBlockOff();
-				CreateBullet(mCopGun->GetPos());
+				Vector3 pos = mCopGun->GetComponent<CTransform>()->GetWorldPosition();
+				CreateBullet(pos);
 				CMonsterScript::attack();
 			}
 			else
@@ -105,12 +106,7 @@ namespace dru
 		mCopGun->RenderingBlockOn();
 
 		// 총구
-		mGunMuzzle = Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun, L"gunMuzzle");
-		//		mGunMuzzle->SetPos({0.5f, -3.f, 3.f});
-		CCollider2D* coll = mGunMuzzle->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->SetName(L"col_muzzle");
-		coll->SetType(eColliderType::Rect);
-		coll->SetScale({ 0.1f, 0.1f });
+		mGunMuzzle = Instantiate<CGameObj>(eLayerType::MonsterGun, mCopGun ,L"gunMuzzle");
 
 	}
 	void CCopScript::CreateBullet(Vector3 _StartPos)
@@ -155,8 +151,8 @@ namespace dru
 			mGunSmoke->SetRight();
 		}
 		mCopGun->Flip();
-		mGunFire->Flip();
-		mGunSmoke->Flip();
+		//mGunFire->Flip();
+		//mGunSmoke->Flip();
 	}
 
 	void CCopScript::RotateBullet(Vector3 _Dir, CBullet* _Bullet)
@@ -164,7 +160,7 @@ namespace dru
 		_Bullet->GetComponent<CTransform>()->SetRotationZ(mAngle);
 		_Bullet->SetDir(_Dir);
 
-		Vector3 pos = mGunMuzzle->GetPos();
+		Vector3 pos = mGunMuzzle->GetWorldPos();
 		pos += (_Dir * 0.2325f); // 총구 위치 에서 미사일 나가게
 
 		_Bullet->SetPos(pos);
@@ -193,16 +189,14 @@ namespace dru
 			angleTemp *= -1.f;
 		}
 
-
 		if (35.f <= fabs(angleTemp))
 			return;
 
 		mCopGun->GetComponent<CTransform>()->SetRotationZ(angleTemp);
 
 		// 총구도 돌려준다.
-		//Vector3 newMuzzlePos =  RotateZ(mGunMuzzle->GetPos(), mAngle);
-		//mGunMuzzle->SetPos(newMuzzlePos);
-
+		Vector3 newMuzzlePos = RotateZ(mGunMuzzle->GetPos(), angleTemp);
+		mGunMuzzle->SetPos(newMuzzlePos);
 	}
 	void CCopScript::InitializeGunFireComponent()
 	{
@@ -297,9 +291,7 @@ namespace dru
 		CGameObj* GunFireObject = GetOrCreateGunFireObject();
 		if (GunFireObject)
 		{
-			Vector3 gunPos = mCopGun->GetPos();
-			//gunPos.y -= 0.6f;
-			GunFireObject->SetPos(gunPos);
+			GunFireSmokePositioning(GunFireObject);
 
 			CAnimator* GunFireObjectAnimator = GunFireObject->GetComponent<CAnimator>();
 			if (GunFireObjectAnimator)
@@ -318,9 +310,7 @@ namespace dru
 		CGameObj* GunSmokeObject= GetOrCreateGunSmokeObject();
 		if (GunSmokeObject)
 		{
-			Vector3 gunPos = mCopGun->GetPos();
-//			gunPos.y -= 0.6f;
-			GunSmokeObject->SetPos(gunPos);
+			GunFireSmokePositioning(GunSmokeObject);
 
 			CAnimator* GunSmokeObjectAnimator = GunSmokeObject->GetComponent<CAnimator>();
 			if (GunSmokeObjectAnimator)
@@ -333,6 +323,24 @@ namespace dru
 				assert(false);
 			}
 		}
+	}
+	void CCopScript::GunFireSmokePositioning(CGameObj* GunFireOrSmoke)
+	{
+		Vector3 gunPos = mGunMuzzle->GetWorldPos();
+		float angle = mAngle;
+		if (mCopGun->IsLeft())
+		{
+			gunPos.x -= 0.5f;
+		}
+		else
+		{
+			gunPos.x += 0.5f;
+			angle *= -0.1f;
+		}
+		gunPos.y += 0.05f;
+
+		GunFireOrSmoke->GetComponent<CTransform>()->SetRotationZ(mAngle);
+		GunFireOrSmoke->SetPos(gunPos);
 	}
 	CGameObj* CCopScript::GetOrCreateGunFireObject()
 	{
