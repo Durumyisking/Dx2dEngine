@@ -129,10 +129,13 @@ namespace dru
 		mMousePosition.x = mousePos.x;
 		mMousePosition.y = mousePos.y;
 
-		Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
+		if (renderer::mainCamera)
+		{
+			Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
 
-		mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
-		mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
+			mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
+			mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
+		}
 	}
 
 }

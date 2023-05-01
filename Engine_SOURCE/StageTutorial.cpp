@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Attack)
+		, mTutorStage(TutorialStage::BulletTime)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -32,6 +32,7 @@ namespace dru
 		, mKeyShift(nullptr)
 		, mKeyEnter(nullptr)
 		, mKeyLClick(nullptr)
+		, mMask(nullptr)
 
 	{
 	}
@@ -138,8 +139,10 @@ namespace dru
 
 	void CStageTutorial::Exit()
 	{
-		mStageState = eStageState::NotReady;
 		mbZoomDone = false;
+		renderer::mainCamera->SetProjectionType(eProjectionType::Orthographic);
+
+		CStage::Exit();
 	}
 	void CStageTutorial::Reset()
 	{
@@ -231,12 +234,23 @@ namespace dru
 		{
 			if (!mbFadeDone)
 			{
-				mFadeTimer += CTimeMgr::DeltaTime();
-
+				if (mFadeTimer > 3.f)
+				{
+					mbFadeDone = true;
+				}
+				else
+				{
+					mFadeTimer += CTimeMgr::DeltaTime();
+				}
 			}
 			else
 			{
-				
+				Reset();
+				mbFadeDone = false;
+				Exit();
+
+				mbClear = true;
+				return;
 			}
 		}
 
@@ -520,21 +534,7 @@ namespace dru
 			mbBulletTimeSuccess = true;
 		}
 		if (mbBulletTimeSuccess)
-		{
-			// 검정 텍스처 Fadein용 오브젝트 생성
-			mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"StageMask");
-			CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-
-			std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
-			SpriteRenderer->SetMaterial(Material);
-
-			mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
-			mUIBg->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
-			mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
-			mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
-
-
-			mbFadeDone = false;
+		{		
 			TutorSuccess(TutorialStage::Clear);
 		}
 	}
@@ -553,6 +553,31 @@ namespace dru
 				mTutorStage = _Stage;
 				mTutorGapTimer = 0.f;
 				mbTutorBgMoveDone = false;
+
+				if (TutorialStage::Clear ==  mTutorStage)
+				{
+					// 검정 텍스처 Fadein용 오브젝트 생성
+					mMask = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"StageMask");
+					CSpriteRenderer* SpriteRenderer = mMask->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+					CResources::Insert<CMaterial>(L"TutorEndMat", Material);
+					SpriteRenderer->SetMaterial(Material);
+
+					mMask->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 5.f });
+					CFadeScript* script = mMask->AddComponent<CFadeScript>(eComponentType::Script);
+					script->SetFadeType(1);
+//					script->SetFadeValue(1);
+//					script->SetFadeTime(3.f);
+	
+
+					Vector3 camPos = renderer::mainCamera->GetOwnerPos();
+					camPos.z += 3.f;
+					mMask->SetPos(camPos);
+					mMask->SetScale(Vector3(100.f, 100.f, 1.f));
+
+					mbFadeDone = false;
+				}
 			}
 		}
 	}

@@ -233,6 +233,7 @@
     <ClInclude Include="SceneMain.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="SceneMission.h" />
+    <ClInclude Include="SceneTemp.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
@@ -320,6 +321,7 @@
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="SceneMission.cpp" />
+    <ClCompile Include="SceneTemp.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />

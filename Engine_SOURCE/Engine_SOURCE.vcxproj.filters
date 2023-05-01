@@ -452,6 +452,9 @@
     <ClInclude Include="LightObject.h">
       <Filter>GameObj\Light</Filter>
     </ClInclude>
+    <ClInclude Include="SceneTemp.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -706,6 +709,9 @@
     </ClCompile>
     <ClCompile Include="LightObject.cpp">
       <Filter>GameObj\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneTemp.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

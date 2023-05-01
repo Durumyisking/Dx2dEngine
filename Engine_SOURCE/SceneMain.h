@@ -20,12 +20,14 @@ namespace dru
 		virtual void Exit();
 
 		CStage* GetCurrentStage() { return mStages[mCurrentStage]; }
+		
+		UINT GetCurrentStageNumber() { return mCurrentStage; }
+		void SetStage(UINT _stage) { mCurrentStage = _stage; }
 
 
 		void SetPlayer(CPlayer* _player) { mPlayer = _player; }
 		CPlayer* Getplayer() const { return mPlayer; }
 
-		void SetStage(UINT _stage) { mCurrentStage = _stage; }
 
 	private:
 		CGameObj* mCamera;

@@ -39,7 +39,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(2)
+		, mCurrentStage(0)
 		, mPlayer(nullptr)
 
 	{
@@ -109,20 +109,24 @@ namespace dru
 		mDeleteObj = true;
 
 		{
-			// main 카메라
-			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
-			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
-			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
-			renderer::mainCamera = cameraComp;
+			if (!mCamera) // 메인캠은 최초 한번만 만들거
+			{
+				// main 카메라
+				mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
+				CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
+				cameraComp->TurnLayerMask(eLayerType::UI, false);
+				mCamera->AddComponent<CCameraScript>(eComponentType::Script);
+				renderer::mainCamera = cameraComp;
+				mCamera->DontDestroy();
 
-			CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->SetName(L"col_maincam");
-			coll->SetType(eColliderType::Rect);
-			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
-			coll->Off();
-
+				CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
+				coll->SetName(L"col_maincam");
+				coll->SetType(eColliderType::Rect);
+				coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
+				coll->Off();
+			}
 		}
+
 		{
 			// ui 카메라
 			mUICamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"UICam");
@@ -141,7 +145,6 @@ namespace dru
 		}
 
 		mStages[mCurrentStage]->InitStage();
-
 
 		{
 			mMaskTarget = object::Instantiate<CBackground>(eLayerType::None, L"UITargetTitleScene");

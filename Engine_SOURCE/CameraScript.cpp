@@ -44,27 +44,29 @@ namespace dru
 
 	void CCameraScript::update()
 	{
-		if (mDirBlock[(UINT)eDir::LEFT] == true)
+		if (mPlayer)
 		{
-			if(mPlayer->GetPos().x > GetOwner()->GetPos().x)
-				mbCamFollowPlayerX = true;
+			if (mDirBlock[(UINT)eDir::LEFT] == true)
+			{
+				if (mPlayer->GetPos().x > GetOwner()->GetPos().x)
+					mbCamFollowPlayerX = true;
+			}
+			if (mDirBlock[(UINT)eDir::RIGHT] == true)
+			{
+				if (mPlayer->GetPos().x < GetOwner()->GetPos().x)
+					mbCamFollowPlayerX = true;
+			}
+			if (mDirBlock[(UINT)eDir::UP] == true)
+			{
+				if (mPlayer->GetPos().y < GetOwner()->GetPos().y)
+					mbCamFollowPlayerY = true;
+			}
+			if (mDirBlock[(UINT)eDir::DOWN] == true)
+			{
+				if (mPlayer->GetPos().y > GetOwner()->GetPos().y)
+					mbCamFollowPlayerY = true;
+			}
 		}
-		if (mDirBlock[(UINT)eDir::RIGHT] == true)
-		{
-			if(mPlayer->GetPos().x < GetOwner()->GetPos().x)
-				mbCamFollowPlayerX = true;
-		}
-		if (mDirBlock[(UINT)eDir::UP] == true)
-		{
-			if (mPlayer->GetPos().y < GetOwner()->GetPos().y)
-				mbCamFollowPlayerY = true;
-		}
-		if (mDirBlock[(UINT)eDir::DOWN] == true)
-		{
-			if (mPlayer->GetPos().y > GetOwner()->GetPos().y)
-				mbCamFollowPlayerY = true;
-		}
-
 
 		mLookAt = mTransform->GetPosition();
 

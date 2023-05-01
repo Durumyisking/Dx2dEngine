@@ -1,11 +1,13 @@
 #include "Stage.h"
 #include "BlinkScript.h"
+#include "SceneMain.h"
 
 namespace dru
 {
 
 	CStage::CStage()
 		: mStageState(eStageState::NotReady)
+		, mbClear(false)
 		, mScene(nullptr)
 		, mDeadBg(nullptr)
 		, mbIsDeadBgOn(false)
@@ -37,6 +39,23 @@ namespace dru
 
 	void CStage::Update()
 	{
+		if (CInput::GetKeyTap(eKeyCode::M))
+		{
+			{
+				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+				mMon->SetPos({ mPlayer->GetPos().x + 2.f, mPlayer->GetPos().y, 3.f });
+				mMon->Initialize();
+			}
+		}
+		if (CInput::GetKeyTap(eKeyCode::X))
+		{
+			renderer::mainCamera->GetCamScript()->CamFollowOff();
+		}
+		if (CInput::GetKeyTap(eKeyCode::C))
+		{
+			renderer::mainCamera->GetCamScript()->CamFollowOn();
+		}
+
 
 		if (mStageState == eStageState::NotReady)
 		{
@@ -61,23 +80,12 @@ namespace dru
 		else if (mStageState == eStageState::LoadEnd)
 		{
 			LoadEndOperate();
-			BulletTimeBatteryOperation();
-		}
-		if (CInput::GetKeyTap(eKeyCode::M))
-		{			
+			if (mbClear)
 			{
-				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-				mMon->SetPos({ mPlayer->GetPos().x + 2.f, mPlayer->GetPos().y, 3.f });
-				mMon->Initialize();
+				ClearOperate();
+				return;
 			}
-		}
-		if (CInput::GetKeyTap(eKeyCode::X))
-		{
-			renderer::mainCamera->GetCamScript()->CamFollowOff();
-		}
-		if (CInput::GetKeyTap(eKeyCode::C))
-		{
-			renderer::mainCamera->GetCamScript()->CamFollowOn();
+			BulletTimeBatteryOperation();
 		}
 
 	}
@@ -85,7 +93,11 @@ namespace dru
 	void CStage::Exit()
 	{
 		mStageState = eStageState::NotReady;
+
 		renderer::mainCamera->GetCamScript()->CamFollowOff();
+		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
+
+		CSceneMgr::LoadScene(CSceneMgr::eSceneType::Temp);
 	}
 
 	
@@ -308,6 +320,15 @@ namespace dru
 			}
 		}
 
+	}
+
+	void CStage::ClearOperate()
+	{
+		mbClear = false;
+		
+		CSceneMain* mainScene = CSceneMgr::GetScene<CSceneMain>(CSceneMgr::eSceneType::Main);
+		UINT stage = mainScene->GetCurrentStageNumber();
+		mainScene->SetStage(++stage);
 	}
 
 	void CStage::Reset()

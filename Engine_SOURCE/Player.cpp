@@ -3,8 +3,7 @@
 #include "CameraScript.h"
 #include "PlayerAfterImage.h"
 #include "GameObj.h"
-
-using namespace dru::object;
+#include "Object.h"
 
 namespace dru
 {
@@ -12,6 +11,7 @@ namespace dru
 		:mAfterImages{}
 		, mAfterImageCount(20)
 		, mPrevAfterImageCount(20)
+		, mbPlayerDead(false)
 
 	{
 		SetLayerType(eLayerType::Player);

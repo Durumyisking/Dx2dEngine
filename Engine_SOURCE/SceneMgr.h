@@ -12,6 +12,9 @@ namespace dru
 			Title,
 			Main,
 			Mission,
+
+
+			Temp,
 			End,
 		};
 
@@ -28,6 +31,11 @@ namespace dru
 
 		static void DontDestroyOnLoad(CGameObj* _GameObj);
 
+		template <typename T>
+		static T* GetScene (eSceneType _Type)
+		{
+			return dynamic_cast<T*>(mScenes[(static_cast<UINT>(_Type))]);
+		}
 
 	public:
 		static CScene* mScenes[(static_cast<UINT>(eSceneType::End))];	// ¸ðµç ¾À ¸ñ·Ï

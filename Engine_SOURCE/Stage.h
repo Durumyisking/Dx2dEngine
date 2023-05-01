@@ -37,6 +37,7 @@
 #include "PlayerScript.h"
 
 
+
 namespace dru
 {
     enum class eStageState
@@ -48,7 +49,6 @@ namespace dru
         LoadEnd,
         End,
     };
-
 	class CStage
 	{
     public:
@@ -60,8 +60,12 @@ namespace dru
         virtual void Update();
         virtual void Exit();
 
+      
         void LoadUI();
-        void SetOwner(CScene* _scene) { mScene = _scene; }
+        void SetOwner(CScene* _scene)
+        {
+            mScene = _scene; 
+        }
 
         eStageState GetReadyState() { return mStageState; }
         void SetReady(eStageState _State) { mStageState = _State; }
@@ -71,6 +75,7 @@ namespace dru
         virtual void ReadyEndOperate();
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
+        void         ClearOperate();
 
         virtual void Reset();
         virtual void AddStartingLiveObjects();
@@ -95,6 +100,8 @@ namespace dru
 
     protected:
         CScene* mScene;
+        bool mbClear;
+
         CBackgroundColor* mDeadBg;
         bool mbIsDeadBgOn;
 
@@ -125,6 +132,7 @@ namespace dru
         float mRewindTimer;
 
         std::vector<CLiveGameObj*> mRewindObjects;
+
 
     private:
         CGameObj* mKeyEnter;
