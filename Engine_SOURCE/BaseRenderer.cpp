@@ -63,6 +63,13 @@ namespace dru
 		adjustTexture();
 	}
 
+	void CBaseRenderer::SetMaterialByKey(std::wstring _Key)
+	{
+		mMaterial = CResources::Find<CMaterial>(_Key);
+
+		adjustTexture();
+	}
+
 	void CBaseRenderer::SetAnimMaterial(std::shared_ptr<CMaterial> _Material, Vector2 _SpriteSize)
 	{
 		mMaterial = _Material;

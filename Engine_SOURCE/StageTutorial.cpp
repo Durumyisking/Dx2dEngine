@@ -186,6 +186,7 @@ namespace dru
 			{
 				CreateEnterKeyUI();
 				mbFadeDone = true;
+				mFadeTimer = 0.f;
 			}
 		}
 		CStage::ReadyEndOperate();
@@ -224,6 +225,20 @@ namespace dru
 	void CStageTutorial::LoadEndOperate()
 	{
 		TutorialOperation(mTutorStage);
+
+		// 클리어시 넘어가야댐
+		if (mTutorStage == TutorialStage::Clear)
+		{
+			if (!mbFadeDone)
+			{
+				mFadeTimer += CTimeMgr::DeltaTime();
+
+			}
+			else
+			{
+				
+			}
+		}
 
 		CStage::LoadEndOperate();
 	}
@@ -506,6 +521,20 @@ namespace dru
 		}
 		if (mbBulletTimeSuccess)
 		{
+			// 검정 텍스처 Fadein용 오브젝트 생성
+			mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"StageMask");
+			CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+
+			std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
+			SpriteRenderer->SetMaterial(Material);
+
+			mUIBg->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
+			mUIBg->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
+			mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
+			mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
+
+
+			mbFadeDone = false;
 			TutorSuccess(TutorialStage::Clear);
 		}
 	}

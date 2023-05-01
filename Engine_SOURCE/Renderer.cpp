@@ -717,7 +717,14 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"halogen", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"halogenMat", Material);
 		}
-
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"desk", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"deskMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"plant", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"plantMat", Material);
+		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"GruntMat", Material);

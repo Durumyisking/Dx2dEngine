@@ -19,6 +19,7 @@ namespace dru
 
 		void SetMesh(std::shared_ptr <CMesh> _Mesh) { mMesh = _Mesh; }
 		void SetMaterial(std::shared_ptr <CMaterial> _Material);
+		void SetMaterialByKey(std::wstring _Key);
 		void SetAnimMaterial(std::shared_ptr <CMaterial> _Material, Vector2 _SpriteSize);
 
 

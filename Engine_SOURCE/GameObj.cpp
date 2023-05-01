@@ -140,6 +140,9 @@ namespace dru
 				case dru::enums::eLayerType::BackGround:
 					_Value.z = 5.f;
 					break;
+				case dru::enums::eLayerType::Objects:
+					_Value.z = 4.9f;
+					break;
 				case dru::enums::eLayerType::Monster:
 					_Value.z = 3.1f;
 					break;
