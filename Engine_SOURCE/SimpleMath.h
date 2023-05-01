@@ -3,6 +3,9 @@
 
 namespace dru::math
 {
+	int SM_rand();
+	void SM_srand(unsigned int _seed);
+
 	Vector3 RotateZ(const Vector3& V, const float degree);
     float toRadian(float _degree);
 	float toDegree(float _radian);

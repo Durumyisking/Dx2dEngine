@@ -2,6 +2,18 @@
 
 namespace dru::math
 {
+	static unsigned long int seed = 1;
+	/* rand: return pseudo-random integer on 0..32767 */
+	int SM_rand()
+	{
+		seed = seed * 1103515245 + 12345;
+		return (unsigned int)(seed / 65536) % 32768;
+	}
+	/* srand: set seed for rand() */
+	void SM_srand(unsigned int _seed)
+	{
+		seed = _seed;
+	}
 
 	Vector3 RotateZ(const Vector3& V, const float degree)
 	{
@@ -86,13 +98,12 @@ namespace dru::math
 
 	int GetRandomNumber(int _Range, int _StartNumber)
 	{
-		void* p = new int();
-		srand((int)p);
-		int randvalue = (rand() % (_Range + 1)) + _StartNumber;;
-		delete p;
+		SM_srand(seed);
+		int randvalue = (SM_rand() % (_Range + 1)) + _StartNumber;;
 
 		return randvalue;
 	}
+
 
 	float RotateToHead(Vector3 _Direction, Vector3 _Basis)
 	{

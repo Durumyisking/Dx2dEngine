@@ -30,6 +30,8 @@
 #include "OutWallSide.h"
 #include "Stair.h"
 
+#include "LightObject.h" 
+
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"
 #include "PlayerScript.h"

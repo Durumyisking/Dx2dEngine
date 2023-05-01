@@ -204,6 +204,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="LightObject.h" />
     <ClInclude Include="LiveGameObj.h" />
     <ClInclude Include="MaskScript.h" />
     <ClInclude Include="Material.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightObject.cpp" />
     <ClCompile Include="LiveGameObj.cpp" />
     <ClCompile Include="MaskScript.cpp" />
     <ClCompile Include="Material.cpp" />

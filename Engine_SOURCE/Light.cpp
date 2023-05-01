@@ -26,7 +26,7 @@ namespace dru
 	void CLight::fixedUpdate()
 	{
 		CTransform* tr = GetOwner()->GetComponent<CTransform>();
-		math::Vector3 position = tr->GetPosition();
+		math::Vector3 position = tr->GetWorldPosition();
 
 		mAttribute.position = Vector4(position.x, position.y, position.z, 1.f);
 		mAttribute.direction = Vector4(tr->Right().x, tr->Right().y, tr->Right().z, 1.f); // right를 정면으로 둔다.

@@ -179,6 +179,24 @@ namespace dru
 			stair->GetComponent<CTransform>()->SetRotationZ(45.f);
 			stair->SetColliderScale({ 5.5f, 0.01f });
 		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ -2.5f, -2.f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(2.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 0.f, -1.f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(1.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.25f });
+		}
+
 	}
 
 	void CStage2::CreateSecondFloor()
@@ -211,8 +229,52 @@ namespace dru
 
 		{
 			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
-			Ceiling->SetPos(Vector3(-5.625f, 5.f, 3.f));
-			Ceiling->SetColliderScale({ 10.f, 0.1f });
+			Ceiling->SetPos(Vector3(-6.5f, 3.f, 3.f));
+			Ceiling->SetColliderScale({ 100.f, 0.1f });
+		}
+
+		{
+			CLightObject* halogen = object::Instantiate<CLightObject>(eLayerType::Objects, L"Halogen");
+			halogen->SetPos(Vector3(-4.f, 2.85f, 1.f));
+			halogen->SetScale(Vector3(0.125f, 0.125f, 1.f));
+			halogen->SetMaterial(L"halogenMat", { 92.f, 15.f });
+			halogen->PlayAnim({ 46.f, 15.f });
+		}
+
+		{
+			CLightObject* halogen = object::Instantiate<CLightObject>(eLayerType::Objects, L"Halogen");
+			halogen->SetPos(Vector3(-7.55f, 2.85f, 1.f));
+			halogen->SetScale(Vector3(0.125f, 0.125f, 1.f));
+			halogen->SetMaterial(L"halogenMat", { 92.f, 15.f });
+			halogen->PlayAnim({ 46.f, 15.f });
+
+		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 2.f, 2.5f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(1.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 2.f, 2.5f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(1.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 5.f, 2.5f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(2.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 1.f, 0.5f });
 		}
 	}
 

@@ -504,10 +504,16 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
 
-
+		// Objs
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 		CResources::Load<CTexture>(L"particle_spark", L"MainScene/spark_particle.png");
 		CResources::Load<CTexture>(L"bullet", L"MainScene/bullet.png");
+		CResources::Load<CTexture>(L"halogen", L"MainScene/Background/Object/halogen.png");
+		CResources::Load<CTexture>(L"desk", L"MainScene/Background/Object/desk.png");
+		CResources::Load<CTexture>(L"plant", L"MainScene/Background/Object/plant.png");
+
+
+
 
 		// player
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
@@ -706,6 +712,10 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"PlayerBulletTimeMat", Material);
 			Vector4 color = Vector4(0.f, 2.f, 2.f, 0.5f);
 			Material->SetData(eGPUParam::Vector4_1, &color);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"halogen", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"halogenMat", Material);
 		}
 
 		{

@@ -9,6 +9,7 @@ namespace dru::enums
 		Camera,
 		Grid,
 		BackGround,
+		Objects,
 		Bullet,
 		Monster,
 		MonsterGun,
