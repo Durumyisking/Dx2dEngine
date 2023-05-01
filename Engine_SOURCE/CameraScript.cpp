@@ -27,6 +27,7 @@ namespace dru
 		, mbShaking(false)
 		, mShakeParams{}
 		, mShakeTimer(0.f)
+		, mbFreeView(false)
 
 	{
 	}
@@ -202,35 +203,38 @@ namespace dru
 
 	void CCameraScript::TargetMove()
 	{
-		// Target Move
-		if (mTarget)
+		if (!mbFreeView)
 		{
-			if (mTarget->IsDead())
-				mTarget = nullptr;
-			else
+			// Target Move
+			if (mTarget)
 			{
-				if (mCamStep > mCameraObject->mFarDist)
-				{
-					mLookAt.x = mCameraObject->mTargetObj->GetPos().x;
-					mLookAt.y = mCameraObject->mTargetObj->GetPos().y;
-
-					mCameraObject->mTargetObj = nullptr;
-				}
+				if (mTarget->IsDead())
+					mTarget = nullptr;
 				else
 				{
-					mLookAt += mCameraObject->mCamDir * mCamStep;
+					if (mCamStep > mCameraObject->mFarDist)
+					{
+						mLookAt.x = mCameraObject->mTargetObj->GetPos().x;
+						mLookAt.y = mCameraObject->mTargetObj->GetPos().y;
+
+						mCameraObject->mTargetObj = nullptr;
+					}
+					else
+					{
+						mLookAt += mCameraObject->mCamDir * mCamStep;
+					}
 				}
 			}
-		}
-		else
-		{
-			if (mbCamFollowPlayerX)
+			else
 			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::LEFT);
-			}
-			if (mbCamFollowPlayerY)
-			{
-				mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::UP);
+				if (mbCamFollowPlayerX)
+				{
+					mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::LEFT);
+				}
+				if (mbCamFollowPlayerY)
+				{
+					mLookAt = renderer::mainCamera->GetOwner()->MoveToTarget_Smooth_vector3(mPlayer, 0.3f, false, eDir::UP);
+				}
 			}
 		}
 	}

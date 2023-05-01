@@ -259,8 +259,6 @@ namespace dru
 		SetSingleState(eMonsterState::Idle);
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOn();
 
-		GetOwnerType<CMonster>()->AddRay();
-
 	}
 
 	void CMonsterScript::SetSingleState(eMonsterState _Type)
@@ -367,6 +365,11 @@ namespace dru
 
 			CreateSlashShade(MousePos);
 			CreateBodySlash();
+
+			// 스테이지의 몬스터카운틀를 깎는다
+			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			CStage* stage = scene->GetCurrentStage();
+			stage->MonsterDead();
 		}
 	}
 
@@ -425,6 +428,7 @@ namespace dru
 	void CMonsterScript::deadgroundComplete()
 	{
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+
 
 		if (mbDeleteOn)
 		{

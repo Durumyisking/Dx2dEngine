@@ -131,7 +131,7 @@ namespace dru
 
 		if (renderer::mainCamera)
 		{
-			Vector3 camPos = renderer::mainCamera->GetOwner()->GetPos();
+			Vector3 camPos = renderer::mainCamera->GetOwner()->GetWorldPos();
 
 			mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
 			mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;

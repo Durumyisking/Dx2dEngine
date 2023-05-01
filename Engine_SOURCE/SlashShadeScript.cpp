@@ -29,7 +29,7 @@ namespace dru
 	void CSlashShadeScript::Initialize()
 	{
 		mTrans = GetOwner()->GetComponent<CTransform>();
-		mPos = mTrans->GetPosition();
+		mPos = mTrans->GetWorldPosition();
 		
 		CSpriteRenderer* sprrenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 		sprrenderer->ChangeColor(Vector4(1.f, 0.f, 1.f, 0.5f));
@@ -46,14 +46,14 @@ namespace dru
 		// update를 지나야 기저가 변경되기 때문ㅜㅜ
 		if (!mbStart)
 		{
-			mPos = mTrans->GetPosition();
+			mPos = mTrans->GetWorldPosition();
 			mPos += mTrans->Right() * -15.f;
 			mTrans->SetPosition(mPos);
 			mbStart = true;
 		}
 		else
 		{
-			mPos = mTrans->GetPosition();
+			mPos = mTrans->GetWorldPosition();
 			mPos += (mTrans->Right() * 150.f * CTimeMgr::DeltaTimeConstant());
 			mTrans->SetPosition(mPos);
 		}

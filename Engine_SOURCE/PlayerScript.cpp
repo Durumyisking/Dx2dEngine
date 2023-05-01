@@ -225,6 +225,18 @@ namespace dru
 			collEnter_MonsterSlash(_oppo);
 		}
 
+
+
+		else if (L"col_clear" == _oppo->GetName())
+		{
+			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			CStage* stage = scene->GetCurrentStage();
+			stage->SetClearOn();
+			stage->ClearOperate();
+			stage->Reset();
+			stage->Exit();
+		}
+
 	}
 	void CPlayerScript::OnCollision(CCollider2D* _oppo)
 	{
@@ -275,6 +287,10 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
+			if (mState[(UINT)ePlayerState::Idle] == true || mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true || mState[(UINT)ePlayerState::RunToIdle] == true)
+			{
+				fallStart();
+			}
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 			GetOwner()->SetFloorOff();
 		}
@@ -979,7 +995,7 @@ namespace dru
 
 	void CPlayerScript::jumpdustSlideCheck()
 	{
-		Vector3 playerPos = GetOwnerPos();
+		Vector3 playerPos = GetOwnerWorldPos();
 		if (mState[(UINT)ePlayerState::WallKick] == true)
 		{
 			if (GetOwner()->IsLeft())
@@ -1009,7 +1025,7 @@ namespace dru
 		CGameObj* LandDustObject = GetOrCreateLanddustObject();
 		if (LandDustObject)
 		{
-			Vector3 playerPos = GetOwner()->GetPos();
+			Vector3 playerPos = GetOwnerWorldPos();
 			playerPos.y -= 0.6f;
 			LandDustObject->SetPos(playerPos);
 
@@ -1104,7 +1120,7 @@ namespace dru
 
 			// #todo Lambda 공부
 			// #todo LanddustOffset -> 매직넘버는 변수로 정의를 해라 (클린코드)
-			Vector3 playerPos = GetOwner()->GetPos();
+			Vector3 playerPos = GetOwnerWorldPos();
 			LandDustObject->SetPos({ playerPos.x, playerPos.y - 0.55f, playerPos.z - 0.001f });
 
 			if (LanddustTexture)
@@ -1147,7 +1163,7 @@ namespace dru
 		for (UINT i = 0; i < _Count; i++)
 		{
 			CDust* dust = object::Instantiate<CDust>(eLayerType::FX, L"dust");
-			Vector3 playerPos = GetOwner()->GetPos();
+			Vector3 playerPos = GetOwnerWorldPos();
 			playerPos.y -= 0.5f;
 			playerPos.z -= 0.001f;
 			dust->SetPos(playerPos);
@@ -1179,13 +1195,13 @@ namespace dru
 
 		Vector3 MousePos = CInput::GetMousePosition_world();
 
-		Vector3 dir = MousePos - GetOwnerPos();
+		Vector3 dir = MousePos - GetOwnerWorldPos();
 		dir.Normalize();
 
 		SlashObj->SetScale({ 2.25f, 2.75f, 1.f });
-		SlashObj->SetPos(GetOwnerPos() + dir);
+		SlashObj->SetPos(GetOwnerWorldPos() + dir);
 
-		if (MousePos.x < GetOwner()->GetPos().x)
+		if (MousePos.x < GetOwnerWorldPos().x)
 			GetOwner()->SetLeft();
 		else
 			GetOwner()->SetRight();

@@ -98,9 +98,26 @@ namespace dru
 
         float GetElapsedTime() const { return mElapsedTime; };
 
+        void SetClearCollider(Vector3 _Pos);
+
+        void SetClearOn() 
+        {
+            if (0 == mEnemyCount)
+            {
+                mbClear = true;
+            }
+        }
+        void SetClearOff() { mbClear = false; }
+
+        void MonsterDead()
+        {
+            --mEnemyCount; 
+        }
+
     protected:
         CScene* mScene;
         bool mbClear;
+        CGameObj* mClearCollider;
 
         CBackgroundColor* mDeadBg;
         bool mbIsDeadBgOn;
@@ -130,6 +147,8 @@ namespace dru
 
         bool mbRewinding;
         float mRewindTimer;
+
+        UINT mEnemyCount;
 
         std::vector<CLiveGameObj*> mRewindObjects;
 

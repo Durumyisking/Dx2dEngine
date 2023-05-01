@@ -24,4 +24,9 @@ namespace dru
         return mOwner->GetPos();
     }
 
+    math::Vector3 CComponent::GetOwnerWorldPos() const
+    {
+        return mOwner->GetWorldPos();
+    }
+
 } 

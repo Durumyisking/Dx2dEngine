@@ -6,9 +6,12 @@ namespace dru
 {
 	CStage1::CStage1()
 		: mStageBackground(nullptr)
-	
+		, mGrunt1(nullptr)
+		, mGrunt2(nullptr)
+		, mGrunt1DefaultPos{}
+		, mGrunt2DefaultPos{}
+
 	{
-		mStageState = eStageState::ReadyEnd;
 	}
 
 	CStage1::~CStage1()
@@ -17,16 +20,6 @@ namespace dru
 
 	void CStage1::InitStage()
 	{
-
-		{
-			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
-			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
-			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
-			lightComp->SetType(eLightType::Point);
-			lightComp->SetRadius(3.f);
-			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 0.5f });
-		}
-
 
 		{
 			// ¹è°æ black
@@ -54,21 +47,22 @@ namespace dru
 			mStageBackground->SetScale(Vector3(6.5f, 6.5f, 1.f));
 		}
 
+		mPlayerDefaultPos = Vector3(-6.f, -2.5f, 3.f);
+		mGrunt1DefaultPos = Vector3(-2.f, -2.5f, 3.f);
+		mGrunt2DefaultPos = Vector3(3.4f, 2.75f, 3.f);
 
-		{
-			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(Vector3(-6.f, -2.5f, 3.f));
-		}
+		mStageState = eStageState::ReadyEnd;
+
+		mEnemyCount = 2;
+
+
+		AddStartingLiveObjects();
 
 		CreateOutWall();
 		CreateFirstFloor();
 		CreateSecondFloor();
+		CreateThirdFloor();
 
-
-		{
-			CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			mMon->SetPos(Vector3(-2.f, -2.5f, 3.f));
-		}
 
 	}
 
@@ -86,17 +80,40 @@ namespace dru
 
 	void CStage1::Exit()
 	{
+		CStage::Exit();
 	}
 
 	void CStage1::Reset()
 	{
-	
+		mPlayer->SetPos(mPlayerDefaultPos);
+		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
+		playerScript->Reset();
+
+		mGrunt1->SetPos(mGrunt1DefaultPos);
+		mGrunt1->GetScript<CMonsterScript>()->Reset();
+
+		mGrunt2->SetPos(mGrunt2DefaultPos);
+		mGrunt2->GetScript<CMonsterScript>()->Reset();
+
+		mEnemyCount = 2;
+
 		CStage::Reset();
 
 	}
 
 	void CStage1::AddStartingLiveObjects()
 	{
+		{
+			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt1->SetPos(mGrunt1DefaultPos);
+			mRewindObjects.push_back(mGrunt1);
+		}
+		{
+			mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt2->SetPos(mGrunt2DefaultPos);
+			mRewindObjects.push_back(mGrunt2);
+		}
+
 		CStage::AddStartingLiveObjects();
 	}
 
@@ -170,8 +187,8 @@ namespace dru
 
 		{
 			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-			Wall->SetPos(Vector3(-3.2f, 1.85f, 3.f));
-			Wall->SetColliderScale({ 0.5f, 5.f });
+			Wall->SetPos(Vector3(-3.2f, 4.4f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 10.f });
 		}
 
 		{
@@ -179,6 +196,16 @@ namespace dru
 			Ceiling->SetPos(Vector3(-8.f, -0.47f, 3.f));
 			Ceiling->SetColliderScale({ 10.f, 0.4f });
 		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ -2.5f, -1.5f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(3.f);
+			lightComp->SetDiffuse({ 1.f, 0.f, 0.f, 0.5f });
+		}
+
 	}
 
 	void CStage1::CreateSecondFloor()
@@ -188,6 +215,79 @@ namespace dru
 			Floor->SetPos(Vector3(3.75f, 2.f, 3.f));
 			Floor->SetColliderScale({ 10.f, 0.4f });
 		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 1.f, 1.f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(3.f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+
+
+		{
+			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+			Ceiling->SetPos(Vector3(-1.f, 5.35f, 3.f));
+			Ceiling->SetColliderScale({ 6.f, 0.4f });
+		}
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(2.43f, 9.47f, 3.f));
+			Wall->SetColliderScale({ 0.8f, 10.f });
+		}
+
+		{
+			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+			Ceiling->SetPos(Vector3(2.425f, 4.38f, 3.f));
+			Ceiling->SetColliderScale({ 0.6f, 0.2f });
+		}
+
+
+		{
+			CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+			Wall->SetPos(Vector3(5.2f, 2.4f, 3.f));
+			Wall->SetColliderScale({ 0.5f, 7.f });
+		}
+
+
+	}
+
+	void CStage1::CreateThirdFloor()
+	{
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(15.f, 5.78f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
+		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 2.5f, 8.f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(2.f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+
+
+		{
+			CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+			Ceiling->SetPos(Vector3(5.f, 9.15f, 3.f));
+			Ceiling->SetColliderScale({ 30.f, 0.4f });
+		}
+
+		{
+			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");
+			PointLight->SetPos({ 13.f, 10.f, 0.f });
+			CLight* lightComp = PointLight->AddComponent<CLight>(eComponentType::Light);
+			lightComp->SetType(eLightType::Point);
+			lightComp->SetRadius(2.5f);
+			lightComp->SetDiffuse({ 0.f, 1.f, 0.f, 0.5f });
+		}
+
+		SetClearCollider({ 17.f, 8.f, 0.f });
 	}
 
 }

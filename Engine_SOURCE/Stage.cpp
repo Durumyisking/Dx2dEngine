@@ -8,6 +8,7 @@ namespace dru
 	CStage::CStage()
 		: mStageState(eStageState::NotReady)
 		, mbClear(false)
+		, mClearCollider(nullptr)
 		, mScene(nullptr)
 		, mDeadBg(nullptr)
 		, mbIsDeadBgOn(false)
@@ -27,6 +28,7 @@ namespace dru
 		, mTimer(2000.f)
 		, mElapsedTime(0.f)
 		, mbRewinding(false)
+		, mEnemyCount(0)
 		, mRewindTimer(0.f)
 		, mRewindObjects{}
 
@@ -50,10 +52,12 @@ namespace dru
 		if (CInput::GetKeyTap(eKeyCode::X))
 		{
 			renderer::mainCamera->GetCamScript()->CamFollowOff();
+			renderer::mainCamera->GetCamScript()->FreeViewOn();
 		}
 		if (CInput::GetKeyTap(eKeyCode::C))
 		{
 			renderer::mainCamera->GetCamScript()->CamFollowOn();
+			renderer::mainCamera->GetCamScript()->FreeViewOff();
 		}
 
 
@@ -500,6 +504,15 @@ namespace dru
 		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
 		mPlayer->SetRight();
 		mPlayer->Flip();
+
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay();
+			}
+		}
+
 		Reset();
 
 		mbRewinding = false;
@@ -518,5 +531,18 @@ namespace dru
 		blinkscript->SwitchOff();
 
 		RewindStart();
+	}
+	void CStage::SetClearCollider(Vector3 _Pos)
+	{
+		mClearCollider = object::Instantiate<CGameObj>(eLayerType::Platforms, L"ClearCollider");
+		mClearCollider->SetPos(_Pos);
+
+		CCollider2D* coll = mClearCollider->AddComponent<CCollider2D>(eComponentType::Collider);
+		coll->SetScale(Vector2(1.f, 5.f));
+		coll->Initialize();
+		coll->SetName(L"col_clear");
+		coll->SetType(eColliderType::Rect);
+
+
 	}
 }

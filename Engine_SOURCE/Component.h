@@ -37,7 +37,7 @@ namespace dru
 		}
 
 		math::Vector3 GetOwnerPos() const; // component script에서 코드 사용 편하게 하기위함
-
+		math::Vector3 GetOwnerWorldPos() const; 
 
 	private:
 		const eComponentType mType; // 타입이 바뀌면 안되기 때문

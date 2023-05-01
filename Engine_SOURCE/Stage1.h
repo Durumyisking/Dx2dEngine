@@ -29,11 +29,17 @@ namespace dru
         void CreateOutWall();
         void CreateFirstFloor();
         void CreateSecondFloor();
+        void CreateThirdFloor();
 
 
 
     private:
 		CBackground* mStageBackground;
 
+        CMonster* mGrunt1;
+        CMonster* mGrunt2;
+
+        Vector3 mGrunt1DefaultPos;
+        Vector3 mGrunt2DefaultPos;
     };
 }

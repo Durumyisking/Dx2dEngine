@@ -41,7 +41,7 @@ namespace dru
 	void CPlayerAfterImage::update()
 	{
 		Vector3 pos = mPlayerFrameCaptures.Position;
-		pos.z += 0.000001f;
+		pos.z += 0.0001f;
 		SetPos(pos);
 
 		CGameObj::update();

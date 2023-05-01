@@ -245,8 +245,9 @@ namespace dru
 			}
 			else
 			{
-				Reset();
 				mbFadeDone = false;
+			
+				Reset();
 				Exit();
 
 				mbClear = true;

@@ -9,10 +9,6 @@ namespace dru
 		, mGrunt1DefaultPos{}
 		, mCop1DefaultPos{}
 	{
-		mStageState = eStageState::ReadyEnd;
-		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
-		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
-		mCop1DefaultPos = Vector3(0.f, -3.f, 3.f);
 	}
 
 	CStage2::~CStage2()
@@ -47,6 +43,12 @@ namespace dru
 			mStageBackground->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
 
+		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
+		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
+		mCop1DefaultPos = Vector3(0.f, -3.f, 3.f);
+
+		mEnemyCount = 1;
+		mStageState = eStageState::ReadyEnd;
 
 		AddStartingLiveObjects();
 
@@ -69,6 +71,7 @@ namespace dru
 
 	void CStage2::Exit()
 	{
+		CStage::Exit();
 	}
 
 	void CStage2::Reset()
@@ -82,6 +85,9 @@ namespace dru
 
 		mCop1->SetPos(mCop1DefaultPos);
 		mCop1->GetScript<CMonsterScript>()->Reset();
+
+		mEnemyCount = 1;
+
 
 		CStage::Reset();
 	}

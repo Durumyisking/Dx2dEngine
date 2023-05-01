@@ -32,6 +32,9 @@ namespace dru
         void CancelShake();
         void ShakeMove();
 
+        void FreeViewOn() { mbFreeView = true; }
+        void FreeViewOff() { mbFreeView = false; }
+
         void CamFollowOn() { mbCamFollowPlayerX = true;  mbCamFollowPlayerY = true; }
         void CamFollowOnX() { mbCamFollowPlayerX = true; }
         void CamFollowOnY() { mbCamFollowPlayerY = true; }
@@ -61,6 +64,7 @@ namespace dru
         bool mbCamFollowPlayerX;
         bool mbCamFollowPlayerY;
 
+        bool mbFreeView;
     };
 
 }
