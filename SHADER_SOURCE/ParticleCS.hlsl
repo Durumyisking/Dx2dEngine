@@ -48,8 +48,8 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
                     , GaussianBlur(UV + float2(0.3f, 0.0f)).x
                 ); // 대충 현재 uv값 부터 0.1 0.2까지의 x좌표를 넣어줌
               //// radius 원형 범위로 스폰
-            float fTheta = Random.xy * 3.141592f * 2.0f;
-            ParticleBuffer[DTid.x].position.xy = float2(cos(fTheta), sin(fTheta)) * Random.y * radius;
+            float2 Theta = Random.xy * 3.141592f * 2.0f;
+            ParticleBuffer[DTid.x].position.xy = float2(cos(Theta.x), sin(Theta.y)) * Random.y * radius;
 //            ParticleBuffer[DTid.x].position.x += 200.f;
             ParticleBuffer[DTid.x].position.z = 100.0f; // z값은 고정
             

@@ -8,6 +8,7 @@ namespace dru
 	CStage::CStage()
 		: mStageState(eStageState::NotReady)
 		, mbClear(false)
+		, mPostProcess_Rewind(nullptr)
 		, mClearCollider(nullptr)
 		, mScene(nullptr)
 		, mDeadBg(nullptr)
@@ -111,7 +112,7 @@ namespace dru
 		{
 			CGameObj* mHudTop = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Top");
 
-			CSpriteRenderer* SpriteRenderer = mHudTop->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudTop->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_top", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_topMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -123,7 +124,7 @@ namespace dru
 		{
 			CGameObj* mHudTimer = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timer");
 
-			CSpriteRenderer* SpriteRenderer = mHudTimer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudTimer->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_timer", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_timerMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -135,7 +136,7 @@ namespace dru
 		{
 			mHudTimerBar = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timerbar");
 
-			CSpriteRenderer* SpriteRenderer = mHudTimerBar->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudTimerBar->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_timerbar", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_timerbarMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -149,7 +150,7 @@ namespace dru
 		{
 			CGameObj* mHudBattery = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Battery");
 
-			CSpriteRenderer* SpriteRenderer = mHudBattery->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudBattery->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_battery", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_batteryMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -169,7 +170,7 @@ namespace dru
 
 				mHudBatteryParts.push_back(mHudBatteryPart);
 
-				CSpriteRenderer* SpriteRenderer = mHudBatteryPart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mHudBatteryPart->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_batterypart", L"UIShader");
 				CResources::Insert<CMaterial>(str, Material);
 				SpriteRenderer->SetMaterial(Material);
@@ -182,7 +183,7 @@ namespace dru
 		{
 			CGameObj* mHudInventory = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Inventory");
 
-			CSpriteRenderer* SpriteRenderer = mHudInventory->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudInventory->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_inventory", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_invenMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -194,7 +195,7 @@ namespace dru
 		{
 			mHudLeftHand = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timerbar");
 
-			CSpriteRenderer* SpriteRenderer = mHudLeftHand->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudLeftHand->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"icon_katana", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_LeftItem", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -207,7 +208,7 @@ namespace dru
 		{
 			mHudRightHand = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timerbar");
 
-			CSpriteRenderer* SpriteRenderer = mHudRightHand->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mHudRightHand->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"icon_hand", L"UIShader");
 			CResources::Insert<CMaterial>(L"Hud_RightItem", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -221,7 +222,7 @@ namespace dru
 		{
 			mUICursor = object::Instantiate<CBackground>(eLayerType::UI, L"Cursor");
 
-			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mUICursor->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CursorMat");
 			SpriteRenderer->SetMaterial(Material);
 			mUICursor->AddComponent<CCursorScript>(eComponentType::Script)->Initialize();
@@ -231,7 +232,7 @@ namespace dru
 		{			
 			mBulletTimeMask = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"BulletTimeMask");
 
-			CSpriteRenderer* SpriteRenderer = mBulletTimeMask->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mBulletTimeMask->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 			CResources::Insert<CMaterial>(L"BulletTimeMaskMat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -241,6 +242,8 @@ namespace dru
 			mBulletTimeMask->SetScale(Vector3(30.f, 30.f, 0.f));
 			mBulletTimeMask->RenderingBlockOn();
 		}
+
+		CreatePostProcess_Rewind();
 	}
 
 	void CStage::NotReadyOperate()
@@ -386,7 +389,7 @@ namespace dru
 			{
 				// 튜토리얼 배경
 				mDeadBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
-				CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mDeadBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 				CResources::Insert<CMaterial>(L"TB1Mat", Material);
@@ -408,7 +411,7 @@ namespace dru
 			if (!mKeyEnter)
 			{
 				mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mDeadBg, L"keyEnter");
-				CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 				SpriteRenderer->SetMaterial(Material);
 				mKeyEnter->SetPos(Vector3(0.f, -0.5f, 0.f));
@@ -458,6 +461,25 @@ namespace dru
 
 		return state;
 	}
+	void CStage::CreatePostProcess_Rewind()
+	{
+		if (!mPostProcess_Rewind)
+		{
+			mPostProcess_Rewind = object::Instantiate<CPostProcess>(eLayerType::PostProcess, L"PostProcessGameObject");
+
+			CTransform* Transform = mPostProcess_Rewind->GetComponent<CTransform>();
+			Transform->SetPosition(Vector3(0.f, 0.f, 0.f));
+			Transform->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+
+			CPostProcessRenderer * mr = mPostProcess_Rewind->AddComponent<CPostProcessRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
+			mr->SetMaterial(mateiral);
+			mr->SetPostProcessOwner(mPostProcess_Rewind);
+			mPostProcess_Rewind->RenderingBlockOn();
+
+			mPostProcess_Rewind->DontDestroy();
+		}
+	}
 	void CStage::RewindStart()
 	{
 		if (CTimeMgr::IsBulletTimeOn())
@@ -474,6 +496,8 @@ namespace dru
 				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();
 			}
 		}
+
+		mPostProcess_Rewind->RenderingBlockOff();
 
 		mbRewinding = true;
 	}
@@ -515,6 +539,7 @@ namespace dru
 
 		Reset();
 
+		mPostProcess_Rewind->RenderingBlockOn();
 		mbRewinding = false;
 
 	}

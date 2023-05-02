@@ -8,8 +8,6 @@
 #include "TimeMgr.h"
 #include "Application.h"
 
-extern dru::CApplication application;
-
 namespace dru::renderer
 {
 	// vertex data
@@ -398,6 +396,9 @@ namespace dru::renderer
 		constantBuffers[(UINT)eCBType::Noise] = new CConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
 
+		constantBuffers[(UINT)eCBType::PostProcess] = new CConstantBuffer(eCBType::PostProcess);
+		constantBuffers[(UINT)eCBType::PostProcess]->Create(sizeof(PostProcessCB));
+
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
 		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
@@ -579,6 +580,7 @@ namespace dru::renderer
 		postProcessTexture = std::make_shared<CTexture>();
 		postProcessTexture->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
+		CResources::Insert<CTexture>(L"PostProcessTexture", postProcessTexture);
 	}
 
 
@@ -654,6 +656,7 @@ namespace dru::renderer
 		std::shared_ptr<CMaterial> postProcessMaterial = std::make_shared<CMaterial>();
 		postProcessMaterial->SetRenderingMode(eRenderingMode::PostProcess);
 		postProcessMaterial->SetShader(postProcessShader);
+		postProcessMaterial->SetTexture(postProcessTexture);
 		CResources::Insert<CMaterial>(L"PostProcessMaterial", postProcessMaterial);
 
 		// etc
@@ -826,10 +829,7 @@ namespace dru::renderer
 		info.noiseSize.x = static_cast<float>(noise->GetWidth()); // 노이즈 텍스처 사이즈를 상수버퍼로 전달해줌
 		info.noiseSize.y = static_cast<float>(noise->GetHeight());
 		noiseTime -= CTimeMgr::DeltaTime();
-		ElapsedTime += CTimeMgr::DeltaTime();
 		info.noiseTime = noiseTime;
-		info.Resolution = application.WinResolution();
-		info.ElapsedTime = ElapsedTime;
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
 		cb->SetData(&info);

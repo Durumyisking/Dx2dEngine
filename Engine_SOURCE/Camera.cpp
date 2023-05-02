@@ -243,13 +243,15 @@ namespace dru
 
 	void CCamera::renderPostProcess()
 	{
-
 		for (CGameObj* obj : mPostProcessGameObjects)
 		{
-			if (obj == nullptr)
-				continue;
-			renderer::CopyRenderTarget();
-			obj->render();
+			if (renderPassCheck(obj))
+			{
+				if (obj == nullptr)
+					continue;
+				renderer::CopyRenderTarget();
+				obj->render();
+			}
 		}
 	}
 

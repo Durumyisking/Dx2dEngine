@@ -20,7 +20,7 @@ namespace dru
 		{
 			// 배경 black
 			CGameObj* bgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Black", Material);
@@ -32,9 +32,9 @@ namespace dru
 
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{
-			// 배경 Stage1
+			// 배경 Stage2
 			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage2");
-			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage2", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Stage2", Material);
@@ -255,7 +255,7 @@ namespace dru
 			CGameObj* plant = object::Instantiate<CGameObj>(eLayerType::Objects, L"plant");
 			plant->SetPos(Vector3(-3.4f, 0.6f, 3.f));
 			plant->SetScale({ 0.5f, 1.f, 0.f });
-			CSpriteRenderer* SpriteRenderer = plant->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = plant->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			SpriteRenderer->SetMaterialByKey(L"plantMat");
 		}
 
@@ -263,7 +263,7 @@ namespace dru
 			CGameObj* desk = object::Instantiate<CGameObj>(eLayerType::Objects, L"desk");
 			desk->SetPos(Vector3(-5.4f, 0.6f, 3.f));
 			desk->SetScale({ 2.f, 1.f, 0.f });
-			CSpriteRenderer* SpriteRenderer = desk->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = desk->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			SpriteRenderer->SetMaterialByKey(L"deskMat");
 		}
 

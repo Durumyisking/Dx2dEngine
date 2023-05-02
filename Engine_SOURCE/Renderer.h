@@ -120,9 +120,13 @@ namespace dru::renderer
 	{
 		Vector4 noiseSize;
 		float noiseTime;
+	};
+	CBUFFER(PostProcessCB, CBSLOT_POSTPROCESS)
+	{
 		float ElapsedTime;
 		Vector2 Resolution;
 	};
+
 
 
 	// vertex data
@@ -141,7 +145,6 @@ namespace dru::renderer
 	extern std::vector<LightAttribute> lights;
 
 	extern CStructedBuffer* lightBuffer;
-
 
 
 	void Initialize();

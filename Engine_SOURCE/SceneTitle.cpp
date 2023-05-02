@@ -206,7 +206,7 @@ namespace dru
 			{
 				// 배경 black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Black", Material);
@@ -220,7 +220,7 @@ namespace dru
 			{
 				// 배경 Steel
 				mbgSteel = object::Instantiate<CBackground>(eLayerType::BackGround, L"Steel");
-				CSpriteRenderer* SpriteRenderer = mbgSteel->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgSteel->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Steel", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Steel", Material);
@@ -232,7 +232,7 @@ namespace dru
 			{
 				// 배경 TitleZer
 				mbgZer = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleZer_1");
-				CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgZer->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleZer_1", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"TitleZer_1", Material);
@@ -247,7 +247,7 @@ namespace dru
 			{
 				// 배경 TitleO
 				mbgO = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleO_1");
-				CSpriteRenderer* SpriteRenderer = mbgO->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgO->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleO_1", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"TitleO_1", Material);
@@ -260,7 +260,7 @@ namespace dru
 			{
 				// 배경 TitleKatana
 				mbgKatana = object::Instantiate<CBackground>(eLayerType::BackGround, L"TitleKatana");
-				CSpriteRenderer* SpriteRenderer = mbgKatana->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgKatana->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleKatana", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"TitleKatana", Material);
@@ -274,7 +274,7 @@ namespace dru
 			{
 				// 배경 Fence
 				mbgChain = object::Instantiate<CBackground>(eLayerType::BackGround, L"Fence");
-				CSpriteRenderer* SpriteRenderer = mbgChain->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgChain->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Fence", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Fence", Material);
@@ -287,7 +287,7 @@ namespace dru
 			{
 				// 배경 UI
 				mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"UITitleBg");
-				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
 				SpriteRenderer->SetMaterial(Material);
@@ -301,7 +301,7 @@ namespace dru
 			{
 				// 선택메뉴
 				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
-				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"TitleButtonMat", Material);
@@ -315,7 +315,7 @@ namespace dru
 				// UIStart
 				mUIStart = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleStart");
 
-				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mUIStart->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 				CResources::Insert<CMaterial>(L"UITitleStartMat", Material);
 				SpriteRenderer->SetMaterial(Material);
@@ -327,7 +327,7 @@ namespace dru
 			{
 				// 배경 Grass
 				mbgGrass = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass");
-				CSpriteRenderer* SpriteRenderer = mbgGrass->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgGrass->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"GrassMat", Material);
@@ -339,11 +339,11 @@ namespace dru
 			{
 				// 배경 Grass2
 				mbgGrass2 = object::Instantiate<CBackground>(eLayerType::BackGround, L"Grass2");
-				CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgGrass2->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Grass2", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Grass2Mat", Material);
-				//				SpriteRenderer->SetMaterial(Material);
+				//				Renderer->SetMaterial(Material);
 
 				SpriteRenderer->SetAnimMaterial(Material, { 640.f, 255.f });
 
@@ -359,7 +359,7 @@ namespace dru
 			{
 				// 배경 black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+				CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"Black", Material);

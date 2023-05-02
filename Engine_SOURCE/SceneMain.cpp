@@ -154,7 +154,7 @@ namespace dru
 		{
 			mScreenMask = object::Instantiate<CBackground>(eLayerType::BackGround, L"mask");
 
-			CSpriteRenderer* SpriteRenderer = mScreenMask->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mScreenMask->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"mask", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"maskMat", Material);
 

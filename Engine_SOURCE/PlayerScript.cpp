@@ -961,7 +961,7 @@ namespace dru
 		if (JumpDustObject)
 		{
 			std::shared_ptr<CTexture> JumpdustTexture = nullptr;
-			CSpriteRenderer* SpriteRenderer = JumpDustObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = JumpDustObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			if (SpriteRenderer)
 			{
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"dustMat");
@@ -1103,7 +1103,7 @@ namespace dru
 		if (LandDustObject)
 		{
 			std::shared_ptr<CTexture> LanddustTexture = nullptr;
-			CSpriteRenderer* SpriteRenderer = LandDustObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = LandDustObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			if (SpriteRenderer)
 			{
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"landdustMat");
@@ -1219,7 +1219,7 @@ namespace dru
 		SlashObj->SetRotation(rotation);
 
 
-		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerSlashMat");
 		SpriteRenderer->SetMaterial(Material);
 

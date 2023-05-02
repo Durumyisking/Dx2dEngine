@@ -192,7 +192,7 @@ namespace dru
 	void CMonsterScript::CreateBodySlash()
 	{
 		CGameObj* bodySlash = object::Instantiate<CGameObj>(eLayerType::FX, L"BodySlash");
-		CSpriteRenderer* SpriteRenderer = bodySlash->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = bodySlash->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		bodySlash->SetPos(GetOwner()->GetPos());
 
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BodySlashMat");
@@ -475,7 +475,7 @@ namespace dru
 		SlashObj->Flip();
 
 
-		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = SlashObj->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(GetOwner()->GetName() + L"Mat");
 		SpriteRenderer->SetMaterial(Material);
 

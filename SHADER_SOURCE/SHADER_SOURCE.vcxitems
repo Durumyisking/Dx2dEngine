@@ -32,6 +32,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)FadeVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)GreyScalePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
@@ -78,6 +81,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)VSTriangle.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)WavePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Blur.hlsli" />
@@ -85,6 +91,8 @@
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)PostProcess.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Random.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Texture.hlsli" />
   </ItemGroup>

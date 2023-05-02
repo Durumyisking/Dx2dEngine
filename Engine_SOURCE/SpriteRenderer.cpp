@@ -7,7 +7,7 @@
 namespace dru
 {
 	CSpriteRenderer::CSpriteRenderer()
-		: CBaseRenderer(eComponentType::SpriteRenderer)
+		: CBaseRenderer(eComponentType::Renderer)
 	{
 	}
 

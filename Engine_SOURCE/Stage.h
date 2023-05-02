@@ -36,6 +36,8 @@
 #include "FadeScript.h"
 #include "PlayerScript.h"
 
+#include "PostProcess.h"
+#include "PostProcessRenderer.h"
 
 
 namespace dru
@@ -89,6 +91,7 @@ namespace dru
 
         bool GetPlayerState(ePlayerState _State);
         
+        void CreatePostProcess_Rewind();
         void RewindStart();
         void Rewinding();
         bool RewindEndCheck();
@@ -118,6 +121,8 @@ namespace dru
         CScene* mScene;
         bool mbClear;
         CGameObj* mClearCollider;
+
+        CPostProcess* mPostProcess_Rewind;
 
         CBackgroundColor* mDeadBg;
         bool mbIsDeadBgOn;

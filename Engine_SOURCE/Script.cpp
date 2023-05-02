@@ -37,7 +37,7 @@ namespace dru
 	void CScript::CreateSlashShade(Vector3& _targetPos)
 	{
 		CGameObj* SlashShade = object::Instantiate<CGameObj>(eLayerType::FX, L"SlashShade");
-		CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = SlashShade->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_slash", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"SlashShadeMat", Material);

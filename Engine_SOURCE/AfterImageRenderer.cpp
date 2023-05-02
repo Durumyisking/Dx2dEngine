@@ -9,7 +9,7 @@
 namespace dru
 {
 	CAfterImageRenderer::CAfterImageRenderer()
-		: CBaseRenderer(eComponentType::AfterImageRenderer)
+		: CBaseRenderer(eComponentType::Renderer)
 		, mAfterImageOwner(nullptr)
 	{
 	}

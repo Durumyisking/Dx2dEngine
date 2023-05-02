@@ -13,6 +13,9 @@
     <Filter Include="CS">
       <UniqueIdentifier>{d2af8696-7424-4b6a-bd50-7bfb8afc5417}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PostProcess">
+      <UniqueIdentifier>{76ba914d-bbfb-4825-bab2-b8e820392426}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)VSTriangle.hlsl">
@@ -72,11 +75,17 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)AfterImagePS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)WavePS.hlsl">
+      <Filter>PostProcess</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)GreyScalePS.hlsl">
+      <Filter>PostProcess</Filter>
+    </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)PostProcessVS.hlsl">
-      <Filter>VS</Filter>
+      <Filter>PostProcess</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)PostProcessPS.hlsl">
-      <Filter>PS</Filter>
+      <Filter>PostProcess</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,5 +96,9 @@
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Blur.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Texture.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)PostProcess.hlsli">
+      <Filter>PostProcess</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Random.hlsli" />
   </ItemGroup>
 </Project>

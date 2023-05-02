@@ -14,7 +14,7 @@ namespace dru
 		, mElapsedTime(0.f)
 		, mIsBlinked(false)
 	{
-		mSpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		mSpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		
 		mPointLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"PointLight");
 		CLight* lightComp = mPointLight->AddComponent<CLight>(eComponentType::Light);

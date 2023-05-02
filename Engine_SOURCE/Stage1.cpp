@@ -24,7 +24,7 @@ namespace dru
 		{
 			// 배경 black
 			CGameObj* bgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Black", Material);
@@ -38,7 +38,7 @@ namespace dru
 		{
 			// 배경 Stage1
 			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage1");
-			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage1", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Stage1", Material);
@@ -61,19 +61,6 @@ namespace dru
 		CreateFirstFloor();
 		CreateSecondFloor();
 		CreateThirdFloor();
-
-		{
-			CGameObj* obj = object::Instantiate<CGameObj>(eLayerType::PostProcess,L"PostProcessGameObject");
-
-			CTransform* Transform = obj->GetComponent<CTransform>();
-			Transform->SetPosition(Vector3(0.f, 0.f, -1.f));
-			Transform->SetScale(Vector3(16.0f, 9.0f, 1.0f));
-
-			CSpriteRenderer* mr = obj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
-			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
-			mr->SetMaterial(mateiral);
-		}
-
 	}
 
 	void CStage1::LoadinReady()

@@ -224,6 +224,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAfterImage.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="PostProcess.h" />
+    <ClInclude Include="PostProcessRenderer.h" />
     <ClInclude Include="Prefab.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
@@ -312,6 +314,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAfterImage.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="PostProcess.cpp" />
+    <ClCompile Include="PostProcessRenderer.cpp" />
     <ClCompile Include="Prefab.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />

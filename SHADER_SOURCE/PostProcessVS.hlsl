@@ -1,6 +1,5 @@
 #include "global.hlsli"
 
-
 struct VSIn
 {
     float4 Pos : POSITION;

@@ -25,6 +25,7 @@
 #define CBSLOT_LIGHTCOUNT 5
 #define CBSLOT_PARTICLESYSTEM 6
 #define CBSLOT_NOISE			7
+#define CBSLOT_POSTPROCESS		8
 
 namespace dru::graphics
 {
@@ -148,6 +149,7 @@ namespace dru::graphics
 		Light,
 		ParticleSystem,
 		Noise, 
+		PostProcess,
 		End,
 	};
 

@@ -25,7 +25,7 @@ namespace dru
 	void CBullet::Initialize()
 	{
 		SetLayerType(eLayerType::Bullet);
-		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		SetScale({ 0.025f, 0.025f, 1.f }); //  / 17.f
 
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"Bullet");

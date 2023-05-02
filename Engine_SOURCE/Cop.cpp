@@ -7,7 +7,7 @@ namespace dru
 	{
 		SetName(L"Cop");
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
-		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CopMat");
 		SpriteRenderer->SetMaterial(Material);
 

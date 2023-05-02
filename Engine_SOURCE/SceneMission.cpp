@@ -96,11 +96,11 @@ namespace dru
 		//{
 		//	// ¹è°æ black
 		//	mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-		//	CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		//	CSpriteRenderer* Renderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
 		//	CResources::Insert<CMaterial>(L"Black", Material);
-		//	SpriteRenderer->SetMaterial(Material);
+		//	Renderer->SetMaterial(Material);
 		//	mbgBlack->SetPos(Vector3(0.f, -1.f, 5.f));
 		//	mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
@@ -109,7 +109,7 @@ namespace dru
 		{
 			// Left
 			mJobLeft = object::Instantiate<CGameObj>(eLayerType::BackGround, L"Job_left");
-			CSpriteRenderer* SpriteRenderer = mJobLeft->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mJobLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"job_left", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"job_leftMat", Material);
@@ -123,7 +123,7 @@ namespace dru
 		{
 			// Right
 			mJobRight= object::Instantiate<CGameObj>(eLayerType::BackGround, L"Job_right");
-			CSpriteRenderer* SpriteRenderer = mJobRight->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mJobRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"job_right", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"job_rightMat", Material);
@@ -141,7 +141,7 @@ namespace dru
 			Transform->SetPosition(Vector3(0.f, 0.f, 0.f));
 			Transform->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 
-			CSpriteRenderer* mr = obj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* mr = obj->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
 			mr->SetMaterial(mateiral);
 		}
@@ -149,11 +149,11 @@ namespace dru
 		//{
 		//	// Corner
 		//	mJobCorner= object::Instantiate<CGameObj>(eLayerType::BackGround, L"Job_corner");
-		//	CSpriteRenderer* SpriteRenderer = mJobCorner->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		//	CSpriteRenderer* Renderer = mJobCorner->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"job_corner", L"SpriteShader");
 		//	CResources::Insert<CMaterial>(L"job_cornerMat", Material);
-		//	SpriteRenderer->SetMaterial(Material);
+		//	Renderer->SetMaterial(Material);
 		//	mJobCorner->SetPos(Vector3(2.9f, -0.75f, 3.f));
 		//	mJobCorner->SetScale(Vector3(6.f, 6.f, 1.f));
 

@@ -48,7 +48,7 @@ namespace dru
 		{
 			// 배경 튵리얼
 			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stagetutorial");
-			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stagetutorial", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"StageTutorial", Material);
@@ -206,7 +206,7 @@ namespace dru
 		{
 			// 튜토리얼 배경
 			mTutorBg = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"TutorBg");
-			CSpriteRenderer* SpriteRenderer = mTutorBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mTutorBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 			CResources::Insert<CMaterial>(L"TB1Mat", Material);
@@ -267,7 +267,7 @@ namespace dru
 		{
 			// 튜토리얼 제목 UI
 			mUIBg = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"TutorialTitleBg");
-			CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mUIBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = CResources::Find <CMaterial>(L"UITitleBgMat");
 			SpriteRenderer->SetMaterial(Material);
@@ -280,7 +280,7 @@ namespace dru
 		{
 			mTutorialtxt = object::Instantiate<CGameObj>(eLayerType::UI, L"Tutorialtxt");
 
-			CSpriteRenderer* SpriteRenderer = mTutorialtxt->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mTutorialtxt->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"tutorialtxt", L"FadeShader");
 			CResources::Insert<CMaterial>(L"tutorialtxtmat", Material);
 			SpriteRenderer->SetMaterial(Material);
@@ -297,7 +297,7 @@ namespace dru
 	{
 		{
 			mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mTutorialtxt, L"keyEnter");
-			CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyEnter->SetPos(Vector3(0.f, -0.75f, 0.f));
@@ -427,7 +427,7 @@ namespace dru
 			mLeftwall->SetPos(Vector3(-9.f, -0.25f, 4.999f));
 			mLeftwall->SetScale(Vector3(1.f, 5.f, 4.999f));
 
-			CSpriteRenderer* SpriteRenderer = mLeftwall->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mLeftwall->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"wallMat");
 			SpriteRenderer->SetMaterial(Material);
 		}
@@ -437,7 +437,7 @@ namespace dru
 			mRightwall->SetPos(Vector3(9.f, -0.25f, 4.999f));
 			mRightwall->SetScale(Vector3(1.f, 5.f, 4.999f));
 
-			CSpriteRenderer* SpriteRenderer = mRightwall->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mRightwall->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"wallMat");
 			SpriteRenderer->SetMaterial(Material);
 		}
@@ -562,7 +562,7 @@ namespace dru
 				{
 					// 검정 텍스처 Fadein용 오브젝트 생성
 					mMask = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"StageMask");
-					CSpriteRenderer* SpriteRenderer = mMask->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+					CSpriteRenderer* SpriteRenderer = mMask->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
 					CResources::Insert<CMaterial>(L"TutorEndMat", Material);
@@ -632,7 +632,7 @@ namespace dru
 	{
 		{
 			mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyA");
-			CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyLeft->SetPos(Vector3(-0.2f, -0.5f, 0.f));
@@ -647,7 +647,7 @@ namespace dru
 
 		{
 			mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyD");
-			CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyRight->SetPos(Vector3(0.2f, -0.5f, 0.f));
@@ -662,7 +662,7 @@ namespace dru
 
 		{
 			mKeyUp = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyW");
-			CSpriteRenderer* SpriteRenderer = mKeyUp->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyUp->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyUp->SetPos(Vector3(0.f, -0.2f, 0.f));
@@ -678,7 +678,7 @@ namespace dru
 
 		{
 			mKeyDown = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyS");
-			CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyDown->SetPos(Vector3(0.f, -0.5f, 0.f));
@@ -693,7 +693,7 @@ namespace dru
 
 		{
 			mKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"LClick");
-			CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyLClick->SetPos(Vector3(0.f, -0.35f, 0.f));
@@ -704,7 +704,7 @@ namespace dru
 		}
 		{
 			mKeyShift = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"Shift");
-			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
 			mKeyShift->SetPos(Vector3(0.f, -0.35f, 0.f));

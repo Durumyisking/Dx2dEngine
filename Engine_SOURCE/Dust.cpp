@@ -7,7 +7,7 @@ namespace dru
 
 	CDust::CDust()
 	{
-		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"dustMat");
 		SpriteRenderer->SetMaterial(Material);
 

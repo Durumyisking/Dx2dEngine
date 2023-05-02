@@ -96,7 +96,7 @@ namespace dru
 	{
 		// รั
 		mCopGun = Instantiate<CGameObj>(eLayerType::MonsterGun,  GetOwner(), L"copgun");
-		CSpriteRenderer* SpriteRenderer = mCopGun->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		CSpriteRenderer* SpriteRenderer = mCopGun->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"cop_gun", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"cop_gunMat", Material);
@@ -206,7 +206,7 @@ namespace dru
 			GunFireObject->SetScale({ 0.5f, 0.5f, 1.f });
 
 			std::shared_ptr<CTexture> GunFireObjectTexture = nullptr;
-			CSpriteRenderer* SpriteRenderer = GunFireObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = GunFireObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			if (SpriteRenderer)
 			{
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GunFireMat");
@@ -246,7 +246,7 @@ namespace dru
 			GunSmokeObject->SetScale({ 0.5f, 0.5f, 1.f });
 
 			std::shared_ptr<CTexture> GunSmokeObjectTexture = nullptr;
-			CSpriteRenderer* SpriteRenderer = GunSmokeObject->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			CSpriteRenderer* SpriteRenderer = GunSmokeObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			if (SpriteRenderer)
 			{
 				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GunSmokeMat");

@@ -19,7 +19,7 @@ namespace dru
 
 	void CPlayerAfterImage::Initialize()
 	{
-		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::AfterImageRenderer);
+		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::Renderer);
 		// 인덱스마다 머티리얼 다르게해야함
 		std::wstring matName = L"PlayerMatAfterImage_";
 		std::wstring idx = std::to_wstring(mIndex);
