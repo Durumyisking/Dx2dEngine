@@ -37,7 +37,7 @@
 #include "PlayerScript.h"
 
 #include "PostProcess.h"
-#include "PostProcessRenderer.h"
+#include "PostProcessWave.h"
 
 
 namespace dru

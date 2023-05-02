@@ -33,7 +33,12 @@ namespace dru
 			mRay = nullptr;
 		}
 
+		Vector3 GetRayScale() const { return mRayScale; }
 
+	protected:
+		Vector3 mRayScale;
+
+		
 	private:
 		CMonsterRay* mRay;
     };

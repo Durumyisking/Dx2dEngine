@@ -104,6 +104,7 @@ namespace dru
 		{
 			mCop1 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
 			mCop1->SetPos(mCop1DefaultPos);
+			mCop1->SetRight();
 			mRewindObjects.push_back(mCop1);
 		}
 

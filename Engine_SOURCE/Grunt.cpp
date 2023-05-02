@@ -33,8 +33,8 @@ namespace dru
 
 	void CGrunt::Initialize()
 	{
-		Vector3 defaultScale = Vector3(6.f, 0.f, 1.f);
-		AddRay(defaultScale);
+		mRayScale = Vector3(6.f, 0.f, 1.f);
+		AddRay(mRayScale);
 		CMonster::Initialize();
 	}
 

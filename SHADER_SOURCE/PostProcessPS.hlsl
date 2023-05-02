@@ -1,18 +1,6 @@
 #include "Blur.hlsli"
 #include "PostProcess.hlsli"
 
-struct VSIn
-{
-    float4 Pos : POSITION;
-    float2 UV : TEXCOORD;
-};
-
-struct VSOut
-{
-    float4 Pos : SV_Position;
-    float2 UV : TEXCOORD;
-};
-
 float4 main(VSOut _in) : SV_Target
 {      
     float4 Color = (float4) 0.f;
@@ -32,6 +20,3 @@ float4 main(VSOut _in) : SV_Target
     //return float4(0.0f, 1.0f, 0.0f, 1.0f);
     return Color;
 }
-
-
-// 타이틀씬부터 코드 넣기

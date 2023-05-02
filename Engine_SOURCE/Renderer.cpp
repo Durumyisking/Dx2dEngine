@@ -266,6 +266,18 @@ namespace dru::renderer
 			, postProcessShader->GetVSBlobBufferSize()
 			, postProcessShader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> waveShader = CResources::Find<CShader>(L"WaveShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, waveShader->GetVSBlobBufferPointer()
+			, waveShader->GetVSBlobBufferSize()
+			, waveShader->GetInputLayoutAddr());
+
+		std::shared_ptr<CShader> greyScaleShader = CResources::Find<CShader>(L"GreyScaleShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, greyScaleShader->GetVSBlobBufferPointer()
+			, greyScaleShader->GetVSBlobBufferSize()
+			, greyScaleShader->GetInputLayoutAddr());
+
 #pragma endregion
 
 		#pragma region SamplerState
@@ -481,7 +493,17 @@ namespace dru::renderer
 		postProcessShader->SetDSState(eDepthStencilType::NoWrite);
 		CResources::Insert<CShader>(L"PostProcessShader", postProcessShader);
 
+		std::shared_ptr<CShader> WaveShader = std::make_shared<CShader>();
+		WaveShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		WaveShader->Create(eShaderStage::PS, L"WavePS.hlsl", "main");
+		WaveShader->SetDSState(eDepthStencilType::NoWrite);
+		CResources::Insert<CShader>(L"WaveShader", WaveShader);
 
+		std::shared_ptr<CShader> GreyScaleShader = std::make_shared<CShader>();
+		GreyScaleShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		GreyScaleShader->Create(eShaderStage::PS, L"GreyScalePS.hlsl", "main");
+		GreyScaleShader->SetDSState(eDepthStencilType::NoWrite);
+		CResources::Insert<CShader>(L"GreyScaleShader", GreyScaleShader);
 
 	}
 
@@ -658,6 +680,21 @@ namespace dru::renderer
 		postProcessMaterial->SetShader(postProcessShader);
 		postProcessMaterial->SetTexture(postProcessTexture);
 		CResources::Insert<CMaterial>(L"PostProcessMaterial", postProcessMaterial);
+
+		std::shared_ptr<CShader> waveShader = CResources::Find<CShader>(L"WaveShader");
+		std::shared_ptr<CMaterial> waveMaterial = std::make_shared<CMaterial>();
+		waveMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		waveMaterial->SetShader(waveShader);
+		waveMaterial->SetTexture(postProcessTexture);
+
+		CResources::Insert<CMaterial>(L"WaveMaterial", waveMaterial);
+
+		std::shared_ptr<CShader> greyScaleShader = CResources::Find<CShader>(L"GreyScaleShader");
+		std::shared_ptr<CMaterial> greyScaleMaterial = std::make_shared<CMaterial>();
+		greyScaleMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		greyScaleMaterial->SetShader(waveShader);
+		greyScaleMaterial->SetTexture(postProcessTexture);
+		CResources::Insert<CMaterial>(L"GreyScaleMaterial", greyScaleMaterial);
 
 		// etc
 		{

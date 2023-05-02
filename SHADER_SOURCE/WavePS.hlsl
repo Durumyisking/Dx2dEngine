@@ -1,29 +1,18 @@
 #include "PostProcess.hlsli"
 
-struct VSIn
+
+float4 main(VSOut _in) : SV_Target
 {
-    float4 Pos : POSITION;
-    float2 UV : TEXCOORD;
-};
+    float4 Color = (float4) 0.f;
 
-struct VSOut
-{
-    float4 Pos : SV_Position;
-    float2 UV : TEXCOORD;
-};
+    float2 UV = _in.Pos.xy / Resolution;
 
-
-float4 main(VSOut _in) : SV_TARGET
-{
-    float4 color = (float4)0.f;
-
-    //float2 UV = _in.Pos.xy / Resolution;
-
-    //uv.x = uv.x + cos(uv.y * wave_amount + ElapsedTime * wave_speed) / wave_distortion;
-    //uv.y = uv.y + sin(uv.x * wave_amount + ElapsedTime * wave_speed) / wave_distortion;
+    // wave speed는 점점 빨라진다, wave amount는 파동의 높이, distortion은 높을수록 덜 외곡된다.
+    UV.x = UV.x + cos(UV.y * wave_amount + ElapsedTime * wave_speed) / wave_distortion;
+    UV.y = UV.y + sin(UV.x * wave_amount + ElapsedTime * wave_speed) / wave_distortion;
  
-    //color = postProcessTexture.Sample(pointSampler, UV);
+    Color = postProcessTexture.Sample(pointSampler, UV);
     
  
-    return color;
+    return Color;
 }

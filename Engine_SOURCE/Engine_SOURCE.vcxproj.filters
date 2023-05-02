@@ -467,6 +467,9 @@
     <ClInclude Include="PostProcessRenderer.h">
       <Filter>Common\Component\Renderer\PostProcess</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessWave.h">
+      <Filter>GameObj\PostProcess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -730,6 +733,9 @@
     </ClCompile>
     <ClCompile Include="PostProcessRenderer.cpp">
       <Filter>Common\Component\Renderer\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessWave.cpp">
+      <Filter>GameObj\PostProcess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -465,16 +465,14 @@ namespace dru
 	{
 		if (!mPostProcess_Rewind)
 		{
-			mPostProcess_Rewind = object::Instantiate<CPostProcess>(eLayerType::PostProcess, L"PostProcessGameObject");
+			mPostProcess_Rewind = object::Instantiate<CPostProcessWave>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
 
-			CTransform* Transform = mPostProcess_Rewind->GetComponent<CTransform>();
-			Transform->SetPosition(Vector3(0.f, 0.f, 0.f));
-			Transform->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+			mPostProcess_Rewind->SetPos(Vector3(0.f, 0.f, 0.f));
+			mPostProcess_Rewind->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+//			mPostProcess_Rewind->SetMaterial(L"PostProcessMaterial");
+			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
+//			mPostProcess_Rewind->SetMaterial(L"GreyScaleMaterial");
 
-			CPostProcessRenderer * mr = mPostProcess_Rewind->AddComponent<CPostProcessRenderer>(eComponentType::Renderer);
-			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
-			mr->SetMaterial(mateiral);
-			mr->SetPostProcessOwner(mPostProcess_Rewind);
 			mPostProcess_Rewind->RenderingBlockOn();
 
 			mPostProcess_Rewind->DontDestroy();
@@ -533,7 +531,7 @@ namespace dru
 		{
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
-				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay();
+				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
 			}
 		}
 

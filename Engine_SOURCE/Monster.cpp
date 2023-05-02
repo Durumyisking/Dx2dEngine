@@ -7,6 +7,7 @@ namespace dru
 {
 	CMonster::CMonster()
 		: mRay(nullptr)
+		, mRayScale(Vector3::Zero)
 	{
 		SetLayerType(eLayerType::Monster);
 

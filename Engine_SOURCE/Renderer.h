@@ -123,8 +123,13 @@ namespace dru::renderer
 	};
 	CBUFFER(PostProcessCB, CBSLOT_POSTPROCESS)
 	{
-		float ElapsedTime;
 		Vector2 Resolution;
+
+		float ElapsedTime;
+
+		float wave_amount;
+		float wave_speed;
+		float wave_distortion;
 	};
 
 

@@ -1,6 +1,7 @@
 #include "PostProcess.h"
 #include "TimeMgr.h"
 #include "Application.h"
+#include "PostProcessRenderer.h"
 
 extern dru::CApplication application;
 
@@ -9,8 +10,15 @@ namespace dru
 	CPostProcess::CPostProcess()
 		: mPostProcessMaterial(nullptr)
 		, mConstantBuffer{}
+		, mRenderer(nullptr)
 	{
 		mConstantBuffer.Resolution = application.WinResolution();
+
+		mRenderer = AddComponent<CPostProcessRenderer>(eComponentType::Renderer);
+		std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
+		mRenderer->SetMaterial(mateiral);
+		mRenderer->SetPostProcessOwner(this);
+
 	}
 
 	CPostProcess::~CPostProcess()
@@ -41,10 +49,10 @@ namespace dru
 
 	void CPostProcess::Bind()
 	{
-		CConstantBuffer* cb2 = renderer::constantBuffers[(UINT)eCBType::PostProcess];
-		cb2->SetData(&mConstantBuffer);
-		cb2->Bind(eShaderStage::VS);
-		cb2->Bind(eShaderStage::PS);
+		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::PostProcess];
+		cb->SetData(&mConstantBuffer);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
 
 
 	}
@@ -53,6 +61,12 @@ namespace dru
 	{
 		CConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::PostProcess];
 		pCB->Clear();
+	}
+
+	void CPostProcess::SetMaterial(std::wstring _Key)
+	{
+		std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(_Key);
+		mRenderer->SetMaterial(mateiral);
 	}
 
 }

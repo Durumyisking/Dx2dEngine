@@ -70,7 +70,7 @@ namespace dru
 
 		bool mOnStair;
 		float mMoveDegree;
-		float mRewindTime;
+		const float mRewindTime;
 
     };
 
