@@ -55,7 +55,6 @@ namespace dru
 
 		mEnemyCount = 2;
 
-
 		AddStartingLiveObjects();
 
 		CreateOutWall();

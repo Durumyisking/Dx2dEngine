@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::BulletTime)
+		, mTutorStage(TutorialStage::Clear)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -141,6 +141,9 @@ namespace dru
 	{
 		mbZoomDone = false;
 		renderer::mainCamera->SetProjectionType(eProjectionType::Orthographic);
+		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
+		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.5f, GetDevice()->ViewportHeight() / 100.f));
+		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
 
 		CStage::Exit();
 	}

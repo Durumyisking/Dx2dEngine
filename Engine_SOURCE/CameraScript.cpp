@@ -308,5 +308,10 @@ namespace dru
 		}
 	}
 
+	void CCameraScript::DirBlockOn(eDir _Dir)
+	{
+		mDir[(UINT)_Dir] = true;
+	}
+
 
 }

@@ -44,6 +44,8 @@ namespace dru
 
         void SetPlayer(CPlayer* _player) { mPlayer = _player; }
 
+        void DirBlockOn(eDir _Dir);
+
     private:
         CCamera* mCameraObject;
         CTransform* mTransform;

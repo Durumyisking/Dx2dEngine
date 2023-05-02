@@ -41,7 +41,6 @@ namespace dru
 		, mStages{}
 		, mCurrentStage(1)
 		, mPlayer(nullptr)
-
 	{
 	}
 	CSceneMain::~CSceneMain()
