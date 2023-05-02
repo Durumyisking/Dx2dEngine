@@ -7,6 +7,8 @@ cbuffer Noise : register(b7)
 {
     float4 NoiseSize;
     float NoiseTime;
+    float NoiseElapsedTime;
+    float2 Resolution;
 }
 
 static float GaussianFilter[5][5] =

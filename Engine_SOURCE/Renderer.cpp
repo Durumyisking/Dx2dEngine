@@ -6,7 +6,9 @@
 #include "PaintShader.h"
 #include "ParticleShader.h"
 #include "TimeMgr.h"
+#include "Application.h"
 
+extern dru::CApplication application;
 
 namespace dru::renderer
 {
@@ -807,7 +809,9 @@ namespace dru::renderer
 		cb->Bind(eShaderStage::PS);
 	}
 
-	float noiseTime = 10.0f;
+	float noiseTime = 10.f;
+	float ElapsedTime = 0.f;
+
 	void BindNoiseTexture()
 	{
 		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise3");
@@ -822,7 +826,10 @@ namespace dru::renderer
 		info.noiseSize.x = static_cast<float>(noise->GetWidth()); // 노이즈 텍스처 사이즈를 상수버퍼로 전달해줌
 		info.noiseSize.y = static_cast<float>(noise->GetHeight());
 		noiseTime -= CTimeMgr::DeltaTime();
+		ElapsedTime += CTimeMgr::DeltaTime();
 		info.noiseTime = noiseTime;
+		info.Resolution = application.WinResolution();
+		info.ElapsedTime = ElapsedTime;
 
 		CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Noise];
 		cb->SetData(&info);

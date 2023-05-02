@@ -120,6 +120,8 @@ namespace dru::renderer
 	{
 		Vector4 noiseSize;
 		float noiseTime;
+		float ElapsedTime;
+		Vector2 Resolution;
 	};
 
 

@@ -41,6 +41,10 @@ namespace dru
 		}
 	}
 
+	void CGruntScript::patrol()
+	{
+	}
+
 	void CGruntScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		CMonsterScript::OnCollisionEnter(_oppo);

@@ -93,18 +93,18 @@ namespace dru
 			obj->AddComponent<CParticleSystem>(eComponentType::Particle);
 		}
 
-		{
-			// 배경 black
-			mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
-			CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+		//{
+		//	// 배경 black
+		//	mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+		//	CSpriteRenderer* SpriteRenderer = mbgBlack->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"Black", Material);
-			SpriteRenderer->SetMaterial(Material);
-			mbgBlack->SetPos(Vector3(0.f, -1.f, 5.f));
-			mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
+		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+		//	CResources::Insert<CMaterial>(L"Black", Material);
+		//	SpriteRenderer->SetMaterial(Material);
+		//	mbgBlack->SetPos(Vector3(0.f, -1.f, 5.f));
+		//	mbgBlack->SetScale(Vector3(10.f, 10.f, 1.f));
 
-		}
+		//}
 
 		{
 			// Left
@@ -138,8 +138,8 @@ namespace dru
 			CGameObj* obj = object::Instantiate<CGameObj>(eLayerType::PostProcess, L"PostProcessGameObject");
 
 			CTransform* Transform = obj->GetComponent<CTransform>();
-			Transform->SetPosition(Vector3(0.f, 0.f, 0.19f));
-			Transform->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			Transform->SetPosition(Vector3(0.f, 0.f, 0.f));
+			Transform->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 
 			CSpriteRenderer* mr = obj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
 			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");

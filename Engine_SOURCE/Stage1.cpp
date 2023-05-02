@@ -62,6 +62,17 @@ namespace dru
 		CreateSecondFloor();
 		CreateThirdFloor();
 
+		{
+			CGameObj* obj = object::Instantiate<CGameObj>(eLayerType::PostProcess,L"PostProcessGameObject");
+
+			CTransform* Transform = obj->GetComponent<CTransform>();
+			Transform->SetPosition(Vector3(0.f, 0.f, -1.f));
+			Transform->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+
+			CSpriteRenderer* mr = obj->AddComponent<CSpriteRenderer>(eComponentType::SpriteRenderer);
+			std::shared_ptr<CMaterial> mateiral = CResources::Find<CMaterial>(L"PostProcessMaterial");
+			mr->SetMaterial(mateiral);
+		}
 
 	}
 
