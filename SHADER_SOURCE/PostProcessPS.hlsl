@@ -1,5 +1,5 @@
-#include "Blur.hlsli"
 #include "PostProcess.hlsli"
+#include "Blur.hlsli"
 
 float4 main(VSOut _in) : SV_Target
 {      
@@ -15,8 +15,5 @@ float4 main(VSOut _in) : SV_Target
     
     Color = postProcessTexture.Sample(pointSampler, UV);
     
-    //Color.r = 255.f;
-
-    //return float4(0.0f, 1.0f, 0.0f, 1.0f);
     return Color;
 }

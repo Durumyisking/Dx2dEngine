@@ -470,10 +470,10 @@ namespace dru
 			mPostProcess_Rewind->SetPos(Vector3(0.f, 0.f, 0.f));
 			mPostProcess_Rewind->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 //			mPostProcess_Rewind->SetMaterial(L"PostProcessMaterial");
-			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
-//			mPostProcess_Rewind->SetMaterial(L"GreyScaleMaterial");
+//			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
+			mPostProcess_Rewind->SetMaterial(L"GreyScaleMaterial");
 
-			mPostProcess_Rewind->RenderingBlockOn();
+//			mPostProcess_Rewind->RenderingBlockOn();
 
 			mPostProcess_Rewind->DontDestroy();
 		}

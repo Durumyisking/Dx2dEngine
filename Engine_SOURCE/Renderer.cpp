@@ -686,13 +686,12 @@ namespace dru::renderer
 		waveMaterial->SetRenderingMode(eRenderingMode::PostProcess);
 		waveMaterial->SetShader(waveShader);
 		waveMaterial->SetTexture(postProcessTexture);
-
 		CResources::Insert<CMaterial>(L"WaveMaterial", waveMaterial);
 
 		std::shared_ptr<CShader> greyScaleShader = CResources::Find<CShader>(L"GreyScaleShader");
 		std::shared_ptr<CMaterial> greyScaleMaterial = std::make_shared<CMaterial>();
 		greyScaleMaterial->SetRenderingMode(eRenderingMode::PostProcess);
-		greyScaleMaterial->SetShader(waveShader);
+		greyScaleMaterial->SetShader(greyScaleShader);
 		greyScaleMaterial->SetTexture(postProcessTexture);
 		CResources::Insert<CMaterial>(L"GreyScaleMaterial", greyScaleMaterial);
 
@@ -854,7 +853,7 @@ namespace dru::renderer
 
 	void BindNoiseTexture()
 	{
-		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise3");
+		std::shared_ptr<CTexture> noise = CResources::Find<CTexture>(L"noise1");
 		noise->BindShaderResource(eShaderStage::VS, 16);
 		noise->BindShaderResource(eShaderStage::HS, 16);
 		noise->BindShaderResource(eShaderStage::DS, 16);

@@ -115,6 +115,12 @@ namespace dru
 		D3DCompileFromFile(_Path.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 			, _funcName.c_str(), "ps_5_0", 0, 0, mPSBlob.GetAddressOf(), mErrorBlob.GetAddressOf());
 
+		if (mErrorBlob)
+		{
+			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			mErrorBlob->Release();
+			mErrorBlob = nullptr;
+		}
 
 		graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer()
 			, mPSBlob->GetBufferSize()
