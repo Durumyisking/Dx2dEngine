@@ -51,7 +51,17 @@ namespace dru
 		template <typename T>
 		static void Insert(const std::wstring& key, std::shared_ptr<T> resource)
 		{
-			mResources.insert(make_pair(key, std::dynamic_pointer_cast<CResource>(resource)));
+			if (Find<T>(key))
+			{
+				std::wstring newKey = key;
+				std::wstring idx = std::to_wstring(GetRandomNumber(65535));
+				newKey += idx;
+				mResources.insert(make_pair(newKey, std::dynamic_pointer_cast<CResource>(resource)));
+			}
+			else
+			{
+				mResources.insert(make_pair(key, std::dynamic_pointer_cast<CResource>(resource)));
+			}
 		}
 
 

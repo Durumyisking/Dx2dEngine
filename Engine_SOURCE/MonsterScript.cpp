@@ -176,8 +176,8 @@ namespace dru
 
 	void CMonsterScript::HitAddForce()
 	{
-		Vector3 MousePos = CInput::GetMousePosition();
-		MousePos /= 100.f;
+		Vector3 MousePos = CInput::GetMousePosition_world();
+		//MousePos /= 100.f;
 
 		Vector3 monsterPos = GetOwner()->GetPos();
 
@@ -239,7 +239,7 @@ namespace dru
 		{
 			if (mTarget && !mbDead)
 			{
-				if (mTarget->GetPos().x > GetOwnerPos().x)
+				if (mTarget->GetWorldPos().x > GetOwnerWorldPos().x)
 				{
 					GetOwner()->SetRight();
 				}

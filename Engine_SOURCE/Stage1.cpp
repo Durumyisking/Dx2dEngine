@@ -48,7 +48,7 @@ namespace dru
 		}
 
 		mPlayerDefaultPos = Vector3(-6.f, -2.5f, 3.f);
-		mGrunt1DefaultPos = Vector3(-2.f, -2.5f, 3.f);
+		mGrunt1DefaultPos = Vector3(0.f, 2.75f, 3.f);
 		mGrunt2DefaultPos = Vector3(3.4f, 2.75f, 3.f);
 
 		mStageState = eStageState::ReadyEnd;
@@ -91,9 +91,11 @@ namespace dru
 
 		mGrunt1->SetPos(mGrunt1DefaultPos);
 		mGrunt1->GetScript<CMonsterScript>()->Reset();
+		mGrunt1->SetRight();
 
 		mGrunt2->SetPos(mGrunt2DefaultPos);
 		mGrunt2->GetScript<CMonsterScript>()->Reset();
+		mGrunt2->SetLeft();
 
 		mEnemyCount = 2;
 
@@ -107,11 +109,13 @@ namespace dru
 			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mGrunt1->SetPos(mGrunt1DefaultPos);
 			mRewindObjects.push_back(mGrunt1);
+			mGrunt1->SetLeft();
 		}
 		{
 			mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mGrunt2->SetPos(mGrunt2DefaultPos);
 			mRewindObjects.push_back(mGrunt2);
+			mGrunt2->SetLeft();
 		}
 
 		CStage::AddStartingLiveObjects();
