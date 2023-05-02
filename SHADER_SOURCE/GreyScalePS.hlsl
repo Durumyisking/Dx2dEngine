@@ -1,6 +1,8 @@
 #include "PostProcess.hlsli"
 #include "Blur.hlsli"
 
+
+// https://www.shadertoy.com/view/ldjGzV
 float4 main(VSOut _in) : SV_Target
 {
     float4 Color = (float4) 0.f;
@@ -9,8 +11,8 @@ float4 main(VSOut _in) : SV_Target
 
     // UV = curve(UV);
  
-    UV = screenDistort(UV);
-
+    UV = curve2(UV);
+    
     Color = postProcessTexture.Sample(pointSampler, UV);
     
     float3 RGB = postProcessTexture.SampleLevel(pointSampler, UV, 0).rgb;
@@ -27,59 +29,14 @@ float4 main(VSOut _in) : SV_Target
     RGB *= vignette;
     RGB *= (12.f + fmod(UV.y * 30.f + ElapsedTime, 1.f)) / 13.f;
     
-    Color.rgb = RGB;
+    
+    float3 color = RGB;
+    float gray = dot(color, float3(0.21f, 0.71f, 0.07f));
+    Color = float4(gray, gray, gray, postProcessTexture.Sample(pointSampler, UV).a);
+
+    
+//    Color.rgb = RGB;
     
     return Color;
 }
 
-
-/*
-#version 120
-#define LOWPREC 
-#define lowp
-#define mediump
-#define highp
-#define precision
-// Uniforms look like they're shared between vertex and fragment shaders in GLSL, so we have to be careful to avoid name clashes
-
-uniform sampler2D gm_BaseTexture;
-
-uniform bool gm_PS_FogEnabled;
-uniform vec4 gm_FogColour;
-uniform bool gm_AlphaTestEnabled;
-uniform float gm_AlphaRefValue;
-
-void DoAlphaTest(vec4 SrcColour)
-{
-	if (gm_AlphaTestEnabled)
-	{
-		if (SrcColour.a <= gm_AlphaRefValue)
-		{
-			discard;
-		}
-	}
-}
-
-void DoFog(inout vec4 SrcColour, float fogval)
-{
-	if (gm_PS_FogEnabled)
-	{
-		SrcColour = mix(SrcColour, gm_FogColour, clamp(fogval, 0.0, 1.0)); 
-	}
-}
-
-#define _YY_GLSL_ 1
-varying vec2 v_texcoord;
-
-uniform float time;
-uniform vec2 mouse_pos;
-uniform vec2 resolution;
-
-void main()
-{ 
-    float gray = dot(texture2D(gm_BaseTexture,v_texcoord).rgb, vec3(0.21, 0.71, 0.07));
-
-    gl_FragColor = vec4(vec3(gray), texture2D(gm_BaseTexture,v_texcoord).a);
-}
-
-*/
