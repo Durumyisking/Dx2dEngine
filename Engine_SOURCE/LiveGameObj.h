@@ -35,6 +35,7 @@ namespace dru
 
 		void PushFrameCapturedData();
 		void RewindOperate(float _ElapsedTime);
+		void ReplayOperate();
 		void MakeFrameCaptureData() ;
 
 		bool FrameCaptureCheck();
@@ -54,19 +55,24 @@ namespace dru
 
 		void SetRewindOn() { mbRewind = true; }
 		void SetRewindOff() { mbRewind = false; }
+	
+		void SetReplayOn() { mbReplay = true; }
+		void SetReplayOff() { mbReplay = false; }
 
 		bool IsRewinding() const { return mbRewind; };
+		bool IsReplaying() const { return mbReplay; };
 
 
 		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
 
 
 	protected:
-		std::stack<FrameCapturedData> mFrameCaptureData;
+		std::deque<FrameCapturedData> mFrameCaptureData;
 		FrameCapturedData mFrameCapture;
 
 		renderer::AnimationCB mCurrentAnimData;
 		bool mbRewind;
+		bool mbReplay;
 
 		bool mOnStair;
 		float mMoveDegree;

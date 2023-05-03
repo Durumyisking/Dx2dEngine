@@ -232,10 +232,7 @@ namespace dru
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 			CStage* stage = scene->GetCurrentStage();
-			stage->SetClearOn();
-			stage->ClearOperate();
-			stage->Reset();
-			stage->Exit();
+			stage->ReplayStart();
 		}
 
 	}

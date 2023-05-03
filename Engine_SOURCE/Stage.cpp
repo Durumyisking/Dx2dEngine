@@ -31,6 +31,7 @@ namespace dru
 		, mTimer(2000.f)
 		, mElapsedTime(0.f)
 		, mbRewinding(false)
+		, mbReplaying(false)
 		, mEnemyCount(0)
 		, mRewindTimer(0.f)
 		, mRewindObjects{}
@@ -291,6 +292,10 @@ namespace dru
 		if (mbRewinding)
 		{
 			Rewinding();
+		}
+		else if (mbReplaying)
+		{
+			Replaying();
 		}
 		else
 		{
@@ -560,6 +565,69 @@ namespace dru
 
 		mPostProcess_Rewind->RenderingBlockOn();
 		mbRewinding = false;
+
+	}
+	void CStage::ReplayStart()
+	{
+		if (CTimeMgr::IsBulletTimeOn())
+			CTimeMgr::BulletTimeOff();
+
+		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+		mPlayer->RemoveAfterImage();
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			mRewindObjects[i]->SetReplayOn();
+
+			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();
+			}
+		}
+
+		mPostProcess_Replay->RenderingBlockOff();
+
+		mbReplaying = true;
+	}
+	void CStage::Replaying()
+	{
+		if (ReplayEndCheck())
+			ReplayEnd();
+	}
+	bool CStage::ReplayEndCheck()
+	{
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			if (mRewindObjects[i]->IsReplaying())
+				return false;
+		}
+
+		return true;
+	}
+	void CStage::ReplayEnd()
+	{
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			mRewindObjects[i]->SetReplayOff();
+		}
+
+		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+		mPlayer->SetRight();
+		mPlayer->Flip();
+
+		for (size_t i = 0; i < mRewindObjects.size(); i++)
+		{
+			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
+			}
+		}
+
+		mPostProcess_Replay->RenderingBlockOn();
+		mbReplaying = false;
+
+		SetClearOn();
+		Reset();
+		Exit();
 
 	}
 	void CStage::DeadReset()

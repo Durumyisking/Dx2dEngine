@@ -7,6 +7,7 @@ namespace dru
 		: mFrameCaptureData{}
 		, mFrameCapture{}
 		, mbRewind(false)
+		, mbReplay(false)
 		, mOnStair(false)
 		, mMoveDegree(0.f)
 		, mCurrentAnimData{}
@@ -19,7 +20,7 @@ namespace dru
 	{
 		while (!mFrameCaptureData.empty())
 		{
-			mFrameCaptureData.pop();
+			mFrameCaptureData.pop_back();
 		}
 	}
 
@@ -81,6 +82,10 @@ namespace dru
 			CStage* stage = scene->GetCurrentStage();
 			RewindOperate(stage->GetElapsedTime());
 		}
+		if (mbReplay)
+		{
+			ReplayOperate();
+		}
 
 		for (CComponent* comp : mComponents)
 		{
@@ -105,7 +110,7 @@ namespace dru
 
 	void CLiveGameObj::PushFrameCapturedData()
 	{
-		mFrameCaptureData.push(mFrameCapture);
+		mFrameCaptureData.push_front(mFrameCapture);
 	}
 
 	void CLiveGameObj::RewindOperate(float _ElapsedTime)
@@ -114,10 +119,10 @@ namespace dru
 			mbRewind = false;
 		else
 		{
-			// 캡쳐스택을 pop하면서 로꾸꺼함
-			mCurrentAnimData = mFrameCaptureData.top().AnimData;
+			// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
+			mCurrentAnimData = mFrameCaptureData.front().AnimData;
 
-			Vector3 pos = mFrameCaptureData.top().Position;
+			Vector3 pos = mFrameCaptureData.front().Position;
 			SetPos(pos);
 
 			if (_ElapsedTime > mRewindTime)
@@ -129,13 +134,28 @@ namespace dru
 				for (int i = 0; i < a; i++)
 				{
 					if (!mFrameCaptureData.empty())
-						mFrameCaptureData.pop();
+						mFrameCaptureData.pop_front();
 				}
 			}
 			else
 			{
-				mFrameCaptureData.pop();
+				mFrameCaptureData.pop_front();
 			}
+		}
+	}
+
+	void CLiveGameObj::ReplayOperate()
+	{
+		if (mFrameCaptureData.empty())
+			mbReplay = false;
+		else
+		{
+			// 캡쳐큐를 back부터 pop
+			mCurrentAnimData = mFrameCaptureData.back().AnimData;
+
+			Vector3 pos = mFrameCaptureData.back().Position;
+			SetPos(pos);
+			mFrameCaptureData.pop_back();
 		}
 	}
 
@@ -150,7 +170,7 @@ namespace dru
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 
-		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind)
+		if ((eStageState::LoadEnd == scene->GetCurrentStage()->GetReadyState()) && !mbRewind && !mbReplay)
 		{
 			// 불릿타임 틀어져있으면 3프레임당 1번 캡쳐를한다.
 			if (CTimeMgr::IsFramePass())

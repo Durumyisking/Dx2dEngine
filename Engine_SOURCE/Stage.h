@@ -94,10 +94,17 @@ namespace dru
         void CreatePostProcess_Rewind();
         void CreatePostProcess_Replay();
         void CreatePostProcess_Snow();
+
         void RewindStart();
         void Rewinding();
         bool RewindEndCheck();
         void RewindEnd();
+
+        void ReplayStart();
+        void Replaying();
+        bool ReplayEndCheck();
+        void ReplayEnd();
+
 
         void DeadReset();
 
@@ -157,6 +164,7 @@ namespace dru
         float mElapsedTime;
 
         bool mbRewinding;
+        bool mbReplaying;
         float mRewindTimer;
 
         UINT mEnemyCount;

@@ -49,7 +49,7 @@ namespace dru
 			else if (CGameObj::eObjectType::Live == GetOwner()->GetObjectType())
 			{
 				CLiveGameObj* liveObj = dynamic_cast<CLiveGameObj*>(GetOwner());
-				if (liveObj->IsRewinding())
+				if (liveObj->IsRewinding() || liveObj->IsReplaying())
 				{
 					renderer::AnimationCB data = liveObj->GetCurrentAnimData();
 					animator->BindSprite(data);
