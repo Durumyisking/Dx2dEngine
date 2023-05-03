@@ -111,11 +111,12 @@ namespace dru
         void collEnter_Floor2(CCollider2D* _oppo);
         void collEnter_Wall(CCollider2D* _oppo);
         void collEnter_MonsterSlash(CCollider2D* _oppo);
+        void collEnter_BulletSlash(CCollider2D* _oppo);
 
         void coll_Wall();
 
 
-        void hit(Vector3& _enemyPos);
+        void hit(Vector3& _enemyPos, int _Type);
 
         bool towardToWallCheck_KeyTap();
         bool towardToWallCheck_KeyDown();

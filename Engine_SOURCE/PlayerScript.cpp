@@ -224,6 +224,10 @@ namespace dru
 		{
 			collEnter_MonsterSlash(_oppo);
 		}
+		else if (L"col_bullet" == _oppo->GetName())
+		{
+			collEnter_MonsterSlash(_oppo);
+		}
 		else if (L"col_clear" == _oppo->GetName())
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
@@ -1350,7 +1354,16 @@ namespace dru
 		if (mState[(UINT)ePlayerState::Dead] == false)
 		{
 			Vector3 pos = _oppo->GetOwnerPos();
-			hit(pos);
+			hit(pos, 0);
+		}
+	}
+
+	void CPlayerScript::collEnter_BulletSlash(CCollider2D* _oppo)
+	{
+		if (mState[(UINT)ePlayerState::Dead] == false)
+		{
+			Vector3 pos = GetOwnerWorldPos();
+			hit(pos, 1);
 		}
 	}
 
@@ -1376,7 +1389,7 @@ namespace dru
 		}
 	}
 
-	void CPlayerScript::hit(Vector3& _enemyPos)
+	void CPlayerScript::hit(Vector3& _enemyPos, int _Type)
 	{
 		SetAfterImageCount(0);
 
@@ -1401,8 +1414,16 @@ namespace dru
 			sp.magnitude = 0.0125f;
 			renderer::mainCamera->GetCamScript()->Shake(sp);
 
-			CreateSlashShade(_enemyPos);
+			// slash hit
+			if (0 == _Type)
+			{
+				CreateSlashShade(_enemyPos);
+			}
+			// bullet hit
+			else if (1 == _Type)
+			{
 
+			}
 		}
 	}
 

@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Move)
+		, mTutorStage(TutorialStage::Clear)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -187,9 +187,13 @@ namespace dru
 				if (mPostProcess_Snow->MoveToTarget_Smooth_bool(mPlayer, 0.001f, true))
 				{
 					Vector3 vPos = mPlayer->GetPos();
-					vPos.z -= 0.0001f;
+					vPos.x += 0.229f;
+					vPos.y += 2.3325f;
 					mPostProcess_Snow->SetPos(vPos);
-					mPostProcess_Snow->SetScale({ 9.f, 5.0625f, 1.f });
+					mPostProcess_Snow->SetScale({ 10.25f, 5.765625f, 1.f });
+				}
+				else
+				{
 
 				}
 			}

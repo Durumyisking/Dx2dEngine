@@ -100,11 +100,11 @@ namespace dru
 
 	void CStage::Exit()
 	{
-		mStageState = eStageState::NotReady;
-
 		renderer::mainCamera->GetCamScript()->CamFollowOff();
+		renderer::mainCamera->GetCamScript()->AllDirBlockOff();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
 
+		mStageState = eStageState::NotReady;
 		CSceneMgr::LoadScene(CSceneMgr::eSceneType::Temp);
 	}
 

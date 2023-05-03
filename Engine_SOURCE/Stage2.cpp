@@ -45,7 +45,7 @@ namespace dru
 
 		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
 		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
-		mCop1DefaultPos = Vector3(0.f, -3.f, 3.f);
+		mCop1DefaultPos = Vector3(-5.f, 3.f, 3.f);
 
 		mEnemyCount = 1;
 		mStageState = eStageState::Ready;

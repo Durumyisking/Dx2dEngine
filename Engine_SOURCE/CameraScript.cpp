@@ -337,7 +337,12 @@ namespace dru
 
 	void CCameraScript::DirBlockOn(eDir _Dir)
 	{
-		mDir[(UINT)_Dir] = true;
+		mDirBlock[(UINT)_Dir] = true;
+	}
+
+	void CCameraScript::AllDirBlockOff()
+	{
+		mDirBlock.reset();
 	}
 
 
