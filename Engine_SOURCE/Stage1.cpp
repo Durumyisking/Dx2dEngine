@@ -51,7 +51,7 @@ namespace dru
 		mGrunt1DefaultPos = Vector3(0.f, 2.75f, 3.f);
 		mGrunt2DefaultPos = Vector3(3.4f, 2.75f, 3.f);
 
-		mStageState = eStageState::ReadyEnd;
+		mStageState = eStageState::Ready;
 
 		mEnemyCount = 2;
 
@@ -148,14 +148,14 @@ namespace dru
 		{
 			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
 			LeftOutWall->SetPos(Vector3(-8.2f, 0.f, 4.999f));
-			LeftOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 30.f));
 		}
 
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
-			RightOutWall->SetColliderScale(Vector2(0.5f, 10.f));
+			RightOutWall->SetPos(Vector3(20.f, 0.f, 4.999f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 30.f));
 		}
 
 		{
@@ -216,6 +216,13 @@ namespace dru
 			Floor->SetPos(Vector3(3.75f, 2.f, 3.f));
 			Floor->SetColliderScale({ 10.f, 0.4f });
 		}
+
+		{
+			CFloor2* Floor = object::Instantiate<CFloor2>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-2.3f, 2.15f, 3.f));
+			Floor->SetColliderScale({ 2.f, 0.1f });
+		}
+
 
 		{
 			CGameObj* PointLight = object::Instantiate<CGameObj>(eLayerType::None, mScene, L"PointLight");

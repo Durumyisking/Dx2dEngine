@@ -100,5 +100,8 @@
       <Filter>PostProcess</Filter>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Random.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)SnowPS.hlsl">
+      <Filter>PostProcess</Filter>
+    </None>
   </ItemGroup>
 </Project>

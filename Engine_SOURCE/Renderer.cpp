@@ -278,6 +278,12 @@ namespace dru::renderer
 			, greyScaleShader->GetVSBlobBufferSize()
 			, greyScaleShader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> snowShader = CResources::Find<CShader>(L"SnowShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, snowShader->GetVSBlobBufferPointer()
+			, snowShader->GetVSBlobBufferSize()
+			, snowShader->GetInputLayoutAddr());
+
 #pragma endregion
 
 		#pragma region SamplerState
@@ -505,6 +511,12 @@ namespace dru::renderer
 		GreyScaleShader->SetDSState(eDepthStencilType::NoWrite);
 		CResources::Insert<CShader>(L"GreyScaleShader", GreyScaleShader);
 
+		std::shared_ptr<CShader> SnowShader = std::make_shared<CShader>();
+		SnowShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		SnowShader->Create(eShaderStage::PS, L"SnowPS.hlsl", "main");
+		SnowShader->SetDSState(eDepthStencilType::NoWrite);
+		CResources::Insert<CShader>(L"SnowShader", SnowShader);
+
 	}
 
 	void LoadTexture()
@@ -694,6 +706,13 @@ namespace dru::renderer
 		greyScaleMaterial->SetShader(greyScaleShader);
 		greyScaleMaterial->SetTexture(postProcessTexture);
 		CResources::Insert<CMaterial>(L"GreyScaleMaterial", greyScaleMaterial);
+
+		std::shared_ptr<CShader> snowShader = CResources::Find<CShader>(L"SnowShader");
+		std::shared_ptr<CMaterial> snowMaterial = std::make_shared<CMaterial>();
+		snowMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		snowMaterial->SetShader(snowShader);
+		snowMaterial->SetTexture(postProcessTexture);
+		CResources::Insert<CMaterial>(L"SnowMaterial", snowMaterial);
 
 		// etc
 		{

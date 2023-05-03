@@ -4,12 +4,16 @@
 #include "Animator.h"
 #include "GameObj.h"
 
+#define VELOCITY_RUN dru::math::Vector3(5.f, 7.f, 0.f)
+#define VELOCITY_WALK dru::math::Vector3(1.f, 7.f, 0.f)
+
 
 namespace dru
 {
     enum class eMonsterState
     {
         Idle,
+        Patrol,
         Run,
         Attack,
         Fall,
@@ -34,7 +38,7 @@ namespace dru
         virtual void render() override;
 
         virtual void attack();
-
+        virtual void patrol();
 
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
@@ -68,6 +72,7 @@ namespace dru
         void deadgroundComplete();
         void attackComplete();
 
+        void collEnter_Floor2(CCollider2D* _oppo);
 
     protected:
 

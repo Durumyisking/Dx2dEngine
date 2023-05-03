@@ -19,6 +19,8 @@ namespace dru
 		mRenderer->SetMaterial(mateiral);
 		mRenderer->SetPostProcessOwner(this);
 
+		SetPos(Vector3(0.f, 0.f, 0.f));
+		SetScale(Vector3(16.0f, 9.0f, 1.0f));
 	}
 
 	CPostProcess::~CPostProcess()

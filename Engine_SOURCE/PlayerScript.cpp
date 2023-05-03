@@ -224,9 +224,6 @@ namespace dru
 		{
 			collEnter_MonsterSlash(_oppo);
 		}
-
-
-
 		else if (L"col_clear" == _oppo->GetName())
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
@@ -287,17 +284,21 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
-			if (mState[(UINT)ePlayerState::Idle] == true || mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true || mState[(UINT)ePlayerState::RunToIdle] == true)
+			if (!mbOnFloor2)
 			{
-				fallStart();
+				if (mState[(UINT)ePlayerState::Idle] == true || mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true || mState[(UINT)ePlayerState::RunToIdle] == true)
+				{
+					fallStart();
+				}
+				GetOwner()->GetComponent<CRigidBody>()->SetAir();
+				GetOwner()->SetFloorOff();
 			}
-			GetOwner()->GetComponent<CRigidBody>()->SetAir();
-			GetOwner()->SetFloorOff();
 		}
 		else if (L"col_floor2" == _oppo->GetName())
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 			GetOwner()->SetFloorOff();
+			mbOnFloor2 = false;
 		}
 		else if (L"col_stair" == _oppo->GetName())
 		{

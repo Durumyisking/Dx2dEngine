@@ -9,6 +9,8 @@ namespace dru
 		: mStageState(eStageState::NotReady)
 		, mbClear(false)
 		, mPostProcess_Rewind(nullptr)
+		, mPostProcess_Replay(nullptr)
+		, mPostProcess_Snow(nullptr)
 		, mClearCollider(nullptr)
 		, mScene(nullptr)
 		, mDeadBg(nullptr)
@@ -34,6 +36,7 @@ namespace dru
 		, mRewindObjects{}
 
 	{
+
 	}
 
 	CStage::~CStage()
@@ -243,16 +246,18 @@ namespace dru
 			mBulletTimeMask->RenderingBlockOn();
 		}
 
-		CreatePostProcess_Rewind();
 	}
 
 	void CStage::NotReadyOperate()
 	{
-
 	}
 
 	void CStage::ReadyOperate()
 	{
+		CreatePostProcess_Rewind();
+		CreatePostProcess_Replay();
+
+
 		mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 		LoadinReady();
 		mStageState = eStageState::ReadyEnd;
@@ -467,15 +472,34 @@ namespace dru
 		{
 			mPostProcess_Rewind = object::Instantiate<CPostProcessWave>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
 
-			mPostProcess_Rewind->SetPos(Vector3(0.f, 0.f, 0.f));
-			mPostProcess_Rewind->SetScale(Vector3(16.0f, 9.0f, 1.0f));
-//			mPostProcess_Rewind->SetMaterial(L"PostProcessMaterial");
-//			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
-			mPostProcess_Rewind->SetMaterial(L"GreyScaleMaterial");
+			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
 
-//			mPostProcess_Rewind->RenderingBlockOn();
-
+			mPostProcess_Rewind->RenderingBlockOn();
 			mPostProcess_Rewind->DontDestroy();
+		}
+	}
+	void CStage::CreatePostProcess_Replay()
+	{
+		if (!mPostProcess_Replay)
+		{
+			mPostProcess_Replay = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
+
+			mPostProcess_Replay->SetMaterial(L"GreyScaleMaterial");
+
+			mPostProcess_Replay->RenderingBlockOn();
+			mPostProcess_Replay->DontDestroy();
+		}
+	}
+	void CStage::CreatePostProcess_Snow()
+	{
+		if (!mPostProcess_Snow)
+		{
+			mPostProcess_Snow = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
+
+			mPostProcess_Snow->SetMaterial(L"SnowMaterial");
+
+			mPostProcess_Snow->RenderingBlockOn();
+			mPostProcess_Snow->DontDestroy();
 		}
 	}
 	void CStage::RewindStart()

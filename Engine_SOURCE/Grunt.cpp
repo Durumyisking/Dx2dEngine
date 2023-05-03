@@ -15,6 +15,7 @@ namespace dru
 
 		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Grunt_Idle", Material->GetTexture(), { 4480.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Grunt_Patrol", Material->GetTexture(), { 6656.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Grunt_Run", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Grunt_Attack", Material->GetTexture(), { 0.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Grunt_DeadAirUp", Material->GetTexture(), { 3328.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);

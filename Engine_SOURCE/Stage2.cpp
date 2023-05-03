@@ -48,7 +48,7 @@ namespace dru
 		mCop1DefaultPos = Vector3(0.f, -3.f, 3.f);
 
 		mEnemyCount = 1;
-		mStageState = eStageState::ReadyEnd;
+		mStageState = eStageState::Ready;
 
 		AddStartingLiveObjects();
 

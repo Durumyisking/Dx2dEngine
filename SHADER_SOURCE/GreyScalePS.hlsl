@@ -22,7 +22,7 @@ float4 main(VSOut _in) : SV_Target
     float vShift = 0.4f * onOff(2.f, 3.f, 0.9f) * (sin(ElapsedTime) * sin(ElapsedTime * 20.f) + (0.5f + 0.1f * sin(ElapsedTime * 200.f) * cos(ElapsedTime)));
     //look.y = mod(look.y + vShift, 1.f);
     UV.y = fmod(UV.y + vShift, 1.f);
-    RGB += stripes(UV, NoiseTexture);
+    RGB += stripesY(UV, NoiseTexture);
     RGB += noise(UV * 2.f, NoiseTexture) / 2.f;
     float vigAmt = 3.f + 0.3f * sin(ElapsedTime + 5.f * cos(ElapsedTime * 5.f));
     float vignette = (1.f - vigAmt * pow((UV.y - 0.5f), 2.f)) * (1.f - vigAmt * pow((UV.x - 0.5f), 2.f));

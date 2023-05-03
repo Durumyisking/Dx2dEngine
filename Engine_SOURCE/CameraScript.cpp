@@ -126,7 +126,34 @@ namespace dru
 
 	void CCameraScript::OnCollision(CCollider2D* _oppo)
 	{
+		if (L"col_outWallside" == _oppo->GetName())
+		{
+			// Ä·º¸´Ù ¿ÞÂÊÀÌ¸é
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::LEFT] = true;
+				mbCamFollowPlayerX = false;
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
+			{
+				mDirBlock[(UINT)eDir::RIGHT] = true;
+				mbCamFollowPlayerX = false;
+			}
+		}
+		else if (L"col_outWall" == _oppo->GetName())
+		{
+			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y > _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::DOWN] = true;
+				mbCamFollowPlayerY = false;
+			}
+			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().y < _oppo->GetColliderPos().y)
+			{
+				mDirBlock[(UINT)eDir::UP] = true;
+				mbCamFollowPlayerY = false;
+			}
 
+		}
 	}
 
 	void CCameraScript::OnCollisionExit(CCollider2D* _oppo)

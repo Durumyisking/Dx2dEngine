@@ -60,6 +60,7 @@ namespace dru
 			{
 				mAttackTimer += CTimeMgr::DeltaTime();
 
+				patrol();
 				runTrigger();
 				if (mState[UINT(eMonsterState::Run)] == true)
 				{
@@ -100,6 +101,11 @@ namespace dru
 			}
 
 		}
+		else if (L"col_floor2" == _oppo->GetName())
+		{
+			collEnter_Floor2(_oppo);
+			GetOwner()->SetFloorOn();
+		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
 			mRigidbody->SetGround();
@@ -110,6 +116,16 @@ namespace dru
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			mbOnWall = true;
+
+			if (GetOwner()->IsLeft())
+			{
+				GetOwner()->SetRight();
+			}
+			else
+			{
+				GetOwner()->SetLeft();
+			}
+
 
 			wallBound(_oppo);
 		}
@@ -128,17 +144,31 @@ namespace dru
 
 	void CMonsterScript::OnCollision(CCollider2D* _oppo)
 	{
-		if (L"col_stair" == _oppo->GetName())
+		if (L"col_floor" == _oppo->GetName())
 		{
-		float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
-		GetOwner_LiveObject()->SetStairOn(degree);
+			collEnter_Floor2(_oppo);
+			GetOwner()->SetFloorOn();
+		}
+		else if (L"col_floor2" == _oppo->GetName())
+		{
+			collEnter_Floor2(_oppo);
+			GetOwner()->SetFloorOn();
 		}
 
+		else if (L"col_stair" == _oppo->GetName())
+		{
+			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
+			GetOwner_LiveObject()->SetStairOn(degree);
+		}
 	}
 
 	void CMonsterScript::OnCollisionExit(CCollider2D* _oppo)
 	{
 		if (L"col_floor" == _oppo->GetName())
+		{
+			GetOwner()->GetComponent<CRigidBody>()->SetAir();
+		}
+		else if (L"col_floor2" == _oppo->GetName())
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 		}
@@ -155,10 +185,10 @@ namespace dru
 		{
 			mbOnWall = false;
 
-			Vector3 vel = mRigidbody->GetVelocity();
-			Vector3 Mvel = mRigidbody->GetMaxVelocity();
-			mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-
+			if (mbDead)
+			{
+				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+			}
 		}
 	}
 
@@ -271,6 +301,9 @@ namespace dru
 			case dru::eMonsterState::Idle:
 				mAnimator->Play(GetOwner()->GetName() + L"_Idle");
 				break;
+			case dru::eMonsterState::Patrol:
+				mAnimator->Play(GetOwner()->GetName() + L"_Patrol");
+				break;
 			case dru::eMonsterState::Run:
 				mAnimator->Play(GetOwner()->GetName() + L"_Run");
 				break;
@@ -304,7 +337,10 @@ namespace dru
 				if (dist > mAttackRadius)
 				{
 					if (mState[(UINT)eMonsterState::Run] == false)
+					{
+						mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 						SetSingleState(eMonsterState::Run);
+					}
 				}
 				else
 				{
@@ -328,7 +364,7 @@ namespace dru
 			Vector3 vTargetPos = mTarget->GetPos();
 			Vector3 vDir = Vector3(vTargetPos.x - vPos.x, 0.f, 0.f);
 			vDir.Normalize();
-			GetOwner()->GetComponent<CRigidBody>()->AddForce(vDir * 50.f);
+			mRigidbody->AddForce(vDir * 50.f);
 		}
 		
 	}
@@ -337,6 +373,10 @@ namespace dru
 	{
 		mAnimator->Play(GetOwner()->GetName() + L"_Attack", false);
 		mAttackTimer = 0.f;
+	}
+
+	void CMonsterScript::patrol()
+	{
 	}
 
 	void CMonsterScript::hitSlash()
@@ -376,10 +416,12 @@ namespace dru
 	void CMonsterScript::wallBound(CCollider2D* _oppo)
 	{
 
-			Vector3 vel = mRigidbody->GetVelocity();
-			Vector3 Mvel = mRigidbody->GetMaxVelocity();
+		Vector3 vel = mRigidbody->GetVelocity();
+		Vector3 Mvel = mRigidbody->GetMaxVelocity();
+		if (mbDead)
+		{
 			mRigidbody->SetMaxVelocity({ 1.f, Mvel.y, Mvel.z });
-
+		}
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 			{
 				mRigidbody->SetVelocity({ 1.f, vel.y, vel.z });
@@ -388,6 +430,7 @@ namespace dru
 			{
 				mRigidbody->SetVelocity({ -1.f, vel.y, vel.z });
 			}
+		
 	}
 
 	void CMonsterScript::dead()
@@ -441,6 +484,17 @@ namespace dru
 		if (!mTarget)
 		{
 			SetSingleState(eMonsterState::Idle);
+		}
+	}
+
+	void CMonsterScript::collEnter_Floor2(CCollider2D* _oppo)
+	{
+		CCollider2D* monsterCollier = GetOwner()->GetComponent<CCollider2D>();
+		float PosCheckMonster = monsterCollier->GetColliderPos().y - monsterCollier->GetScale().y / 2.f;
+		float PosCheckFloor = _oppo->GetColliderPos().y + _oppo->GetScale().y / 2.f;
+		if (PosCheckMonster >= PosCheckFloor)
+		{
+			mRigidbody->SetGround();
 		}
 	}
 

@@ -92,6 +92,8 @@ namespace dru
         bool GetPlayerState(ePlayerState _State);
         
         void CreatePostProcess_Rewind();
+        void CreatePostProcess_Replay();
+        void CreatePostProcess_Snow();
         void RewindStart();
         void Rewinding();
         bool RewindEndCheck();
@@ -123,6 +125,8 @@ namespace dru
         CGameObj* mClearCollider;
 
         CPostProcess* mPostProcess_Rewind;
+        CPostProcess* mPostProcess_Replay;
+        CPostProcess* mPostProcess_Snow;
 
         CBackgroundColor* mDeadBg;
         bool mbIsDeadBgOn;

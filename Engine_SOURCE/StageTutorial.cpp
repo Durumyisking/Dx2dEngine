@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Clear)
+		, mTutorStage(TutorialStage::Move)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -85,7 +85,8 @@ namespace dru
 			coll->SetScale(Vector2(0.2f, 10.f));
 
 		}
-
+		CreatePostProcess_Snow();
+		mPostProcess_Snow->RenderingBlockOff();
 	}
 
 	void CStageTutorial::LoadinReady()
@@ -95,7 +96,6 @@ namespace dru
 		renderer::mainCamera->GetOwner()->SetPos(Vector3(pos.x, pos.y, -CAMTYPEGAP));
 		renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>()->SetScale(Vector2(10.f, 10.f));
 		mPlayer->SetPos(Vector3(mPlayer->GetPos().x, mPlayer->GetPos().y, 4.999f));
-
 
 		{
 			mCamTarget = object::Instantiate<CGameObj>(eLayerType::None, L"CamTargetTutorialStage");
@@ -140,6 +140,7 @@ namespace dru
 	void CStageTutorial::Exit()
 	{
 		mbZoomDone = false;
+		mPostProcess_Snow->RenderingBlockOn();
 		renderer::mainCamera->SetProjectionType(eProjectionType::Orthographic);
 		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
 		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.5f, GetDevice()->ViewportHeight() / 100.f));
@@ -179,6 +180,18 @@ namespace dru
 				mCamTarget->Die();
 				CreateTitle();
 				mbZoomDone = true;
+
+			}
+			else
+			{
+				if (mPostProcess_Snow->MoveToTarget_Smooth_bool(mPlayer, 0.001f, true))
+				{
+					Vector3 vPos = mPlayer->GetPos();
+					vPos.z -= 0.0001f;
+					mPostProcess_Snow->SetPos(vPos);
+					mPostProcess_Snow->SetScale({ 9.f, 5.0625f, 1.f });
+
+				}
 			}
 		}		
 
