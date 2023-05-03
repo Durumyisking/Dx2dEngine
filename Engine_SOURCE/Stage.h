@@ -119,6 +119,8 @@ namespace dru
             --mEnemyCount; 
         }
 
+        void CamReset();
+
     protected:
         CScene* mScene;
         bool mbClear;

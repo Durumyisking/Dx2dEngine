@@ -22,7 +22,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Clear)
+		, mTutorStage(TutorialStage::Move)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mKeyLeft(nullptr)
@@ -563,7 +563,12 @@ namespace dru
 	void CStageTutorial::TutorSuccess(TutorialStage _Stage)
 	{
 		mTutorBgTarget->SetPos(Vector3(-10.f, 2.f, 4.999f));
-		mTutorBg->GetScript<CBackgroundColorScript>()->SetColor(Vector4{ 0.f, 0.5f, 0.f, 0.5f });
+		if (TutorialStage::Clear != mTutorStage)
+		{
+			mTutorBg->GetScript<CBackgroundColorScript>()->SetColor(Vector4{ 0.f, 0.5f, 0.f, 0.5f });
+		}
+
+
 
 		mTutorGapTimer += CTimeMgr::DeltaTime();
 
@@ -578,20 +583,19 @@ namespace dru
 				if (TutorialStage::Clear ==  mTutorStage)
 				{
 					// 검정 텍스처 Fadein용 오브젝트 생성
-					mMask = object::Instantiate<CBackgroundColor>(eLayerType::UI, L"StageMask");
+					mMask = object::Instantiate<CGameObj>(eLayerType::UI, L"StageMask");
 					CSpriteRenderer* SpriteRenderer = mMask->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+					std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"FadeShader");
 					CResources::Insert<CMaterial>(L"TutorEndMat", Material);
 					SpriteRenderer->SetMaterial(Material);
 
-					mMask->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 5.f });
+//					mMask->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 1.f });
 					CFadeScript* script = mMask->AddComponent<CFadeScript>(eComponentType::Script);
+					script->SetFadeTextureType(0);
+					script->SetFadeTime(3.f);
 					script->SetFadeType(1);
-//					script->SetFadeValue(1);
-//					script->SetFadeTime(3.f);
 	
-
 					Vector3 camPos = renderer::mainCamera->GetOwnerPos();
 					camPos.z += 3.f;
 					mMask->SetPos(camPos);

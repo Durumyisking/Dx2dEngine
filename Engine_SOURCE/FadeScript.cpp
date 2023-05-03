@@ -10,10 +10,11 @@
 namespace dru
 {
 	CFadeScript::CFadeScript()
-		: mFadeValue(1)
+		: mFadeValue(1.f)
 		, mFadeType(1)
 		, mStart(1)
-		, mtime(0)
+		, mTime(1.f)
+		, mElapsedTime(0.f)
 		, mFadeTextureType(1)
 	{
 	}
@@ -28,19 +29,6 @@ namespace dru
 
 	void CFadeScript::update()
 	{
-		//if (CInput::GetKeyState(eKeyCode::I) == eKeyState::DOWN)
-		//{
-		//	mStart = 1;
-		//	mFadeType = 1;
-		//	mtime = 0;
-		//}
-		//if (CInput::GetKeyState(eKeyCode::O) == eKeyState::DOWN)
-		//{
-		//	mStart = 1;
-		//	mFadeType = 0;
-		//	mtime = 0;
-		//}
-
 	}
 
 	void CFadeScript::fixedUpdate()
@@ -51,14 +39,14 @@ namespace dru
 	{
 		if (1 == mStart)
 		{
-			mtime += CTimeMgr::DeltaTime();
+			mElapsedTime += CTimeMgr::DeltaTime();
 
 			CBaseRenderer* renderer = GetOwner()->GetComponent<CBaseRenderer>();
 			std::shared_ptr<CMaterial> material = renderer->GetMaterial();
 
 			renderer::MaterialCB data = {};
 
-			data.fData1 = mFadeValue * mtime;
+			data.fData1 = mFadeValue * (mElapsedTime / mTime);
 			data.iData1 = mFadeType;
 			data.iData2 = mFadeTextureType;
 
@@ -73,7 +61,7 @@ namespace dru
 	void CFadeScript::restart(int _fadeType)
 	{
 		mFadeType = _fadeType;
-		mtime = 0;
+		mTime = 0;
 	}
 
 }

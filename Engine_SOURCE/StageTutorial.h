@@ -74,7 +74,7 @@ namespace dru
 
         CBackground* mStageBackground;
         CBackground* mScreenMask;
-        CBackgroundColor* mMask;
+        CGameObj* mMask;
 
         CBackgroundColor* mUIBg;
         CGameObj*         mTutorialtxt;

@@ -39,7 +39,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(2)
+		, mCurrentStage(0)
 		, mPlayer(nullptr)
 	{
 	}
@@ -74,6 +74,7 @@ namespace dru
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Player);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Platforms);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::FX);
 
 		CScene::Initialize();
 	}

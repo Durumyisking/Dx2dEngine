@@ -20,7 +20,7 @@ namespace dru
 
         void SetFadeValue(float _Value) { mFadeValue = _Value; }
         void SetFadeTextureType(int _Value) { mFadeTextureType = _Value; }
-        void SetFadeTime(float _Value) { mtime = _Value; }
+        void SetFadeTime(float _Value) { mTime = _Value; }
 
         void restart(int _fadeType);
 
@@ -29,7 +29,8 @@ namespace dru
         int   mFadeType;
         int   mFadeTextureType;
         float mFadeValue;
-        float mtime;
+        float mTime;
+        float mElapsedTime;
 
         bool  mStart;
 

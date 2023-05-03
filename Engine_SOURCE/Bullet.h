@@ -38,5 +38,9 @@ namespace dru
 
 		CGameObj* GetOrCreatemBulletReflectObject();
 
+		bool IsReflect() const { return mbReflected; }
+		void ReflectOn() { mbReflected = true; }
+		void ReflectOff() { mbReflected = false; }
+
 	};
 }

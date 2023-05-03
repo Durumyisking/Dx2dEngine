@@ -10,6 +10,7 @@ namespace dru
 		, mDefaultBulletScale(Vector3::Zero)	
 		, mbScalingDone(false)
 		, mbCreated(false)
+		, mDir(Vector3::Zero)
 	{
 	}
 
@@ -38,9 +39,33 @@ namespace dru
 
 	void CBulletScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
-		if (L"col_floor" == _oppo->GetName() || L"col_stair" == _oppo->GetName() || L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
+		if (L"col_floor" == _oppo->GetName() || L"col_stair" == _oppo->GetName() || L"col_wall" == _oppo->GetName()
+			|| L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
 			GetOwner()->Die();
+		}
+		else if (L"col_player" == _oppo->GetName())
+		{
+			if (!mBullet->IsReflect())
+			{
+				GetOwner()->Die();
+			}
+		}
+		else if (L"col_monster" == _oppo->GetName())
+		{
+			if (mBullet->IsReflect())
+			{
+				GetOwner()->Die();
+			}
+		}
+		else if (L"col_Player_Slash" == _oppo->GetName())
+		{
+			if (!mBullet->IsReflect())
+			{
+				mBullet->ReflectOn();
+				mDir *= -1.f;
+				mBullet->SetDir(mDir);
+			}
 		}
 	}
 
@@ -85,16 +110,16 @@ namespace dru
 		//{
 		//	Vector3 pos = GetOwnerPos();
 
-		//	pos += dir * GetOwner()->GetScale().x 
+		//	pos += mDir * GetOwner()->GetScale().x 
 
 		//	GetOwner()->SetPos(pos);
 		//	mbCreated = true;
 		//}
 
-		Vector3 dir = mBullet->GetDir();
+		mDir = mBullet->GetDir();
 		Vector3 pos = GetOwnerPos();
 
-		pos += dir * CTimeMgr::DeltaTime() * mBullet->GetSpeed();
+		pos += mDir * CTimeMgr::DeltaTime() * mBullet->GetSpeed();
 
 		GetOwner()->SetPos(pos);
 	}

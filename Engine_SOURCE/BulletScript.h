@@ -33,6 +33,7 @@ namespace dru
         CBullet* mBullet;
         float mElapsedTime;
         Vector3 mDefaultBulletScale;
+        Vector3 mDir;
 
         bool mbScalingDone;
         bool mbCreated;

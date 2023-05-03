@@ -100,10 +100,7 @@ namespace dru
 
 	void CStage::Exit()
 	{
-		renderer::mainCamera->GetCamScript()->CamFollowOff();
-		renderer::mainCamera->GetCamScript()->AllDirBlockOff();
-		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
-
+		CamReset();
 		mStageState = eStageState::NotReady;
 		CSceneMgr::LoadScene(CSceneMgr::eSceneType::Temp);
 	}
@@ -591,5 +588,11 @@ namespace dru
 		coll->SetType(eColliderType::Rect);
 
 
+	}
+	void CStage::CamReset()
+	{
+		renderer::mainCamera->GetCamScript()->CamFollowOff();
+		renderer::mainCamera->GetCamScript()->AllDirBlockOff();
+		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
 	}
 }
