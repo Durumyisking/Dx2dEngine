@@ -51,6 +51,10 @@ namespace dru
 
 		bool ObjOnStair();
 
+		void SetAccelFromForce();
+		void CalculateFriction();
+		void MaxVelocityCheck();
+
 	private:
 		void objMove();
 

@@ -80,13 +80,15 @@ namespace dru::math
 
 	Vector3 ProjectOnPlane(Vector3 _Direction, Vector3 _PlaneNormal)
 	{
+		_PlaneNormal.Normalize();
+		
 		// 벡터를 평면과 수직인 벡터로 분해합니다.
-		Vector3 vertical = _Direction.Dot(_PlaneNormal) * _PlaneNormal;
+		Vector3 verticalVector = _Direction.Dot(_PlaneNormal) * _PlaneNormal;
 
 		// 평면과 수직인 벡터를 빼서 벡터를 평면에 투영합니다.
-		Vector3 projected = _Direction - vertical;
-
-		return projected;
+		Vector3 projectedVector = _Direction - verticalVector;
+		projectedVector.z = 0.f;
+		return projectedVector;
 	}
 
 	Vector3 AdjustDirectionToSlope(Vector3 _Direction, Vector3 _PlaneNormal)

@@ -260,12 +260,6 @@ namespace dru
 				}
 			}
 		}
-		else if (L"col_stair" == _oppo->GetName())
-		{
-			float degree = dynamic_cast<CStair*>(_oppo->GetOwner())->GetDegree();
-			GetOwner_LiveObject()->SetStairOn(degree);
-		}
-
 		else if (L"col_wall" == _oppo->GetName())
 		{
 			coll_Wall();
@@ -285,7 +279,8 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
-			if (!mbOnFloor2)
+			bool onStair = dynamic_cast<CLiveGameObj*>(GetOwner())->IsOnStair();
+			if (!mbOnFloor2 && !onStair)
 			{
 				if (mState[(UINT)ePlayerState::Idle] == true || mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true || mState[(UINT)ePlayerState::RunToIdle] == true)
 				{
@@ -303,11 +298,9 @@ namespace dru
 		}
 		else if (L"col_stair" == _oppo->GetName())
 		{
-			if (!GetOwner()->IsOnFloor())
-			{
-				GetOwner()->GetComponent<CRigidBody>()->SetAir();
-			}
 
+			GetOwner()->GetComponent<CRigidBody>()->SetAir();
+			GetOwner()->SetFloorOff();
 			GetOwner_LiveObject()->SetStairOff();
 		}
 

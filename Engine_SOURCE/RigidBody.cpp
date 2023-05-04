@@ -29,71 +29,31 @@ namespace dru
 
 	void CRigidBody::update()
 	{
-		float fForce = mForce.Length();
+		SetAccelFromForce();
 
-		if (0.f != fForce)
+		if (ObjOnStair())
 		{
-			mForce.Normalize();
-
-			float Accel = fForce / mMass;
-
-			mAccel = mForce * Accel;
+			mGravity = Vector3::Zero;
 		}
-
 		if (mbOnAir && mbAffectedGravity)
 		{
-			if (ObjOnStair())
-			{
-				mGravity = Vector3::Zero;
-				float slope = GetOwner_LiveObject()->GetSlope();
-				Vector3 floorVectorNormal = { 0.f, 0.f, 1.f };
-				floorVectorNormal = RotateVector(floorVectorNormal, slope);
-				int i = 0;
-			}
 			mAccel += mGravity;
 		}
-		else
-		{
-			// 땅위에 있을때
-			Vector3 gravity = mGravity;
-			gravity.Normalize();
-			float dot = mVelocity.Dot(gravity);
-			mVelocity.x -= gravity.x * dot;
-		}
+
+		//else
+		//{
+		//	// 땅위에 있을때
+		//	Vector3 gravity = mGravity;
+		//	gravity.Normalize();
+		//	float dot = mVelocity.Dot(gravity);
+		//	mVelocity.x -= gravity.x * dot;
+		//}
 
 		mVelocity += mAccel * CTimeMgr::DeltaTime();
 
+		CalculateFriction();
 
-		if (mVelocity != Vector3::Zero && !mbOnAir)
-		{
-			Vector3 FricDir = -mVelocity;
-			FricDir.Normalize();
-
-			Vector3 Friction = FricDir * mFricCoeff * CTimeMgr::DeltaTime();
-
-			mAccel += Friction;
-
-			if (mVelocity.Length() <= Friction.Length())
-			{
-				mVelocity = Vector3(0.f, 0.f, 0.f);
-			}
-			else
-			{
-				mVelocity += Friction;
-			}
-		}
-
-		if (mMaxSpeed.x < fabs(mVelocity.x))
-		{
-			mVelocity.x /= fabs(mVelocity.x);
-			mVelocity.x *= mMaxSpeed.x;
-		}
-		if (mMaxSpeed.y < fabs(mVelocity.y))
-		{
-			mVelocity.y /= fabs(mVelocity.y);
-			mVelocity.y *= mMaxSpeed.y;
-		}
-
+		MaxVelocityCheck();
 
 		objMove();
 
@@ -122,6 +82,56 @@ namespace dru
 		return false;
 	}
 
+	void CRigidBody::SetAccelFromForce()
+	{
+		float fForce = mForce.Length();
+
+		if (0.f != fForce)
+		{
+			mForce.Normalize();
+
+			float Accel = fForce / mMass;
+
+			mAccel = mForce * Accel;
+		}
+	}
+
+	void CRigidBody::CalculateFriction()
+	{
+		if (mVelocity != Vector3::Zero && !mbOnAir)
+		{
+			Vector3 FricDir = -mVelocity;
+			FricDir.Normalize();
+
+			Vector3 Friction = FricDir * mFricCoeff * CTimeMgr::DeltaTime();
+
+			mAccel += Friction;
+
+			if (mVelocity.Length() <= Friction.Length())
+			{
+				mVelocity = Vector3(0.f, 0.f, 0.f);
+			}
+			else
+			{
+				mVelocity += Friction;
+			}
+		}
+	}
+
+	void CRigidBody::MaxVelocityCheck()
+	{
+		if (mMaxSpeed.x < fabs(mVelocity.x))
+		{
+			mVelocity.x /= fabs(mVelocity.x);
+			mVelocity.x *= mMaxSpeed.x;
+		}
+		if (mMaxSpeed.y < fabs(mVelocity.y))
+		{
+			mVelocity.y /= fabs(mVelocity.y);
+			mVelocity.y *= mMaxSpeed.y;
+		}
+	}
+
 	void CRigidBody::objMove()
 	{
 		float Speed = mVelocity.Length();
@@ -131,13 +141,18 @@ namespace dru
 			// 이동방향
 			Vector3 Dir = mVelocity;
 			
-			// Dir.Normalize();
+			Dir.Normalize();
 
 			//// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
 			if(ObjOnStair())
 			{
-				float slope = GetOwner_LiveObject()->GetSlope();
-				mVelocity = RotateZ(mVelocity, slope);
+				float slope = GetOwner_LiveObject()->GetSlope() * -1.f;
+
+				Vector3 Plane = { 1.f, 0.f, 0.f };
+				Plane = RotateZ(Plane, slope);
+
+//				mVelocity = RotateZ(mVelocity, slope);
+				mVelocity = AdjustDirectionToSlope(mVelocity, Plane);
 
 			}
 			Vector3 Pos = GetOwner()->GetPos();

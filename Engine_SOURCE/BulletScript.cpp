@@ -31,7 +31,7 @@ namespace dru
 
 		if (CTimeMgr::IsBulletTimeOn())
 		{
-			BulletScaling();
+//			BulletScaling();
 		}
 	}
 
