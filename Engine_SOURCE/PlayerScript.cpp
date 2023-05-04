@@ -226,7 +226,7 @@ namespace dru
 		}
 		else if (L"col_bullet" == _oppo->GetName())
 		{
-			collEnter_MonsterSlash(_oppo);
+			collEnter_BulletSlash(_oppo);
 		}
 		else if (L"col_clear" == _oppo->GetName())
 		{
@@ -1359,8 +1359,12 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Dead] == false)
 		{
-			Vector3 pos = GetOwnerWorldPos();
-			hit(pos, 1);
+			CBullet* bullet = dynamic_cast<CBullet*>(_oppo->GetOwner());
+			if (!bullet->IsReflect())
+			{
+				Vector3 pos = GetOwnerWorldPos();
+				hit(pos, 1);
+			}
 		}
 	}
 

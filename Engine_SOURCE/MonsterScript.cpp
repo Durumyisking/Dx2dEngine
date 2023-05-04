@@ -132,9 +132,12 @@ namespace dru
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			hitSlash();
+			hitSlash(0);
 		}
-
+		else if (L"col_bullet" == _oppo->GetName())
+		{
+			collEnter_BulletSlash(_oppo);
+		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
 			Vector3 vel = mRigidbody->GetVelocity();
@@ -379,7 +382,7 @@ namespace dru
 	{
 	}
 
-	void CMonsterScript::hitSlash()
+	void CMonsterScript::hitSlash(int _Type)
 	{
 		if (!mbDead)
 		{
@@ -387,8 +390,19 @@ namespace dru
 			HitAddForce();
 
 			mbDead = true;
+			if (0 == _Type)
+			{
+				SetSingleState(eMonsterState::DieAirUp);
 
-			SetSingleState(eMonsterState::DieAirUp);
+				Vector3 MousePos = CInput::GetMousePosition_world();
+				CreateSlashShade(MousePos);
+				CreateBodySlash();
+			}
+			else if (1 == _Type)
+			{
+				SetSingleState(eMonsterState::DieGround);
+				mAnimator->Play(mMonsterName + L"_DeadGround", false);
+			}
 
 			// timeslow
 			CTimeMgr::BulletTime(0.25f);
@@ -396,20 +410,25 @@ namespace dru
 			// CamShake
 			ShakeParams sp = {};
 			sp.duration = 0.5f;
-			sp.magnitude = 0.0125f;
+			sp.magnitude = 0.0250f;
 			renderer::mainCamera->GetCamScript()->Shake(sp);
 
 			GetOwnerType<CMonster>()->SetRayDie();
 
-			Vector3 MousePos = CInput::GetMousePosition_world();
-
-			CreateSlashShade(MousePos);
-			CreateBodySlash();
 
 			// 스테이지의 몬스터카운틀를 깎는다
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 			CStage* stage = scene->GetCurrentStage();
 			stage->MonsterDead();
+		}
+	}
+
+	void CMonsterScript::collEnter_BulletSlash(CCollider2D* _oppo)
+	{
+		CBullet* bullet = dynamic_cast<CBullet*>(_oppo->GetOwner());
+		if (bullet->IsReflect())
+		{
+			hitSlash(1);
 		}
 	}
 

@@ -19,7 +19,7 @@ namespace dru
 	}
 	void CCopScript::Initialize()
 	{
-		mAttackRadius = 6.f;
+		mAttackRadius = 8.f;
 		CreateGun();
 		GetOrCreateGunFireObject();
 		GetOrCreateGunSmokeObject();

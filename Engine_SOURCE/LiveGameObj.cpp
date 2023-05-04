@@ -11,6 +11,7 @@ namespace dru
 		, mOnStair(false)
 		, mMoveDegree(0.f)
 		, mCurrentAnimData{}
+		, mCurrentInverse(0)
 		, mRewindTime(3.f)
 	{
 		mObjectType = eObjectType::Live;
@@ -122,6 +123,8 @@ namespace dru
 			// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
 			mCurrentAnimData = mFrameCaptureData.front().AnimData;
 
+			RewindFlip();
+
 			Vector3 pos = mFrameCaptureData.front().Position;
 			SetPos(pos);
 
@@ -152,7 +155,7 @@ namespace dru
 		{
 			// 캡쳐큐를 back부터 pop
 			mCurrentAnimData = mFrameCaptureData.back().AnimData;
-
+			ReplayFlip();
 			Vector3 pos = mFrameCaptureData.back().Position;
 			SetPos(pos);
 			mFrameCaptureData.pop_back();
@@ -164,6 +167,14 @@ namespace dru
 		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
 		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
 		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
+		if (IsLeft())
+		{
+			mFrameCapture.Inverse = -1;
+		}
+		else
+		{
+			mFrameCapture.Inverse = 1;
+		}
 	}
 
 	bool CLiveGameObj::FrameCaptureCheck()
@@ -181,5 +192,33 @@ namespace dru
 		return false;
 	}
 
+	void CLiveGameObj::RewindFlip()
+	{
+		mCurrentInverse = mFrameCaptureData.front().Inverse;
 
+		if (-1 == mCurrentInverse)
+		{
+			SetLeft();
+		}
+		else if (1 == mCurrentInverse)
+		{
+			SetRight();
+		}
+		Flip();
+	}
+
+	void CLiveGameObj::ReplayFlip()
+	{
+		mCurrentInverse = mFrameCaptureData.back().Inverse;
+
+		if (-1 == mCurrentInverse)
+		{
+			SetLeft();
+		}
+		else if (1 == mCurrentInverse)
+		{
+			SetRight();
+		}
+		Flip();
+	}
 }

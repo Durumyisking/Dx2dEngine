@@ -31,7 +31,7 @@ namespace dru
 
 	void CCop::Initialize()
 	{
-		mRayScale = Vector3(6.f, 0.f, 1.f);
+		mRayScale = Vector3(8.f, 0.f, 1.f);
 		AddRay(mRayScale);
 		CMonster::Initialize();
 	}

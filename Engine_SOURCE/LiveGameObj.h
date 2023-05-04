@@ -10,12 +10,13 @@ namespace dru
 	struct FrameCapturedData
 	{
 	public:
-		FrameCapturedData() : Texture(nullptr), AnimData{} {};
+		FrameCapturedData() : Texture(nullptr), Position{}, AnimData{}, Inverse(0) {};
 		~FrameCapturedData() {};
 
 		std::shared_ptr<CTexture> Texture;
 		Vector3 Position;
 		renderer::AnimationCB AnimData;
+		int Inverse; // 1이면 l 0이면 R
 
 	};
 
@@ -62,6 +63,8 @@ namespace dru
 		bool IsRewinding() const { return mbRewind; };
 		bool IsReplaying() const { return mbReplay; };
 
+		void RewindFlip();
+		void ReplayFlip();
 
 		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
 
@@ -71,6 +74,8 @@ namespace dru
 		FrameCapturedData mFrameCapture;
 
 		renderer::AnimationCB mCurrentAnimData;
+		int mCurrentInverse;
+
 		bool mbRewind;
 		bool mbReplay;
 

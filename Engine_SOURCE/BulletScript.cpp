@@ -1,6 +1,7 @@
 #include "BulletScript.h"
 #include "TimeMgr.h"
 #include "Bullet.h"
+#include "Input.h"
 
 namespace dru
 {
@@ -27,6 +28,11 @@ namespace dru
 	{
 		mElapsedTime += CTimeMgr::DeltaTime();
 		BulletMove();
+
+		if (CTimeMgr::IsBulletTimeOn())
+		{
+			BulletScaling();
+		}
 	}
 
 	void CBulletScript::fixedUpdate()
@@ -63,8 +69,23 @@ namespace dru
 			if (!mBullet->IsReflect())
 			{
 				mBullet->ReflectOn();
-				mDir *= -1.f;
+
+				Vector3 MousePos = CInput::GetMousePosition_world();
+
+				Vector3 dir = MousePos;
+				dir.Normalize();
+				mDir = dir;
 				mBullet->SetDir(mDir);
+
+				Vector3 Right = { 1.f, 0.f, 0.f };
+				float angle = RotateToHead(dir, Right);
+				mBullet->GetComponent<CTransform>()->SetRotationZ(angle);
+
+				CCollider2D* coll = mBullet->GetComponent<CCollider2D>();
+				coll->SetCenter({ mBullet->GetCollPosX(), 0.f });
+				Vector3 collPos = { coll->GetCenter().x, coll->GetCenter().y, 0.f };
+				collPos = RotateZ(collPos, angle);
+				coll->SetCenter({ collPos.x, collPos.y });
 			}
 		}
 	}
@@ -98,23 +119,13 @@ namespace dru
 
 			float NewX = mDefaultBulletScale.x * Ratio;
 			GetOwner()->SetScale({ NewX, mDefaultBulletScale.y , mDefaultBulletScale.z });
-			GetOwner()->SetPos({ GetOwnerPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z });
+			GetOwner()->SetPos({ GetOwnerWorldPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z });
 			mbScalingDone = true;
 		}
 	}
 
 	void CBulletScript::BulletMove()
 	{
-
-		//if (!mbCreated)
-		//{
-		//	Vector3 pos = GetOwnerPos();
-
-		//	pos += mDir * GetOwner()->GetScale().x 
-
-		//	GetOwner()->SetPos(pos);
-		//	mbCreated = true;
-		//}
 
 		mDir = mBullet->GetDir();
 		Vector3 pos = GetOwnerPos();
