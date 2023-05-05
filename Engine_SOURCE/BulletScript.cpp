@@ -8,7 +8,7 @@ namespace dru
 	CBulletScript::CBulletScript()
 		: mBullet(nullptr)
 		, mElapsedTime(0.f)
-		, mDefaultBulletScale(Vector3::Zero)	
+		, mDefaultBulletScale(Vector3( 0.025f, 0.025f, 1.f ))
 		, mbScalingDone(false)
 		, mbCreated(false)
 		, mDir(Vector3::Zero)
@@ -31,7 +31,7 @@ namespace dru
 
 		if (CTimeMgr::IsBulletTimeOn())
 		{
-//			BulletScaling();
+			BulletScaling();
 		}
 	}
 
@@ -112,14 +112,15 @@ namespace dru
 
 	void CBulletScript::BulletScaling()
 	{
-		if (!mbScalingDone)
-		{
-			// 0.5초동안 줄어들게
-			float Ratio = 1 - mElapsedTime / 0.5f;
+		// 0.5초동안 줄어들게
+		float Ratio = 1 - mElapsedTime / 10.5f;
 
+		if (Ratio >= 0.0f)
+		{
 			float NewX = mDefaultBulletScale.x * Ratio;
+			std::cout << NewX << std::endl;
 			GetOwner()->SetScale({ NewX, mDefaultBulletScale.y , mDefaultBulletScale.z });
-			GetOwner()->SetPos({ GetOwnerWorldPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z });
+			GetOwner()->SetPos({ GetOwnerPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z });
 			mbScalingDone = true;
 		}
 	}

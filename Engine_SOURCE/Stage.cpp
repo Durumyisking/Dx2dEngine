@@ -65,7 +65,6 @@ namespace dru
 			renderer::mainCamera->GetCamScript()->FreeViewOff();
 		}
 
-
 		if (mStageState == eStageState::NotReady)
 		{
 			NotReadyOperate();
@@ -325,15 +324,14 @@ namespace dru
 				{
 					mBulletTimeMask->RenderingBlockOn();
 				}
+				if (CInput::GetKeyTap(eKeyCode::R))
+				{
+					RewindStart();
+				}
 
-			}
-
-			if (CInput::GetKeyTap(eKeyCode::R))
-			{
-				RewindStart();
 			}
 		}
-
+			
 	}
 
 	void CStage::ClearOperate()
