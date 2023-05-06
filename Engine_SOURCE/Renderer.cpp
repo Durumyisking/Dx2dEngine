@@ -538,6 +538,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stagetutorial", L"MainScene/Background/Tutorialbg.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"stage2", L"MainScene/Background/Stage2bg.png");
+		CResources::Load<CTexture>(L"bossStage1", L"MainScene/Background/Boss1bg.png");
+		CResources::Load<CTexture>(L"bossStage2", L"MainScene/Background/Boss2bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
 
@@ -558,6 +560,9 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"grunt", L"MainScene/Monster/Grunt.png");
 		CResources::Load<CTexture>(L"cop", L"MainScene/Monster/Cop.png");
 		CResources::Load<CTexture>(L"cop_gun", L"MainScene/Monster/Cop_Gun.png");
+
+		CResources::Load<CTexture>(L"kissyface", L"MainScene/Monster/Kissyface.png");
+		CResources::Load<CTexture>(L"headhunter", L"MainScene/Monster/HeadHunter.png");
 
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");

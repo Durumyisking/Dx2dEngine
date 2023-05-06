@@ -120,8 +120,10 @@ namespace dru
 			float NewX = mDefaultBulletScale.x * Ratio;
 			std::cout << NewX << std::endl;
 			GetOwner()->SetScale({ NewX, mDefaultBulletScale.y , mDefaultBulletScale.z });
-			GetOwner()->SetPos({ GetOwnerPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z });
-			mbScalingDone = true;
+			Vector3 NewPos = Vector3( GetOwnerPos().x - (mDefaultBulletScale.x - NewX) * 0.5f, GetOwnerPos().y, GetOwnerPos().z );
+			GetOwner()->SetPos(NewPos);
+			
+			GetOwner()->GetComponent<CCollider2D>()->SetCenter({ NewPos.x, NewPos.y });
 		}
 	}
 

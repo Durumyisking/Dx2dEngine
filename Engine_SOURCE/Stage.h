@@ -62,16 +62,7 @@ namespace dru
         virtual void Update();
         virtual void Exit();
 
-      
-        void LoadUI();
-        void SetOwner(CScene* _scene)
-        {
-            mScene = _scene; 
-        }
-
-        eStageState GetReadyState() { return mStageState; }
-        void SetReady(eStageState _State) { mStageState = _State; }
-
+     
         virtual void NotReadyOperate();
         virtual void ReadyOperate();
         virtual void ReadyEndOperate();
@@ -81,6 +72,16 @@ namespace dru
 
         virtual void Reset();
         virtual void AddStartingLiveObjects();
+
+        void LoadUI();
+        void SetOwner(CScene* _scene)
+        {
+            mScene = _scene;
+        }
+
+        eStageState GetReadyState() { return mStageState; }
+        void SetReady(eStageState _State) { mStageState = _State; }
+
 
         void BulletTimeBatteryOperation();
 
