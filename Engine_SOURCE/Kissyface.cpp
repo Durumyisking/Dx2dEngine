@@ -38,6 +38,8 @@ namespace dru
 
 		AddComponent<CKissyfaceScript>(eComponentType::Script)->Initialize();
 
+		mAfterImageCount = 30;
+
 		CraeteAxe();
 	}
 
@@ -52,6 +54,13 @@ namespace dru
 
 	void CKissyface::update()
 	{
+		
+		if (FrameCaptureCheck())
+		{
+			FrameCaptureOperate();
+			MakeAfterImage(90);
+		}
+
 		if (CInput::GetKeyDown(eKeyCode::N_9))
 		{
 			mAnimator->Play(L"kissyface_JumpStart");
@@ -89,15 +98,16 @@ namespace dru
 		CResources::Insert<CMaterial>(L"kissyface_axeMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
-//		mAxe->RenderingBlockOn();	
+		mAxe->RenderingBlockOn();	
 
 		CCollider2D* coll = mAxe->AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->Initialize();
 		coll->SetName(L"col_kissyFaceAxe");
 		coll->SetType(eColliderType::Rect);
-//		coll->SetScale(Vector2(0.4f, 0.6f));
+		coll->SetScale(Vector2(0.4f, 0.6f));
 
-//		coll->Off();
+		coll->Off();
+		coll->RenderingOff();
 	}
 
 }

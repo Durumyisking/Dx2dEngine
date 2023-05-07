@@ -78,6 +78,7 @@ namespace dru
 
 	void CAfterImageRenderer::ColorSetting()
 	{
+
 		if (CTimeMgr::IsBulletTimeOn())
 		{
 			MulColor(Vector4(0.f, 2.f, 2.f, 1.f));

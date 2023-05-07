@@ -20,6 +20,7 @@ namespace dru
 
 	};
 
+	class CAfterImage;
     class CLiveGameObj :
         public CGameObj
     {
@@ -68,6 +69,13 @@ namespace dru
 
 		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
 
+		void RemoveAfterImage();
+
+	protected:
+		void MakeAfterImage(float _AnimSize);
+		void FlipAfterImage(CAfterImage* _AfterImage);
+		void SetAfterImage(CAfterImage* _AfterImage);
+
 
 	protected:
 		std::deque<FrameCapturedData> mFrameCaptureData;
@@ -82,6 +90,17 @@ namespace dru
 		bool mOnStair;
 		float mMoveDegree;
 		const float mRewindTime;
+
+		std::deque<CAfterImage*> mAfterImages; // 매번 모든 원소의 쉐이더에 보낼 인덱스를 수정해야함으로 일반 큐보다는 원형큐가 적합하다.
+		UINT mAfterImageCount;
+
+	public:
+		void SetAfterImageCount(UINT _Count)
+		{
+			mAfterImageCount = _Count;
+		}
+		UINT GetAfterImageMaxCount() const { return mAfterImageCount; }
+		UINT GetAfterImageCount() const { return mAfterImages.size(); }
 
     };
 

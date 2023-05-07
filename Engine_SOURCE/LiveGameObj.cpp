@@ -13,6 +13,8 @@ namespace dru
 		, mCurrentAnimData{}
 		, mCurrentInverse(0)
 		, mRewindTime(3.f)
+		, mAfterImages{}
+		, mAfterImageCount(0)
 	{
 		mObjectType = eObjectType::Live;
 	}
@@ -22,6 +24,11 @@ namespace dru
 		while (!mFrameCaptureData.empty())
 		{
 			mFrameCaptureData.pop_back();
+		}
+		while (!mAfterImages.empty())
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop_front();
 		}
 	}
 
@@ -220,5 +227,65 @@ namespace dru
 			SetRight();
 		}
 		Flip();
+	}
+	void CLiveGameObj::RemoveAfterImage()
+	{
+		while (!mAfterImages.empty())
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop_front();
+		}
+	}
+	void CLiveGameObj::MakeAfterImage(float _AnimSize)
+	{
+		CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
+		afterImage->SetScale(GetScale());
+
+		SetAfterImage(afterImage);
+		afterImage->SetOwner(this);
+		afterImage->SetAnimSize(_AnimSize);
+		afterImage->Initialize();
+
+		FlipAfterImage(afterImage);
+	}
+	void CLiveGameObj::FlipAfterImage(CAfterImage* _AfterImage)
+	{
+		_AfterImage->SetFrameCapturedData(mFrameCapture);
+
+		if (IsLeft())
+		{
+			_AfterImage->SetLeft();
+		}
+		else
+		{
+			_AfterImage->SetRight();
+		}
+		_AfterImage->Flip();
+	}
+	void CLiveGameObj::SetAfterImage(CAfterImage* _AfterImage)
+	{
+		if (mAfterImageCount >= mAfterImages.size())
+		{
+			mAfterImages.push_back(_AfterImage);
+		}
+		else
+		{
+			mAfterImages.front()->Die();
+			mAfterImages.pop_front();
+
+			if (!mAfterImages.empty())
+			{
+				mAfterImages.front()->Die();
+				mAfterImages.pop_front();
+			}
+
+			mAfterImages.push_back(_AfterImage);
+		}
+
+
+		for (UINT i = 0; i < mAfterImages.size(); i++)
+		{
+			mAfterImages[i]->SetIndex(i);
+		}
 	}
 }

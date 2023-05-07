@@ -8,10 +8,7 @@
 namespace dru
 {
 	CPlayer::CPlayer()
-		:mAfterImages{}
-		, mAfterImageCount(20)
-		, mPrevAfterImageCount(20)
-		, mbPlayerDead(false)
+		: mbPlayerDead(false)
 
 	{
 		SetLayerType(eLayerType::Player);
@@ -59,11 +56,7 @@ namespace dru
 
 	CPlayer::~CPlayer()
 	{
-		while (!mAfterImages.empty())
-		{
-			mAfterImages.front()->Die();
-			mAfterImages.pop_front();
-		}
+
 	}
 
 	void CPlayer::Initialize()
@@ -76,7 +69,7 @@ namespace dru
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();
-			MakeAfterImage();
+			MakeAfterImage(50);
 		}
 
 		CLiveGameObj::update();
@@ -92,75 +85,5 @@ namespace dru
 		
 		CLiveGameObj::render();
 	}
-
-	
-	void CPlayer::RemoveAfterImage()
-	{
-		while(!mAfterImages.empty())
-		{
-			mAfterImages.front()->Die();
-			mAfterImages.pop_front();
-		}
-	}
-
-
-	void CPlayer::MakeAfterImage()
-	{
-		// 잔상 생성
-		CPlayerAfterImage* afterImage = object::Instantiate<CPlayerAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
-		afterImage->SetScale(Vector3(1.25f, 1.25f, 1.f));
-
-		SetAfterImage(afterImage);
-		afterImage->SetOwner(this);
-		afterImage->Initialize(); 
-
-		// 위치 및 텍스처 데이터 삽입
-		FlipAfterImage(afterImage);
-	}
-
-	void CPlayer::FlipAfterImage(CPlayerAfterImage* _AfterImage)
-	{
-		_AfterImage->SetFrameCapturedData(mFrameCapture);
-
-		if (IsLeft())
-		{
-			_AfterImage->SetLeft();
-		}
-		else
-		{
-			_AfterImage->SetRight();
-		}
-		_AfterImage->Flip();
-	}
-
-	void CPlayer::SetAfterImage(CPlayerAfterImage* _AfterImage)
-	{
-
-		if (mAfterImageCount >= mAfterImages.size())
-		{
-			mAfterImages.push_back(_AfterImage);
-		}
-		else
-		{
-			mAfterImages.front()->Die(); // 두개씩 빼야지 50에서 10됐을때 다시 돌아감 (한번에 빼면 잔상 한번에 사라져서 안이쁨)
-			mAfterImages.pop_front();
-
-			if (!mAfterImages.empty()) // 0개가 됐을때 오류 안나게함 2개씩뺄때 1개에서 여기 진입하면 오류뜸
-			{
-				mAfterImages.front()->Die();
-				mAfterImages.pop_front();
-			}
-
-			mAfterImages.push_back(_AfterImage);
-		}
-		
-
-		for (UINT i = 0; i < mAfterImages.size(); i++)
-		{
-			mAfterImages[i]->SetIndex(i);
-		}
-
-	}
-
 
 }

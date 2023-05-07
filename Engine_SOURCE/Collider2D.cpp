@@ -17,8 +17,8 @@ namespace dru
 		, mbTrigger(false) // 이거 공부하자
 		, mRadius(0.f)
 		, mColliderID(colliderID++)
-		, mbOn(false)
-		, mbRenderOn(false)
+		, mbOn(true)
+		, mbRenderOn(true)
 	{
 
 	}
@@ -30,8 +30,8 @@ namespace dru
 	void CCollider2D::Initialize()
 	{
 		mTransform = GetOwner()->GetComponent<CTransform>();
-		mbOn = true;
-		mbRenderOn = true;
+		//mbOn = true;
+		//mbRenderOn = true;
 	}
 
 	void CCollider2D::update()

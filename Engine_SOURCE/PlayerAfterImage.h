@@ -5,12 +5,12 @@
 namespace dru
 {
 	class CPlayer;
-    class CPlayerAfterImage :
+    class CAfterImage :
         public CGameObj
     {
 	public:
-		CPlayerAfterImage();
-		virtual ~CPlayerAfterImage();
+		CAfterImage();
+		virtual ~CAfterImage();
 
 		virtual void Initialize();
 		virtual void update();
@@ -18,24 +18,24 @@ namespace dru
 		virtual void render();
 
 	private:
-		FrameCapturedData mPlayerFrameCaptures;
-		CPlayer* mOwner;
+		FrameCapturedData mFrameCaptures;
+		CLiveGameObj* mOwner;
 		UINT mIndex;
-		float mAlpha;
 
+		float mAnimSize;
 
 	public:
 		UINT GetIndex() { return mIndex; }
 		void SetIndex(UINT _Idx) { mIndex = _Idx; }
 		
-		CPlayer* GetOwner() const { return mOwner; }
-		void SetOwner(CPlayer* _Owner) { mOwner = _Owner; }
+		CLiveGameObj* GetOwner() const { return mOwner; }
+		void SetOwner(CLiveGameObj* _Owner) { mOwner = _Owner; }
 
 
-		renderer::AnimationCB GetAnimCB() { return mPlayerFrameCaptures.AnimData; }
-		void SetFrameCapturedData(FrameCapturedData& _FrameCapturedData) { mPlayerFrameCaptures = _FrameCapturedData; }
+		renderer::AnimationCB GetAnimCB() { return mFrameCaptures.AnimData; }
+		void SetFrameCapturedData(FrameCapturedData& _FrameCapturedData) { mFrameCaptures = _FrameCapturedData; }
 
-
+		void SetAnimSize(float _Value) { mAnimSize = _Value; }
 
     };
 }

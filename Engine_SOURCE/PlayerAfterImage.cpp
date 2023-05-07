@@ -5,54 +5,56 @@
 
 namespace dru
 {
-	CPlayerAfterImage::CPlayerAfterImage()
-		: mPlayerFrameCaptures{}
+	CAfterImage::CAfterImage()
+		: mFrameCaptures{}
 		, mOwner(nullptr)
-		, mAlpha(1.f)
 		, mIndex(0)
+		, mAnimSize(50.f)
 	{
 	}
 
-	CPlayerAfterImage::~CPlayerAfterImage()
+	CAfterImage::~CAfterImage()
 	{
 	}
 
-	void CPlayerAfterImage::Initialize()
+	void CAfterImage::Initialize()
 	{
 		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::Renderer);
 		// 인덱스마다 머티리얼 다르게해야함
-		std::wstring matName = L"PlayerMatAfterImage_";
+		std::wstring OwnerName = mOwner->GetName();
+		std::wstring matName = L"MatAfterImage_";
 		std::wstring idx = std::to_wstring(mIndex);
 		matName += idx;
-		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(matName);
+		OwnerName += matName;
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(OwnerName);
 	
 		Renderer->SetMaterial(Material);
 
 		Renderer->SetAfterImageOwner(this);
 
 		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"AfterImage", Material->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"AfterImage", Material->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { mAnimSize, mAnimSize }, 0.1f);
 		mAnimator->Play(L"AfterImage");
 
 
 		CGameObj::Initialize();
 	}
 
-	void CPlayerAfterImage::update()
+	void CAfterImage::update()
 	{
-		Vector3 pos = mPlayerFrameCaptures.Position;
+		Vector3 pos = mFrameCaptures.Position;
 		pos.z += 0.0001f;
 		SetPos(pos);
 
 		CGameObj::update();
 	}
 
-	void CPlayerAfterImage::fixedUpdate()
+	void CAfterImage::fixedUpdate()
 	{
 		CGameObj::fixedUpdate();
 	}
 
-	void CPlayerAfterImage::render()
+	void CAfterImage::render()
 	{
 		CGameObj::render();
 	}
