@@ -2,9 +2,6 @@
 
 namespace dru
 {
-
-
-
     CStage3::CStage3()
     {
     }

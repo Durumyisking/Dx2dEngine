@@ -7,6 +7,7 @@ namespace dru
 
 	CStage::CStage()
 		: mStageState(eStageState::NotReady)
+		, mStageBackground(nullptr)
 		, mbClear(false)
 		, mPostProcess_Rewind(nullptr)
 		, mPostProcess_Replay(nullptr)
@@ -253,7 +254,6 @@ namespace dru
 	{
 		CreatePostProcess_Rewind();
 		CreatePostProcess_Replay();
-
 
 		mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 		LoadinReady();

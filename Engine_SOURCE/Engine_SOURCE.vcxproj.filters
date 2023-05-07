@@ -188,6 +188,15 @@
     <Filter Include="Common\Component\Renderer\PostProcess">
       <UniqueIdentifier>{9216606f-172d-437d-9883-e73f2ff4f1f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Boss">
+      <UniqueIdentifier>{20b911d4-9695-4569-89dd-8d5705d4127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObj\Monster\Boss\Kissysface">
+      <UniqueIdentifier>{5f170b2a-823d-4e72-8a1d-ce11a5189e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Stage\Boss">
+      <UniqueIdentifier>{982a4d8e-08a4-4492-ad45-c6f9997dfaa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -470,6 +479,15 @@
     <ClInclude Include="PostProcessWave.h">
       <Filter>GameObj\PostProcess</Filter>
     </ClInclude>
+    <ClInclude Include="Kissyface.h">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage1.h">
+      <Filter>Scene\Stage\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage2.h">
+      <Filter>Scene\Stage\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -736,6 +754,15 @@
     </ClCompile>
     <ClCompile Include="PostProcessWave.cpp">
       <Filter>GameObj\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Kissyface.cpp">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage1.cpp">
+      <Filter>Scene\Stage\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage2.cpp">
+      <Filter>Scene\Stage\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

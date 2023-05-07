@@ -171,6 +171,8 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BlinkScript.h" />
     <ClInclude Include="BodyShadeScript.h" />
+    <ClInclude Include="BossStage1.h" />
+    <ClInclude Include="BossStage2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletScript.h" />
     <ClInclude Include="Camera.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Grunt.h" />
     <ClInclude Include="GruntScript.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Kissyface.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightObject.h" />
@@ -267,6 +270,8 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BlinkScript.cpp" />
     <ClCompile Include="BodyShadeScript.cpp" />
+    <ClCompile Include="BossStage1.cpp" />
+    <ClCompile Include="BossStage2.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletScript.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -294,6 +299,7 @@
     <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="GruntScript.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Kissyface.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightObject.cpp" />

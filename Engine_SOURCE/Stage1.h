@@ -34,7 +34,6 @@ namespace dru
 
 
     private:
-		CBackground* mStageBackground;
 
         CMonster* mGrunt1;
         CMonster* mGrunt2;

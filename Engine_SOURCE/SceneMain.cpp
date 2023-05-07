@@ -25,6 +25,9 @@
 #include "StageTutorial.h"
 #include "Stage1.h"
 #include "Stage2.h"
+#include "Stage3.h"
+#include "BossStage1.h"
+#include "BossStage2.h"
 
 #include "GraphicDevice.h"
 
@@ -39,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(2)
+		, mCurrentStage(3)
 		, mPlayer(nullptr)
 	{
 	}
@@ -55,6 +58,10 @@ namespace dru
 		mStages.push_back(new CStageTutorial);
 		mStages.push_back(new CStage1);
 		mStages.push_back(new CStage2);
+		mStages.push_back(new CBossStage1);
+
+//		mStages.push_back(new CStage3);
+//		mStages.push_back(new CBossStage2);
 
 		for (size_t i = 0; i < mStages.size(); i++)
 		{
@@ -124,6 +131,7 @@ namespace dru
 			coll->SetType(eColliderType::Rect);
 			coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 100.f, GetDevice()->ViewportHeight() / 100.f));
 			coll->Off();
+			;
 		}
 
 		{
@@ -141,6 +149,17 @@ namespace dru
 			CLight* lightComp = directionalLight->AddComponent<CLight>(eComponentType::Light);
 			lightComp->SetType(eLightType::Directional);
 			lightComp->SetDiffuse({ 1.f, 1.f, 1.f, 1.f });
+		}
+		{
+			// ¹è°æ black
+			CGameObj* bgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
+			CSpriteRenderer* SpriteRenderer = bgBlack->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"Black", Material);
+			SpriteRenderer->SetMaterial(Material);
+			bgBlack->SetPos(Vector3(0.f, 0.f, 5.f));
+			bgBlack->SetScale(Vector3(100.f, 100.f, 1.f));
 		}
 
 		mStages[mCurrentStage]->InitStage();

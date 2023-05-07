@@ -21,10 +21,12 @@ namespace dru
         virtual void ReadyEndOperate();
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
-        void         ClearOperate();
 
         virtual void Reset();
         virtual void AddStartingLiveObjects();
+
+        void CreateOutWall();
+        void CreateFirstFloor();
     };
 
 }

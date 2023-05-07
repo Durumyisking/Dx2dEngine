@@ -72,7 +72,6 @@ namespace dru
         CGameObj*    mMaskTarget;
         CGameObj*    mCamTarget;
 
-        CBackground* mStageBackground;
         CBackground* mScreenMask;
         CGameObj* mMask;
 

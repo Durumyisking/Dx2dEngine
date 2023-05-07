@@ -18,7 +18,6 @@ namespace dru
 
 		, mMaskTarget(nullptr)
 		, mCamTarget(nullptr)
-		, mStageBackground(nullptr)
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)

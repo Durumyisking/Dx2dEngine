@@ -130,6 +130,9 @@ namespace dru
         void CamReset();
 
     protected:
+        CBackground* mStageBackground;
+
+
         CScene* mScene;
         bool mbClear;
         CGameObj* mClearCollider;
