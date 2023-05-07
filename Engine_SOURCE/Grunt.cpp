@@ -7,13 +7,13 @@ namespace dru
 	{
 		SetName(L"Grunt");
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
-		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"GruntMat", Material);	
 		SpriteRenderer->SetMaterial(Material);
 
-		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
+		CAnimator* mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Grunt_Idle", Material->GetTexture(), { 4480.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Grunt_Patrol", Material->GetTexture(), { 6656.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Grunt_Run", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 10, { 50.f, 50.f }, 0.1f);
@@ -24,7 +24,7 @@ namespace dru
 
 		mAnimator->Play(L"Grunt_Idle");
 
-		this->AddComponent<CGruntScript>(eComponentType::Script)->Initialize();
+		AddComponent<CGruntScript>(eComponentType::Script)->Initialize();
 
 	}
 

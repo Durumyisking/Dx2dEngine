@@ -78,20 +78,33 @@ namespace dru
 		mbReversePlay = _Reverse;
 		mSpriteLength = _spriteLength;
 
-		float height = (float)_atlas->GetHeight();
 		float width = (float)_atlas->GetWidth();
+		float height = (float)_atlas->GetHeight();
 
+		size_t CollSkipCount = 0;
 		for (size_t i = 0; i < _spriteLength; i++)
 		{
 			Sprite sprite = {};
+
+			// 스프라이트의 LT가 + 사이즈가 width를 넘어가면 다음줄로 바꾼다.
+			if (_leftTop.x + (_size.x * (float)i) >= width)
+			{
+				_leftTop.x = 0.f;
+				_leftTop.y += _size.y;
+
+				CollSkipCount = i;
+			}
+
+			// uv좌표로 넘기기 위해 width, height로 나눈다.
 			sprite.LT = Vector2(
-				(_leftTop.x + (_size.x * (float)i)) / width, 
+				(_leftTop.x + (_size.x * (float)(i - CollSkipCount))) / width,
 				_leftTop.y / height
 			);
+
 			sprite.size = Vector2(_size.x / width, _size.y / height);
 			sprite.offset = _offset;
 			sprite.duration = _duration;
-			sprite.altasSize = Vector2(_Ratio.x / width , _Ratio.y / height);
+			sprite.altasSize = Vector2(_Ratio.x / width, _Ratio.y / height);
 
 			mSpriteSheet.push_back(sprite);
 		}

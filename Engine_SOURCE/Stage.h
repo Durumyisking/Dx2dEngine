@@ -12,8 +12,10 @@
 #include "Background.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Boss.h"
 #include "Grunt.h"
 #include "Cop.h"
+#include "Kissyface.h"
 
 #include "GridScript.h"
 #include "FadeScript.h"
@@ -35,6 +37,7 @@
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"
 #include "PlayerScript.h"
+#include "BossScript.h"
 
 #include "PostProcess.h"
 #include "PostProcessWave.h"

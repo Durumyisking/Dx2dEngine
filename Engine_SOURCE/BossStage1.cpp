@@ -1,4 +1,6 @@
 #include "BossStage1.h"
+#include "KissyfaceScript.h"
+
 namespace dru
 {
 	CBossStage1::CBossStage1()
@@ -29,8 +31,8 @@ namespace dru
 		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
 		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.125f, GetDevice()->ViewportHeight() / 102.5f));
 
-		mPlayerDefaultPos = Vector3(0.f, 0.f, 3.f);
-		mKissyfaceDefaultPos = Vector3(3.f, 0.f, 3.f);
+		mPlayerDefaultPos = Vector3(0.f, 0.5f, 3.f);
+		mKissyfaceDefaultPos = Vector3(3.f, 0.5f, 3.f);
 
 		mStageState = eStageState::Ready;
 
@@ -69,6 +71,11 @@ namespace dru
 	void CBossStage1::ReadyEndOperate()
 	{
 		CStage::ReadyEndOperate();
+
+		if (CInput::GetKeyTap(eKeyCode::ENTER))
+		{
+			mKissyface->GetComponent<CAnimator>()->Play(L"kissyface_WaitingEnd", false);
+		}
 	}
 
 	void CBossStage1::LoadUIOperate()
@@ -87,18 +94,23 @@ namespace dru
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
+		mKissyface->SetPos(mKissyfaceDefaultPos);
+		mKissyface->GetScript<CBossScript>()->Reset();
+		mKissyface->SetRight();
 
 		CStage::Reset();
 	}
 
 	void CBossStage1::AddStartingLiveObjects()
 	{
-		mKissyface = object::Instantiate<CGrunt>(eLayerType::Monster, L"Kissyface");
+		mKissyface = object::Instantiate<CKissyface>(eLayerType::Monster, L"kissyface");
 		mKissyface->SetPos(mKissyfaceDefaultPos);
 		mRewindObjects.push_back(mKissyface);
 		mKissyface->SetLeft();
 
 		CStage::AddStartingLiveObjects();
+
+		mKissyface->GetScript<CKissyfaceScript>()->SetPlayer(mPlayer);
 	}
 
 	void CBossStage1::CreateOutWall()
@@ -129,7 +141,7 @@ namespace dru
 	{
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(0.f, -2.2f, 3.f));
+			Floor->SetPos(Vector3(0.f, -2.25f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 	}

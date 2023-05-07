@@ -1,10 +1,10 @@
 #pragma once
-#include "Monster.h"
+#include "Boss.h"
 
 namespace dru
 {
 	class CKissyface :
-		public CMonster
+		public CBoss
 	{
 	public:
 		CKissyface();
@@ -14,6 +14,10 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+
+
+	private:
+		CAnimator* mAnimator;
 	};
 
 }

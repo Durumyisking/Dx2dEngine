@@ -488,6 +488,15 @@
     <ClInclude Include="BossStage2.h">
       <Filter>Scene\Stage\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="KissyfaceScript.h">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>GameObj\Monster\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScript.h">
+      <Filter>GameObj\Monster\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -763,6 +772,15 @@
     </ClCompile>
     <ClCompile Include="BossStage2.cpp">
       <Filter>Scene\Stage\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="KissyfaceScript.cpp">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>GameObj\Monster\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScript.cpp">
+      <Filter>GameObj\Monster\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

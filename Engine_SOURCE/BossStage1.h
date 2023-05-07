@@ -28,7 +28,7 @@ namespace dru
         void CreateFirstFloor();
 
     private:
-        CMonster* mKissyface;
+        CBoss* mKissyface;
         Vector3 mKissyfaceDefaultPos;
     };
 }
