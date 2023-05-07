@@ -7,9 +7,9 @@ namespace dru
 {
 	CAfterImage::CAfterImage()
 		: mFrameCaptures{}
+		, mMaterial(nullptr)
 		, mOwner(nullptr)
 		, mIndex(0)
-		, mAnimSize(50.f)
 	{
 	}
 
@@ -26,15 +26,11 @@ namespace dru
 		std::wstring idx = std::to_wstring(mIndex);
 		matName += idx;
 		OwnerName += matName;
-		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(OwnerName);
+		mMaterial = CResources::Find<CMaterial>(OwnerName);
 	
-		Renderer->SetMaterial(Material);
+		Renderer->SetMaterial(mMaterial);
 
 		Renderer->SetAfterImageOwner(this);
-
-		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"AfterImage", Material->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { mAnimSize, mAnimSize }, 0.1f);
-		mAnimator->Play(L"AfterImage");
 
 
 		CGameObj::Initialize();
@@ -57,6 +53,13 @@ namespace dru
 	void CAfterImage::render()
 	{
 		CGameObj::render();
+	}
+
+	void CAfterImage::CreateAnimator(float _AnimSize)
+	{
+		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
+		mAnimator->Create(L"AfterImage", mMaterial->GetTexture(), { 0.f, 0.f }, { 0.f, 0.f }, Vector2::Zero, 1, { _AnimSize, _AnimSize }, 0.1f);
+		mAnimator->Play(L"AfterImage");
 	}
 
 }

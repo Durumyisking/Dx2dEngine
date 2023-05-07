@@ -2,6 +2,7 @@
 #include "KissyfaceScript.h"
 #include "Input.h"
 #include "Object.h"
+#include "Axe.h"
 
 namespace dru
 {
@@ -38,7 +39,7 @@ namespace dru
 
 		AddComponent<CKissyfaceScript>(eComponentType::Script)->Initialize();
 
-		mAfterImageCount = 30;
+		mAfterImageCount = 0;
 
 		CraeteAxe();
 	}
@@ -58,7 +59,7 @@ namespace dru
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();
-			MakeAfterImage(90);
+			MakeAfterImage(true, 90);
 		}
 
 		if (CInput::GetKeyDown(eKeyCode::N_9))
@@ -89,25 +90,8 @@ namespace dru
 
 	void CKissyface::CraeteAxe()
 	{
-		mAxe = object::Instantiate<CLiveGameObj>(eLayerType::Bullet, this, L"Axe");
-		CSpriteRenderer* SpriteRenderer = mAxe->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
-		mAxe->SetScale({ 0.125f, 0.125f, 1.f });
-		mAxe->SetPosAbs({ 0.5f, 0.f, 0.f});
-
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"SpriteShader");
-		CResources::Insert<CMaterial>(L"kissyface_axeMat", Material);
-		SpriteRenderer->SetMaterial(Material);
-
-		mAxe->RenderingBlockOn();	
-
-		CCollider2D* coll = mAxe->AddComponent<CCollider2D>(eComponentType::Collider);
-		coll->Initialize();
-		coll->SetName(L"col_kissyFaceAxe");
-		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.4f, 0.6f));
-
-		coll->Off();
-		coll->RenderingOff();
+		mAxe = object::Instantiate<CAxe>(eLayerType::Bullet, this, L"Axe");
+		
 	}
 
 }

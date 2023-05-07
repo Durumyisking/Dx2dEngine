@@ -69,7 +69,7 @@ namespace dru
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();
-			MakeAfterImage(50);
+			MakeAfterImage(true, 50);
 		}
 
 		CLiveGameObj::update();

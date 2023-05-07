@@ -12,7 +12,7 @@ namespace dru
 
         End,
     };
-
+    class CKissyface;
     class CKissyfaceScript :
         public CBossScript
     {
@@ -51,6 +51,7 @@ namespace dru
         void landComplete();
 
     private:
+        CKissyface* mKissyface;
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AirTime;
 

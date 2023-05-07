@@ -128,7 +128,17 @@ namespace dru
 		else
 		{
 			// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
+
 			mCurrentAnimData = mFrameCaptureData.front().AnimData;
+			
+			if (mFrameCaptureData.front().RenderingBlock)
+			{
+				RenderingBlockOn();
+			}
+			else
+			{
+				RenderingBlockOff();
+			}
 
 			RewindFlip();
 
@@ -162,6 +172,14 @@ namespace dru
 		{
 			// 캡쳐큐를 back부터 pop
 			mCurrentAnimData = mFrameCaptureData.back().AnimData;
+			if (mFrameCaptureData.front().RenderingBlock)
+			{
+				RenderingBlockOn();
+			}
+			else
+			{
+				RenderingBlockOff();
+			}
 			ReplayFlip();
 			Vector3 pos = mFrameCaptureData.back().Position;
 			SetPos(pos);
@@ -171,9 +189,13 @@ namespace dru
 
 	void CLiveGameObj::MakeFrameCaptureData()
 	{
-		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
+		mFrameCapture.Position = GetComponent<CTransform>()->GetWorldPosition();
 		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
-		mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
+
+		if (GetComponent<CAnimator>())
+		{
+			mFrameCapture.AnimData = GetComponent<CAnimator>()->GetCurrentAnimation()->GetAnimationData();
+		}
 		if (IsLeft())
 		{
 			mFrameCapture.Inverse = -1;
@@ -181,6 +203,15 @@ namespace dru
 		else
 		{
 			mFrameCapture.Inverse = 1;
+		}
+
+		if (IsRenderingBlock())
+		{
+			mFrameCapture.RenderingBlock = true;
+		}
+		else
+		{
+			mFrameCapture.RenderingBlock = false;
 		}
 	}
 
@@ -236,17 +267,24 @@ namespace dru
 			mAfterImages.pop_front();
 		}
 	}
-	void CLiveGameObj::MakeAfterImage(float _AnimSize)
+	void CLiveGameObj::MakeAfterImage(bool _IsAnimation, float _AnimSize)
 	{
-		CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"PlayerAfterImage");
-		afterImage->SetScale(GetScale());
+		if (!IsRenderingBlock())
+		{
+			CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
+			afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
 
-		SetAfterImage(afterImage);
-		afterImage->SetOwner(this);
-		afterImage->SetAnimSize(_AnimSize);
-		afterImage->Initialize();
+			SetAfterImage(afterImage);
+			afterImage->SetOwner(this);
+			afterImage->Initialize();
 
-		FlipAfterImage(afterImage);
+			if (_IsAnimation)
+			{
+				afterImage->CreateAnimator(_AnimSize);
+			}
+
+			FlipAfterImage(afterImage);
+		}
 	}
 	void CLiveGameObj::FlipAfterImage(CAfterImage* _AfterImage)
 	{

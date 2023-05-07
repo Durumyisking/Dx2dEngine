@@ -1,9 +1,11 @@
 #include "KissyfaceScript.h"
+#include "Kissyface.h"
 
 namespace dru
 {
 	CKissyfaceScript::CKissyfaceScript()
-		: mStatePattern1{}
+		: mKissyface(nullptr)
+		, mStatePattern1{}
 		, mPattern1_AirTime(0.f)
 	{
 	}
@@ -20,6 +22,7 @@ namespace dru
 		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
 		mAnimator->GetCompleteEvent(L"kissyface_Land") = std::bind(&CKissyfaceScript::landComplete, this);
 
+		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
 		CBossScript::Initialize();
 	}
@@ -75,6 +78,7 @@ namespace dru
 		{
 			mAnimator->Play(L"kissyface_JumpStart", false);
 			mStatePattern1 = true;
+			mKissyface->SetAfterImageCount(30);
 		}
 		if (GetStatePattern1(ePattern1::Throw) && !GetStatePattern1(ePattern1::ThrowEnd))
 		{
@@ -131,6 +135,7 @@ namespace dru
 		{
 			SetStatePattern1On(ePattern1::Throw);
 			mAnimator->Play(L"kissyface_AirThrowAxe", false);
+
 		}
 	}
 
@@ -142,6 +147,7 @@ namespace dru
 
 	void CKissyfaceScript::landComplete()
 	{
+		mKissyface->SetAfterImageCount(0);
 		PatternEnd(1);
 	}
 

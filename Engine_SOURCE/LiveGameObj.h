@@ -17,6 +17,7 @@ namespace dru
 		Vector3 Position;
 		renderer::AnimationCB AnimData;
 		int Inverse; // 1이면 l 0이면 R
+		bool RenderingBlock;
 
 	};
 
@@ -72,7 +73,7 @@ namespace dru
 		void RemoveAfterImage();
 
 	protected:
-		void MakeAfterImage(float _AnimSize);
+		void MakeAfterImage(bool _IsAnimation, float _AnimSize = 0.f);
 		void FlipAfterImage(CAfterImage* _AfterImage);
 		void SetAfterImage(CAfterImage* _AfterImage);
 

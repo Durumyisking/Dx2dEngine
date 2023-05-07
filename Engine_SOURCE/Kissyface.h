@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	class CAxe;
 	class CKissyface :
 		public CBoss
 	{
@@ -19,7 +20,7 @@ namespace dru
 
 	private:
 		CAnimator* mAnimator;
-		CLiveGameObj* mAxe;
+		CAxe* mAxe;
 
 	};
 

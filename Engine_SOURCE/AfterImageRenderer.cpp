@@ -58,7 +58,6 @@ namespace dru
 			animator->BindSprite(data);
 		}
 
-
 		GetMesh()->Render();
 		GetMaterial()->Clear();
 
@@ -79,21 +78,31 @@ namespace dru
 	void CAfterImageRenderer::ColorSetting()
 	{
 
-		if (CTimeMgr::IsBulletTimeOn())
+		CLiveGameObj* Owner = dynamic_cast<CAfterImage*>(GetOwner())->GetOwner();
+
+		if (eLayerType::Player == Owner->GetLayerType())
 		{
-			MulColor(Vector4(0.f, 2.f, 2.f, 1.f));
+			if (CTimeMgr::IsBulletTimeOn())
+			{
+				MulColor(Vector4(0.f, 2.f, 2.f, 1.f));
+			}
+			else
+			{
+				int randvalue = GetRandomNumber(1, 0);
+					if (0 == randvalue)
+					{
+						MulColor(Vector4(0.f, 5.f, 5.f, 0.5f));
+					}
+					else if (1 == randvalue)
+					{
+						MulColor(Vector4(5.f, 0.f, 5.f, 0.5f));
+					}
+			}
+
 		}
-		else
+		else if (eLayerType::Monster == Owner->GetLayerType())
 		{
-			int randvalue = GetRandomNumber(1, 0);
-			if (0 == randvalue)
-			{
-				MulColor(Vector4(0.f, 2.f, 2.f, 0.5f));
-			}
-			else if (1 == randvalue)
-			{
-				MulColor(Vector4(2.f, 0.f, 2.f, 0.5f));
-			}
+			MulColor({ 1.f, 0.f, 1.f, 0.5f });
 		}
 	}
 

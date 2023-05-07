@@ -19,10 +19,9 @@ namespace dru
 
 	private:
 		FrameCapturedData mFrameCaptures;
+		std::shared_ptr<CMaterial> mMaterial;
 		CLiveGameObj* mOwner;
 		UINT mIndex;
-
-		float mAnimSize;
 
 	public:
 		UINT GetIndex() { return mIndex; }
@@ -35,7 +34,6 @@ namespace dru
 		renderer::AnimationCB GetAnimCB() { return mFrameCaptures.AnimData; }
 		void SetFrameCapturedData(FrameCapturedData& _FrameCapturedData) { mFrameCaptures = _FrameCapturedData; }
 
-		void SetAnimSize(float _Value) { mAnimSize = _Value; }
-
+		void CreateAnimator(float _AnimSize);
     };
 }
