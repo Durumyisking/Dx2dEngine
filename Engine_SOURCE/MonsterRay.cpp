@@ -12,7 +12,7 @@ namespace dru
 		ray->SetName(L"col_monsterray");
 		ray->SetType(eColliderType::Rect);
 		Vector2 centor = Vector2(ray->GetColliderPos().x, ray->GetColliderPos().y);
-		centor.y += 0.3f;
+		centor.y += 0.15f;
 		ray->SetCenter(centor);
 
 		Vector3 defaultScale = Vector3(5.f, 1.f, 1.f);

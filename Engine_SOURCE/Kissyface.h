@@ -15,9 +15,12 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		void CraeteAxe();
 
 	private:
 		CAnimator* mAnimator;
+		CLiveGameObj* mAxe;
+
 	};
 
 }

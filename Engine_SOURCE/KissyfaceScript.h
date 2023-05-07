@@ -3,6 +3,16 @@
 
 namespace dru
 {
+    enum class ePattern1
+    {
+        Jump,
+        Throw,
+        ThrowEnd,
+        Land,
+
+        End,
+    };
+
     class CKissyfaceScript :
         public CBossScript
     {
@@ -15,18 +25,34 @@ namespace dru
         virtual void fixedUpdate() override;
         virtual void render() override;
 
-        virtual void attack();
-
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
+        virtual void Pattern1();
+        bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
+        void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern1Off(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = false; }
 
-        void ChoosePattern();
+        virtual void Pattern2();
+        virtual void Pattern3();
+        virtual void Pattern4();
+        virtual void Pattern5();
+
+        virtual void PatternEnd(UINT _PatternNumber);
+
 
         // animation Callback
-        void waitingEndComplete();
 
+        // pattern 1   
+        void waitingEndComplete();
+        void jumpStartComplete();
+        void airThrowAxeComplete();
+        void landComplete();
+
+    private:
+        std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
+        float mPattern1_AirTime;
 
     };
 }

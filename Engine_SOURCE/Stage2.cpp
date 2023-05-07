@@ -135,7 +135,7 @@ namespace dru
 
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-			RightOutWall->SetPos(Vector3(30.f, 0.f, 4.999f));
+			RightOutWall->SetPos(Vector3(13.5f, 0.f, 4.999f));
 			RightOutWall->SetColliderScale(Vector2(0.5f, 100.f));
 		}
 
@@ -289,6 +289,9 @@ namespace dru
 			lightComp->SetRadius(2.5f);
 			lightComp->SetDiffuse({ 0.f, 1.f, 1.f, 0.5f });
 		}
+
+		SetClearCollider({ 13.25f, 2.5f, 0.f });
+
 	}
 
 }

@@ -14,7 +14,11 @@ namespace dru
     {
         Idle,
         Run,
-        Attack,
+        Pattern1,
+        Pattern2,
+        Pattern3,
+        Pattern4,
+        Pattern5,
         Fall,
         DieAirUp,
         DieAirDown,
@@ -42,10 +46,25 @@ namespace dru
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
+        virtual void Pattern1() = 0;
+        virtual void Pattern2() = 0;
+        virtual void Pattern3() = 0;
+        virtual void Pattern4() = 0;
+        virtual void Pattern5() = 0;
+
+        void ChoosePattern();
+
+        virtual void PatternEnd(UINT _PatternNumber);
+
+        void IdleOperate();
+        void PatternOperate();
+
         void FlipCheck();
         void Reset();
 
         void SetSingleState(eBossState _Type);
+        bool GetState(eBossState _Type) const { return mState[static_cast<UINT>(_Type)]; }
+
 
     protected:
         CAnimator* mAnimator;
@@ -56,8 +75,9 @@ namespace dru
         Vector3 mPos;
         Vector3 mMoveDir;
 
-        bool mbDead;
+        float mAttackCooldown;
 
+        bool mbDead;
 
         std::wstring mBossName;
         std::bitset<static_cast<UINT>(eBossState::End)> mState;

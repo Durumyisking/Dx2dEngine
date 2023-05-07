@@ -3,6 +3,7 @@
 #include "Stage.h"
 #include "SceneMain.h"
 #include "SceneMgr.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -13,6 +14,7 @@ namespace dru
 		, mPlayer(nullptr)
 		, mPos(Vector3::Zero)
 		, mMoveDir(Vector3::Zero)
+		, mAttackCooldown(1.f)
 		, mbDead(false)
 		, mBossName{}
 		, mState{}
@@ -45,6 +47,10 @@ namespace dru
 
 			if (!mbDead)
 			{
+				IdleOperate();
+				PatternOperate();
+				
+
 				mMoveDir = mRigidbody->GetVelocity();
 				mMoveDir.Normalize();
 
@@ -129,6 +135,76 @@ namespace dru
 		}
 	}
 
+	void CBossScript::ChoosePattern()
+	{
+		int pattern = GetRandomNumber(1, 0);
+
+		switch (pattern)
+		{
+		case 1:
+			SetSingleState(eBossState::Pattern1);
+			break;
+		case 2:
+			SetSingleState(eBossState::Pattern2);
+			break;
+		case 3:
+			SetSingleState(eBossState::Pattern3);
+			break;
+		case 4:
+			SetSingleState(eBossState::Pattern4);
+			break;
+		case 5:
+			SetSingleState(eBossState::Pattern5);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	void CBossScript::PatternEnd(UINT _PatternNumber)
+	{
+		SetSingleState(eBossState::Idle);
+		mAttackCooldown = 1.f;
+	}
+
+	void CBossScript::IdleOperate()
+	{
+		if (GetState(eBossState::Idle))
+		{
+			mAttackCooldown -= CTimeMgr::DeltaTime();
+
+			if (0.f >= mAttackCooldown)
+			{
+				ChoosePattern();
+			}
+		}
+	}
+
+	void CBossScript::PatternOperate()
+	{
+		if (GetState(eBossState::Pattern1))
+		{
+			Pattern1();
+		}
+		else if (GetState(eBossState::Pattern2))
+		{
+			Pattern2();
+		}
+		else if (GetState(eBossState::Pattern3))
+		{
+			Pattern3();
+		}
+		else if (GetState(eBossState::Pattern4))
+		{
+			Pattern4();
+		}
+		else if (GetState(eBossState::Pattern5))
+		{
+			Pattern5();
+		}
+	}
+
 	void CBossScript::FlipCheck()
 	{
 		if (mMoveDir.x > 0.f)
@@ -157,6 +233,8 @@ namespace dru
 
 	void CBossScript::Reset()
 	{
+
+
 	}
 
 	void CBossScript::SetSingleState(eBossState _Type)
@@ -171,9 +249,6 @@ namespace dru
 				break;
 			case dru::eBossState::Run:
 				mAnimator->Play(GetOwner()->GetName() + L"_Run");
-				break;
-			case dru::eBossState::Attack:
-				mAnimator->Play(GetOwner()->GetName() + L"_Attack");
 				break;
 			case dru::eBossState::Fall:
 				break;

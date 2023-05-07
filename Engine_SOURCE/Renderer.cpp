@@ -562,6 +562,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"cop_gun", L"MainScene/Monster/Cop_Gun.png");
 
 		CResources::Load<CTexture>(L"kissyface", L"MainScene/Monster/Kissyface.png");
+		CResources::Load<CTexture>(L"kissyface_axe", L"MainScene/Monster/kissyface_axe.png");
+
 		CResources::Load<CTexture>(L"headhunter", L"MainScene/Monster/HeadHunter.png");
 
 

@@ -52,9 +52,9 @@ namespace dru
 
 		Vector3 rotation = mTransform->GetRotation();
 
-		Vector3 position = mTransform->GetPosition();
-		mPosition = position + Vector3(mCenter.x, mCenter.y, 0.f);
-
+		Vector3 position = mTransform->GetWorldPosition();
+		mPosition = position;// +Vector3(mCenter.x, mCenter.y, 0.f);
+		mPosition.z = 0.f;
 		DebugMesh meshAttribute = {};
 		meshAttribute.position = Vector3(mPosition.x, mPosition.y, mPosition.z);
 		meshAttribute.radius = mRadius;

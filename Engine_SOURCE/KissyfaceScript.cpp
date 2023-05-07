@@ -3,6 +3,8 @@
 namespace dru
 {
 	CKissyfaceScript::CKissyfaceScript()
+		: mStatePattern1{}
+		, mPattern1_AirTime(0.f)
 	{
 	}
 
@@ -14,6 +16,9 @@ namespace dru
 	{
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = std::bind(&CKissyfaceScript::waitingEndComplete, this);
+		mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
+		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
+		mAnimator->GetCompleteEvent(L"kissyface_Land") = std::bind(&CKissyfaceScript::landComplete, this);
 
 
 		CBossScript::Initialize();
@@ -36,17 +41,17 @@ namespace dru
 		CBossScript::render();
 	}
 
-	void CKissyfaceScript::attack()
-	{
-		if (mState[(UINT)eBossState::Attack] == true)
-		{
-			CBossScript::attack();
-		}
-	}
 
 
 	void CKissyfaceScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		if (L"col_floor" == _oppo->GetName())
+		{
+			if (GetState(eBossState::Pattern1))
+			{
+				mAnimator->Play(L"kissyface_Land", false);
+			}
+		}
 
 		CBossScript::OnCollisionEnter(_oppo);
 	}
@@ -64,13 +69,80 @@ namespace dru
 		CBossScript::OnCollisionExit(_oppo);
 	}
 
-	void CKissyfaceScript::ChoosePattern()
+	void CKissyfaceScript::Pattern1()
 	{
+		if (!GetStatePattern1(ePattern1::Jump))
+		{
+			mAnimator->Play(L"kissyface_JumpStart", false);
+			mStatePattern1 = true;
+		}
+		if (GetStatePattern1(ePattern1::Throw) && !GetStatePattern1(ePattern1::ThrowEnd))
+		{
+			mRigidbody->AddForceY(50.f);
+
+		}
+	}
+
+	void CKissyfaceScript::Pattern2()
+	{
+	}
+
+	void CKissyfaceScript::Pattern3()
+	{
+	}
+
+	void CKissyfaceScript::Pattern4()
+	{
+	}
+
+	void CKissyfaceScript::Pattern5()
+	{
+	}
+
+	void CKissyfaceScript::PatternEnd(UINT _PatternNumber)
+	{
+		switch (_PatternNumber)
+		{
+		case 1:
+			mStatePattern1.reset();
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	void CKissyfaceScript::waitingEndComplete()
 	{
 		SetSingleState(eBossState::Idle);
+	}
+
+	void CKissyfaceScript::jumpStartComplete()
+	{
+		if (!GetStatePattern1(ePattern1::Throw))
+		{
+			SetStatePattern1On(ePattern1::Throw);
+			mAnimator->Play(L"kissyface_AirThrowAxe", false);
+		}
+	}
+
+	void CKissyfaceScript::airThrowAxeComplete()
+	{
+		SetStatePattern1Off(ePattern1::Throw);
+		mAnimator->Play(L"kissyface_AirThrowEnd");
+	}
+
+	void CKissyfaceScript::landComplete()
+	{
+		PatternEnd(1);
 	}
 
 

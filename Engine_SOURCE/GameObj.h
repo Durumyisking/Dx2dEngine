@@ -159,8 +159,9 @@ namespace dru
 		bool mbBlockRendering;
 
 	public:
-
 		void SetPos(Vector3 _Value);
+		void SetPosAbs(Vector3 _Value);
+
 		void SetPosZ(float _Z) 
 		{
 			Vector3 pos = GetPos();

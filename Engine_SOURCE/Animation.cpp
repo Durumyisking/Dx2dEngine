@@ -101,7 +101,7 @@ namespace dru
 				_leftTop.y / height
 			);
 
-			sprite.size = Vector2(_size.x / width, _size.y / height);
+			sprite.size = Vector2(fabs(_size.x) / width, fabs(_size.y) / height);
 			sprite.offset = _offset;
 			sprite.duration = _duration;
 			sprite.altasSize = Vector2(_Ratio.x / width, _Ratio.y / height);

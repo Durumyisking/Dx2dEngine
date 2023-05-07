@@ -19,10 +19,9 @@ namespace dru
 
 
 	public:
-		void AddForce(Vector3 _Value)
-		{
-			mForce += _Value;
-		}
+		void AddForce(Vector3 _Value) { mForce += _Value; }
+		void AddForceX(float _Value) { mForce.x += _Value; }
+		void AddForceY(float _Value) { mForce.y += _Value; }
 
 		void SetMass(float _Value) { mMass = _Value; }
 		float GetMass() const { return mMass; }

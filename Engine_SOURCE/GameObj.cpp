@@ -179,8 +179,20 @@ namespace dru
 					break;
 				}
 			}
-			GetComponent<CTransform>()->SetPosition(_Value);
+			CTransform* tr = GetComponent<CTransform>();
+
+			if (tr->GetParent())
+			{
+				_Value.z = 0.0001f;
+			}
+			tr -> SetPosition(_Value);
 		}
+	}
+
+	void CGameObj::SetPosAbs(Vector3 _Value)
+	{
+		CTransform* tr = GetComponent<CTransform>();
+		tr->SetPosition(_Value);
 	}
 
 	void CGameObj::SetScale(Vector3 _Value)
