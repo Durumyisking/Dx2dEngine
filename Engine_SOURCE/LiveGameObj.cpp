@@ -290,22 +290,19 @@ namespace dru
 	}
 	void CLiveGameObj::MakeAfterImage(bool _IsAnimation, float _AnimSize)
 	{
-		if (!IsRenderingBlock())
+		CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
+		afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
+
+		SetAfterImage(afterImage);
+		afterImage->SetOwner(this);
+		afterImage->Initialize();
+
+		if (_IsAnimation)
 		{
-			CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
-			afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
-
-			SetAfterImage(afterImage);
-			afterImage->SetOwner(this);
-			afterImage->Initialize();
-
-			if (_IsAnimation)
-			{
-				afterImage->CreateAnimator(_AnimSize);
-			}
-
-			FlipAfterImage(afterImage);
+			afterImage->CreateAnimator(_AnimSize);
 		}
+
+		FlipAfterImage(afterImage);
 	}
 	void CLiveGameObj::FlipAfterImage(CAfterImage* _AfterImage)
 	{

@@ -7,7 +7,10 @@ namespace dru
 	CAxe::CAxe()
 		: mTransform(nullptr)
 		, mDefaultPos(Vector3::Zero)
-		, mFramePass(0)
+		, mKissyfaceCenter(Vector3::Zero)
+		, mAngle(0.f)
+		, mInitialRadius(0.f)
+		, mRadiusIncrement(0.05f)
 	{
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		SetScale({ 0.125f, 0.125f, 1.f });
@@ -29,7 +32,7 @@ namespace dru
 		coll->Off();
 		coll->RenderingOff();
 
-		mAfterImageCount = 50;
+		mAfterImageCount = 0;
 	}
 
 	CAxe::~CAxe()
@@ -39,24 +42,17 @@ namespace dru
 	void CAxe::Initialize()
 	{
 		mTransform = GetComponent<CTransform>();
-		mTransform->SetRotation({ 0.f, 0.f, -90.f });
+		mTransform->SetRotation({ 0.f, 0.f, 270.f });
 
 		CLiveGameObj::Initialize();
 	}
 
 	void CAxe::update()
 	{
-		if (10 == mFramePass)
+		if (FrameCaptureCheck())
 		{
-			if (FrameCaptureCheck())
-			{
-				FrameCaptureOperate();
-				MakeAfterImage(false);
-			}
-		}
-		else
-		{
-			++mFramePass;
+			FrameCaptureOperate();
+			MakeAfterImage(false);
 		}
 
 		CLiveGameObj::update();
@@ -78,18 +74,44 @@ namespace dru
 
 	void CAxe::Spin()
 	{
-//		mTransform->AddRotationZ(50.f * CTimeMgr::DeltaTime());
+		mAngle += CTimeMgr::DeltaTime() * 20.f;
+
+		float radius = 0.f;
+
+		if (mAngle >= 20.f && 0.f == mInitialRadius)
+		{
+			mInitialRadius = 2.f;
+			mRadiusIncrement = -mRadiusIncrement;
+		}
+		radius = mInitialRadius + mRadiusIncrement * mAngle;
 
 
+		Vector3 Pos = mDefaultPos;
+		Pos.x = radius * cos(mAngle);
+		Pos.y = radius * sin(mAngle);
+
+		SetPos(Pos);
 	}
 
 	void CAxe::Reset()
 	{
 		SetPosAbs(mDefaultPos);
-		mTransform->SetRotation({ 0.f, 0.f, -90.f });
-		SetAfterImageCount(50);
-		RemoveAfterImage();
+		mTransform->SetRotation({ 0.f, 0.f, 270.f });
+		mAngle = 0.f;
+		mInitialRadius = 0.f;
+		mRadiusIncrement = 0.05f;
+	}
 
+	float CAxe::CalculateRadius(float angle, float initialRadius, float radiusIncrement, bool reverse)
+	{
+		float radius = initialRadius + angle * radiusIncrement;
+		if (reverse)
+		{
+			// 현재 위치의 반지름 값 계산
+			float currentRadius = initialRadius + (20.f * radiusIncrement) - (angle * radiusIncrement);
+			radius = currentRadius - radiusIncrement;
+		}
+		return radius;
 	}
 
 }

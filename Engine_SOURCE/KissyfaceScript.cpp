@@ -31,6 +31,7 @@ namespace dru
 
 	void CKissyfaceScript::update()
 	{
+		mKissyface->GetAxe()->SetKissyfaceCenter(mKissyface->GetWorldPos());
 
 		CBossScript::update();
 	}
@@ -94,6 +95,9 @@ namespace dru
 		if (GetStatePattern1(ePattern1::Throw) && !GetStatePattern1(ePattern1::ThrowEnd))
 		{
 			mRigidbody->AddForceY(50.f);
+		}
+		if (GetStatePattern1(ePattern1::Throw) || GetStatePattern1(ePattern1::ThrowEnd))
+		{
 			mKissyface->GetAxe()->Spin();
 		}
 	}
@@ -138,6 +142,7 @@ namespace dru
 	void CKissyfaceScript::AxeOn()
 	{
 		mKissyface->GetAxe()->RenderingBlockOff();
+		mKissyface->GetAxe()->SetAfterImageCount(50);
 		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
 		coll->On();
 		coll->RenderingOn();
@@ -172,6 +177,7 @@ namespace dru
 	void CKissyfaceScript::airThrowAxeComplete()
 	{		
 		SetStatePattern1Off(ePattern1::Throw);
+		SetStatePattern1On(ePattern1::ThrowEnd);
 		mAnimator->Play(L"kissyface_AirThrowEnd");
 	}
 
