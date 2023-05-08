@@ -27,11 +27,8 @@ namespace dru
 		float mInitialRadius;
 		float mRadiusIncrement;
 
-		int mFramePass;
-
 
 	public:
 		void SetKissyfaceCenter(Vector3 _Pos) { mKissyfaceCenter = _Pos; }
-		float CalculateRadius(float angle, float initialRadius, float radiusIncrement, bool reverse);
 	};
 }

@@ -8,14 +8,15 @@ namespace dru
 		: mTransform(nullptr)
 		, mDefaultPos(Vector3::Zero)
 		, mKissyfaceCenter(Vector3::Zero)
-		, mAngle(0.f)
+		, mAngle(10.f)
 		, mInitialRadius(0.f)
 		, mRadiusIncrement(0.05f)
 	{
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		SetScale({ 0.125f, 0.125f, 1.f });
-		mDefaultPos = { 0.5f, 0.f, 0.f };
+		mDefaultPos = { 0.36f, -0.45f, 0.f };
 		SetPosAbs(mDefaultPos);
+		SetRotation({ 0.f, 0.f, 270.f });
 
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"kissyface_axeMat", Material);
@@ -42,7 +43,6 @@ namespace dru
 	void CAxe::Initialize()
 	{
 		mTransform = GetComponent<CTransform>();
-		mTransform->SetRotation({ 0.f, 0.f, 270.f });
 
 		CLiveGameObj::Initialize();
 	}
@@ -85,8 +85,7 @@ namespace dru
 		}
 		radius = mInitialRadius + mRadiusIncrement * mAngle;
 
-
-		Vector3 Pos = mDefaultPos;
+		Vector3 Pos = GetPos();
 		Pos.x = radius * cos(mAngle);
 		Pos.y = radius * sin(mAngle);
 
@@ -96,22 +95,12 @@ namespace dru
 	void CAxe::Reset()
 	{
 		SetPosAbs(mDefaultPos);
-		mTransform->SetRotation({ 0.f, 0.f, 270.f });
-		mAngle = 0.f;
+		SetRotation({ 0.f, 0.f, 270.f });
+		mAngle = 10.f;
 		mInitialRadius = 0.f;
 		mRadiusIncrement = 0.05f;
 	}
 
-	float CAxe::CalculateRadius(float angle, float initialRadius, float radiusIncrement, bool reverse)
-	{
-		float radius = initialRadius + angle * radiusIncrement;
-		if (reverse)
-		{
-			// 현재 위치의 반지름 값 계산
-			float currentRadius = initialRadius + (20.f * radiusIncrement) - (angle * radiusIncrement);
-			radius = currentRadius - radiusIncrement;
-		}
-		return radius;
-	}
+
 
 }

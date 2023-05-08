@@ -89,8 +89,7 @@ namespace dru
 
 	void CKissyface::CraeteAxe()
 	{
-		mAxe = object::Instantiate<CAxe>(eLayerType::Bullet, this, L"Axe");
-		
+		mAxe = object::Instantiate<CAxe>(eLayerType::Bullet, this, L"Axe");		
 	}
 
 }

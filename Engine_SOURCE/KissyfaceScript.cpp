@@ -55,6 +55,8 @@ namespace dru
 			if (GetState(eBossState::Pattern1))
 			{
 				mAnimator->Play(L"kissyface_Land", false);
+				mStatePattern1.reset();
+				SetStatePattern1On(ePattern1::Land);
 			}
 		}
 
@@ -96,7 +98,7 @@ namespace dru
 		{
 			mRigidbody->AddForceY(50.f);
 		}
-		if (GetStatePattern1(ePattern1::Throw) || GetStatePattern1(ePattern1::ThrowEnd))
+		if ((GetStatePattern1(ePattern1::Throw) || GetStatePattern1(ePattern1::ThrowEnd)))
 		{
 			mKissyface->GetAxe()->Spin();
 		}
@@ -152,6 +154,7 @@ namespace dru
 	{
 		mKissyface->GetAxe()->RenderingBlockOn();
 		mKissyface->GetAxe()->Reset();
+		mKissyface->GetAxe()->RemoveAfterImage();
 		mKissyface->GetAxe()->SetAfterImageCount(0);
 		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
 		coll->Off();
