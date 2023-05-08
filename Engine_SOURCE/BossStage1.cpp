@@ -103,7 +103,7 @@ namespace dru
 
 	void CBossStage1::AddStartingLiveObjects()
 	{
-		mKissyface = object::Instantiate<CKissyface>(eLayerType::Monster, L"kissyface");
+		mKissyface = object::Instantiate<CKissyface>(eLayerType::Boss, L"kissyface");
 		mKissyface->SetPos(mKissyfaceDefaultPos);
 		mRewindObjects.push_back(mKissyface);
 		mKissyface->SetLeft();
@@ -143,6 +143,16 @@ namespace dru
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
 			Floor->SetPos(Vector3(0.f, -2.25f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
+		}
+		{
+			CWall* LeftWall = object::Instantiate<CWall>(eLayerType::Platforms, L"Leftwall");
+			LeftWall->SetPos(Vector3(-8.f, 0.f, 4.999f));
+			LeftWall->SetColliderScale(Vector2(0.6f, 30.f));
+		}
+		{
+			CWall* RightWall = object::Instantiate<CWall>(eLayerType::Platforms, L"Rightwall");
+			RightWall->SetPos(Vector3(8.f, 0.f, 4.999f));
+			RightWall->SetColliderScale(Vector2(0.6f, 30.f));
 		}
 	}
 

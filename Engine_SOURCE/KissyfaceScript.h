@@ -29,6 +29,8 @@ namespace dru
         virtual void OnCollision(CCollider2D* _oppo);
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
+        virtual void Reset();
+
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
         void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
@@ -41,6 +43,9 @@ namespace dru
 
         virtual void PatternEnd(UINT _PatternNumber);
 
+        void AxeOn();
+        void AxeOff();
+
 
         // animation Callback
 
@@ -48,6 +53,7 @@ namespace dru
         void waitingEndComplete();
         void jumpStartComplete();
         void airThrowAxeComplete();
+        void airThrowAxeEndEnd();
         void landComplete();
 
     private:

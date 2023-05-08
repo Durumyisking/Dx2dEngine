@@ -15,6 +15,13 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		void Spin();
+		void Reset();
 
+	private:
+		CTransform* mTransform;
+		Vector3 mDefaultPos;
+
+		int mFramePass;
 	};
 }

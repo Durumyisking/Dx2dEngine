@@ -517,6 +517,11 @@ namespace dru
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();
 			}
+			if (eLayerType::Boss == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CBoss*>(mRewindObjects[i])->Disable();
+			}
+
 		}
 
 		mPostProcess_Rewind->RenderingBlockOff();

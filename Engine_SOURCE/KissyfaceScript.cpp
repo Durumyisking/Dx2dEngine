@@ -1,5 +1,6 @@
 #include "KissyfaceScript.h"
 #include "Kissyface.h"
+#include "Axe.h"
 
 namespace dru
 {
@@ -20,6 +21,7 @@ namespace dru
 		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = std::bind(&CKissyfaceScript::waitingEndComplete, this);
 		mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
 		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
+		mAnimator->GetEndEvent(L"kissyface_AirThrowEnd") = std::bind(&CKissyfaceScript::airThrowAxeEndEnd, this);
 		mAnimator->GetCompleteEvent(L"kissyface_Land") = std::bind(&CKissyfaceScript::landComplete, this);
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
@@ -29,7 +31,6 @@ namespace dru
 
 	void CKissyfaceScript::update()
 	{
-
 
 		CBossScript::update();
 	}
@@ -72,6 +73,16 @@ namespace dru
 		CBossScript::OnCollisionExit(_oppo);
 	}
 
+	void CKissyfaceScript::Reset()
+	{
+		AxeOff();
+		mKissyface->GetAxe()->Reset();
+		mStatePattern1.reset();
+		GetOwner_LiveObject()->RemoveAfterImage();
+
+		CBossScript::Reset();
+	}
+
 	void CKissyfaceScript::Pattern1()
 	{
 		if (!GetStatePattern1(ePattern1::Jump))
@@ -83,7 +94,7 @@ namespace dru
 		if (GetStatePattern1(ePattern1::Throw) && !GetStatePattern1(ePattern1::ThrowEnd))
 		{
 			mRigidbody->AddForceY(50.f);
-
+			mKissyface->GetAxe()->Spin();
 		}
 	}
 
@@ -124,6 +135,24 @@ namespace dru
 
 	}
 
+	void CKissyfaceScript::AxeOn()
+	{
+		mKissyface->GetAxe()->RenderingBlockOff();
+		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
+		coll->On();
+		coll->RenderingOn();
+	}
+
+	void CKissyfaceScript::AxeOff()
+	{
+		mKissyface->GetAxe()->RenderingBlockOn();
+		mKissyface->GetAxe()->Reset();
+		mKissyface->GetAxe()->SetAfterImageCount(0);
+		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
+		coll->Off();
+		coll->RenderingOff();
+	}
+
 	void CKissyfaceScript::waitingEndComplete()
 	{
 		SetSingleState(eBossState::Idle);
@@ -135,14 +164,20 @@ namespace dru
 		{
 			SetStatePattern1On(ePattern1::Throw);
 			mAnimator->Play(L"kissyface_AirThrowAxe", false);
-
+			AxeOn();
+			mKissyface->GetAxe()->SetAfterImageCount(50);
 		}
 	}
 
 	void CKissyfaceScript::airThrowAxeComplete()
-	{
+	{		
 		SetStatePattern1Off(ePattern1::Throw);
 		mAnimator->Play(L"kissyface_AirThrowEnd");
+	}
+
+	void CKissyfaceScript::airThrowAxeEndEnd()
+	{
+		AxeOff();
 	}
 
 	void CKissyfaceScript::landComplete()

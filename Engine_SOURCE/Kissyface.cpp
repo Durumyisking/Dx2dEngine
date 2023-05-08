@@ -27,9 +27,8 @@ namespace dru
 		// pattern 1
 		mAnimator->Create(L"kissyface_JumpStart", Material->GetTexture(), { 2304.f, 128.f }, { -128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_AirThrowAxe", Material->GetTexture(), { 1152.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 4, { 90.f, 90.f }, 0.1f);
-		mAnimator->Create(L"kissyface_AirThrowEnd", Material->GetTexture(), { 1664.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 1, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_AirThrowEnd", Material->GetTexture(), { 1664.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 1, { 90.f, 90.f }, 100.f);
 		mAnimator->Create(L"kissyface_Land", Material->GetTexture(), { 1792.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
-
 
 
 		mAnimator->Create(L"kissyface_DeadGround", Material->GetTexture(), { 640.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);

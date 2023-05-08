@@ -69,10 +69,6 @@ namespace dru
 	{
 	}
 
-	void CBossScript::attack()
-	{
-	}
-
 	void CBossScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		if (L"col_floor" == _oppo->GetName())
@@ -233,8 +229,8 @@ namespace dru
 
 	void CBossScript::Reset()
 	{
-
-
+		SetSingleState(eBossState::Idle);
+		mAttackCooldown = 1.f;
 	}
 
 	void CBossScript::SetSingleState(eBossState _Type)

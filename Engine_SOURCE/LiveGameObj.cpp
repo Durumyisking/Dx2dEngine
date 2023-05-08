@@ -141,9 +141,7 @@ namespace dru
 			}
 
 			RewindFlip();
-
-			Vector3 pos = mFrameCaptureData.front().Position;
-			SetPos(pos);
+			SetRewindTransform();
 
 			if (_ElapsedTime > mRewindTime)
 			{
@@ -154,7 +152,9 @@ namespace dru
 				for (int i = 0; i < a; i++)
 				{
 					if (!mFrameCaptureData.empty())
+					{
 						mFrameCaptureData.pop_front();
+					}
 				}
 			}
 			else
@@ -181,15 +181,36 @@ namespace dru
 				RenderingBlockOff();
 			}
 			ReplayFlip();
-			Vector3 pos = mFrameCaptureData.back().Position;
-			SetPos(pos);
+			SetReplayTransform();
 			mFrameCaptureData.pop_back();
 		}
+	}
+
+	void CLiveGameObj::SetRewindTransform()
+	{
+		Vector3 pos = mFrameCaptureData.front().Position;
+		Vector3 scale = mFrameCaptureData.front().Scale;
+		Vector3 rot = mFrameCaptureData.front().Rotation;
+		SetPos(pos);
+	//	SetScale(scale);
+		SetRotation(rot);
+	}
+
+	void CLiveGameObj::SetReplayTransform()
+	{
+		Vector3 pos = mFrameCaptureData.back().Position;
+		Vector3 scale = mFrameCaptureData.back().Scale;
+		Vector3 rot = mFrameCaptureData.back().Rotation;
+		SetPos(pos);
+//		SetScale(scale);
+		SetRotation(rot);
 	}
 
 	void CLiveGameObj::MakeFrameCaptureData()
 	{
 		mFrameCapture.Position = GetComponent<CTransform>()->GetWorldPosition();
+		mFrameCapture.Scale= GetComponent<CTransform>()->GetScale();
+		mFrameCapture.Rotation= GetComponent<CTransform>()->GetRotation();
 		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
 
 		if (GetComponent<CAnimator>())

@@ -104,6 +104,11 @@ namespace dru
 		{
 			MulColor({ 1.f, 0.f, 1.f, 0.5f });
 		}
+		else if (eLayerType::Boss == Owner->GetLayerType())
+		{
+			MulColor({ 1.f, 0.f, 1.f, 0.5f });
+		}
+
 	}
 
 }

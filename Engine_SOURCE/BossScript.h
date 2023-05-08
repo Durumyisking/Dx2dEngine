@@ -40,7 +40,7 @@ namespace dru
         virtual void fixedUpdate() override;
         virtual void render() override;
 
-        virtual void attack();
+        virtual void Reset();
 
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);
@@ -60,11 +60,11 @@ namespace dru
         void PatternOperate();
 
         void FlipCheck();
-        void Reset();
 
         void SetSingleState(eBossState _Type);
         bool GetState(eBossState _Type) const { return mState[static_cast<UINT>(_Type)]; }
 
+//        eStageState GetStageState() { return dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState(); }
 
     protected:
         CAnimator* mAnimator;

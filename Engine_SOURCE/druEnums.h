@@ -13,6 +13,7 @@ namespace dru::enums
 		Bullet,
 		Monster,
 		MonsterGun,
+		Boss,
 		Player,
 		AfterImage,
 		Platforms,
@@ -21,7 +22,7 @@ namespace dru::enums
 		FX,
 		UI,
 		PostProcess,
-		End = 16,
+		End = 17,
 	};
 
 

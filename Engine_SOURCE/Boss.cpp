@@ -1,11 +1,12 @@
 #include "Boss.h"
+#include "BossScript.h"
 
 namespace dru
 {
 	CBoss::CBoss()
 		: mHP(5)
 	{
-		SetLayerType(eLayerType::Monster);
+		SetLayerType(eLayerType::Boss);
 
 		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
 
@@ -43,6 +44,11 @@ namespace dru
 	void CBoss::render()
 	{
 		CLiveGameObj::render();
+	}
+
+	void CBoss::Disable()
+	{
+		GetScript<CBossScript>()->Reset();
 	}
 
 }

@@ -15,6 +15,8 @@ namespace dru
 
 		std::shared_ptr<CTexture> Texture;
 		Vector3 Position;
+		Vector3 Scale;
+		Vector3 Rotation;
 		renderer::AnimationCB AnimData;
 		int Inverse; // 1이면 l 0이면 R
 		bool RenderingBlock;
@@ -39,6 +41,10 @@ namespace dru
 		void PushFrameCapturedData();
 		void RewindOperate(float _ElapsedTime);
 		void ReplayOperate();
+
+		void SetRewindTransform();
+		void SetReplayTransform();
+
 		void MakeFrameCaptureData() ;
 
 		bool FrameCaptureCheck();

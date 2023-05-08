@@ -16,6 +16,8 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		void Disable();
+
 	private:
 		UINT mHP;
 

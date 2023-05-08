@@ -39,8 +39,10 @@ namespace dru
 	void CAfterImage::update()
 	{
 		Vector3 pos = mFrameCaptures.Position;
+		Vector3 rot = mFrameCaptures.Rotation;
 		pos.z += 0.0001f;
 		SetPos(pos);
+		SetRotation(rot);
 
 		CGameObj::update();
 	}

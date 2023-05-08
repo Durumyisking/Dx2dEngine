@@ -22,6 +22,8 @@ namespace dru
 		CAnimator* mAnimator;
 		CAxe* mAxe;
 
+	public:
+		CAxe* GetAxe() const { return mAxe; }
 	};
 
 }
