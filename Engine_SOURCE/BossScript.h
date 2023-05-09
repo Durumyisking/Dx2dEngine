@@ -20,8 +20,6 @@ namespace dru
         Pattern4,
         Pattern5,
         Fall,
-        DieAirUp,
-        DieAirDown,
         DieGround,
 
         End,

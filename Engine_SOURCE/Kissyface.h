@@ -4,6 +4,7 @@
 namespace dru
 {
 	class CAxe;
+	class CAxeScript;
 	class CKissyface :
 		public CBoss
 	{
@@ -23,7 +24,9 @@ namespace dru
 		CAxe* mAxe;
 
 	public:
+		CAxeScript* GetAxeScript() const { return mAxe->GetScript<CAxeScript>(); }
 		CAxe* GetAxe() const { return mAxe; }
+		CLiveGameObj* GetAxe() { return mAxe; }
 	};
 
 }

@@ -38,7 +38,7 @@ namespace dru
 
 	void CAfterImage::update()
 	{
-		Vector3 pos = mFrameCaptures.Position;
+		Vector3 pos = mFrameCaptures.WorldPosition;
 		Vector3 rot = mFrameCaptures.Rotation;
 		pos.z += 0.0001f;
 		SetPos(pos);

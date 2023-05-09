@@ -131,14 +131,14 @@ namespace dru
 
 			mCurrentAnimData = mFrameCaptureData.front().AnimData;
 			
-			if (mFrameCaptureData.front().RenderingBlock)
-			{
-				RenderingBlockOn();
-			}
-			else
-			{
-				RenderingBlockOff();
-			}
+			//if (mFrameCaptureData.front().RenderingBlock)
+			//{
+			//	RenderingBlockOn();
+			//}
+			//else
+			//{
+			//	RenderingBlockOff();
+			//}
 
 			RewindFlip();
 			SetRewindTransform();
@@ -172,14 +172,14 @@ namespace dru
 		{
 			// 캡쳐큐를 back부터 pop
 			mCurrentAnimData = mFrameCaptureData.back().AnimData;
-			if (mFrameCaptureData.front().RenderingBlock)
-			{
-				RenderingBlockOn();
-			}
-			else
-			{
-				RenderingBlockOff();
-			}
+			//if (mFrameCaptureData.front().RenderingBlock)
+			//{
+			//	RenderingBlockOn();
+			//}
+			//else
+			//{
+			//	RenderingBlockOff();
+			//}
 			ReplayFlip();
 			SetReplayTransform();
 			mFrameCaptureData.pop_back();
@@ -208,7 +208,8 @@ namespace dru
 
 	void CLiveGameObj::MakeFrameCaptureData()
 	{
-		mFrameCapture.Position = GetComponent<CTransform>()->GetWorldPosition();
+		mFrameCapture.Position = GetComponent<CTransform>()->GetPosition();
+		mFrameCapture.WorldPosition = GetComponent<CTransform>()->GetWorldPosition();
 		mFrameCapture.Scale= GetComponent<CTransform>()->GetScale();
 		mFrameCapture.Rotation= GetComponent<CTransform>()->GetRotation();
 		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();

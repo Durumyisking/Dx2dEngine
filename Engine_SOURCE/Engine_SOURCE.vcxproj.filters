@@ -500,6 +500,9 @@
     <ClInclude Include="Axe.h">
       <Filter>GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
+    <ClInclude Include="AxeScript.h">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -786,6 +789,9 @@
       <Filter>GameObj\Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Axe.cpp">
+      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="AxeScript.cpp">
       <Filter>GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
   </ItemGroup>

@@ -101,7 +101,7 @@ namespace dru::math
 	int GetRandomNumber(int _Range, int _StartNumber)
 	{
 		SM_srand(seed);
-		int randvalue = (SM_rand() % (_Range + 1)) + _StartNumber;;
+		int randvalue = (SM_rand() % _Range) + _StartNumber;;
 
 		return randvalue;
 	}

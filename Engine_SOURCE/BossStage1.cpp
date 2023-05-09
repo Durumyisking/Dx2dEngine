@@ -1,4 +1,5 @@
 #include "BossStage1.h"
+#include "Kissyface.h"
 #include "KissyfaceScript.h"
 
 namespace dru
@@ -108,10 +109,12 @@ namespace dru
 		mRewindObjects.push_back(mKissyface);
 		mKissyface->SetLeft();
 
+		mRewindObjects.push_back(dynamic_cast<CKissyface*>(mKissyface)->GetAxe());
+
 		CStage::AddStartingLiveObjects();
 
 		mKissyface->GetScript<CKissyfaceScript>()->SetPlayer(mPlayer);
-		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
+//		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
 	}
 
 	void CBossStage1::CreateOutWall()

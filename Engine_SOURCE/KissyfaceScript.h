@@ -12,6 +12,15 @@ namespace dru
 
         End,
     };
+    enum class ePattern2
+    {
+        Throw,
+        ThrowEnd,
+        Recieve,
+        Land,
+
+        End,
+    };
     class CKissyface;
     class CKissyfaceScript :
         public CBossScript
@@ -37,12 +46,17 @@ namespace dru
         void SetStatePattern1Off(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = false; }
 
         virtual void Pattern2();
+        bool GetStatePattern2(ePattern2 _Type) { return mStatePattern2[static_cast<UINT>(_Type)]; }
+        void SetStatePattern2On(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern2Off(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = false; }
+
         virtual void Pattern3();
         virtual void Pattern4();
         virtual void Pattern5();
 
         virtual void PatternEnd(UINT _PatternNumber);
 
+        void SetAxeDir();
         void AxeOn();
         void AxeOff();
 
@@ -56,10 +70,22 @@ namespace dru
         void airThrowAxeEndEnd();
         void landComplete();
 
+        // pattern 2   
+        void throwAxeFrame5();
+        void throwAxeComplete();
+        void throwAxeEndEnd();
+        void recieveComplete();
+
+
     private:
         CKissyface* mKissyface;
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
-        float mPattern1_AirTime;
+
+        std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
+        float mPattern2_RecieveWaitingTime;
+
+        bool mbNoAxe;
+
 
     };
 }

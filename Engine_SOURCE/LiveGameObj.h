@@ -15,6 +15,7 @@ namespace dru
 
 		std::shared_ptr<CTexture> Texture;
 		Vector3 Position;
+		Vector3 WorldPosition;
 		Vector3 Scale;
 		Vector3 Rotation;
 		renderer::AnimationCB AnimData;
@@ -70,6 +71,8 @@ namespace dru
 
 		bool IsRewinding() const { return mbRewind; };
 		bool IsReplaying() const { return mbReplay; };
+
+		bool IsRewindRePlaying() const { return mbRewind || mbReplay; }
 
 		void RewindFlip();
 		void ReplayFlip();

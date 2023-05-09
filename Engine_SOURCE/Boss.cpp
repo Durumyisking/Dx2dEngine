@@ -28,11 +28,6 @@ namespace dru
 
 	void CBoss::update()
 	{
-		if (FrameCaptureCheck())
-		{
-			FrameCaptureOperate();
-		}
-
 		CLiveGameObj::update();
 	}
 

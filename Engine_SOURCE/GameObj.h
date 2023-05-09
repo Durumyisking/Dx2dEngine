@@ -111,15 +111,9 @@ namespace dru
 			}
 			return nullptr;
 		}
-
-
-
 		Vector3 Forward() { return GetComponent<CTransform>()->Forward(); }
 		Vector3 Right() { return GetComponent<CTransform>()->Right(); }
 		Vector3 Up() { return GetComponent<CTransform>()->Up(); }
-
-
-
 
 		void Flip();
 

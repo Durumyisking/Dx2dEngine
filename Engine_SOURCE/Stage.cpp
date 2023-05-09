@@ -356,11 +356,9 @@ namespace dru
 
 	void CStage::AddStartingLiveObjects()
 	{
-		{
-			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
-			mPlayer->SetPos(mPlayerDefaultPos);
-			mRewindObjects.push_back(mPlayer);
-		}
+		mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
+		mPlayer->SetPos(mPlayerDefaultPos);
+		mRewindObjects.push_back(mPlayer);
 	}
 
 
@@ -512,7 +510,7 @@ namespace dru
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetRewindOn();
-
+			mRewindObjects[i]->RenderingBlockOff();
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();

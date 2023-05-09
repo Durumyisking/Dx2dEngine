@@ -222,11 +222,17 @@ namespace dru
 		}
 		else if (L"col_Monster_Slash" == _oppo->GetName() || L"col_kissyFaceAxe" == _oppo->GetName())
 		{
-			collEnter_MonsterSlash(_oppo);
+			if (!GetOwner_LiveObject()->IsRewindRePlaying())
+			{
+				collEnter_MonsterSlash(_oppo);
+			}
 		}
 		else if (L"col_bullet" == _oppo->GetName())
 		{
-			collEnter_BulletSlash(_oppo);
+			if (!GetOwner_LiveObject()->IsRewindRePlaying())
+			{
+				collEnter_BulletSlash(_oppo);
+			}
 		}
 		else if (L"col_clear" == _oppo->GetName())
 		{
