@@ -90,7 +90,6 @@ namespace dru
         CGameObj* mKeyEnter;
         CGameObj* mKeyLClick;
 
-
         float   mFadeTimer;
         float   mTutorGapTimer;
         bool    mbFadeDone;

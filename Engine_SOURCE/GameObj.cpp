@@ -127,8 +127,11 @@ namespace dru
 
 	void CGameObj::SetPos(Vector3 _Value)
 	{
-		if (nullptr != GetComponent<CTransform>())
+		CTransform* tr = GetComponent<CTransform>();
+
+		if (nullptr != tr)
 		{
+
 			if (eProjectionType::Orthographic == renderer::mainCamera->GetProjectionType())
 			{
 				switch (mType)
@@ -173,19 +176,20 @@ namespace dru
 				case dru::enums::eLayerType::UI:
 					_Value.z = 0.1f;
 					break;
+				case dru::enums::eLayerType::PostProcess:
+					break;
 				case dru::enums::eLayerType::End:
 					break;
 				default:
 					break;
 				}
+				if (tr->GetParent())
+				{
+					_Value.z = 0.0001f;
+				}
 			}
-			CTransform* tr = GetComponent<CTransform>();
+			tr->SetPosition(_Value);
 
-			if (tr->GetParent())
-			{
-				_Value.z = 0.0001f;
-			}
-			tr -> SetPosition(_Value);
 		}
 	}
 

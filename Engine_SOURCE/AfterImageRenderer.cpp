@@ -88,7 +88,7 @@ namespace dru
 			}
 			else
 			{
-				int randvalue = GetRandomNumber(1, 0);
+				int randvalue = GetRandomNumber(2, 0);
 					if (0 == randvalue)
 					{
 						MulColor(Vector4(0.f, 2.5f, 2.5f, 0.5f));

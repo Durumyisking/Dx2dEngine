@@ -44,7 +44,7 @@ namespace dru
 		float GetScaleZ() const { return mRelativeScale.z; }
 		Vector2 GetScaleXY() const { return Vector2(mRelativeScale.x, mRelativeScale.y); }
 
-		void SetPosition(const Vector3& position) { mRelativePosition = position; }
+		void SetPosition(const Vector3& position) { mRelativePosition = position; mWorldPosition = position; }
 		void SetPositionX(const float posX) { mRelativePosition.x = posX; }
 		void SetPositionY(const float posY) { mRelativePosition.y = posY; }
 		void SetPositionZ(const float posZ) { mRelativePosition.z = posZ; }
