@@ -220,7 +220,7 @@ namespace dru
 				mRigidbody->SetVelocity(Vector3::Zero);
 			}
 		}
-		else if (L"col_Monster_Slash" == _oppo->GetName())
+		else if (L"col_Monster_Slash" == _oppo->GetName() || L"col_kissyFaceAxe" == _oppo->GetName())
 		{
 			collEnter_MonsterSlash(_oppo);
 		}
@@ -232,7 +232,10 @@ namespace dru
 		{
 			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
 			CStage* stage = scene->GetCurrentStage();
-			stage->ReplayStart();
+			if (0 == stage->GetEnemyCount())
+			{
+				stage->ReplayStart();
+			}
 		}
 
 	}

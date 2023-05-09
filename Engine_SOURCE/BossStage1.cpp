@@ -111,6 +111,7 @@ namespace dru
 		CStage::AddStartingLiveObjects();
 
 		mKissyface->GetScript<CKissyfaceScript>()->SetPlayer(mPlayer);
+		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
 	}
 
 	void CBossStage1::CreateOutWall()

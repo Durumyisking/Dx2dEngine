@@ -91,11 +91,11 @@ namespace dru
 				int randvalue = GetRandomNumber(1, 0);
 					if (0 == randvalue)
 					{
-						MulColor(Vector4(0.f, 5.f, 5.f, 0.5f));
+						MulColor(Vector4(0.f, 2.5f, 2.5f, 0.5f));
 					}
 					else if (1 == randvalue)
 					{
-						MulColor(Vector4(5.f, 0.f, 5.f, 0.5f));
+						MulColor(Vector4(2.5f, 0.f, 2.5f, 0.5f));
 					}
 			}
 

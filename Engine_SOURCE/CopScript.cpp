@@ -238,7 +238,7 @@ namespace dru
 
 		}
 	}
-	void CCopScript::InitializemGunSmokeComponent()
+	void CCopScript::InitializeGunSmokeComponent()
 	{
 		CGameObj* GunSmokeObject = GetOrCreateGunSmokeObject();
 		if (GunSmokeObject)
@@ -366,7 +366,7 @@ namespace dru
 			if (mGunSmoke)
 			{
 				// intialize
-				InitializemGunSmokeComponent();
+				InitializeGunSmokeComponent();
 			}
 		}
 

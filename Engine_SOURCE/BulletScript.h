@@ -29,8 +29,20 @@ namespace dru
         void BulletMove();
         void BulletReflect();
 
+        void InitializeBulletReflectComponent();
+
+        void Disable();
+
+    private:
+        void BulletReflectComplete();
+
+        void PlayBulletReflect();
+
+        void BulletReflectPositioning();
+
     private:
         CBullet* mBullet;
+        CGameObj* mBulletReflect;
         float mElapsedTime;
         Vector3 mDefaultBulletScale;
         Vector3 mDir;
@@ -38,6 +50,8 @@ namespace dru
         bool mbScalingDone;
         bool mbCreated;
 
+    public:
+        CGameObj* GetOrCreateBulletReflectObject();
 	};
 }
 

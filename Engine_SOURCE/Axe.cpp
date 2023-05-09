@@ -13,7 +13,7 @@ namespace dru
 		, mRadiusIncrement(0.05f)
 	{
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
-		SetScale({ 0.125f, 0.125f, 1.f });
+		SetScale({ 0.15f, 0.15f, 1.f });
 		mDefaultPos = { 0.36f, -0.45f, 0.f };
 		SetPosAbs(mDefaultPos);
 		SetRotation({ 0.f, 0.f, 270.f });
@@ -28,7 +28,7 @@ namespace dru
 		coll->Initialize();
 		coll->SetName(L"col_kissyFaceAxe");
 		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.4f, 0.6f));
+		coll->SetScale(Vector2(0.8f, 1.2f));
 
 		coll->Off();
 		coll->RenderingOff();
@@ -74,6 +74,7 @@ namespace dru
 
 	void CAxe::Spin()
 	{
+		// 공전
 		mAngle += CTimeMgr::DeltaTime() * 20.f;
 
 		float radius = 0.f;
@@ -90,6 +91,9 @@ namespace dru
 		Pos.y = radius * sin(mAngle);
 
 		SetPos(Pos);
+
+		// 자전
+	 	mTransform->AddRotationZ(mAngle);
 	}
 
 	void CAxe::Reset()

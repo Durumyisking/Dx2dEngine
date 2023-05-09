@@ -232,7 +232,7 @@ namespace dru
 			for (size_t i = 0; i < 4; ++i)
 				Axis[i].z = 0.f;
 
-			Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
+			Vector3 vc = leftTr->GetWorldPosition() - rightTr->GetWorldPosition();
 			vc.z = 0.f;
 
 			Vector3 centerDir = vc;

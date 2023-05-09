@@ -34,7 +34,7 @@ namespace dru
         void RotateGun(Vector3 _Dir);
 
         void InitializeGunFireComponent();
-        void InitializemGunSmokeComponent();
+        void InitializeGunSmokeComponent();
 
 
     private:

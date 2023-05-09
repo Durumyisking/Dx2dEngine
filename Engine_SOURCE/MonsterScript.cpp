@@ -405,12 +405,12 @@ namespace dru
 			}
 
 			// timeslow
-			CTimeMgr::BulletTime(0.25f);
+			CTimeMgr::BulletTime(0.5f);
 
 			// CamShake
 			ShakeParams sp = {};
 			sp.duration = 0.5f;
-			sp.magnitude = 0.0250f;
+			sp.magnitude = 0.0500f;
 			renderer::mainCamera->GetCamScript()->Shake(sp);
 
 			GetOwnerType<CMonster>()->SetRayDie();

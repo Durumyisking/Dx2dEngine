@@ -11,7 +11,7 @@ namespace dru
 		, mAxe(nullptr)
 	{
 		SetName(L"kissyface");
-		SetScale(Vector3(1.75f, 1.75f, 1.f));
+		SetScale(Vector3(2.5f, 2.5f, 1.f));
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"SpriteShader");

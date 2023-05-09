@@ -129,6 +129,7 @@ namespace dru
         {
             --mEnemyCount; 
         }
+        UINT GetEnemyCount() const { return mEnemyCount; }
 
         void CamReset();
 

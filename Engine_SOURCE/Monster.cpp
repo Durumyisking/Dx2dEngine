@@ -70,17 +70,18 @@ namespace dru
 	{
 		if (mRay)
 		{
-			Vector3 vPos = GetPos();
-			float ScaleX = mRay->GetScale().x;
+			Vector3 Pos = GetPos();
+			CTransform* RayTransform = mRay->GetComponent<CTransform>();
+			Vector3 RayPos = RayTransform->GetPosition();
+			Vector3 RayScale = RayTransform->GetScale();
 			if (IsLeft())
 			{
-				vPos += ScaleX / 2.f * -GetComponent<CTransform>()->Right();
+				RayTransform->SetPositionX(-(RayScale.x / 2.f));
 			}
 			else
 			{
-				vPos += ScaleX / 2.f * GetComponent<CTransform>()->Right();
+				RayTransform->SetPositionX((RayScale.x / 2.f));
 			}
-			mRay->SetPos(vPos);
 		}
 	}
 	bool CMonster::IsMonsterDead()
