@@ -13,6 +13,19 @@
 using namespace dru::math;
 using namespace dru::graphics;
 
+#define RED		Vector4{1.f, 0.f, 0.f, 1.f}
+#define GREEN	Vector4{0.f, 1.f, 0.f, 1.f}
+#define BLUE	Vector4{0.f, 0.f, 1.f, 1.f}
+#define MAGENTA Vector4{1.f, 0.f, 1.f, 1.f}
+#define PEARL	Vector4{0.f, 1.f, 1.f, 1.f}
+
+#define LIGHT_RED		Vector4{1.f, 0.f, 0.f, 0.5f}
+#define LIGHT_GREEN		Vector4{0.f, 1.f, 0.f, 0.5f}
+#define LIGHT_BLUE		Vector4{0.f, 0.f, 1.f, 0.5f}
+#define LIGHT_MAGENTA	Vector4{1.f, 0.f, 1.f, 0.5f}
+#define LIGHT_PEARL		Vector4{0.f, 1.f, 1.f, 0.5f}
+
+
 namespace dru::renderer
 {
 

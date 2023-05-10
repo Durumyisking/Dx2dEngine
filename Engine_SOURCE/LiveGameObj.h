@@ -104,6 +104,8 @@ namespace dru
 		std::deque<CAfterImage*> mAfterImages; // 매번 모든 원소의 쉐이더에 보낼 인덱스를 수정해야함으로 일반 큐보다는 원형큐가 적합하다.
 		UINT mAfterImageCount;
 
+		Vector4 mAfterImageColor;
+
 	public:
 		void SetAfterImageCount(UINT _Count)
 		{
@@ -111,6 +113,9 @@ namespace dru
 		}
 		UINT GetAfterImageMaxCount() const { return mAfterImageCount; }
 		UINT GetAfterImageCount() const { return mAfterImages.size(); }
+
+		void SetAfterImageColor(Vector4 _Color) { mAfterImageColor = _Color; };
+		void ResetAfterImageColor() { mAfterImageColor = Vector4::Zero; }
 
     };
 

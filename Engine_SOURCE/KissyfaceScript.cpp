@@ -5,13 +5,18 @@
 #include "TimeMgr.h"
 #include "Object.h"
 
+
 namespace dru
 {
 	CKissyfaceScript::CKissyfaceScript()
 		: mKissyface(nullptr)
+		, mBulletReflect(nullptr)
 		, mStatePattern1{}
 		, mStatePattern2{}
+		, mStatePattern3{}
 		, mPattern2_RecieveWaitingTime(1.f)
+		, mPattern3_LungeOrigin(Vector3::Zero)
+		, mPattern3_LungeDestination(Vector3::Zero)
 		, mbNoAxe(false)
 	{
 	}
@@ -29,7 +34,6 @@ namespace dru
 		mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
 		mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
 		{
-			mKissyface->SetAfterImageCount(0);
 			PatternEnd(1);
 		};
 		mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = [this]
@@ -37,7 +41,15 @@ namespace dru
 			mAnimator->Play(L"kissyface_ThrowAxeEnd");
 			SetStatePattern2On(ePattern2::ThrowEnd);
 		};
-
+		mAnimator->GetCompleteEvent(L"kissyface_LungeReady") = [this]
+		{
+			mAnimator->Play(L"kissyface_Lunge", false);
+			SetStatePattern3On(ePattern3::Lunge);
+		};
+		mAnimator->GetCompleteEvent(L"kissyface_LungeAttack") = [this]
+		{
+			PatternEnd(3);
+		};
 
 		mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
 		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
@@ -81,6 +93,12 @@ namespace dru
 				mAnimator->Play(L"kissyface_Land", false);
 				SetStatePattern1On(ePattern1::Land);
 			}
+			if (GetState(eBossState::Pattern3) && GetStatePattern3(ePattern3::Lunge))
+			{
+				mAnimator->Play(L"kissyface_LungeAttack", false);
+				SetStatePattern3On(ePattern3::LungeAttack);
+			}
+
 		}
 		else if (L"col_kissyFaceAxe" == _oppo->GetName())
 		{
@@ -123,6 +141,11 @@ namespace dru
 		mStatePattern1.reset();
 		mStatePattern2.reset();
 		mPattern2_RecieveWaitingTime = 1.f;
+		mPattern3_LungeOrigin = Vector3::Zero;
+		mPattern3_LungeDestination = Vector3::Zero;
+
+		mKissyface->ResetAfterImageColor();
+		mKissyface->SetAfterImageCount(0);
 		GetOwner_LiveObject()->RemoveAfterImage();
 
 		CBossScript::Reset();
@@ -170,6 +193,57 @@ namespace dru
 
 	void CKissyfaceScript::Pattern3()
 	{
+		if (!GetStatePattern3(ePattern3::LungeReady))
+		{
+			mKissyface->SetAfterImageCount(100);
+			mKissyface->SetAfterImageColor(RED);
+
+			mAnimator->Play(L"kissyface_LungeReady", false);
+
+			mPattern3_LungeOrigin = GetOwnerWorldPos();
+			mPattern3_LungeDestination = mPlayer->GetWorldPos();
+
+//			mRigidbody->SetMaxVelocity({10.f});
+
+			if (mPattern3_LungeOrigin.x > mPattern3_LungeDestination.x)
+			{
+				SetStatePattern3On(ePattern3::LungeLeft);
+			}
+			else
+			{
+				SetStatePattern3On(ePattern3::LungeRight);
+			}
+
+			SetStatePattern3On(ePattern3::LungeReady);
+		}
+		if (GetStatePattern3(ePattern3::Lunge))
+		{
+			Lunge();
+		}
+	}
+
+	void CKissyfaceScript::Lunge()
+	{
+		float LungeMiddlePosX = (mPattern3_LungeOrigin.x + mPattern3_LungeDestination.x) / 2.f;
+
+		if (GetStatePattern3(ePattern3::LungeLeft))
+		{
+			if (LungeMiddlePosX <= GetOwnerWorldPos().x)
+			{
+				mRigidbody->AddForceY(25.f);
+			}
+			mRigidbody->AddForceX(-50.f);
+		}
+		else if (GetStatePattern3(ePattern3::LungeRight))
+		{
+			if (LungeMiddlePosX >= GetOwnerWorldPos().x)
+			{
+				mRigidbody->AddForceY(25.f);
+			}
+			mRigidbody->AddForceX(50.f);
+		}
+
+
 	}
 
 	void CKissyfaceScript::Pattern4()
@@ -191,6 +265,7 @@ namespace dru
 			mStatePattern2.reset();
 			break;
 		case 3:
+			mStatePattern3.reset();
 			break;
 		case 4:
 			break;

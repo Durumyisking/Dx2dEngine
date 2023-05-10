@@ -133,8 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-		int pattern = GetRandomNumber(2, 1);
-//		int pattern = 100;
+		// int pattern = GetRandomNumber(3, 1);
+		int pattern = 3;
 
 		switch (pattern)
 		{

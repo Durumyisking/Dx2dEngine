@@ -11,6 +11,7 @@ namespace dru
 	CAfterImageRenderer::CAfterImageRenderer()
 		: CBaseRenderer(eComponentType::Renderer)
 		, mAfterImageOwner(nullptr)
+		, mColor(Vector4::Zero)
 	{
 	}
 
@@ -44,7 +45,14 @@ namespace dru
 
 		float alpha = GetIndexAlpha(idx, Size);
 
-		ColorSetting();
+		if (Vector4::Zero == mColor)
+		{
+			ColorSetting();
+		}
+		else
+		{
+			MulColor(mColor);
+		}
 		GetMaterial()->SetData(eGPUParam::Float_4, &alpha);
 		
 		GetMaterial()->Bind();
@@ -102,12 +110,14 @@ namespace dru
 		}
 		else if (eLayerType::Monster == Owner->GetLayerType())
 		{
-			MulColor({ 1.f, 0.f, 1.f, 0.5f });
+			MulColor(LIGHT_MAGENTA);
 		}
 		else if (eLayerType::Boss == Owner->GetLayerType())
 		{
-			MulColor({ 1.f, 0.f, 1.f, 0.5f });
+			MulColor(LIGHT_MAGENTA);
 		}
+
+
 
 	}
 

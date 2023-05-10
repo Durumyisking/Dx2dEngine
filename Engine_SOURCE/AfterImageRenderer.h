@@ -20,8 +20,12 @@ namespace dru
 
 		float GetIndexAlpha(int _Idx, UINT _MaxCount);
 		void ColorSetting();
+
+		void SetMultableColor(Vector4 _Color) { mColor = _Color; }
+
 	private:
 		CAfterImage* mAfterImageOwner;
+		Vector4 mColor;
 	};
 
 }

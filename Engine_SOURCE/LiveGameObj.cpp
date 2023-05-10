@@ -1,5 +1,6 @@
 #include "LiveGameObj.h"
 #include "SceneMain.h"
+#include "AfterImageRenderer.h"
 
 namespace dru
 {
@@ -15,6 +16,7 @@ namespace dru
 		, mRewindTime(3.f)
 		, mAfterImages{}
 		, mAfterImageCount(0)
+		, mAfterImageColor(Vector4::Zero)
 	{
 		mObjectType = eObjectType::Live;
 	}
@@ -297,6 +299,7 @@ namespace dru
 		SetAfterImage(afterImage);
 		afterImage->SetOwner(this);
 		afterImage->Initialize();
+		afterImage->GetComponent<CAfterImageRenderer>()->SetMultableColor(mAfterImageColor);
 
 		if (_IsAnimation)
 		{
@@ -345,4 +348,5 @@ namespace dru
 			mAfterImages[i]->SetIndex(i);
 		}
 	}
+
 }

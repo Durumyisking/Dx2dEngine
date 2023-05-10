@@ -37,6 +37,11 @@ namespace dru
 		mAnimator->Create(L"kissyface_ThrowAxeEnd", Material->GetTexture(), { 4480.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 1, { 90.f, 90.f }, 100.f);
 		mAnimator->Create(L"kissyface_RecieveAxe", Material->GetTexture(), { 0.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
 
+		// pattern 3
+		mAnimator->Create(L"kissyface_LungeReady", Material->GetTexture(), { 4864.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 4, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_Lunge", Material->GetTexture(), { 2432.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_LungeAttack", Material->GetTexture(), { 3072.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 7, { 90.f, 90.f }, 0.1f);
+
 
 		mAnimator->Create(L"kissyface_DeadGround", Material->GetTexture(), { 640.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Attack", Material->GetTexture(), { 7296.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 8, { 90.f, 90.f }, 0.1f);

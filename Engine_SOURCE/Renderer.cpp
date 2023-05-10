@@ -806,7 +806,7 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 50; ++i)
+		for (int i = 0; i <= 100; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"AfterImageShader");
 			std::wstring matName = L"kissyfaceMatAfterImage_";

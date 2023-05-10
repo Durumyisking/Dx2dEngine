@@ -23,10 +23,11 @@ namespace dru
     };
     enum class ePattern3
     {
-        Throw,
-        ThrowEnd,
-        Recieve,
-        Land,
+        LungeReady,
+        Lunge,
+        LungeAttack,
+        LungeLeft,
+        LungeRight,
 
         End,
     };
@@ -61,6 +62,11 @@ namespace dru
         void SetStatePattern2Off(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = false; }
 
         virtual void Pattern3();
+        bool GetStatePattern3   (ePattern3 _Type) { return  mStatePattern3[static_cast<UINT>(_Type)]; }
+        void SetStatePattern3On (ePattern3 _Type) {         mStatePattern3[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern3Off(ePattern3 _Type) {         mStatePattern3[static_cast<UINT>(_Type)] = false; }
+        void Lunge();
+
         virtual void Pattern4();
         virtual void Pattern5();
 
@@ -102,6 +108,8 @@ namespace dru
         float mPattern2_RecieveWaitingTime;
 
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
+        Vector3 mPattern3_LungeOrigin;
+        Vector3 mPattern3_LungeDestination;
 
         CGameObj* mBulletReflect;
 
