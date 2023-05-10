@@ -21,7 +21,7 @@ namespace dru
         Pattern5,
         Fall,
         DieGround,
-
+        Block,
         End,
     };
 

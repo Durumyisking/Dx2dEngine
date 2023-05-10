@@ -133,12 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-		int pattern = GetRandomNumber(2, 1);
-		if (pattern == 0 || pattern == 3)
-		{
-			int i = 0;
-		}
-//		int pattern = 2;
+//		int pattern = GetRandomNumber(2, 1);
+		int pattern = 100;
 
 		switch (pattern)
 		{
@@ -254,6 +250,9 @@ namespace dru
 			case dru::eBossState::Fall:
 				break;
 			case dru::eBossState::DieGround:
+				break;
+			case dru::eBossState::Block:
+				mAnimator->Play(GetOwner()->GetName() + L"_Block", false);
 				break;
 			case dru::eBossState::End:
 				break;

@@ -3,6 +3,7 @@
 #include "Axe.h"
 #include "AxeScript.h"
 #include "TimeMgr.h"
+#include "Object.h"
 
 namespace dru
 {
@@ -22,15 +23,28 @@ namespace dru
 	void CKissyfaceScript::Initialize()
 	{
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
-		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = std::bind(&CKissyfaceScript::waitingEndComplete, this);
+
+		mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] { SetSingleState(eBossState::Idle);	};
+		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = [this] { SetSingleState(eBossState::Idle);	};
+		mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
+		mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
+		{
+			mKissyface->SetAfterImageCount(0);
+			PatternEnd(1);
+		};
+		mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = [this]
+		{
+			mAnimator->Play(L"kissyface_ThrowAxeEnd");
+			SetStatePattern2On(ePattern2::ThrowEnd);
+		};
+
+
 		mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
 		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
 		mAnimator->GetEndEvent(L"kissyface_AirThrowEnd") = std::bind(&CKissyfaceScript::airThrowAxeEndEnd, this);
-		mAnimator->GetCompleteEvent(L"kissyface_Land") = std::bind(&CKissyfaceScript::landComplete, this);
 
 		mAnimator->GetFrameEvent(L"kissyface_ThrowAxe", 5) = std::bind(&CKissyfaceScript::throwAxeFrame5, this);
-		mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = std::bind(&CKissyfaceScript::throwAxeComplete, this);
-		mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = std::bind(&CKissyfaceScript::recieveComplete, this);
+		
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
@@ -75,6 +89,14 @@ namespace dru
 				SetStatePattern2On(ePattern2::Recieve);
 				mAnimator->Play(L"kissyface_RecieveAxe", false);
 				AxeOff();
+			}
+		}
+		else if (L"col_Player_Slash" == _oppo->GetName())
+		{
+			if (!mbNoAxe)
+			{
+				SetSingleState(eBossState::Block);
+				Block();
 			}
 		}
 
@@ -204,7 +226,7 @@ namespace dru
 		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
 		coll->On();
 		coll->RenderingOn();
-		mbNoAxe = false;
+		mbNoAxe = true;
 	}
 
 	void CKissyfaceScript::AxeOff()
@@ -216,13 +238,16 @@ namespace dru
 		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
 		coll->Off();
 		coll->RenderingOff();
-		mbNoAxe = true;
+		mbNoAxe = false;
 	}
 
-	void CKissyfaceScript::waitingEndComplete()
+	void CKissyfaceScript::Block()
 	{
-		SetSingleState(eBossState::Idle);
+		SetSingleState(eBossState::Block);
+		PlayBulletReflect();
+
 	}
+
 
 	void CKissyfaceScript::jumpStartComplete()
 	{
@@ -252,11 +277,6 @@ namespace dru
 		mKissyface->GetAxeScript()->SetStateOff(eState::Rotate);
 	}
 
-	void CKissyfaceScript::landComplete()
-	{
-		mKissyface->SetAfterImageCount(0);
-		PatternEnd(1);
-	}
 	void CKissyfaceScript::throwAxeFrame5()
 	{
 		AxeOn();
@@ -265,19 +285,89 @@ namespace dru
 		mKissyface->GetAxeScript()->SetStateOn(eState::Rotate);
 	}
 
-	void CKissyfaceScript::throwAxeComplete()
+
+	void CKissyfaceScript::InitializeBulletReflectComponent()
 	{
-		mAnimator->Play(L"kissyface_ThrowAxeEnd");
-		SetStatePattern2On(ePattern2::ThrowEnd);
+		CGameObj* BulletReflectObject = GetOrCreateBulletReflectObject();
+		if (BulletReflectObject)
+		{
+			BulletReflectObject->SetScale({ 1.f, 1.f, 1.f });
+
+			std::shared_ptr<CTexture> BulletReflectObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = BulletReflectObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BulletReflectMat");
+				if (Material)
+				{
+					BulletReflectObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			if (BulletReflectObjectTexture)
+			{
+				CAnimator* BulletReflectObjectAnimator = BulletReflectObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (BulletReflectObjectAnimator)
+				{
+					BulletReflectObjectAnimator->Create(L"BulletReflect", BulletReflectObjectTexture, { 0.f, 0.f }, { 128.f, 64.f }, Vector2::Zero, 5, { 50.f, 50.f }, 0.1f);
+					BulletReflectObjectAnimator->GetCompleteEvent(L"BulletReflect") = [this]
+					{
+						mBulletReflect->RenderingBlockOn();
+					};
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			BulletReflectObject->RenderingBlockOn();
+		}
 	}
 
-	void CKissyfaceScript::throwAxeEndEnd()
+	void CKissyfaceScript::PlayBulletReflect()
 	{
+		CGameObj* BulletReflectObject = GetOrCreateBulletReflectObject();
+		if (BulletReflectObject)
+		{
+			BulletReflectPositioning();
+
+			CAnimator* BulletReflectObjectAnimator = BulletReflectObject->GetComponent<CAnimator>();
+			if (BulletReflectObjectAnimator)
+			{
+				BulletReflectObject->RenderingBlockOff();
+				BulletReflectObjectAnimator->Play(L"BulletReflect", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
 	}
 
-	void CKissyfaceScript::recieveComplete()
+	void CKissyfaceScript::BulletReflectPositioning()
 	{
-		PatternEnd(2);
+		mBulletReflect->SetPos(GetOwnerWorldPos());
+	}
+
+	CGameObj* CKissyfaceScript::GetOrCreateBulletReflectObject()
+	{
+		if (!mBulletReflect)
+		{
+			// create
+			mBulletReflect = object::Instantiate<CGameObj>(eLayerType::FX, L"BulletReflect");
+			if (mBulletReflect)
+			{
+				// intialize
+				InitializeBulletReflectComponent();
+			}
+		}
+
+		return mBulletReflect;
 	}
 
 

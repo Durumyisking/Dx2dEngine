@@ -60,21 +60,25 @@ namespace dru
         void AxeOn();
         void AxeOff();
 
+        void Block();
 
         // animation Callback
 
+
         // pattern 1   
-        void waitingEndComplete();
         void jumpStartComplete();
         void airThrowAxeComplete();
         void airThrowAxeEndEnd();
-        void landComplete();
 
         // pattern 2   
         void throwAxeFrame5();
-        void throwAxeComplete();
-        void throwAxeEndEnd();
-        void recieveComplete();
+
+    private:
+        void InitializeBulletReflectComponent();
+
+        void PlayBulletReflect();
+
+        void BulletReflectPositioning();
 
 
     private:
@@ -84,7 +88,12 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
         float mPattern2_RecieveWaitingTime;
 
+        CGameObj* mBulletReflect;
+
         bool mbNoAxe;
+
+    public:
+        CGameObj* GetOrCreateBulletReflectObject();
 
 
     };
