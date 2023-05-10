@@ -133,8 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-//		int pattern = GetRandomNumber(2, 1);
-		int pattern = 100;
+		int pattern = GetRandomNumber(2, 1);
+//		int pattern = 100;
 
 		switch (pattern)
 		{
@@ -216,6 +216,7 @@ namespace dru
 		{
 			if (!mbDead)
 			{
+				if(!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3) && !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5))
 				if (mPlayer->GetWorldPos().x > GetOwnerWorldPos().x)
 				{
 					GetOwner()->SetRight();

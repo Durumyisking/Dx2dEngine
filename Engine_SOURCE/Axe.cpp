@@ -1,11 +1,13 @@
 #include "Axe.h"
 #include "TimeMgr.h"
 #include "AxeScript.h"
+#include "Kissyface.h"
 
 namespace dru
 {
 
 	CAxe::CAxe()
+		: mKissyface(nullptr)
 	{
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		SetScale({ 0.15f, 0.15f, 1.f });

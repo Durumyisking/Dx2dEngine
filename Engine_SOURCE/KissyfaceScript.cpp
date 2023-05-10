@@ -24,7 +24,7 @@ namespace dru
 	{
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 
-		mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] { SetSingleState(eBossState::Idle);	};
+		mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] {  Reset();	};
 		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = [this] { SetSingleState(eBossState::Idle);	};
 		mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
 		mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
@@ -243,9 +243,19 @@ namespace dru
 
 	void CKissyfaceScript::Block()
 	{
-		SetSingleState(eBossState::Block);
+		mState.reset();
+		mAnimator->Play(L"kissyface_Block", false);
+		mState[(UINT)eBossState::Block] = true;
+
 		PlayBulletReflect();
 
+		CTimeMgr::BulletTime(0.1f);
+
+		// CamShake
+		ShakeParams sp = {};
+		sp.duration = 0.1f;
+		sp.magnitude = 0.0500f;
+		renderer::mainCamera->GetCamScript()->Shake(sp);
 	}
 
 
@@ -291,7 +301,7 @@ namespace dru
 		CGameObj* BulletReflectObject = GetOrCreateBulletReflectObject();
 		if (BulletReflectObject)
 		{
-			BulletReflectObject->SetScale({ 1.f, 1.f, 1.f });
+			BulletReflectObject->SetScale({ 1.25f, 1.25f, 1.f });
 
 			std::shared_ptr<CTexture> BulletReflectObjectTexture = nullptr;
 			CSpriteRenderer* SpriteRenderer = BulletReflectObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -341,6 +351,25 @@ namespace dru
 			{
 				BulletReflectObject->RenderingBlockOff();
 				BulletReflectObjectAnimator->Play(L"BulletReflect", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+
+	void CKissyfaceScript::PlayBulletReflect(Vector3 _Pos)
+	{
+		CGameObj* BulletReflectObject = GetOrCreateBulletReflectObject();
+		if (BulletReflectObject)
+		{
+			CAnimator* BulletReflectObjectAnimator = BulletReflectObject->GetComponent<CAnimator>();
+			if (BulletReflectObjectAnimator)
+			{
+				BulletReflectObject->RenderingBlockOff();
+				BulletReflectObjectAnimator->Play(L"BulletReflect", false);
+				BulletReflectObject->SetPos(_Pos);
 			}
 			else
 			{

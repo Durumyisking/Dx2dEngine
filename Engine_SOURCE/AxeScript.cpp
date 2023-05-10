@@ -2,6 +2,9 @@
 #include "TimeMgr.h"
 #include "GameObj.h"
 #include "Axe.h"
+#include "Kissyface.h"
+#include "KissyfaceScript.h"
+#include "CameraScript.h"
 
 namespace dru
 {
@@ -73,7 +76,20 @@ namespace dru
 				mState.reset();
 			}
 		}
+		if (L"col_Player_Slash" == _oppo->GetName())
+		{
+			SetStateOff(eState::Fly);
+			SetStateOn(eState::Recieve);
 
+			mAxe->GetKissyface()->GetScript<CKissyfaceScript>()->PlayBulletReflect(GetOwnerWorldPos());
+			CTimeMgr::BulletTime(0.25f);
+
+			// CamShake
+			ShakeParams sp = {};
+			sp.duration = 0.25f;
+			sp.magnitude = 0.0500f;
+			renderer::mainCamera->GetCamScript()->Shake(sp);
+		}
 	}
 
 	void CAxeScript::OnCollision(CCollider2D* _oppo)

@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	class CKissyface;
 	class CAxe :
 		public CLiveGameObj
 	{
@@ -15,5 +16,10 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+		CKissyface* mKissyface;
+
+	public:
+		CKissyface* GetKissyface() const { return mKissyface; }
+		void SetKissyface(CKissyface* _Kissyface) { mKissyface = _Kissyface; }
 	};
 }

@@ -21,6 +21,16 @@ namespace dru
 
         End,
     };
+    enum class ePattern3
+    {
+        Throw,
+        ThrowEnd,
+        Recieve,
+        Land,
+
+        End,
+    };
+
     class CKissyface;
     class CKissyfaceScript :
         public CBossScript
@@ -73,6 +83,9 @@ namespace dru
         // pattern 2   
         void throwAxeFrame5();
 
+
+        void PlayBulletReflect(Vector3 _Pos);
+
     private:
         void InitializeBulletReflectComponent();
 
@@ -87,6 +100,8 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
         float mPattern2_RecieveWaitingTime;
+
+        std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
 
         CGameObj* mBulletReflect;
 
