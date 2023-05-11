@@ -17,6 +17,9 @@ namespace dru
 		, mPattern2_RecieveWaitingTime(1.f)
 		, mPattern3_LungeOrigin(Vector3::Zero)
 		, mPattern3_LungeDestination(Vector3::Zero)
+		, mPattern3_LungeMiddlePosX(0.f)
+		, mPattern3_mLungeTimer(0.f)
+		, mPattern3_mLungeElapsedTime(0.f)
 		, mbNoAxe(false)
 	{
 	}
@@ -56,7 +59,7 @@ namespace dru
 		mAnimator->GetEndEvent(L"kissyface_AirThrowEnd") = std::bind(&CKissyfaceScript::airThrowAxeEndEnd, this);
 
 		mAnimator->GetFrameEvent(L"kissyface_ThrowAxe", 5) = std::bind(&CKissyfaceScript::throwAxeFrame5, this);
-		
+
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
@@ -123,8 +126,8 @@ namespace dru
 
 	void CKissyfaceScript::OnCollision(CCollider2D* _oppo)
 	{
-	
-	
+
+
 		CBossScript::OnCollision(_oppo);
 	}
 
@@ -143,6 +146,10 @@ namespace dru
 		mPattern2_RecieveWaitingTime = 1.f;
 		mPattern3_LungeOrigin = Vector3::Zero;
 		mPattern3_LungeDestination = Vector3::Zero;
+		mPattern3_mLungeElapsedTime = 0.f;
+
+		mRigidbody->AffectedGravityOn();
+
 
 		mKissyface->ResetAfterImageColor();
 		mKissyface->SetAfterImageCount(0);
@@ -158,6 +165,8 @@ namespace dru
 			mAnimator->Play(L"kissyface_JumpStart", false);
 			SetStatePattern1On(ePattern1::Jump);
 			mKissyface->SetAfterImageCount(30);
+			mKissyface->SetAfterImageColor(MAGENTA);
+
 		}
 		if (GetStatePattern1(ePattern1::Throw) && !GetStatePattern1(ePattern1::ThrowEnd))
 		{
@@ -203,7 +212,10 @@ namespace dru
 			mPattern3_LungeOrigin = GetOwnerWorldPos();
 			mPattern3_LungeDestination = mPlayer->GetWorldPos();
 
-//			mRigidbody->SetMaxVelocity({10.f});
+			mPattern3_LungeMiddlePosX = (mPattern3_LungeOrigin.x + mPattern3_LungeDestination.x) / 2.f;
+
+			//			mRigidbody->AffectedGravityOff();
+			//			mRigidbody->SetMaxVelocity({10.f});
 
 			if (mPattern3_LungeOrigin.x > mPattern3_LungeDestination.x)
 			{
@@ -224,26 +236,40 @@ namespace dru
 
 	void CKissyfaceScript::Lunge()
 	{
-		float LungeMiddlePosX = (mPattern3_LungeOrigin.x + mPattern3_LungeDestination.x) / 2.f;
 
-		if (GetStatePattern3(ePattern3::LungeLeft))
+		float newPosX = 0.f;
+		if (mPattern3_mLungeElapsedTime <= LUNGE_TIMER)
 		{
-			if (LungeMiddlePosX <= GetOwnerWorldPos().x)
-			{
-				mRigidbody->AddForceY(25.f);
-			}
-			mRigidbody->AddForceX(-50.f);
-		}
-		else if (GetStatePattern3(ePattern3::LungeRight))
-		{
-			if (LungeMiddlePosX >= GetOwnerWorldPos().x)
-			{
-				mRigidbody->AddForceY(25.f);
-			}
-			mRigidbody->AddForceX(50.f);
+			mPattern3_mLungeElapsedTime += CTimeMgr::DeltaTime();
+			float t = std::clamp(mPattern3_mLungeElapsedTime / LUNGE_TIMER, 0.f, 1.f); // 0~1사이의 값으로 만든다.
+			newPosX = std::lerp(mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x, t); // startPos와 endPos의 거리내 t비율만큼의 위치로 설정한다.
+
 		}
 
+		//		if (GetStatePattern3(ePattern3::LungeLeft))
+		//		{
+		//			if (mPattern3_LungeMiddlePosX <= GetOwnerWorldPos().x)
+		//			{
+		//				mRigidbody->AddForceY(25.f);
+		//			};
+		////			mRigidbody->AddForceX(-50.f);
+		//		}
+		//		else if (GetStatePattern3(ePattern3::LungeRight))
+		//		{
+		//			if (mPattern3_LungeMiddlePosX >= GetOwnerWorldPos().x)
+		//			{
+		//				mRigidbody->AddForceY(25.f);
+		//			}
+		////			mRigidbody->AddForceX(50.f);
+		//		}
 
+		Vector3 pos = GetOwnerWorldPos();
+
+		pos.x = newPosX;
+		std::cout << "X : " << pos.x << std::endl;
+
+
+		GetOwner()->SetPos(pos);
 	}
 
 	void CKissyfaceScript::Pattern4()
@@ -349,7 +375,7 @@ namespace dru
 	}
 
 	void CKissyfaceScript::airThrowAxeComplete()
-	{		
+	{
 		SetStatePattern1Off(ePattern1::Throw);
 		SetStatePattern1On(ePattern1::ThrowEnd);
 		mAnimator->Play(L"kissyface_AirThrowEnd");

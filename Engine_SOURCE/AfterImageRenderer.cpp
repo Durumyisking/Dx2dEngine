@@ -51,7 +51,7 @@ namespace dru
 		}
 		else
 		{
-			MulColor(mColor);
+			ChangeColor(mColor);
 		}
 		GetMaterial()->SetData(eGPUParam::Float_4, &alpha);
 		

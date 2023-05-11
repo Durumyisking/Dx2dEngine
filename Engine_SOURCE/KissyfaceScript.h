@@ -31,6 +31,7 @@ namespace dru
 
         End,
     };
+#define LUNGE_TIMER 0.5f
 
     class CKissyface;
     class CKissyfaceScript :
@@ -62,9 +63,9 @@ namespace dru
         void SetStatePattern2Off(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = false; }
 
         virtual void Pattern3();
-        bool GetStatePattern3   (ePattern3 _Type) { return  mStatePattern3[static_cast<UINT>(_Type)]; }
-        void SetStatePattern3On (ePattern3 _Type) {         mStatePattern3[static_cast<UINT>(_Type)] = true; }
-        void SetStatePattern3Off(ePattern3 _Type) {         mStatePattern3[static_cast<UINT>(_Type)] = false; }
+        bool GetStatePattern3(ePattern3 _Type) { return  mStatePattern3[static_cast<UINT>(_Type)]; }
+        void SetStatePattern3On(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern3Off(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = false; }
         void Lunge();
 
         virtual void Pattern4();
@@ -110,6 +111,10 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
         Vector3 mPattern3_LungeOrigin;
         Vector3 mPattern3_LungeDestination;
+        float mPattern3_LungeMiddlePosX;
+        float mPattern3_mLungeTimer;
+        float mPattern3_mLungeElapsedTime;
+
 
         CGameObj* mBulletReflect;
 
