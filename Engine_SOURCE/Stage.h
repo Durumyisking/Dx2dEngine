@@ -77,6 +77,8 @@ namespace dru
         virtual void AddStartingLiveObjects();
 
         void LoadUI();
+        void LoadKeyUI();
+
         void SetOwner(CScene* _scene)
         {
             mScene = _scene;
@@ -153,6 +155,15 @@ namespace dru
 
 
         CGameObj* mUICursor;
+
+        // keys
+        CGameObj* mKeyLeft;
+        CGameObj* mKeyRight;
+        CGameObj* mKeyUp;
+        CGameObj* mKeyDown;
+        CGameObj* mKeyShift;
+        CGameObj* mKeyLClick;
+
 
         std::vector<CGameObj*> mHudBatteryParts;
         CGameObj* mHudTimerBar;

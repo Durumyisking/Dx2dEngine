@@ -18,11 +18,17 @@ namespace dru
 		, mbIsDeadBgOn(false)
 		, mPlayer(nullptr)
 		, mUICursor(nullptr)
+		, mKeyLeft(nullptr)
+		, mKeyRight(nullptr)
+		, mKeyUp(nullptr)
+		, mKeyDown(nullptr)
+		, mKeyShift(nullptr)
+		, mKeyLClick(nullptr)
+		, mKeyEnter(nullptr)
 		, mHudBatteryParts{}
 		, mHudTimerBar(nullptr)
 		, mHudLeftHand(nullptr)
 		, mHudRightHand(nullptr)
-		, mKeyEnter(nullptr)
 		, mBulletTimeMask(nullptr)
 		, mBulletTimeGaugePrev(10)
 		, mBulletTimeGaugeCurrent(10)
@@ -244,6 +250,95 @@ namespace dru
 			mBulletTimeMask->RenderingBlockOn();
 		}
 
+	}
+
+	void CStage::LoadKeyUI()
+	{
+		{
+			mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyA");
+			CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyLeft->SetPos(Vector3::Zero);
+			mKeyLeft->DontDestroy();
+			CAnimator* mAnimator = mKeyLeft->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"KeyA_none", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyA_press", Material->GetTexture(), { 42.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyA_anim", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
+			mAnimator->Play(L"KeyA_anim", false);
+		}
+
+		{
+			mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyD");
+			CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyRight->SetPos(Vector3::Zero);
+			mKeyRight->DontDestroy();
+			CAnimator* mAnimator = mKeyRight->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"KeyD_none", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyD_press", Material->GetTexture(), { 70.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyD_anim", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
+			mAnimator->Play(L"KeyD_none", false);
+		}
+
+		{
+			mKeyUp = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyW");
+			CSpriteRenderer* SpriteRenderer = mKeyUp->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyUp->SetPos(Vector3::Zero);
+			mKeyUp->DontDestroy();
+			CAnimator* mAnimator = mKeyUp->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"KeyW_none", Material->GetTexture(), { 84.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyW_press", Material->GetTexture(), { 98.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyW_anim", Material->GetTexture(), { 84.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
+			mAnimator->Play(L"KeyW_anim", false);
+
+		}
+
+		{
+			mKeyDown = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyS");
+			CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyDown->SetPos(Vector3::Zero);
+			mKeyDown->DontDestroy();
+			CAnimator* mAnimator = mKeyDown->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"KeyS_none", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyS_press", Material->GetTexture(), { 14.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
+			mAnimator->Create(L"KeyS_anim", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
+			mAnimator->Play(L"KeyS_none", false);
+		}
+
+		{
+			mKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI,  L"LClick");
+			CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyLClick->SetPos(Vector3::Zero);
+			mKeyLClick->DontDestroy();
+			CAnimator* mAnimator = mKeyLClick->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 75.f, 60.f }, 0.5f);
+			mAnimator->Play(L"LClick_anim");
+		}
+		{
+			mKeyShift = object::Instantiate<CGameObj>(eLayerType::UI,  L"Shift");
+			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
+			SpriteRenderer->SetMaterial(Material);
+			mKeyShift->SetPos(Vector3::Zero);
+			mKeyShift->DontDestroy();
+			CAnimator* mAnimator = mKeyShift->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"Shift_anim", Material->GetTexture(), { 215.f, 2.f }, { 32.f, 16.f }, Vector2::Zero, 2, { 75.f, 60.f }, 2.f);
+			mAnimator->Play(L"Shift_anim");
+		}
+		mKeyLeft->RenderingBlockOn();
+		mKeyRight->RenderingBlockOn();
+		mKeyUp->RenderingBlockOn();
+		mKeyDown->RenderingBlockOn();
+		mKeyLClick->RenderingBlockOn();
+		mKeyShift->RenderingBlockOn();
 	}
 
 	void CStage::NotReadyOperate()

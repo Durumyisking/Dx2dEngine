@@ -20,6 +20,7 @@ namespace dru
 		, mPattern3_LungeDestination(Vector3::Zero)
 		, mPattern3_mLungeElapsedTime(0.f)
 		, mbNoAxe(false)
+		, mbStruggling(false)
 	{
 	}
 
@@ -87,10 +88,25 @@ namespace dru
 		}
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			if (!mbNoAxe)
+			if (!GetState(eBossState::Hurt))
 			{
-				SetSingleState(eBossState::Block);
-				Block();
+				if (BlockTest())
+				{
+					SetSingleState(eBossState::Block);
+					Block();
+				}
+				else
+				{
+					SetSingleState(eBossState::Hurt);
+				}
+			}	
+			else
+			{
+				mbStruggling = true;
+				mAnimator->Play(L"kissyface_Struggle");
+				mPlayer->RemoveAfterImage();
+				mPlayer->SetAfterImageCount(0);
+				mPlayer->RenderingBlockOn();
 			}
 		}
 
@@ -114,6 +130,16 @@ namespace dru
 	{
 		AxeOff();
 		mKissyface->GetAxeScript()->Reset();
+		AllPatternReset();
+		AttackColliderOff();
+		AfterImageReset();
+		mPlayer->RenderingBlockOff();
+
+		CBossScript::Reset();
+	}
+
+	void CKissyfaceScript::AllPatternReset()
+	{
 		mStatePattern1.reset();
 		mStatePattern2.reset();
 		mStatePattern3.reset();
@@ -122,16 +148,13 @@ namespace dru
 		mPattern3_LungeOrigin = Vector3::Zero;
 		mPattern3_LungeDestination = Vector3::Zero;
 		mPattern3_mLungeElapsedTime = 0.f;
-		AttackColliderOff();
+	}
 
-		mRigidbody->AffectedGravityOn();
-
-
+	void CKissyfaceScript::AfterImageReset()
+	{
 		mKissyface->ResetAfterImageColor();
 		mKissyface->SetAfterImageCount(0);
 		GetOwner_LiveObject()->RemoveAfterImage();
-
-		CBossScript::Reset();
 	}
 
 	void CKissyfaceScript::AddAnimationCallBack()
@@ -179,6 +202,18 @@ namespace dru
 			{
 				AttackColliderOff();
 			};
+			mAnimator->GetEndEvent(L"kissyface_LungeAttack") = [this]
+			{
+				AttackColliderOff();
+			};
+
+			mAnimator->GetCompleteEvent(L"kissyface_Hurt") = [this]
+			{			
+				AfterImageReset();
+
+//				Reset();
+			};
+			
 		}
 		else
 		{
@@ -240,7 +275,7 @@ namespace dru
 			mPattern3_LungeOrigin = GetOwnerWorldPos();
 			mPattern3_LungeDestination = mPlayer->GetWorldPos();
 
-			if (mPattern3_LungeOrigin.x > mPattern3_LungeDestination.x)
+			if (mbIsPlayerLeft)
 			{
 				mPattern3_LungeDestination.x += 1.f;
 				AttackColliderPositioning(true);
@@ -327,6 +362,7 @@ namespace dru
 		Reset();
 	}
 
+
 	void CKissyfaceScript::SetAxeDir()
 	{
 		float playerPosX = mPlayer->GetWorldPos().x;
@@ -380,6 +416,26 @@ namespace dru
 		sp.duration = 0.1f;
 		sp.magnitude = 0.0500f;
 		renderer::mainCamera->GetCamScript()->Shake(sp);
+	}
+
+	bool CKissyfaceScript::BlockTest()
+	{
+		if (GetOwner()->IsLeft())
+		{
+			if (mbIsPlayerLeft && !mbNoAxe)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (!mbIsPlayerLeft && !mbNoAxe)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 

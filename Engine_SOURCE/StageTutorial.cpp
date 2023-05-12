@@ -24,13 +24,13 @@ namespace dru
 		, mTutorStage(TutorialStage::Move)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
-		, mKeyLeft(nullptr)
-		, mKeyRight(nullptr)
-		, mKeyUp(nullptr)
-		, mKeyDown(nullptr)
-		, mKeyShift(nullptr)
-		, mKeyEnter(nullptr)
-		, mKeyLClick(nullptr)
+		, mTKeyLeft(nullptr)
+		, mTKeyRight(nullptr)
+		, mTKeyUp(nullptr)
+		, mTKeyDown(nullptr)
+		, mTKeyShift(nullptr)
+		, mTKeyEnter(nullptr)
+		, mTKeyLClick(nullptr)
 		, mMask(nullptr)
 
 	{
@@ -217,7 +217,7 @@ namespace dru
 	{
 		mUIBg->Die();
 		mTutorialtxt->Die();
-		mKeyEnter->Die();
+		mTKeyEnter->Die();
 
 		{
 			// 튜토리얼 배경
@@ -312,13 +312,13 @@ namespace dru
 	void CStageTutorial::CreateEnterKeyUI()
 	{
 		{
-			mKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mTutorialtxt, L"keyEnter");
-			CSpriteRenderer* SpriteRenderer = mKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyEnter = object::Instantiate<CGameObj>(eLayerType::UI, mTutorialtxt, L"keyEnter");
+			CSpriteRenderer* SpriteRenderer = mTKeyEnter->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyEnter->SetPos(Vector3(0.f, -0.75f, 0.f));
+			mTKeyEnter->SetPos(Vector3(0.f, -0.75f, 0.f));
 
-			CAnimator* mAnimator = mKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyEnter->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"KeyEnter_anim", Material->GetTexture(), { 167.f, 0.f }, { 24.f, 20 }, Vector2::Zero, 2, { 100.f, 80.f }, 1.f);
 			mAnimator->Play(L"KeyEnter_anim");
 		}
@@ -399,40 +399,40 @@ namespace dru
 	}
 	void CStageTutorial::TutorMove()
 	{
-		mKeyLeft->RenderingBlockOff();
-		mKeyRight->RenderingBlockOff();
+		mTKeyLeft->RenderingBlockOff();
+		mTKeyRight->RenderingBlockOff();
 
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		mTKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
+		mTKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
 	}
 
 
 	void CStageTutorial::TutorJumpAndCrouch()
 	{
-		mKeyUp->RenderingBlockOff();
-		mKeyDown->RenderingBlockOff();
+		mTKeyUp->RenderingBlockOff();
+		mTKeyDown->RenderingBlockOff();
 
-		mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
-		mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
+		mTKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
+		mTKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
 	}
 
 	void CStageTutorial::TutorRoll()
 	{
-		mKeyLeft->RenderingBlockOff();
-		mKeyRight->RenderingBlockOff();
-		mKeyDown->RenderingBlockOff();
+		mTKeyLeft->RenderingBlockOff();
+		mTKeyRight->RenderingBlockOff();
+		mTKeyDown->RenderingBlockOff();
 
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
-		mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim");
+		mTKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
+		mTKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		mTKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim");
 	}
 
 	void CStageTutorial::TutorAttack()
 	{
 		CreateMonster();
 
-		mKeyLClick->RenderingBlockOff();
-		mKeyLClick->GetComponent<CAnimator>()->Play(L"LClick_anim");
+		mTKeyLClick->RenderingBlockOff();
+		mTKeyLClick->GetComponent<CAnimator>()->Play(L"LClick_anim");
 
 	}
 
@@ -458,19 +458,19 @@ namespace dru
 			SpriteRenderer->SetMaterial(Material);
 		}
 
-		mKeyLeft->RenderingBlockOff();
-		mKeyRight->RenderingBlockOff();
-		mKeyUp->RenderingBlockOff();
+		mTKeyLeft->RenderingBlockOff();
+		mTKeyRight->RenderingBlockOff();
+		mTKeyUp->RenderingBlockOff();
 	
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
-		mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim");
+		mTKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
+		mTKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		mTKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim");
 	}
 
 	void CStageTutorial::TutorBulletTime()
 	{
-		mKeyShift->RenderingBlockOff();
-		mKeyShift->GetComponent<CAnimator>()->Play(L"Shift_anim");
+		mTKeyShift->RenderingBlockOff();
+		mTKeyShift->GetComponent<CAnimator>()->Play(L"Shift_anim");
 
 	}
 
@@ -613,28 +613,28 @@ namespace dru
 		case dru::TutorialStage::Move:
 			break;
 		case dru::TutorialStage::Jump_Crouch:
-			mKeyLeft->RenderingBlockOn();
-			mKeyRight->RenderingBlockOn();
+			mTKeyLeft->RenderingBlockOn();
+			mTKeyRight->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::Roll:
-			mKeyUp->RenderingBlockOn();
-			mKeyDown->RenderingBlockOn();
+			mTKeyUp->RenderingBlockOn();
+			mTKeyDown->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::Attack:
-			mKeyLeft->RenderingBlockOn();
-			mKeyRight->RenderingBlockOn();
-			mKeyDown->RenderingBlockOn();
+			mTKeyLeft->RenderingBlockOn();
+			mTKeyRight->RenderingBlockOn();
+			mTKeyDown->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::Wall:
-			mKeyLClick->RenderingBlockOn();
+			mTKeyLClick->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::BulletTime:
-			mKeyLeft->RenderingBlockOn();
-			mKeyRight->RenderingBlockOn();
-			mKeyUp->RenderingBlockOn();
+			mTKeyLeft->RenderingBlockOn();
+			mTKeyRight->RenderingBlockOn();
+			mTKeyUp->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::Clear:
-			mKeyShift->RenderingBlockOn();
+			mTKeyShift->RenderingBlockOn();
 			break;
 		case dru::TutorialStage::End:
 			break;
@@ -651,13 +651,13 @@ namespace dru
 	void CStageTutorial::LoadKeyUI()
 	{
 		{
-			mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyA");
-			CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyA");
+			CSpriteRenderer* SpriteRenderer = mTKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyLeft->SetPos(Vector3(-0.2f, -0.5f, 0.f));
+			mTKeyLeft->SetPos(Vector3(-0.2f, -0.5f, 0.f));
 
-			CAnimator* mAnimator = mKeyLeft->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyLeft->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"KeyA_none", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyA_press", Material->GetTexture(), { 42.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyA_anim", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
@@ -666,13 +666,13 @@ namespace dru
 		}
 
 		{
-			mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyD");
-			CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyRight = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyD");
+			CSpriteRenderer* SpriteRenderer = mTKeyRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyRight->SetPos(Vector3(0.2f, -0.5f, 0.f));
+			mTKeyRight->SetPos(Vector3(0.2f, -0.5f, 0.f));
 
-			CAnimator* mAnimator = mKeyRight->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyRight->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"KeyD_none", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyD_press", Material->GetTexture(), { 70.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyD_anim", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
@@ -681,13 +681,13 @@ namespace dru
 		}
 
 		{
-			mKeyUp = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyW");
-			CSpriteRenderer* SpriteRenderer = mKeyUp->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyUp = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyW");
+			CSpriteRenderer* SpriteRenderer = mTKeyUp->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyUp->SetPos(Vector3(0.f, -0.2f, 0.f));
+			mTKeyUp->SetPos(Vector3(0.f, -0.2f, 0.f));
 
-			CAnimator* mAnimator = mKeyUp->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyUp->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"KeyW_none", Material->GetTexture(), { 84.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyW_press", Material->GetTexture(), { 98.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyW_anim", Material->GetTexture(), { 84.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
@@ -697,13 +697,13 @@ namespace dru
 		}
 
 		{
-			mKeyDown = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyS");
-			CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyDown = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"keyS");
+			CSpriteRenderer* SpriteRenderer = mTKeyDown->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyDown->SetPos(Vector3(0.f, -0.5f, 0.f));
+			mTKeyDown->SetPos(Vector3(0.f, -0.5f, 0.f));
 
-			CAnimator* mAnimator = mKeyDown->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyDown->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"KeyS_none", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyS_press", Material->GetTexture(), { 14.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyS_anim", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
@@ -712,33 +712,33 @@ namespace dru
 		}
 
 		{
-			mKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"LClick");
-			CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"LClick");
+			CSpriteRenderer* SpriteRenderer = mTKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyLClick->SetPos(Vector3(0.f, -0.35f, 0.f));
+			mTKeyLClick->SetPos(Vector3(0.f, -0.35f, 0.f));
 
-			CAnimator* mAnimator = mKeyLClick->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyLClick->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 75.f, 60.f }, 0.5f);
 			mAnimator->Play(L"LClick_anim");
 		}
 		{
-			mKeyShift = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"Shift");
-			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			mTKeyShift = object::Instantiate<CGameObj>(eLayerType::UI, mTutorBg, L"Shift");
+			CSpriteRenderer* SpriteRenderer = mTKeyShift->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
-			mKeyShift->SetPos(Vector3(0.f, -0.35f, 0.f));
+			mTKeyShift->SetPos(Vector3(0.f, -0.35f, 0.f));
 
-			CAnimator* mAnimator = mKeyShift->AddComponent<CAnimator>(eComponentType::Animator);
+			CAnimator* mAnimator = mTKeyShift->AddComponent<CAnimator>(eComponentType::Animator);
 			mAnimator->Create(L"Shift_anim", Material->GetTexture(), { 215.f, 2.f }, { 32.f, 16.f }, Vector2::Zero, 2, { 75.f, 60.f }, 2.f);
 			mAnimator->Play(L"Shift_anim");
 		}
-		mKeyLeft->RenderingBlockOn();
-		mKeyRight->RenderingBlockOn();
-		mKeyUp->RenderingBlockOn();
-		mKeyDown->RenderingBlockOn();
-		mKeyLClick->RenderingBlockOn();
-		mKeyShift->RenderingBlockOn();
+		mTKeyLeft->RenderingBlockOn();
+		mTKeyRight->RenderingBlockOn();
+		mTKeyUp->RenderingBlockOn();
+		mTKeyDown->RenderingBlockOn();
+		mTKeyLClick->RenderingBlockOn();
+		mTKeyShift->RenderingBlockOn();
 	}
 
 	void CStageTutorial::CreateMonster()
@@ -762,28 +762,28 @@ namespace dru
 
 	void CStageTutorial::LComplete()
 	{
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_none");
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_anim", false);
+		mTKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_none");
+		mTKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_anim", false);
 	}
 	void CStageTutorial::RComplete()
 	{
-		mKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
-		mKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
+		mTKeyRight->GetComponent<CAnimator>()->Play(L"KeyD_none");
+		mTKeyLeft->GetComponent<CAnimator>()->Play(L"KeyA_anim", false);
 	}
 	void CStageTutorial::UComplete()
 	{
 		if (mTutorStage == dru::TutorialStage::Jump_Crouch)
 		{
-			mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_none");
-			mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim", false);
+			mTKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_none");
+			mTKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_anim", false);
 		}
 	}
 	void CStageTutorial::DComplete()
 	{
 		if (mTutorStage == dru::TutorialStage::Jump_Crouch)
 		{
-			mKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
-			mKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
+			mTKeyDown->GetComponent<CAnimator>()->Play(L"KeyS_none");
+			mTKeyUp->GetComponent<CAnimator>()->Play(L"KeyW_anim", false);
 		}
 
 	}

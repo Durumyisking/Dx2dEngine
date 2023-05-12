@@ -20,6 +20,7 @@ namespace dru
         Pattern4,
         Pattern5,
         Fall,
+        Hurt,
         DieGround,
         Block,
         End,
@@ -50,6 +51,8 @@ namespace dru
         virtual void Pattern4() = 0;
         virtual void Pattern5() = 0;
 
+        void CheckPlayerLeft();
+
         void ChoosePattern();
 
         virtual void PatternEnd(UINT _PatternNumber);
@@ -57,6 +60,7 @@ namespace dru
         void IdleOperate();
         void PatternOperate();
 
+        bool FlipTest();
         void FlipCheck();
 
         void SetSingleState(eBossState _Type);
@@ -76,6 +80,7 @@ namespace dru
         float mAttackCooldown;
 
         bool mbDead;
+        bool mbIsPlayerLeft;
 
         std::wstring mBossName;
         std::bitset<static_cast<UINT>(eBossState::End)> mState;

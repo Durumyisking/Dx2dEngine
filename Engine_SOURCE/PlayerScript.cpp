@@ -1453,7 +1453,10 @@ namespace dru
 
 	void CPlayerScript::SetAfterImageCount(int _Count)
 	{
-		dynamic_cast<CPlayer*>(GetOwner())->SetAfterImageCount(_Count);
+		if (!GetOwner()->IsRenderingBlock())
+		{
+			dynamic_cast<CPlayer*>(GetOwner())->SetAfterImageCount(_Count);
+		}
 	}
 
 }

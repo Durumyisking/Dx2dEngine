@@ -50,6 +50,9 @@ namespace dru
 
         virtual void Reset();
 
+        void AllPatternReset();
+        void AfterImageReset();
+
         void AddAnimationCallBack();
         void AddAnimationCallBack_Lamda();
 
@@ -80,6 +83,7 @@ namespace dru
         void AxeOff();
 
         void Block();
+        bool BlockTest();
 
         // animation Callback
 
@@ -122,6 +126,7 @@ namespace dru
         CGameObj* mAttackCollider;
 
         bool mbNoAxe;
+        bool mbStruggling;
 
     public:
         CGameObj* GetOrCreateBulletReflectObject();

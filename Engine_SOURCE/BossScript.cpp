@@ -16,6 +16,7 @@ namespace dru
 		, mMoveDir(Vector3::Zero)
 		, mAttackCooldown(1.f)
 		, mbDead(false)
+		, mbIsPlayerLeft(false)
 		, mBossName{}
 		, mState{}
 
@@ -46,6 +47,8 @@ namespace dru
 
 			if (!mbDead)
 			{
+				CheckPlayerLeft();
+
 				IdleOperate();
 				PatternOperate();
 				
@@ -129,6 +132,20 @@ namespace dru
 		}
 	}
 
+	void CBossScript::CheckPlayerLeft()
+	{
+		float KissyPosX = GetOwnerWorldPos().x;
+		float PlayerPosX = mPlayer->GetWorldPos().x;
+		if (PlayerPosX < KissyPosX)
+		{
+			mbIsPlayerLeft = true;
+		}
+		else
+		{
+			mbIsPlayerLeft = false;
+		}
+	}
+
 	void CBossScript::ChoosePattern()
 	{
 		int pattern = GetRandomNumber(3, 1);
@@ -200,6 +217,17 @@ namespace dru
 		}
 	}
 
+	bool CBossScript::FlipTest()
+	{
+		if (!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3)
+			&& !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5) && !GetState(eBossState::Hurt))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	void CBossScript::FlipCheck()
 	{
 		if (mMoveDir.x > 0.f)
@@ -214,14 +242,16 @@ namespace dru
 		{
 			if (!mbDead)
 			{
-				if(!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3) && !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5))
-				if (mPlayer->GetWorldPos().x > GetOwnerWorldPos().x)
+				if (FlipTest())
 				{
-					GetOwner()->SetRight();
-				}
-				else
-				{
-					GetOwner()->SetLeft();
+					if (mPlayer->GetWorldPos().x > GetOwnerWorldPos().x)
+					{
+						GetOwner()->SetRight();
+					}
+					else
+					{
+						GetOwner()->SetLeft();
+					}
 				}
 			}
 		}
@@ -247,6 +277,9 @@ namespace dru
 				mAnimator->Play(GetOwner()->GetName() + L"_Run");
 				break;
 			case dru::eBossState::Fall:
+				break;
+			case dru::eBossState::Hurt:
+				mAnimator->Play(GetOwner()->GetName() + L"_Hurt", false);
 				break;
 			case dru::eBossState::DieGround:
 				break;

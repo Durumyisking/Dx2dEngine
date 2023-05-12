@@ -24,6 +24,9 @@ namespace dru
 		mAnimator->Create(L"kissyface_WaitingEnd", Material->GetTexture(), { 4608.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 8, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Walk", Material->GetTexture(), { 6272.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 10, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Block", Material->GetTexture(), { 128.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_Hurt", Material->GetTexture(), { 384.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 6, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_Struggle", Material->GetTexture(), { 3328.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 2, { 90.f, 90.f }, 0.1f);
+
 
 		// pattern 1
 		mAnimator->Create(L"kissyface_JumpStart", Material->GetTexture(), { 2304.f, 128.f }, { -128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
@@ -41,10 +44,6 @@ namespace dru
 		mAnimator->Create(L"kissyface_LungeReady", Material->GetTexture(), { 4864.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 4, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Lunge", Material->GetTexture(), { 2432.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_LungeAttack", Material->GetTexture(), { 3072.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 7, { 90.f, 90.f }, 0.1f);
-
-
-		mAnimator->Create(L"kissyface_DeadGround", Material->GetTexture(), { 640.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);
-		mAnimator->Create(L"kissyface_Attack", Material->GetTexture(), { 7296.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 8, { 90.f, 90.f }, 0.1f);
 
 		mAnimator->Play(L"kissyface_Waiting");
 
@@ -68,9 +67,9 @@ namespace dru
 	{
 		if (CInput::GetKeyDown(eKeyCode::N_9))
 		{
-			mAnimator->Play(L"kissyface_LungeAttack");
+			mAnimator->Play(L"kissyface_Hurt");
 		}
-		
+
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();

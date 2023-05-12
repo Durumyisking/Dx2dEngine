@@ -82,13 +82,13 @@ namespace dru
         CGameObj* mTutorBgTarget;
 
         // keys
-        CGameObj* mKeyLeft;
-        CGameObj* mKeyRight;
-        CGameObj* mKeyUp;
-        CGameObj* mKeyDown;
-        CGameObj* mKeyShift;
-        CGameObj* mKeyEnter;
-        CGameObj* mKeyLClick;
+        CGameObj* mTKeyLeft;
+        CGameObj* mTKeyRight;
+        CGameObj* mTKeyUp;
+        CGameObj* mTKeyDown;
+        CGameObj* mTKeyShift;
+        CGameObj* mTKeyEnter;
+        CGameObj* mTKeyLClick;
 
         float   mFadeTimer;
         float   mTutorGapTimer;
