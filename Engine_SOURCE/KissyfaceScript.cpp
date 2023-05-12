@@ -11,14 +11,13 @@ namespace dru
 	CKissyfaceScript::CKissyfaceScript()
 		: mKissyface(nullptr)
 		, mBulletReflect(nullptr)
+		, mAttackCollider(nullptr)
 		, mStatePattern1{}
 		, mStatePattern2{}
 		, mStatePattern3{}
 		, mPattern2_RecieveWaitingTime(1.f)
 		, mPattern3_LungeOrigin(Vector3::Zero)
 		, mPattern3_LungeDestination(Vector3::Zero)
-		, mPattern3_LungeMiddlePosX(0.f)
-		, mPattern3_mLungeTimer(0.f)
 		, mPattern3_mLungeElapsedTime(0.f)
 		, mbNoAxe(false)
 	{
@@ -32,34 +31,8 @@ namespace dru
 	{
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 
-		mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] {  Reset();	};
-		mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = [this] { SetSingleState(eBossState::Idle);	};
-		mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
-		mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
-		{
-			PatternEnd(1);
-		};
-		mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = [this]
-		{
-			mAnimator->Play(L"kissyface_ThrowAxeEnd");
-			SetStatePattern2On(ePattern2::ThrowEnd);
-		};
-		mAnimator->GetCompleteEvent(L"kissyface_LungeReady") = [this]
-		{
-			mAnimator->Play(L"kissyface_Lunge", false);
-			SetStatePattern3On(ePattern3::Lunge);
-		};
-		mAnimator->GetCompleteEvent(L"kissyface_LungeAttack") = [this]
-		{
-			PatternEnd(3);
-		};
-
-		mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
-		mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
-		mAnimator->GetEndEvent(L"kissyface_AirThrowEnd") = std::bind(&CKissyfaceScript::airThrowAxeEndEnd, this);
-
-		mAnimator->GetFrameEvent(L"kissyface_ThrowAxe", 5) = std::bind(&CKissyfaceScript::throwAxeFrame5, this);
-
+		AddAnimationCallBack();
+		AddAnimationCallBack_Lamda();
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
@@ -143,10 +116,13 @@ namespace dru
 		mKissyface->GetAxeScript()->Reset();
 		mStatePattern1.reset();
 		mStatePattern2.reset();
+		mStatePattern3.reset();
+
 		mPattern2_RecieveWaitingTime = 1.f;
 		mPattern3_LungeOrigin = Vector3::Zero;
 		mPattern3_LungeDestination = Vector3::Zero;
 		mPattern3_mLungeElapsedTime = 0.f;
+		AttackColliderOff();
 
 		mRigidbody->AffectedGravityOn();
 
@@ -156,6 +132,58 @@ namespace dru
 		GetOwner_LiveObject()->RemoveAfterImage();
 
 		CBossScript::Reset();
+	}
+
+	void CKissyfaceScript::AddAnimationCallBack()
+	{
+		if (mAnimator)
+		{
+			mAnimator->GetCompleteEvent(L"kissyface_JumpStart") = std::bind(&CKissyfaceScript::jumpStartComplete, this);
+			mAnimator->GetCompleteEvent(L"kissyface_AirThrowAxe") = std::bind(&CKissyfaceScript::airThrowAxeComplete, this);
+			mAnimator->GetEndEvent(L"kissyface_AirThrowEnd") = std::bind(&CKissyfaceScript::airThrowAxeEndEnd, this);
+
+			mAnimator->GetFrameEvent(L"kissyface_ThrowAxe", 5) = std::bind(&CKissyfaceScript::throwAxeFrame5, this);
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
+	void CKissyfaceScript::AddAnimationCallBack_Lamda()
+	{
+		if (mAnimator)
+		{
+			mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] {  Reset();	};
+			mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = [this] { SetSingleState(eBossState::Idle);	};
+			mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
+			mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
+			{
+				PatternEnd(1);
+			};
+			mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = [this]
+			{
+				mAnimator->Play(L"kissyface_ThrowAxeEnd");
+				SetStatePattern2On(ePattern2::ThrowEnd);
+			};
+			mAnimator->GetCompleteEvent(L"kissyface_LungeReady") = [this]
+			{
+				mAnimator->Play(L"kissyface_Lunge", false);
+				SetStatePattern3On(ePattern3::Lunge);
+			};
+			mAnimator->GetCompleteEvent(L"kissyface_LungeAttack") = [this]
+			{
+				PatternEnd(3);
+			};
+			mAnimator->GetFrameEvent(L"kissyface_LungeAttack", 3) = [this]
+			{
+				AttackColliderOff();
+			};
+		}
+		else
+		{
+			assert(false);
+		}
 	}
 
 	void CKissyfaceScript::Pattern1()
@@ -212,18 +240,15 @@ namespace dru
 			mPattern3_LungeOrigin = GetOwnerWorldPos();
 			mPattern3_LungeDestination = mPlayer->GetWorldPos();
 
-			mPattern3_LungeMiddlePosX = (mPattern3_LungeOrigin.x + mPattern3_LungeDestination.x) / 2.f;
-
-			//			mRigidbody->AffectedGravityOff();
-			//			mRigidbody->SetMaxVelocity({10.f});
-
 			if (mPattern3_LungeOrigin.x > mPattern3_LungeDestination.x)
 			{
-				SetStatePattern3On(ePattern3::LungeLeft);
+				mPattern3_LungeDestination.x += 1.f;
+				AttackColliderPositioning(true);
 			}
 			else
 			{
-				SetStatePattern3On(ePattern3::LungeRight);
+				mPattern3_LungeDestination.x -= 1.f;
+				AttackColliderPositioning(false);
 			}
 
 			SetStatePattern3On(ePattern3::LungeReady);
@@ -238,38 +263,36 @@ namespace dru
 	{
 
 		float newPosX = 0.f;
+		mPattern3_mLungeElapsedTime += CTimeMgr::DeltaTime();
 		if (mPattern3_mLungeElapsedTime <= LUNGE_TIMER)
 		{
-			mPattern3_mLungeElapsedTime += CTimeMgr::DeltaTime();
 			float t = std::clamp(mPattern3_mLungeElapsedTime / LUNGE_TIMER, 0.f, 1.f); // 0~1사이의 값으로 만든다.
 			newPosX = std::lerp(mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x, t); // startPos와 endPos의 거리내 t비율만큼의 위치로 설정한다.
-
 		}
-
-		//		if (GetStatePattern3(ePattern3::LungeLeft))
-		//		{
-		//			if (mPattern3_LungeMiddlePosX <= GetOwnerWorldPos().x)
-		//			{
-		//				mRigidbody->AddForceY(25.f);
-		//			};
-		////			mRigidbody->AddForceX(-50.f);
-		//		}
-		//		else if (GetStatePattern3(ePattern3::LungeRight))
-		//		{
-		//			if (mPattern3_LungeMiddlePosX >= GetOwnerWorldPos().x)
-		//			{
-		//				mRigidbody->AddForceY(25.f);
-		//			}
-		////			mRigidbody->AddForceX(50.f);
-		//		}
+		else
+		{
+			LungeStart();
+			return;
+		}
+		if (mPattern3_mLungeElapsedTime <= (LUNGE_TIMER / 2.f))
+		{
+			mRigidbody->AddForceY(35.f);
+		}
 
 		Vector3 pos = GetOwnerWorldPos();
 
 		pos.x = newPosX;
-		std::cout << "X : " << pos.x << std::endl;
-
 
 		GetOwner()->SetPos(pos);
+	}
+
+	void CKissyfaceScript::LungeStart()
+	{
+		mAnimator->Play(L"kissyface_LungeAttack", false);
+		mbNoAxe = true;
+		AttackColliderOn();
+		SetStatePattern3On(ePattern3::LungeAttack);
+		SetStatePattern3Off(ePattern3::Lunge);
 	}
 
 	void CKissyfaceScript::Pattern4()
@@ -484,6 +507,102 @@ namespace dru
 		mBulletReflect->SetPos(GetOwnerWorldPos());
 	}
 
+	void CKissyfaceScript::InitializeAttackColliderComponent()
+	{
+		CGameObj* AttackColliderObject = GetOrCreatemAttackColliderObject();
+
+		if (AttackColliderObject)
+		{
+			AttackColliderObject->SetScale({ 0.3f, 0.3f, 1.f });
+			AttackColliderObject->SetPos(Vector3::Zero);
+
+			CCollider2D* collider = AttackColliderObject->AddComponent<CCollider2D>(eComponentType::Collider);
+
+			if (collider)
+			{
+				collider->SetName(L"col_Monster_Slash");
+				collider->Initialize();
+				collider->SetType(eColliderType::Rect);
+				collider->Off();
+				collider->RenderingOff();
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+
+	}
+
+	void CKissyfaceScript::AttackColliderPositioning(bool _LeftLunge)
+	{
+		CGameObj* AttackColliderObject = GetOrCreatemAttackColliderObject();
+
+		if (AttackColliderObject)
+		{
+			if (_LeftLunge)
+			{
+				AttackColliderObject->SetPos({-0.4f, -0.25f, 0.f});
+			}
+			else
+			{
+				AttackColliderObject->SetPos({ 0.4f, -0.25f, 0.f });
+			}
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
+	void CKissyfaceScript::AttackColliderOn()
+	{
+		CGameObj* AttackColliderObject = GetOrCreatemAttackColliderObject();
+
+		if (AttackColliderObject)
+		{
+			CCollider2D* collider = mAttackCollider->GetComponent<CCollider2D>();
+
+			if (collider)
+			{
+				collider->On();
+				//collider->RenderingOn();
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
+	void CKissyfaceScript::AttackColliderOff()
+	{
+		CGameObj* AttackColliderObject = GetOrCreatemAttackColliderObject();
+
+		if (AttackColliderObject)
+		{
+			CCollider2D* collider = mAttackCollider->GetComponent<CCollider2D>();
+
+			if (collider)
+			{
+				collider->Off();
+				//collider->RenderingOff();
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
 	CGameObj* CKissyfaceScript::GetOrCreateBulletReflectObject()
 	{
 		if (!mBulletReflect)
@@ -498,6 +617,22 @@ namespace dru
 		}
 
 		return mBulletReflect;
+	}
+
+	CGameObj* CKissyfaceScript::GetOrCreatemAttackColliderObject()
+	{
+		if (!mAttackCollider)
+		{
+			// create
+			mAttackCollider = object::Instantiate<CGameObj>(eLayerType::FX, GetOwner(), L"Kissyface_AttackCollider");
+			if (mAttackCollider)
+			{
+				// intialize
+				InitializeAttackColliderComponent();
+			}
+		}
+
+		return mAttackCollider;
 	}
 
 

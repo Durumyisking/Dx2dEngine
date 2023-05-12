@@ -149,6 +149,9 @@ namespace dru
 				case dru::enums::eLayerType::Monster:
 					_Value.z = 3.1f;
 					break;
+				case dru::enums::eLayerType::Boss:
+					_Value.z = 3.1f;
+					break;
 				case dru::enums::eLayerType::MonsterGun:
 					_Value.z = 0.f;
 					break;

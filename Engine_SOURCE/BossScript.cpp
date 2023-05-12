@@ -43,7 +43,6 @@ namespace dru
 		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
 		if (stagestate == eStageState::LoadEnd)
 		{
-			mPos = mTransform->GetPosition();
 
 			if (!mbDead)
 			{
@@ -54,7 +53,6 @@ namespace dru
 				mMoveDir = mRigidbody->GetVelocity();
 				mMoveDir.Normalize();
 
-				mTransform->SetPosition(mPos);
 			}
 			FlipCheck();
 		}
@@ -133,8 +131,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-		// int pattern = GetRandomNumber(3, 1);
-		int pattern = 3;
+		int pattern = GetRandomNumber(3, 1);
+//		int pattern = 35;
 
 		switch (pattern)
 		{

@@ -66,6 +66,10 @@ namespace dru
 
 	void CKissyface::update()
 	{
+		if (CInput::GetKeyDown(eKeyCode::N_9))
+		{
+			mAnimator->Play(L"kissyface_LungeAttack");
+		}
 		
 		if (FrameCaptureCheck())
 		{

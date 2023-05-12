@@ -26,9 +26,7 @@ namespace dru
         LungeReady,
         Lunge,
         LungeAttack,
-        LungeLeft,
-        LungeRight,
-
+     
         End,
     };
 #define LUNGE_TIMER 0.5f
@@ -52,6 +50,9 @@ namespace dru
 
         virtual void Reset();
 
+        void AddAnimationCallBack();
+        void AddAnimationCallBack_Lamda();
+
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
         void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
@@ -67,6 +68,7 @@ namespace dru
         void SetStatePattern3On(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern3Off(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = false; }
         void Lunge();
+        void LungeStart();
 
         virtual void Pattern4();
         virtual void Pattern5();
@@ -95,11 +97,13 @@ namespace dru
 
     private:
         void InitializeBulletReflectComponent();
-
         void PlayBulletReflect();
-
         void BulletReflectPositioning();
 
+        void InitializeAttackColliderComponent();
+        void AttackColliderPositioning(bool _LeftLunge);
+        void AttackColliderOn();
+        void AttackColliderOff();
 
     private:
         CKissyface* mKissyface;
@@ -111,17 +115,17 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
         Vector3 mPattern3_LungeOrigin;
         Vector3 mPattern3_LungeDestination;
-        float mPattern3_LungeMiddlePosX;
-        float mPattern3_mLungeTimer;
         float mPattern3_mLungeElapsedTime;
 
 
         CGameObj* mBulletReflect;
+        CGameObj* mAttackCollider;
 
         bool mbNoAxe;
 
     public:
         CGameObj* GetOrCreateBulletReflectObject();
+        CGameObj* GetOrCreatemAttackColliderObject();
 
 
     };
