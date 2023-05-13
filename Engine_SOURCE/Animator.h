@@ -45,6 +45,8 @@ namespace dru
 		Events* FindEvents(const std::wstring& _name);
 		CAnimation* GetCurrentAnimation() const { return mCurrentAnimation; }
 
+		bool IsPlaying(const std::wstring& _name) { if (mCurrentAnimation->GetAnimationName() == _name) return true; return false; }
+
 		void Play(std::wstring _name, bool _bLoop = true);
 
 		void Binds();

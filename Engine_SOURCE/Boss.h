@@ -24,6 +24,7 @@ namespace dru
 
 	public:
 		void SetHp(UINT _Value) { mHP = _Value; }
+		void Damaged() { mHP--; }
 		UINT GetHP() const { return mHP; }
 
     };

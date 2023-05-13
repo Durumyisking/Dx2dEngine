@@ -85,8 +85,12 @@ namespace dru
         void Block();
         bool BlockTest();
 
-        // animation Callback
+        void StruggleOperate();
+        void StruggleOn();
+        void StruggleOff();
 
+
+        // animation Callback
 
         // pattern 1   
         void jumpStartComplete();
@@ -95,7 +99,6 @@ namespace dru
 
         // pattern 2   
         void throwAxeFrame5();
-
 
         void PlayBulletReflect(Vector3 _Pos);
 

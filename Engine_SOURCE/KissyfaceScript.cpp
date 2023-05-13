@@ -4,6 +4,8 @@
 #include "AxeScript.h"
 #include "TimeMgr.h"
 #include "Object.h"
+#include "Stage.h"
+#include "PlayerScript.h"
 
 
 namespace dru
@@ -45,6 +47,12 @@ namespace dru
 		if (!GetOwner_LiveObject()->IsRewindRePlaying())
 		{
 			mKissyface->GetAxeScript()->SetKissyfaceCenter(mKissyface->GetWorldPos());
+
+			if (mbStruggling)
+			{
+				StruggleOperate();
+			}
+
 
 			CBossScript::update();
 		}
@@ -98,15 +106,12 @@ namespace dru
 				else
 				{
 					SetSingleState(eBossState::Hurt);
+					mKissyface->Damaged();
 				}
 			}	
 			else
 			{
-				mbStruggling = true;
-				mAnimator->Play(L"kissyface_Struggle");
-				mPlayer->RemoveAfterImage();
-				mPlayer->SetAfterImageCount(0);
-				mPlayer->RenderingBlockOn();
+				StruggleOn();
 			}
 		}
 
@@ -210,9 +215,12 @@ namespace dru
 			mAnimator->GetCompleteEvent(L"kissyface_Hurt") = [this]
 			{			
 				AfterImageReset();
-
-//				Reset();
 			};
+			mAnimator->GetCompleteEvent(L"kissyface_GetUp") = [this]
+			{
+				Reset();
+			};
+
 			
 		}
 		else
@@ -436,6 +444,75 @@ namespace dru
 		}
 
 		return false;
+	}
+
+	void CKissyfaceScript::StruggleOperate()
+	{
+		ShakeParams sp = {};
+		sp.duration = 0.1f;
+		sp.magnitude = 0.0250f;
+		renderer::mainCamera->GetCamScript()->Shake(sp);
+
+
+		if (CInput::GetKeyTap(eKeyCode::LBTN))
+		{
+			StruggleOff();
+		}
+
+		CAnimator* playerAnimator = mPlayer->GetComponent<CAnimator>();
+		if (playerAnimator->IsPlaying(L"Player_Dead"))
+		{
+			CRigidBody* playerRigidBody = mPlayer->GetComponent<CRigidBody>();
+			playerRigidBody->SetMaxVelocity({ 10.f, 7.f, 0.f });
+			if (mbIsPlayerLeft)
+			{
+				playerRigidBody->AddVelocity({ 10.f, 0.f, 0.f });
+			}
+			else
+			{
+				playerRigidBody->AddVelocity({ -10.f, 0.f, 0.f });
+			}
+		}
+	}
+
+	void CKissyfaceScript::StruggleOn()
+	{
+		Vector3 pos = GetOwnerWorldPos();
+		pos.y += 1.f;
+		CStage::KeyUI_LClickOn(pos);
+		mbStruggling = true;
+		mAnimator->Play(L"kissyface_Struggle");
+		mPlayer->RemoveAfterImage();
+		mPlayer->SetAfterImageCount(0);
+		mPlayer->RenderingBlockOn();
+		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+		mPlayer->SetPos(mKissyface->GetWorldPos());
+
+	}
+
+	void CKissyfaceScript::StruggleOff()
+	{
+		if (0 < mKissyface->GetHP())
+		{
+			CStage::KeyUI_LClickOff();
+			mAnimator->Play(L"kissyface_GetUp", false);
+			mbStruggling = false;
+			mPlayer->RenderingBlockOff();
+			mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
+//			mPlayer->SetPos(mKissyface->GetWorldPos());
+			CRigidBody* playerRigidBody = mPlayer->GetComponent<CRigidBody>();
+			playerRigidBody->SetMaxVelocity(DEFAULT_VELOCITY);
+		}
+		else
+		{
+			mAnimator->Play(L"kissyface_CutArm", false);
+			mbStruggling = false;
+//			mPlayer->SetPos(mKissyface->GetWorldPos());
+
+
+		}
+
 	}
 
 

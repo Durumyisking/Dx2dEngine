@@ -4,6 +4,13 @@
 
 namespace dru
 {
+	CGameObj* CStage::mKeyLeft = nullptr;
+	CGameObj* CStage::mKeyRight = nullptr;
+	CGameObj* CStage::mKeyUp = nullptr;
+	CGameObj* CStage::mKeyDown = nullptr;
+	CGameObj* CStage::mKeyShift = nullptr;
+	CGameObj* CStage::mKeyLClick = nullptr;
+
 
 	CStage::CStage()
 		: mStageState(eStageState::NotReady)
@@ -18,12 +25,6 @@ namespace dru
 		, mbIsDeadBgOn(false)
 		, mPlayer(nullptr)
 		, mUICursor(nullptr)
-		, mKeyLeft(nullptr)
-		, mKeyRight(nullptr)
-		, mKeyUp(nullptr)
-		, mKeyDown(nullptr)
-		, mKeyShift(nullptr)
-		, mKeyLClick(nullptr)
 		, mKeyEnter(nullptr)
 		, mHudBatteryParts{}
 		, mHudTimerBar(nullptr)
@@ -44,7 +45,6 @@ namespace dru
 		, mRewindObjects{}
 
 	{
-
 	}
 
 	CStage::~CStage()
@@ -53,14 +53,6 @@ namespace dru
 
 	void CStage::Update()
 	{
-		if (CInput::GetKeyTap(eKeyCode::M))
-		{
-			{
-				CGameObj* mMon = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-				mMon->SetPos({ mPlayer->GetPos().x + 2.f, mPlayer->GetPos().y, 3.f });
-				mMon->Initialize();
-			}
-		}
 		if (CInput::GetKeyTap(eKeyCode::X))
 		{
 			renderer::mainCamera->GetCamScript()->CamFollowOff();
@@ -254,8 +246,9 @@ namespace dru
 
 	void CStage::LoadKeyUI()
 	{
+		if (!mKeyLeft)
 		{
-			mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyA");
+			mKeyLeft = object::Instantiate<CGameObj>(eLayerType::UI, L"keyA");
 			CSpriteRenderer* SpriteRenderer = mKeyLeft->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"keys");
 			SpriteRenderer->SetMaterial(Material);
@@ -266,8 +259,11 @@ namespace dru
 			mAnimator->Create(L"KeyA_press", Material->GetTexture(), { 42.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyA_anim", Material->GetTexture(), { 28.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
 			mAnimator->Play(L"KeyA_anim", false);
+			mKeyLeft->RenderingBlockOn();
+
 		}
 
+		if (!mKeyRight)
 		{
 			mKeyRight = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyD");
 			CSpriteRenderer* SpriteRenderer = mKeyRight->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -280,8 +276,10 @@ namespace dru
 			mAnimator->Create(L"KeyD_press", Material->GetTexture(), { 70.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyD_anim", Material->GetTexture(), { 56.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
 			mAnimator->Play(L"KeyD_none", false);
+			mKeyRight->RenderingBlockOn();
 		}
 
+		if (!mKeyUp)
 		{
 			mKeyUp = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyW");
 			CSpriteRenderer* SpriteRenderer = mKeyUp->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -294,9 +292,10 @@ namespace dru
 			mAnimator->Create(L"KeyW_press", Material->GetTexture(), { 98.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyW_anim", Material->GetTexture(), { 84.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
 			mAnimator->Play(L"KeyW_anim", false);
-
+			mKeyUp->RenderingBlockOn();
 		}
 
+		if (!mKeyDown)
 		{
 			mKeyDown = object::Instantiate<CGameObj>(eLayerType::UI,  L"keyS");
 			CSpriteRenderer* SpriteRenderer = mKeyDown->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -309,8 +308,10 @@ namespace dru
 			mAnimator->Create(L"KeyS_press", Material->GetTexture(), { 14.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 1, { 75.f, 75.f }, 1.f);
 			mAnimator->Create(L"KeyS_anim", Material->GetTexture(), { 0.f, 3.f }, { 14.f, 14.f }, Vector2::Zero, 2, { 75.f, 75.f }, 0.5f);
 			mAnimator->Play(L"KeyS_none", false);
+			mKeyDown->RenderingBlockOn();
 		}
 
+		if (!mKeyLClick)
 		{
 			mKeyLClick = object::Instantiate<CGameObj>(eLayerType::UI,  L"LClick");
 			CSpriteRenderer* SpriteRenderer = mKeyLClick->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -319,9 +320,12 @@ namespace dru
 			mKeyLClick->SetPos(Vector3::Zero);
 			mKeyLClick->DontDestroy();
 			CAnimator* mAnimator = mKeyLClick->AddComponent<CAnimator>(eComponentType::Animator);
-			mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 75.f, 60.f }, 0.5f);
+			mAnimator->Create(L"LClick_anim", Material->GetTexture(), { 112.f, 0.f }, { 13.f, 17.f }, Vector2::Zero, 2, { 60.f, 60.f }, 0.5f);
 			mAnimator->Play(L"LClick_anim");
+			mKeyLClick->RenderingBlockOn();
 		}
+
+		if (!mKeyShift)
 		{
 			mKeyShift = object::Instantiate<CGameObj>(eLayerType::UI,  L"Shift");
 			CSpriteRenderer* SpriteRenderer = mKeyShift->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
@@ -330,15 +334,10 @@ namespace dru
 			mKeyShift->SetPos(Vector3::Zero);
 			mKeyShift->DontDestroy();
 			CAnimator* mAnimator = mKeyShift->AddComponent<CAnimator>(eComponentType::Animator);
-			mAnimator->Create(L"Shift_anim", Material->GetTexture(), { 215.f, 2.f }, { 32.f, 16.f }, Vector2::Zero, 2, { 75.f, 60.f }, 2.f);
+			mAnimator->Create(L"Shift_anim", Material->GetTexture(), { 215.f, 2.f }, { 32.f, 16.f }, Vector2::Zero, 2, { 60.f, 60.f }, 2.f);
 			mAnimator->Play(L"Shift_anim");
+			mKeyShift->RenderingBlockOn();
 		}
-		mKeyLeft->RenderingBlockOn();
-		mKeyRight->RenderingBlockOn();
-		mKeyUp->RenderingBlockOn();
-		mKeyDown->RenderingBlockOn();
-		mKeyLClick->RenderingBlockOn();
-		mKeyShift->RenderingBlockOn();
 	}
 
 	void CStage::NotReadyOperate()
@@ -349,6 +348,7 @@ namespace dru
 	{
 		CreatePostProcess_Rewind();
 		CreatePostProcess_Replay();
+		LoadKeyUI();
 
 		mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
 		LoadinReady();
@@ -758,5 +758,59 @@ namespace dru
 		renderer::mainCamera->GetCamScript()->CamFollowOff();
 		renderer::mainCamera->GetCamScript()->AllDirBlockOff();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
+	}
+	void CStage::KeyUI_LeftOn(Vector3 _Pos)
+	{
+		mKeyLeft->RenderingBlockOff();
+		mKeyLeft->SetPos(_Pos);
+	}
+	void CStage::KeyUI_RightOn(Vector3 _Pos)
+	{
+		mKeyRight->RenderingBlockOff();
+		mKeyRight->SetPos(_Pos);
+	}
+	void CStage::KeyUI_UpOn(Vector3 _Pos)
+	{
+		mKeyUp->RenderingBlockOff();
+		mKeyUp->SetPos(_Pos);
+	}
+	void CStage::KeyUI_DownOn(Vector3 _Pos)
+	{
+		mKeyDown->RenderingBlockOff();
+		mKeyDown->SetPos(_Pos);
+	}
+	void CStage::KeyUI_ShiftOn(Vector3 _Pos)
+	{
+		mKeyShift->RenderingBlockOff();
+		mKeyShift->SetPos(_Pos);
+	}
+	void CStage::KeyUI_LClickOn(Vector3 _Pos)
+	{
+		mKeyLClick->RenderingBlockOff();
+		mKeyLClick->SetPos(_Pos);
+	}
+	void CStage::KeyUI_LeftOff()
+	{
+		mKeyLeft->RenderingBlockOn();
+	}
+	void CStage::KeyUI_RightOff()
+	{
+		mKeyRight->RenderingBlockOn();
+	}
+	void CStage::KeyUI_UpOff()
+	{
+		mKeyUp->RenderingBlockOn();
+	}
+	void CStage::KeyUI_DownOff()
+	{
+		mKeyDown->RenderingBlockOn();
+	}
+	void CStage::KeyUI_ShiftOff()
+	{
+		mKeyShift->RenderingBlockOn();
+	}
+	void CStage::KeyUI_LClickOff()
+	{
+		mKeyLClick->RenderingBlockOn();
 	}
 }

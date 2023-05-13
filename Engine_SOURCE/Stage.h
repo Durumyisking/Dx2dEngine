@@ -135,6 +135,29 @@ namespace dru
 
         void CamReset();
 
+        static void KeyUI_LeftOn(Vector3 _Pos);
+        static void KeyUI_RightOn(Vector3 _Pos);
+        static void KeyUI_UpOn(Vector3 _Pos);
+        static void KeyUI_DownOn(Vector3 _Pos);
+        static void KeyUI_ShiftOn(Vector3 _Pos);
+        static void KeyUI_LClickOn(Vector3 _Pos);
+
+        static void KeyUI_LeftOff();
+        static void KeyUI_RightOff();
+        static void KeyUI_UpOff();
+        static void KeyUI_DownOff();
+        static void KeyUI_ShiftOff();
+        static void KeyUI_LClickOff();
+
+        // keys
+        static CGameObj* mKeyLeft;
+        static CGameObj* mKeyRight;
+        static CGameObj* mKeyUp;
+        static CGameObj* mKeyDown;
+        static CGameObj* mKeyShift;
+        static CGameObj* mKeyLClick;
+
+
     protected:
         CBackground* mStageBackground;
 
@@ -155,14 +178,6 @@ namespace dru
 
 
         CGameObj* mUICursor;
-
-        // keys
-        CGameObj* mKeyLeft;
-        CGameObj* mKeyRight;
-        CGameObj* mKeyUp;
-        CGameObj* mKeyDown;
-        CGameObj* mKeyShift;
-        CGameObj* mKeyLClick;
 
 
         std::vector<CGameObj*> mHudBatteryParts;

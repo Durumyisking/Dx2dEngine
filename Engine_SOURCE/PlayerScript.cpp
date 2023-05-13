@@ -89,7 +89,6 @@ namespace dru
 
 		if (!mbInputBlock)
 		{
-
 			mPos = mTransform->GetPosition();
 
 			if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
@@ -156,7 +155,6 @@ namespace dru
 
 			attack();
 
-			if(CSceneMgr::mActiveScene)
 			mTransform->SetPosition(mPos);
 			GetOwner()->Flip();
 

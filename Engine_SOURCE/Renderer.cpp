@@ -606,7 +606,7 @@ namespace dru::renderer
 		// noise
 		CResources::Load<CTexture>(L"noise1", L"noise/noise_01.png");
 		CResources::Load<CTexture>(L"noise2", L"noise/noise_02.png");
-		CResources::Load<CTexture>(L"noise3", L"noise/noise_03.jpg");
+		CResources::Load<CTexture>(L"noise3", L"noise/noise_03.png");
 
 		// #Todo 번 노이즈 텍스처 추가
 		CResources::Load<CTexture>(L"burn", L"noise/burn.png");

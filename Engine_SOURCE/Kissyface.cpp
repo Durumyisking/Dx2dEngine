@@ -26,6 +26,9 @@ namespace dru
 		mAnimator->Create(L"kissyface_Block", Material->GetTexture(), { 128.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 5, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Hurt", Material->GetTexture(), { 384.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 6, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Struggle", Material->GetTexture(), { 3328.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 2, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_GetUp", Material->GetTexture(), { 6656.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 7, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_CutArm", Material->GetTexture(), { 2560.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 14, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_Dying", Material->GetTexture(), { 1152.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);
 
 
 		// pattern 1
