@@ -655,6 +655,10 @@ namespace dru
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
 			}
+			if (eLayerType::Boss == mRewindObjects[i]->GetLayerType())
+			{
+				dynamic_cast<CBoss*>(mRewindObjects[i])->ResetHp();
+			}
 		}
 
 		Reset();

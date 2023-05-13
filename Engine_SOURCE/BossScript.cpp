@@ -35,8 +35,6 @@ namespace dru
 		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
 		mBossName = GetOwner()->GetName();
-
-		//mAnimator->GetCompleteEvent(mBossName + L"_DeadGround") = std::bind(&CBossScript::deadgroundComplete, this);
 	}
 
 	void CBossScript::update()
@@ -44,7 +42,6 @@ namespace dru
 		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
 		if (stagestate == eStageState::LoadEnd)
 		{
-
 			if (!mbDead)
 			{
 				CheckPlayerLeft();
@@ -52,7 +49,6 @@ namespace dru
 				IdleOperate();
 				PatternOperate();
 				
-
 				mMoveDir = mRigidbody->GetVelocity();
 				mMoveDir.Normalize();
 
@@ -77,13 +73,6 @@ namespace dru
 			mRigidbody->SetGround();
 			GetOwner()->SetFloorOn();
 
-			if (mbDead)
-			{
-				//mState[(UINT)eBossState::DieAirUp] = false;
-				//mState[(UINT)eBossState::DieGround] = true;
-				//mAnimator->Play(mBossName + L"_DeadGround", false);
-			}
-
 		}
 		else if (L"col_wall" == _oppo->GetName())
 		{
@@ -97,7 +86,6 @@ namespace dru
 				GetOwner()->SetLeft();
 			}
 		}
-
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
 			// hitSlash(0);
@@ -280,8 +268,6 @@ namespace dru
 				break;
 			case dru::eBossState::Hurt:
 				mAnimator->Play(GetOwner()->GetName() + L"_Hurt", false);
-				break;
-			case dru::eBossState::DieGround:
 				break;
 			case dru::eBossState::Block:
 				mAnimator->Play(GetOwner()->GetName() + L"_Block", false);

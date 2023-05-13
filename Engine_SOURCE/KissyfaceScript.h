@@ -89,6 +89,8 @@ namespace dru
         void StruggleOn();
         void StruggleOff();
 
+        void PushPlayer();
+        void PlayerReset();
 
         // animation Callback
 

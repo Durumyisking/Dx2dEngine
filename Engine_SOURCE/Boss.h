@@ -19,13 +19,15 @@ namespace dru
 		void Disable();
 
 	private:
-		UINT mHP;
+		UINT mMaxHp;
+		UINT mHp;
 
 
 	public:
-		void SetHp(UINT _Value) { mHP = _Value; }
-		void Damaged() { mHP--; }
-		UINT GetHP() const { return mHP; }
+		void SetHp(UINT _Value) { mHp = _Value; }
+		void Damaged() { mHp--; }
+		void ResetHp() { mHp = mMaxHp; }
+		UINT GetHp() const { return mHp; }
 
     };
 }

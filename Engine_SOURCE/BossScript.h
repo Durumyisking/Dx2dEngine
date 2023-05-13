@@ -21,8 +21,8 @@ namespace dru
         Pattern5,
         Fall,
         Hurt,
-        DieGround,
         Block,
+        Dead,
         End,
     };
 

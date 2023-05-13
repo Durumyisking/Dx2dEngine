@@ -266,6 +266,14 @@ namespace dru
 		}
 	}
 
+	void CCameraScript::MakeCamShake(float _duration, float _Magnitude)
+	{
+		ShakeParams sp = {};
+		sp.duration = _duration;
+		sp.magnitude = _Magnitude;
+		renderer::mainCamera->GetCamScript()->Shake(sp);
+	}
+
 	void CCameraScript::Shake(const ShakeParams& params)
 	{
 		if (mbShaking) 

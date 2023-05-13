@@ -4,7 +4,8 @@
 namespace dru
 {
 	CBoss::CBoss()
-		: mHP(5)
+		: mHp(2)
+		, mMaxHp(2)
 	{
 		SetLayerType(eLayerType::Boss);
 

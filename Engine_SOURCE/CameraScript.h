@@ -28,6 +28,7 @@ namespace dru
 
         void KeyBoardMove();
         void TargetMove();
+        void MakeCamShake(float _duration, float _Magnitude);
         void Shake(const ShakeParams& params);
         void CancelShake();
         void ShakeMove();

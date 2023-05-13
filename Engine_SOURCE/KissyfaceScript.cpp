@@ -53,7 +53,6 @@ namespace dru
 				StruggleOperate();
 			}
 
-
 			CBossScript::update();
 		}
 	}
@@ -107,6 +106,9 @@ namespace dru
 				{
 					SetSingleState(eBossState::Hurt);
 					mKissyface->Damaged();
+
+					CTimeMgr::BulletTime(0.1f);
+					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
 				}
 			}	
 			else
@@ -159,7 +161,6 @@ namespace dru
 	{
 		mKissyface->ResetAfterImageColor();
 		mKissyface->SetAfterImageCount(0);
-		GetOwner_LiveObject()->RemoveAfterImage();
 	}
 
 	void CKissyfaceScript::AddAnimationCallBack()
@@ -219,9 +220,7 @@ namespace dru
 			mAnimator->GetCompleteEvent(L"kissyface_GetUp") = [this]
 			{
 				Reset();
-			};
-
-			
+			};			
 		}
 		else
 		{
@@ -304,7 +303,6 @@ namespace dru
 
 	void CKissyfaceScript::Lunge()
 	{
-
 		float newPosX = 0.f;
 		mPattern3_mLungeElapsedTime += CTimeMgr::DeltaTime();
 		if (mPattern3_mLungeElapsedTime <= LUNGE_TIMER)
@@ -401,7 +399,6 @@ namespace dru
 	{
 		mKissyface->GetAxe()->RenderingBlockOn();
 		mKissyface->GetAxeScript()->Reset();
-		mKissyface->GetAxe()->RemoveAfterImage();
 		mKissyface->GetAxe()->SetAfterImageCount(0);
 		CCollider2D* coll = mKissyface->GetAxe()->GetComponent<CCollider2D>();
 		coll->Off();
@@ -418,12 +415,8 @@ namespace dru
 		PlayBulletReflect();
 
 		CTimeMgr::BulletTime(0.1f);
+		renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 0.05f);
 
-		// CamShake
-		ShakeParams sp = {};
-		sp.duration = 0.1f;
-		sp.magnitude = 0.0500f;
-		renderer::mainCamera->GetCamScript()->Shake(sp);
 	}
 
 	bool CKissyfaceScript::BlockTest()
@@ -453,12 +446,79 @@ namespace dru
 		sp.magnitude = 0.0250f;
 		renderer::mainCamera->GetCamScript()->Shake(sp);
 
-
 		if (CInput::GetKeyTap(eKeyCode::LBTN))
 		{
 			StruggleOff();
 		}
 
+		PushPlayer();
+	}
+
+	void CKissyfaceScript::StruggleOn()
+	{
+		Vector3 pos = GetOwnerWorldPos();
+		pos.y += 1.f;
+		CStage::KeyUI_LClickOn(pos);
+		mbStruggling = true;
+		mAnimator->Play(L"kissyface_Struggle");
+		mPlayer->RemoveAfterImage();
+		mPlayer->SetAfterImageCount(0);
+		mPlayer->RenderingBlockOn();
+		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+	}
+
+	void CKissyfaceScript::StruggleOff()
+	{
+		CStage::KeyUI_LClickOff();
+		mbStruggling = false;
+		Vector3 pos = mKissyface->GetWorldPos();
+		pos.y = mPlayer->GetWorldPos().y;
+		mPlayer->SetPos(pos);
+
+		if (0 < mKissyface->GetHp())
+		{
+			mAnimator->Play(L"kissyface_GetUp", false);
+			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
+			PlayerReset();
+		}
+		else
+		{
+			mAnimator->Play(L"kissyface_CutArm", false);
+			mAnimator->GetCompleteEvent(L"kissyface_CutArm") = [this]
+			{
+				mAnimator->Play(L"kissyface_Dying");
+				PlayerReset();
+
+				Vector3 pos = mPlayer->GetWorldPos();
+
+				if (GetOwner()->IsLeft())
+				{
+					pos.x -= 0.5f;
+				}
+				else
+				{
+					pos.x += 0.5f;
+				}
+				mPlayer->SetPos(pos);
+				SetSingleState(eBossState::Dead);
+			};
+			mAnimator->GetFrameEvent(L"kissyface_CutArm", 3) = [this]
+			{
+				CTimeMgr::BulletTime(0.1f);
+				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
+			};
+			mAnimator->GetFrameEvent(L"kissyface_CutArm", 7) = [this]
+			{
+				CTimeMgr::BulletTime(0.1f);
+				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
+			};
+
+		}
+
+	}
+
+	void CKissyfaceScript::PushPlayer()
+	{
 		CAnimator* playerAnimator = mPlayer->GetComponent<CAnimator>();
 		if (playerAnimator->IsPlaying(L"Player_Dead"))
 		{
@@ -475,44 +535,10 @@ namespace dru
 		}
 	}
 
-	void CKissyfaceScript::StruggleOn()
+	void CKissyfaceScript::PlayerReset()
 	{
-		Vector3 pos = GetOwnerWorldPos();
-		pos.y += 1.f;
-		CStage::KeyUI_LClickOn(pos);
-		mbStruggling = true;
-		mAnimator->Play(L"kissyface_Struggle");
-		mPlayer->RemoveAfterImage();
-		mPlayer->SetAfterImageCount(0);
-		mPlayer->RenderingBlockOn();
-		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
-		mPlayer->SetPos(mKissyface->GetWorldPos());
-
-	}
-
-	void CKissyfaceScript::StruggleOff()
-	{
-		if (0 < mKissyface->GetHP())
-		{
-			CStage::KeyUI_LClickOff();
-			mAnimator->Play(L"kissyface_GetUp", false);
-			mbStruggling = false;
-			mPlayer->RenderingBlockOff();
-			mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
-			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
-//			mPlayer->SetPos(mKissyface->GetWorldPos());
-			CRigidBody* playerRigidBody = mPlayer->GetComponent<CRigidBody>();
-			playerRigidBody->SetMaxVelocity(DEFAULT_VELOCITY);
-		}
-		else
-		{
-			mAnimator->Play(L"kissyface_CutArm", false);
-			mbStruggling = false;
-//			mPlayer->SetPos(mKissyface->GetWorldPos());
-
-
-		}
-
+		mPlayer->RenderingBlockOff();
+		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
 	}
 
 

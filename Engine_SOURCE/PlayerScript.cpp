@@ -526,7 +526,7 @@ namespace dru
 
 	void CPlayerScript::deadComplete()
 	{
-		//GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 
 	void CPlayerScript::BulletTimeSwitchOn()
