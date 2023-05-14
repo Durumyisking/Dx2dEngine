@@ -23,7 +23,7 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input¿
     if (0 == particleBuffer[input[0].Instance].active)
         return;
 	
-    float3 vWorldPos = input[0].Pos.xyz + particleBuffer[input[0].Instance].position.xyz;
+    float3 vWorldPos = particleBuffer[input[0].Instance].position.xyz;
     if (simulationSpace == 0)
     {
         vWorldPos += world._41_42_43;

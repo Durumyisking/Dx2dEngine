@@ -87,6 +87,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)PostProcessPS.hlsl">
       <Filter>PostProcess</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)AimParticleCS.hlsl">
+      <Filter>CS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)global.hlsli" />

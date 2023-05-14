@@ -488,6 +488,10 @@ namespace dru::renderer
 		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
 
+		std::shared_ptr<CParticleShader> aimParticleCS = std::make_shared<CParticleShader>();
+		CResources::Insert<CParticleShader>(L"AimParticleCS", aimParticleCS);
+		aimParticleCS->Create(L"AimParticleCS.hlsl", "main");
+
 		std::shared_ptr<CShader> AfterImageShader = std::make_shared<CShader>();
 		AfterImageShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		AfterImageShader->Create(graphics::eShaderStage::PS, L"AfterImagePS.hlsl", "main"); 
@@ -805,7 +809,12 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"laserShoot", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"laserBeamMat", Material);
 		}
-
+		{
+			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"ParticleShader");
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"particle_spark", L"SpriteShader");
+			Material->SetShader(particleShader);
+			CResources::Insert<CMaterial>(L"LaserTurretParticleMat", Material);
+		}
 		
 		for (int i = 0; i <= 100; ++i)
 		{

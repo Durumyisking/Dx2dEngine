@@ -14,13 +14,15 @@ namespace dru
 {
 	CParticleSystem::CParticleSystem()
 		: CBaseRenderer(eComponentType::Particle)
+		, mParticle{}
+		, mCS(nullptr)
 		, mMaxParticles(7)
-		, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
+		, mStartSize(Vector4(0.1f, 0.1f, 1.f, 1.f))
 		//, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
 		, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
 		//, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
 		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
-		, mMaxLifeTime(0.7f)
+		, mMaxLifeTime(5.7f)
 		, mMinLifeTime(0.5f)
 		, mFrequency(100.f)
 		, mTime(0.f)
@@ -31,8 +33,8 @@ namespace dru
 		, mElapsedTime(0.f)
 		, mGravity(0.f)
 		, mForce(0.f)
+		, mMaxElapsedTime(1.f)
 	{
-		
 	}
 
 	CParticleSystem::~CParticleSystem()
@@ -45,47 +47,16 @@ namespace dru
 
 	void CParticleSystem::Initialize()
 	{
-		mCS = CResources::Find<CParticleShader>(L"ParticleCS");
-
 		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Pointmesh");
 		SetMesh(point);
 
-		// Material 세팅
-		std::shared_ptr<CMaterial> material = CResources::Find<CMaterial>(L"ParticleMaterial");
-		SetMaterial(material);
-
-		std::shared_ptr<CTexture> tex = CResources::Find<CTexture>(L"particle_spark");
-		material->SetTexture(eTextureSlot::T0, tex);
-
-
-		Particle particles[256] = {};
-		Vector4 startPos = Vector4(0.f, 0.f, 0.f, 0.f);
-
-		for (size_t i = 0; i < mMaxParticles; i++)
-		{
-			particles[i].position = Vector4(0.f, 0.f, 10.f, 1.f);
-			particles[i].active = 0;
-			particles[i].direction =
-				Vector4(cosf((float)i * (XM_PI / (float)mMaxParticles))
-					, sin((float)i * -(XM_PI / (float)mMaxParticles)), 0.f, 1.f);
-
-			particles[i].direction.Normalize();
-
-			//XMVECTOR upVector = XMVectorSet(0.f, 1.f, 0.f, 0.f); 
-			//float dotProduct = XMVectorGetX(XMVector3Dot(particles[i].direction, upVector));
-			//float radian = acosf(dotProduct);			
-			//particles[i].radian = radian;
-
-
-			particles[i].speed = 5.f; 
-		}
 		//for (size_t i = 50; i < mCount; i++)
 		//{
-		//	particles[i].active = 0;
+		//	mParticle[i].active = 0;
 		//}
 
 		mBuffer = new CStructedBuffer();
-		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, particles);
+		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, mParticle);
 		mSharedBuffer = new CStructedBuffer();
 		mSharedBuffer->Create(sizeof(ParticleShared), 1, eSRVType::UAV, nullptr, true);
 	}
@@ -115,8 +86,8 @@ namespace dru
 		}
 	
 		mMaxParticles = mBuffer->GetStride();
-		Vector3 pos = GetOwner()->GetComponent<CTransform>()->GetPosition();
-		Vector3 rot = GetOwner()->GetComponent<CTransform>()->GetRotation();
+		Vector3 pos = GetOwner()->GetWorldPos();
+		Vector3 rot = GetOwner()->GetWorldPos();
 
 		mCBData.worldPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
 
@@ -124,10 +95,7 @@ namespace dru
 		mCBData.radius = mRadius;
 		mCBData.simulationSpace = (UINT)mSimulationSpace;
 		mCBData.startSpeed = mStartSpeed;
-		mCBData.startSize = mStartSize;
-		mCBData.startColor = mStartColor;
 		mCBData.endColor = mEndColor;
-		mCBData.maxLifeTime = mMaxLifeTime;
 		mCBData.minLifeTime = mMinLifeTime;
 		mCBData.gravity = mGravity;
 		mCBData.force = mForce;
@@ -135,7 +103,8 @@ namespace dru
 
 		mCBData.deltaTime = CTimeMgr::DeltaTime();
 		mCBData.elapsedTime += CTimeMgr::DeltaTime();
-		if (mCBData.elapsedTime > 1.f)
+
+		if (mCBData.elapsedTime > mMaxElapsedTime)
 		{
 			mCBData.elapsedTime = 0.f;
 		}
@@ -159,5 +128,26 @@ namespace dru
 
 		mBuffer->Clear();
 	}
+
+	// 밑으로 180도
+	/*
+	Vector4(cosf((float)i * (XM_PI / (float)mMaxParticles))
+					, sin((float)i * -(XM_PI / (float)mMaxParticles)), 0.f, 1.f);
+	*/
+
+	void CParticleSystem::MakeParticleBufferData(Vector4 startPosition, Vector4 direction, UINT maxParticleCount ,float speed, float radian, UINT active)
+	{
+		mMaxParticles = maxParticleCount;
+		for (size_t i = 0; i < mMaxParticles; i++)
+		{
+			mParticle[i].position = Vector4(0.f, 0.f, 0.f, 1.f);
+			mParticle[i].direction = direction;
+			mParticle[i].direction.Normalize();
+			mParticle[i].speed = speed;
+			mParticle[i].radian = radian;
+			mParticle[i].active = active;
+		}
+	}
+
 
 }

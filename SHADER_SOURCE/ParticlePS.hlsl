@@ -17,7 +17,7 @@ float4 main(GSOutput In) : SV_TARGET
     outColor = defaultTexture.Sample(pointSampler, In.UV);    
     outColor = startColor;
     
-    outColor.w *= alpharatio;
+//    outColor.w *= alpharatio;
     
 //    outColor = lerp(startColor, endColor, particleBuffer[In.Instance].lifeTime);
 

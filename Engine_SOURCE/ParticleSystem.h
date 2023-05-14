@@ -20,8 +20,17 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
+		void MakeParticleBufferData(Vector4 startPosition, Vector4 direction, UINT maxParticleCount, float speed, float radian, UINT active);
+		void MakeConstantBufferData(std::wstring _ShaderName, renderer::ParticleSystemCB _CB)
+		{
+			mCS = CResources::Find<CParticleShader>(_ShaderName);
+			mCBData = _CB; 
+		}
+		void SetMaxElapsedTime(float _Value) { mMaxElapsedTime = _Value; }
 
 	private:
+		Particle mParticle[256];
+
 		class CStructedBuffer* mBuffer;
 		class CStructedBuffer* mSharedBuffer;
 		std::shared_ptr<graphics::CParticleShader> mCS;
@@ -45,6 +54,8 @@ namespace dru
 		float mElapsedTime; //누적시간
 		float mGravity;
 		float mForce;
+
+		float mMaxElapsedTime;
 	};
 
 }
