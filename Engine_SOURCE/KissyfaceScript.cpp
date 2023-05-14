@@ -416,7 +416,6 @@ namespace dru
 
 		CTimeMgr::BulletTime(0.1f);
 		renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 0.05f);
-
 	}
 
 	bool CKissyfaceScript::BlockTest()
@@ -487,6 +486,7 @@ namespace dru
 			mAnimator->GetCompleteEvent(L"kissyface_CutArm") = [this]
 			{
 				mAnimator->Play(L"kissyface_Dying");
+				AxeOff();
 				PlayerReset();
 
 				Vector3 pos = mPlayer->GetWorldPos();

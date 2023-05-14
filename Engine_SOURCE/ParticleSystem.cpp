@@ -14,14 +14,14 @@ namespace dru
 {
 	CParticleSystem::CParticleSystem()
 		: CBaseRenderer(eComponentType::Particle)
-		, mMaxParticles(5)
-		, mStartSize(Vector4(0.1f, 1.f, 1.f, 1.f))
+		, mMaxParticles(7)
+		, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
 		//, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
-		//, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
-		, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
+		, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
+		//, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
 		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
-		, mMaxLifeTime(1.f)
-		, mMinLifeTime(0.1f)
+		, mMaxLifeTime(0.7f)
+		, mMinLifeTime(0.5f)
 		, mFrequency(100.f)
 		, mTime(0.f)
 		, mCBData{}
@@ -71,13 +71,13 @@ namespace dru
 
 			particles[i].direction.Normalize();
 
-			XMVECTOR upVector = XMVectorSet(0.f, 1.f, 0.f, 0.f); 
-			float dotProduct = XMVectorGetX(XMVector3Dot(particles[i].direction, upVector));
-			float radian = acosf(dotProduct);			
-			particles[i].radian = radian;
+			//XMVECTOR upVector = XMVectorSet(0.f, 1.f, 0.f, 0.f); 
+			//float dotProduct = XMVectorGetX(XMVector3Dot(particles[i].direction, upVector));
+			//float radian = acosf(dotProduct);			
+			//particles[i].radian = radian;
 
 
-			particles[i].speed = 10.f; 
+			particles[i].speed = 5.f; 
 		}
 		//for (size_t i = 50; i < mCount; i++)
 		//{

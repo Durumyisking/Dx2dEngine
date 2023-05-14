@@ -32,8 +32,8 @@ namespace dru
 		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
 		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.125f, GetDevice()->ViewportHeight() / 102.5f));
 
-		mPlayerDefaultPos = Vector3(0.f, 0.05f, 3.f);
-		mKissyfaceDefaultPos = Vector3(3.f, 0.05f, 3.f);
+		mPlayerDefaultPos = Vector3(-3.f, -1.25f, 3.f);
+		mKissyfaceDefaultPos = Vector3(3.f, -1.25f, 3.f);
 
 		mStageState = eStageState::Ready;
 

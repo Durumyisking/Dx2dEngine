@@ -563,7 +563,7 @@ namespace dru
 	{
 		if (!mPostProcess_Rewind)
 		{
-			mPostProcess_Rewind = object::Instantiate<CPostProcessWave>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
+			mPostProcess_Rewind = object::Instantiate<CPostProcessWave>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject_Rewind");
 
 			mPostProcess_Rewind->SetMaterial(L"WaveMaterial");
 
@@ -575,7 +575,7 @@ namespace dru
 	{
 		if (!mPostProcess_Replay)
 		{
-			mPostProcess_Replay = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
+			mPostProcess_Replay = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject_Replay");
 
 			mPostProcess_Replay->SetMaterial(L"GreyScaleMaterial");
 
@@ -587,7 +587,7 @@ namespace dru
 	{
 		if (!mPostProcess_Snow)
 		{
-			mPostProcess_Snow = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject");
+			mPostProcess_Snow = object::Instantiate<CPostProcess>(eLayerType::PostProcess, renderer::mainCamera->GetOwner(), L"PostProcessGameObject_Snonw");
 
 			mPostProcess_Snow->SetMaterial(L"SnowMaterial");
 

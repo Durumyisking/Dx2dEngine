@@ -37,21 +37,14 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             // 샘플링을 시도할 UV 계산해준다.
             float4 Random = (float4) 0.0f;
             float2 UV = float2((float) DTid.x / maxParticles, 0.5f); // elementcount는 buffer의 stride 그러니까 stride번째 친구라는뜻
-            UV.x += elapsedTime; // 현재 uv.x에 경과시간 더함 랜덤값 받으려고 하는거
-            UV.y += sin((UV.x + elapsedTime) * 3.14592f + 2.0f * 10.0f) * 0.5f; // 얘도
-                
-            Random = float4
-                (
-                    GaussianBlur(UV + float2(0.0f, 0.0f)).x
-                    , GaussianBlur(UV + float2(0.1f, 0.0f)).x
-                    , GaussianBlur(UV + float2(0.2f, 0.0f)).x
-                    , GaussianBlur(UV + float2(0.3f, 0.0f)).x
-                ); // 대충 현재 uv값 부터 0.1 0.2까지의 x좌표를 넣어줌
+         
+            Random = GetRandomFromBlur(UV);
+          
               //// radius 원형 범위로 스폰
             float2 Theta = Random.xy * 3.141592f * 2.0f;
             ParticleBuffer[DTid.x].position.xy = float2(cos(Theta.x), sin(Theta.y)) * Random.y * radius;
 //            ParticleBuffer[DTid.x].position.x += 200.f;
-            ParticleBuffer[DTid.x].position.z = 100.0f; // z값은 고정
+            ParticleBuffer[DTid.x].position.z = 3.0f; // z값은 고정
             
             //ParticleBuffer[DTid.x].direction.xy 
             //    = normalize(float2(ParticleBuffer[DTid.x].position.xy));
@@ -62,7 +55,7 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             }
             
             ////파티클 속력
-            ParticleBuffer[DTid.x].time = 0.0f;
+            ParticleBuffer[DTid.x].time = 0.f;
             
             float seedx = DTid.x;
             float seedy = DTid.y;
@@ -74,17 +67,17 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             // [0.5~1] -> [0~1]
             float4 noise =
             {
-                2 * r1 - 1,
-                2 * r2 - 1,
-                2 * r3 - 1,
-                2 * r4 - 1
+                2.f * r1 - 1.f,
+                2.f * r2 - 1.f,
+                2.f * r3 - 1.f,
+                2.f * r4 - 1.f
             };
             
             ParticleBuffer[DTid.x].speed = startSpeed;
 
-            ParticleBuffer[DTid.x].lifeTime = 3.f; //(maxLifeTime - minLifeTime) * (2 * r5 - 1) + minLifeTime;
-//            ParticleBuffer[DTid.x].lifeTime = maxLifeTime;
-            
+//          ParticleBuffer[DTid.x].lifeTime = 3.f; 
+//            ParticleBuffer[DTid.x].lifeTime = (maxLifeTime - minLifeTime) * (2.f * r5 - 1.f) + minLifeTime;
+          ParticleBuffer[DTid.x].lifeTime = maxLifeTime;            
         }
     }
     else // active == 1

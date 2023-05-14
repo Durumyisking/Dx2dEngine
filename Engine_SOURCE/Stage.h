@@ -17,6 +17,8 @@
 #include "Cop.h"
 #include "Kissyface.h"
 
+#include "Turret.h"
+
 #include "GridScript.h"
 #include "FadeScript.h"
 #include "CursorScript.h"

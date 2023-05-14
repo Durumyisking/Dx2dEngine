@@ -197,6 +197,9 @@
     <Filter Include="Scene\Stage\Boss">
       <UniqueIdentifier>{982a4d8e-08a4-4492-ad45-c6f9997dfaa5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Turret">
+      <UniqueIdentifier>{03129b5d-a3f3-4763-a75b-4d3a209b7a69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -503,6 +506,9 @@
     <ClInclude Include="AxeScript.h">
       <Filter>GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
+    <ClInclude Include="Turret.h">
+      <Filter>GameObj\Turret</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -793,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="AxeScript.cpp">
       <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="Turret.cpp">
+      <Filter>GameObj\Turret</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

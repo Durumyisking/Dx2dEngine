@@ -18,7 +18,7 @@ namespace dru
 
 		void Disable();
 
-	private:
+	protected:
 		UINT mMaxHp;
 		UINT mHp;
 

@@ -43,9 +43,6 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input¿
         vViewPos + float3(-0.5f, -0.5f, 0.0f) * vScale
     };
     
-    
-        
-
     for (int i = 0; i < 4; i++)
     {
         NewPos[i] = RotatePointZ(NewPos[i], particleBuffer[input[0].Instance].radian);

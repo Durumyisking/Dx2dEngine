@@ -31,12 +31,14 @@ namespace dru
         void CreateSecondFloor();
         void CreateThirdFloor();
 
-
+        void AdjustLaserTransform();
 
     private:
-
         CMonster* mGrunt1;
         CMonster* mGrunt2;
+
+        CFloor* mLaserFloor;
+        CTurret* mLaserTurret;
 
         Vector3 mGrunt1DefaultPos;
         Vector3 mGrunt2DefaultPos;
