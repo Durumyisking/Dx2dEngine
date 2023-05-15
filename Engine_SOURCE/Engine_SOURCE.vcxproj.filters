@@ -509,6 +509,9 @@
     <ClInclude Include="Turret.h">
       <Filter>GameObj\Turret</Filter>
     </ClInclude>
+    <ClInclude Include="BeamScript.h">
+      <Filter>GameObj\Turret</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -801,6 +804,9 @@
       <Filter>GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
     <ClCompile Include="Turret.cpp">
+      <Filter>GameObj\Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="BeamScript.cpp">
       <Filter>GameObj\Turret</Filter>
     </ClCompile>
   </ItemGroup>

@@ -29,9 +29,10 @@ namespace dru
 
 		float GapBetweenFloorAndTurret();
 
-	private:
 		void MakeBeam();
 		void InitializeParticleSystem();
+
+	private:
 
 		CGameObj* mBeam;
 		CGameObj* mParticle;

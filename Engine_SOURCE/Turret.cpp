@@ -2,6 +2,7 @@
 #include "Object.h"
 #include "ParticleSystem.h"
 #include "Floor.h"
+#include "BeamScript.h"
 
 namespace dru
 {
@@ -94,8 +95,10 @@ namespace dru
 		collider->SetName(L"col_beam");
 		collider->SetType(eColliderType::Rect);
 	
-		mBeam->GetComponent<CTransform>()->SetScaleX(0.125f);
+		mBeam->GetComponent<CTransform>()->SetScaleX(0.25f);
 		mBeam->RenderingBlockOn();
+
+		mBeam->AddComponent<CBeamScript>(eComponentType::Script)->SetBeam(mBeam);
 
 	}
 	void CTurret::InitializeParticleSystem()
@@ -112,7 +115,7 @@ namespace dru
 		Vector3 pos = mParticle->GetWorldPos();
 		Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
 		Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
-		particleSystem->MakeParticleBufferData(startPos, direction, 12, 1.f, 0.f, 0);
+		particleSystem->MakeParticleBufferData(startPos, direction, 24, 1.f, 0.f, 0);
 		particleSystem->SetMaxLifeTime(4.5f);
 		particleSystem->SetStartColor(RED);
 		particleSystem->SetStartPosition(GetWorldPos());

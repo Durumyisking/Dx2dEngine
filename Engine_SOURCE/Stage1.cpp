@@ -160,17 +160,11 @@ namespace dru
 	}
 
 	void CStage1::CreateFirstFloor()
-	{		
+	{	
 		{
-			mLaserFloor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			mLaserFloor->SetPos(Vector3(-4.f, -3.4f, 3.f));
-			mLaserFloor->SetColliderScale({ 20.f, 0.4f });
-			
-			mLaserTurret = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
-			mLaserTurret->SetPos(Vector3(-1.5f, 3.f, 3.f));
-			mLaserTurret->SetScale({ 0.25f, 0.25f, 0.f });
-
-			mLaserTurret->SetDestinationFloor(mLaserFloor);
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(-4.f, -3.4f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 
 		{
@@ -204,9 +198,15 @@ namespace dru
 	void CStage1::CreateSecondFloor()
 	{
 		{
-			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(3.75f, 2.f, 3.f));
-			Floor->SetColliderScale({ 10.f, 0.4f });
+			mLaserFloor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			mLaserFloor->SetPos(Vector3(3.75f, 2.f, 3.f));
+			mLaserFloor->SetColliderScale({ 10.f, 0.4f });
+
+			mLaserTurret = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
+			mLaserTurret->SetPos(Vector3(3.9f, 9.f, 3.f));
+			mLaserTurret->SetScale({ 0.25f, 0.25f, 0.f });
+
+			mLaserTurret->SetDestinationFloor(mLaserFloor);
 		}
 
 		{
