@@ -5,14 +5,14 @@ RWStructuredBuffer<ParticleShared> ParticleSharedBuffer : register(u1);
 
 
 [numthreads(128, 1, 1)]
-void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
+void main(uint3 DTid : SV_DispatchThreadID) 
 {
-    if (maxParticles <= DTid.x) // 쓰레드 넘버 x보다 작으면 return (우린 x만쓰니까) 부등호 바뀌어야하나???
+    if (maxParticles <= DTid.x)
         return;
     
-    if (ParticleBuffer[DTid.x].active == 0) // 파티클버퍼 index x가 활성화가 아니면
+    if (ParticleBuffer[DTid.x].active == 0)
     {
-        while (0 < ParticleSharedBuffer[0].gActiveCount) // 쉐어드버퍼 카운트의 값을 가져온다.
+        while (0 < ParticleSharedBuffer[0].gActiveCount) 
         {
             int originValue = ParticleSharedBuffer[0].gActiveCount;
             int exchange = originValue - 1;
@@ -33,21 +33,11 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
         } 
         if (ParticleBuffer[DTid.x].active) // 위에서 성공하면 여기로 들어옴
         {
-            // 랜덤값으로 위치와 방향을 설정해준다.
-            // 샘플링을 시도할 UV 계산해준다.
-            float4 Random = (float4) 0.f;
-            float2 UV = float2((float) DTid.x / maxParticles, 0.5f); // elementcount는 buffer의 stride 그러니까 stride번째 친구라는뜻
-         
-            Random = GetRandomFromBlur(UV);
           
-              //// radius 원형 범위로 스폰
-            float2 Theta = Random.y * 3.141592f * 2.f;
-            ParticleBuffer[DTid.x].position.xy = float2(cos(Theta.x), sin(Theta.y)) * Random.y * radius;
+            ParticleBuffer[DTid.x].position.xy = float2(0.f, 0.f); // 초기위치는 레이저 포탑
+
             ParticleBuffer[DTid.x].position.z = 1.f; // z값은 고정
-            
-            //ParticleBuffer[DTid.x].direction.xy 
-            //    = normalize(float2(ParticleBuffer[DTid.x].position.xy));
-            
+                       
             if (simulationSpace) // 1 world , 0 local
             {
                 ParticleBuffer[DTid.x].position.xyz += worldPosition.xyz;

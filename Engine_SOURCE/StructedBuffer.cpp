@@ -147,11 +147,12 @@ namespace dru::graphics
 			uavDesc.Buffer.NumElements = mStride;
 			uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 
+
 			if (!(GetDevice()->CreateUnorderedAccessView(buffer.Get(), &uavDesc, mUAV.GetAddressOf())))
 				return false;
 		}
 
-		return false;
+		return true;
 	}
 	bool CStructedBuffer::createRWBuffer()
 	{

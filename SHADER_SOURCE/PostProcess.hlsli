@@ -108,3 +108,8 @@ float snow(float2 uv, float scale)
     return k * w;
 }
 
+float4 MakeGreyScaleColor(float3 _OriginColor)
+{    
+    return dot(_OriginColor, float3(0.21f, 0.71f, 0.07f));
+
+}

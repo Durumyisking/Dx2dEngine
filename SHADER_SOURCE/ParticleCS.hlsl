@@ -4,7 +4,7 @@ RWStructuredBuffer<Particle> ParticleBuffer : register(u0);
 RWStructuredBuffer<ParticleShared> ParticleSharedBuffer : register(u1);
 
 
-[numthreads(128, 1, 1)]
+[numthreads(128, 1, 1)] // 그룹당 쓰레드 개수 ( 우리는 그룹 1개쓰니까 128개만 쓰는거 )
 void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
 {
     if (maxParticles <= DTid.x) // 쓰레드 넘버 x보다 작으면 return (우린 x만쓰니까) 부등호 바뀌어야하나???
@@ -41,7 +41,7 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
             Random = GetRandomFromBlur(UV);
           
               //// radius 원형 범위로 스폰
-            float2 Theta = Random.y * 3.141592f * 2.0f;
+            float2 Theta = Random.xy * 3.141592f * 2.0f;
             ParticleBuffer[DTid.x].position.xy = float2(cos(Theta.x), sin(Theta.y)) * Random.y * radius;
 //            ParticleBuffer[DTid.x].position.x += 200.f;
             ParticleBuffer[DTid.x].position.z = 1.0f; // z값은 고정

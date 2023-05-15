@@ -317,7 +317,7 @@ namespace dru
 				- (_lineB_p2.x - _lineB_p1.x)
 				* (_lineA_p2.y - _lineA_p1.y));
 
-		// uA와 uB가 둘 다 0~1사이면 충돌중이다!
+		// uA와 uB가 둘 다 0~1사이면 충돌중이다! 
 		if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1)
 		{
 			return true;

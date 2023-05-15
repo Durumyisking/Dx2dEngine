@@ -15,25 +15,27 @@ namespace dru
 	CParticleSystem::CParticleSystem()
 		: CBaseRenderer(eComponentType::Particle)
 		, mParticle{}
-		, mCS(nullptr)
-		, mMaxParticles(7)
-		, mStartSize(Vector4(0.1f, 0.1f, 1.f, 1.f))
-		//, mStartSize(Vector4(1.f, 1.f, 1.f, 1.f))
-		, mStartColor(Vector4(0.4941f, 0.8118, 0.9765, 1.f))
-		//, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
-		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
-		, mMaxLifeTime(5.7f)
-		, mMinLifeTime(0.5f)
-		, mFrequency(100.f)
-		, mTime(0.f)
+		, mBuffer{}
+		, mSharedBuffer{}
 		, mCBData{}
 		, mSimulationSpace(eSimulationSpace::World)
+		, mCS(nullptr)
+		, mMaxParticles(1)
+		, mStartPosition(Vector4(0.f, 0.f, 0.f, 1.f))
+		, mStartScale(Vector4(0.1f, 0.1f, 1.f, 1.f))
+		, mStartColor(Vector4(0.4941f, 0.8118f, 0.9765f, 1.f))
+		//, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
+		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
+		, mMaxLifeTime(1.f)
+		, mMinLifeTime(0.5f)
+		, mFrequency(0.25f)
+		, mTime(0.f)
 		, mRadius(10.f)
 		, mStartSpeed(50.f)
 		, mElapsedTime(0.f)
 		, mGravity(0.f)
 		, mForce(0.f)
-		, mMaxElapsedTime(1.f)
+		, mMaxElapsedTime(1.f)	
 	{
 	}
 
@@ -73,10 +75,9 @@ namespace dru
 		if (aliveTime < mTime) 
 		{
 			float f = (mTime / aliveTime); 
-			UINT iAliveCount = (UINT)f;
 			mTime = f - std::floor(f);
 
-			ParticleShared shared = { 5 }; // 20을 computeShader에 보내겠다
+			ParticleShared shared = { 1 }; // 20을 computeShader에 보내겠다
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else
@@ -85,17 +86,19 @@ namespace dru
 			mSharedBuffer->SetData(&shared, 1);
 		}
 	
-		mMaxParticles = mBuffer->GetStride();
-		Vector3 pos = GetOwner()->GetWorldPos();
-		Vector3 rot = GetOwner()->GetWorldPos();
+//		mMaxParticles = mBuffer->GetStride();
 
-		mCBData.worldPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
+
+		mCBData.worldPosition = mStartPosition;
+		mCBData.startSize = mStartScale;
 
 		mCBData.maxParticles = mMaxParticles;
 		mCBData.radius = mRadius;
 		mCBData.simulationSpace = (UINT)mSimulationSpace;
 		mCBData.startSpeed = mStartSpeed;
+		mCBData.startColor = mStartColor;
 		mCBData.endColor = mEndColor;
+		mCBData.maxLifeTime = mMaxLifeTime;
 		mCBData.minLifeTime = mMinLifeTime;
 		mCBData.gravity = mGravity;
 		mCBData.force = mForce;

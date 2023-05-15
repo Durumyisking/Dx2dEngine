@@ -1,11 +1,14 @@
 #include "Turret.h"
 #include "Object.h"
 #include "ParticleSystem.h"
+#include "Floor.h"
 
 namespace dru
 {
 	CTurret::CTurret()
 		:mBeam(nullptr)
+		, mParticle(nullptr)
+		, mDestinationFloor(nullptr)
 	{
 		SetLayerType(eLayerType::None);
 
@@ -41,35 +44,42 @@ namespace dru
 	{
 		mBeam->GetComponent<CTransform>()->SetScaleY(_ScaleY);
 	}
+	void CTurret::AdjustLaserTransform()
+	{
+		Vector3 TurretPos = mBeam->GetWorldPos();
+		float Gap = GapBetweenFloorAndTurret();
+		TurretPos.y -= Gap / 2.f;
+		TurretPos.z += 0.1f;
+		ChangeBeamSize(Gap);
+		ChangeBeamPos(TurretPos);
+	}
+
+	void CTurret::AdjustAimParticle()
+	{
+		UINT newCount = 0;
+		float Gap = GapBetweenFloorAndTurret();
+		newCount = static_cast<UINT>(Gap / SINGLE_LASER_GAP);
+
+		float newLiefTime = 0.f;
+		newLiefTime = Gap / SINGLE_LASER_LIFETIME_GAP;
+
+		CParticleSystem* particleSystem = mParticle->GetComponent<CParticleSystem>();
+		particleSystem->SetMaxParticleCount(newCount);
+		particleSystem->SetMaxLifeTime(newLiefTime);
+	}
+
+	float CTurret::GapBetweenFloorAndTurret()
+	{
+		float floorPos = mDestinationFloor->GetWorldPos().y;
+		Vector3 TurretPos = GetWorldPos();
+		float Gap = fabs(floorPos - TurretPos.y);
+		return Gap;
+	}
+
+
 	void CTurret::MakeBeam()
 	{
-
-		{
-			CGameObj* particle = object::Instantiate<CGameObj>(eLayerType::Particle);
-			particle->SetName(L"PARTICLE");
-			particle->SetPos(GetWorldPos());
-			CParticleSystem* particleSystem = particle->AddComponent<CParticleSystem>(eComponentType::Particle);
-
-			// Material 세팅
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"LaserTurretParticleMat");
-			particleSystem->SetMaterial(Material);
-
-			Vector3 pos = particle->GetWorldPos();
-			Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
-			Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
-			particleSystem->MakeParticleBufferData(startPos, direction, 7, 1.f, 0.f, 0);
-			renderer::ParticleSystemCB cb = {};
-			cb.radian = 0.f;
-			cb.maxLifeTime = 4.f;
-			cb.startColor = RED;
-			cb.startSize = Vector4(0.05f, 0.1f, 0.f, 1.f);
-
-			particleSystem->MakeConstantBufferData(L"AimParticleCS", cb);
-
-			particleSystem->SetMaxElapsedTime(5.f);
-
-		}
-
+		InitializeParticleSystem();
 
 		mBeam = object::Instantiate<CGameObj>(eLayerType::Bullet, L"LaserBeam");
 		mBeam->SetPosAbs(GetWorldPos());
@@ -87,5 +97,31 @@ namespace dru
 		mBeam->GetComponent<CTransform>()->SetScaleX(0.125f);
 		mBeam->RenderingBlockOn();
 
+	}
+	void CTurret::InitializeParticleSystem()
+	{
+		mParticle = object::Instantiate<CGameObj>(eLayerType::Particle);
+		mParticle->SetName(L"LaserTurretParticleSystem");
+		mParticle->SetPos(GetWorldPos());
+		CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
+
+		// Material 세팅
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"LaserTurretParticleMat");
+		particleSystem->SetMaterial(Material);
+
+		Vector3 pos = mParticle->GetWorldPos();
+		Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
+		Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
+		particleSystem->MakeParticleBufferData(startPos, direction, 12, 1.f, 0.f, 0);
+		particleSystem->SetMaxLifeTime(4.5f);
+		particleSystem->SetStartColor(RED);
+		particleSystem->SetStartPosition(GetWorldPos());
+		particleSystem->SetStartScale(Vector3(0.05f, 0.1f, 0.f));
+
+		renderer::ParticleSystemCB cb = {};
+		cb.radian = 0.f;	
+		particleSystem->MakeConstantBufferData(L"AimParticleCS", cb);
+
+		particleSystem->SetMaxElapsedTime(5.f);
 	}
 }

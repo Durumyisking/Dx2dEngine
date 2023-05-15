@@ -7,6 +7,8 @@ namespace dru
 	CStage1::CStage1()
 		: mGrunt1(nullptr)
 		, mGrunt2(nullptr)
+		, mLaserFloor(nullptr)
+		, mLaserTurret(nullptr)
 		, mGrunt1DefaultPos{}
 		, mGrunt2DefaultPos{}
 
@@ -109,7 +111,9 @@ namespace dru
 
 	void CStage1::ReadyOperate()
 	{
-		AdjustLaserTransform();
+		mLaserTurret->AdjustLaserTransform();
+		mLaserTurret->AdjustAimParticle();
+
 		CStage::ReadyOperate();
 	}
 
@@ -136,7 +140,6 @@ namespace dru
 			LeftOutWall->SetColliderScale(Vector2(0.5f, 30.f));
 		}
 
-
 		{
 			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
 			RightOutWall->SetPos(Vector3(20.f, 0.f, 4.999f));
@@ -157,15 +160,17 @@ namespace dru
 	}
 
 	void CStage1::CreateFirstFloor()
-	{
+	{		
 		{
 			mLaserFloor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
 			mLaserFloor->SetPos(Vector3(-4.f, -3.4f, 3.f));
 			mLaserFloor->SetColliderScale({ 20.f, 0.4f });
 			
 			mLaserTurret = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
-			mLaserTurret->SetPos(Vector3(-1.5f, 0.f, 3.f));
+			mLaserTurret->SetPos(Vector3(-1.5f, 3.f, 3.f));
 			mLaserTurret->SetScale({ 0.25f, 0.25f, 0.f });
+
+			mLaserTurret->SetDestinationFloor(mLaserFloor);
 		}
 
 		{
@@ -285,15 +290,5 @@ namespace dru
 		SetClearCollider({ 17.f, 8.f, 0.f });
 	}
 
-	void CStage1::AdjustLaserTransform()
-	{
-		float floorPos = mLaserFloor->GetWorldPos().y;
-		Vector3 TurretPos = mLaserTurret->GetBeamWorldPos();
-		float Gap = fabs(floorPos - TurretPos.y);
-		TurretPos.y -= Gap / 2.f;
-		TurretPos.z += 0.1f;
-		mLaserTurret->ChangeBeamSize(Gap);
-		mLaserTurret->ChangeBeamPos(TurretPos);
-	}
 
 }

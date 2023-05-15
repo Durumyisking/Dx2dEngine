@@ -31,7 +31,6 @@ namespace dru
         void CreateSecondFloor();
         void CreateThirdFloor();
 
-        void AdjustLaserTransform();
 
     private:
         CMonster* mGrunt1;

@@ -2,7 +2,6 @@
 #include "Blur.hlsli"
 
 
-// https://www.shadertoy.com/view/ldjGzV
 float4 main(VSOut _in) : SV_Target
 {
     float4 Color = (float4) 0.f;
@@ -29,14 +28,11 @@ float4 main(VSOut _in) : SV_Target
     RGB *= vignette;
     RGB *= (12.f + fmod(UV.y * 30.f + ElapsedTime, 1.f)) / 13.f;
     
-    
-    float3 color = RGB;
-    float gray = dot(color, float3(0.21f, 0.71f, 0.07f));
-    Color = float4(gray, gray, gray, postProcessTexture.Sample(pointSampler, UV).a);
 
-    
-//    Color.rgb = RGB;
-    
+    float4 gray = MakeGreyScaleColor(RGB);
+    Color = gray;
+    Color.a = postProcessTexture.Sample(pointSampler, UV).a;
+        
     return Color;
 }
 

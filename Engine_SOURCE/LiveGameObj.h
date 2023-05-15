@@ -112,7 +112,7 @@ namespace dru
 			mAfterImageCount = _Count;
 		}
 		UINT GetAfterImageMaxCount() const { return mAfterImageCount; }
-		UINT GetAfterImageCount() const { return mAfterImages.size(); }
+		UINT GetAfterImageCount() const { return static_cast<UINT32>(mAfterImages.size()); }
 
 		void SetAfterImageColor(Vector4 _Color) { mAfterImageColor = _Color; };
 		void ResetAfterImageColor() { mAfterImageColor = Vector4::Zero; }

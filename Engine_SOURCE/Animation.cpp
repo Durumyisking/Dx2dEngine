@@ -176,7 +176,7 @@ namespace dru
 	renderer::AnimationCB CAnimation::GetAnimationData()
 	{
 		renderer::AnimationCB data = {};
-
+		
 		data.type = (UINT)eAnimationType::SecondDimension;
 		data.LT = mSpriteSheet[mIndex].LT;
 		data.offset = mSpriteSheet[mIndex].offset;
@@ -187,3 +187,8 @@ namespace dru
 	}
 
 }
+
+// 컨 k s if문 묶이
+// 컨 j 함수찾기
+// 컨 mm 코드블록 닫고 열기
+// 컨트롤 RO 함수 구조변경

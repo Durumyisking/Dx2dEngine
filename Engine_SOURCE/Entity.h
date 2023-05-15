@@ -13,11 +13,11 @@ namespace dru
 
 		void SetName(const std::wstring& name) { mName = name; }
 		const std::wstring& GetName() { return mName; }
-		UINT32 GetID() { return mID; }
+		uintptr_t GetID() { return mID; }
 
 	private:
 		std::wstring mName;
-		const UINT32 mID;
+		const uintptr_t mID;
 
 	};
 
