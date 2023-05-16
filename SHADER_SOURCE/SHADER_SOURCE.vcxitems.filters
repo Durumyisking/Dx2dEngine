@@ -106,5 +106,8 @@
     <None Include="$(MSBuildThisFileDirectory)SnowPS.hlsl">
       <Filter>PostProcess</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)CSHeader.hlsli">
+      <Filter>CS</Filter>
+    </None>
   </ItemGroup>
 </Project>

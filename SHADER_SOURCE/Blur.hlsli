@@ -46,3 +46,4 @@ float4 GaussianBlur(float2 UV)
     
     return Out;
 }
+

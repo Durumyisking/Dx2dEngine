@@ -5,7 +5,7 @@ struct Particle
     float4 direction;
     
     float lifeTime;
-    float time;
+    float elapsedTime;
     float speed;
     float radian;
     uint active;
@@ -18,3 +18,5 @@ struct ParticleShared
 };
 
 StructuredBuffer<Particle> particleBuffer : register(t15);
+RWStructuredBuffer<Particle> ParticleBufferUAV : register(u0);
+RWStructuredBuffer<ParticleShared> ParticleSharedBufferUAV : register(u1);
