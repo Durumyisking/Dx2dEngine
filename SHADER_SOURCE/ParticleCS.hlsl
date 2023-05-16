@@ -1,6 +1,4 @@
 #include "CSHeader.hlsli"
-#include "Random.hlsli"
-#include "Blur.hlsli"
 
 
 [numthreads(128, 1, 1)] // 그룹당 쓰레드 개수 ( 우리는 그룹 1개쓰니까 128개만 쓰는거 )
@@ -11,27 +9,12 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
     
     if (ParticleBufferUAV[DTid.x].active == 0) // 파티클버퍼 index x가 활성화가 아니면
     {
-        while (0 < ParticleSharedBufferUAV[0].gActiveCount) // 쉐어드버퍼 카운트의 값을 가져온다.
-        {
-            int originValue = ParticleSharedBufferUAV[0].gActiveCount; 
-            int exchange = originValue - 1; 
-            
-            // 스레드 동기화
-            // dest값을 exchange값으로 바꾸는 동안
-            // 다른스레드는 멈춘다.
-            //InterlockedExchange(ParticleSharedBufferUAV[0].gActiveCount, exchange, exchange);
-            InterlockedCompareExchange(ParticleSharedBufferUAV[0].gActiveCount
-                                        , originValue, exchange, exchange); // 값이 다르면 origin
-            // ParticleSharedBufferUAV[0].gActiveCount 안에 exchange를 넣는다.
-            
-            if (originValue == exchange) 
-            {
-                ParticleBufferUAV[DTid.x].active = 1; // 위는 여기를 말함
-                break; //^ 
-            } //|
-        } //|
+        ParticleThreadSync(DTid.x);
+        
         if (ParticleBufferUAV[DTid.x].active) // 위에서 성공하면 여기로 들어옴
         {
+            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, 1.f), float4(0.f, -1.f, 0.f, 1.f), maxLifeTime, 0.f, 0.f);
+
             // 랜덤값으로 위치와 방향을 설정해준다.
             // 샘플링을 시도할 UV 계산해준다.
             float4 Random = (float4) 0.0f;
