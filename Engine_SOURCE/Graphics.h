@@ -229,6 +229,7 @@ namespace dru::graphics
 		float lifeTime;
 		float time;
 		float speed;
+		math::Vector2 gravityAcc;
 		float radian;
 		UINT active;
 

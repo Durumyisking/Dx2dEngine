@@ -19,6 +19,7 @@ namespace dru
 
 	private:
 		bool mbPlayerDead;
+		CGameObj* mParticle;
 
 	public:
 		bool IsPlayerDead() const { return mbPlayerDead; }

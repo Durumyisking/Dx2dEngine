@@ -37,6 +37,10 @@ namespace dru
 		void SetEndColor(Vector4 _Color) { mEndColor = _Color; }
 		void SetMaxLifeTime(float _MaxLifeTime) { mMaxLifeTime = _MaxLifeTime; }
 		void SetMinLifeTime(float _MinLifeTime) { mMinLifeTime = _MinLifeTime; }
+		void SetRadius(float _Radius) { mRadius = _Radius; }
+
+		void SetParticleDirection(const Vector3& _Dir);
+		void SetmParticleCountInFrame(UINT _Count) { mParticleCountInFrame = _Count; }
 
 	private:
 		Particle mParticle[256];
@@ -47,28 +51,33 @@ namespace dru
 		std::shared_ptr<graphics::CParticleShader> mCS;
 		renderer::ParticleSystemCB mCBData;
 
-		eSimulationSpace mSimulationSpace;
-		UINT mMaxParticles;
-
 		Vector4 mStartPosition;
 		Vector4 mStartScale;
 		Vector4 mStartColor;
 		Vector4 mEndColor;
-		float mTime;
-		float mFrequency;
 
-		
+		UINT mMaxParticles;
+		eSimulationSpace mSimulationSpace;
 		float mRadius;
-		float mStartSpeed;
 
+		float mStartSpeed;
+		float mEndSpeed;
 		float mMaxLifeTime;
 		float mMinLifeTime;
 
-		float mElapsedTime; //누적시간
+		float mStartAngle;
+		float mEndAngle;
+		float mElapsedTime;
 		float mGravity;
+
 		float mForce;
+		float mRadian;
+
+		float mFrequency;
 
 		float mMaxElapsedTime;
+
+		UINT mParticleCountInFrame;
 	};
 
 }

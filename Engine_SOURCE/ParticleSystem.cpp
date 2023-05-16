@@ -23,19 +23,22 @@ namespace dru
 		, mMaxParticles(1)
 		, mStartPosition(Vector4(0.f, 0.f, 0.f, 1.f))
 		, mStartScale(Vector4(0.1f, 0.1f, 1.f, 1.f))
-		, mStartColor(Vector4(0.4941f, 0.8118f, 0.9765f, 1.f))
-		//, mStartColor(Vector4(0.9647f, 0.9843f, 0.698f, 1.f))
-		, mEndColor(Vector4(0.9569f, 0.6672f, 0.4588f, 1.f))
+		, mStartColor(Vector4::Zero)
+		, mEndColor(Vector4::Zero)
 		, mMaxLifeTime(1.f)
 		, mMinLifeTime(0.5f)
-		, mFrequency(0.25f)
-		, mTime(0.f)
+		, mStartAngle(0.f)
+		, mEndAngle(0.f)
+		, mElapsedTime(0.f)
+		, mGravity(-10.f)
 		, mRadius(10.f)
 		, mStartSpeed(50.f)
-		, mElapsedTime(0.f)
-		, mGravity(0.f)
+		, mEndSpeed(0.f)
 		, mForce(0.f)
-		, mMaxElapsedTime(1.f)	
+		, mRadian(0.f)
+		, mFrequency(0.25f)
+		, mMaxElapsedTime(1.f)
+		, mParticleCountInFrame(1)
 	{
 	}
 
@@ -52,11 +55,6 @@ namespace dru
 		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Pointmesh");
 		SetMesh(point);
 
-		//for (size_t i = 50; i < mCount; i++)
-		//{
-		//	mParticle[i].active = 0;
-		//}
-
 		mBuffer = new CStructedBuffer();
 		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, mParticle);
 		mSharedBuffer = new CStructedBuffer();
@@ -71,13 +69,13 @@ namespace dru
 	{
 		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 높을수록 빨리생성 한번에 생성하는거
 		//누적시간
-		mTime += CTimeMgr::DeltaTime();
-		if (aliveTime < mTime) 
+		mElapsedTime += CTimeMgr::DeltaTime();
+		if (aliveTime < mElapsedTime) 
 		{
-			float f = (mTime / aliveTime); 
-			mTime = f - std::floor(f);
+			float f = (mElapsedTime / aliveTime); 
+			mElapsedTime = f - std::floor(f);
 
-			ParticleShared shared = { 1 }; // 20을 computeShader에 보내겠다
+			ParticleShared shared = { mParticleCountInFrame }; // 20을 computeShader에 보내겠다
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else
@@ -88,24 +86,28 @@ namespace dru
 	
 //		mMaxParticles = mBuffer->GetStride();
 
-
 		mCBData.worldPosition = mStartPosition;
 		mCBData.startSize = mStartScale;
-
-		mCBData.maxParticles = mMaxParticles;
-		mCBData.radius = mRadius;
-		mCBData.simulationSpace = (UINT)mSimulationSpace;
-		mCBData.startSpeed = mStartSpeed;
 		mCBData.startColor = mStartColor;
 		mCBData.endColor = mEndColor;
+
+		mCBData.maxParticles = mMaxParticles;
+		mCBData.simulationSpace = (UINT)mSimulationSpace;
+		mCBData.radius = mRadius;
+		mCBData.deltaTime = CTimeMgr::DeltaTime();
+
+		mCBData.startSpeed = mStartSpeed;
+		mCBData.endSpeed = mEndSpeed;
 		mCBData.maxLifeTime = mMaxLifeTime;
 		mCBData.minLifeTime = mMinLifeTime;
-		mCBData.gravity = mGravity;
-		mCBData.force = mForce;
 
-
-		mCBData.deltaTime = CTimeMgr::DeltaTime();
+		mCBData.startAngle = mStartSpeed;
+		mCBData.endAngle = mEndSpeed;
 		mCBData.elapsedTime += CTimeMgr::DeltaTime();
+		mCBData.gravity += CTimeMgr::DeltaTime();
+
+		mCBData.force = mStartSpeed;
+		mCBData.radian = mEndSpeed;
 
 		if (mCBData.elapsedTime > mMaxElapsedTime)
 		{
@@ -150,6 +152,17 @@ namespace dru
 			mParticle[i].radian = radian;
 			mParticle[i].active = active;
 		}
+	}
+
+	void CParticleSystem::SetParticleDirection(const Vector3& _Dir)
+	{
+		float fAngle = atan2(_Dir.y, _Dir.x) * 180.f / XM_PI;
+
+		mStartAngle = fAngle - 0.15f;
+		mEndAngle = fAngle + 0.15f;
+
+		mStartSpeed = _Dir.Length() - 2.f;
+		mEndSpeed = _Dir.Length() + 2.f;
 	}
 
 

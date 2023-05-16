@@ -69,29 +69,32 @@ cbuffer LightCount : register(b5)
 {
     uint lightCount;
 }
+
 cbuffer ParticleSystem : register(b6)
 {
-    float4 worldPosition; // 컬러 맥스파티클 델타타임
+    float4 worldPosition;
+    float4 startSize;
     float4 startColor;
     float4 endColor;
-    float4 startSize;
     
     uint maxParticles;
     uint simulationSpace;
     float radius;
-    float startSpeed;
+    float deltaTime;
     
+    float startSpeed;
+    float endSpeed;
     float maxLifeTime;
     float minLifeTime;
-    float deltaTime;
-    float elapsedTime; //누적시간
-
+    
+    float startAngle;
+    float endAngle;
+    float elapsedTime;
     float gravity;    
+
     float force;
     float radian;
-
-    int padding2;
-
+    int2 padding;    
 }
 
 //cbuffer Noise : register(b7)

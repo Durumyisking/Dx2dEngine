@@ -37,9 +37,11 @@ void InitalizeParticleBufferUAV(uint _ThreadID, float3 _Position, float4 _Direct
         ParticleBufferUAV[_ThreadID].position.xyz += worldPosition.xyz;
     }
 
-//    ParticleBufferUAV[_ThreadID].direction = _Direction;
+    _Direction = normalize(_Direction);
+    ParticleBufferUAV[_ThreadID].direction = _Direction;
     ParticleBufferUAV[_ThreadID].lifeTime = _LifeTime;
+    ParticleBufferUAV[_ThreadID].gravityAcc = 0.f;
     ParticleBufferUAV[_ThreadID].elapsedTime = 0.f;
-//    ParticleBufferUAV[_ThreadID].speed = _Speed;
+    ParticleBufferUAV[_ThreadID].speed = _Speed;
     ParticleBufferUAV[_ThreadID].radian = _Radian;
 }

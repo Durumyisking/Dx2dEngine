@@ -4,11 +4,13 @@
 #include "PlayerAfterImage.h"
 #include "GameObj.h"
 #include "Object.h"
+#include "ParticleSystem.h"
 
 namespace dru
 {
 	CPlayer::CPlayer()
 		: mbPlayerDead(false)
+		, mParticle(nullptr)
 
 	{
 		SetLayerType(eLayerType::Player);
@@ -52,6 +54,32 @@ namespace dru
 
 		AddComponent<CPlayerScript>(eComponentType::Script);
 
+		{
+			mParticle = object::Instantiate<CGameObj>(eLayerType::Particle, L"PlayerParticle");
+			mParticle->SetName(L"PlayerParticleSystem");
+			mParticle->SetPos(GetWorldPos());
+			CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
+
+			// Material ¼¼ÆÃ
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerParticleMat");
+			particleSystem->SetMaterial(Material);
+
+			Vector3 pos = mParticle->GetWorldPos();
+			Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
+			Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
+			particleSystem->MakeParticleBufferData(startPos, direction, 100, 5.f, 0.f, 0);
+			particleSystem->SetMaxLifeTime(2.f);
+			particleSystem->SetStartColor(YELLOW);
+			particleSystem->SetEndColor(ORANGE);
+			particleSystem->SetStartPosition(GetWorldPos());
+			particleSystem->SetStartScale(Vector3(0.1f, 0.1f, 0.f));
+			particleSystem->SetmParticleCountInFrame(20);
+			renderer::ParticleSystemCB cb = {};
+			cb.radian = 0.f;
+			particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
+
+			particleSystem->SetMaxElapsedTime(5.f);
+		}
 	}
 
 	CPlayer::~CPlayer()
@@ -61,6 +89,8 @@ namespace dru
 
 	void CPlayer::Initialize()
 	{
+		
+
 		CLiveGameObj::Initialize();
 	}
 

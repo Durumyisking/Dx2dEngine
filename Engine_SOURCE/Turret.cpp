@@ -120,6 +120,7 @@ namespace dru
 		particleSystem->SetStartColor(RED);
 		particleSystem->SetStartPosition(GetWorldPos());
 		particleSystem->SetStartScale(Vector3(0.05f, 0.1f, 0.f));
+		particleSystem->SetmParticleCountInFrame(1);
 
 		renderer::ParticleSystemCB cb = {};
 		cb.radian = 0.f;	

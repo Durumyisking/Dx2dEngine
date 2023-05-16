@@ -22,3 +22,25 @@ float4 GetRandomFromBlur(float2 _UV)
     
     return Random;
 }
+
+
+float4 GetRandomFloat4FromNoise(uint _ThreadIDX, uint _ThreadIDY)
+{
+    float seedx = ((float) _ThreadIDX / (float) maxParticles) + elapsedTime;
+    float seedy = ((float) _ThreadIDY / (float) maxParticles) + elapsedTime;
+    float r1 = Rand(float2(seedx, seedy));
+    float r2 = Rand(float2(seedy, seedx));
+    float r3 = Rand(float2(seedx * elapsedTime, seedy));
+    float r4 = Rand(float2(seedx, seedy * elapsedTime));
+    float r5 = Rand(float2(seedx * elapsedTime, seedy * elapsedTime));
+            // [0.5~1] -> [0~1]
+    float4 noise =
+    {
+        2.f * r1 - 1.f,
+        2.f * r2 - 1.f,
+        2.f * r3 - 1.f,
+        2.f * r4 - 1.f
+    };    
+    
+    return noise;
+}

@@ -19,6 +19,8 @@ using namespace dru::graphics;
 #define MAGENTA Vector4{1.f, 0.f, 1.f, 1.f}
 #define PEARL	Vector4{0.f, 1.f, 1.f, 1.f}
 #define ORANGE	Vector4{0.9f, 0.72f, 0.31f, 1.f}
+#define YELLOW	Vector4{0.9569f, 0.6672f, 0.4588f, 1.f}
+#define ORANGE_YELLOW	Vector4{0.9569f, 0.6672f, 0.4588f, 1.f}
 
 #define LIGHT_RED		Vector4{1.f, 0.f, 0.f, 0.5f}
 #define LIGHT_GREEN		Vector4{0.f, 1.f, 0.f, 0.5f}
@@ -26,6 +28,8 @@ using namespace dru::graphics;
 #define LIGHT_MAGENTA	Vector4{1.f, 0.f, 1.f, 0.5f}
 #define LIGHT_PEARL		Vector4{0.f, 1.f, 1.f, 0.5f}
 #define LIGHT_ORANGE	Vector4{0.9f, 0.72f, 0.31f, 0.5f}
+#define LIGHT_YELLOW	Vector4{0.9569f, 0.6672f, 0.4588f, 0.5f}
+#define LIGHT_ORANGE_YELLOW	Vector4{0.9569f, 0.6672f, 0.4588f, 1.f}
 
 
 namespace dru::renderer
@@ -111,25 +115,29 @@ namespace dru::renderer
 
 	CBUFFER(ParticleSystemCB, CBSLOT_LIGHTCOUNT)
 	{
-		Vector4 worldPosition; 
+		Vector4 worldPosition;
+		Vector4 startSize;
 		Vector4 startColor;
 		Vector4 endColor;
-		Vector4 startSize;
 
 		UINT maxParticles;
 		UINT simulationSpace;
 		float radius;
-		float startSpeed;
+		float deltaTime;
 
+		float startSpeed;
+		float endSpeed;
 		float maxLifeTime;
 		float minLifeTime;
-		float deltaTime;
-		float elapsedTime; //누적시간
 
+		float startAngle;
+		float endAngle;
+		float elapsedTime;
 		float gravity;
+
 		float force;
 		float radian;
-		int padding2;
+		Vector2 padding;
 	};
 	CBUFFER(NoiseCB, CBSLOT_NOISE)
 	{
