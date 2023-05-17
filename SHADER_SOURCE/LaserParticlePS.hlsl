@@ -9,26 +9,24 @@ struct GSOutput
 
 
 float4 main(GSOutput In) : SV_TARGET
-{      
+{
     float4 outColor = (float4) 0.0f;
     
     float fElapsedTime = particleBuffer[In.Instance].elapsedTime;
-    float fLifeTime= particleBuffer[In.Instance].lifeTime;
-
-    
+    float fLifeTime = particleBuffer[In.Instance].lifeTime;
+ 
     float alpharatio = 1.f - fElapsedTime / fLifeTime;
 
-    outColor = particleBuffer[In.Instance].startColor;
+    float4 StartColor = particleBuffer[In.Instance].startColor;
+    float4 EndColor = particleBuffer[In.Instance].endColor;
+
+    outColor = StartColor;
+    outColor = lerp(StartColor, EndColor, alpharatio);
 
     outColor.a = alpharatio;
-    
-//    outColor = lerp(startColor, endColor, particleBuffer[In.Instance].lifeTime);
-
-//    outColor.w = alpharatio;
-    
+     
     if (outColor.w == 0.f)
         discard;
-
-    
+ 
     return outColor;
 }

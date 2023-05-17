@@ -474,15 +474,39 @@ namespace dru::renderer
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		CResources::Insert<CPaintShader>(L"PaintShader", paintShader);
 
-		std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
-		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
-		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
-		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
-		particleShader->SetRSState(eRasterizerType::SolidNone);
-		particleShader->SetDSState(eDepthStencilType::NoWrite);
-		particleShader->SetBSState(eBlendStateType::AlphaBlend);
-		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-		CResources::Insert<CShader>(L"ParticleShader", particleShader);
+		{
+			std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
+			particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+			particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
+			particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+			particleShader->SetRSState(eRasterizerType::SolidNone);
+			particleShader->SetDSState(eDepthStencilType::NoWrite);
+			particleShader->SetBSState(eBlendStateType::AlphaBlend);
+			particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			CResources::Insert<CShader>(L"ParticleShader", particleShader);
+		}
+		{
+			std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
+			particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+			particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
+			particleShader->Create(eShaderStage::PS, L"AimParticlePS.hlsl", "main");
+			particleShader->SetRSState(eRasterizerType::SolidNone);
+			particleShader->SetDSState(eDepthStencilType::NoWrite);
+			particleShader->SetBSState(eBlendStateType::AlphaBlend);
+			particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			CResources::Insert<CShader>(L"AimParticleShader", particleShader);
+		}
+		{
+			std::shared_ptr<CShader> particleShader = std::make_shared<CShader>();
+			particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+			particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
+			particleShader->Create(eShaderStage::PS, L"LaserParticlePS.hlsl", "main");
+			particleShader->SetRSState(eRasterizerType::SolidNone);
+			particleShader->SetDSState(eDepthStencilType::NoWrite);
+			particleShader->SetBSState(eBlendStateType::AlphaBlend);
+			particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			CResources::Insert<CShader>(L"LaserParticleShader", particleShader);
+		}
 
 		std::shared_ptr<CParticleShader> particleCS = std::make_shared<CParticleShader>();
 		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);
@@ -815,13 +839,13 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"laserBeamMat", Material);
 		}
 		{
-			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"ParticleShader");
+			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"AimParticleShader");
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"particle_spark", L"SpriteShader");
 			Material->SetShader(particleShader);
 			CResources::Insert<CMaterial>(L"LaserTurretParticleMat", Material);
 		}
 		{
-			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"ParticleShader");
+			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"LaserParticleShader");
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"particle_spark", L"SpriteShader");
 			Material->SetShader(particleShader);
 			CResources::Insert<CMaterial>(L"PlayerParticleMat", Material);
