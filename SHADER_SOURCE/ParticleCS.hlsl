@@ -13,7 +13,7 @@ void main(uint3 DTid : SV_DispatchThreadID) // 쓰레드 그룹 xyz를 인자로 받음
         
         if (ParticleBufferUAV[DTid.x].active) // 위에서 성공하면 여기로 들어옴
         {
-            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, 1.f), float4(0.f, -1.f, 0.f, 1.f), maxLifeTime, 0.f, 0.f);
+//            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, 1.f), float4(0.f, -1.f, 0.f, 1.f), maxLifeTime, 0.f, 0.f);
 
             // 랜덤값으로 위치와 방향을 설정해준다.
             // 샘플링을 시도할 UV 계산해준다.

@@ -47,39 +47,13 @@ namespace dru
 		mAnimator->Create(L"Player_Fall", Material->GetTexture(), { 1108.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 4, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Player_Attack", Material->GetTexture(), { 0.f, 0.f }, { 62.f, 50.f },		Vector2::Zero, 7, { 50.f, 50.f }, 0.05f);
 		mAnimator->Create(L"Player_Dead", Material->GetTexture(), { 1364.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 12, { 50.f, 50.f }, 0.05f);
-		//mAnimator->Create(L"Player_DeadStart", Material->GetTexture(), { 1364.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 2, { 50.f, 50.f }, 0.5f);
-		//mAnimator->Create(L"Player_DeadAir", Material->GetTexture(), { 1488.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 4, { 50.f, 50.f }, 0.05f);
-		//mAnimator->Create(L"Player_DeadEnd", Material->GetTexture(), { 1736.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.05f);
+		// mAnimator->Create(L"Player_DeadStart", Material->GetTexture(), { 1364.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 2, { 50.f, 50.f }, 0.5f);
+		// mAnimator->Create(L"Player_DeadAir", Material->GetTexture(), { 1488.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 4, { 50.f, 50.f }, 0.05f);
+		// mAnimator->Create(L"Player_DeadEnd", Material->GetTexture(), { 1736.f, 0.f }, { 62.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.05f);
 		mAnimator->Play(L"Player_Idle");
 
 		AddComponent<CPlayerScript>(eComponentType::Script);
-
-		{
-			mParticle = object::Instantiate<CGameObj>(eLayerType::Particle, L"PlayerParticle");
-			mParticle->SetName(L"PlayerParticleSystem");
-			mParticle->SetPos(GetWorldPos());
-			CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
-
-			// Material 세팅
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerParticleMat");
-			particleSystem->SetMaterial(Material);
-
-			Vector3 pos = mParticle->GetWorldPos();
-			Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
-			Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
-			particleSystem->MakeParticleBufferData(startPos, direction, 100, 5.f, 0.f, 0);
-			particleSystem->SetMaxLifeTime(2.f);
-			particleSystem->SetStartColor(YELLOW);
-			particleSystem->SetEndColor(ORANGE);
-			particleSystem->SetStartPosition(GetWorldPos());
-			particleSystem->SetStartScale(Vector3(0.1f, 0.1f, 0.f));
-			particleSystem->SetmParticleCountInFrame(20);
-			renderer::ParticleSystemCB cb = {};
-			cb.radian = 0.f;
-			particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
-
-			particleSystem->SetMaxElapsedTime(5.f);
-		}
+	
 	}
 
 	CPlayer::~CPlayer()
@@ -89,7 +63,25 @@ namespace dru
 
 	void CPlayer::Initialize()
 	{
-		
+		{
+			mParticle = object::Instantiate<CGameObj>(eLayerType::Particle, this, L"PlayerParticle");
+			mParticle->SetName(L"PlayerParticleSystem");
+			mParticle->SetPos(GetPos());
+			CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
+
+			// Material 세팅
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerParticleMat");
+			particleSystem->SetMaterial(Material);
+
+			Vector4 startPos = Vector4(GetWorldPos().x, GetWorldPos().y, 1.f, 1.f);
+			particleSystem->MakeParticleBufferData(startPos, 100, 0.f, 1.f, 2.5f, 0.f, 0);
+			particleSystem->SetParticleCountInFrame(3);
+			particleSystem->SetFrequency(1.f);
+			renderer::ParticleSystemCB cb = {};
+			particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
+
+			particleSystem->SetMaxElapsedTime(5.f);
+		}
 
 		CLiveGameObj::Initialize();
 	}

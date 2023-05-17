@@ -28,16 +28,16 @@ namespace dru
 		, mMaxLifeTime(1.f)
 		, mMinLifeTime(0.5f)
 		, mStartAngle(0.f)
-		, mEndAngle(0.f)
+		, mEndAngle(360.f)
 		, mElapsedTime(0.f)
-		, mGravity(-10.f)
+		, mGravity(-1000.f)
 		, mRadius(10.f)
-		, mStartSpeed(50.f)
-		, mEndSpeed(0.f)
+		, mStartSpeed(5.f)
+		, mEndSpeed(2.f)
 		, mForce(0.f)
 		, mRadian(0.f)
 		, mFrequency(0.25f)
-		, mMaxElapsedTime(1.f)
+		, mMaxElapsedTime(5.f)
 		, mParticleCountInFrame(1)
 	{
 	}
@@ -56,7 +56,7 @@ namespace dru
 		SetMesh(point);
 
 		mBuffer = new CStructedBuffer();
-		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, mParticle);
+		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, mParticle, true);
 		mSharedBuffer = new CStructedBuffer();
 		mSharedBuffer->Create(sizeof(ParticleShared), 1, eSRVType::UAV, nullptr, true);
 	}
@@ -67,6 +67,7 @@ namespace dru
 
 	void CParticleSystem::fixedUpdate()
 	{
+
 		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 높을수록 빨리생성 한번에 생성하는거
 		//누적시간
 		mElapsedTime += CTimeMgr::DeltaTime();
@@ -84,6 +85,25 @@ namespace dru
 			mSharedBuffer->SetData(&shared, 1);
 		}
 	
+		//mBuffer->GetData(mParticle, 0);
+
+		//bool flag = false;
+		//for (size_t i = 0; i < mMaxParticles; i++)
+		//{
+		//	if (0 == mParticle[i].active)
+		//	{
+		//		mParticle[i].active = 1;
+		//		mParticle[i].elapsedTime = 0.f;
+		//		//	MakeSingleParticleBufferData();
+		//		flag = true;
+		//	}
+		//}
+		//if (flag)
+		//{
+		//	mBuffer->SetData(mParticle, 0);
+		//}
+	
+
 //		mMaxParticles = mBuffer->GetStride();
 
 		mCBData.worldPosition = mStartPosition;
@@ -101,13 +121,13 @@ namespace dru
 		mCBData.maxLifeTime = mMaxLifeTime;
 		mCBData.minLifeTime = mMinLifeTime;
 
-		mCBData.startAngle = mStartSpeed;
-		mCBData.endAngle = mEndSpeed;
+		mCBData.startAngle = mStartAngle;
+		mCBData.endAngle = mEndAngle;
 		mCBData.elapsedTime += CTimeMgr::DeltaTime();
 		mCBData.gravity += CTimeMgr::DeltaTime();
 
 		mCBData.force = mStartSpeed;
-		mCBData.radian = mEndSpeed;
+		mCBData.radian = mRadian;
 
 		if (mCBData.elapsedTime > mMaxElapsedTime)
 		{
@@ -127,6 +147,7 @@ namespace dru
 	{
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 		mBuffer->BindSRV(eShaderStage::GS, 15);
+		mBuffer->BindSRV(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
 		GetMesh()->RenderInstanced(mMaxParticles);
@@ -140,19 +161,21 @@ namespace dru
 					, sin((float)i * -(XM_PI / (float)mMaxParticles)), 0.f, 1.f);
 	*/
 
-	void CParticleSystem::MakeParticleBufferData(Vector4 startPosition, Vector4 direction, UINT maxParticleCount ,float speed, float radian, UINT active)
+	void CParticleSystem::MakeParticleBufferData(Vector4 _StartPosition, UINT _MaxParticleCount, float _MinLifeTime, float _MaxLifeTime, float _Speed, float _Radian, UINT _Active)
 	{
-		mMaxParticles = maxParticleCount;
+		mStartPosition = _StartPosition;
+		mMaxParticles = _MaxParticleCount;
 		for (size_t i = 0; i < mMaxParticles; i++)
 		{
-			mParticle[i].position = Vector4(0.f, 0.f, 0.f, 1.f);
-			mParticle[i].direction = direction;
+			mParticle[i].position = _StartPosition;
 			mParticle[i].direction.Normalize();
-			mParticle[i].speed = speed;
-			mParticle[i].radian = radian;
-			mParticle[i].active = active;
+			mParticle[i].lifeTime = _MaxLifeTime;
+			mParticle[i].speed = _Speed;
+			mParticle[i].radian = _Radian;
+			mParticle[i].active = 0;
 		}
 	}
+
 
 	void CParticleSystem::SetParticleDirection(const Vector3& _Dir)
 	{

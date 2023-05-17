@@ -25,7 +25,8 @@ namespace dru
 
 		void SetDestinationFloor(CFloor* _Floor) { mDestinationFloor = _Floor; }
 		void AdjustLaserTransform();
-		void AdjustAimParticle();
+		UINT GetAimParticleMaxCount();
+		float GetAimParticleLifeTime();
 
 		float GapBetweenFloorAndTurret();
 

@@ -31,7 +31,7 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input¿
     }
     float3 vViewPos = mul(float4(vWorldPos, 1.0f), view).xyz;
 	
-    float3 vScale = startSize.xyz;
+    float3 vScale = particleBuffer[input[0].Instance].startScale;
     //vScale = lerp(20.0f, 50.0f, elapsedTime);
 	
 	

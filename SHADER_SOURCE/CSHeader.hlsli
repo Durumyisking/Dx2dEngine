@@ -27,10 +27,9 @@ void ParticleThreadSync(uint _ThreadID)
     }
 }
 
-void InitalizeParticleBufferUAV(uint _ThreadID, float3 _Position, float4 _Direction, float _LifeTime, float _Speed, float _Radian)
+void InitalizeParticleBufferUAV(uint _ThreadID, float3 _Position, float4 _Direction, float3 _Scale, float4 _StartColor, float4 _EndColor, float _LifeTime, float _Speed, float _Radian)
 {
-    ParticleBufferUAV[_ThreadID].position.xy = _Position;
-    ParticleBufferUAV[_ThreadID].position.z = 1.f;
+    ParticleBufferUAV[_ThreadID].position.xyz = _Position;
     
     if (simulationSpace) // 1 world , 0 local
     {
@@ -39,7 +38,10 @@ void InitalizeParticleBufferUAV(uint _ThreadID, float3 _Position, float4 _Direct
 
     _Direction = normalize(_Direction);
     ParticleBufferUAV[_ThreadID].direction = _Direction;
-    ParticleBufferUAV[_ThreadID].lifeTime = _LifeTime;
+    ParticleBufferUAV[_ThreadID].startScale = _Scale;
+    ParticleBufferUAV[_ThreadID].startColor= _StartColor;
+    ParticleBufferUAV[_ThreadID].endColor = _EndColor;
+//    ParticleBufferUAV[_ThreadID].lifeTime = _LifeTime;
     ParticleBufferUAV[_ThreadID].gravityAcc = 0.f;
     ParticleBufferUAV[_ThreadID].elapsedTime = 0.f;
     ParticleBufferUAV[_ThreadID].speed = _Speed;

@@ -55,18 +55,22 @@ namespace dru
 		ChangeBeamPos(TurretPos);
 	}
 
-	void CTurret::AdjustAimParticle()
+	UINT CTurret::GetAimParticleMaxCount()
 	{
 		UINT newCount = 0;
 		float Gap = GapBetweenFloorAndTurret();
 		newCount = static_cast<UINT>(Gap / SINGLE_LASER_GAP);
 
-		float newLiefTime = 0.f;
-		newLiefTime = Gap / SINGLE_LASER_LIFETIME_GAP;
+		return newCount;
+	}
 
-		CParticleSystem* particleSystem = mParticle->GetComponent<CParticleSystem>();
-		particleSystem->SetMaxParticleCount(newCount);
-		particleSystem->SetMaxLifeTime(newLiefTime);
+	float CTurret::GetAimParticleLifeTime()
+	{
+		float newLifeTime = 0.f;
+		float Gap = GapBetweenFloorAndTurret();
+		newLifeTime = Gap / SINGLE_LASER_LIFETIME_GAP;
+
+		return newLifeTime;
 	}
 
 	float CTurret::GapBetweenFloorAndTurret()
@@ -112,18 +116,14 @@ namespace dru
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"LaserTurretParticleMat");
 		particleSystem->SetMaterial(Material);
 
-		Vector3 pos = mParticle->GetWorldPos();
-		Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 1.f);
-		Vector4 direction = Vector4{ 0.f,-1.f,0.f,1.f };
-		particleSystem->MakeParticleBufferData(startPos, direction, 24, 1.f, 0.f, 0);
-		particleSystem->SetMaxLifeTime(4.5f);
-		particleSystem->SetStartColor(RED);
+		Vector3 pos = GetWorldPos();
+		pos.z = 0.001f;
+		Vector4 startPos = Vector4(pos.x, pos.y, pos.z, 4.f);
+		particleSystem->MakeParticleBufferData(startPos, GetAimParticleMaxCount(), 0.f, GetAimParticleLifeTime(), 1.f, 0.f, 0);
 		particleSystem->SetStartPosition(GetWorldPos());
-		particleSystem->SetStartScale(Vector3(0.05f, 0.1f, 0.f));
-		particleSystem->SetmParticleCountInFrame(1);
+		particleSystem->SetParticleCountInFrame(1);
 
 		renderer::ParticleSystemCB cb = {};
-		cb.radian = 0.f;	
 		particleSystem->MakeConstantBufferData(L"AimParticleCS", cb);
 
 		particleSystem->SetMaxElapsedTime(5.f);

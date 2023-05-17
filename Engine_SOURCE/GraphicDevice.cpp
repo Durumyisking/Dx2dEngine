@@ -313,6 +313,14 @@ namespace dru::graphics
 		mContext->RSSetViewports(1, _ViewPort);
 	}
 
+	void CGraphicDevice::GetData(ID3D11Buffer* buffer, void* data, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(buffer, 0, D3D11_MAP_READ, 0, &sub);
+		memcpy(data, sub.pData, size);
+		mContext->Unmap(buffer, 0);
+	}
+
 	void CGraphicDevice::SetData(ID3D11Buffer* buffer, void* data, UINT size)
 	{
 		D3D11_MAPPED_SUBRESOURCE sub = {};

@@ -112,7 +112,6 @@ namespace dru
 	void CStage1::ReadyOperate()
 	{
 		mLaserTurret->AdjustLaserTransform();
-		mLaserTurret->AdjustAimParticle();
 
 		CStage::ReadyOperate();
 	}

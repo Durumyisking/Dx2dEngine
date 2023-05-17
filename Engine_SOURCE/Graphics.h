@@ -225,9 +225,14 @@ namespace dru::graphics
 	{
 		math::Vector4 position;
 		math::Vector4 direction;
+		math::Vector4 startColor;
+		math::Vector4 endColor;
+
+		math::Vector3  startScale;
+		math::Vector3  endScale;
 
 		float lifeTime;
-		float time;
+		float elapsedTime;
 		float speed;
 		math::Vector2 gravityAcc;
 		float radian;

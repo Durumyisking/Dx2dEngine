@@ -20,7 +20,8 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-		void MakeParticleBufferData(Vector4 startPosition, Vector4 direction, UINT maxParticleCount, float speed, float radian, UINT active);
+		void MakeParticleBufferData(Vector4 _StartPosition, UINT _MaxParticleCount, float _MinLifeTime, float _MaxLifeTime, float _Speed, float _Radian, UINT _Active);
+
 		void MakeConstantBufferData(std::wstring _ShaderName, renderer::ParticleSystemCB _CB)
 		{
 			mCS = CResources::Find<CParticleShader>(_ShaderName);
@@ -35,12 +36,16 @@ namespace dru
 		void SetMaxParticleCount(UINT _MaxParticleCount) { mMaxParticles = _MaxParticleCount; }
 		void SetStartColor(Vector4 _Color) { mStartColor = _Color; }
 		void SetEndColor(Vector4 _Color) { mEndColor = _Color; }
+		void SetStartSpeed(float _StartSpeed) { mStartSpeed = _StartSpeed; }
+		void SetEndSpeed(float _EndSpeed) { mEndSpeed = _EndSpeed; }
 		void SetMaxLifeTime(float _MaxLifeTime) { mMaxLifeTime = _MaxLifeTime; }
 		void SetMinLifeTime(float _MinLifeTime) { mMinLifeTime = _MinLifeTime; }
 		void SetRadius(float _Radius) { mRadius = _Radius; }
 
 		void SetParticleDirection(const Vector3& _Dir);
-		void SetmParticleCountInFrame(UINT _Count) { mParticleCountInFrame = _Count; }
+		void SetParticleCountInFrame(UINT _Count) { mParticleCountInFrame = _Count; }
+
+		void SetFrequency(float _Frequency) { mFrequency = _Frequency; }
 
 	private:
 		Particle mParticle[256];
@@ -78,6 +83,7 @@ namespace dru
 		float mMaxElapsedTime;
 
 		UINT mParticleCountInFrame;
+
 	};
 
 }

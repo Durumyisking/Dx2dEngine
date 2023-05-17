@@ -55,16 +55,21 @@ namespace dru::graphics
 
 	void CStructedBuffer::GetData(void* data, UINT size) // 아직? 안쓰는중
 	{
+		if (!mReadBuffer)
+		{
+			return;
+		}
+
 		GetDevice()->CopyResource(mReadBuffer.Get(), buffer.Get()); // readbuffer에서 버퍼로 카피
 
 		//read buffer -> systemmemory
 		if (size == 0)
 		{
-			GetDevice()->SetData(mReadBuffer.Get(), data, mSize * mStride); // 근데 왜 setdata에요?
+			GetDevice()->GetData(mReadBuffer.Get(), data, mSize * mStride); // 근데 왜 setdata에요?
 		}
 		else
 		{
-			GetDevice()->SetData(mReadBuffer.Get(), data, size);
+			GetDevice()->GetData(mReadBuffer.Get(), data, size);
 		}
 	}
 

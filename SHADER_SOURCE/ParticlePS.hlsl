@@ -9,18 +9,24 @@ struct GSOutput
 
 
 float4 main(GSOutput In) : SV_TARGET
-{
+{      
     float4 outColor = (float4) 0.0f;
-    float alpharatio = 1.f - particleBuffer[In.Instance].elapsedTime / particleBuffer[In.Instance].lifeTime;
-//    float alpharatio = particleBuffer[In.Instance].time;
-
-    outColor = defaultTexture.Sample(pointSampler, In.UV);    
-    outColor = startColor;
     
-//    outColor.w *= alpharatio;
+    float fElapsedTime = particleBuffer[In.Instance].elapsedTime;
+    float fLifeTime= particleBuffer[In.Instance].lifeTime;
+
+    
+    float alpharatio = 1.f - fElapsedTime / fLifeTime;
+
+//    outColor = defaultTexture.Sample(pointSampler, In.UV);    
+    outColor = particleBuffer[In.Instance].startColor;
+
+    outColor.a = alpharatio;
     
 //    outColor = lerp(startColor, endColor, particleBuffer[In.Instance].lifeTime);
 
+//    outColor.w = alpharatio;
+    
     if (outColor.w == 0.f)
         discard;
 
