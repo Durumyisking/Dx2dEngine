@@ -1,6 +1,7 @@
 #include "Stage1.h"
 #include "Scene.h"
 #include "SceneMain.h"
+#include "BeamScript.h"
 
 namespace dru
 {
@@ -79,6 +80,8 @@ namespace dru
 		mGrunt2->SetPos(mGrunt2DefaultPos);
 		mGrunt2->GetScript<CMonsterScript>()->Reset();
 		mGrunt2->SetLeft();
+
+		mLaserTurret->GetBeam()->GetScript<CBeamScript>()->Reset();
 
 		mEnemyCount = 2;
 

@@ -20,7 +20,7 @@ float4 main(GSOutput In) : SV_TARGET
     float4 StartColor = particleBuffer[In.Instance].startColor;
     float4 EndColor = particleBuffer[In.Instance].endColor;
 
-    outColor = StartColor;
+//    outColor = StartColor;
     outColor = lerp(StartColor, EndColor, alpharatio);
 
     outColor.a = alpharatio;

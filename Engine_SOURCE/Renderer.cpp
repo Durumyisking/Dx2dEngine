@@ -815,6 +815,12 @@ namespace dru::renderer
 			Material->SetData(eGPUParam::Vector4_1, &color);
 		}
 		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"PlayerLaserMat", Material);
+			Vector4 color = Vector4(3.f, 3.f, 0.f, 1.f);
+			Material->SetData(eGPUParam::Vector4_1, &color);
+		} 
+		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"halogen", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"halogenMat", Material);
 		}

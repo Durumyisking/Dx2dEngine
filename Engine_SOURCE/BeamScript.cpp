@@ -8,6 +8,7 @@ namespace dru
 	CBeamScript::CBeamScript()
 		: mBeam(nullptr)
 		, mbLaserShoot(false)
+		, mbLaserShooted(false)
 		, mLaserOperateTimer(0.f)
 	{
 	}
@@ -57,12 +58,15 @@ namespace dru
 	{
 		if (L"col_player" == _oppo->GetName())
 		{
-			mBeam->RenderingBlockOff();
-			mBeam->GetComponent<CSpriteRenderer>()->ChangeColor(PEARL);
-			mbLaserShoot = true;
-
-			CTimeMgr::BulletTime(0.1f);
-			renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+			if (!mbLaserShooted)
+			{
+				mBeam->RenderingBlockOff();
+				mBeam->GetComponent<CSpriteRenderer>()->ChangeColor(PEARL);
+				mbLaserShoot = true;
+				mbLaserShooted = true;
+				CTimeMgr::BulletTime(0.1f);
+				renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+			}
 		}
 
 	}

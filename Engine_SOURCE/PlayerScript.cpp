@@ -13,6 +13,8 @@
 #include "BackgroundColor.h"
 
 #include "Dust.h"
+#include "Object.h"
+#include "ParticleSystem.h"
 
 
 namespace dru
@@ -85,7 +87,10 @@ namespace dru
 		{
 			dead();
 		}
-
+		if (CInput::GetKeyTap(eKeyCode::H))
+		{
+			mParticle->RenderingBlockOff();
+		}
 
 		if (!mbInputBlock)
 		{
@@ -241,7 +246,28 @@ namespace dru
 				stage->ReplayStart();
 			}
 		}
+		else if (L"col_beam" == _oppo->GetName())
+		{
+			if (mState[(UINT)ePlayerState::Dead] == false)
+			{
+				if (mState[(UINT)ePlayerState::Roll] == false)
+				{
+					mState.reset();
+					mState[(UINT)ePlayerState::Dead] = true;
+//					mAnimator->Play(L"Player_Idle", false);
+					mbInputBlock = true;
+					mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
+					mHitDir = Vector3::Zero;
+					mHitDir.Normalize();
 
+					dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
+					SetAfterImageCount(0);
+					CreateLaserParticleSystem();
+					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerLaserMat");
+					GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
+				}
+			}				
+		}
 	}
 	void CPlayerScript::OnCollision(CCollider2D* _oppo)
 	{
@@ -404,6 +430,10 @@ namespace dru
 	{
 		SetAfterImageCount(20);
 
+		mParticle->Die();
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
+		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
+
 		mHitTimer = 0.f;
 
 		mBulletTimeCooldown = 0.f;
@@ -415,6 +445,28 @@ namespace dru
 		SetPlayerSingleState(ePlayerState::Idle);
 
 		UnInputBlocking();
+	}
+
+	void CPlayerScript::CreateLaserParticleSystem()
+	{
+		mParticle = object::Instantiate<CGameObj>(eLayerType::Particle, GetOwner(), L"PlayerParticle");
+		mParticle->SetName(L"PlayerParticleSystem");
+		mParticle->SetPos(GetOwnerWorldPos());
+		CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
+
+		// Material 세팅
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerParticleMat");
+		particleSystem->SetMaterial(Material);
+
+		Vector4 startPos = Vector4(GetOwnerWorldPos().x, GetOwnerWorldPos().y, 1.f, 1.f);
+		particleSystem->MakeParticleBufferData(startPos, 100, 0.f, 1.5f, 2.5f, 0.f, 0);
+		particleSystem->SetParticleCountInFrame(3);
+		particleSystem->SetFrequency(1.f);
+		renderer::ParticleSystemCB cb = {};
+		particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
+
+		particleSystem->SetMaxElapsedTime(5.f);
+		particleSystem->Initialize();
 	}
 
 	void CPlayerScript::idletorunFrame()

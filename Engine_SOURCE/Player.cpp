@@ -3,14 +3,11 @@
 #include "CameraScript.h"
 #include "PlayerAfterImage.h"
 #include "GameObj.h"
-#include "Object.h"
-#include "ParticleSystem.h"
 
 namespace dru
 {
 	CPlayer::CPlayer()
 		: mbPlayerDead(false)
-		, mParticle(nullptr)
 
 	{
 		SetLayerType(eLayerType::Player);
@@ -63,25 +60,6 @@ namespace dru
 
 	void CPlayer::Initialize()
 	{
-		{
-			mParticle = object::Instantiate<CGameObj>(eLayerType::Particle, this, L"PlayerParticle");
-			mParticle->SetName(L"PlayerParticleSystem");
-			mParticle->SetPos(GetPos());
-			CParticleSystem* particleSystem = mParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
-
-			// Material ¼¼ÆÃ
-			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerParticleMat");
-			particleSystem->SetMaterial(Material);
-
-			Vector4 startPos = Vector4(GetWorldPos().x, GetWorldPos().y, 1.f, 1.f);
-			particleSystem->MakeParticleBufferData(startPos, 100, 0.f, 1.f, 2.5f, 0.f, 0);
-			particleSystem->SetParticleCountInFrame(3);
-			particleSystem->SetFrequency(1.f);
-			renderer::ParticleSystemCB cb = {};
-			particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
-
-			particleSystem->SetMaxElapsedTime(5.f);
-		}
 
 		CLiveGameObj::Initialize();
 	}
@@ -107,5 +85,7 @@ namespace dru
 		
 		CLiveGameObj::render();
 	}
+
+
 
 }

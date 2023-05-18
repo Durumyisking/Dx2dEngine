@@ -47,6 +47,9 @@ namespace dru
 
         void Reset();
 
+        void SetParticle(CGameObj* _Particle) { mParticle = _Particle; }
+        void CreateLaserParticleSystem();
+
     private:
         // anim function
         void idletorunFrame();
@@ -134,6 +137,8 @@ namespace dru
 
         CGameObj* mJumpdust;
         CGameObj* mLanddust;
+
+        CGameObj* mParticle;
 
         float mAirTime;
         float mAttackTime;

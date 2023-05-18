@@ -33,6 +33,8 @@ namespace dru
 		void MakeBeam();
 		void InitializeParticleSystem();
 
+		CGameObj* GetBeam() const { return mBeam; }
+
 	private:
 
 		CGameObj* mBeam;

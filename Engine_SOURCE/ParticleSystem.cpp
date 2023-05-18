@@ -53,6 +53,7 @@ namespace dru
 	void CParticleSystem::Initialize()
 	{
 		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Pointmesh");
+
 		SetMesh(point);
 
 		mBuffer = new CStructedBuffer();

@@ -19,13 +19,14 @@ namespace dru
 		virtual void OnCollision(CCollider2D* _oppo);
 		virtual void OnCollisionExit(CCollider2D* _oppo);
 
-
 		void SetBeam(CGameObj* _Beam) { mBeam = _Beam; }
+		void Reset() { mbLaserShooted = false; }
 
 	private:
 		CGameObj* mBeam;
 
 		bool mbLaserShoot;
+		bool mbLaserShooted;
 
 		float mLaserOperateTimer;
 

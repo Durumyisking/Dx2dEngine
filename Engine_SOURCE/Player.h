@@ -17,9 +17,9 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
+
 	private:
 		bool mbPlayerDead;
-		CGameObj* mParticle;
 
 	public:
 		bool IsPlayerDead() const { return mbPlayerDead; }
