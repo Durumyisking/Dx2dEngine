@@ -508,6 +508,7 @@ namespace dru::renderer
 			CResources::Insert<CShader>(L"LaserParticleShader", particleShader);
 		}
 
+
 		std::shared_ptr<CParticleShader> particleCS = std::make_shared<CParticleShader>();
 		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
@@ -520,6 +521,9 @@ namespace dru::renderer
 		CResources::Insert<CParticleShader>(L"LaserParticleCS", playerParticleCS);
 		playerParticleCS->Create(L"LaserParticleCS.hlsl", "main");
 
+		std::shared_ptr<CParticleShader> batteryParticleCS = std::make_shared<CParticleShader>();
+		CResources::Insert<CParticleShader>(L"BatteryParticleCS", batteryParticleCS);
+		batteryParticleCS->Create(L"BatteryParticleCS.hlsl", "main");
 
 		std::shared_ptr<CShader> AfterImageShader = std::make_shared<CShader>();
 		AfterImageShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
@@ -856,6 +860,13 @@ namespace dru::renderer
 			Material->SetShader(particleShader);
 			CResources::Insert<CMaterial>(L"PlayerParticleMat", Material);
 		}
+		{
+			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"LaserParticleShader");
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"particle_spark", L"SpriteShader");
+			Material->SetShader(particleShader);
+			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
+		}
+
 
 		for (int i = 0; i <= 100; ++i)
 		{

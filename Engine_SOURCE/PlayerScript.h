@@ -45,6 +45,7 @@ namespace dru
 
         void PlayerDead();
 
+        void RewindStart();
         void Reset();
 
         void SetParticle(CGameObj* _Particle) { mParticle = _Particle; }

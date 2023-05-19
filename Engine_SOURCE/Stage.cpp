@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "BlinkScript.h"
 #include "SceneMain.h"
+#include "ParticleSystem.h"
 
 namespace dru
 {
@@ -26,6 +27,8 @@ namespace dru
 		, mPlayer(nullptr)
 		, mUICursor(nullptr)
 		, mKeyEnter(nullptr)
+		, mHudBattery(nullptr)
+		, mBatteryParticle(nullptr)
 		, mHudBatteryParts{}
 		, mHudTimerBar(nullptr)
 		, mHudLeftHand(nullptr)
@@ -93,6 +96,7 @@ namespace dru
 				return;
 			}
 			BulletTimeBatteryOperation();
+			BulletTimeBatteryParticleOperation();
 		}
 
 	}
@@ -147,7 +151,7 @@ namespace dru
 		}
 
 		{
-			CGameObj* mHudBattery = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Battery");
+			mHudBattery = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Battery");
 
 			CSpriteRenderer* SpriteRenderer = mHudBattery->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_battery", L"UIShader");
@@ -480,6 +484,26 @@ namespace dru
 		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
 	}
 
+	void CStage::BulletTimeBatteryParticleOperation()
+	{
+		if (CTimeMgr::IsBulletTimeOn())
+		{
+			if (!mbBatteryParticleStart)
+			{
+				BatteryParticleCreateAndStart();
+				mbBatteryParticleStart = true;
+			}
+		}
+		else
+		{
+			if (mbBatteryParticleStart)
+			{
+				mBatteryParticle->Die();
+				mbBatteryParticleStart = false;
+			}
+		}
+	}
+
 	void CStage::CreateDeadUI()
 	{
 		{
@@ -601,6 +625,8 @@ namespace dru
 			CTimeMgr::BulletTimeOff();
 
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+		mPlayer->GetScript<CPlayerScript>()->RewindStart();
+
 		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
@@ -762,6 +788,27 @@ namespace dru
 		renderer::mainCamera->GetCamScript()->CamFollowOff();
 		renderer::mainCamera->GetCamScript()->AllDirBlockOff();
 		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
+	}
+	void CStage::BatteryParticleCreateAndStart()
+	{
+		mBatteryParticle = object::Instantiate<CGameObj>(eLayerType::Particle, mHudBattery, L"BatteryParticle");
+		mBatteryParticle->SetName(L"BatteryParticleSystem");
+		mBatteryParticle->SetPos(mHudBattery->GetPos());
+		CParticleSystem* particleSystem = mBatteryParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
+
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BatteryParticleMat");
+		particleSystem->SetMaterial(Material);
+
+		Vector4 startPos = Vector4(mHudBattery->GetPos().x, mHudBattery->GetPos().y, 1.f, 1.f);
+		startPos.z = 3.f;
+		particleSystem->MakeParticleBufferData(startPos, 10, 0.5f, 1.5f, 2.5f, 0.f, 0);
+		particleSystem->SetParticleCountInFrame(2);
+		particleSystem->SetFrequency(1.f);
+		renderer::ParticleSystemCB cb = {};
+		particleSystem->MakeConstantBufferData(L"BatteryParticleCS", cb);
+
+		particleSystem->SetMaxElapsedTime(5.f);
+		particleSystem->Initialize();
 	}
 	void CStage::KeyUI_LeftOn(Vector3 _Pos)
 	{

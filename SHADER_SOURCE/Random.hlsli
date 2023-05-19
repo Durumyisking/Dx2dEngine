@@ -44,3 +44,19 @@ float4 GetRandomFloat4FromNoise(uint _ThreadIDX, uint _ThreadIDY)
     
     return noise;
 }
+
+int GetRandomIntFromNoise(uint _ThreadIDX, uint _ThreadIDY, int _Start, int _Range)
+{
+    float seedx = ((float) _ThreadIDX / (float) maxParticles) + elapsedTime;
+    float seedy = ((float) _ThreadIDY / (float) maxParticles) + elapsedTime;
+    float r1 = Rand(float2(seedx, seedy));
+
+    // [0.5~1] -> [0.5~Range]
+    float noise = (2 * r1 - 1) * _Range;
+
+    // [0~1] -> [Start -> Range]
+    int result = (int) noise;
+    result += _Start;
+    
+    return result;
+}

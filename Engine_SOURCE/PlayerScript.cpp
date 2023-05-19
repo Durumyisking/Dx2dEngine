@@ -87,7 +87,7 @@ namespace dru
 		{
 			dead();
 		}
-		if (CInput::GetKeyTap(eKeyCode::H))
+		if (CInput::GetKeyTap(eKeyCode::P ))
 		{
 			mParticle->RenderingBlockOff();
 		}
@@ -426,13 +426,16 @@ namespace dru
 		mbInputBlock = true;
 	}
 
-	void CPlayerScript::Reset()
+	void CPlayerScript::RewindStart()
 	{
-		SetAfterImageCount(20);
-
 		mParticle->Die();
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
+	}
+
+	void CPlayerScript::Reset()
+	{
+		SetAfterImageCount(20);
 
 		mHitTimer = 0.f;
 

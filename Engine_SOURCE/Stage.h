@@ -91,6 +91,7 @@ namespace dru
 
 
         void BulletTimeBatteryOperation();
+        void BulletTimeBatteryParticleOperation();
 
         void CreateDeadUI();
 
@@ -137,6 +138,8 @@ namespace dru
 
         void CamReset();
 
+        void BatteryParticleCreateAndStart();
+
         static void KeyUI_LeftOn(Vector3 _Pos);
         static void KeyUI_RightOn(Vector3 _Pos);
         static void KeyUI_UpOn(Vector3 _Pos);
@@ -181,6 +184,8 @@ namespace dru
 
         CGameObj* mUICursor;
 
+        CGameObj* mHudBattery;
+        CGameObj* mBatteryParticle;
 
         std::vector<CGameObj*> mHudBatteryParts;
         CGameObj* mHudTimerBar;
@@ -206,6 +211,8 @@ namespace dru
         UINT mEnemyCount;
 
         std::vector<CLiveGameObj*> mRewindObjects;
+
+        bool mbBatteryParticleStart;
 
 
     private:
