@@ -46,3 +46,4 @@ float3 RotatePointZ(float3 _point, float _radian)
     
     return rotatedPoint;
 }
+

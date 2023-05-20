@@ -168,6 +168,10 @@ namespace dru
 
 		Vector3 GetPos();
 		Vector3 GetWorldPos();
+
+		// ui만 사용 가능
+		Vector3 GetUIWorldPos();
+
 		Vector3 GetScale();
 		Vector3 GetRotation();
 

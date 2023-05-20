@@ -37,7 +37,7 @@ void main(point VSOut input[1], inout TriangleStream<GSOutput> output) // input�
 	
     float3 NewPos[4] =
     {
-        vViewPos + float3(-0.5f, 0.5f, 0.0f) * vScale, // 스케일
+        vViewPos + float3(-0.5f, 0.5f, 0.0f) * vScale,
         vViewPos + float3(0.5f, 0.5f, 0.0f) * vScale,
         vViewPos + float3(0.5f, -0.5f, 0.0f) * vScale,
         vViewPos + float3(-0.5f, -0.5f, 0.0f) * vScale

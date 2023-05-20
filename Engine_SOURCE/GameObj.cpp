@@ -235,6 +235,21 @@ namespace dru
 		return GetComponent<CTransform>()->GetWorldPosition();
 	}
 
+	Vector3 CGameObj::GetUIWorldPos()
+	{
+		Vector3 UIWorldPos = {};
+		if (this->GetLayerType() == eLayerType::UI)
+		{
+			Vector3 UIPos = GetComponent<CTransform>()->GetWorldPosition();
+			Vector3 CamPos = renderer::mainCamera->GetOwner()->GetWorldPos();
+			UIWorldPos.z = UIPos.z;
+			UIWorldPos.x = UIPos.x + CamPos.x;
+			UIWorldPos.y = UIPos.y + CamPos.y;
+		}
+
+		return UIWorldPos;
+	}
+
 	Vector3 CGameObj::GetScale()
 	{
 		return GetComponent<CTransform>()->GetScale();

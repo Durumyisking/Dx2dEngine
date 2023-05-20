@@ -493,6 +493,13 @@ namespace dru
 				BatteryParticleCreateAndStart();
 				mbBatteryParticleStart = true;
 			}
+			Vector3 ParentWorldPos = mHudBattery->GetUIWorldPos();
+			mBatteryParticle->SetPos(ParentWorldPos);
+
+			CParticleSystem* ps = mBatteryParticle->GetComponent<CParticleSystem>();
+			Vector3 startPos = Vector3(ParentWorldPos.x, ParentWorldPos.y, 1.f);
+			ps->SetStartPosition(startPos);
+
 		}
 		else
 		{
@@ -793,17 +800,17 @@ namespace dru
 	{
 		mBatteryParticle = object::Instantiate<CGameObj>(eLayerType::Particle, mHudBattery, L"BatteryParticle");
 		mBatteryParticle->SetName(L"BatteryParticleSystem");
-		mBatteryParticle->SetPos(mHudBattery->GetPos());
+		Vector3 ParentWorldPos =  mHudBattery->GetUIWorldPos();
+		mBatteryParticle->SetPos(ParentWorldPos);
 		CParticleSystem* particleSystem = mBatteryParticle->AddComponent<CParticleSystem>(eComponentType::Particle);
 
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BatteryParticleMat");
 		particleSystem->SetMaterial(Material);
 
-		Vector4 startPos = Vector4(mHudBattery->GetPos().x, mHudBattery->GetPos().y, 1.f, 1.f);
-		startPos.z = 3.f;
-		particleSystem->MakeParticleBufferData(startPos, 10, 0.5f, 1.5f, 2.5f, 0.f, 0);
-		particleSystem->SetParticleCountInFrame(2);
-		particleSystem->SetFrequency(1.f);
+		Vector4 startPos = Vector4(ParentWorldPos.x, ParentWorldPos.y, 1.f, 1.f);
+		particleSystem->MakeParticleBufferData(startPos, 30, 0.5f, 1.5f, 10.5f, 0.f, 0);
+		particleSystem->SetParticleCountInFrame(3);
+		particleSystem->SetFrequency(0.5f);
 		renderer::ParticleSystemCB cb = {};
 		particleSystem->MakeConstantBufferData(L"BatteryParticleCS", cb);
 
