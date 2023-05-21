@@ -808,7 +808,7 @@ namespace dru
 		particleSystem->SetMaterial(Material);
 
 		Vector4 startPos = Vector4(ParentWorldPos.x, ParentWorldPos.y, 1.f, 1.f);
-		particleSystem->MakeParticleBufferData(startPos, 30, 0.5f, 1.5f, 10.5f, 0.f, 0);
+		particleSystem->MakeParticleBufferData(startPos, 30, 0.5f, 1.f, 10.5f, 0.f, 0);
 		particleSystem->SetParticleCountInFrame(3);
 		particleSystem->SetFrequency(0.5f);
 		renderer::ParticleSystemCB cb = {};

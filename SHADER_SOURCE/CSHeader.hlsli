@@ -14,8 +14,7 @@ void ParticleThreadSync(uint _ThreadID)
         }
         int expected = CurrentSharedBufferActiveCount;
         int exchange = CurrentSharedBufferActiveCount - 1;
-        
-            
+                    
         InterlockedCompareExchange(ParticleSharedBufferUAV[0].gActiveCount
                                         , expected, exchange, originValue);
             

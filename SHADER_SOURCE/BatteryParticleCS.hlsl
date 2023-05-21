@@ -30,12 +30,11 @@ void main(uint3 DTid : SV_DispatchThreadID)
             }
             else
             {
-                RandomSize = float3(0.01f, 0.1f, 0.f);
+                RandomSize = float3(0.1f, 0.01f, 0.f);
             }
 
             float4 Blue = float4(0.4941f, 0.8118f, 0.9765f, 1.f);
-            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, -0.5f), float4(RotatedX, RotatedY, 0.f, 1.f), RandomSize, Blue, Blue, 1.f, 10.f, 0.f);
-//            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, -0.5f), float4(RotatedX, RotatedY, 0.f, 1.f), RandomSize, Blue, Blue, 1.f, 10.f, RandRadian);
+            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, -0.5f), float4(RotatedX, RotatedY, 0.f, 1.f), RandomSize, Blue, Blue, 0.33f, 10.f, RandRadian);
         }
     }
     else

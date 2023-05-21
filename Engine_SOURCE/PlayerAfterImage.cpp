@@ -32,7 +32,6 @@ namespace dru
 
 		Renderer->SetAfterImageOwner(this);
 
-
 		CGameObj::Initialize();
 	}
 

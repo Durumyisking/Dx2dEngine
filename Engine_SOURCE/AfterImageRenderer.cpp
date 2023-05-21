@@ -39,7 +39,6 @@ namespace dru
 		GetOwner()->GetComponent<CTransform>()->SetConstantBuffer();
 		GetMesh()->BindBuffer();
 
-
 		int idx = mAfterImageOwner->GetIndex();
 		UINT Size = mAfterImageOwner->GetOwner()->GetAfterImageCount();
 

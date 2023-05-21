@@ -78,7 +78,8 @@ namespace dru::graphics
 		Bind();	
 
 		GetDevice()->BindCS(mCS.Get(), nullptr, 0);
-		GetDevice()->Dispatch(mGroupX, mGroupY, mGroupZ); // 컴퓨트 쉐이더 돌릴거임, 인자로 쓰레드 그룹 전달
+		// 컴퓨트 쉐이더 돌릴거임, 인자로 쓰레드 그룹 전달
+		GetDevice()->Dispatch(mGroupX, mGroupY, mGroupZ);
 
 		Clear();
 	}

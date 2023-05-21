@@ -250,7 +250,7 @@ namespace dru
 		{
 			if (mState[(UINT)ePlayerState::Dead] == false)
 			{
-				if (mState[(UINT)ePlayerState::Roll] == false)
+				if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 				{
 					mState.reset();
 					mState[(UINT)ePlayerState::Dead] = true;
@@ -1449,7 +1449,7 @@ namespace dru
 	{
 		SetAfterImageCount(0);
 
-		if (mState[(UINT)ePlayerState::Roll] == false)
+		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
 			mState.reset();
 			mState[(UINT)ePlayerState::Dead] = true;

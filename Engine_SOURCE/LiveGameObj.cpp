@@ -324,25 +324,21 @@ namespace dru
 	}
 	void CLiveGameObj::SetAfterImage(CAfterImage* _AfterImage)
 	{
-		if (mAfterImageCount >= mAfterImages.size())
-		{
-			mAfterImages.push_back(_AfterImage);
-		}
-		else
+		if (mAfterImageCount < mAfterImages.size())
 		{
 			mAfterImages.front()->Die();
 			mAfterImages.pop_front();
 
-			if (!mAfterImages.empty())
+			if (!mAfterImages.empty()) // ¿‹ªÛ ∞≥ºˆ 0¿œ∂ß¥¬ 2∞≥æø pop«œ∏È æ»µ 
 			{
 				mAfterImages.front()->Die();
 				mAfterImages.pop_front();
 			}
-
-			mAfterImages.push_back(_AfterImage);
 		}
 
+		mAfterImages.push_back(_AfterImage);
 
+		// ¿‹ªÛ ¿Œµ¶ΩÃ
 		for (UINT i = 0; i < mAfterImages.size(); i++)
 		{
 			mAfterImages[i]->SetIndex(i);

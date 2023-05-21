@@ -34,16 +34,17 @@ struct VTX_OUT
 #define ALPHA(target, value) float4(target.r, target.g, target.b, (float)value)
 
 
-float3 RotatePointZ(float3 _point, float _radian)
+float3 RotatePointZ(float3 _point, float _radian, float3 _rotationCenter)
 {
     float cosTheta = cos(_radian);
     float sinTheta = sin(_radian);
     float3 rotatedPoint;
     
-    rotatedPoint.x = _point.x * cosTheta - _point.y * sinTheta;
-    rotatedPoint.y = _point.x * sinTheta + _point.y * cosTheta;
-    rotatedPoint.z = _point.z;
-    
-    return rotatedPoint;
-}
+    float3 translatedPoint = _point - _rotationCenter;
 
+    rotatedPoint.x = translatedPoint.x * cosTheta - translatedPoint.y * sinTheta;
+    rotatedPoint.y = translatedPoint.x * sinTheta + translatedPoint.y * cosTheta;
+    rotatedPoint.z = translatedPoint.z;
+    
+    return rotatedPoint + _rotationCenter;
+}

@@ -238,16 +238,16 @@ namespace dru
 			Vector3 centerDir = vc;
 			for (size_t i = 0; i < 4; i++)
 			{
-				Vector3 vA = Axis[i];
+				Vector3 vObjectAxis = Axis[i];
 				//vA.Normalize();
 
 				float projDist = 0.f;
 				for (size_t j = 0; j < 4; j++)
 				{
-					projDist += fabsf(Axis[j].Dot(vA) / 2.f);
+					projDist += fabsf(Axis[j].Dot(vObjectAxis) / 2.f);
 				}
 
-				if (projDist < fabsf(centerDir.Dot(vA)))
+				if (projDist < fabsf(centerDir.Dot(vObjectAxis)))
 				{
 					return false;
 				}

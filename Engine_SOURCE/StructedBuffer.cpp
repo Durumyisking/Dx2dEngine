@@ -27,7 +27,6 @@ namespace dru::graphics
 		mSize = _size;
 		mStride = _stride;
 
-
 		setDiscription();
 		createBuffer(_data);
 		createView();
@@ -36,7 +35,6 @@ namespace dru::graphics
 		{
 			createRWBuffer();
 		}
-
 		return true;
 	}
 
