@@ -62,8 +62,7 @@ namespace dru
 			mBeam->GetComponent<CSpriteRenderer>()->ChangeColor(PEARL);
 			mbLaserShoot = true;
 			mbLaserShooted = true;
-			CTimeMgr::BulletTime(0.1f);
-			renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+
 		}
 
 	}

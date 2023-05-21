@@ -252,6 +252,11 @@ namespace dru
 			{
 				if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 				{
+					CTimeMgr::BulletTime(0.1f);
+					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+
+					SetAfterImageCount(0);
+					BulletTimeSwitchOff();
 					mState.reset();
 					mState[(UINT)ePlayerState::Dead] = true;
 //					mAnimator->Play(L"Player_Idle", false);
@@ -1202,7 +1207,7 @@ namespace dru
 	void CPlayerScript::bulletTimeStunOperate()
 	{
 		// bullet타임 스턴상태면 3초간 쿨타임 있음
-		CTimeMgr::BulletTimeOff();
+		BulletTimeSwitchOff();
 		mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
 
 		if (mBulletTimeCooldown >= 3.f)
@@ -1447,10 +1452,10 @@ namespace dru
 
 	void CPlayerScript::hit(Vector3& _enemyPos, int _Type)
 	{
-		SetAfterImageCount(0);
-
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
+			SetAfterImageCount(0);
+			BulletTimeSwitchOff();
 			mState.reset();
 			mState[(UINT)ePlayerState::Dead] = true;
 			mAnimator->Play(L"Player_Dead", false);

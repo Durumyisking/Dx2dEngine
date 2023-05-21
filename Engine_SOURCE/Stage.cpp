@@ -807,7 +807,7 @@ namespace dru
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BatteryParticleMat");
 		particleSystem->SetMaterial(Material);
 
-		Vector4 startPos = Vector4(ParentWorldPos.x, ParentWorldPos.y, 1.f, 1.f);
+		Vector4 startPos = Vector4(ParentWorldPos.x, ParentWorldPos.y, 0.f, 1.f);
 		particleSystem->MakeParticleBufferData(startPos, 30, 0.5f, 1.f, 10.5f, 0.f, 0);
 		particleSystem->SetParticleCountInFrame(3);
 		particleSystem->SetFrequency(0.5f);
