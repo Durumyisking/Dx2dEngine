@@ -16,6 +16,10 @@ cbuffer Material : register(b1)
     float cbfData2;
     float cbfData3;
     float cbfData4;
+    float cbfData5;
+    float cbfData6;
+    float cbfData7;
+    float cbfData8;
     
     float2 cbxy1;
     float2 cbxy2;
@@ -97,8 +101,8 @@ cbuffer ParticleSystem : register(b6)
     int2 padding;    
 }
 
-//cbuffer Noise : register(b7)
-//{
-//    float4 NoiseSize;
-//}
-
+cbuffer LaserHit : register(b9)
+{
+    float laserhit_elapsedX;
+    float laserhit_elapsedY;
+}

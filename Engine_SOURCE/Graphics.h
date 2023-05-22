@@ -26,6 +26,7 @@
 #define CBSLOT_PARTICLESYSTEM 6
 #define CBSLOT_NOISE			7
 #define CBSLOT_POSTPROCESS		8
+#define CBSLOT_LASERHIT			9
 
 namespace dru::graphics
 {
@@ -150,6 +151,7 @@ namespace dru::graphics
 		ParticleSystem,
 		Noise, 
 		PostProcess,
+		LaserHit,
 		End,
 	};
 
@@ -164,6 +166,10 @@ namespace dru::graphics
 		Float_2,
 		Float_3,
 		Float_4,
+		Float_5,
+		Float_6,
+		Float_7,
+		Float_8,
 		Vector2_1,
 		Vector2_2,
 		Vector2_3,

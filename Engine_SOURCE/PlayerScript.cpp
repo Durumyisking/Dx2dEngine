@@ -43,6 +43,8 @@ namespace dru
 		, mJumpdust(nullptr)
 		, mLanddust(nullptr)
 		, mbOnFloor2(false)
+		, mLaserHitElapsedTimeX(0.f)
+		, mLaserHitElapsedTimeY(0.f)
 	{
 	}
 	CPlayerScript::~CPlayerScript()
@@ -171,6 +173,33 @@ namespace dru
 	}
 	void CPlayerScript::render()
 	{
+		if (mParticle)
+		{
+//			if (mLaserHitElapsedTimeX < 0.1f)
+			if (mLaserHitElapsedTimeX < 2.f)
+			{
+				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime();
+//				mLaserHitElapsedTimeX += (CTimeMgr::DeltaTime() / 10.f);
+			}
+			//else
+			//{
+			//	mLaserHitElapsedTimeX = 0.f;
+			//}
+
+			if (mLaserHitElapsedTimeY < 1.f)
+			{
+				mLaserHitElapsedTimeY += CTimeMgr::DeltaTime();
+			}
+			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::LaserHit];
+			renderer::LaserHitCB data = {};
+
+			data.ElapsedTimeX = mLaserHitElapsedTimeX;
+			data.ElapsedTimeY = mLaserHitElapsedTimeY;
+
+			cb->SetData(&data);
+			cb->Bind(eShaderStage::PS);
+		}
+
 	}
 	void CPlayerScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
@@ -413,6 +442,8 @@ namespace dru
 
 	void CPlayerScript::RewindStart()
 	{
+		mLaserHitElapsedTimeX = 0.f;
+		mLaserHitElapsedTimeY = 0.f;
 		mAnimator->Pause();
 		CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 		sprRenderer->GetMaterial().get()->SetShaderByKey(L"SpriteShader");

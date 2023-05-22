@@ -12,7 +12,7 @@ namespace dru::graphics
 	public:
 		CConstantBuffer();
 		CConstantBuffer(eCBType _Type);
-		virtual ~CConstantBuffer();
+		virtual ~CConstantBuffer();	
 
 		bool Create(UINT _Size);
 		void SetData(void* _Data);

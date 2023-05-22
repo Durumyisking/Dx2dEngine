@@ -170,6 +170,8 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
+        float mLaserHitElapsedTimeX;
+        float mLaserHitElapsedTimeY;
 
     public:
         bool IsOnWall() const { return mbOnWall; }

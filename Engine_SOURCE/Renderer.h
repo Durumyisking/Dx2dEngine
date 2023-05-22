@@ -60,6 +60,10 @@ namespace dru::renderer
 		float fData2;
 		float fData3;
 		float fData4;
+		float fData5;
+		float fData6;
+		float fData7;
+		float fData8;
 
 		Vector2 xy1;
 		Vector2 xy2;
@@ -154,6 +158,12 @@ namespace dru::renderer
 		float wave_speed;
 		float wave_distortion;
 	};
+	CBUFFER(LaserHitCB, CBSLOT_LASERHIT)
+	{
+		float ElapsedTimeX;
+		float ElapsedTimeY;
+	};
+
 
 
 

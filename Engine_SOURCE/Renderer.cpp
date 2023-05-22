@@ -423,6 +423,9 @@ namespace dru::renderer
 		constantBuffers[(UINT)eCBType::PostProcess] = new CConstantBuffer(eCBType::PostProcess);
 		constantBuffers[(UINT)eCBType::PostProcess]->Create(sizeof(PostProcessCB));
 
+		constantBuffers[(UINT)eCBType::LaserHit] = new CConstantBuffer(eCBType::LaserHit);
+		constantBuffers[(UINT)eCBType::LaserHit]->Create(sizeof(LaserHitCB));
+
 		// structed buffer
 		lightBuffer = new CStructedBuffer();
 		lightBuffer->Create(sizeof(LightAttribute), 128, eSRVType::SRV, nullptr, true);
