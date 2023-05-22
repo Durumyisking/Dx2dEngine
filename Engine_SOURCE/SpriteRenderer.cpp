@@ -59,8 +59,7 @@ namespace dru
 					animator->Binds();
 				}
 			}
-		}
-		
+		}		
 
 		GetMesh()->Render();
 

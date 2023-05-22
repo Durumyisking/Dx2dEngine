@@ -49,6 +49,8 @@ namespace dru
 
 		bool IsCompleted() { return mbComplete; }
 
+		int GetIndex() const { return mIndex; }
+
 		std::wstring& GetAnimationName() { return mAnimationName; }
 
 		renderer::AnimationCB GetAnimationData();

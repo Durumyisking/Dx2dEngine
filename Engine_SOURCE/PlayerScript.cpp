@@ -87,9 +87,9 @@ namespace dru
 		{
 			dead();
 		}
-		if (CInput::GetKeyTap(eKeyCode::P ))
+		if (CInput::GetKeyTap(eKeyCode::P))
 		{
-			mParticle->RenderingBlockOff();
+			mAnimator->Pause();
 		}
 
 		if (!mbInputBlock)
@@ -250,27 +250,7 @@ namespace dru
 		{
 			if (mState[(UINT)ePlayerState::Dead] == false)
 			{
-				if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
-				{
-					CTimeMgr::BulletTime(0.1f);
-					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
-
-					SetAfterImageCount(0);
-					BulletTimeSwitchOff();
-					mState.reset();
-					mState[(UINT)ePlayerState::Dead] = true;
-//					mAnimator->Play(L"Player_Idle", false);
-					mbInputBlock = true;
-					mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
-					mHitDir = Vector3::Zero;
-					mHitDir.Normalize();
-
-					dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
-					SetAfterImageCount(0);
-					CreateLaserParticleSystem();
-					std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerLaserMat");
-					GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
-				}
+				laserHit();
 			}				
 		}
 	}
@@ -433,7 +413,12 @@ namespace dru
 
 	void CPlayerScript::RewindStart()
 	{
+		mAnimator->Pause();
+		CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
+		sprRenderer->GetMaterial().get()->SetShaderByKey(L"SpriteShader");
+
 		mParticle->Die();
+		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
 	}
@@ -1485,6 +1470,31 @@ namespace dru
 			{
 
 			}
+		}
+	}
+
+	void CPlayerScript::laserHit()
+	{
+		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
+		{
+			mAnimator->Pause();
+			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
+			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
+
+			CTimeMgr::BulletTime(0.1f);
+			renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+
+			SetAfterImageCount(0);
+			BulletTimeSwitchOff();
+			mState.reset();
+			mState[(UINT)ePlayerState::Dead] = true;
+			mbInputBlock = true;
+			mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
+			mHitDir = Vector3::Zero;
+			mHitDir.Normalize();
+
+			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
+			CreateLaserParticleSystem();
 		}
 	}
 

@@ -31,7 +31,7 @@ float4 main() : SV_TARGET
             break;
     }
 
-    discard;
+//    discard;
     
     return Out;
 

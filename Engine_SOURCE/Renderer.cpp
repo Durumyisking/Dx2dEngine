@@ -284,6 +284,12 @@ namespace dru::renderer
 			, snowShader->GetVSBlobBufferSize()
 			, snowShader->GetInputLayoutAddr());
 
+		std::shared_ptr<CShader> LaserHitShader = CResources::Find<CShader>(L"LaserHitShader");
+		GetDevice()->CreateInputLayout(arrLayout, 3
+			, LaserHitShader->GetVSBlobBufferPointer()
+			, LaserHitShader->GetVSBlobBufferSize()
+			, LaserHitShader->GetInputLayoutAddr());
+
 #pragma endregion
 
 		#pragma region SamplerState
@@ -507,7 +513,12 @@ namespace dru::renderer
 			particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 			CResources::Insert<CShader>(L"LaserParticleShader", particleShader);
 		}
-
+		{
+			std::shared_ptr<CShader> LaserHitShader = std::make_shared<CShader>();
+			LaserHitShader->Create(graphics::eShaderStage::VS, L"SpriteVS.hlsl", "main");
+			LaserHitShader->Create(graphics::eShaderStage::PS, L"LaserHitPS.hlsl", "main");
+			CResources::Insert<CShader>(L"LaserHitShader", LaserHitShader);
+		}
 
 		std::shared_ptr<CParticleShader> particleCS = std::make_shared<CParticleShader>();
 		CResources::Insert<CParticleShader>(L"ParticleCS", particleCS);

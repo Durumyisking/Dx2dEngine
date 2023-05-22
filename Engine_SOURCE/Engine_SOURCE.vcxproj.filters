@@ -200,6 +200,9 @@
     <Filter Include="GameObj\Turret">
       <UniqueIdentifier>{03129b5d-a3f3-4763-a75b-4d3a209b7a69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Component\Renderer\LaserHit">
+      <UniqueIdentifier>{7178b76e-c360-43bd-89f6-e3dcccf07026}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">

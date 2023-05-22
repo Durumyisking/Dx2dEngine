@@ -23,6 +23,7 @@ namespace dru::graphics
 		void Clear();
 
 		void SetShader(std::shared_ptr<CShader>	 _Shader) { mShader = _Shader; }
+		void SetShaderByKey(std::wstring _Key);
 		std::shared_ptr<CShader> GetShader() const { return mShader; }
 
 		void SetTexture(std::shared_ptr<CTexture> _Texture) { mTexture[(UINT)eTextureSlot::T0] = _Texture; }

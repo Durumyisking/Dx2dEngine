@@ -62,7 +62,6 @@ namespace dru
 			mBeam->GetComponent<CSpriteRenderer>()->ChangeColor(PEARL);
 			mbLaserShoot = true;
 			mbLaserShooted = true;
-
 		}
 
 	}

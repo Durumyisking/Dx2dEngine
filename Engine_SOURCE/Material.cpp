@@ -152,4 +152,9 @@ namespace dru::graphics
 		pCB->Clear();
 
 	}
+	void CMaterial::SetShaderByKey(std::wstring _Key)
+	{
+		std::shared_ptr<CShader> shader = CResources::Find<CShader>(_Key);
+		mShader = shader;
+	}
 }

@@ -121,6 +121,7 @@ namespace dru
 
 
         void hit(Vector3& _enemyPos, int _Type);
+        void laserHit();
 
         bool towardToWallCheck_KeyTap();
         bool towardToWallCheck_KeyDown();
@@ -128,7 +129,6 @@ namespace dru
         bool NotowardToWallCheck_KeyDown();
 
         void SetAfterImageCount(int _Count);
-
 
 
         CAnimator* mAnimator;

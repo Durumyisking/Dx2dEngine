@@ -48,6 +48,7 @@ namespace dru
 		bool IsPlaying(const std::wstring& _name) { if (mCurrentAnimation->GetAnimationName() == _name) return true; return false; }
 
 		void Play(std::wstring _name, bool _bLoop = true);
+		void Pause();
 
 		void Binds();
 		void BindSprite(renderer::AnimationCB _Sprite);
@@ -65,7 +66,7 @@ namespace dru
 		CAnimation* mCurrentAnimation;
 
 		bool mbLoop;
-
+		bool mbPause;
 	};
 }
 

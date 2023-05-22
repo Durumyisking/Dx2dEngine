@@ -8,6 +8,7 @@ namespace dru
 		, mEvents{}
 		, mCurrentAnimation(nullptr)
 		, mbLoop(false)
+		, mbPause(false)
 	{
 	}
 
@@ -35,26 +36,27 @@ namespace dru
 		if (!mCurrentAnimation)
 			return;
 
-		Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
-
-		if (mCurrentAnimation->IsCompleted())
+		if (!mbPause)
 		{
+			Events* events = FindEvents(mCurrentAnimation->GetAnimationName());
 
-			if (events)
-				events->mCompleteEvent();
-
-			if(mbLoop)
-				mCurrentAnimation->Reset();
-		}
-		UINT spriteIndex = mCurrentAnimation->update();
-
-		if (nullptr != events)
-		{
-			if (spriteIndex != -1 && events->mFrameEvents[spriteIndex].mEvent)
+			if (mCurrentAnimation->IsCompleted())
 			{
-				events->mFrameEvents[spriteIndex].mEvent();
-			}
+				if (events)
+					events->mCompleteEvent();
 
+				if (mbLoop)
+					mCurrentAnimation->Reset();
+			}
+			UINT spriteIndex = mCurrentAnimation->update();
+
+			if (nullptr != events)
+			{
+				if (spriteIndex != -1 && events->mFrameEvents[spriteIndex].mEvent)
+				{
+					events->mFrameEvents[spriteIndex].mEvent();
+				}
+			}
 		}
 	}
 
@@ -129,6 +131,18 @@ namespace dru
 
 		if (events)
 			events->mStartEvent();
+	}
+
+	void CAnimator::Pause()
+	{
+		if (mbPause)
+		{
+			mbPause = false;
+		}
+		else
+		{
+			mbPause = true;
+		}
 	}
 
 	void CAnimator::Binds()

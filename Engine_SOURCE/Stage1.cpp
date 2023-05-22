@@ -201,11 +201,13 @@ namespace dru
 	{
 		{
 			mLaserFloor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			mLaserFloor->SetPos(Vector3(3.75f, 2.f, 3.f));
+			mLaserFloor->SetPos(Vector3(3.75f, -20.f, 3.f));
+//			mLaserFloor->SetPos(Vector3(3.75f, 2.f, 3.f));
 			mLaserFloor->SetColliderScale({ 10.f, 0.4f });
 
 			mLaserTurret = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
-			mLaserTurret->SetPos(Vector3(3.9f, 9.f, 3.f));
+			mLaserTurret->SetPos(Vector3(-3.9f, 9.f, 3.f));
+//			mLaserTurret->SetPos(Vector3(3.9f, 9.f, 3.f));
 			mLaserTurret->SetScale({ 0.25f, 0.25f, 0.f });
 
 			mLaserTurret->SetDestinationFloor(mLaserFloor);
