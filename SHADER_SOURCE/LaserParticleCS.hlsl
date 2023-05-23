@@ -21,10 +21,12 @@ void main(uint3 DTid : SV_DispatchThreadID)
             float2 RightNormal = float2(1.f, 0.f);
             float RotatedX = RightNormal.x * cos(RandRadian) + RightNormal.y * sin(RandRadian);
             float RotatedY = RightNormal.x * sin(RandRadian) - RightNormal.y * cos(RandRadian);
-//            float4 Yellow = float4(0.9569f, 0.6672f, 0.4588f, 1.f);
-            float4 Yellow = float4(1.f, 1.f, 0.f, 1.f);
+            float4 Yellow = float4(0.75f, 0.75f, 0.15f, 1.f);
             float4 Orange = float4(0.9569f, 0.6672f, 0.4588f, 1.f);
-            InitalizeParticleBufferUAV(DTid.x, float3(0.f, 0.f, -1.f), float4(RotatedX, RotatedY, 0.f, 1.f), float3(0.05f, 0.05f, 1.f), Yellow, Orange, 1.f, RandSpeed, 0.f);
+            
+            float3 newStartPos = float3(0.f, 0.5f, -1.f);
+            newStartPos.y -= elapsedTime * 1.f;
+            InitalizeParticleBufferUAV(DTid.x, newStartPos, float4(RotatedX, RotatedY, 0.f, 1.f), float3(0.05f, 0.05f, 1.f), Yellow, Orange, 1.25f, RandSpeed, 0.f);
         }
     }
     else  

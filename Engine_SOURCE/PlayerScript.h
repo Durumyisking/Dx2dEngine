@@ -170,6 +170,7 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
+        bool mbLaserParticleStart;
         float mLaserHitElapsedTimeX;
         float mLaserHitElapsedTimeY;
         float mPrevLaserHitElapsedTimeY;

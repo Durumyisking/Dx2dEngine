@@ -43,6 +43,7 @@ namespace dru
 		, mJumpdust(nullptr)
 		, mLanddust(nullptr)
 		, mbOnFloor2(false)
+		, mbLaserParticleStart(false)
 		, mLaserHitElapsedTimeX(0.f)
 		, mLaserHitElapsedTimeY(0.f)
 		, mPrevLaserHitElapsedTimeY(0.f)
@@ -174,8 +175,12 @@ namespace dru
 	}
 	void CPlayerScript::render()
 	{
-		if (mParticle)
+		if (mbLaserParticleStart)
 		{
+			if (CInput::GetKeyDown(eKeyCode::G))
+			{
+				mParticle->GetComponent<CTransform>()->AddPositionX(1.f);
+			}
 			if (mLaserHitElapsedTimeX < 1.f)
 			{
 				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime() * 20.f;
@@ -446,13 +451,16 @@ namespace dru
 
 	void CPlayerScript::RewindStart()
 	{
+		mbLaserParticleStart = false;
 		mLaserHitElapsedTimeX = 0.f;
 		mLaserHitElapsedTimeY = 0.f;
+		mPrevLaserHitElapsedTimeY = 0.f;
 		mAnimator->Pause();
 		CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 		sprRenderer->GetMaterial().get()->SetShaderByKey(L"SpriteShader");
 
 		mParticle->Die();
+//		mParticle->GetComponent<CParticleSystem>()->SwitchReset();
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
@@ -493,7 +501,8 @@ namespace dru
 		renderer::ParticleSystemCB cb = {};
 		particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
 
-		particleSystem->SetMaxElapsedTime(5.f);
+		particleSystem->SetMaxElapsedTime(1.25f);
+		particleSystem->UseSwitchOn();
 		particleSystem->Initialize();
 	}
 
@@ -1512,6 +1521,7 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
+			mbLaserParticleStart = true;
 			mAnimator->Pause();
 			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");

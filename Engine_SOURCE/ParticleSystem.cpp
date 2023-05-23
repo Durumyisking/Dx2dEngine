@@ -38,6 +38,7 @@ namespace dru
 		, mRadian(0.f)
 		, mFrequency(0.25f)
 		, mMaxElapsedTime(5.f)
+		, mbUseSwitch(false)
 		, mParticleCountInFrame(1)
 	{
 	}
@@ -68,13 +69,12 @@ namespace dru
 
 	void CParticleSystem::fixedUpdate()
 	{
-
 		float aliveTime = 0.1f / mFrequency;  // 프리퀀시가 높을수록 빨리생성 한번에 생성하는거
 		//누적시간
 		mElapsedTime += CTimeMgr::DeltaTime();
-		if (aliveTime < mElapsedTime) 
+		if (aliveTime < mElapsedTime)
 		{
-			float f = (mElapsedTime / aliveTime); 
+			float f = (mElapsedTime / aliveTime);
 			mElapsedTime = f - std::floor(f);
 
 			ParticleShared shared = { mParticleCountInFrame }; // 20을 computeShader에 보내겠다
@@ -85,27 +85,6 @@ namespace dru
 			ParticleShared shared = {  }; // if아닐때는 0을 보내네
 			mSharedBuffer->SetData(&shared, 1);
 		}
-	
-		//mBuffer->GetData(mParticle, 0);
-
-		//bool flag = false;
-		//for (size_t i = 0; i < mMaxParticles; i++)
-		//{
-		//	if (0 == mParticle[i].active)
-		//	{
-		//		mParticle[i].active = 1;
-		//		mParticle[i].elapsedTime = 0.f;
-		//		//	MakeSingleParticleBufferData();
-		//		flag = true;
-		//	}
-		//}
-		//if (flag)
-		//{
-		//	mBuffer->SetData(mParticle, 0);
-		//}
-	
-
-//		mMaxParticles = mBuffer->GetStride();
 
 		mCBData.worldPosition = mStartPosition;
 		mCBData.startSize = mStartScale;
@@ -132,6 +111,10 @@ namespace dru
 
 		if (mCBData.elapsedTime > mMaxElapsedTime)
 		{
+			if (mbUseSwitch)
+			{
+				mParticleCountInFrame = 0;
+			}
 			mCBData.elapsedTime = 0.f;
 		}
 
@@ -139,9 +122,10 @@ namespace dru
 		cb->SetData(&mCBData);
 		cb->Bind(eShaderStage::All);
 
-		mCS->SetSharedStrutedBuffer(mSharedBuffer); 
+		mCS->SetSharedStrutedBuffer(mSharedBuffer);
 		mCS->SetStrcutedBuffer(mBuffer);
 		mCS->OnExcute();
+		
 	}
 
 	void CParticleSystem::render() 

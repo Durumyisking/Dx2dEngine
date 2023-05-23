@@ -47,6 +47,10 @@ namespace dru
 
 		void SetFrequency(float _Frequency) { mFrequency = _Frequency; }
 
+		void UseSwitchOn() { mbUseSwitch = true; }
+		void UseSwitchOff() { mbUseSwitch = false; }
+		void SwitchReset() { mbTimerSwitch = false; }
+
 	private:
 		Particle mParticle[256];
 
@@ -82,6 +86,8 @@ namespace dru
 
 		float mMaxElapsedTime;
 
+		bool mbUseSwitch;
+		bool mbTimerSwitch;
 		UINT mParticleCountInFrame;
 
 	};
