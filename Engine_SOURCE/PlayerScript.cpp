@@ -183,7 +183,7 @@ namespace dru
 			}
 			if (mLaserHitElapsedTimeX < 1.f)
 			{
-				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime() * 20.f;
+				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime() * 2.5f;
 			}
 			else // x가 1초 지났을때
 			{
@@ -192,10 +192,7 @@ namespace dru
 					mPrevLaserHitElapsedTimeY = mLaserHitElapsedTimeY;
 					mLaserHitElapsedTimeY += CTimeMgr::DeltaTime() * 10.f;
 				}
-				else
-				{
-//					mParticle->Die();
-				}
+
 				mLaserHitElapsedTimeX = 0.f;
 			}
 			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::LaserHit];
@@ -288,7 +285,13 @@ namespace dru
 		{
 			if (mState[(UINT)ePlayerState::Dead] == false)
 			{
-				laserHit();
+				if (!GetOwner_LiveObject()->IsRewindRePlaying())
+				{
+					laserHit();
+
+					CTimeMgr::BulletTime(0.1f);
+					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+				}
 			}				
 		}
 	}
@@ -501,7 +504,7 @@ namespace dru
 		renderer::ParticleSystemCB cb = {};
 		particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
 
-		particleSystem->SetMaxElapsedTime(1.25f);
+		particleSystem->SetMaxElapsedTime(10.f);
 		particleSystem->UseSwitchOn();
 		particleSystem->Initialize();
 	}
@@ -1525,9 +1528,6 @@ namespace dru
 			mAnimator->Pause();
 			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
-
-			CTimeMgr::BulletTime(0.1f);
-			renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
 
 			BulletTimeSwitchOff();
 			mState.reset();
