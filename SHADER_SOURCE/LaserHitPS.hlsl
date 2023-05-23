@@ -30,23 +30,31 @@ float4 main(VTX_OUT _in) : SV_Target
     {
         CalculateLight(lightcolor, _in.vWorldPos.xyz, i);
     }
-    
+     
     color *= lightcolor.diffuse;
     
     color.rgb += MakeGoldScaleColor(color.rgb);
     
-    float alpharatio = 1.f;
-    
-    if ((UV.x < laserhit_elapsedX * 10.f) && UV.y < laserhit_elapsedY)
-    {
-        alpharatio = 0.f;
-    }
-    if (UV.x < (LT.x - diff) + (laserhit_elapsedX * atlasSize.x))
-    {
-        alpharatio = 0.f;
-    }
 
-    color.a = alpharatio;
+    if (UV.y < (LT.y - diff) + (laserhit_PrevElapsedY * atlasSize.y))
+    {
+        color.a = 0.f;
+    }
+    if (UV.y < (LT.y - diff) + (laserhit_ElapsedY * atlasSize.y))
+    {
+        if (UV.x < (LT.x - diff) + (laserhit_ElapsedX * atlasSize.x))
+        {
+            color.a = 0.f;
+        }
+    }
+    //if (UV.x < (LT.x - diff) + (laserhit_elapsedX * atlasSize.x))
+    //{
+    //    if (UV.y < (LT.y - diff) + (laserhit_elapsedY * atlasSize.y))
+    //    {
+    //        color.a = 0.f;
+    //    }
+    //}
+
      
     if (color.w == 0.f)
         discard;

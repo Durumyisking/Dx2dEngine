@@ -103,6 +103,7 @@ cbuffer ParticleSystem : register(b6)
 
 cbuffer LaserHit : register(b9)
 {
-    float laserhit_elapsedX;
-    float laserhit_elapsedY;
+    float laserhit_ElapsedX;
+    float laserhit_ElapsedY;
+    float laserhit_PrevElapsedY;
 }

@@ -45,6 +45,7 @@ namespace dru
 		, mbOnFloor2(false)
 		, mLaserHitElapsedTimeX(0.f)
 		, mLaserHitElapsedTimeY(0.f)
+		, mPrevLaserHitElapsedTimeY(0.f)
 	{
 	}
 	CPlayerScript::~CPlayerScript()
@@ -175,26 +176,29 @@ namespace dru
 	{
 		if (mParticle)
 		{
-//			if (mLaserHitElapsedTimeX < 0.1f)
-			if (mLaserHitElapsedTimeX < 2.f)
+			if (mLaserHitElapsedTimeX < 1.f)
 			{
-				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime();
-//				mLaserHitElapsedTimeX += (CTimeMgr::DeltaTime() / 10.f);
+				mLaserHitElapsedTimeX += CTimeMgr::DeltaTime() * 20.f;
 			}
-			//else
-			//{
-			//	mLaserHitElapsedTimeX = 0.f;
-			//}
-
-			if (mLaserHitElapsedTimeY < 1.f)
+			else // x가 1초 지났을때
 			{
-				mLaserHitElapsedTimeY += CTimeMgr::DeltaTime();
+				if (mLaserHitElapsedTimeY < 1.f)
+				{
+					mPrevLaserHitElapsedTimeY = mLaserHitElapsedTimeY;
+					mLaserHitElapsedTimeY += CTimeMgr::DeltaTime() * 10.f;
+				}
+				else
+				{
+//					mParticle->Die();
+				}
+				mLaserHitElapsedTimeX = 0.f;
 			}
 			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::LaserHit];
 			renderer::LaserHitCB data = {};
 
 			data.ElapsedTimeX = mLaserHitElapsedTimeX;
 			data.ElapsedTimeY = mLaserHitElapsedTimeY;
+			data.PrevElapsedTimeY = mPrevLaserHitElapsedTimeY;
 
 			cb->SetData(&data);
 			cb->Bind(eShaderStage::PS);
@@ -1515,7 +1519,6 @@ namespace dru
 			CTimeMgr::BulletTime(0.1f);
 			renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
 
-			SetAfterImageCount(0);
 			BulletTimeSwitchOff();
 			mState.reset();
 			mState[(UINT)ePlayerState::Dead] = true;
@@ -1524,6 +1527,7 @@ namespace dru
 			mHitDir = Vector3::Zero;
 			mHitDir.Normalize();
 
+			SetAfterImageCount(0);
 			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
 			CreateLaserParticleSystem();
 		}

@@ -162,6 +162,7 @@ namespace dru::renderer
 	{
 		float ElapsedTimeX;
 		float ElapsedTimeY;
+		float PrevElapsedTimeY;
 	};
 
 

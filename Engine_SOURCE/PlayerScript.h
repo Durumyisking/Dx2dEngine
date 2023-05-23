@@ -172,6 +172,7 @@ namespace dru
 
         float mLaserHitElapsedTimeX;
         float mLaserHitElapsedTimeY;
+        float mPrevLaserHitElapsedTimeY;
 
     public:
         bool IsOnWall() const { return mbOnWall; }
