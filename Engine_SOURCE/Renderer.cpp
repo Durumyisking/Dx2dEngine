@@ -634,12 +634,12 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"tutorialtxt", L"MainScene/Font/tutorial.png");
 		CResources::Load<CTexture>(L"wall", L"MainScene/wall.png");
 
+		CResources::Load<CTexture>(L"blood", L"MainScene/Blood/Blood.png");
 
 		// FX
 		CResources::Load<CTexture>(L"fx_dust", L"MainScene/FX/fx_dust.png");
 		CResources::Load<CTexture>(L"fx_slashPlayer", L"MainScene/FX/fx_slash.png");
 		CResources::Load<CTexture>(L"fx_slash", L"MainScene/FX/slash.png");
-		CResources::Load<CTexture>(L"fx_blood", L"MainScene/FX/fx_blood.png");
 		CResources::Load<CTexture>(L"fx_landdust", L"MainScene/FX/fx_landdust.png");
 		CResources::Load<CTexture>(L"fx_bulletReflect", L"MainScene/FX/fx_bulletReflect.png");
 		CResources::Load<CTexture>(L"fx_gunSmoke", L"MainScene/FX/fx_gunSmoke.png");
@@ -822,6 +822,10 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bullet", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"Bullet", Material);
 		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"blood", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"BloodMat", Material);
+		} 
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"PlayerMat", Material);

@@ -173,6 +173,7 @@
     <ClInclude Include="BaseRenderer.h" />
     <ClInclude Include="BeamScript.h" />
     <ClInclude Include="BlinkScript.h" />
+    <ClInclude Include="Blood.h" />
     <ClInclude Include="BodyShadeScript.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BossScript.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="BaseRenderer.cpp" />
     <ClCompile Include="BeamScript.cpp" />
     <ClCompile Include="BlinkScript.cpp" />
+    <ClCompile Include="Blood.cpp" />
     <ClCompile Include="BodyShadeScript.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BossScript.cpp" />

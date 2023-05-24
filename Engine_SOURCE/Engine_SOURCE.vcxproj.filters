@@ -203,6 +203,9 @@
     <Filter Include="Common\Component\Renderer\LaserHit">
       <UniqueIdentifier>{7178b76e-c360-43bd-89f6-e3dcccf07026}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Blood">
+      <UniqueIdentifier>{e82232dc-41fa-4490-aba2-b1cc7ec3c064}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -515,6 +518,9 @@
     <ClInclude Include="BeamScript.h">
       <Filter>GameObj\Turret</Filter>
     </ClInclude>
+    <ClInclude Include="Blood.h">
+      <Filter>GameObj\Blood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -811,6 +817,9 @@
     </ClCompile>
     <ClCompile Include="BeamScript.cpp">
       <Filter>GameObj\Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="Blood.cpp">
+      <Filter>GameObj\Blood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

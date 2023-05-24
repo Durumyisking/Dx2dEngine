@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Monster.h"
 #include "SceneMain.h"
+#include "Blood.h"
 
 namespace dru
 {
@@ -132,10 +133,18 @@ namespace dru
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
+			SetHitDir();
+			for (size_t i = 0; i < 20; i++)
+			{
+				CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
+				bodySlash->SetBloodPosition(GetOwnerWorldPos(), mHitDir);
+			}
+
 			hitSlash(0);
 		}
 		else if (L"col_bullet" == _oppo->GetName())
 		{
+			SetHitDir();
 			collEnter_BulletSlash(_oppo);
 		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
@@ -209,14 +218,6 @@ namespace dru
 
 	void CMonsterScript::HitAddForce()
 	{
-		Vector3 MousePos = CInput::GetMousePosition_world();
-		//MousePos /= 100.f;
-
-		Vector3 monsterPos = GetOwner()->GetPos();
-
-		mHitDir = MousePos - monsterPos;
-		mHitDir.Normalize();
-
 		mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
 	}
 
@@ -328,6 +329,17 @@ namespace dru
 			}
 			mState[(UINT)_Type] = true;
 		}
+	}
+
+	void CMonsterScript::SetHitDir()
+	{
+		Vector3 MousePos = CInput::GetMousePosition_world();
+		//MousePos /= 100.f;
+
+		Vector3 monsterPos = GetOwner()->GetPos();
+
+		mHitDir = MousePos - monsterPos;
+		mHitDir.Normalize();
 	}
 
 	void CMonsterScript::runTrigger()

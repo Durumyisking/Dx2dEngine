@@ -61,6 +61,8 @@ namespace dru
 
         void DeleteTarget() { mTarget = nullptr; }
 
+        void SetHitDir();
+
     protected:
         void runTrigger();
         void run();
