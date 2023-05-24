@@ -2,6 +2,8 @@
 #include "TimeMgr.h"
 #include "GameObj.h"
 #include "LiveGameObj.h"
+#include "Player.h"
+#include "PlayerScript.h"
 
 namespace dru
 {
@@ -146,14 +148,22 @@ namespace dru
 			//// 계단위에 있으면 계단 각도만큼 이동방향 수정한다.
 			if(ObjOnStair())
 			{
-				float slope = GetOwner_LiveObject()->GetSlope() * -1.f;
+				if (eLayerType::Player == GetOwner()->GetLayerType())
+				{
+					CPlayer* player = dynamic_cast<CPlayer*>(GetOwner());
+					CPlayerScript* script = player->GetScript<CPlayerScript>();
 
-				Vector3 Plane = { 1.f, 0.f, 0.f };
-				Plane = RotateZ(Plane, slope);
+					if (script->GetPlayerState(ePlayerState::Run) || script->GetPlayerState(ePlayerState::IdleToRun) || script->GetPlayerState(ePlayerState::RunToIdle))
+					{
+						float slope = GetOwner_LiveObject()->GetSlope() * -1.f;
 
-//				mVelocity = RotateZ(mVelocity, slope);
-				mVelocity = AdjustDirectionToSlope(mVelocity, Plane);
+						Vector3 Plane = { 1.f, 0.f, 0.f };
+						Plane = RotateZ(Plane, slope);
 
+						//				mVelocity = RotateZ(mVelocity, slope);
+						mVelocity = AdjustDirectionToSlope(mVelocity, Plane);
+					}
+				}
 			}
 			Vector3 Pos = GetOwner()->GetPos();
 			

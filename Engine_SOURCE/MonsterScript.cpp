@@ -113,7 +113,7 @@ namespace dru
 			GetOwner_LiveObject()->SetStairOn(degree);
 		}
 
-		else if (L"col_wall" == _oppo->GetName())
+		else if (L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName())
 		{
 			mbOnWall = true;
 
@@ -184,7 +184,7 @@ namespace dru
 
 			GetOwner_LiveObject()->SetStairOff();
 		}
-		else if (L"col_wall" == _oppo->GetName())
+		else if (L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName())
 		{
 			mbOnWall = false;
 

@@ -94,7 +94,7 @@ namespace dru::math
 	Vector3 AdjustDirectionToSlope(Vector3 _Direction, Vector3 _PlaneNormal)
 	{
 		Vector3 Result = ProjectOnPlane(_Direction, _PlaneNormal);
-		Result.Normalize();
+		//Result.Normalize();
 		return Result;
 	}
 

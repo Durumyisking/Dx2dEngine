@@ -31,10 +31,10 @@ namespace dru
 		}
 
 		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
-		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
+		mGrunt1DefaultPos = Vector3(4.f, 3.f, 3.f);
 		mCop1DefaultPos = Vector3(-5.f, 3.f, 3.f);
 
-		mEnemyCount = 1;
+		mEnemyCount = 2;
 		mStageState = eStageState::Ready;
 
 		AddStartingLiveObjects();
@@ -67,8 +67,8 @@ namespace dru
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
-		//mGrunt1->SetPos(mGrunt1DefaultPos);
-		//mGrunt1->GetScript<CMonsterScript>()->Reset();
+		mGrunt1->SetPos(mGrunt1DefaultPos);
+		mGrunt1->GetScript<CMonsterScript>()->Reset();
 
 		mCop1->SetPos(mCop1DefaultPos);
 		mCop1->GetScript<CMonsterScript>()->Reset();
@@ -82,11 +82,11 @@ namespace dru
 	void CStage2::AddStartingLiveObjects()
 	{
 
-		//{
-		//	mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-		//	mGrunt1->SetPos(mGrunt1DefaultPos);
-		//	mRewindObjects.push_back(mGrunt1);
-		//}
+		{
+			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt1->SetPos(mGrunt1DefaultPos);
+			mRewindObjects.push_back(mGrunt1);
+		}
 
 		{
 			mCop1 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
