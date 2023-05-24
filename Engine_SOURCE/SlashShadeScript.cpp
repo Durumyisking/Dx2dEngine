@@ -122,7 +122,7 @@ namespace dru
 		Vector3 rotation = mTrans->GetRotation();
 
 		// x축과 mousepos <-> slashobj 각도 받음 라디안
-		rotation.z  = toDegree(GetRadianFromTwoPointZ(mTargetPos, mPos));
+		rotation.z  = GetDegreeFromTwoPointZ(mTargetPos, mPos);
 
 		mTrans->SetRotation(rotation);
 	}

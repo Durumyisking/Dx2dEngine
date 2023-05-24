@@ -65,7 +65,7 @@ namespace dru::math
 		return vec;
 	}
 
-	float GetRadianFromTwoPointZ(const Vector3& V1, const Vector3& V2)
+	float GetDegreeFromTwoPointZ(const Vector3& V1, const Vector3& V2)
 	{
 		Vector3 rotation = {};
 
@@ -73,7 +73,6 @@ namespace dru::math
 		rotation.z = atan2(V1.y - V2.y, V1.x - V2.x);
 		// radian to degree
 		rotation.z = rotation.z * 180 / XM_PI;
-		// 인자로 degree 넣음
 
 		return rotation.z;
 	}

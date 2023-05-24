@@ -133,17 +133,6 @@ namespace dru
 			events->mStartEvent();
 	}
 
-	void CAnimator::Pause()
-	{
-		if (mbPause)
-		{
-			mbPause = false;
-		}
-		else
-		{
-			mbPause = true;
-		}
-	}
 
 	void CAnimator::Binds()
 	{

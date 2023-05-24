@@ -66,7 +66,11 @@ namespace dru
 		void AddPositionX(const float posX) { mRelativePosition.x += posX; }
 		void AddPositionY(const float posY) { mRelativePosition.y += posY; }
 		void AddPositionZ(const float posZ) { mRelativePosition.z += posZ; }
-		void AddPositionXY(const Vector2& position) { mRelativePosition.x += position.x; mRelativePosition.y += position.y; }
+		void AddPositionXY(const Vector2& position) 
+		{ 
+			mRelativePosition.x += position.x; 
+			mRelativePosition.y += position.y; 
+		}
 
 		void AddRotation(const Vector3& rotation) { mRelativeRotation += rotation; }
 		void AddRotationX(const float rotX) { mRelativeRotation.x += rotX; }

@@ -3,6 +3,10 @@
 namespace dru
 {
 	CBlood::CBlood()
+		:mMoveDirection(Vector3::Zero)
+		, mTransform(nullptr)
+		, mSpeed(0.005f)
+		, mbBloodDead(false)
 	{
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BloodMat");
@@ -37,14 +41,17 @@ namespace dru
 			mAnimator->GetCompleteEvent(L"Blood1") = [this]
 			{
 				RenderingBlockOn();
+				mbBloodDead = true;
 			};
 			mAnimator->GetCompleteEvent(L"Blood2") = [this]
 			{
 				RenderingBlockOn();
+				mbBloodDead = true;
 			};
 			mAnimator->GetCompleteEvent(L"Blood3") = [this]
 			{
 				RenderingBlockOn();
+				mbBloodDead = true;
 			};
 		}
 
@@ -54,11 +61,18 @@ namespace dru
 	}
 	void CBlood::Initialize()
 	{
+		mTransform = GetComponent<CTransform>();
 		CLiveGameObj::Initialize();
 	}
 
 	void CBlood::update()
 	{
+		if (!mbBloodDead)
+		{
+			Vector2 dir = { mMoveDirection.x, mMoveDirection.y };
+			mTransform->AddPositionXY(dir * mSpeed);
+		}
+
 		CLiveGameObj::update();
 	}
 
@@ -74,6 +88,14 @@ namespace dru
 
 	void CBlood::SetBloodPosition(Vector3 _Standard, Vector3 _Direction)
 	{
+		mMoveDirection = _Direction;
+	
+		Vector3 Right = mTransform->Right();
+
+		float Degree = RotateToHead(mMoveDirection, Right);
+		
+		mTransform->SetRotationZ(Degree);
+
 		Vector3 newPos = {};
 		newPos.z = _Standard.z;
 
@@ -85,12 +107,17 @@ namespace dru
 
 		// standard, range 사이의 랜덤한 점을 구한다
 		float RandomRatio = static_cast<float>(GetRandomNumber(100, 1)) * 0.01f;
+		float RandomStartRatio = static_cast<float>(GetRandomNumber(50, 51)) * 0.01f;
 		Vector2 RandomStandard = {};
-		RandomStandard.x = Standard2D.x + RandomRatio * (Range.x - Standard2D.x);
-		RandomStandard.x = Standard2D.y + RandomRatio * (Range.y - Standard2D.y);
+		RandomStandard.x = Standard2D.x + (RandomStartRatio * _Direction.x) + RandomRatio * (Range.x - Standard2D.x);
+		RandomStandard.y = Standard2D.y + (RandomStartRatio * _Direction.y) + RandomRatio * (Range.y - Standard2D.y);
 
 		// 해당 점에서 랜덤한 위치로 이동시킨다. direction 비율로 해야함 ㅇㅇ
 		Vector2 RandomOffset = {};
+
+		float Distance = Vector2::Distance(RandomStandard, Range);
+
+
 		RandomOffset.x = static_cast<float>(GetRandomNumber(100, -50)) * 0.01f;
 		RandomOffset.y = static_cast<float>(GetRandomNumber(100, -50)) * 0.01f;
 

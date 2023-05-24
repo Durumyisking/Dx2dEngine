@@ -17,5 +17,12 @@ namespace dru
 
 		void SetBloodPosition(Vector3 _Standard, Vector3 _Direction);
 
+
+	private:
+		Vector3 mMoveDirection;
+		CTransform* mTransform;
+		float	mSpeed;
+
+		bool	mbBloodDead;
     };
 }

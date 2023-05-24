@@ -134,9 +134,10 @@ namespace dru
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
 			SetHitDir();
-			for (size_t i = 0; i < 20; i++)
+			for (size_t i = 0; i < 25; i++)
 			{
 				CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
+				bodySlash->Initialize();
 				bodySlash->SetBloodPosition(GetOwnerWorldPos(), mHitDir);
 			}
 

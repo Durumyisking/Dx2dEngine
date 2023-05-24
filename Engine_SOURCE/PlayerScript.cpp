@@ -91,10 +91,7 @@ namespace dru
 		{
 			dead();
 		}
-		if (CInput::GetKeyTap(eKeyCode::P))
-		{
-			mAnimator->Pause();
-		}
+
 
 		if (!mbInputBlock)
 		{
@@ -458,7 +455,7 @@ namespace dru
 		mLaserHitElapsedTimeX = 0.f;
 		mLaserHitElapsedTimeY = 0.f;
 		mPrevLaserHitElapsedTimeY = 0.f;
-		mAnimator->Pause();
+		mAnimator->PauseOff();
 		CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 		sprRenderer->GetMaterial().get()->SetShaderByKey(L"SpriteShader");
 
@@ -1525,7 +1522,7 @@ namespace dru
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
 			mbLaserParticleStart = true;
-			mAnimator->Pause();
+			mAnimator->PauseOn();
 			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
 			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
 
