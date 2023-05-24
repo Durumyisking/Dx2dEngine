@@ -590,6 +590,10 @@ namespace dru
 
 		return state;
 	}
+	void CStage::PushRewindObject(CLiveGameObj* _LiveObject)
+	{
+		mRewindObjects.push_back(_LiveObject);
+	}
 	void CStage::CreatePostProcess_Rewind()
 	{
 		if (!mPostProcess_Rewind)
@@ -675,7 +679,7 @@ namespace dru
 	{
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
-			mRewindObjects[i]->SetRewindOff();
+			mRewindObjects[i]->SetRewindOff();			
 		}
 
 		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
@@ -692,6 +696,11 @@ namespace dru
 			{
 				dynamic_cast<CBoss*>(mRewindObjects[i])->ResetHp();
 			}
+			if (eLayerType::FX == mRewindObjects[i]->GetLayerType())
+			{
+				mRewindObjects[i]->Die();
+			}
+
 		}
 
 		Reset();

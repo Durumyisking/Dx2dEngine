@@ -15,8 +15,8 @@ namespace dru
 		virtual void fixedUpdate();
 		virtual void render();
 
-		void SetBloodPosition(Vector3 _Standard, Vector3 _Direction);
-
+		void SetBloodPosition_Direction(Vector3 _Standard, Vector3 _Direction);
+		void SetBloodPosition_Round(Vector3 _Standard);
 
 	private:
 		Vector3 mMoveDirection;

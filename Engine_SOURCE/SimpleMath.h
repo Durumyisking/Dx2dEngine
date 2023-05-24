@@ -24,5 +24,14 @@ namespace dru::math
 
 	float RotateToHead_360(Vector3 _Direction);
 
+	template<typename T>
+	T Interpolation(float _Start, float _End, float _Elapsed, T _ResultStart, T _ResultEnd)
+	{
+		float t = (_Elapsed - _Start) / (_End - _Start);
+		T Result = static_cast<T>(_ResultStart + (_ResultEnd - _ResultStart) * t);
+
+		return Result;
+	}
+
 }
 

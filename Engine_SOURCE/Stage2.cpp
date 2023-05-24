@@ -81,7 +81,6 @@ namespace dru
 
 	void CStage2::AddStartingLiveObjects()
 	{
-
 		{
 			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mGrunt1->SetPos(mGrunt1DefaultPos);

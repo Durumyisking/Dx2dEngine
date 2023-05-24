@@ -23,11 +23,13 @@ namespace dru
 		, mbOnWall(false)
 		, mbDead(false)
 		, mbDeleteOn(false)
+		, mbBodyBlood(false)
 		, mHitTimer(0.f)
 		, mAttackTimer(1.f)
 		, mMonsterName{}
 		, mDetectRadius(7.f)
 		, mAttackRadius(4.f)
+		, mBodyBloodTimer(0.f)
 	{
 
 	}
@@ -47,6 +49,10 @@ namespace dru
 
 		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
 		mAnimator->GetCompleteEvent(mMonsterName + L"_Attack") = std::bind(&CMonsterScript::attackComplete, this);
+		mAnimator->GetFrameEvent(mMonsterName + L"_DeadGround", 4) = [this]
+		{
+			mbBodyBlood = false;
+		};
 
 	}
 
@@ -133,14 +139,9 @@ namespace dru
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
+			mbBodyBlood = true;
 			SetHitDir();
-			for (size_t i = 0; i < 25; i++)
-			{
-				CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
-				bodySlash->Initialize();
-				bodySlash->SetBloodPosition(GetOwnerWorldPos(), mHitDir);
-			}
-
+			CreateDirBlood();
 			hitSlash(0);
 		}
 		else if (L"col_bullet" == _oppo->GetName())
@@ -243,6 +244,37 @@ namespace dru
 		script->SetMonster(GetOwner());
 	}
 
+	void CMonsterScript::CreateDirBlood()
+	{
+		for (size_t i = 0; i < 50; i++)
+		{
+			CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
+			bodySlash->Initialize();
+			bodySlash->SetBloodPosition_Direction(GetOwnerWorldPos(), mHitDir);
+		}
+	}
+
+	void CMonsterScript::CreateBodyBlood()
+	{
+		if (mbBodyBlood)
+		{
+			if (mBodyBloodTimer > 0.1f)
+			{
+				for (size_t i = 0; i < 2; i++)
+				{
+					CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
+					bodySlash->Initialize();
+					bodySlash->SetBloodPosition_Round(GetOwnerWorldPos());
+				}
+				mBodyBloodTimer = 0.f;
+			}
+			else
+			{
+				mBodyBloodTimer += CTimeMgr::DeltaTime();
+			}
+		}
+	}
+
 	float CMonsterScript::GetPlayerDistance()
 	{
 		Vector3 playerPos = mTarget->GetPos();
@@ -290,6 +322,7 @@ namespace dru
 	{
 		mTarget = nullptr;
 		mbDead = false;
+		mbBodyBlood = false;
 		mHitTimer = 0.f;
 		SetSingleState(eMonsterState::Idle);
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOn();
@@ -468,7 +501,8 @@ namespace dru
 	void CMonsterScript::dead()
 	{
 		if (mbDead)
-		{
+		{			
+			CreateBodyBlood();
 			if (mState[(UINT)eMonsterState::DieGround] == false)
 			{
 				mHitTimer += CTimeMgr::DeltaTime();
@@ -503,7 +537,6 @@ namespace dru
 	void CMonsterScript::deadgroundComplete()
 	{
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
-
 
 		if (mbDeleteOn)
 		{

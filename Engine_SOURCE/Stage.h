@@ -99,6 +99,8 @@ namespace dru
         void TimerBarScaling(float _Ratio);
 
         bool GetPlayerState(ePlayerState _State);
+
+        void PushRewindObject(CLiveGameObj* _LiveObject);
         
         void CreatePostProcess_Rewind();
         void CreatePostProcess_Replay();

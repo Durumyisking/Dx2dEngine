@@ -1,4 +1,8 @@
 #include "Blood.h"
+#include "Stage.h"
+#include "SceneMain.h"
+#include "SceneMgr.h"
+#include "Scene.h"
 
 namespace dru
 {
@@ -61,6 +65,9 @@ namespace dru
 	}
 	void CBlood::Initialize()
 	{
+		CSceneMain* mainScene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+		mainScene->GetCurrentStage()->PushRewindObject(this);
+
 		mTransform = GetComponent<CTransform>();
 		CLiveGameObj::Initialize();
 	}
@@ -71,6 +78,11 @@ namespace dru
 		{
 			Vector2 dir = { mMoveDirection.x, mMoveDirection.y };
 			mTransform->AddPositionXY(dir * mSpeed);
+		}
+
+		if (FrameCaptureCheck())
+		{
+			FrameCaptureOperate();
 		}
 
 		CLiveGameObj::update();
@@ -86,7 +98,7 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
-	void CBlood::SetBloodPosition(Vector3 _Standard, Vector3 _Direction)
+	void CBlood::SetBloodPosition_Direction(Vector3 _Standard, Vector3 _Direction)
 	{
 		mMoveDirection = _Direction;
 	
@@ -102,8 +114,8 @@ namespace dru
 		Vector2 Standard2D = { _Standard.x, _Standard.y };
 
 		Vector2 Range = {};
-		Range.x = _Standard.x + _Direction.x * 2.5f;
-		Range.y = _Standard.y + _Direction.y * 2.5f;
+		Range.x = _Standard.x + _Direction.x * 3.5f;
+		Range.y = _Standard.y + _Direction.y * 3.5f;
 
 		// standard, range 사이의 랜덤한 점을 구한다
 		float RandomRatio = static_cast<float>(GetRandomNumber(100, 1)) * 0.01f;
@@ -115,11 +127,13 @@ namespace dru
 		// 해당 점에서 랜덤한 위치로 이동시킨다. direction 비율로 해야함 ㅇㅇ
 		Vector2 RandomOffset = {};
 
-		float Distance = Vector2::Distance(RandomStandard, Range);
+		// 보간 계산
+		float Distance = Vector2::Distance(RandomStandard, Range); // 0 ~ 3
+		int offsetX = Interpolation<int>(0.f, 3.f, Distance, 100, 1);
+		int offsetY = Interpolation<int>(0.f, 3.f, Distance, 100, 1);
 
-
-		RandomOffset.x = static_cast<float>(GetRandomNumber(100, -50)) * 0.01f;
-		RandomOffset.y = static_cast<float>(GetRandomNumber(100, -50)) * 0.01f;
+		RandomOffset.x = static_cast<float>(GetRandomNumber(offsetX, -50)) * 0.01f;
+		RandomOffset.y = static_cast<float>(GetRandomNumber(offsetY, -50)) * 0.01f;
 
 		RandomStandard += RandomOffset;
 		newPos.x = RandomStandard.x;
@@ -127,5 +141,17 @@ namespace dru
 
 		SetPos(newPos);
 	}
+
+	void CBlood::SetBloodPosition_Round(Vector3 _Standard)
+	{
+		float randX = static_cast<float>(GetRandomNumber(20, -10) * 0.01f);
+		float randY = static_cast<float>(GetRandomNumber(20, -10) * 0.01f);
+
+		Vector3 center = _Standard;
+		Vector3 randomPoint = { center.x + randX, center.y + randY, 3.f };
+
+		SetPos(randomPoint);
+	}
+
 
 }

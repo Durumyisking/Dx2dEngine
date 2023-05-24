@@ -52,6 +52,8 @@ namespace dru
 
         void HitAddForce();
         void CreateBodySlash();
+        void CreateDirBlood();
+        void CreateBodyBlood();
         bool IsMonsterDead() const { return mbDead; };
 
         void FlipCheck();
@@ -105,6 +107,8 @@ namespace dru
 
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
 
+        bool mbBodyBlood;
+        float mBodyBloodTimer;
 
     public:
         void DeleteOn() { mbDeleteOn = true; }
