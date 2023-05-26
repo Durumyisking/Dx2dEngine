@@ -9,9 +9,10 @@ namespace dru
 	CBlood::CBlood()
 		:mMoveDirection(Vector3::Zero)
 		, mTransform(nullptr)
-		, mSpeed(0.005f)
+		, mSpeed(0.0075f)
 		, mbBloodDead(false)
 	{
+		SetLayerType(eLayerType::FX);
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BloodMat");
 		SpriteRenderer->SetMaterial(Material);
@@ -21,20 +22,19 @@ namespace dru
 		mAnimator->Create(L"Blood2", Material->GetTexture(), { 300.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Blood3", Material->GetTexture(), { 600.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 
-//		RenderingBlockOn();
 
 		int randomNumber = GetRandomNumber(3);
 
 		switch (randomNumber)
 		{
 		case 0:
-			mAnimator->Play(L"Blood1");
+			mAnimator->Play(L"Blood1", false);
 			break;
 		case 1:
-			mAnimator->Play(L"Blood2");
+			mAnimator->Play(L"Blood2", false);
 			break;
 		case 2:
-			mAnimator->Play(L"Blood3");
+			mAnimator->Play(L"Blood3", false);
 			break;
 		default:
 			break;
@@ -44,18 +44,15 @@ namespace dru
 		{
 			mAnimator->GetCompleteEvent(L"Blood1") = [this]
 			{
-				RenderingBlockOn();
-				mbBloodDead = true;
+				AnimCompleteEvent();
 			};
 			mAnimator->GetCompleteEvent(L"Blood2") = [this]
 			{
-				RenderingBlockOn();
-				mbBloodDead = true;
+				AnimCompleteEvent();
 			};
 			mAnimator->GetCompleteEvent(L"Blood3") = [this]
 			{
-				RenderingBlockOn();
-				mbBloodDead = true;
+				AnimCompleteEvent();
 			};
 		}
 
@@ -124,7 +121,7 @@ namespace dru
 		RandomStandard.x = Standard2D.x + (RandomStartRatio * _Direction.x) + RandomRatio * (Range.x - Standard2D.x);
 		RandomStandard.y = Standard2D.y + (RandomStartRatio * _Direction.y) + RandomRatio * (Range.y - Standard2D.y);
 
-		// 해당 점에서 랜덤한 위치로 이동시킨다. direction 비율로 해야함 ㅇㅇ
+		// 해당 점에서 랜덤한 위치로 이동시킨다. direction 비율로 해야함 
 		Vector2 RandomOffset = {};
 
 		// 보간 계산
@@ -151,6 +148,12 @@ namespace dru
 		Vector3 randomPoint = { center.x + randX, center.y + randY, 3.f };
 
 		SetPos(randomPoint);
+	}
+
+	void CBlood::AnimCompleteEvent()
+	{
+		RenderingBlockOn();
+		mbBloodDead = true;
 	}
 
 

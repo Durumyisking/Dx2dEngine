@@ -43,7 +43,13 @@ namespace dru
 			if (mCurrentAnimation->IsCompleted())
 			{
 				if (events)
-					events->mCompleteEvent();
+				{
+					if (!mCurrentAnimation->IsCompleteEventPlayed())
+					{
+						events->mCompleteEvent();
+						mCurrentAnimation->SetCompleteEventPlayed(true);
+					}
+				}
 
 				if (mbLoop)
 					mCurrentAnimation->Reset();

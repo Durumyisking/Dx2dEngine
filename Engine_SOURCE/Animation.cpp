@@ -13,6 +13,7 @@ namespace dru
 		, mbComplete(false)
 		, mSpriteLength(0)
 		, mbReversePlay(false)
+		, mbCompleteEventPlayed(false)
 	{
 
 	}
@@ -163,6 +164,7 @@ namespace dru
 			mIndex = 0;
 
 		mbComplete = false;
+		mbCompleteEventPlayed = false;
 	}
 
 	void CAnimation::SetDuration(float _Value)

@@ -47,7 +47,9 @@ namespace dru
 		void Reset();
 		void SetDuration(float _Value);
 
-		bool IsCompleted() { return mbComplete; }
+		bool IsCompleted() const { return mbComplete; }
+		bool IsCompleteEventPlayed() const { return mbCompleteEventPlayed; }
+		void SetCompleteEventPlayed(bool _bFlag) { mbCompleteEventPlayed = _bFlag; }
 
 		int GetIndex() const { return mIndex; }
 
@@ -64,6 +66,7 @@ namespace dru
 		int mIndex;
 		float mTime;
 		bool mbComplete;
+		bool mbCompleteEventPlayed;
 		bool mbReversePlay;
 		UINT mSpriteLength;
 

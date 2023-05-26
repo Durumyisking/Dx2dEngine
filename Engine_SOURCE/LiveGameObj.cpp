@@ -126,7 +126,13 @@ namespace dru
 	void CLiveGameObj::RewindOperate(float _ElapsedTime)
 	{
 		if (mFrameCaptureData.empty())
+		{
 			mbRewind = false;
+			if (eLayerType::FX == GetLayerType())
+			{
+				RenderingBlockOn();
+			}
+		}
 		else
 		{
 			// 캡쳐큐을 front부터 pop하면서 로꾸꺼함

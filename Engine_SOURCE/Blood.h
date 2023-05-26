@@ -18,6 +18,8 @@ namespace dru
 		void SetBloodPosition_Direction(Vector3 _Standard, Vector3 _Direction);
 		void SetBloodPosition_Round(Vector3 _Standard);
 
+		void AnimCompleteEvent();
+
 	private:
 		Vector3 mMoveDirection;
 		CTransform* mTransform;
