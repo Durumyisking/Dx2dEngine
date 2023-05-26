@@ -22,6 +22,8 @@ namespace dru
 		mAnimator->Create(L"Blood2", Material->GetTexture(), { 300.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Blood3", Material->GetTexture(), { 600.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 
+		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
+		rigidbody->SetGravity(-10.f);
 
 		int randomNumber = GetRandomNumber(3);
 

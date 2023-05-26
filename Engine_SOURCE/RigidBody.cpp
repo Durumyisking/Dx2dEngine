@@ -17,7 +17,8 @@ namespace dru
 		, mFricCoeff(20.f)
 		, mbOnAir(true)
 		, mbAffectedGravity(true)
-		, mGravity(Vector3(0.f, -20.f, 0.f))
+		, mCurrentGravity(Vector3(0.f, -25.f, 0.f))
+		, mOriginGravity(Vector3(0.f, -25.f, 0.f))
 	{
 	}
 
@@ -35,17 +36,17 @@ namespace dru
 
 		if (ObjOnStair())
 		{
-			mGravity = Vector3::Zero;
+			mCurrentGravity = Vector3::Zero;
 		}
 		if (mbOnAir && mbAffectedGravity)
 		{
-			mAccel += mGravity;
+			mAccel += mCurrentGravity;
 		}
 
 		//else
 		//{
 		//	// 땅위에 있을때
-		//	Vector3 gravity = mGravity;
+		//	Vector3 gravity = mCurrentGravity;
 		//	gravity.Normalize();
 		//	float dot = mVelocity.Dot(gravity);
 		//	mVelocity.x -= gravity.x * dot;
@@ -61,7 +62,7 @@ namespace dru
 
 		mForce = Vector3(0.f, 0.f, 0.f);
 		mAccel = Vector3(0.f, 0.f, 0.f);
-		mGravity = Vector3(0.f, -25.f, 0.f);
+		mCurrentGravity = mOriginGravity;
 	}
 
 	void CRigidBody::fixedUpdate()

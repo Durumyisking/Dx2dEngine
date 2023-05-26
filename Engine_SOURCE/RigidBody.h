@@ -54,6 +54,8 @@ namespace dru
 		void CalculateFriction();
 		void MaxVelocityCheck();
 
+		void SetGravity(float _Value) { mOriginGravity.y = _Value; }
+
 	private:
 		void objMove();
 
@@ -65,7 +67,8 @@ namespace dru
 		Vector3		mVelocity;	// 속도 (속력 + 방향)
 		Vector3		mMaxSpeed;	// 최대 속력
 
-		Vector3		mGravity;
+		Vector3		mCurrentGravity;
+		Vector3		mOriginGravity;
 
 		float		mFricCoeff;	// 마찰계수
 
