@@ -276,6 +276,12 @@ namespace dru
 		}
 	}
 
+	//CStage* CGameObj::GetCurrentStage()
+	//{
+	//	CSceneMain* mainScene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+	//	return mainScene->GetCurrentStage();
+	//}
+
 	void CGameObj::Flip()
 	{
 		CBaseRenderer* baseRenderer = GetComponent<CBaseRenderer>();

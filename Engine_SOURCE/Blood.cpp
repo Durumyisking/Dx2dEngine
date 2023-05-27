@@ -3,6 +3,7 @@
 #include "SceneMain.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "BloodScript.h"
 
 namespace dru
 {
@@ -27,7 +28,7 @@ namespace dru
 
 		int randomNumber = GetRandomNumber(3);
 
-		switch (randomNumber)
+		switch (randomNumber)	
 		{
 		case 0:
 			mAnimator->Play(L"Blood1", false);
@@ -57,6 +58,8 @@ namespace dru
 				AnimCompleteEvent();
 			};
 		}
+		
+		AddComponent<CBloodScript>(eComponentType::Script);
 
 	}
 	CBlood::~CBlood()
@@ -154,8 +157,11 @@ namespace dru
 
 	void CBlood::AnimCompleteEvent()
 	{
-		RenderingBlockOn();
-		mbBloodDead = true;
+		if (!mbRewind && !mbReplay)
+		{
+			RenderingBlockOn();
+			mbBloodDead = true;
+		}
 	}
 
 

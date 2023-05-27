@@ -212,6 +212,8 @@ namespace dru
 			mState = eState::Dead;
 		}
 
+		//CStage* GetCurrentStage();
+
 		eState GetState() const { return mState; }
 
 		bool IsDontDestroy() { return mbDestroy; }

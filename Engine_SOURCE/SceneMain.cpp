@@ -80,6 +80,7 @@ namespace dru
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::FX);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Boss, eLayerType::FX);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::FX);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Platforms, eLayerType::FX);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Player);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Boss);

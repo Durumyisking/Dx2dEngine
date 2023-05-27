@@ -700,7 +700,17 @@ namespace dru
 			{
 				mRewindObjects[i]->Die();
 			}
-
+		}
+		for (std::vector<CLiveGameObj*>::iterator iter = mRewindObjects.begin(); iter != mRewindObjects.end();)
+		{
+			if ((*iter)->GetState() == CGameObj::eState::Dead)
+			{
+				iter = mRewindObjects.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
 		}
 
 		Reset();
@@ -719,6 +729,7 @@ namespace dru
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetReplayOn();
+			mRewindObjects[i]->RenderingBlockOff();
 
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
@@ -762,7 +773,9 @@ namespace dru
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
 			}
+
 		}
+	
 
 		mPostProcess_Replay->RenderingBlockOn();
 		mbReplaying = false;
