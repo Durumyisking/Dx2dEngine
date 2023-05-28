@@ -193,7 +193,10 @@ namespace dru
 				}
 				else
 				{
-
+					Vector3 vPos = mPlayer->GetPos();
+					vPos.x += 0.229f;
+					vPos.y += 2.3325f;
+					mPostProcess_Snow->SetPos(vPos);
 				}
 			}
 		}		
