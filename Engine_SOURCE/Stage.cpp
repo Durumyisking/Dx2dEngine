@@ -44,6 +44,7 @@ namespace dru
 		, mbRewinding(false)
 		, mbReplaying(false)
 		, mEnemyCount(0)
+		, mFrameCount(0)
 		, mRewindTimer(0.f)
 		, mRewindObjects{}
 
@@ -397,6 +398,7 @@ namespace dru
 		}
 		else
 		{
+			++mFrameCount;
 			bool state = GetPlayerState(ePlayerState::Dead);
 			if (state)
 			{
@@ -451,6 +453,7 @@ namespace dru
 		mBulletTimeGaugePrev = 10;
 		mBulletTimeGaugeCurrent = 10;
 		mElapsedTime = 0.f;
+		mFrameCount = 0;
 	}
 
 	void CStage::AddStartingLiveObjects()
@@ -630,8 +633,26 @@ namespace dru
 			mPostProcess_Snow->DontDestroy();
 		}
 	}
+
+	void CStage::PopRewindObject(CLiveGameObj* _LiveGameObject)
+	{
+		for (std::vector<CLiveGameObj*>::iterator iter = mRewindObjects.begin(); iter != mRewindObjects.end();)
+		{
+			if ((*iter) == _LiveGameObject)
+			{
+				iter = mRewindObjects.erase(iter);
+				return;
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
+
 	void CStage::RewindStart()
 	{
+		--mFrameCount;
 		if (CTimeMgr::IsBulletTimeOn())
 			CTimeMgr::BulletTimeOff();
 
@@ -660,7 +681,12 @@ namespace dru
 	}
 	void CStage::Rewinding()
 	{
-	
+		int a = static_cast<int>((mElapsedTime / 3.f) + 1.f);
+		for (int i = 0; i < a; i++)
+		{
+			--mFrameCount;
+		}
+
 		if(RewindEndCheck())
 			RewindEnd();
 
@@ -686,6 +712,18 @@ namespace dru
 		mPlayer->SetRight();
 		mPlayer->Flip();
 
+		RewindLayerTypeException();
+		DeleteDeadRewindObject();
+
+
+		Reset();
+
+		mPostProcess_Rewind->RenderingBlockOn();
+		mbRewinding = false;
+
+	}
+	void CStage::RewindLayerTypeException()
+	{
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
@@ -701,6 +739,9 @@ namespace dru
 				mRewindObjects[i]->Die();
 			}
 		}
+	}
+	void CStage::DeleteDeadRewindObject()
+	{
 		for (std::vector<CLiveGameObj*>::iterator iter = mRewindObjects.begin(); iter != mRewindObjects.end();)
 		{
 			if ((*iter)->GetState() == CGameObj::eState::Dead)
@@ -712,12 +753,6 @@ namespace dru
 				iter++;
 			}
 		}
-
-		Reset();
-
-		mPostProcess_Rewind->RenderingBlockOn();
-		mbRewinding = false;
-
 	}
 	void CStage::ReplayStart()
 	{
@@ -739,10 +774,12 @@ namespace dru
 
 		mPostProcess_Replay->RenderingBlockOff();
 
+		mFrameCount = -1;
 		mbReplaying = true;
 	}
 	void CStage::Replaying()
 	{
+		++mFrameCount;
 		if (ReplayEndCheck())
 			ReplayEnd();
 	}
@@ -774,8 +811,7 @@ namespace dru
 				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
 			}
 
-		}
-	
+		}	
 
 		mPostProcess_Replay->RenderingBlockOn();
 		mbReplaying = false;

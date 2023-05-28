@@ -21,6 +21,7 @@ namespace dru
 		renderer::AnimationCB AnimData;
 		int Inverse; // 1이면 l 0이면 R
 		bool RenderingBlock;
+		UINT FrameNumber;
 
 	};
 

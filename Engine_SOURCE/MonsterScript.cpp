@@ -139,10 +139,13 @@ namespace dru
 
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			mbBodyBlood = true;
-			SetHitDir();
-			CreateDirBlood();
-			hitSlash(0);
+			if (!mbDead)
+			{
+				mbBodyBlood = true;
+				SetHitDir();
+				CreateDirBlood();
+				hitSlash(0);
+			}
 		}
 		else if (L"col_bullet" == _oppo->GetName())
 		{

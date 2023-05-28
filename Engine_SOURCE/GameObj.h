@@ -12,6 +12,7 @@ namespace dru
 {
 	using namespace math;
 
+	class CStage;
 	class CGameObj : public CEntity
 	{
 		friend class CLiveGameObj;
@@ -212,7 +213,7 @@ namespace dru
 			mState = eState::Dead;
 		}
 
-		//CStage* GetCurrentStage();
+		CStage* GetCurrentStage();
 
 		eState GetState() const { return mState; }
 

@@ -106,10 +106,14 @@ namespace dru
         void CreatePostProcess_Replay();
         void CreatePostProcess_Snow();
 
+        void PopRewindObject(CLiveGameObj* _LiveGameObject);
+
         void RewindStart();
         void Rewinding();
         bool RewindEndCheck();
         void RewindEnd();
+        void RewindLayerTypeException();
+        void DeleteDeadRewindObject();
 
         void ReplayStart();
         void Replaying();
@@ -137,6 +141,7 @@ namespace dru
             --mEnemyCount; 
         }
         UINT GetEnemyCount() const { return mEnemyCount; }
+        UINT GetFrameCount() const { return mFrameCount; }
 
         void CamReset();
 
@@ -211,6 +216,7 @@ namespace dru
         float mRewindTimer;
 
         UINT mEnemyCount;
+        UINT mFrameCount;
 
         std::vector<CLiveGameObj*> mRewindObjects;
 

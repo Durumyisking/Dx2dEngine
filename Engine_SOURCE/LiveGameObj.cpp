@@ -130,44 +130,39 @@ namespace dru
 			mbRewind = false;
 			if (eLayerType::FX == GetLayerType())
 			{
-				RenderingBlockOn();
+				Die();
+				GetCurrentStage()->PopRewindObject(this);
 			}
 		}
 		else
 		{
-			// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
-
-			mCurrentAnimData = mFrameCaptureData.front().AnimData;
-			
-			//if (mFrameCaptureData.front().RenderingBlock)
-			//{
-			//	RenderingBlockOn();
-			//}
-			//else
-			//{
-			//	RenderingBlockOff();
-			//}
-
-			RewindFlip();
-			SetRewindTransform();
-
-			if (_ElapsedTime > mRewindTime)
+			if (mFrameCaptureData.front().FrameNumber == GetCurrentStage()->GetFrameCount())
 			{
-				// ElapsedTime이 몇이든 RewindTime 초만큼 돌리기 위함
-				// ElapsedTime이 높을수록 한번에 많은 캡쳐 데이터들을 pop해준다.
-				int a = static_cast<int>( (_ElapsedTime / mRewindTime) + 1.f);
+				// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
 
-				for (int i = 0; i < a; i++)
+				mCurrentAnimData = mFrameCaptureData.front().AnimData;
+
+				RewindFlip();
+				SetRewindTransform();
+
+				if (_ElapsedTime > mRewindTime)
 				{
-					if (!mFrameCaptureData.empty())
+					// ElapsedTime이 몇이든 RewindTime 초만큼 돌리기 위함
+					// ElapsedTime이 높을수록 한번에 많은 캡쳐 데이터들을 pop해준다.
+					int a = static_cast<int>((_ElapsedTime / mRewindTime) + 1.f);
+
+					for (int i = 0; i < a; i++)
 					{
-						mFrameCaptureData.pop_front();
+						if (!mFrameCaptureData.empty())
+						{
+							mFrameCaptureData.pop_front();
+						}
 					}
 				}
-			}
-			else
-			{
-				mFrameCaptureData.pop_front();
+				else
+				{
+					mFrameCaptureData.pop_front();
+				}
 			}
 		}
 	}
@@ -175,22 +170,25 @@ namespace dru
 	void CLiveGameObj::ReplayOperate()
 	{
 		if (mFrameCaptureData.empty())
+		{
 			mbReplay = false;
+			if (eLayerType::FX == GetLayerType())
+			{
+				Die();
+				GetCurrentStage()->PopRewindObject(this);
+			}
+		}
 		else
 		{
-			// 캡쳐큐를 back부터 pop
-			mCurrentAnimData = mFrameCaptureData.back().AnimData;
-			//if (mFrameCaptureData.front().RenderingBlock)
-			//{
-			//	RenderingBlockOn();
-			//}
-			//else
-			//{
-			//	RenderingBlockOff();
-			//}
-			ReplayFlip();
-			SetReplayTransform();
-			mFrameCaptureData.pop_back();
+			if (mFrameCaptureData.back().FrameNumber == GetCurrentStage()->GetFrameCount())
+			{
+				// 캡쳐큐를 back부터 pop
+				mCurrentAnimData = mFrameCaptureData.back().AnimData;
+
+				ReplayFlip();
+				SetReplayTransform();
+				mFrameCaptureData.pop_back();
+			}
 		}
 	}
 
@@ -221,6 +219,7 @@ namespace dru
 		mFrameCapture.Scale= GetComponent<CTransform>()->GetScale();
 		mFrameCapture.Rotation= GetComponent<CTransform>()->GetRotation();
 		mFrameCapture.Texture = GetComponent<CSpriteRenderer>()->GetMaterial()->GetTexture();
+		mFrameCapture.FrameNumber = GetCurrentStage()->GetFrameCount();
 
 		if (GetComponent<CAnimator>())
 		{

@@ -73,7 +73,7 @@ namespace dru
 		mCop1->SetPos(mCop1DefaultPos);
 		mCop1->GetScript<CMonsterScript>()->Reset();
 
-		mEnemyCount = 1;
+		mEnemyCount = 2;
 
 
 		CStage::Reset();

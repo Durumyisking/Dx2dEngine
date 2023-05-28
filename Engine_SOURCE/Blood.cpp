@@ -161,6 +161,7 @@ namespace dru
 		{
 			RenderingBlockOn();
 			mbBloodDead = true;
+			GetComponent<CRigidBody>()->SetGravity(0.f);
 		}
 	}
 

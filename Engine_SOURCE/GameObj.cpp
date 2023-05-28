@@ -1,5 +1,7 @@
 #include "GameObj.h"
 #include "TimeMgr.h"
+#include "SceneMgr.h"
+#include "SceneMain.h"
 
 namespace dru
 {
@@ -276,11 +278,11 @@ namespace dru
 		}
 	}
 
-	//CStage* CGameObj::GetCurrentStage()
-	//{
-	//	CSceneMain* mainScene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-	//	return mainScene->GetCurrentStage();
-	//}
+	CStage* CGameObj::GetCurrentStage()
+	{
+		CSceneMain* mainScene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+		return mainScene->GetCurrentStage();
+	}
 
 	void CGameObj::Flip()
 	{
