@@ -137,7 +137,6 @@ namespace dru
 	void CBossScript::ChoosePattern()
 	{
 		int pattern = GetRandomNumber(3, 1);
-//		int pattern = 35;
 
 		switch (pattern)
 		{

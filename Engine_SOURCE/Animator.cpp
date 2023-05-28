@@ -46,8 +46,8 @@ namespace dru
 				{
 					if (!mCurrentAnimation->IsCompleteEventPlayed())
 					{
-						events->mCompleteEvent();
 						mCurrentAnimation->SetCompleteEventPlayed(true);
+						events->mCompleteEvent();
 					}
 				}
 
