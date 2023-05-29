@@ -120,7 +120,7 @@ namespace dru
 
 		// bullet의 진행방향으로 head를 돌린다.
 		Vector3 Right = { 1.f, 0.f, 0.f };
-		mAngle = RotateToHead(dir, Right);
+		mAngle = GetAngleFromDirection(dir, Right);
 
 		RotateBullet(dir, bullet);
 
@@ -182,8 +182,8 @@ namespace dru
 		{
 			Right.x = -1.f;
 		}
-		angleTemp = RotateToHead(_Dir, Right);
-		mAngle = RotateToHead(_Dir, Right);
+		angleTemp = GetAngleFromDirection(_Dir, Right);
+		mAngle = GetAngleFromDirection(_Dir, Right);
 		if (GetOwner()->IsLeft())
 		{
 			angleTemp *= -1.f;

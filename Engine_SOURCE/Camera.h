@@ -68,6 +68,7 @@ namespace dru
 		void pushGameObjectToRenderingModes(CGameObj* obj);
 		bool renderPassCheck(CGameObj* _obj);
 
+
 	private:
 		static Matrix View;
 		static Matrix Projection; // 모든 obj들의 해당 행렬은 동일함

@@ -8,6 +8,7 @@
 #include "Monster.h"
 #include "SceneMain.h"
 #include "Blood.h"
+#include "BloodDecal.h"
 
 namespace dru
 {
@@ -144,6 +145,7 @@ namespace dru
 				mbBodyBlood = true;
 				SetHitDir();
 				CreateDirBlood();
+				CreateDecalBlood();
 				hitSlash(0);
 			}
 		}
@@ -276,6 +278,18 @@ namespace dru
 				mBodyBloodTimer += CTimeMgr::DeltaTime();
 			}
 		}
+	}
+
+	void CMonsterScript::CreateDecalBlood()
+	{
+		CBloodDecal* Decal = object::Instantiate<CBloodDecal>(eLayerType::BackGround, L"BloodDecal");
+		
+		Vector3 pos = GetOwnerWorldPos() + mHitDir;
+		Vector3 right = mTransform->Right();
+		float angle = GetAngleFromDirection(mHitDir, right);
+
+		Decal->SetRotation({ 0.f, 0.f, angle });
+		Decal->SetPos(pos);
 	}
 
 	float CMonsterScript::GetPlayerDistance()

@@ -37,6 +37,8 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void rewindRender();
+
 
 		void FrameCaptureOperate();
 

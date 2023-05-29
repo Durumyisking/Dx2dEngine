@@ -18,6 +18,7 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void rewindRender();
 
 		void ChangeBeamPos(Vector3 _Pos);
 		void ChangeBeamSize(float _ScaleY);

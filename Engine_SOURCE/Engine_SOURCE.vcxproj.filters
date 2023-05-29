@@ -524,6 +524,9 @@
     <ClInclude Include="BloodScript.h">
       <Filter>GameObj\Blood</Filter>
     </ClInclude>
+    <ClInclude Include="BloodDecal.h">
+      <Filter>GameObj\Blood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -825,6 +828,9 @@
       <Filter>GameObj\Blood</Filter>
     </ClCompile>
     <ClCompile Include="BloodScript.cpp">
+      <Filter>GameObj\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodDecal.cpp">
       <Filter>GameObj\Blood</Filter>
     </ClCompile>
   </ItemGroup>

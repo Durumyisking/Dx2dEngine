@@ -1,19 +1,21 @@
 #pragma once
-#include "Monster.h"
+#include "LiveGameObj.h"
 
 namespace dru
 {
-	class CGrunt :
-		public CMonster
-	{
+    class CBloodDecal :
+        public CLiveGameObj
+    {
 	public:
-		CGrunt();
-		virtual ~CGrunt();
+		CBloodDecal();
+		virtual ~CBloodDecal();
 
 		virtual void Initialize();
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
 		virtual void rewindRender();
+
 	};
+
 }

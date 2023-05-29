@@ -54,6 +54,11 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CMonster::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
+
 
 	void CMonster::AddRay(Vector3 _Scale)
 	{

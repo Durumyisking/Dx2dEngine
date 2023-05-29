@@ -37,6 +37,10 @@ namespace dru
 	{
 		CLiveGameObj::render();
 	}
+	void CTurret::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
 	void CTurret::ChangeBeamPos(Vector3 _Pos)
 	{
 		mBeam->SetPosAbs(_Pos);

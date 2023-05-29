@@ -49,4 +49,8 @@ namespace dru
 
 		CMonster::render();
 	}
+	void CCop::rewindRender()
+	{
+		CMonster::rewindRender();
+	}
 }

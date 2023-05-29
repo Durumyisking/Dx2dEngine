@@ -7,6 +7,7 @@
 #include "Material.h"
 #include "BaseRenderer.h"
 #include "TimeMgr.h"
+#include "LiveGameObj.h"
 
 extern dru::CApplication application;
 
@@ -190,8 +191,13 @@ namespace dru
 		for (CGameObj* obj : mOpaqueGameObjects)
 		{
 			if (renderPassCheck(obj))
+			{
 				obj->render();
-
+			}
+			if (CGameObj::eObjectType::Live == obj->GetObjectType())
+			{
+				dynamic_cast<CLiveGameObj*>(obj)->rewindRender();
+			}
 		}
 	}
 
@@ -200,8 +206,13 @@ namespace dru
 		for (CGameObj* obj : mCutoutGameObjects)
 		{
 			if (renderPassCheck(obj))
+			{
 				obj->render();
-
+			}
+			if (CGameObj::eObjectType::Live == obj->GetObjectType())
+			{
+				dynamic_cast<CLiveGameObj*>(obj)->rewindRender();
+			}
 		}
 	}
 
@@ -209,8 +220,14 @@ namespace dru
 	{
 		for (CGameObj* obj : mTransparentGameObjects)
 		{
-			if(renderPassCheck(obj))
-				obj->render();
+			if (renderPassCheck(obj))
+			{
+				obj->render();				
+			}
+			if (CGameObj::eObjectType::Live == obj->GetObjectType())
+			{
+				dynamic_cast<CLiveGameObj*>(obj)->rewindRender();
+			}
 		}
 	}
 
@@ -262,16 +279,20 @@ namespace dru
 	bool CCamera::renderPassCheck(CGameObj* _obj)
 	{
 		if (nullptr == _obj)
+		{
 			return false;
+		}
 		if (_obj->IsRenderingBlock())
+		{
 			return false;
+		}
 		if (nullptr != _obj->GetParent())
 		{
 			if (_obj->GetParent()->IsRenderingBlock())
+			{
 				return false;
+			}
 		}
-		if (_obj->GetLayerType() == eLayerType::PostProcess)
-			int i = 0;
 		
 		return true;
 	}

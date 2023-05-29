@@ -59,4 +59,9 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CBullet::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
+
 }

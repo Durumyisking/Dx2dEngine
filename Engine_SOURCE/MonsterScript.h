@@ -54,6 +54,7 @@ namespace dru
         void CreateBodySlash();
         void CreateDirBlood();
         void CreateBodyBlood();
+        void CreateDecalBlood();
         bool IsMonsterDead() const { return mbDead; };
 
         void FlipCheck();

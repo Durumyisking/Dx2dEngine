@@ -42,6 +42,11 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CBoss::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
+
 	void CBoss::Disable()
 	{
 		GetScript<CBossScript>()->Reset();

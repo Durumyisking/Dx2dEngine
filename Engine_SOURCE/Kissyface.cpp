@@ -95,6 +95,11 @@ namespace dru
 		CBoss::render();
 	}
 
+	void CKissyface::rewindRender()
+	{
+		CBoss::rewindRender();
+	}
+
 	void CKissyface::CraeteAxe()
 	{
 		mAxe = object::Instantiate<CAxe>(eLayerType::Bullet, this, L"Axe");		

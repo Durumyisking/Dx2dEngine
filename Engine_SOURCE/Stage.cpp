@@ -663,7 +663,7 @@ namespace dru
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetRewindOn();
-			mRewindObjects[i]->RenderingBlockOff();
+
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();
@@ -764,7 +764,6 @@ namespace dru
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetReplayOn();
-			mRewindObjects[i]->RenderingBlockOff();
 
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{

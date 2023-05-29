@@ -63,9 +63,12 @@ namespace dru
 
 	void CAxe::render()
 	{
-
-
 		CLiveGameObj::render();
+	}
+
+	void CAxe::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
 	}
 
 }

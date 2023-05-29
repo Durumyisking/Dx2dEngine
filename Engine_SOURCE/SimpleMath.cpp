@@ -106,7 +106,7 @@ namespace dru::math
 	}
 
 
-	float RotateToHead(Vector3 _Direction, Vector3 _Basis)
+	float GetAngleFromDirection(Vector3 _Direction, Vector3 _Basis)
 	{
 
 		// 이동 방향과 forward 벡터 간의 각도를 구합니다.

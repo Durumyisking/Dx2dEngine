@@ -136,7 +136,7 @@ namespace dru
 		mBullet->SetDir(mDir);
 
 		Vector3 Right = { 1.f, 0.f, 0.f };
-		float angle = RotateToHead(dir, Right);
+		float angle = GetAngleFromDirection(dir, Right);
 		mBullet->GetComponent<CTransform>()->SetRotationZ(angle);
 
 		CCollider2D* coll = mBullet->GetComponent<CCollider2D>();

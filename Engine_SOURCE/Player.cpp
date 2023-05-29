@@ -86,6 +86,11 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CPlayer::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
+
 
 
 }

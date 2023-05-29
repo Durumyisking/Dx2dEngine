@@ -54,4 +54,9 @@ namespace dru
 		CMonster::render();
 	}
 
+	void CGrunt::rewindRender()
+	{
+		CMonster::rewindRender();
+	}
+
 }

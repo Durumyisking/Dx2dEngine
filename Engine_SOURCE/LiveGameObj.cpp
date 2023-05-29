@@ -86,17 +86,7 @@ namespace dru
 
 	void CLiveGameObj::render()
 	{
-		if (mbRewind)
-		{
-			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-			CStage* stage = scene->GetCurrentStage();
-			RewindOperate(stage->GetElapsedTime());
-		}
-		if (mbReplay)
-		{
-			ReplayOperate();
-		}
-
+	
 		for (CComponent* comp : mComponents)
 		{
 			if (nullptr == comp)
@@ -109,6 +99,20 @@ namespace dru
 			if (nullptr == script)
 				continue;
 			script->render();
+		}
+	}
+
+	void CLiveGameObj::rewindRender()
+	{
+		if (mbRewind)
+		{
+			CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
+			CStage* stage = scene->GetCurrentStage();
+			RewindOperate(stage->GetElapsedTime());
+		}
+		if (mbReplay)
+		{
+			ReplayOperate();
 		}
 	}
 
@@ -133,13 +137,27 @@ namespace dru
 				Die();
 				GetCurrentStage()->PopRewindObject(this);
 			}
+			if (eLayerType::BackGround == GetLayerType())
+			{
+				Die();
+				GetCurrentStage()->PopRewindObject(this);
+			}
 		}
 		else
 		{
 			if (mFrameCaptureData.front().FrameNumber == GetCurrentStage()->GetFrameCount())
 			{
-				// Ä¸ÃÄÅ¥À» frontºÎÅÍ popÇÏ¸é¼­ ·Î²Ù²¨ÇÔ
+			
+				if (mFrameCaptureData.front().RenderingBlock)
+				{
+					RenderingBlockOn();
+				}
+				else
+				{
+					RenderingBlockOff();
+				}
 
+				// Ä¸ÃÄÅ¥À» frontºÎÅÍ popÇÏ¸é¼­ ·Î²Ù²¨ÇÔ
 				mCurrentAnimData = mFrameCaptureData.front().AnimData;
 
 				RewindFlip();
@@ -172,7 +190,7 @@ namespace dru
 		if (mFrameCaptureData.empty())
 		{
 			mbReplay = false;
-			if (eLayerType::FX == GetLayerType())
+			if (eLayerType::FX == GetLayerType() || eLayerType::BackGround == GetLayerType())
 			{
 				Die();
 				GetCurrentStage()->PopRewindObject(this);
@@ -182,6 +200,7 @@ namespace dru
 		{
 			if (mFrameCaptureData.back().FrameNumber == GetCurrentStage()->GetFrameCount())
 			{
+				RenderingBlockOff();
 				// Ä¸ÃÄÅ¥¸¦ backºÎÅÍ pop
 				mCurrentAnimData = mFrameCaptureData.back().AnimData;
 

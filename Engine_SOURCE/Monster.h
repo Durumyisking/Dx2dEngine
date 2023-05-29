@@ -18,7 +18,7 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-
+		virtual void rewindRender();
 
 		void AddRay(Vector3 _Scale = Vector3::Zero);
 		void SetRayPos();

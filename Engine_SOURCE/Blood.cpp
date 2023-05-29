@@ -4,13 +4,15 @@
 #include "SceneMgr.h"
 #include "Scene.h"
 #include "BloodScript.h"
+#include "Object.h"
 
 namespace dru
 {
 	CBlood::CBlood()
 		:mMoveDirection(Vector3::Zero)
 		, mTransform(nullptr)
-		, mSpeed(0.0075f)
+		, mRigidbody(nullptr)
+		, mSpeed(0.5f)
 		, mbBloodDead(false)
 	{
 		SetLayerType(eLayerType::FX);
@@ -23,8 +25,8 @@ namespace dru
 		mAnimator->Create(L"Blood2", Material->GetTexture(), { 300.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Blood3", Material->GetTexture(), { 600.f, 0.f }, { 50.f, 50.f }, Vector2::Zero, 6, { 50.f, 50.f }, 0.1f);
 
-		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
-		rigidbody->SetGravity(-10.f);
+		mRigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
+		mRigidbody->SetGravity(-5.f);
 
 		int randomNumber = GetRandomNumber(3);
 
@@ -61,6 +63,8 @@ namespace dru
 		
 		AddComponent<CBloodScript>(eComponentType::Script);
 
+
+
 	}
 	CBlood::~CBlood()
 	{
@@ -73,13 +77,13 @@ namespace dru
 		mTransform = GetComponent<CTransform>();
 		CLiveGameObj::Initialize();
 	}
-
+	 
 	void CBlood::update()
 	{
 		if (!mbBloodDead)
 		{
-			Vector2 dir = { mMoveDirection.x, mMoveDirection.y };
-			mTransform->AddPositionXY(dir * mSpeed);
+			mRigidbody->AddForceX(mMoveDirection.x * mSpeed);
+			mRigidbody->AddForceY(mMoveDirection.y * mSpeed);
 		}
 
 		if (FrameCaptureCheck())
@@ -100,13 +104,19 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CBlood::rewindRender()
+	{
+		CLiveGameObj::rewindRender();
+	}
+
 	void CBlood::SetBloodPosition_Direction(Vector3 _Standard, Vector3 _Direction)
 	{
+
 		mMoveDirection = _Direction;
 	
 		Vector3 Right = mTransform->Right();
 
-		float Degree = RotateToHead(mMoveDirection, Right);
+		float Degree = GetAngleFromDirection(mMoveDirection, Right);
 		
 		mTransform->SetRotationZ(Degree);
 
@@ -142,6 +152,7 @@ namespace dru
 		newPos.y = RandomStandard.y;
 
 		SetPos(newPos);
+
 	}
 
 	void CBlood::SetBloodPosition_Round(Vector3 _Standard)

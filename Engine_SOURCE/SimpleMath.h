@@ -20,7 +20,7 @@ namespace dru::math
 
 	int GetRandomNumber(int _Range, int _StartNumber = 0);
 
-	float RotateToHead(Vector3 _Direction, Vector3 _Basis);
+	float GetAngleFromDirection(Vector3 _Direction, Vector3 _Basis);
 
 	float RotateToHead_360(Vector3 _Direction);
 

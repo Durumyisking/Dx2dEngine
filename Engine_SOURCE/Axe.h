@@ -15,7 +15,9 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void rewindRender();
 
+	private:
 		CKissyface* mKissyface;
 
 	public:
