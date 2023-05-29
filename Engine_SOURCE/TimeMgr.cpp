@@ -61,6 +61,14 @@ namespace dru
                 }
             }
         }
+        else
+        {
+            if (0 != mFramePassCount && mbFramePassCheck)
+            {
+                mFramePassCount = 0;
+                mbFramePassCheck = false;
+            }
+        }
 
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 

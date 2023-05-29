@@ -132,12 +132,7 @@ namespace dru
 		if (mFrameCaptureData.empty())
 		{
 			mbRewind = false;
-			if (eLayerType::FX == GetLayerType())
-			{
-				Die();
-				GetCurrentStage()->PopRewindObject(this);
-			}
-			if (eLayerType::BackGround == GetLayerType())
+			if (eLayerType::FX == GetLayerType() || eLayerType::BackGround == GetLayerType())
 			{
 				Die();
 				GetCurrentStage()->PopRewindObject(this);
@@ -145,7 +140,9 @@ namespace dru
 		}
 		else
 		{
-			if (mFrameCaptureData.front().FrameNumber == GetCurrentStage()->GetFrameCount())
+			UINT frontFrameNumber = mFrameCaptureData.front().FrameNumber;
+			UINT StageFrameNumber = GetCurrentStage()->GetFrameCount();
+			if (frontFrameNumber == StageFrameNumber)
 			{
 			
 				if (mFrameCaptureData.front().RenderingBlock)
@@ -182,6 +179,10 @@ namespace dru
 					mFrameCaptureData.pop_front();
 				}
 			}
+			else
+			{
+				int icx = 0;
+			}
 		}
 	}
 
@@ -200,7 +201,15 @@ namespace dru
 		{
 			if (mFrameCaptureData.back().FrameNumber == GetCurrentStage()->GetFrameCount())
 			{
-				RenderingBlockOff();
+				if (mFrameCaptureData.back().RenderingBlock)
+				{
+					RenderingBlockOn();
+				}
+				else
+				{
+					RenderingBlockOff();
+				}
+
 				// 캡쳐큐를 back부터 pop
 				mCurrentAnimData = mFrameCaptureData.back().AnimData;
 
@@ -246,7 +255,7 @@ namespace dru
 		}
 		if (IsLeft())
 		{
-			mFrameCapture.Inverse = -1;
+			mFrameCapture.Inverse = -1; 
 		}
 		else
 		{

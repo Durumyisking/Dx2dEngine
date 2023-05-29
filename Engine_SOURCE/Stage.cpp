@@ -398,7 +398,11 @@ namespace dru
 		}
 		else
 		{
-			++mFrameCount;
+			if (CTimeMgr::IsFramePass())
+			{
+				++mFrameCount;
+			}
+
 			bool state = GetPlayerState(ePlayerState::Dead);
 			if (state)
 			{
@@ -776,7 +780,7 @@ namespace dru
 		mFrameCount = -1;
 		mbReplaying = true;
 	}
-	void CStage::Replaying()
+	void CStage::Replaying()	
 	{
 		++mFrameCount;
 		if (ReplayEndCheck())
