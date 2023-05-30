@@ -251,12 +251,12 @@ namespace dru
 
 	void CMonsterScript::CreateDirBlood()
 	{
-		//for (size_t i = 0; i < 50; i++)
-		//{
+		for (size_t i = 0; i < 50; i++)
+		{
 			CBlood* Dirblood = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
 			Dirblood->Initialize();
 			Dirblood->SetBloodPosition_Direction(GetOwnerWorldPos(), mHitDir);
-		//}
+		}
 	}
 
 	void CMonsterScript::CreateBodyBlood()
@@ -265,12 +265,12 @@ namespace dru
 		{
 			if (mBodyBloodTimer > 0.1f)
 			{
-				//for (size_t i = 0; i < 2; i++)
-				//{
-				//	CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
-				//	bodySlash->Initialize();
-				//	bodySlash->SetBloodPosition_Round(GetOwnerWorldPos());
-				//}
+				for (size_t i = 0; i < 2; i++)
+				{
+					CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
+					bodySlash->Initialize();
+					bodySlash->SetBloodPosition_Round(GetOwnerWorldPos());
+				}
 				mBodyBloodTimer = 0.f;
 			}
 			else

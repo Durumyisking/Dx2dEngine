@@ -179,10 +179,6 @@ namespace dru
 					mFrameCaptureData.pop_front();
 				}
 			}
-			else
-			{
-				int icx = 0;
-			}
 		}
 	}
 

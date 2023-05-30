@@ -401,11 +401,6 @@ namespace dru
 		}
 		else
 		{
-			if (CTimeMgr::IsFramePass())
-			{
-				++mFrameCount;
-			}
-
 			bool state = GetPlayerState(ePlayerState::Dead);
 			if (state)
 			{
@@ -429,7 +424,10 @@ namespace dru
 				{
 					RewindStart();
 				}
-
+			}
+			if (CTimeMgr::IsFramePass())
+			{
+				++mFrameCount;
 			}
 		}
 			
@@ -452,12 +450,13 @@ namespace dru
 		}
 		mBulletTimeGaugePrev = 10;
 		mBulletTimeGaugeCurrent = 10;
-		mElapsedTime = 0.f;
-		mFrameCount = 0;
-
 		mBulletTimeCooldown = 0.f;
 		mBulletTimeGauge = 10.f;
 		mbBulletTimeStun = false;
+
+		mElapsedTime = 0.f;
+		mFrameCount = 0;
+
 	}
 
 	void CStage::AddStartingLiveObjects()
@@ -473,7 +472,7 @@ namespace dru
 		float gauge = mBulletTimeGauge;
 		mBulletTimeGaugeCurrent = static_cast<UINT>(gauge);
 
-		if (mBulletTimeGaugePrev <= mBulletTimeGaugeCurrent)
+		if (mBulletTimeGaugePrev < mBulletTimeGaugeCurrent)
 		{
 			mHudBatteryParts[mBulletTimeGaugePrev]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
 		}
@@ -692,14 +691,22 @@ namespace dru
 	}
 	void CStage::Rewinding()
 	{
-		int a = static_cast<int>((mElapsedTime / 3.f) + 1.f);
-		if (0 < mFrameCount)
+		if (mElapsedTime > 3.f)
 		{
-			for (int i = 0; i < a; i++)
+			int a = static_cast<int>((mElapsedTime / 3.f) + 1.f);
+			if (0 < mFrameCount)
 			{
-				--mFrameCount;
+				for (int i = 0; i < a; i++)
+				{
+					--mFrameCount;
+				}
 			}
 		}
+		else
+		{
+			--mFrameCount;
+		}
+
 		if(RewindEndCheck())
 			RewindEnd();
 
@@ -822,7 +829,6 @@ namespace dru
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->AddRay(dynamic_cast<CMonster*>(mRewindObjects[i])->GetRayScale());
 			}
-
 		}	
 
 		mPostProcess_Replay->RenderingBlockOn();

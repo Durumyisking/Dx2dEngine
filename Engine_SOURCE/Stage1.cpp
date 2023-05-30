@@ -77,9 +77,9 @@ namespace dru
 		mGrunt1->GetScript<CMonsterScript>()->Reset();
 		mGrunt1->SetRight();
 
-	/*	mGrunt2->SetPos(mGrunt2DefaultPos);
+		mGrunt2->SetPos(mGrunt2DefaultPos);
 		mGrunt2->GetScript<CMonsterScript>()->Reset();
-		mGrunt2->SetLeft();*/
+		mGrunt2->SetLeft();
 
 		mLaserTurret->GetBeam()->GetScript<CBeamScript>()->Reset();
 
@@ -98,10 +98,10 @@ namespace dru
 			mGrunt1->SetLeft();
 		}
 		{
-			//mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
-			//mGrunt2->SetPos(mGrunt2DefaultPos);
-			//mRewindObjects.push_back(mGrunt2);
-			//mGrunt2->SetLeft();
+			mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+			mGrunt2->SetPos(mGrunt2DefaultPos);
+			mRewindObjects.push_back(mGrunt2);
+			mGrunt2->SetLeft();
 		}
 
 		CStage::AddStartingLiveObjects();
