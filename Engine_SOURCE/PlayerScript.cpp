@@ -30,9 +30,6 @@ namespace dru
 		, mbFirstAttack(false)
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
-		, mBulletTimeGauge(10.f)
-		, mbBulletTimeStun(false)
-		, mBulletTimeCooldown(0.f)
 		, mHitTimer(0.f)
 		, mHitDir(Vector3::Zero)
 		, mbLRKeyupTimerOn(false)
@@ -472,10 +469,6 @@ namespace dru
 
 		mHitTimer = 0.f;
 
-		mBulletTimeCooldown = 0.f;
-		mBulletTimeGauge = 10.f;
-		mbBulletTimeStun = false;
-
 		dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(false);
 
 		SetPlayerSingleState(ePlayerState::Idle);
@@ -622,9 +615,6 @@ namespace dru
 	{
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerBulletTimeMat");
 		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
-
-
-		CTimeMgr::BulletTimeOn();
 	}
 
 	void CPlayerScript::BulletTimeSwitchOff()
@@ -632,7 +622,6 @@ namespace dru
 		SetAfterImageCount(20);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		GetOwner()->GetComponent<CSpriteRenderer>()->SetMaterial(Material);
-		CTimeMgr::BulletTimeOff();
 	}
 
 	void CPlayerScript::idleToRun()
@@ -995,39 +984,19 @@ namespace dru
 	{
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
-			if (CTimeMgr::IsBulletTimeOn())
-			{
-				BulletTimeSwitchOff();
-			}
+			BulletTimeSwitchOff();
 		}
 
-		if (mbBulletTimeStun)
+		if (GetOwner()->GetCurrentStage()->IsBulletTimeStun())
 		{
 			bulletTimeStunOperate();
 		}
 		else
 		{
-			if (CInput::GetKeyNone(eKeyCode::LSHIFT))
-			{
-				mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
-				if (mBulletTimeGauge > 10.f)
-				{
-					mBulletTimeGauge = 10.f;
-				}
-			}
 			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
 			{
-				if (!CTimeMgr::IsBulletTimeOn())
-				{
-					BulletTimeSwitchOn();
-				}
+				BulletTimeSwitchOn();
 				SetAfterImageCount(20);
-
-				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
-				if (mBulletTimeGauge < 0.f)
-				{
-					mBulletTimeGauge = 0.f;
-				}
 			}
 
 		}
@@ -1235,18 +1204,7 @@ namespace dru
 
 	void CPlayerScript::bulletTimeStunOperate()
 	{
-		// bullet타임 스턴상태면 3초간 쿨타임 있음
 		BulletTimeSwitchOff();
-		mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
-
-		if (mBulletTimeCooldown >= 3.f)
-		{
-			GetOwner()->GetComponent<CSpriteRenderer>()->MulColor(Vector4(0.f, 0.75f, 0.75f, 2.f));
-
-			mbBulletTimeStun = false;
-			mBulletTimeGauge = 1.f;	
-			mBulletTimeCooldown = 0.f;
-		}
 	}
 
 	void CPlayerScript::createRolldust(UINT _Count)

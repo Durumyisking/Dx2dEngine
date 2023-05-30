@@ -552,7 +552,7 @@ namespace dru
 
 	void dru::CStageTutorial::TutorBulletTimeCheck()
 	{
-		if (5 >= mPlayer->GetScript<CPlayerScript>()->GetBulletTimeGauge())
+		if (5 >= mBulletTimeGauge)
 		{
 			mbBulletTimeSuccess = true;
 		}

@@ -152,10 +152,6 @@ namespace dru
         float mAttackCooldown;
         Vector3 mAttackDir;
 
-        float mBulletTimeGauge;
-        float mBulletTimeCooldown;
-        bool mbBulletTimeStun;
-
         float mHitTimer;
         Vector3 mHitDir;
 
@@ -177,12 +173,10 @@ namespace dru
 
     public:
         bool IsOnWall() const { return mbOnWall; }
-        float GetBulletTimeGauge() const { return mBulletTimeGauge; }
 
         void InputBlocking() { mbInputBlock = true; }
         void UnInputBlocking() { mbInputBlock = false; }
 
-        void BulletTimeStun() { mbBulletTimeStun = true; }
 
         bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
         void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }

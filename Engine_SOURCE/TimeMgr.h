@@ -29,11 +29,6 @@ namespace dru
 		static __forceinline void SetFramePass(UINT _Value) { mFramePass = _Value; }
 		static __forceinline bool IsFramePass() 
 		{
-			if (mFramePassCount > 4)
-			{
-				int i = 0;
-			}
-
 			return mbFramePassCheck; 
 		}
 

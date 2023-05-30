@@ -3,6 +3,8 @@
 #include "CameraScript.h"
 #include "PlayerAfterImage.h"
 #include "GameObj.h"
+#include "Stage.h"
+
 
 namespace dru
 {
@@ -66,6 +68,7 @@ namespace dru
 
 	void CPlayer::update()
 	{
+
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();

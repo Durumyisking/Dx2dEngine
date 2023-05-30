@@ -147,6 +147,8 @@ namespace dru
 
         void BatteryParticleCreateAndStart();
 
+        bool IsBulletTimeStun() const { return mbBulletTimeStun; }
+
         static void KeyUI_LeftOn(Vector3 _Pos);
         static void KeyUI_RightOn(Vector3 _Pos);
         static void KeyUI_UpOn(Vector3 _Pos);
@@ -169,6 +171,9 @@ namespace dru
         static CGameObj* mKeyShift;
         static CGameObj* mKeyLClick;
 
+    private:
+        void bulletTime();
+        void bulletTimeStunOperate();
 
     protected:
         CBackground* mStageBackground;
@@ -222,6 +227,10 @@ namespace dru
 
         bool mbBatteryParticleStart;
 
+
+        float mBulletTimeGauge;
+        float mBulletTimeCooldown;
+        bool mbBulletTimeStun;
 
     private:
         CGameObj* mKeyEnter;

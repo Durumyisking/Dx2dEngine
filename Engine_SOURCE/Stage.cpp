@@ -46,6 +46,9 @@ namespace dru
 		, mEnemyCount(0)
 		, mFrameCount(0)
 		, mRewindTimer(0.f)
+		, mBulletTimeGauge(10.f)
+		, mbBulletTimeStun(false)
+		, mBulletTimeCooldown(0.f)
 		, mRewindObjects{}
 
 	{
@@ -420,15 +423,8 @@ namespace dru
 			{
 				mElapsedTime += CTimeMgr::DeltaTime();
 				TimerBarOperate();
+				bulletTime();
 
-				if (CInput::GetKeyDown(eKeyCode::LSHIFT))
-				{
-					mBulletTimeMask->RenderingBlockOff();
-				}
-				if (CInput::GetKeyUp(eKeyCode::LSHIFT))
-				{
-					mBulletTimeMask->RenderingBlockOn();
-				}
 				if (CInput::GetKeyTap(eKeyCode::R))
 				{
 					RewindStart();
@@ -458,6 +454,10 @@ namespace dru
 		mBulletTimeGaugeCurrent = 10;
 		mElapsedTime = 0.f;
 		mFrameCount = 0;
+
+		mBulletTimeCooldown = 0.f;
+		mBulletTimeGauge = 10.f;
+		mbBulletTimeStun = false;
 	}
 
 	void CStage::AddStartingLiveObjects()
@@ -470,7 +470,7 @@ namespace dru
 
 	void CStage::BulletTimeBatteryOperation()
 	{
-		float gauge = mPlayer->GetScript<CPlayerScript>()->GetBulletTimeGauge();
+		float gauge = mBulletTimeGauge;
 		mBulletTimeGaugeCurrent = static_cast<UINT>(gauge);
 
 		if (mBulletTimeGaugePrev <= mBulletTimeGaugeCurrent)
@@ -485,7 +485,14 @@ namespace dru
 		if (gauge == 0.f)
 		{
 			mHudBatteryParts[0]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 0.25f, 0.25f, 1.f));
-			mPlayer->GetScript<CPlayerScript>()->BulletTimeStun();
+			mbBulletTimeStun = true;
+		}
+		if (gauge == 10.f)
+		{
+			if (9 == mBulletTimeGaugePrev)
+			{
+				mHudBatteryParts[9]->GetComponent<CSpriteRenderer>()->MulColor(Vector4(1.f, 2.f, 2.f, 1.f));
+			}
 		}
 
 		mBulletTimeGaugePrev = mBulletTimeGaugeCurrent;
@@ -686,11 +693,13 @@ namespace dru
 	void CStage::Rewinding()
 	{
 		int a = static_cast<int>((mElapsedTime / 3.f) + 1.f);
-		for (int i = 0; i < a; i++)
+		if (0 < mFrameCount)
 		{
-			--mFrameCount;
+			for (int i = 0; i < a; i++)
+			{
+				--mFrameCount;
+			}
 		}
-
 		if(RewindEndCheck())
 			RewindEnd();
 
@@ -931,5 +940,59 @@ namespace dru
 	void CStage::KeyUI_LClickOff()
 	{
 		mKeyLClick->RenderingBlockOn();
+	}
+	void CStage::bulletTime()
+	{
+		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
+		{
+			if (CTimeMgr::IsBulletTimeOn())
+			{
+				CTimeMgr::BulletTimeOff();
+				mBulletTimeMask->RenderingBlockOn();
+			}
+		}
+
+		if (mbBulletTimeStun)
+		{
+			bulletTimeStunOperate();
+		}
+		else
+		{
+			if (CInput::GetKeyNone(eKeyCode::LSHIFT))
+			{
+				mBulletTimeGauge += CTimeMgr::DeltaTime() / 2.f;
+				if (mBulletTimeGauge > 10.f)
+				{
+					mBulletTimeGauge = 10.f;
+				}
+			}
+			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
+			{
+				if (!CTimeMgr::IsBulletTimeOn())
+				{
+					CTimeMgr::BulletTimeOn();
+					mBulletTimeMask->RenderingBlockOff();
+				}
+				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
+				if (mBulletTimeGauge < 0.f)
+				{
+					mBulletTimeGauge = 0.f;
+				}
+			}
+		}
+
+	}
+	void CStage::bulletTimeStunOperate()
+	{
+		mBulletTimeCooldown += CTimeMgr::DeltaTimeConstant();
+		CTimeMgr::BulletTimeOff();
+		mBulletTimeMask->RenderingBlockOn();
+
+		if (mBulletTimeCooldown >= 3.f)
+		{
+			mbBulletTimeStun = false;
+			mBulletTimeGauge = 1.f;
+			mBulletTimeCooldown = 0.f;
+		}
 	}
 }

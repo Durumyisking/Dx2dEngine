@@ -88,7 +88,6 @@ namespace dru
 
 		if (FrameCaptureCheck())
 		{
-			std::cout << "Blood : " << GetCurrentStage()->GetFrameCount() << std::endl;
 			FrameCaptureOperate();
 		}
 
