@@ -672,6 +672,7 @@ namespace dru
 		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
+			mRewindObjects[i]->RenderingBlockOn();
 			mRewindObjects[i]->SetRewindOn();
 
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
@@ -754,7 +755,7 @@ namespace dru
 			{
 				dynamic_cast<CBoss*>(mRewindObjects[i])->ResetHp();
 			}
-			if (eLayerType::FX == mRewindObjects[i]->GetLayerType())
+			if (eLayerType::FX == mRewindObjects[i]->GetLayerType() || eLayerType::BackGround == mRewindObjects[i]->GetLayerType())
 			{
 				mRewindObjects[i]->Die();
 			}
@@ -784,7 +785,7 @@ namespace dru
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetReplayOn();
-
+			mRewindObjects[i]->RenderingBlockOn();
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
 				dynamic_cast<CMonster*>(mRewindObjects[i])->Disable();

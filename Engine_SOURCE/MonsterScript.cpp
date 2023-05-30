@@ -290,10 +290,11 @@ namespace dru
 
 		Decal->SetRotation({ 0.f, 0.f, angle });
 		Decal->SetPos(pos);
+		Decal->Initialize();
 	}
 
 	float CMonsterScript::GetPlayerDistance()
-	{
+	{	
 		Vector3 playerPos = mTarget->GetPos();
 		Vector3 monsterPos = GetOwnerPos();
 		float dist = (playerPos - monsterPos).Length();
@@ -385,7 +386,6 @@ namespace dru
 	void CMonsterScript::SetHitDir()
 	{
 		Vector3 MousePos = CInput::GetMousePosition_world();
-		//MousePos /= 100.f;
 
 		Vector3 monsterPos = GetOwner()->GetPos();
 
