@@ -635,6 +635,13 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"wall", L"MainScene/wall.png");
 
 		CResources::Load<CTexture>(L"blood", L"MainScene/Blood/Blood.png");
+		CResources::Load<CTexture>(L"smallBlood1", L"MainScene/Blood/Decal/smallBlood1.png");
+		CResources::Load<CTexture>(L"smallBlood2", L"MainScene/Blood/Decal/smallBlood2.png");
+		CResources::Load<CTexture>(L"smallBlood3", L"MainScene/Blood/Decal/smallBlood3.png");
+		CResources::Load<CTexture>(L"smallBlood4", L"MainScene/Blood/Decal/smallBlood4.png");
+		//CResources::Load<CTexture>(L"smallBlood5", L"MainScene/Blood/Decal/smallBlood5.png");
+		//CResources::Load<CTexture>(L"smallBlood6", L"MainScene/Blood/Decal/smallBlood6.png");
+		//CResources::Load<CTexture>(L"smallBlood7", L"MainScene/Blood/Decal/smallBlood7.png");
 		CResources::Load<CTexture>(L"bloodDecal1", L"MainScene/Blood/Decal/bigBlood1.png");
 		CResources::Load<CTexture>(L"bloodDecal2", L"MainScene/Blood/Decal/bigBlood2.png");
 		CResources::Load<CTexture>(L"bloodDecal3", L"MainScene/Blood/Decal/bigBlood3.png");
@@ -911,6 +918,34 @@ namespace dru::renderer
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bloodDecal9", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"bloodDecal9Mat", Material);
 		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood1", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"smallBlood1Mat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood2", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"smallBlood2Mat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood3", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"smallBlood3Mat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood4", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"smallBlood4Mat", Material);
+		}
+		//{
+		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood5", L"SpriteShader");
+		//	CResources::Insert<CMaterial>(L"smallBlood5Mat", Material);
+		//}
+		//{
+		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood6", L"SpriteShader");
+		//	CResources::Insert<CMaterial>(L"smallBlood6Mat", Material);
+		//}
+		//{
+		//	std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"smallBlood7", L"SpriteShader");
+		//	CResources::Insert<CMaterial>(L"smallBlood7Mat", Material);
+		//}
 		{
 			std::shared_ptr<CShader> particleShader = CResources::Find<CShader>(L"AimParticleShader");
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"particle_spark", L"SpriteShader");
