@@ -286,7 +286,7 @@ namespace dru
 		
 		Vector3 pos = GetOwnerWorldPos() + mHitDir;
 		Vector3 right = mTransform->Right();
-		float angle = GetAngleFromDirection(mHitDir, right);
+		float angle = GetAngleFromDirection(mHitDir, right) - 45.f;
 
 		Decal->SetRotation({ 0.f, 0.f, angle });
 		Decal->SetPos(pos);

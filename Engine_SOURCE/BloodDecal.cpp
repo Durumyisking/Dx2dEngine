@@ -9,13 +9,15 @@ namespace dru
 	CBloodDecal::CBloodDecal()
 	{
 		SetLayerType(eLayerType::BackGround);
+		SetScale({2.f, 2.f, 1.f});
 
 		CSpriteRenderer* spriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::wstring textureName = L"bloodDecal";
-		std::wstring number = std::to_wstring(GetRandomNumber(9, 1));
+		std::wstring number = std::to_wstring(GetRandomNumber(6, 1));
 		textureName += number;
 		textureName += L"Mat";
 		spriteRenderer->SetMaterialByKey(textureName);
+		spriteRenderer->MulColor({ 1.f, 1.f, 1.f, 0.75f });
 	}
 
 	CBloodDecal::~CBloodDecal()

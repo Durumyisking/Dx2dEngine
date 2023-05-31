@@ -25,8 +25,6 @@ namespace dru
 
         virtual void SetMonsterAttack();
 
-    private:
-        void attackFrame2();
     };
 }
 
