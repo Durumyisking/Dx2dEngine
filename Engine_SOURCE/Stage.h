@@ -14,6 +14,7 @@
 #include "Monster.h"
 #include "Boss.h"
 #include "Grunt.h"
+#include "Pomp.h"
 #include "Cop.h"
 #include "Kissyface.h"
 

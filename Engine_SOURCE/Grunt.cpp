@@ -9,8 +9,7 @@ namespace dru
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
-		CResources::Insert<CMaterial>(L"GruntMat", Material);	
+		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GruntMat");
 		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* mAnimator = AddComponent<CAnimator>(eComponentType::Animator);

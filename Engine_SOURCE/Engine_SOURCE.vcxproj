@@ -236,6 +236,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAfterImage.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="Pomp.h" />
+    <ClInclude Include="PompScript.h" />
     <ClInclude Include="PostProcess.h" />
     <ClInclude Include="PostProcessRenderer.h" />
     <ClInclude Include="PostProcessWave.h" />
@@ -341,6 +343,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAfterImage.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="Pomp.cpp" />
+    <ClCompile Include="PompScript.cpp" />
     <ClCompile Include="PostProcess.cpp" />
     <ClCompile Include="PostProcessRenderer.cpp" />
     <ClCompile Include="PostProcessWave.cpp" />

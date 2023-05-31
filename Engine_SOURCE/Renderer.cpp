@@ -607,6 +607,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");
 		// monster
 		CResources::Load<CTexture>(L"grunt", L"MainScene/Monster/Grunt.png");
+		CResources::Load<CTexture>(L"pomp", L"MainScene/Monster/Pomp.png");
 		CResources::Load<CTexture>(L"cop", L"MainScene/Monster/Cop.png");
 		CResources::Load<CTexture>(L"cop_gun", L"MainScene/Monster/Cop_Gun.png");
 
@@ -869,6 +870,18 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"plant", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"plantMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"grunt", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"GruntMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"pomp", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"PompMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"cop", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"CopMat", Material);
 		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"cop", L"SpriteShader");

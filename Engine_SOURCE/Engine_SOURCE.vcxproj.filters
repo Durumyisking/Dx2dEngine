@@ -206,6 +206,9 @@
     <Filter Include="GameObj\Blood">
       <UniqueIdentifier>{e82232dc-41fa-4490-aba2-b1cc7ec3c064}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObj\Monster\Pomp">
+      <UniqueIdentifier>{c52166c8-6e24-47c9-af51-c6a580636704}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -530,6 +533,12 @@
     <ClInclude Include="SmallBlood.h">
       <Filter>GameObj\Blood</Filter>
     </ClInclude>
+    <ClInclude Include="Pomp.h">
+      <Filter>GameObj\Monster\Pomp</Filter>
+    </ClInclude>
+    <ClInclude Include="PompScript.h">
+      <Filter>GameObj\Monster\Pomp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -838,6 +847,12 @@
     </ClCompile>
     <ClCompile Include="SmallBlood.cpp">
       <Filter>GameObj\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="Pomp.cpp">
+      <Filter>GameObj\Monster\Pomp</Filter>
+    </ClCompile>
+    <ClCompile Include="PompScript.cpp">
+      <Filter>GameObj\Monster\Pomp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
