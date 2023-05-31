@@ -14,13 +14,13 @@ namespace dru
 		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"Pomp_Idle", Material->GetTexture(), { 4480.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 8, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_Idle", Material->GetTexture(), { 7040.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 8, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_Patrol", Material->GetTexture(), { 12032.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 10, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_Run", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 10, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_Attack", Material->GetTexture(), { 0.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 8, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_DeadAirUp", Material->GetTexture(), { 3328.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_DeadAirDown", Material->GetTexture(), { 3392.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_DeadGround", Material->GetTexture(), { 3328.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 18, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_Run", Material->GetTexture(), { 10240.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 10, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_Attack", Material->GetTexture(), { 960.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 6, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_DeadAirUp", Material->GetTexture(), { 5952.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_DeadAirDown", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_DeadGround", Material->GetTexture(), { 6080.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 15, { 50.f, 50.f }, 0.1f);
 
 		mAnimator->Play(L"Pomp_Idle");
 

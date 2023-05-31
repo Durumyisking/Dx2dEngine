@@ -14,7 +14,10 @@ namespace dru
 
 		CMonsterScript::Initialize();
 
-		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = std::bind(&CGruntScript::attackFrame2, this);
+		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = [this]
+		{
+			makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 50.f, 50.f });
+		};
 
 	}
 	void CGruntScript::update()
@@ -89,9 +92,5 @@ namespace dru
 		{
 			runTrigger();
 		}
-	}
-	void CGruntScript::attackFrame2()
-	{
-		makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 64.f, 64.f });
 	}
 }

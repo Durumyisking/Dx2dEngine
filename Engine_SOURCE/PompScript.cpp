@@ -18,7 +18,7 @@ namespace dru
 
 		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = [this]
 		{
-			makeSlash({ 7296.f, 0.f }, { 64.f, 64.f }, 4, { 64.f, 64.f });
+			makeSlash({ 12720.f, 0.f }, { 64.f, 64.f }, 6, { 50.f, 50.f });
 
 
 		};
