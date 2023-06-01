@@ -40,6 +40,8 @@ namespace dru::enums
 		Particle,
 		Light, 
 		UI,
+		AudioListener,
+		AudioSource,
 		Script,
 		End,
 
@@ -56,7 +58,7 @@ namespace dru::enums
 		MeshData,
 		GraphicShader,
 		ComputeShader,
-		
+		AudioClip,
 		Script,
 		End,
 

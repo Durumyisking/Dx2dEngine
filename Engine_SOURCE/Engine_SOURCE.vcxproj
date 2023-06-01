@@ -171,6 +171,9 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AudioClip.h" />
+    <ClInclude Include="AudioListener.h" />
+    <ClInclude Include="AudioSource.h" />
     <ClInclude Include="Axe.h" />
     <ClInclude Include="AxeScript.h" />
     <ClInclude Include="Background.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="FadeScript.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Floor2.h" />
+    <ClInclude Include="FMod.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
@@ -283,6 +287,9 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AudioClip.cpp" />
+    <ClCompile Include="AudioListener.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="AxeScript.cpp" />
     <ClCompile Include="Background.cpp" />
@@ -320,6 +327,7 @@
     <ClCompile Include="FadeScript.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Floor2.cpp" />
+    <ClCompile Include="FMod.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />

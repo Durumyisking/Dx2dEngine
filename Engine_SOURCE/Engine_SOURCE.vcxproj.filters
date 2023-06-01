@@ -32,12 +32,6 @@
     <Filter Include="Graphics\Renderer">
       <UniqueIdentifier>{3e66ee10-c4f4-4349-8a9a-9b592176b121}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{ada16d80-48ba-4677-8e21-4c7d78667cb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj">
-      <UniqueIdentifier>{ccd15fdd-31ba-4ced-8ea7-a2e5acfb3e55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\Mesh">
       <UniqueIdentifier>{95a2fee9-d057-402b-acd1-f65f5ba2eb8a}</UniqueIdentifier>
     </Filter>
@@ -52,9 +46,6 @@
     </Filter>
     <Filter Include="Resource\Texture">
       <UniqueIdentifier>{8c3b4b7c-b5ea-4ee7-8c93-ba8592693b57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\BackGround">
-      <UniqueIdentifier>{e3c7e62e-16a7-4266-a737-24ba6ea7a768}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Component">
       <UniqueIdentifier>{62eecbab-450d-4710-9651-1fce21aeebd4}</UniqueIdentifier>
@@ -86,15 +77,6 @@
     <Filter Include="Common\Component\Script\Fade">
       <UniqueIdentifier>{8f1ca778-f3ef-4a39-9eeb-8739549585e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Manager">
-      <UniqueIdentifier>{31e1b7df-1306-4a17-be07-62b78da0476f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Layer">
-      <UniqueIdentifier>{933fe2a5-3876-4974-bb9b-06c06e708c32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Base">
-      <UniqueIdentifier>{d1a04847-462f-488b-844e-954ccfe845a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Component\Collider">
       <UniqueIdentifier>{01ea66c5-b9ca-49ae-a581-fd103eafd344}</UniqueIdentifier>
     </Filter>
@@ -110,35 +92,11 @@
     <Filter Include="Common\Component\Collider\3D">
       <UniqueIdentifier>{55f5b957-e6f1-49dc-a59c-a66be9489b0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\BackGround\Color">
-      <UniqueIdentifier>{ca1a2022-5f7e-4372-9397-7381c3f723b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Player">
-      <UniqueIdentifier>{58ec3c23-b57e-47a8-a2b2-2ae5eca9e2a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Player\Script">
-      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\BackGround\Color\Script">
-      <UniqueIdentifier>{283e338b-4470-46e5-b531-f1cd43a0c9b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Cursor">
-      <UniqueIdentifier>{396a8426-32c6-4cfc-b631-138593724573}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster">
-      <UniqueIdentifier>{f0775000-a182-46fa-b02a-0e74d5bfbb09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Component\Animator">
       <UniqueIdentifier>{a4ee9fdf-ba9d-45cb-b92d-4df3bb641c38}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Component\RigidBody">
       <UniqueIdentifier>{556f588a-123a-4f20-b06d-6c511ff57a84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Scripts%28ETC%29">
-      <UniqueIdentifier>{9aed3e60-5432-4643-9c04-a28a88ffb641}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Platforms">
-      <UniqueIdentifier>{25336aac-0c2d-4a64-9ca7-30573113f1ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Component\Light">
       <UniqueIdentifier>{6aabe6fc-84a7-4c1f-bbf3-0899e90f7263}</UniqueIdentifier>
@@ -146,68 +104,113 @@
     <Filter Include="Resource\Shader\ComputeShader">
       <UniqueIdentifier>{49cb38c7-a184-4e3a-883b-714c24dcbbf1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Monster\Grunt">
-      <UniqueIdentifier>{1067e4ea-26b0-43a2-b5e2-ed4c2fef9e67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster\Script">
-      <UniqueIdentifier>{249e30a7-b4f1-46ed-97a6-ead594d90990}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Stage">
-      <UniqueIdentifier>{f7f29749-7cbe-4c63-90b3-6dcc489266eb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Component\Renderer\ParticleSystem">
       <UniqueIdentifier>{5dc4739f-364e-43ca-86ec-b939e659c796}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\FX">
-      <UniqueIdentifier>{b6cd7f64-0237-46e8-a61a-2740ecf28e5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster\Ray">
-      <UniqueIdentifier>{5e307f04-c8f1-47df-95fc-40b0eebf9be7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Player\AfterImage">
-      <UniqueIdentifier>{65740be8-d710-4df2-b816-9422991c25d6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Component\Renderer\Afterimage">
       <UniqueIdentifier>{a4f50b81-a8cd-4d21-867e-1a9c8516a6f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Monster\Cop">
-      <UniqueIdentifier>{95685608-06f6-4de9-afa7-6f36a506d95b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster\Bullet">
-      <UniqueIdentifier>{387acadf-01fe-4729-a4fe-e3ca3f6a13ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\liveGameObj">
-      <UniqueIdentifier>{9cd9dd30-a859-4d4e-ac95-05c5e50bb738}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Light">
-      <UniqueIdentifier>{03a07a79-56f9-4141-b33a-d62e3f274e8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\PostProcess">
-      <UniqueIdentifier>{1a063524-ba24-4df3-9686-60e8e18b272e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Component\Renderer\PostProcess">
       <UniqueIdentifier>{9216606f-172d-437d-9883-e73f2ff4f1f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster\Boss">
-      <UniqueIdentifier>{20b911d4-9695-4569-89dd-8d5705d4127d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Monster\Boss\Kissysface">
-      <UniqueIdentifier>{5f170b2a-823d-4e72-8a1d-ce11a5189e6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Stage\Boss">
-      <UniqueIdentifier>{982a4d8e-08a4-4492-ad45-c6f9997dfaa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObj\Turret">
-      <UniqueIdentifier>{03129b5d-a3f3-4763-a75b-4d3a209b7a69}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Component\Renderer\LaserHit">
       <UniqueIdentifier>{7178b76e-c360-43bd-89f6-e3dcccf07026}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Blood">
+    <Filter Include="Common\GameObj">
+      <UniqueIdentifier>{ccd15fdd-31ba-4ced-8ea7-a2e5acfb3e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\BackGround">
+      <UniqueIdentifier>{e3c7e62e-16a7-4266-a737-24ba6ea7a768}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\BackGround\Color">
+      <UniqueIdentifier>{ca1a2022-5f7e-4372-9397-7381c3f723b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\BackGround\Color\Script">
+      <UniqueIdentifier>{283e338b-4470-46e5-b531-f1cd43a0c9b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Player">
+      <UniqueIdentifier>{58ec3c23-b57e-47a8-a2b2-2ae5eca9e2a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Player\Script">
+      <UniqueIdentifier>{4dfcdb4c-bcfc-45d2-8037-0ee92eaef156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Player\AfterImage">
+      <UniqueIdentifier>{65740be8-d710-4df2-b816-9422991c25d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Cursor">
+      <UniqueIdentifier>{396a8426-32c6-4cfc-b631-138593724573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster">
+      <UniqueIdentifier>{f0775000-a182-46fa-b02a-0e74d5bfbb09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Grunt">
+      <UniqueIdentifier>{1067e4ea-26b0-43a2-b5e2-ed4c2fef9e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Script">
+      <UniqueIdentifier>{249e30a7-b4f1-46ed-97a6-ead594d90990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Ray">
+      <UniqueIdentifier>{5e307f04-c8f1-47df-95fc-40b0eebf9be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Cop">
+      <UniqueIdentifier>{95685608-06f6-4de9-afa7-6f36a506d95b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Bullet">
+      <UniqueIdentifier>{387acadf-01fe-4729-a4fe-e3ca3f6a13ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Boss">
+      <UniqueIdentifier>{20b911d4-9695-4569-89dd-8d5705d4127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Boss\Kissysface">
+      <UniqueIdentifier>{5f170b2a-823d-4e72-8a1d-ce11a5189e6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Monster\Pomp">
+      <UniqueIdentifier>{c52166c8-6e24-47c9-af51-c6a580636704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Scripts%28ETC%29">
+      <UniqueIdentifier>{9aed3e60-5432-4643-9c04-a28a88ffb641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Platforms">
+      <UniqueIdentifier>{25336aac-0c2d-4a64-9ca7-30573113f1ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\FX">
+      <UniqueIdentifier>{b6cd7f64-0237-46e8-a61a-2740ecf28e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\liveGameObj">
+      <UniqueIdentifier>{9cd9dd30-a859-4d4e-ac95-05c5e50bb738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Light">
+      <UniqueIdentifier>{03a07a79-56f9-4141-b33a-d62e3f274e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\PostProcess">
+      <UniqueIdentifier>{1a063524-ba24-4df3-9686-60e8e18b272e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Turret">
+      <UniqueIdentifier>{03129b5d-a3f3-4763-a75b-4d3a209b7a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Blood">
       <UniqueIdentifier>{e82232dc-41fa-4490-aba2-b1cc7ec3c064}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObj\Monster\Pomp">
-      <UniqueIdentifier>{c52166c8-6e24-47c9-af51-c6a580636704}</UniqueIdentifier>
+    <Filter Include="Common\Scene">
+      <UniqueIdentifier>{ada16d80-48ba-4677-8e21-4c7d78667cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Scene\Manager">
+      <UniqueIdentifier>{31e1b7df-1306-4a17-be07-62b78da0476f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Scene\Layer">
+      <UniqueIdentifier>{933fe2a5-3876-4974-bb9b-06c06e708c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Scene\Base">
+      <UniqueIdentifier>{d1a04847-462f-488b-844e-954ccfe845a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Scene\Stage">
+      <UniqueIdentifier>{f7f29749-7cbe-4c63-90b3-6dcc489266eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Scene\Stage\Boss">
+      <UniqueIdentifier>{982a4d8e-08a4-4492-ad45-c6f9997dfaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Sound">
+      <UniqueIdentifier>{6f8b85f9-636e-4508-9fab-fa151ce8d8f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,7 +251,7 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="GameObj.h">
-      <Filter>GameObj</Filter>
+      <Filter>Common\GameObj</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Resource\Manager</Filter>
@@ -263,10 +266,10 @@
       <Filter>Common\Component</Filter>
     </ClInclude>
     <ClInclude Include="SceneMain.h">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneTitle.h">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Resource\Material</Filter>
@@ -284,7 +287,7 @@
       <Filter>Common\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScript.h">
-      <Filter>GameObj\Player\Script</Filter>
+      <Filter>Common\GameObj\Player\Script</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Common\Component\Camera</Filter>
@@ -302,25 +305,25 @@
       <Filter>Common\Component\Renderer\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>GameObj\BackGround</Filter>
+      <Filter>Common\GameObj\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="GridScript.h">
       <Filter>Common\Component\Script\Grid</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>GameObj</Filter>
+      <Filter>Common\GameObj</Filter>
     </ClInclude>
     <ClInclude Include="FadeScript.h">
       <Filter>Common\Component\Script\Fade</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
-      <Filter>Scene\Layer</Filter>
+      <Filter>Common\Scene\Layer</Filter>
     </ClInclude>
     <ClInclude Include="SceneMgr.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Common\Scene\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Scene\Base</Filter>
+      <Filter>Common\Scene\Base</Filter>
     </ClInclude>
     <ClInclude Include="CollisionMgr.h">
       <Filter>Common\Component\Collider\Manager</Filter>
@@ -338,19 +341,19 @@
       <Filter>Common\Component\Collider\3D</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundColor.h">
-      <Filter>GameObj\BackGround\Color</Filter>
+      <Filter>Common\GameObj\BackGround\Color</Filter>
     </ClInclude>
     <ClInclude Include="BackgroundColorScript.h">
-      <Filter>GameObj\BackGround\Color\Script</Filter>
+      <Filter>Common\GameObj\BackGround\Color\Script</Filter>
     </ClInclude>
     <ClInclude Include="CursorScript.h">
-      <Filter>GameObj\Cursor</Filter>
+      <Filter>Common\GameObj\Cursor</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObj\Player</Filter>
+      <Filter>Common\GameObj\Player</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>GameObj\Monster</Filter>
+      <Filter>Common\GameObj\Monster</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Common\Component\Animator</Filter>
@@ -362,26 +365,26 @@
       <Filter>Common\Component\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="SceneMission.h">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClInclude>
     <ClInclude Include="MaskScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
     <ClInclude Include="Floor.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Common\Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="SlashScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
     <ClInclude Include="Wall.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="Platforms.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
       <Filter>Resource\Shader\ComputeShader</Filter>
@@ -393,151 +396,161 @@
       <Filter>Common\Component\Renderer\ParticleSystem</Filter>
     </ClInclude>
     <ClInclude Include="Grunt.h">
-      <Filter>GameObj\Monster\Grunt</Filter>
+      <Filter>Common\GameObj\Monster\Grunt</Filter>
     </ClInclude>
     <ClInclude Include="MonsterScript.h">
-      <Filter>GameObj\Monster\Script</Filter>
+      <Filter>Common\GameObj\Monster\Script</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="StageTutorial.h">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage1.h">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Ceiling.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="OutWall.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="ParticleShader.h">
       <Filter>Resource\Shader\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="OutWallSide.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
-      <Filter>GameObj\FX</Filter>
+      <Filter>Common\GameObj\FX</Filter>
     </ClInclude>
     <ClInclude Include="SlashShadeScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
     <ClInclude Include="BodyShadeScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
     <ClInclude Include="GruntScript.h">
-      <Filter>GameObj\Monster\Grunt</Filter>
+      <Filter>Common\GameObj\Monster\Grunt</Filter>
     </ClInclude>
     <ClInclude Include="MonsterRay.h">
-      <Filter>GameObj\Monster\Ray</Filter>
+      <Filter>Common\GameObj\Monster\Ray</Filter>
     </ClInclude>
     <ClInclude Include="MonsterRayScript.h">
-      <Filter>GameObj\Monster\Ray</Filter>
+      <Filter>Common\GameObj\Monster\Ray</Filter>
     </ClInclude>
     <ClInclude Include="Stage3.h">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stage2.h">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="BlinkScript.h">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
     <ClInclude Include="SimpleMath.h">
       <Filter>Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAfterImage.h">
-      <Filter>GameObj\Player\AfterImage</Filter>
+      <Filter>Common\GameObj\Player\AfterImage</Filter>
     </ClInclude>
     <ClInclude Include="AfterImageRenderer.h">
       <Filter>Common\Component\Renderer\Afterimage</Filter>
     </ClInclude>
     <ClInclude Include="Cop.h">
-      <Filter>GameObj\Monster\Cop</Filter>
+      <Filter>Common\GameObj\Monster\Cop</Filter>
     </ClInclude>
     <ClInclude Include="CopScript.h">
-      <Filter>GameObj\Monster\Cop</Filter>
+      <Filter>Common\GameObj\Monster\Cop</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>GameObj\Monster\Bullet</Filter>
+      <Filter>Common\GameObj\Monster\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="BulletScript.h">
-      <Filter>GameObj\Monster\Bullet</Filter>
+      <Filter>Common\GameObj\Monster\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Floor2.h">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClInclude>
     <ClInclude Include="LiveGameObj.h">
-      <Filter>GameObj\liveGameObj</Filter>
+      <Filter>Common\GameObj\liveGameObj</Filter>
     </ClInclude>
     <ClInclude Include="LightObject.h">
-      <Filter>GameObj\Light</Filter>
+      <Filter>Common\GameObj\Light</Filter>
     </ClInclude>
     <ClInclude Include="SceneTemp.h">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClInclude>
     <ClInclude Include="PostProcess.h">
-      <Filter>GameObj\PostProcess</Filter>
+      <Filter>Common\GameObj\PostProcess</Filter>
     </ClInclude>
     <ClInclude Include="PostProcessRenderer.h">
       <Filter>Common\Component\Renderer\PostProcess</Filter>
     </ClInclude>
     <ClInclude Include="PostProcessWave.h">
-      <Filter>GameObj\PostProcess</Filter>
+      <Filter>Common\GameObj\PostProcess</Filter>
     </ClInclude>
     <ClInclude Include="Kissyface.h">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
     <ClInclude Include="BossStage1.h">
-      <Filter>Scene\Stage\Boss</Filter>
+      <Filter>Common\Scene\Stage\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossStage2.h">
-      <Filter>Scene\Stage\Boss</Filter>
+      <Filter>Common\Scene\Stage\Boss</Filter>
     </ClInclude>
     <ClInclude Include="KissyfaceScript.h">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
-      <Filter>GameObj\Monster\Boss</Filter>
+      <Filter>Common\GameObj\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="BossScript.h">
-      <Filter>GameObj\Monster\Boss</Filter>
+      <Filter>Common\GameObj\Monster\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Axe.h">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
     <ClInclude Include="AxeScript.h">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
     <ClInclude Include="Turret.h">
-      <Filter>GameObj\Turret</Filter>
+      <Filter>Common\GameObj\Turret</Filter>
     </ClInclude>
     <ClInclude Include="BeamScript.h">
-      <Filter>GameObj\Turret</Filter>
+      <Filter>Common\GameObj\Turret</Filter>
     </ClInclude>
     <ClInclude Include="Blood.h">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClInclude>
     <ClInclude Include="BloodScript.h">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClInclude>
     <ClInclude Include="BloodDecal.h">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClInclude>
     <ClInclude Include="SmallBlood.h">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClInclude>
     <ClInclude Include="Pomp.h">
-      <Filter>GameObj\Monster\Pomp</Filter>
+      <Filter>Common\GameObj\Monster\Pomp</Filter>
     </ClInclude>
     <ClInclude Include="PompScript.h">
-      <Filter>GameObj\Monster\Pomp</Filter>
+      <Filter>Common\GameObj\Monster\Pomp</Filter>
+    </ClInclude>
+    <ClInclude Include="FMod.h" />
+    <ClInclude Include="AudioClip.h">
+      <Filter>Common\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioListener.h">
+      <Filter>Common\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Common\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -566,7 +579,7 @@
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GameObj.cpp">
-      <Filter>GameObj</Filter>
+      <Filter>Common\GameObj</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Resource\Manager</Filter>
@@ -581,10 +594,10 @@
       <Filter>Common\Component</Filter>
     </ClCompile>
     <ClCompile Include="SceneMain.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClCompile>
     <ClCompile Include="SceneTitle.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Resource\Material</Filter>
@@ -602,7 +615,7 @@
       <Filter>Common\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
-      <Filter>GameObj\Player\Script</Filter>
+      <Filter>Common\GameObj\Player\Script</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Common\Component\Camera</Filter>
@@ -620,7 +633,7 @@
       <Filter>Common\Component\Renderer\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>GameObj\BackGround</Filter>
+      <Filter>Common\GameObj\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="GridScript.cpp">
       <Filter>Common\Component\Script\Grid</Filter>
@@ -629,13 +642,13 @@
       <Filter>Common\Component\Script\Fade</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
-      <Filter>Scene\Layer</Filter>
+      <Filter>Common\Scene\Layer</Filter>
     </ClCompile>
     <ClCompile Include="SceneMgr.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>Common\Scene\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Scene\Base</Filter>
+      <Filter>Common\Scene\Base</Filter>
     </ClCompile>
     <ClCompile Include="CollisionMgr.cpp">
       <Filter>Common\Component\Collider\Manager</Filter>
@@ -653,19 +666,19 @@
       <Filter>Common\Component\Collider\3D</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundColor.cpp">
-      <Filter>GameObj\BackGround\Color</Filter>
+      <Filter>Common\GameObj\BackGround\Color</Filter>
     </ClCompile>
     <ClCompile Include="BackgroundColorScript.cpp">
-      <Filter>GameObj\BackGround\Color\Script</Filter>
+      <Filter>Common\GameObj\BackGround\Color\Script</Filter>
     </ClCompile>
     <ClCompile Include="CursorScript.cpp">
-      <Filter>GameObj\Cursor</Filter>
+      <Filter>Common\GameObj\Cursor</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObj\Player</Filter>
+      <Filter>Common\GameObj\Player</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>GameObj\Monster</Filter>
+      <Filter>Common\GameObj\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Common\Component\Animator</Filter>
@@ -677,26 +690,26 @@
       <Filter>Common\Component\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="SceneMission.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClCompile>
     <ClCompile Include="MaskScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="Floor.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Common\Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="SlashScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="Platforms.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
       <Filter>Resource\Shader\ComputeShader</Filter>
@@ -708,151 +721,161 @@
       <Filter>Common\Component\Renderer\ParticleSystem</Filter>
     </ClCompile>
     <ClCompile Include="Grunt.cpp">
-      <Filter>GameObj\Monster\Grunt</Filter>
+      <Filter>Common\GameObj\Monster\Grunt</Filter>
     </ClCompile>
     <ClCompile Include="MonsterScript.cpp">
-      <Filter>GameObj\Monster\Script</Filter>
+      <Filter>Common\GameObj\Monster\Script</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="StageTutorial.cpp">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Stage1.cpp">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Ceiling.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="OutWall.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="ParticleShader.cpp">
       <Filter>Resource\Shader\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="OutWallSide.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
-      <Filter>GameObj\FX</Filter>
+      <Filter>Common\GameObj\FX</Filter>
     </ClCompile>
     <ClCompile Include="SlashShadeScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="BodyShadeScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="GruntScript.cpp">
-      <Filter>GameObj\Monster\Grunt</Filter>
+      <Filter>Common\GameObj\Monster\Grunt</Filter>
     </ClCompile>
     <ClCompile Include="MonsterRay.cpp">
-      <Filter>GameObj\Monster\Ray</Filter>
+      <Filter>Common\GameObj\Monster\Ray</Filter>
     </ClCompile>
     <ClCompile Include="MonsterRayScript.cpp">
-      <Filter>GameObj\Monster\Ray</Filter>
+      <Filter>Common\GameObj\Monster\Ray</Filter>
     </ClCompile>
     <ClCompile Include="Stage3.cpp">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Stage2.cpp">
-      <Filter>Scene\Stage</Filter>
+      <Filter>Common\Scene\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="BlinkScript.cpp">
-      <Filter>GameObj\Scripts%28ETC%29</Filter>
+      <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>Common\Math</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAfterImage.cpp">
-      <Filter>GameObj\Player\AfterImage</Filter>
+      <Filter>Common\GameObj\Player\AfterImage</Filter>
     </ClCompile>
     <ClCompile Include="AfterImageRenderer.cpp">
       <Filter>Common\Component\Renderer\Afterimage</Filter>
     </ClCompile>
     <ClCompile Include="Cop.cpp">
-      <Filter>GameObj\Monster\Cop</Filter>
+      <Filter>Common\GameObj\Monster\Cop</Filter>
     </ClCompile>
     <ClCompile Include="CopScript.cpp">
-      <Filter>GameObj\Monster\Cop</Filter>
+      <Filter>Common\GameObj\Monster\Cop</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>GameObj\Monster\Bullet</Filter>
+      <Filter>Common\GameObj\Monster\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="BulletScript.cpp">
-      <Filter>GameObj\Monster\Bullet</Filter>
+      <Filter>Common\GameObj\Monster\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Floor2.cpp">
-      <Filter>GameObj\Platforms</Filter>
+      <Filter>Common\GameObj\Platforms</Filter>
     </ClCompile>
     <ClCompile Include="LiveGameObj.cpp">
-      <Filter>GameObj\liveGameObj</Filter>
+      <Filter>Common\GameObj\liveGameObj</Filter>
     </ClCompile>
     <ClCompile Include="LightObject.cpp">
-      <Filter>GameObj\Light</Filter>
+      <Filter>Common\GameObj\Light</Filter>
     </ClCompile>
     <ClCompile Include="SceneTemp.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Common\Scene</Filter>
     </ClCompile>
     <ClCompile Include="PostProcess.cpp">
-      <Filter>GameObj\PostProcess</Filter>
+      <Filter>Common\GameObj\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessRenderer.cpp">
       <Filter>Common\Component\Renderer\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessWave.cpp">
-      <Filter>GameObj\PostProcess</Filter>
+      <Filter>Common\GameObj\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="Kissyface.cpp">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
     <ClCompile Include="BossStage1.cpp">
-      <Filter>Scene\Stage\Boss</Filter>
+      <Filter>Common\Scene\Stage\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossStage2.cpp">
-      <Filter>Scene\Stage\Boss</Filter>
+      <Filter>Common\Scene\Stage\Boss</Filter>
     </ClCompile>
     <ClCompile Include="KissyfaceScript.cpp">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
-      <Filter>GameObj\Monster\Boss</Filter>
+      <Filter>Common\GameObj\Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="BossScript.cpp">
-      <Filter>GameObj\Monster\Boss</Filter>
+      <Filter>Common\GameObj\Monster\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Axe.cpp">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
     <ClCompile Include="AxeScript.cpp">
-      <Filter>GameObj\Monster\Boss\Kissysface</Filter>
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
     <ClCompile Include="Turret.cpp">
-      <Filter>GameObj\Turret</Filter>
+      <Filter>Common\GameObj\Turret</Filter>
     </ClCompile>
     <ClCompile Include="BeamScript.cpp">
-      <Filter>GameObj\Turret</Filter>
+      <Filter>Common\GameObj\Turret</Filter>
     </ClCompile>
     <ClCompile Include="Blood.cpp">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClCompile>
     <ClCompile Include="BloodScript.cpp">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClCompile>
     <ClCompile Include="BloodDecal.cpp">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClCompile>
     <ClCompile Include="SmallBlood.cpp">
-      <Filter>GameObj\Blood</Filter>
+      <Filter>Common\GameObj\Blood</Filter>
     </ClCompile>
     <ClCompile Include="Pomp.cpp">
-      <Filter>GameObj\Monster\Pomp</Filter>
+      <Filter>Common\GameObj\Monster\Pomp</Filter>
     </ClCompile>
     <ClCompile Include="PompScript.cpp">
-      <Filter>GameObj\Monster\Pomp</Filter>
+      <Filter>Common\GameObj\Monster\Pomp</Filter>
+    </ClCompile>
+    <ClCompile Include="FMod.cpp" />
+    <ClCompile Include="AudioClip.cpp">
+      <Filter>Common\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioListener.cpp">
+      <Filter>Common\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Common\Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
