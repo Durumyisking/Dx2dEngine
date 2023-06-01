@@ -50,5 +50,10 @@ namespace dru
 		mAudioClip->SetLoop(loop);
 	}
 
+	void CAudioSource::SetClipByKey(const std::wstring& _key)
+	{
+		mAudioClip = CResources::Find<CAudioClip>(_key);
+	}
+
 
 }

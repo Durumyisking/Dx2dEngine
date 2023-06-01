@@ -139,7 +139,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Debug\"</Command>
+      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,7 +164,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Release\"</Command>
+      <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

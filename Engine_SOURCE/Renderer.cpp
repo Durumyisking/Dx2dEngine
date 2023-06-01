@@ -7,6 +7,7 @@
 #include "ParticleShader.h"
 #include "TimeMgr.h"
 #include "Application.h"
+#include "AudioClip.h"
 
 namespace dru::renderer
 {
@@ -960,7 +961,6 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
 		}
 
-
 		for (int i = 0; i <= 100; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
@@ -985,9 +985,23 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
+	}
 
+	void LoadAudio()
+	{
+		// song
+		CResources::Load<CAudioClip>(L"song_title_bgm", L"Sound/Song/song_title.ogg");
+		CResources::Load<CAudioClip>(L"song_main_bgm",  L"Sound/Song/song_main.ogg");
+		CResources::Load<CAudioClip>(L"song_boss_bgm",  L"Sound/Song/song_boss.ogg");
+
+		CResources::Load<CAudioClip>(L"SE_title_rewind", L"Sound/rewind.wav");
+		CResources::Load<CAudioClip>(L"SE_title_mp3rewind", L"Sound/mp3rewind.wav");
+		CResources::Load<CAudioClip>(L"SE_title_neon", L"Sound/title_neon.wav");
+		CResources::Load<CAudioClip>(L"SE_title_rain", L"Sound/title_rain.wav");
 
 	}
+
+
 
 	void Initialize()
 	{
@@ -998,6 +1012,7 @@ namespace dru::renderer
 		LoadBuffer();
 		LoadTexture(); 
 		LoadMaterial();
+		LoadAudio();
 	}
 
 	void release()

@@ -10,6 +10,8 @@
 #include "Collider2D.h"
 #include "Animator.h"
 
+#include "AudioSource.h"
+
 #include "SceneMain.h"
 
 
@@ -63,8 +65,6 @@ namespace dru
 			{
 				mUIMoveDone = true;
 			}
-
-
 		}
 
 
@@ -180,6 +180,9 @@ namespace dru
 			renderer::mainCamera = cameraComp;
 			cameraComp->SetProjectionType(eProjectionType::Perspective);
 			mCamera->SetPos(Vector3(0.f, 1.f, 0.f));
+			mCamera->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"song_title_bgm");
+			mCamera->GetComponent<CAudioSource>()->Play();
+
 		}
 		{
 			// ui 카메라
@@ -200,8 +203,6 @@ namespace dru
 
 
 		{
-
-
 			{
 				// 배경 black
 				mbgBlack = object::Instantiate<CBackground>(eLayerType::BackGround, L"Black");
@@ -264,6 +265,7 @@ namespace dru
 				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleKatana", L"SpriteShader");
 				CResources::Insert<CMaterial>(L"TitleKatana", Material);
 				SpriteRenderer->SetMaterial(Material);
+
 
 				mbgKatana->SetPos(Vector3(0.1f, -1.4f, 4.f));
 				mbgKatana->SetScale(Vector3(1.f, 1.f, 1.f));

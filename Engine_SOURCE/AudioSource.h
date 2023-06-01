@@ -20,6 +20,7 @@ namespace dru
 		void SetLoop(bool loop);
 
 		void SetClip(std::shared_ptr<CAudioClip> clip) { mAudioClip = clip; }
+		void SetClipByKey(const std::wstring& _key);
 		std::shared_ptr<CAudioClip> GetClip() { return mAudioClip; }
 
 	private:
