@@ -41,11 +41,14 @@ namespace dru
 		CBulletScript* script = AddComponent<CBulletScript>(eComponentType::Script);
 		script->Initialize();
 
+		RenderingBlockOn();
+
 		CLiveGameObj::Initialize();
 	}
 
 	void CBullet::update()
 	{
+
 		CLiveGameObj::update();
 	}
 

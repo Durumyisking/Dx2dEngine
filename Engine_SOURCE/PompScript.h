@@ -24,6 +24,13 @@ namespace dru
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
         virtual void SetMonsterAttack();
+
+
+    private:
+        CAnimator* mAnimator;
+
+        float mBlockTimer;
+        bool mbCanBlock;
     };
 
 }

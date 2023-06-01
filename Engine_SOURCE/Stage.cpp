@@ -663,8 +663,7 @@ namespace dru
 	void CStage::RewindStart()
 	{
 		--mFrameCount;
-		if (CTimeMgr::IsBulletTimeOn())
-			CTimeMgr::BulletTimeOff();
+		BulletTimeOff();
 
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		mPlayer->GetScript<CPlayerScript>()->RewindStart();
@@ -777,8 +776,7 @@ namespace dru
 	}
 	void CStage::ReplayStart()
 	{
-		if (CTimeMgr::IsBulletTimeOn())
-			CTimeMgr::BulletTimeOff();
+		BulletTimeOff();
 
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		mPlayer->RemoveAfterImage();
@@ -842,8 +840,6 @@ namespace dru
 	}
 	void CStage::DeadReset()
 	{
-		if (CTimeMgr::IsBulletTimeOn())
-			CTimeMgr::BulletTimeOff();
 
 		mDeadBg->RenderingBlockOn();
 		mKeyEnter->RenderingBlockOn();
@@ -952,11 +948,7 @@ namespace dru
 	{
 		if (CInput::GetKeyUp(eKeyCode::LSHIFT))
 		{
-			if (CTimeMgr::IsBulletTimeOn())
-			{
-				CTimeMgr::BulletTimeOff();
-				mBulletTimeMask->RenderingBlockOn();
-			}
+			BulletTimeOff();
 		}
 
 		if (mbBulletTimeStun)
@@ -975,11 +967,7 @@ namespace dru
 			}
 			if (CInput::GetKeyDown(eKeyCode::LSHIFT))
 			{
-				if (!CTimeMgr::IsBulletTimeOn())
-				{
-					CTimeMgr::BulletTimeOn();
-					mBulletTimeMask->RenderingBlockOff();
-				}
+				BulletTimeOn();
 				mBulletTimeGauge -= (CTimeMgr::DeltaTime() * 3.f);
 				if (mBulletTimeGauge < 0.f)
 				{
@@ -1000,6 +988,22 @@ namespace dru
 			mbBulletTimeStun = false;
 			mBulletTimeGauge = 1.f;
 			mBulletTimeCooldown = 0.f;
+		}
+	}
+	void CStage::BulletTimeOn()
+	{
+		if (!CTimeMgr::IsBulletTimeOn())
+		{
+			CTimeMgr::BulletTimeOn();
+			mBulletTimeMask->RenderingBlockOff();
+		}
+	}
+	void CStage::BulletTimeOff()
+	{
+		if (CTimeMgr::IsBulletTimeOn())
+		{
+			CTimeMgr::BulletTimeOff();
+			mBulletTimeMask->RenderingBlockOn();
 		}
 	}
 }

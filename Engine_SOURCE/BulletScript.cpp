@@ -14,6 +14,7 @@ namespace dru
 		, mbScalingDone(false)
 		, mbCreated(false)
 		, mDir(Vector3::Zero)
+		, mbDisabled(false)
 	{
 	}
 
@@ -28,6 +29,11 @@ namespace dru
 
 	void CBulletScript::update()
 	{
+		if (!mbDisabled)
+		{
+			GetOwner()->RenderingBlockOff();
+		}
+
 		mElapsedTime += CTimeMgr::DeltaTime();
 		BulletMove();
 
@@ -188,6 +194,7 @@ namespace dru
 
 	void CBulletScript::Disable()
 	{
+		mbDisabled = true;
 		GetOwner()->RenderingBlockOn();
 		GetOwner()->GetComponent<CCollider2D>()->Off();
 		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();

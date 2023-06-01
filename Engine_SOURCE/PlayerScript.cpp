@@ -494,7 +494,7 @@ namespace dru
 		renderer::ParticleSystemCB cb = {};
 		particleSystem->MakeConstantBufferData(L"LaserParticleCS", cb);
 
-		particleSystem->SetMaxElapsedTime(10.f);
+		particleSystem->SetMaxElapsedTime(6.f);
 		particleSystem->UseSwitchOn();
 		particleSystem->Initialize();
 	}
@@ -1450,7 +1450,8 @@ namespace dru
 			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
 			mHitDir = GetOwnerPos() - _enemyPos;
 			mHitDir.Normalize();
-			
+			GetOwner()->GetCurrentStage()->BulletTimeOff();
+
 			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
 
 			// timeslow
@@ -1485,6 +1486,8 @@ namespace dru
 			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
 
 			BulletTimeSwitchOff();
+			GetOwner()->GetCurrentStage()->BulletTimeOff();
+
 			mState.reset();
 			mState[(UINT)ePlayerState::Dead] = true;
 			mbInputBlock = true;

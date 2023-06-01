@@ -1,8 +1,13 @@
 #include "PompScript.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
 	CPompScript::CPompScript()
+		: mAnimator(nullptr)
+		, mBlockTimer(0.f)
+		, mbCanBlock(false)
+	
 	{
 	}
 
@@ -12,6 +17,8 @@ namespace dru
 
 	void CPompScript::Initialize()
 	{
+		mAnimator = GetOwner()->GetComponent<CAnimator>();
+
 		mAttackRadius = 1.f;
 
 		CMonsterScript::Initialize();
@@ -19,13 +26,25 @@ namespace dru
 		mAnimator->GetFrameEvent(GetOwner()->GetName() + L"_Attack", 4) = [this]
 		{
 			makeSlash({ 12720.f, 0.f }, { 64.f, 64.f }, 6, { 50.f, 50.f });
-
-
 		};
+		mAnimator->GetCompleteEvent(L"Pomp_KnockedDown") = [this]
+		{
+			SetSingleState(eMonsterState::Idle);
+		};
+
 	}
 
 	void CPompScript::update()
 	{
+		if (2.2f > mBlockTimer)
+		{
+			mBlockTimer += CTimeMgr::DeltaTime();
+		}
+		else
+		{
+			mbCanBlock = true;
+		}
+
 		CMonsterScript::update();
 	}
 
@@ -71,6 +90,19 @@ namespace dru
 
 	void CPompScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		if (L"col_Player_Slash" == _oppo->GetName())
+		{
+			if (!mbDead)
+			{
+				mBlockTimer = 0.f;
+				mbCanBlock = false;
+				mAnimator->Play(L"Pomp_KnockedDown", false);
+				SetSingleState(eMonsterState::Block);
+
+				return;
+
+			}
+		}
 		CMonsterScript::OnCollisionEnter(_oppo);
 	}
 

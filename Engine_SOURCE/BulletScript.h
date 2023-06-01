@@ -47,6 +47,7 @@ namespace dru
         Vector3 mDefaultBulletScale;
         Vector3 mDir;
 
+        bool mbDisabled;
         bool mbScalingDone;
         bool mbCreated;
 

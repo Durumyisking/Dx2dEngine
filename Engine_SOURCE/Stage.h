@@ -149,6 +149,9 @@ namespace dru
         void BatteryParticleCreateAndStart();
 
         bool IsBulletTimeStun() const { return mbBulletTimeStun; }
+        void BulletTimeOn();
+        void BulletTimeOff();
+
 
         static void KeyUI_LeftOn(Vector3 _Pos);
         static void KeyUI_RightOn(Vector3 _Pos);
@@ -175,6 +178,7 @@ namespace dru
     private:
         void bulletTime();
         void bulletTimeStunOperate();
+
 
     protected:
         CBackground* mStageBackground;

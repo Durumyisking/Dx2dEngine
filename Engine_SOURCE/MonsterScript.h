@@ -20,6 +20,7 @@ namespace dru
         DieAirUp,
         DieAirDown,
         DieGround,
+        Block,
 
         End,
     };
