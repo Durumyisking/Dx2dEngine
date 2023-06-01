@@ -15,7 +15,14 @@ namespace dru
 	void CSlashScript::Initialize()
 	{
 		CAnimator* mAnimator = GetOwner()->GetComponent<CAnimator>();
-		mAnimator->GetCompleteEvent(GetOwner()->GetName() + L"Anim") = std::bind(&CSlashScript::slashEnd, this);
+		mAnimator->GetCompleteEvent(GetOwner()->GetName() + L"Anim") = [this]
+		{
+			GetOwner()->Die();
+		};
+		//mAnimator->GetFrameEvent(GetOwner()->GetName() + L"Anim", 3) = [this]
+		//{
+		//	GetOwner()->Die();
+		//};
 
 	}
 	void CSlashScript::update()
@@ -54,9 +61,5 @@ namespace dru
 	}
 	void CSlashScript::OnTriggerExit(CCollider2D* _oppo)
 	{
-	}
-	void CSlashScript::slashEnd()
-	{
-		GetOwner()->Die();
 	}
 }

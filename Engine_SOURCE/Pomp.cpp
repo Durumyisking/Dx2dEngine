@@ -10,7 +10,7 @@ namespace dru
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Pomp", L"SpriteShader");
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"pomp", L"SpriteShader");
 		CResources::Insert<CMaterial>(L"PompMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
@@ -19,7 +19,7 @@ namespace dru
 		mAnimator->Create(L"Pomp_Patrol", Material->GetTexture(), { 12032.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_Run", Material->GetTexture(), { 10240.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 10, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_Attack", Material->GetTexture(), { 960.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 6, { 50.f, 50.f }, 0.1f);
-		mAnimator->Create(L"Pomp_KnockedDown", Material->GetTexture(), { 7552.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 22, { 50.f, 50.f }, 0.1f);
+		mAnimator->Create(L"Pomp_KnockedDown", Material->GetTexture(), { 7552.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 18, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_DeadAirUp", Material->GetTexture(), { 5952.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_DeadAirDown", Material->GetTexture(), { 6016.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 50.f, 50.f }, 0.1f);
 		mAnimator->Create(L"Pomp_DeadGround", Material->GetTexture(), { 6080.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 15, { 50.f, 50.f }, 0.1f);

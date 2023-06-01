@@ -52,7 +52,7 @@ namespace dru
 		void SwitchReset() { mbTimerSwitch = false; }
 
 	private:
-		Particle mParticle[256];
+		Particle* mParticle;
 
 	
 		class CStructedBuffer* mBuffer;

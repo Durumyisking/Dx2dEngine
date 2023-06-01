@@ -6,7 +6,7 @@ namespace dru
 	CPompScript::CPompScript()
 		: mAnimator(nullptr)
 		, mBlockTimer(0.f)
-		, mbCanBlock(false)
+		, mbCanBlock(true)
 	
 	{
 	}
@@ -36,7 +36,7 @@ namespace dru
 
 	void CPompScript::update()
 	{
-		if (2.2f > mBlockTimer)
+		if (1.5f > mBlockTimer)
 		{
 			mBlockTimer += CTimeMgr::DeltaTime();
 		}
@@ -68,7 +68,7 @@ namespace dru
 
 	void CPompScript::patrol()
 	{
-		if (!mTarget)
+		if (!mTarget && mState[(UINT)eMonsterState::Block] == false)
 		{
 			if (mState[(UINT)eMonsterState::Patrol] == false)
 			{
@@ -92,7 +92,7 @@ namespace dru
 	{
 		if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			if (!mbDead)
+			if (!mbDead && mbCanBlock)
 			{
 				mBlockTimer = 0.f;
 				mbCanBlock = false;
@@ -100,7 +100,6 @@ namespace dru
 				SetSingleState(eMonsterState::Block);
 
 				return;
-
 			}
 		}
 		CMonsterScript::OnCollisionEnter(_oppo);

@@ -45,6 +45,8 @@ namespace dru
 
 	CParticleSystem::~CParticleSystem()
 	{
+		delete mParticle;
+		mParticle = nullptr;
 		delete mBuffer;
 		mBuffer = nullptr;
 		delete mSharedBuffer;
@@ -56,6 +58,8 @@ namespace dru
 		std::shared_ptr<CMesh> point = CResources::Find<CMesh>(L"Pointmesh");
 
 		SetMesh(point);
+
+//		mParticle = new Particle[mMaxParticles];
 
 		mBuffer = new CStructedBuffer();
 		mBuffer->Create(sizeof(Particle), mMaxParticles, eSRVType::UAV, mParticle, true);
@@ -148,6 +152,7 @@ namespace dru
 
 	void CParticleSystem::MakeParticleBufferData(Vector4 _StartPosition, UINT _MaxParticleCount, float _MinLifeTime, float _MaxLifeTime, float _Speed, float _Radian, UINT _Active)
 	{
+		mParticle = new Particle[_MaxParticleCount];
 		mStartPosition = _StartPosition;
 		mMaxParticles = _MaxParticleCount;
 		for (size_t i = 0; i < mMaxParticles; i++)

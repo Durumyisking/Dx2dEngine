@@ -397,26 +397,29 @@ namespace dru
 	{
 		if (mTarget)
 		{
-			float dist = GetPlayerDistance();
-			if (dist < mDetectRadius)
+			if (mState[(UINT)eMonsterState::Block] == false)
 			{
-				if (dist > mAttackRadius)
+				float dist = GetPlayerDistance();
+				if (dist < mDetectRadius)
 				{
-					if (mState[(UINT)eMonsterState::Run] == false)
+					if (dist > mAttackRadius)
 					{
-						mRigidbody->SetMaxVelocity(VELOCITY_RUN);
-						SetSingleState(eMonsterState::Run);
+						if (mState[(UINT)eMonsterState::Run] == false)
+						{
+							mRigidbody->SetMaxVelocity(VELOCITY_RUN);
+							SetSingleState(eMonsterState::Run);
+						}
+					}
+					else
+					{
+						if (mState[(UINT)eMonsterState::Attack] == false)
+							SetSingleState(eMonsterState::Idle);
 					}
 				}
 				else
 				{
-					if (mState[(UINT)eMonsterState::Attack] == false)
-						SetSingleState(eMonsterState::Idle);
+					SetSingleState(eMonsterState::Idle);
 				}
-			}
-			else
-			{
-				SetSingleState(eMonsterState::Idle);
 			}
 		}
 	}

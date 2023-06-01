@@ -62,6 +62,7 @@ namespace dru
         void Reset();
 
         void SetSingleState(eMonsterState _Type);
+        bool GetSingleState(eMonsterState _Type) { return mState[(UINT)_Type]; };
 
         void DeleteTarget() { mTarget = nullptr; }
 

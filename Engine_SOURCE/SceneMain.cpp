@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(1)
+		, mCurrentStage(2)
 		, mPlayer(nullptr)
 	{
 	}

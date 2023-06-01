@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "PlayerScript.h"
 #include "SceneMain.h"
+#include "MonsterScript.h"
 
 namespace dru
 {
@@ -41,14 +42,17 @@ namespace dru
 
 			if (mRayOwner->GetScript<CMonsterScript>()->GetTarget() && !mRayOwner->IsMonsterDead())
 			{
-				// 플레이어 살아있으면
-				if (!IsPlayerDead())
+				if (!mMonsterScript->GetSingleState(eMonsterState::Block))
 				{
-					SetMonsterAttack();
-				}
-				else
-				{
-					SetMonsterIdle();
+					// 플레이어 살아있으면
+					if (!IsPlayerDead())
+					{
+						SetMonsterAttack();
+					}
+					else
+					{
+						SetMonsterIdle();
+					}
 				}
 			}
 		}
@@ -103,7 +107,7 @@ namespace dru
 	}
 	void CMonsterRayScript::SetMonsterRun()
 	{
-		mMonsterScript->SetSingleState(eMonsterState::Idle);
+		mMonsterScript->SetSingleState(eMonsterState::Run);
 	}
 	bool CMonsterRayScript::IsPlayerDead()
 	{

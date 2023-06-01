@@ -1,8 +1,7 @@
 #pragma once
 #include "Script.h"
-#include "MonsterScript.h"
 
-
+class CMonsterScript;
 namespace dru
 {
     class CMonsterRayScript :

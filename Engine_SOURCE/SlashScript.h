@@ -24,8 +24,6 @@ namespace dru
         virtual void OnTriggerExit(CCollider2D* _oppo);
 
 
-    private:
-        void slashEnd();
     };
 }
 
