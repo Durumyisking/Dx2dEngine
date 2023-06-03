@@ -20,8 +20,11 @@ namespace dru
 	}
 	HRESULT CAudioClip::Load(const std::wstring& path)
 	{
-		std::string cPath(path.begin(), path.end());
-		if (!Fmod::CreateSound(cPath, &mSound))
+		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+		std::wstring fullPath = parentPath.wstring() + L"\\..\\Resources\\" + path;
+
+		std::string cPath(fullPath.begin(), fullPath.end());
+		if (!CFmod::CreateSound(cPath, &mSound))
 			return S_FALSE;
 
 		mSound->set3DMinMaxDistance(mMinDistance, mMaxDistance);
@@ -35,7 +38,7 @@ namespace dru
 		else
 			mSound->setMode(FMOD_LOOP_OFF);
 
-		Fmod::SoundPlay(mSound, &mChannel);
+		CFmod::SoundPlay(mSound, &mChannel);
 	}
 	void CAudioClip::Stop()
 	{

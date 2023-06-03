@@ -30,7 +30,7 @@ namespace dru
 		Vector3 up = tr->Up();
 
 		Vector3 vel = { 0.0f, 0.0f, 0.0f };
-		Fmod::Set3DListenerAttributes(&pos, &vel, &foward, &up);
+		CFmod::Set3DListenerAttributes(&pos, &vel, &foward, &up);
 	}
 
 	void CAudioListener::render()

@@ -56,8 +56,11 @@ namespace dru
 	void CSceneTitle::update()
 	{
 		if (!mCamMoveDone && mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
+		{
+			mbgO->GetComponent<CAudioSource>()->Play();
 			mCamMoveDone = true;
-
+		}
+	
 
 		if (mCamMoveDone)
 		{
@@ -74,6 +77,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::UP))
 			{
+				mUIStart->GetComponent<CAudioSource>()->Play();
 				if (1 != mMenu)
 				{
 					pos = { pos.x, pos.y + 0.2f, pos.z };
@@ -89,6 +93,7 @@ namespace dru
 			}
 			if (CInput::GetKeyTap(eKeyCode::DOWN))
 			{
+				mUIStart->GetComponent<CAudioSource>()->Play();
 				if (5 != mMenu)
 				{
 					pos = { pos.x, pos.y - 0.2f, pos.z };
@@ -105,11 +110,11 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::ENTER))
 			{
+				mUIMenu->GetComponent<CAudioSource>()->Play();
 				switch (mMenu)
 				{
 				case 1:
 					mCamera->GetComponent<CCamera>()->SmoothOff();
-
 					mCamera->GetComponent<CCamera>()->SetTarget(mCamTarget2);
 					mCamMoveStart = true;
 
@@ -122,8 +127,11 @@ namespace dru
 
 		if (mCamMoveStart)
 		{
-			if(mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
+			if (mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
+			{
+				mCamera->GetComponent<CAudioSource>()->Stop();
 				CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
+			}
 
 		}
 
@@ -255,6 +263,8 @@ namespace dru
 
 				mbgO->SetPos(Vector3(1.1f, -1.85f, 4.f));
 				mbgO->SetScale(Vector3(0.1f, 0.1f, 1.f));
+
+				mbgO->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_neon");
 			}
 
 			{
@@ -310,6 +320,8 @@ namespace dru
 				mUIMenu->SetPos(Vector3(0.f, 0.05f, 0.f));
 				mUIMenu->SetScale(Vector3(0.35f, 0.475f, 1.f));
 
+				mUIMenu->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_select");
+//				mUIMenu->GetComponent<CAudioSource>()->Play();
 			}
 
 			{
@@ -323,6 +335,10 @@ namespace dru
 				mUIStart->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 0.5f });
 				mUIStart->SetPos(Vector3(0.f, 0.4f, 0.f));
 				mUIStart->SetScale(Vector3(0.06f, 0.015f, 1.f));
+
+				mUIStart->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_updown");
+//				mUIStart->GetComponent<CAudioSource>()->Play();
+
 			}
 
 			{

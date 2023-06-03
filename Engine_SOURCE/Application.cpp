@@ -5,23 +5,35 @@
 #include "SceneMgr.h"
 #include "Resources.h"
 #include "CollisionMgr.h"
+#include "FMod.h"
 
 namespace dru
 {
 	using namespace graphics;
 
 	CApplication::CApplication()
+		: initalized (false)
+		, graphicDevice(nullptr)
+		, mHwnd{}
+		, mHdc{}
+		, mWidth(0)
+		, mHeight(0)
+		, mHmenu{}
+		, mResolution(Vector2::Zero)
 	{
 	}
 	CApplication::~CApplication()
 	{
 		CSceneMgr::release();
+		CFmod::Release();
+
 	}
 
 	void CApplication::Initialize()
 	{
 		CTimeMgr::Initialize();
 		CInput::Initialize();
+		CFmod::Initialize();
 		CCollisionMgr::Initialize();
 		renderer::Initialize();
 		CSceneMgr::Initialize();
@@ -55,6 +67,7 @@ namespace dru
 	void CApplication::destroy()
 	{
 		CSceneMgr::destory();
+
 	}
 
 	void CApplication::Run()

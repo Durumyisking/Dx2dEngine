@@ -4,10 +4,10 @@
 
 namespace dru
 {
-	FMOD::Studio::System* Fmod::mSystem = nullptr;
-	FMOD::System* Fmod::mCoreSystem = nullptr;
+	FMOD::Studio::System* CFmod::mSystem = nullptr;
+	FMOD::System* CFmod::mCoreSystem = nullptr;
 
-	void Fmod::Initialize()
+	void CFmod::Initialize()
 	{
 		void* extraDriverData = NULL;
 		//CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
@@ -48,7 +48,7 @@ namespace dru
 		//mCoreSystem->update();
 	}
 
-	bool Fmod::CreateSound(const std::string& path, FMOD::Sound** sound)
+	bool CFmod::CreateSound(const std::string& path, FMOD::Sound** sound)
 	{
 		if (FMOD_OK != mCoreSystem->createSound(path.c_str(), FMOD_3D, 0, sound))
 			return false;
@@ -56,12 +56,12 @@ namespace dru
 		return true;
 	}
 
-	void Fmod::SoundPlay(FMOD::Sound* sound, FMOD::Channel** channel)
+	void CFmod::SoundPlay(FMOD::Sound* sound, FMOD::Channel** channel)
 	{
 		mCoreSystem->playSound(sound, 0, false, channel);
 	}
 
-	void Fmod::Set3DListenerAttributes(const Vector3* pos, const Vector3* vel, const Vector3* forward, const Vector3* up)
+	void CFmod::Set3DListenerAttributes(const Vector3* pos, const Vector3* vel, const Vector3* forward, const Vector3* up)
 	{
 		FMOD_VECTOR fmodPos(pos->x, pos->y, pos->z);
 		FMOD_VECTOR fmodVel(vel->x, vel->y, vel->z);
@@ -71,7 +71,7 @@ namespace dru
 		mCoreSystem->set3DListenerAttributes(0, &fmodPos, &fmodVel, &fmodForward, &fmodUp);
 	}
 
-	void Fmod::Release()
+	void CFmod::Release()
 	{
 		mCoreSystem->release();
 		mCoreSystem = nullptr;

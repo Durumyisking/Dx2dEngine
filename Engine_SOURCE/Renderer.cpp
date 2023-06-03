@@ -993,11 +993,44 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"song_title_bgm", L"Sound/Song/song_title.ogg");
 		CResources::Load<CAudioClip>(L"song_main_bgm",  L"Sound/Song/song_main.ogg");
 		CResources::Load<CAudioClip>(L"song_boss_bgm",  L"Sound/Song/song_boss.ogg");
+		////////////////////////////////////////////////////////////////////////////
 
-		CResources::Load<CAudioClip>(L"SE_title_rewind", L"Sound/rewind.wav");
-		CResources::Load<CAudioClip>(L"SE_title_mp3rewind", L"Sound/mp3rewind.wav");
+		// sound effect
+
+		// title scene
 		CResources::Load<CAudioClip>(L"SE_title_neon", L"Sound/title_neon.wav");
 		CResources::Load<CAudioClip>(L"SE_title_rain", L"Sound/title_rain.wav");
+		CResources::Load<CAudioClip>(L"SE_title_select", L"Sound/title_select.wav");
+		CResources::Load<CAudioClip>(L"SE_title_splash", L"Sound/title_splash.wav");
+		CResources::Load<CAudioClip>(L"SE_title_updown", L"Sound/title_updown.wav");
+
+
+		// play scene
+		CResources::Load<CAudioClip>(L"SE_rewind", L"Sound/rewind.wav");
+		CResources::Load<CAudioClip>(L"SE_mp3rewind", L"Sound/mp3rewind.wav");
+
+
+		// player
+		CResources::Load<CAudioClip>(L"player_due", L"Sound/Player/player_due.wav");
+		CResources::Load<CAudioClip>(L"player_footstep", L"Sound/Player/player_footstep.wav");
+		CResources::Load<CAudioClip>(L"player_jump", L"Sound/Player/player_jump.wav");
+		CResources::Load<CAudioClip>(L"player_land", L"Sound/Player/player_land.wav");
+		CResources::Load<CAudioClip>(L"player_prerun", L"Sound/Player/player_prerun.wav");
+		CResources::Load<CAudioClip>(L"player_roll", L"Sound/Player/player_roll.wav");
+		CResources::Load<CAudioClip>(L"player_roll_real", L"Sound/Player/player_roll_real.wav");
+		CResources::Load<CAudioClip>(L"player_run1", L"Sound/Player/player_run1.wav");
+		CResources::Load<CAudioClip>(L"player_run2", L"Sound/Player/player_run2.wav");
+		CResources::Load<CAudioClip>(L"player_run3", L"Sound/Player/player_run3.wav");
+		CResources::Load<CAudioClip>(L"player_run4", L"Sound/Player/player_run4.wav");
+		CResources::Load<CAudioClip>(L"player_slash1", L"Sound/Player/player_slash1.wav");
+		CResources::Load<CAudioClip>(L"player_slash2", L"Sound/Player/player_slash2.wav");
+		CResources::Load<CAudioClip>(L"player_slash3", L"Sound/Player/player_slash3.wav");
+		CResources::Load<CAudioClip>(L"player_wallkick1", L"Sound/Player/player_wallkick1.wav");
+		CResources::Load<CAudioClip>(L"player_wallkick2", L"Sound/Player/player_wallkick2.wav");
+		CResources::Load<CAudioClip>(L"player_wallkick3", L"Sound/Player/player_wallkick3.wav");
+		CResources::Load<CAudioClip>(L"player_wallslide", L"Sound/Player/player_wallslide.wav");
+	
+		////////////////////////////////////////////////////////////////////////////
 
 	}
 

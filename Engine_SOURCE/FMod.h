@@ -21,7 +21,7 @@ namespace dru
 {
 	using namespace math;
 
-	class Fmod
+	class CFmod
 	{
 	public:
 		static void Initialize();
