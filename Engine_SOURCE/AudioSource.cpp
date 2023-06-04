@@ -71,7 +71,6 @@ namespace dru
 	{
 		std::shared_ptr<CAudioClip> resource = CResources::Find<CAudioClip>(_key);
 		mAudioClips.insert(std::make_pair(_key, resource.get()));
-
 	}
 
 	CAudioClip* CAudioSource::GetClip(const std::wstring& _key)
@@ -84,6 +83,56 @@ namespace dru
 		}
 
 		return nullptr;
+	}
+
+	void CAudioSource::SetWholeVolume(float _Volume)
+	{
+		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
+		{
+			CAudioClip* audioClip = clip.second;
+			audioClip->SetVolume(_Volume);
+		}
+	}
+
+	void CAudioSource::SetWholePitch(float _Pitch)
+	{
+		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
+		{
+			CAudioClip* audioClip = clip.second;
+			audioClip->SetPitch(_Pitch);
+		}
+	}
+
+	void CAudioSource::SetWholeVolume_Ratio(float _Volume)
+	{
+		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
+		{
+			CAudioClip* audioClip = clip.second;
+			float vol = audioClip->GetVolume();
+			vol *= _Volume;
+			audioClip->SetVolume(vol);
+		}
+	}
+
+	void CAudioSource::SetWholePitch_Ratio(float _Pitch)
+	{
+		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
+		{
+			CAudioClip* audioClip = clip.second;
+			float pitch = audioClip->GetPitch();
+			pitch *= _Pitch;
+			audioClip->SetPitch(pitch);
+		}
+	}
+
+	void CAudioSource::SetVolume(const std::wstring& _key, float _Volume)
+	{
+		mAudioClips.find(_key)->second->SetVolume(_Volume);
+	}
+
+	void CAudioSource::SetPitch(const std::wstring& _key, float _Pitch)
+	{
+		mAudioClips.find(_key)->second->SetPitch(_Pitch);
 	}
 
 

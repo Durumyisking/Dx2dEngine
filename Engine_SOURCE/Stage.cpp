@@ -25,6 +25,9 @@ namespace dru
 		, mDeadBg(nullptr)
 		, mbIsDeadBgOn(false)
 		, mPlayer(nullptr)
+		, mHudTop(nullptr)
+		, mHudTimer(nullptr)
+		, mHudInventory(nullptr)
 		, mUICursor(nullptr)
 		, mKeyEnter(nullptr)
 		, mHudBattery(nullptr)
@@ -117,7 +120,7 @@ namespace dru
 	{
 		renderer::mainCamera->GetCamScript()->CamFollowOff();
 		{
-			CGameObj* mHudTop = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Top");
+			mHudTop = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Top");
 
 			CSpriteRenderer* SpriteRenderer = mHudTop->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_top", L"UIShader");
@@ -127,9 +130,8 @@ namespace dru
 			mHudTop->SetPos(Vector3(0.f, 4.225f, 1.f));
 			mHudTop->SetScale(Vector3(0.25f, 0.25f, 1.f));
 		}
-
 		{
-			CGameObj* mHudTimer = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timer");
+			mHudTimer = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Timer");
 
 			CSpriteRenderer* SpriteRenderer = mHudTimer->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_timer", L"UIShader");
@@ -188,7 +190,7 @@ namespace dru
 		}
 
 		{
-			CGameObj* mHudInventory = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Inventory");
+			mHudInventory = object::Instantiate<CBackground>(eLayerType::UI, L"Hud_Inventory");
 
 			CSpriteRenderer* SpriteRenderer = mHudInventory->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"hud_inventory", L"UIShader");
@@ -526,6 +528,40 @@ namespace dru
 		}
 	}
 
+	void CStage::UIRenderingBlockOn()
+	{
+
+		mHudTop->RenderingBlockOn();
+		mHudTimer->RenderingBlockOn();
+		mHudTimerBar->RenderingBlockOn();
+		mHudBattery->RenderingBlockOn();
+		for (CGameObj* obj : mHudBatteryParts)
+		{
+			obj->RenderingBlockOn();
+		}
+		mHudInventory->RenderingBlockOn();
+		mHudLeftHand->RenderingBlockOn();
+		mHudRightHand->RenderingBlockOn();
+		mUICursor->RenderingBlockOn();
+	}
+
+	void CStage::UIRenderingBlockOff()
+	{
+
+		mHudTop->RenderingBlockOff();
+		mHudTimer->RenderingBlockOff();
+		mHudTimerBar->RenderingBlockOff();
+		mHudBattery->RenderingBlockOff();
+		for (CGameObj* obj : mHudBatteryParts)
+		{
+			obj->RenderingBlockOff();
+		}
+		mHudInventory->RenderingBlockOff();
+		mHudLeftHand->RenderingBlockOff();
+		mHudRightHand->RenderingBlockOff();
+		mUICursor->RenderingBlockOff();
+	}
+
 	void CStage::CreateDeadUI()
 	{
 		{
@@ -667,6 +703,8 @@ namespace dru
 		--mFrameCount;
 		BulletTimeOff();
 
+		UIRenderingBlockOn();
+
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		mPlayer->GetScript<CPlayerScript>()->RewindStart();
 
@@ -730,6 +768,7 @@ namespace dru
 			mRewindObjects[i]->SetRewindOff();			
 		}
 
+		UIRenderingBlockOff();
 		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
 		mPlayer->SetRight();
 		mPlayer->Flip();
@@ -779,7 +818,7 @@ namespace dru
 	void CStage::ReplayStart()
 	{
 		BulletTimeOff();
-
+		UIRenderingBlockOn();
 		mPlayer->GetScript<CPlayerScript>()->InputBlocking();
 		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
@@ -819,7 +858,7 @@ namespace dru
 		{
 			mRewindObjects[i]->SetReplayOff();
 		}
-
+		UIRenderingBlockOff();
 		mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
 		mPlayer->SetRight();
 		mPlayer->Flip();

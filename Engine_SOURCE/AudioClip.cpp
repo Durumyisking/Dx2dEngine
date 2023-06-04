@@ -11,6 +11,8 @@ namespace dru
 		, mMinDistance(1.0f)
 		, mMaxDistance(1000.0f)
 		, mbLoop(false) 
+		, mVolume(0.f)
+		, mPitch(0.f)
 	{
 	}
 	CAudioClip::~CAudioClip()

@@ -30,16 +30,36 @@ namespace dru
 		{
 			bool playing = false;
 			mChannel->isPlaying(&playing);
-
 			return playing;
 		}
 
-
+		void SetVolume(float _Volume)
+		{
+			mChannel->setVolume(mVolume);
+		}
+		float GetVolume()  
+		{
+			mChannel->getVolume(&mVolume);
+			return mVolume;
+		}
+		void SetPitch(float _Pitch)
+		{
+			mChannel->setPitch(mPitch);
+		}
+		float GetPitch()
+		{
+			mChannel->getPitch(&mPitch);
+			return mPitch;
+		}
 	private:
 		FMOD::Sound* mSound;
 		FMOD::Channel* mChannel;
 		float mMinDistance;
 		float mMaxDistance;
+		float mVolume;
+		float mVolumeRatio;
+		float mPitch;
+		float mPitchRatio;
 		bool mbLoop;
 	};
 }

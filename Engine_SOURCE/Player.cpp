@@ -46,6 +46,8 @@ namespace dru
 		audioSource->AddClipByKey(L"player_wallkick3");
 		audioSource->AddClipByKey(L"player_wallslide");
 
+//		audioSource->SetWholeVolume(0.5f);
+
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");
 		SpriteRenderer->SetMaterial(Material);

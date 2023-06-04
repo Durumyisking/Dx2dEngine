@@ -95,6 +95,9 @@ namespace dru
         void BulletTimeBatteryOperation();
         void BulletTimeBatteryParticleOperation();
 
+        void UIRenderingBlockOn();
+        void UIRenderingBlockOff();
+
         void CreateDeadUI();
 
         void TimerBarOperate();
@@ -199,7 +202,9 @@ namespace dru
         CPlayer* mPlayer;
         Vector3 mPlayerDefaultPos;
 
-
+        CGameObj* mHudTop;
+        CGameObj* mHudTimer;
+        CGameObj* mHudInventory;
         CGameObj* mUICursor;
 
         CGameObj* mHudBattery;

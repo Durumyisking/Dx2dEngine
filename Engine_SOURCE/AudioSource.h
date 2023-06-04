@@ -24,6 +24,15 @@ namespace dru
 		void AddClipByKey(const std::wstring& _key);
 		CAudioClip* GetClip(const std::wstring& _key);
 
+		void SetWholeVolume(float _Volume);
+		void SetWholePitch(float _Pitch);
+
+		void SetWholeVolume_Ratio(float _Volume);
+		void SetWholePitch_Ratio(float _Pitch);
+
+		void SetVolume(const std::wstring& _key, float _Volume);
+		void SetPitch(const std::wstring& _key, float _Pitch);
+
 	private:
 		std::map<std::wstring, CAudioClip*> mAudioClips;
 	};
