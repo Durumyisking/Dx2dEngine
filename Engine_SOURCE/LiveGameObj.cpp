@@ -13,7 +13,7 @@ namespace dru
 		, mMoveDegree(0.f)
 		, mCurrentAnimData{}
 		, mCurrentInverse(0)
-		, mRewindTime(3.f)
+		, mRewindTime(2.f)
 		, mAfterImages{}
 		, mAfterImageCount(0)
 		, mAfterImageColor(Vector4::Zero)

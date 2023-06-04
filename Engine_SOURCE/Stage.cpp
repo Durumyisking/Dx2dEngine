@@ -411,6 +411,7 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::ENTER))
 				{
+					renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"SE_rewind");
 					DeadReset();
 				}
 			}
@@ -422,6 +423,7 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::R))
 				{
+					renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"SE_rewind");
 					RewindStart();
 				}
 			}
@@ -691,9 +693,9 @@ namespace dru
 	}
 	void CStage::Rewinding()
 	{
-		if (mElapsedTime > 3.f)
+		if (mElapsedTime > REWIND_TIME)
 		{
-			int a = static_cast<int>((mElapsedTime / 3.f) + 1.f);
+			int a = static_cast<int>((mElapsedTime / REWIND_TIME) + 1.f);
 			if (0 < mFrameCount)
 			{
 				for (int i = 0; i < a; i++)

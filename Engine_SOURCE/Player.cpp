@@ -44,6 +44,7 @@ namespace dru
 		audioSource->AddClipByKey(L"player_wallkick1");
 		audioSource->AddClipByKey(L"player_wallkick2");
 		audioSource->AddClipByKey(L"player_wallkick3");
+		audioSource->AddClipByKey(L"player_wallslide");
 
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");

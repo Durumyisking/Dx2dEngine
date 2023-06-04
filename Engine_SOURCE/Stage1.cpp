@@ -22,6 +22,7 @@ namespace dru
 
 	void CStage1::InitStage()
 	{
+		renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{

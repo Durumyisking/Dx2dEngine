@@ -365,6 +365,7 @@ namespace dru
 
 			if (mState[(UINT)ePlayerState::WallSlideUp] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
 			{
+				mAudioSource->Stop(L"player_wallslide");
 				//if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
 				//	|| ((CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft == 1))))
 				{
@@ -750,6 +751,8 @@ namespace dru
 		Vector3 vel = mRigidbody->GetMaxVelocity();
 		mRigidbody->SetMaxVelocity(Vector3(vel.x + 3.f, vel.y, vel.z));
 		SetPlayerSingleState(ePlayerState::Roll);
+		mAudioSource->Play(L"player_roll");
+		mAudioSource->Play(L"player_roll_real");
 
 	}
 	void CPlayerScript::roll()
@@ -853,8 +856,7 @@ namespace dru
 		}
 
 		if (mState[(UINT)ePlayerState::WallSlideUp] == true)
-		{
-
+		{			
 			if (0.4f <= mWallSlideUpTime && 0.5f > mWallSlideUpTime)
 			{
 				mRigidbody->SetVelocity(Vector3::Zero);
@@ -880,6 +882,7 @@ namespace dru
 		}
 		if (mState[(UINT)ePlayerState::WallSlideDown] == true)
 		{
+			mAudioSource->Play_NoInterrupt(L"player_wallslide", true);
 			mRigidbody->SetMaxVelocity({ 5.f, 3.f, 0.f });
 
 			if (CInput::GetKeyDown(eKeyCode::S))
@@ -902,6 +905,9 @@ namespace dru
 			if (CInput::GetKeyTap(eKeyCode::W))
 			{
 				SetPlayerSingleState(ePlayerState::WallKick);
+				mAudioSource->Stop(L"player_wallslide");
+				std::wstring num = std::to_wstring(GetRandomNumber(1, 3));
+				mAudioSource->Play(L"player_wallkick"+ num);
 
 				mRigidbody->SetVelocity({ 0.f, 0.f, 0.f });
 
@@ -946,6 +952,10 @@ namespace dru
 		{
 			if (CInput::GetKeyTap(eKeyCode::LBTN) || CInput::GetKeyTap(eKeyCode::RBTN))
 			{				
+				std::wstring num = std::to_wstring(GetRandomNumber(1, 3));
+				mAudioSource->Play(L"player_slash" + num);
+				mAudioSource->Stop(L"player_wallslide");
+
 				makeSlash();
 
 				Vector3 MousePos = CInput::GetMousePosition_world();
@@ -1317,6 +1327,7 @@ namespace dru
 
 			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{
+				mAudioSource->Stop(L"player_wallslide");
 				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 				SetPlayerSingleState(ePlayerState::RunToIdle);
 			}
@@ -1453,6 +1464,8 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
+			mAudioSource->Play(L"player_die");
+
 			SetAfterImageCount(0);
 			BulletTimeSwitchOff();
 			mState.reset();
@@ -1477,7 +1490,7 @@ namespace dru
 
 			// slash hit
 			if (0 == _Type)
-			{
+			{  
 				CreateSlashShade(_enemyPos);
 			}
 			// bullet hit
@@ -1492,6 +1505,8 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
+			mAudioSource->Play(L"player_die");
+
 			mbLaserParticleStart = true;
 			mAnimator->PauseOn();
 			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();

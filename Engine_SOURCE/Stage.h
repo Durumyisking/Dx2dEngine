@@ -45,6 +45,7 @@
 #include "PostProcess.h"
 #include "PostProcessWave.h"
 
+#define REWIND_TIME 2.f
 
 namespace dru
 {
