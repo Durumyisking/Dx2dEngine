@@ -26,11 +26,15 @@ namespace dru
 		void Set3DAttributes(const Vector3 pos, const Vector3 vel);
 		void SetLoop(bool loop) { mbLoop = loop; }
 
+		bool IsPlaying() const { return mbPlaying; }
+
+
 	private:
 		FMOD::Sound* mSound;
 		FMOD::Channel* mChannel;
 		float mMinDistance;
 		float mMaxDistance;
 		bool mbLoop;
+		bool mbPlaying;
 	};
 }

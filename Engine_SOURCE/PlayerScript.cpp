@@ -39,6 +39,7 @@ namespace dru
 		, mRigidbody(nullptr)
 		, mJumpdust(nullptr)
 		, mLanddust(nullptr)
+		, mAudioSource(nullptr)
 		, mbOnFloor2(false)
 		, mbLaserParticleStart(false)
 		, mLaserHitElapsedTimeX(0.f)
@@ -54,6 +55,7 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
 		mState[(UINT)ePlayerState::Idle] = true;
 
@@ -778,6 +780,7 @@ namespace dru
 				mRigidbody->SetVelocity(Vector3::Zero);
 				SetPlayerSingleState(ePlayerState::Jump);
 				mAnimator->Play(L"Player_Jump", false);
+				mAudioSource->Play(L"player_jump");
 
 				PlayJumpdust();
 				jumpdustRotate(0.f);

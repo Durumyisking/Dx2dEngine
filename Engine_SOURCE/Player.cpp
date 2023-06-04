@@ -25,6 +25,25 @@ namespace dru
 		coll->SetType(eColliderType::Rect);
 		coll->SetScale(Vector2(0.2f, 0.6f));
 
+		AddComponent<CAudioListener>(eComponentType::AudioListener);
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"player_die");
+		audioSource->AddClipByKey(L"player_footstep");
+		audioSource->AddClipByKey(L"player_jump");
+		audioSource->AddClipByKey(L"player_land");
+		audioSource->AddClipByKey(L"player_prerun");
+		audioSource->AddClipByKey(L"player_roll");
+		audioSource->AddClipByKey(L"player_roll_real");
+		audioSource->AddClipByKey(L"player_run1");
+		audioSource->AddClipByKey(L"player_run2");
+		audioSource->AddClipByKey(L"player_run3");
+		audioSource->AddClipByKey(L"player_run4");
+		audioSource->AddClipByKey(L"player_slash1");
+		audioSource->AddClipByKey(L"player_slash2");
+		audioSource->AddClipByKey(L"player_slash3");
+		audioSource->AddClipByKey(L"player_wallkick1");
+		audioSource->AddClipByKey(L"player_wallkick2");
+		audioSource->AddClipByKey(L"player_wallkick3");
 
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"PlayerMat");

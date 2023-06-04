@@ -134,6 +134,7 @@ namespace dru
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;
+        CAudioSource* mAudioSource;
         Vector3 mPos;
 
         CGameObj* mJumpdust;

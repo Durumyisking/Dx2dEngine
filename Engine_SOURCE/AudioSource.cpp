@@ -7,7 +7,8 @@ namespace dru
 {
 	CAudioSource::CAudioSource()
 		: CComponent(eComponentType::AudioSource)
-		, mAudioClip(nullptr) {
+		, mAudioClips{}
+	{
 	}
 
 	CAudioSource::~CAudioSource()
@@ -27,32 +28,53 @@ namespace dru
 		CTransform* tr = GetOwner()->GetComponent<CTransform>();
 		Vector3 pos = tr->GetPosition();
 		Vector3 forward = tr->Forward();
-
-		mAudioClip->Set3DAttributes(pos, forward);
+		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
+		{
+			CAudioClip* audioClip = clip.second;
+			if (audioClip->IsPlaying())
+			{
+				audioClip->Set3DAttributes(pos, forward);
+			}
+		}
 	}
 
 	void CAudioSource::render()
 	{
 	}
 
-	void CAudioSource::Play()
+	void CAudioSource::Play(const std::wstring& _key, bool _loop)
 	{
-		mAudioClip->Play();
+		GetClip(_key)->SetLoop(_loop);
+		GetClip(_key)->Play();
 	}
 
-	void CAudioSource::Stop()
+	void CAudioSource::Stop(const std::wstring& _key)
 	{
-		mAudioClip->Stop();
+		GetClip(_key)->Stop();
 	}
 
-	void CAudioSource::SetLoop(bool loop)
+	void CAudioSource::SetLoop(const std::wstring& _key, bool loop)
 	{
-		mAudioClip->SetLoop(loop);
+		GetClip(_key)->SetLoop(loop);
 	}
 
-	void CAudioSource::SetClipByKey(const std::wstring& _key)
+	void CAudioSource::AddClipByKey(const std::wstring& _key)
 	{
-		mAudioClip = CResources::Find<CAudioClip>(_key);
+		std::shared_ptr<CAudioClip> resource = CResources::Find<CAudioClip>(_key);
+		mAudioClips.insert(std::make_pair(_key, resource.get()));
+
+	}
+
+	CAudioClip* CAudioSource::GetClip(const std::wstring& _key)
+	{
+		std::map<std::wstring, CAudioClip*>::iterator iter = mAudioClips.find(_key);
+
+		if (iter != mAudioClips.end())
+		{
+			return iter->second;
+		}
+
+		return nullptr;
 	}
 
 

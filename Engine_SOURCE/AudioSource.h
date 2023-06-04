@@ -15,15 +15,15 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-		void Play();
-		void Stop();
-		void SetLoop(bool loop);
+		void Play(const std::wstring& _key, bool _loop = false);
+		void Stop(const std::wstring& _key);
+		void SetLoop(const std::wstring& _key, bool loop);
 
-		void SetClip(std::shared_ptr<CAudioClip> clip) { mAudioClip = clip; }
-		void SetClipByKey(const std::wstring& _key);
-		std::shared_ptr<CAudioClip> GetClip() { return mAudioClip; }
+//		void AddClip(std::shared_ptr<CAudioClip> clip) { mAudioClip = clip; }
+		void AddClipByKey(const std::wstring& _key);
+		CAudioClip* GetClip(const std::wstring& _key);
 
 	private:
-		std::shared_ptr<CAudioClip> mAudioClip;
+		std::map<std::wstring, CAudioClip*> mAudioClips;
 	};
 }

@@ -11,6 +11,7 @@ namespace dru
 		, mMinDistance(1.0f)
 		, mMaxDistance(1000.0f)
 		, mbLoop(false) 
+		, mbPlaying(false)
 	{
 	}
 	CAudioClip::~CAudioClip()
@@ -38,10 +39,12 @@ namespace dru
 		else
 			mSound->setMode(FMOD_LOOP_OFF);
 
+		mbPlaying = true;
 		CFmod::SoundPlay(mSound, &mChannel);
 	}
 	void CAudioClip::Stop()
 	{
+		mbPlaying = false;
 		mChannel->stop();
 	}
 	void CAudioClip::Set3DAttributes(const Vector3 pos, const Vector3 vel)

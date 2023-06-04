@@ -57,7 +57,7 @@ namespace dru
 	{
 		if (!mCamMoveDone && mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
 		{
-			mbgO->GetComponent<CAudioSource>()->Play();
+			mbgO->GetComponent<CAudioSource>()->Play(L"SE_title_neon");
 			mCamMoveDone = true;
 		}
 	
@@ -77,7 +77,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::UP))
 			{
-				mUIStart->GetComponent<CAudioSource>()->Play();
+				mUIStart->GetComponent<CAudioSource>()->Play(L"SE_title_updown");
 				if (1 != mMenu)
 				{
 					pos = { pos.x, pos.y + 0.2f, pos.z };
@@ -93,7 +93,7 @@ namespace dru
 			}
 			if (CInput::GetKeyTap(eKeyCode::DOWN))
 			{
-				mUIStart->GetComponent<CAudioSource>()->Play();
+				mUIStart->GetComponent<CAudioSource>()->Play(L"SE_title_updown");
 				if (5 != mMenu)
 				{
 					pos = { pos.x, pos.y - 0.2f, pos.z };
@@ -110,7 +110,7 @@ namespace dru
 
 			if (CInput::GetKeyTap(eKeyCode::ENTER))
 			{
-				mUIMenu->GetComponent<CAudioSource>()->Play();
+				mUIMenu->GetComponent<CAudioSource>()->Play(L"SE_title_select");
 				switch (mMenu)
 				{
 				case 1:
@@ -129,7 +129,7 @@ namespace dru
 		{
 			if (mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
 			{
-				mCamera->GetComponent<CAudioSource>()->Stop();
+				mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
 				CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 			}
 
@@ -158,6 +158,7 @@ namespace dru
 
 		if (CInput::GetKeyTap(eKeyCode::M))
 		{
+			mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
 		}
 
@@ -188,8 +189,8 @@ namespace dru
 			renderer::mainCamera = cameraComp;
 			cameraComp->SetProjectionType(eProjectionType::Perspective);
 			mCamera->SetPos(Vector3(0.f, 1.f, 0.f));
-			mCamera->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"song_title_bgm");
-			mCamera->GetComponent<CAudioSource>()->Play();
+			mCamera->AddComponent<CAudioSource>(eComponentType::AudioSource)->AddClipByKey(L"song_title_bgm");
+			mCamera->GetComponent<CAudioSource>()->Play(L"song_title_bgm", true);
 
 		}
 		{
@@ -264,7 +265,7 @@ namespace dru
 				mbgO->SetPos(Vector3(1.1f, -1.85f, 4.f));
 				mbgO->SetScale(Vector3(0.1f, 0.1f, 1.f));
 
-				mbgO->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_neon");
+				mbgO->AddComponent<CAudioSource>(eComponentType::AudioSource)->AddClipByKey(L"SE_title_neon");
 			}
 
 			{
@@ -320,7 +321,7 @@ namespace dru
 				mUIMenu->SetPos(Vector3(0.f, 0.05f, 0.f));
 				mUIMenu->SetScale(Vector3(0.35f, 0.475f, 1.f));
 
-				mUIMenu->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_select");
+				mUIMenu->AddComponent<CAudioSource>(eComponentType::AudioSource)->AddClipByKey(L"SE_title_select");
 //				mUIMenu->GetComponent<CAudioSource>()->Play();
 			}
 
@@ -336,7 +337,7 @@ namespace dru
 				mUIStart->SetPos(Vector3(0.f, 0.4f, 0.f));
 				mUIStart->SetScale(Vector3(0.06f, 0.015f, 1.f));
 
-				mUIStart->AddComponent<CAudioSource>(eComponentType::AudioSource)->SetClipByKey(L"SE_title_updown");
+				mUIStart->AddComponent<CAudioSource>(eComponentType::AudioSource)->AddClipByKey(L"SE_title_updown");
 //				mUIStart->GetComponent<CAudioSource>()->Play();
 
 			}

@@ -1011,7 +1011,7 @@ namespace dru::renderer
 
 
 		// player
-		CResources::Load<CAudioClip>(L"player_due", L"Sound/Player/player_due.wav");
+		CResources::Load<CAudioClip>(L"player_die", L"Sound/Player/player_die.wav");
 		CResources::Load<CAudioClip>(L"player_footstep", L"Sound/Player/player_footstep.wav");
 		CResources::Load<CAudioClip>(L"player_jump", L"Sound/Player/player_jump.wav");
 		CResources::Load<CAudioClip>(L"player_land", L"Sound/Player/player_land.wav");

@@ -25,7 +25,7 @@ namespace dru
 	void CAudioListener::fixedUpdate()
 	{
 		CTransform* tr = GetOwner()->GetComponent<CTransform>();
-		Vector3 pos = tr->GetPosition();
+		Vector3 pos = tr->GetWorldPosition();
 		Vector3 foward = tr->Forward();
 		Vector3 up = tr->Up();
 

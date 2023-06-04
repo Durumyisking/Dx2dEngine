@@ -5,6 +5,8 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Transform.h"
+#include "AudioListener.h"
+#include "AudioSource.h"
 #include "SpriteRenderer.h"
 #include "MeshRenderer.h"
 
