@@ -26,7 +26,13 @@ namespace dru
 		void Set3DAttributes(const Vector3 pos, const Vector3 vel);
 		void SetLoop(bool loop) { mbLoop = loop; }
 
-		bool IsPlaying() const { return mbPlaying; }
+		bool IsPlaying() const 
+		{
+			bool playing = false;
+			mChannel->isPlaying(&playing);
+
+			return playing;
+		}
 
 
 	private:
@@ -35,6 +41,5 @@ namespace dru
 		float mMinDistance;
 		float mMaxDistance;
 		bool mbLoop;
-		bool mbPlaying;
 	};
 }

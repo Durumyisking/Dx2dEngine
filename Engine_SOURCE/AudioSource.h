@@ -16,6 +16,7 @@ namespace dru
 		virtual void render() override;
 
 		void Play(const std::wstring& _key, bool _loop = false);
+		void Play_NoInterrupt(const std::wstring& _key, bool _loop = false);
 		void Stop(const std::wstring& _key);
 		void SetLoop(const std::wstring& _key, bool loop);
 

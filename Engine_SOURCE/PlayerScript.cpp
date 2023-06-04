@@ -632,11 +632,13 @@ namespace dru
 		{
 			mRigidbody->AddForce(mTransform->Right() * -500.f);
 			SetPlayerSingleState(ePlayerState::IdleToRun);
+			mAudioSource->Play_NoInterrupt(L"player_prerun");
 		}
 		if (CInput::GetKeyTap(eKeyCode::D) && (mbWallIsLeft != 1))
 		{
 			mRigidbody->AddForce(mTransform->Right() * 500.f);
 			SetPlayerSingleState(ePlayerState::IdleToRun);
+			mAudioSource->Play_NoInterrupt(L"player_prerun");
 		}
 	}
 
@@ -644,12 +646,15 @@ namespace dru
 	{
 		if (mState[(UINT)ePlayerState::Run] == true)
 		{
+			std::wstring num = std::to_wstring(GetRandomNumber(1, 4));
 			if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
 			{
+				mAudioSource->Play_NoInterrupt(L"player_run" + num);
 				mRigidbody->AddForce(mTransform->Right() * -50.f);
 			}
 			if (CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft != 1))
 			{
+				mAudioSource->Play_NoInterrupt(L"player_run" + num);
 				mRigidbody->AddForce(mTransform->Right() * 50.f);
 			}
 
@@ -1305,6 +1310,10 @@ namespace dru
 
 		if (mState[(UINT)ePlayerState::Dead] == false)
 		{
+			if (!GetOwner_LiveObject()->IsRewindRePlaying())
+			{
+				mAudioSource->Play(L"player_land");
+			}
 
 			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{

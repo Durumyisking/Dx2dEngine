@@ -48,6 +48,15 @@ namespace dru
 		GetClip(_key)->Play();
 	}
 
+	void CAudioSource::Play_NoInterrupt(const std::wstring& _key, bool _loop)
+	{
+		if (!GetClip(_key)->IsPlaying())
+		{
+			GetClip(_key)->SetLoop(_loop);
+			GetClip(_key)->Play();
+		}
+	}
+
 	void CAudioSource::Stop(const std::wstring& _key)
 	{
 		GetClip(_key)->Stop();
