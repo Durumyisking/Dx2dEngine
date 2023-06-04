@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(1)
+		, mCurrentStage(0)
 		, mPlayer(nullptr)
 	{
 	}
@@ -133,10 +133,7 @@ namespace dru
 
 			CAudioSource* audioSource = mCamera->AddComponent<CAudioSource>(eComponentType::AudioSource);
 			audioSource->AddClipByKey(L"song_title_bgm");
-			audioSource->AddClipByKey(L"song_main_bgm");
-			audioSource->AddClipByKey(L"song_boss_bgm");
-			audioSource->AddClipByKey(L"SE_rewind");
-	
+
 			CCollider2D* coll = mCamera->AddComponent<CCollider2D>(eComponentType::Collider);
 			coll->SetName(L"col_maincam");
 			coll->SetType(eColliderType::Rect);

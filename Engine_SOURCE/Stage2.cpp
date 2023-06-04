@@ -9,6 +9,7 @@ namespace dru
 		, mGrunt1DefaultPos{}
 		, mCop1DefaultPos{}
 	{
+		mStageNumbmer = 2;
 	}
 
 	CStage2::~CStage2()

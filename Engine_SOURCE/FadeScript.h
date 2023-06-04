@@ -22,6 +22,8 @@ namespace dru
         void SetFadeTextureType(int _Value) { mFadeTextureType = _Value; }
         void SetFadeTime(float _Value) { mTime = _Value; }
 
+        float GetElapsedTime() const { return mElapsedTime; }
+
         void restart(int _fadeType);
 
 

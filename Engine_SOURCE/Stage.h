@@ -147,6 +147,7 @@ namespace dru
         }
         UINT GetEnemyCount() const { return mEnemyCount; }
         UINT GetFrameCount() const { return mFrameCount; }
+        UINT GetStageNumber() const { return mStageNumbmer; }
 
         void CamReset();
 
@@ -233,6 +234,7 @@ namespace dru
 
         UINT mEnemyCount;
         UINT mFrameCount;
+        UINT mStageNumbmer;
 
         std::vector<CLiveGameObj*> mRewindObjects;
 

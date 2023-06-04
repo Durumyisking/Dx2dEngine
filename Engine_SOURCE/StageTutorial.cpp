@@ -11,7 +11,7 @@ namespace dru
 		, mbMaskMove(false)
 		, mbTutorBgMoveDone(false)
 		, mbBulletTimeSuccess(false)
-
+		, mbCorrectSoundPlayed(false)
 		, mCount1(0)
 		, mCount2(0)
 		, mCount3(0)
@@ -21,7 +21,7 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mUIBg(nullptr)
 		, mTutorialtxt(nullptr)
-		, mTutorStage(TutorialStage::Move)
+		, mTutorStage(TutorialStage::BulletTime)
 		, mTutorBg(nullptr)
 		, mTutorBgTarget(nullptr)
 		, mTKeyLeft(nullptr)
@@ -34,6 +34,7 @@ namespace dru
 		, mMask(nullptr)
 
 	{
+		mStageNumbmer = 0;
 	}
 
 	CStageTutorial::~CStageTutorial()
@@ -66,9 +67,12 @@ namespace dru
 			mPlayer = object::Instantiate<CPlayer>(eLayerType::Player, L"Player");
 			mPlayer->SetPos(Vector3(-9.f, -2.3f, 4.999f));
 			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Run");
+			mPlayer->GetComponent<CAudioSource>()->Play(L"player_footstep", true);
+
 			mPlayer->SetRight();
 			mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(3.f, 7.f, 0.f));
 			mPlayer->GetScript<CPlayerScript>()->InputBlocking();
+
 		
 			dynamic_cast<CSceneMain*>(mScene)->SetPlayer(mPlayer);
 		}
@@ -144,6 +148,7 @@ namespace dru
 		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
 		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.5f, GetDevice()->ViewportHeight() / 100.f));
 		renderer::mainCamera->GetOwner()->SetPos(Vector3::Zero);
+		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_tutorial_bgm");
 
 		CStage::Exit();
 	}
@@ -263,6 +268,14 @@ namespace dru
 				else
 				{
 					mFadeTimer += CTimeMgr::DeltaTime();
+					CAudioSource* as = mPlayer->GetComponent<CAudioSource>();
+					float vol = as->GetVolume(L"song_tutorial_bgm");
+					if (0.f == vol)
+					{
+						int i = 0;
+					}
+
+					mPlayer->GetComponent<CAudioSource>()->SetVolume(L"song_tutorial_bgm", Interpolation<float>(0.f, 3.f, mFadeTimer, 1.f, 0.f));
 				}
 			}
 			else
@@ -295,6 +308,8 @@ namespace dru
 			mUIBg->AddComponent<CFadeScript>(eComponentType::Script)->SetFadeType(1);
 			mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
 			mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
+			mPlayer->GetComponent<CAudioSource>()->Play(L"song_tutorial_bgm", true);
+
 		}
 		{
 			mTutorialtxt = object::Instantiate<CGameObj>(eLayerType::UI, L"Tutorialtxt");
@@ -393,11 +408,6 @@ namespace dru
 					break;
 				}
 			}
-		}
-		else
-		{
-			int i = 0;
-
 		}
 	}
 	void CStageTutorial::TutorMove()
@@ -564,13 +574,17 @@ namespace dru
 
 	void CStageTutorial::TutorSuccess(TutorialStage _Stage)
 	{
+		if (!mbCorrectSoundPlayed)
+		{
+			mPlayer->GetComponent<CAudioSource>()->Play(L"SE_correct");
+			mbCorrectSoundPlayed = true;
+		}
+
 		mTutorBgTarget->SetPos(Vector3(-10.f, 2.f, 4.999f));
 		if (TutorialStage::Clear != mTutorStage)
 		{
 			mTutorBg->GetScript<CBackgroundColorScript>()->SetColor(Vector4{ 0.f, 0.5f, 0.f, 0.5f });
 		}
-
-
 
 		mTutorGapTimer += CTimeMgr::DeltaTime();
 
@@ -581,6 +595,7 @@ namespace dru
 				mTutorStage = _Stage;
 				mTutorGapTimer = 0.f;
 				mbTutorBgMoveDone = false;
+				mbCorrectSoundPlayed = false;
 
 				if (TutorialStage::Clear ==  mTutorStage)
 				{
@@ -592,7 +607,6 @@ namespace dru
 					CResources::Insert<CMaterial>(L"TutorEndMat", Material);
 					SpriteRenderer->SetMaterial(Material);
 
-//					mMask->AddComponent<CBackgroundColorScript>(eComponentType::Script)->SetColor(Vector4{ 0.f, 0.f, 0.f, 1.f });
 					CFadeScript* script = mMask->AddComponent<CFadeScript>(eComponentType::Script);
 					script->SetFadeTextureType(0);
 					script->SetFadeTime(3.f);

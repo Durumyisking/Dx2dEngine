@@ -33,6 +33,9 @@ namespace dru
 		void SetVolume(const std::wstring& _key, float _Volume);
 		void SetPitch(const std::wstring& _key, float _Pitch);
 
+		float GetVolume(const std::wstring& _key);
+		float GetPitch(const std::wstring& _key);
+
 	private:
 		std::map<std::wstring, CAudioClip*> mAudioClips;
 	};

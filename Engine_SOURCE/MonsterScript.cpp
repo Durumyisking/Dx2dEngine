@@ -144,8 +144,11 @@ namespace dru
 			{
 				mbBodyBlood = true;
 				SetHitDir();
-				CreateDirBlood();
-				CreateDecalBlood();
+				if (0 != GetOwner()->GetCurrentStage()->GetStageNumber())
+				{
+					CreateDirBlood();
+					CreateDecalBlood();
+				}
 				hitSlash(0);
 			}
 		}

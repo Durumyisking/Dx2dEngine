@@ -35,6 +35,7 @@ namespace dru
 
 		void SetVolume(float _Volume)
 		{
+			mVolume = _Volume;
 			mChannel->setVolume(mVolume);
 		}
 		float GetVolume()  
@@ -44,6 +45,7 @@ namespace dru
 		}
 		void SetPitch(float _Pitch)
 		{
+			mPitch = _Pitch;
 			mChannel->setPitch(mPitch);
 		}
 		float GetPitch()

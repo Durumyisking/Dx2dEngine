@@ -46,6 +46,13 @@ namespace dru
 		audioSource->AddClipByKey(L"player_wallkick3");
 		audioSource->AddClipByKey(L"player_wallslide");
 
+		audioSource->AddClipByKey(L"song_main_bgm");
+		audioSource->AddClipByKey(L"song_tutorial_bgm");
+		audioSource->AddClipByKey(L"song_boss_bgm");
+
+		audioSource->AddClipByKey(L"SE_rewind");
+		audioSource->AddClipByKey(L"SE_correct");
+
 //		audioSource->SetWholeVolume(0.5f);
 
 		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);

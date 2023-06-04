@@ -251,6 +251,8 @@ namespace dru
 				_oppo->GetOwner()->Die();
 
 				mAnimator->Play(L"Player_RunToIdle");
+				mAudioSource->Stop(L"player_footstep");
+
 				mRigidbody->SetVelocity(Vector3::Zero);
 			}
 		}

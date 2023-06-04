@@ -189,11 +189,10 @@ namespace dru
 			renderer::mainCamera = cameraComp;
 			cameraComp->SetProjectionType(eProjectionType::Perspective);
 			mCamera->SetPos(Vector3(0.f, 1.f, 0.f));
+
 			CAudioSource* audioSource = mCamera->AddComponent<CAudioSource>(eComponentType::AudioSource);
 			audioSource->AddClipByKey(L"song_title_bgm");
-			audioSource->AddClipByKey(L"song_main_bgm");
-			audioSource->AddClipByKey(L"song_boss_bgm");
-			audioSource->AddClipByKey(L"SE_rewind");
+
 			mCamera->GetComponent<CAudioSource>()->Play(L"song_title_bgm", true);
 
 		}

@@ -992,6 +992,8 @@ namespace dru::renderer
 		// song
 		CResources::Load<CAudioClip>(L"song_title_bgm", L"Sound/Song/song_title.ogg");
 		CResources::Load<CAudioClip>(L"song_main_bgm",  L"Sound/Song/song_main.ogg");
+		CResources::Load<CAudioClip>(L"song_tutorial_bgm", L"Sound/Song/song_tutorial.ogg");
+		CResources::Load<CAudioClip>(L"song_china_bgm", L"Sound/Song/song_chinatown.ogg");
 		CResources::Load<CAudioClip>(L"song_boss_bgm",  L"Sound/Song/song_boss.ogg");
 		////////////////////////////////////////////////////////////////////////////
 
@@ -1008,7 +1010,7 @@ namespace dru::renderer
 		// play scene
 		CResources::Load<CAudioClip>(L"SE_rewind", L"Sound/rewind.wav");
 		CResources::Load<CAudioClip>(L"SE_mp3rewind", L"Sound/mp3rewind.wav");
-
+		CResources::Load<CAudioClip>(L"SE_correct", L"Sound/correct.wav");
 
 		// player
 		CResources::Load<CAudioClip>(L"player_die", L"Sound/Player/player_die.wav");

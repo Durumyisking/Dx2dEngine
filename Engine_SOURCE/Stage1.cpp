@@ -14,6 +14,7 @@ namespace dru
 		, mGrunt2DefaultPos{}
 
 	{
+		mStageNumbmer = 1;
 	}
 
 	CStage1::~CStage1()
@@ -22,7 +23,6 @@ namespace dru
 
 	void CStage1::InitStage()
 	{
-		renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 
 		/////////////////////////////Obj Add /////////////////////////////////////
 		{
@@ -73,6 +73,7 @@ namespace dru
 		mPlayer->SetPos(mPlayerDefaultPos);
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 
 		mGrunt1->SetPos(mGrunt1DefaultPos);
 		mGrunt1->GetScript<CMonsterScript>()->Reset();
@@ -116,6 +117,7 @@ namespace dru
 	void CStage1::ReadyOperate()
 	{
 		mLaserTurret->AdjustLaserTransform();
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 
 		CStage::ReadyOperate();
 	}

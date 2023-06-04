@@ -135,5 +135,15 @@ namespace dru
 		mAudioClips.find(_key)->second->SetPitch(_Pitch);
 	}
 
+	float CAudioSource::GetVolume(const std::wstring& _key)
+	{
+		return mAudioClips.find(_key)->second->GetVolume();
+	}
+
+	float CAudioSource::GetPitch(const std::wstring& _key)
+	{
+		return mAudioClips.find(_key)->second->GetPitch();
+	}
+
 
 }

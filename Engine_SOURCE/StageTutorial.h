@@ -98,7 +98,7 @@ namespace dru
 
         bool    mbTutorBgMoveDone;
         bool    mbBulletTimeSuccess;
-
+        bool    mbCorrectSoundPlayed;
 
         UINT    mCount1;
         UINT    mCount2;

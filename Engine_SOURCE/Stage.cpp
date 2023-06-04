@@ -48,6 +48,7 @@ namespace dru
 		, mbReplaying(false)
 		, mEnemyCount(0)
 		, mFrameCount(0)
+		, mStageNumbmer(0)
 		, mRewindTimer(0.f)
 		, mBulletTimeGauge(10.f)
 		, mbBulletTimeStun(false)
@@ -361,6 +362,7 @@ namespace dru
 		LoadKeyUI();
 
 		mPlayer->GetComponent<CRigidBody>()->SetMaxVelocity(Vector3(5.f, 7.f, 0.f));
+
 		LoadinReady();
 		mStageState = eStageState::ReadyEnd;
 	}
@@ -413,7 +415,6 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::ENTER))
 				{
-					renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"SE_rewind");
 					DeadReset();
 				}
 			}
@@ -425,7 +426,6 @@ namespace dru
 
 				if (CInput::GetKeyTap(eKeyCode::R))
 				{
-					renderer::mainCamera->GetOwner()->GetComponent<CAudioSource>()->Play(L"SE_rewind");
 					RewindStart();
 				}
 			}
@@ -702,6 +702,8 @@ namespace dru
 	{
 		--mFrameCount;
 		BulletTimeOff();
+		mPlayer->GetComponent<CAudioSource>()->Play(L"SE_rewind");
+		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_main_bgm");
 
 		UIRenderingBlockOn();
 
@@ -763,6 +765,7 @@ namespace dru
 	}
 	void CStage::RewindEnd()
 	{
+
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
 			mRewindObjects[i]->SetRewindOff();			

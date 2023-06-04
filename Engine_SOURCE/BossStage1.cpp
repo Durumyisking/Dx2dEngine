@@ -8,6 +8,7 @@ namespace dru
 		: mKissyface(nullptr)
 		, mKissyfaceDefaultPos(Vector3::Zero)
 	{
+		mStageNumbmer = 3;
 	}
 
 	CBossStage1::~CBossStage1()
