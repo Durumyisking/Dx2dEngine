@@ -15,7 +15,6 @@ namespace dru
 		, mCount1(0)
 		, mCount2(0)
 		, mCount3(0)
-
 		, mMaskTarget(nullptr)
 		, mCamTarget(nullptr)
 		, mScreenMask(nullptr)
@@ -268,13 +267,6 @@ namespace dru
 				else
 				{
 					mFadeTimer += CTimeMgr::DeltaTime();
-					CAudioSource* as = mPlayer->GetComponent<CAudioSource>();
-					float vol = as->GetVolume(L"song_tutorial_bgm");
-					if (0.f == vol)
-					{
-						int i = 0;
-					}
-
 					mPlayer->GetComponent<CAudioSource>()->SetVolume(L"song_tutorial_bgm", Interpolation<float>(0.f, 3.f, mFadeTimer, 1.f, 0.f));
 				}
 			}
@@ -309,7 +301,6 @@ namespace dru
 			mUIBg->SetPos(Vector3(0.f, -1.f, 2.5f));
 			mUIBg->SetScale(Vector3(10.f, 0.05f, 1.f));
 			mPlayer->GetComponent<CAudioSource>()->Play(L"song_tutorial_bgm", true);
-
 		}
 		{
 			mTutorialtxt = object::Instantiate<CGameObj>(eLayerType::UI, L"Tutorialtxt");

@@ -1009,6 +1009,7 @@ namespace dru::renderer
 
 		// play scene
 		CResources::Load<CAudioClip>(L"SE_rewind", L"Sound/rewind.wav");
+		CResources::Load<CAudioClip>(L"SE_replay", L"Sound/replay_play.wav");
 		CResources::Load<CAudioClip>(L"SE_mp3rewind", L"Sound/mp3rewind.wav");
 		CResources::Load<CAudioClip>(L"SE_correct", L"Sound/correct.wav");
 
@@ -1032,6 +1033,68 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"player_wallkick3", L"Sound/Player/player_wallkick3.wav");
 		CResources::Load<CAudioClip>(L"player_wallslide", L"Sound/Player/player_wallslide.wav");
 	
+
+		// monster
+		CResources::Load<CAudioClip>(L"monser_walk1", L"Sound/Monster/monser_walk1.wav");
+		CResources::Load<CAudioClip>(L"monser_walk2", L"Sound/Monster/monser_walk2.wav");
+		CResources::Load<CAudioClip>(L"monser_walk3", L"Sound/Monster/monser_walk3.wav");
+		CResources::Load<CAudioClip>(L"monser_walk4", L"Sound/Monster/monser_walk4.wav");
+		CResources::Load<CAudioClip>(L"monster_death_bullet", L"Sound/Monster/monster_death_bullet.wav");
+		CResources::Load<CAudioClip>(L"monster_death1", L"Sound/Monster/monster_death1.wav");
+		CResources::Load<CAudioClip>(L"monster_death2", L"Sound/Monster/monster_death2.wav");
+		CResources::Load<CAudioClip>(L"monster_death3", L"Sound/Monster/monster_death3.wav");
+		CResources::Load<CAudioClip>(L"monster_reload", L"Sound/Monster/monster_reload.wav");
+		CResources::Load<CAudioClip>(L"monster_run1", L"Sound/Monster/monster_run1.wav");
+		CResources::Load<CAudioClip>(L"monster_run2", L"Sound/Monster/monster_run2.wav");
+		CResources::Load<CAudioClip>(L"monster_run3", L"Sound/Monster/monster_run3.wav");
+		CResources::Load<CAudioClip>(L"monster_run4", L"Sound/Monster/monster_run4.wav");
+		CResources::Load<CAudioClip>(L"monster_shot", L"Sound/Monster/monster_shot.wav");
+		CResources::Load<CAudioClip>(L"monstser_slide", L"Sound/Monster/monstser_slide.wav");
+
+		// kissyface
+		CResources::Load<CAudioClip>(L"kissyface_axecatch", L"Sound/Kissyface/kissyface_axecatch.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axeimpact", L"Sound/Kissyface/kissyface_axeimpact.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axelunge", L"Sound/Kissyface/kissyface_axelunge.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axeprepare", L"Sound/Kissyface/kissyface_axeprepare.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axereturn", L"Sound/Kissyface/kissyface_axereturn.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axethrow", L"Sound/Kissyface/kissyface_axethrow.wav");
+		CResources::Load<CAudioClip>(L"kissyface_axeturn", L"Sound/Kissyface/kissyface_axeturn.wav");
+		CResources::Load<CAudioClip>(L"kissyface_clash", L"Sound/Kissyface/kissyface_clash.wav");
+		CResources::Load<CAudioClip>(L"kissyface_crouch", L"Sound/Kissyface/kissyface_crouch.wav");
+		CResources::Load<CAudioClip>(L"kissyface_death", L"Sound/Kissyface/kissyface_death.wav");
+		CResources::Load<CAudioClip>(L"kissyface_jump", L"Sound/Kissyface/kissyface_jump.wav");
+		CResources::Load<CAudioClip>(L"kissyface_sharpen", L"Sound/Kissyface/kissyface_sharpen.wav");
+		CResources::Load<CAudioClip>(L"kissyface_struggle", L"Sound/Kissyface/kissyface_struggle.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_axethrow", L"Sound/Kissyface/kissyface_voice_axethrow.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_chop", L"Sound/Kissyface/kissyface_voice_chop.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_crouch", L"Sound/Kissyface/kissyface_voice_crouch.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_hurt", L"Sound/Kissyface/kissyface_voice_hurt.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_jump", L"Sound/Kissyface/kissyface_voice_jump.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_lunge", L"Sound/Kissyface/kissyface_voice_lunge.wav");
+		CResources::Load<CAudioClip>(L"kissyface_voice_prepare", L"Sound/Kissyface/kissyface_voice_prepare.wav");
+
+		// blood
+		CResources::Load<CAudioClip>(L"blood_splat1", L"Sound/Blood/blood_splat1.wav");
+		CResources::Load<CAudioClip>(L"blood_splat2", L"Sound/Blood/blood_splat2.wav");
+		CResources::Load<CAudioClip>(L"blood_splat3", L"Sound/Blood/blood_splat3.wav");
+		CResources::Load<CAudioClip>(L"blood_splat4", L"Sound/Blood/blood_splat4.wav");
+		CResources::Load<CAudioClip>(L"blood_squirt1", L"Sound/Blood/blood_squirt1.wav");
+		CResources::Load<CAudioClip>(L"blood_squirt2", L"Sound/Blood/blood_squirt2.wav");
+		CResources::Load<CAudioClip>(L"blood_squirt3", L"Sound/Blood/blood_squirt3.wav");
+
+		// bullet
+		CResources::Load<CAudioClip>(L"bullethit1", L"Sound/Bullet/bullethit1.wav");
+		CResources::Load<CAudioClip>(L"bullethit2", L"Sound/Bullet/bullethit2.wav");
+		CResources::Load<CAudioClip>(L"bullethit3", L"Sound/Bullet/bullethit3.wav");
+
+		// laser
+		CResources::Load<CAudioClip>(L"laser_blast", L"Sound/Laser/laser_blast.wav");
+		CResources::Load<CAudioClip>(L"laser_evaporate1", L"Sound/Laser/laser_evaporate1.wav");
+		CResources::Load<CAudioClip>(L"laser_evaporate2", L"Sound/Laser/laser_evaporate2.wav");
+		CResources::Load<CAudioClip>(L"laser_evaporate3", L"Sound/Laser/laser_evaporate3.wav");
+		CResources::Load<CAudioClip>(L"laser_explosion", L"Sound/Laser/laser_explosion.wav");
+
+
 		////////////////////////////////////////////////////////////////////////////
 
 	}

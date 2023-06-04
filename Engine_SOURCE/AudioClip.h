@@ -53,6 +53,7 @@ namespace dru
 			mChannel->getPitch(&mPitch);
 			return mPitch;
 		}
+
 	private:
 		FMOD::Sound* mSound;
 		FMOD::Channel* mChannel;

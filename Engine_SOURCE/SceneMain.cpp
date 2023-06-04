@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPlayer(nullptr)
 	{
 	}
@@ -93,10 +93,6 @@ namespace dru
 
 	void CSceneMain::update()
 	{
-		//if (CInput::GetKeyTap(eKeyCode::ENTER))
-		//{
-		//}
-
 		mStages[mCurrentStage]->Update();
 
 		if (CInput::GetKeyTap(eKeyCode::N))
