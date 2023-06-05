@@ -67,6 +67,7 @@ namespace dru
 
 	void CBossStage1::ReadyOperate()
 	{
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
 		CStage::ReadyOperate();
 	}
 
@@ -93,6 +94,7 @@ namespace dru
 	void CBossStage1::Reset()
 	{
 		mPlayer->SetPos(mPlayerDefaultPos);
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 

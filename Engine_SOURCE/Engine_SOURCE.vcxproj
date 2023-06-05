@@ -278,6 +278,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClInclude Include="Stage3.h" />
     <ClInclude Include="StageTutorial.h" />
     <ClInclude Include="Stair.h" />
+    <ClInclude Include="StringFunctions.h" />
     <ClInclude Include="StructedBuffer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeMgr.h" />
@@ -389,6 +390,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClCompile Include="Stage3.cpp" />
     <ClCompile Include="StageTutorial.cpp" />
     <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="StringFunctions.cpp" />
     <ClCompile Include="StructedBuffer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeMgr.cpp" />

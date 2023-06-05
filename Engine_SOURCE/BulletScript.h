@@ -42,6 +42,7 @@ namespace dru
 
     private:
         CBullet* mBullet;
+        CAudioSource* mAudioSource;
         CGameObj* mBulletReflect;
         float mElapsedTime;
         Vector3 mDefaultBulletScale;

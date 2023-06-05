@@ -7,6 +7,7 @@ namespace dru
 {
 	CBeamScript::CBeamScript()
 		: mBeam(nullptr)
+		, mAudioSource(nullptr)
 		, mbLaserShoot(false)
 		, mbLaserShooted(false)
 		, mLaserOperateTimer(0.f)
@@ -19,6 +20,7 @@ namespace dru
 
 	void CBeamScript::Initialize()
 	{
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 	}
 
 	void CBeamScript::update()
@@ -58,6 +60,10 @@ namespace dru
 	{
 		if (L"col_player" == _oppo->GetName())
 		{
+			if (!mbLaserShooted)
+			{
+				mAudioSource->Play(L"laser_explosion");
+			}
 			mBeam->RenderingBlockOff();
 			mBeam->GetComponent<CSpriteRenderer>()->ChangeColor(PEARL);
 			mbLaserShoot = true;

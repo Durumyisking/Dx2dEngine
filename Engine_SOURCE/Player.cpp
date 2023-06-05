@@ -46,6 +46,8 @@ namespace dru
 		audioSource->AddClipByKey(L"player_wallkick3");
 		audioSource->AddClipByKey(L"player_wallslide");
 
+		audioSource->AddClipByKey(L"laser_blast");
+
 		audioSource->AddClipByKey(L"song_main_bgm");
 		audioSource->AddClipByKey(L"song_tutorial_bgm");
 		audioSource->AddClipByKey(L"song_boss_bgm");

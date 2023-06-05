@@ -1035,21 +1035,21 @@ namespace dru::renderer
 	
 
 		// monster
-		CResources::Load<CAudioClip>(L"monser_walk1", L"Sound/Monster/monser_walk1.wav");
-		CResources::Load<CAudioClip>(L"monser_walk2", L"Sound/Monster/monser_walk2.wav");
-		CResources::Load<CAudioClip>(L"monser_walk3", L"Sound/Monster/monser_walk3.wav");
-		CResources::Load<CAudioClip>(L"monser_walk4", L"Sound/Monster/monser_walk4.wav");
-		CResources::Load<CAudioClip>(L"monster_death_bullet", L"Sound/Monster/monster_death_bullet.wav");
-		CResources::Load<CAudioClip>(L"monster_death1", L"Sound/Monster/monster_death1.wav");
-		CResources::Load<CAudioClip>(L"monster_death2", L"Sound/Monster/monster_death2.wav");
-		CResources::Load<CAudioClip>(L"monster_death3", L"Sound/Monster/monster_death3.wav");
-		CResources::Load<CAudioClip>(L"monster_reload", L"Sound/Monster/monster_reload.wav");
-		CResources::Load<CAudioClip>(L"monster_run1", L"Sound/Monster/monster_run1.wav");
-		CResources::Load<CAudioClip>(L"monster_run2", L"Sound/Monster/monster_run2.wav");
-		CResources::Load<CAudioClip>(L"monster_run3", L"Sound/Monster/monster_run3.wav");
-		CResources::Load<CAudioClip>(L"monster_run4", L"Sound/Monster/monster_run4.wav");
-		CResources::Load<CAudioClip>(L"monster_shot", L"Sound/Monster/monster_shot.wav");
-		CResources::Load<CAudioClip>(L"monstser_slide", L"Sound/Monster/monstser_slide.wav");
+		CResources::Load<CAudioClip>(L"monser_walk1",			L"Sound/Monster/monser_walk1.wav");
+		CResources::Load<CAudioClip>(L"monser_walk2",			L"Sound/Monster/monser_walk2.wav");
+		CResources::Load<CAudioClip>(L"monser_walk3",			L"Sound/Monster/monser_walk3.wav");
+		CResources::Load<CAudioClip>(L"monser_walk4",			L"Sound/Monster/monser_walk4.wav");
+		CResources::Load<CAudioClip>(L"monster_death_bullet",	L"Sound/Monster/monster_death_bullet.wav");
+		CResources::Load<CAudioClip>(L"monster_death1",			L"Sound/Monster/monster_death1.wav");
+		CResources::Load<CAudioClip>(L"monster_death2",			L"Sound/Monster/monster_death2.wav");
+		CResources::Load<CAudioClip>(L"monster_death3",			L"Sound/Monster/monster_death3.wav");
+		CResources::Load<CAudioClip>(L"monster_reload",			L"Sound/Monster/monster_reload.wav");
+		CResources::Load<CAudioClip>(L"monster_run1",			L"Sound/Monster/monster_run1.wav");
+		CResources::Load<CAudioClip>(L"monster_run2",			L"Sound/Monster/monster_run2.wav");
+		CResources::Load<CAudioClip>(L"monster_run3",			L"Sound/Monster/monster_run3.wav");
+		CResources::Load<CAudioClip>(L"monster_run4",			L"Sound/Monster/monster_run4.wav");
+		CResources::Load<CAudioClip>(L"monster_shot",			L"Sound/Monster/monster_shot.wav");
+		CResources::Load<CAudioClip>(L"monstser_slide",			L"Sound/Monster/monstser_slide.wav");
 
 		// kissyface
 		CResources::Load<CAudioClip>(L"kissyface_axecatch", L"Sound/Kissyface/kissyface_axecatch.wav");
@@ -1086,6 +1086,7 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"bullethit1", L"Sound/Bullet/bullethit1.wav");
 		CResources::Load<CAudioClip>(L"bullethit2", L"Sound/Bullet/bullethit2.wav");
 		CResources::Load<CAudioClip>(L"bullethit3", L"Sound/Bullet/bullethit3.wav");
+		CResources::Load<CAudioClip>(L"bullet_die", L"Sound/Bullet/bullet_die.wav");
 
 		// laser
 		CResources::Load<CAudioClip>(L"laser_blast", L"Sound/Laser/laser_blast.wav");

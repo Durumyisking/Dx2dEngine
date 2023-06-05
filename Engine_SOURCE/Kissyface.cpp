@@ -18,6 +18,10 @@ namespace dru
 		CResources::Insert<CMaterial>(L"kissyfaceMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"monser_walk1");
+
+
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"kissyface_Idle", Material->GetTexture(), { 256.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 1, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Waiting", Material->GetTexture(), { 640.f, 256.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);

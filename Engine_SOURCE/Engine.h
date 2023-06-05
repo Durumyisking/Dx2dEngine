@@ -22,3 +22,4 @@
 #include "CommonInclude.h"
 #include "druEnums.h"
 #include "SimpleMath.h"
+#include "StringFunctions.h"

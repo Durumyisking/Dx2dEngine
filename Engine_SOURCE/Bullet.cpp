@@ -31,6 +31,14 @@ namespace dru
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"Bullet");
 		SpriteRenderer->SetMaterial(Material);
 
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"bullethit1");
+		audioSource->AddClipByKey(L"bullethit2");
+		audioSource->AddClipByKey(L"bullethit3");
+		audioSource->AddClipByKey(L"bullet_die");
+		audioSource->AddClipByKey(L"bullet_slash");
+
+
 		CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->Initialize();
 		coll->SetName(L"col_bullet");

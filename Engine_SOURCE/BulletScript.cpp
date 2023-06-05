@@ -8,6 +8,7 @@ namespace dru
 {
 	CBulletScript::CBulletScript()
 		: mBullet(nullptr)
+		, mAudioSource(nullptr)
 		, mBulletReflect(nullptr)
 		, mElapsedTime(0.f)
 		, mDefaultBulletScale(Vector3( 0.025f, 0.025f, 1.f ))
@@ -25,6 +26,7 @@ namespace dru
 	void CBulletScript::Initialize()
 	{
 		mBullet = dynamic_cast<CBullet*>(GetOwner());
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 	}
 
 	void CBulletScript::update()
@@ -56,12 +58,18 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName() || L"col_stair" == _oppo->GetName() || L"col_wall" == _oppo->GetName()
 			|| L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
+			std::wstring key = L"bullet_die";
+			mAudioSource->Play(key);
+
 			Disable();
 		}
 		else if (L"col_player" == _oppo->GetName())
 		{
 			if (!mBullet->IsReflect())
 			{
+				std::wstring key = L"bullethit";
+				SetRandIndex(key, 3);
+				mAudioSource->Play(key);
 				Disable();
 			}
 		}
@@ -69,6 +77,9 @@ namespace dru
 		{
 			if (mBullet->IsReflect())
 			{
+				std::wstring key = L"bullethit";
+				SetRandIndex(key, 3);
+				mAudioSource->Play(key);
 				Disable();
 			}
 		}
@@ -76,6 +87,9 @@ namespace dru
 		{
 			if (!mBullet->IsReflect())
 			{
+				std::wstring key = L"bullet_slash";
+				mAudioSource->Play(key);
+
 				BulletReflect();
 				PlayBulletReflect();
 			}

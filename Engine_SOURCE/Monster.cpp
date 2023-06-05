@@ -13,6 +13,32 @@ namespace dru
 
 		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
 
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"monser_walk1");
+		audioSource->AddClipByKey(L"monser_walk2");
+		audioSource->AddClipByKey(L"monser_walk3");
+		audioSource->AddClipByKey(L"monser_walk4");
+		audioSource->AddClipByKey(L"monster_death_bullet");
+		audioSource->AddClipByKey(L"monster_death1");
+		audioSource->AddClipByKey(L"monster_death2");
+		audioSource->AddClipByKey(L"monster_death3");
+		audioSource->AddClipByKey(L"monster_reload");
+		audioSource->AddClipByKey(L"monster_run1");
+		audioSource->AddClipByKey(L"monster_run2");
+		audioSource->AddClipByKey(L"monster_run3");
+		audioSource->AddClipByKey(L"monster_run4"); 
+		audioSource->AddClipByKey(L"monster_shot");
+		audioSource->AddClipByKey(L"monstser_slide");
+
+		audioSource->AddClipByKey(L"blood_splat1");
+		audioSource->AddClipByKey(L"blood_splat2");
+		audioSource->AddClipByKey(L"blood_splat3");
+		audioSource->AddClipByKey(L"blood_splat4");
+		audioSource->AddClipByKey(L"blood_squirt1");
+		audioSource->AddClipByKey(L"blood_squirt2");
+		audioSource->AddClipByKey(L"blood_squirt3");
+
+
 		CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
 		coll->Initialize();
 		coll->SetName(L"col_monster");

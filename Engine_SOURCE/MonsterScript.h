@@ -90,6 +90,7 @@ namespace dru
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;
+        CAudioSource* mAudioSource;
         CLiveGameObj* mTarget;
         Vector3 mPos;
         Vector3 mMoveDir;

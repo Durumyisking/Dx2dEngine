@@ -212,6 +212,9 @@
     <Filter Include="Common\Sound">
       <UniqueIdentifier>{6f8b85f9-636e-4508-9fab-fa151ce8d8f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\StringFunctions">
+      <UniqueIdentifier>{e1788ee6-93ce-4c47-b4fe-2255eaabd9b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -552,6 +555,9 @@
     <ClInclude Include="AudioSource.h">
       <Filter>Common\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="StringFunctions.h">
+      <Filter>Common\StringFunctions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -876,6 +882,9 @@
     </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Common\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="StringFunctions.cpp">
+      <Filter>Common\StringFunctions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

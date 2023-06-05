@@ -24,6 +24,7 @@ namespace dru
 
 	private:
 		CGameObj* mBeam;
+		CAudioSource* mAudioSource;
 
 		bool mbLaserShoot;
 		bool mbLaserShooted;

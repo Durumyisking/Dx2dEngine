@@ -13,6 +13,7 @@ namespace dru
 	{
 		SetLayerType(eLayerType::None);
 
+
 		CSpriteRenderer* renderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 		renderer->SetMaterialByKey(L"laserTurretMat");
 	}
@@ -97,6 +98,9 @@ namespace dru
 		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"laserBeamMat");
 		renderer->SetMaterial(Material);
 		renderer->ChangeColor(RED);
+
+		CAudioSource* audioSource = mBeam->AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"laser_explosion");
 
 		CCollider2D* collider = mBeam->AddComponent<CCollider2D>(eComponentType::Collider);
 		collider->Initialize();

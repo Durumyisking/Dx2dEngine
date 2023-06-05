@@ -46,6 +46,7 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mRigidbody = GetOwner()->GetComponent<CRigidBody>();
 		mTransform = GetOwner()->GetComponent<CTransform>();
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 		mMonsterName = GetOwner()->GetName();
 
 		mAnimator->GetCompleteEvent(mMonsterName + L"_DeadGround") = std::bind(&CMonsterScript::deadgroundComplete, this);
@@ -254,6 +255,10 @@ namespace dru
 
 	void CMonsterScript::CreateDirBlood()
 	{
+		std::wstring key = L"blood_splat";
+		SetRandIndex(key, 4);
+		mAudioSource->Play(key);
+
 		for (size_t i = 0; i < 50; i++)
 		{
 			CBlood* Dirblood = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
@@ -268,6 +273,9 @@ namespace dru
 		{
 			if (mBodyBloodTimer > 0.1f)
 			{
+				std::wstring key = L"blood_squirt";
+				SetRandIndex(key, 3);
+				mAudioSource->Play_NoInterrupt(key);
 				for (size_t i = 0; i < 2; i++)
 				{
 					CBlood* bodySlash = object::Instantiate<CBlood>(eLayerType::FX, L"Blood");
@@ -458,6 +466,10 @@ namespace dru
 			mState.reset();
 			HitAddForce();
 
+			std::wstring key = L"monster_death";
+			SetRandIndex(key, 3);
+			mAudioSource->Play(key);
+
 			mbDead = true;
 			if (0 == _Type)
 			{
@@ -497,6 +509,9 @@ namespace dru
 		CBullet* bullet = dynamic_cast<CBullet*>(_oppo->GetOwner());
 		if (bullet->IsReflect())
 		{
+			std::wstring key = L"monster_death_bullet";
+			mAudioSource->Play(key);
+
 			hitSlash(1);
 		}
 	}

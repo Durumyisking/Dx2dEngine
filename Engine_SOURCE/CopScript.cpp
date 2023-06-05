@@ -57,6 +57,9 @@ namespace dru
 		{
 			if (35.f >= fabs(mAngle))
 			{
+				std::wstring key = L"monster_shot";
+				mAudioSource->Play(key);
+
 				mCopGun->RenderingBlockOff();
 				Vector3 pos = mCopGun->GetComponent<CTransform>()->GetWorldPosition();
 				CreateBullet(pos);
@@ -64,6 +67,8 @@ namespace dru
 			}
 			else
 			{
+				std::wstring key = L"monster_reload";
+				mAudioSource->Play(key);
 				SetSingleState(eMonsterState::Idle);
 			}
 		}

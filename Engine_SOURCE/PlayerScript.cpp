@@ -1508,6 +1508,7 @@ namespace dru
 		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
 		{
 			mAudioSource->Play(L"player_die");
+			mAudioSource->Play(L"laser_blast");
 
 			mbLaserParticleStart = true;
 			mAnimator->PauseOn();

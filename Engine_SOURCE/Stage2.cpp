@@ -61,11 +61,13 @@ namespace dru
 	void CStage2::Exit()
 	{
 		CStage::Exit();
+		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_main_bgm");
 	}
 
 	void CStage2::Reset()
 	{
 		mPlayer->SetPos(mPlayerDefaultPos);
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
@@ -116,6 +118,7 @@ namespace dru
 
 	void CStage2::ReadyOperate()
 	{
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
 		CStage::ReadyOperate();
 	}
 
