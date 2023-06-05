@@ -26,6 +26,7 @@ namespace dru
 	{
 		CTransform* tr = GetOwner()->GetComponent<CTransform>();
 		Vector3 pos = tr->GetWorldPosition();
+		pos.z = 0.f;
 		Vector3 foward = tr->Forward();
 		Vector3 up = tr->Up();
 

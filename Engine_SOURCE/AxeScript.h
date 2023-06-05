@@ -47,6 +47,7 @@ namespace dru
 	private:
 		CAxe* mAxe;
 		CTransform* mTransform;
+		CAudioSource* mAudioSource;
 		Vector3 mDefaultPos;
 		Vector3 mKissyfaceCenter;
 		Vector3 mDir;

@@ -11,6 +11,7 @@ namespace dru
 	CAxeScript::CAxeScript()
 		: mAxe(nullptr)
 		, mTransform(nullptr)
+		, mAudioSource(nullptr)
 		, mDefaultPos(Vector3::Zero)
 		, mKissyfaceCenter(Vector3::Zero)
 		, mAngle(10.f)
@@ -30,6 +31,7 @@ namespace dru
 	{
 		mAxe = dynamic_cast<CAxe*>(GetOwner());
 		mTransform = GetOwner()->GetComponent<CTransform>();
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 	}
 
 	void CAxeScript::update()
@@ -80,6 +82,8 @@ namespace dru
 		{
 			SetStateOff(eState::Fly);
 			SetStateOn(eState::Recieve);
+
+			mAudioSource->Play(L"kissyface_axeimpact");
 
 			mAxe->GetKissyface()->GetScript<CKissyfaceScript>()->PlayBulletReflect(GetOwnerWorldPos());
 			CTimeMgr::BulletTime(0.25f);

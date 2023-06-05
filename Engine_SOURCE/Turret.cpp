@@ -136,4 +136,8 @@ namespace dru
 
 		particleSystem->SetMaxElapsedTime(5.f);
 	}
+	void CTurret::Reset()
+	{
+		mBeam->GetScript<CBeamScript>()->Reset();
+	}
 }

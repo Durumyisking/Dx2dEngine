@@ -27,6 +27,7 @@ namespace dru
 	{
 		CTransform* tr = GetOwner()->GetComponent<CTransform>();
 		Vector3 pos = tr->GetPosition();
+		pos.z = 0.f;
 		Vector3 forward = tr->Forward();
 		for (std::pair<const std::wstring, CAudioClip*> clip : mAudioClips)
 		{

@@ -19,7 +19,23 @@ namespace dru
 		SpriteRenderer->SetMaterial(Material);
 
 		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
-		audioSource->AddClipByKey(L"monser_walk1");
+		audioSource->AddClipByKey(L"kissyface_axecatch");
+		audioSource->AddClipByKey(L"kissyface_axelunge");
+		audioSource->AddClipByKey(L"kissyface_axeprepare");
+		audioSource->AddClipByKey(L"kissyface_clash");
+		audioSource->AddClipByKey(L"kissyface_crouch");
+		audioSource->AddClipByKey(L"kissyface_death");
+		audioSource->AddClipByKey(L"kissyface_jump");
+		audioSource->AddClipByKey(L"kissyface_sharpen");
+		audioSource->AddClipByKey(L"kissyface_struggle");
+
+		audioSource->AddClipByKey(L"kissyface_voice_axethrow");
+		audioSource->AddClipByKey(L"kissyface_voice_chop");
+		audioSource->AddClipByKey(L"kissyface_voice_crouch");
+		audioSource->AddClipByKey(L"kissyface_voice_hurt");
+		audioSource->AddClipByKey(L"kissyface_voice_jump");
+		audioSource->AddClipByKey(L"kissyface_voice_lunge");
+		audioSource->AddClipByKey(L"kissyface_voice_prepare");
 
 
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
@@ -75,11 +91,6 @@ namespace dru
 
 	void CKissyface::update()
 	{
-		if (CInput::GetKeyDown(eKeyCode::N_9))
-		{
-			mAnimator->Play(L"kissyface_Hurt");
-		}
-
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();

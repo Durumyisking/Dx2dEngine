@@ -116,6 +116,7 @@ namespace dru
 
     private:
         CKissyface* mKissyface;
+        CAudioSource* mAudioSource;
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;

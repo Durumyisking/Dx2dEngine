@@ -1065,6 +1065,7 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"kissyface_jump", L"Sound/Kissyface/kissyface_jump.wav");
 		CResources::Load<CAudioClip>(L"kissyface_sharpen", L"Sound/Kissyface/kissyface_sharpen.wav");
 		CResources::Load<CAudioClip>(L"kissyface_struggle", L"Sound/Kissyface/kissyface_struggle.wav");
+
 		CResources::Load<CAudioClip>(L"kissyface_voice_axethrow", L"Sound/Kissyface/kissyface_voice_axethrow.wav");
 		CResources::Load<CAudioClip>(L"kissyface_voice_chop", L"Sound/Kissyface/kissyface_voice_chop.wav");
 		CResources::Load<CAudioClip>(L"kissyface_voice_crouch", L"Sound/Kissyface/kissyface_voice_crouch.wav");

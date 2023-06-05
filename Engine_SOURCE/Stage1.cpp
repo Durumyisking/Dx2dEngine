@@ -84,7 +84,7 @@ namespace dru
 		mGrunt2->GetScript<CMonsterScript>()->Reset();
 		mGrunt2->SetLeft();
 
-		mLaserTurret->GetBeam()->GetScript<CBeamScript>()->Reset();
+		mLaserTurret->Reset();
 
 		mEnemyCount = 2;
 

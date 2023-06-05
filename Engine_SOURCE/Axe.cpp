@@ -30,6 +30,14 @@ namespace dru
 		coll->Off();
 		coll->RenderingOff();
 
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+
+		audioSource->AddClipByKey(L"kissyface_axeimpact"); 
+		audioSource->AddClipByKey(L"kissyface_axereturn"); 
+		audioSource->AddClipByKey(L"kissyface_axethrow"); 
+		audioSource->AddClipByKey(L"kissyface_axeturn");
+
+
 		AddComponent<CAxeScript>(eComponentType::Script);
 
 		mAfterImageCount = 0;

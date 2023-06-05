@@ -12,6 +12,7 @@ namespace dru
 {
 	CKissyfaceScript::CKissyfaceScript()
 		: mKissyface(nullptr)
+		, mAudioSource(nullptr)
 		, mBulletReflect(nullptr)
 		, mAttackCollider(nullptr)
 		, mStatePattern1{}
@@ -33,6 +34,7 @@ namespace dru
 	void CKissyfaceScript::Initialize()
 	{
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
+		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
 		AddAnimationCallBack();
 		AddAnimationCallBack_Lamda();
@@ -90,6 +92,7 @@ namespace dru
 			{
 				SetStatePattern2On(ePattern2::Recieve);
 				mAnimator->Play(L"kissyface_RecieveAxe", false);
+				mAudioSource->Play(L"kissyface_axecatch");
 				AxeOff();
 			}
 		}
@@ -106,6 +109,7 @@ namespace dru
 				{
 					SetSingleState(eBossState::Hurt);
 					mKissyface->Damaged();
+					mAudioSource->Play(L"kissyface_voice_hurt");
 
 					CTimeMgr::BulletTime(0.1f);
 					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
@@ -197,6 +201,8 @@ namespace dru
 			};
 			mAnimator->GetCompleteEvent(L"kissyface_LungeReady") = [this]
 			{
+				mAudioSource->Play(L"kissyface_axelunge");
+				mAudioSource->Play(L"kissyface_voice_lunge");
 				mAnimator->Play(L"kissyface_Lunge", false);
 				SetStatePattern3On(ePattern3::Lunge);
 			};
@@ -208,10 +214,10 @@ namespace dru
 			{
 				AttackColliderOff();
 			};
-			mAnimator->GetEndEvent(L"kissyface_LungeAttack") = [this]
-			{
-				AttackColliderOff();
-			};
+			//mAnimator->GetEndEvent(L"kissyface_LungeAttack") = [this]
+			//{
+			//	AttackColliderOff();
+			//};
 
 			mAnimator->GetCompleteEvent(L"kissyface_Hurt") = [this]
 			{			
@@ -221,6 +227,47 @@ namespace dru
 			{
 				Reset();
 			};			
+			mAnimator->GetCompleteEvent(L"kissyface_Waiting") = [this]
+			{
+				mAudioSource->Play(L"kissyface_axeprepare");
+				mAudioSource->Play(L"kissyface_voice_prepare");
+			};
+			mAnimator->GetFrameEvent(L"kissyface_Waiting", 2) = [this]
+			{
+				mAudioSource->Play(L"kissyface_sharpen");
+			};
+
+
+			mAnimator->GetCompleteEvent(L"kissyface_CutArm") = [this]
+			{
+				mAnimator->Play(L"kissyface_Dying");
+				AxeOff();
+				PlayerReset();
+
+				Vector3 pos = mPlayer->GetWorldPos();
+
+				if (GetOwner()->IsLeft())
+				{
+					pos.x -= 0.5f;
+				}
+				else
+				{
+					pos.x += 0.5f;
+				}
+				mPlayer->SetPos(pos);
+				SetSingleState(eBossState::Dead);
+			};
+			mAnimator->GetFrameEvent(L"kissyface_CutArm", 3) = [this]
+			{
+				CTimeMgr::BulletTime(0.1f);
+				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
+			};
+			mAnimator->GetFrameEvent(L"kissyface_CutArm", 7) = [this]
+			{
+				CTimeMgr::BulletTime(0.1f);
+				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
+			};
+
 		}
 		else
 		{
@@ -233,6 +280,7 @@ namespace dru
 		if (!GetStatePattern1(ePattern1::Jump))
 		{
 			mAnimator->Play(L"kissyface_JumpStart", false);
+			mAudioSource->Play(L"kissyface_crouch");
 			SetStatePattern1On(ePattern1::Jump);
 			mKissyface->SetAfterImageCount(30);
 			mKissyface->SetAfterImageColor(MAGENTA);
@@ -249,6 +297,9 @@ namespace dru
 		if (!GetStatePattern2(ePattern2::Throw))
 		{
 			mAnimator->Play(L"kissyface_ThrowAxe", false);
+			mKissyface->GetAxe()->GetComponent<CAudioSource>()->Play(L"kissyface_axethrow");
+			mAudioSource->Play(L"kissyface_voice_axethrow");
+
 			SetStatePattern2On(ePattern2::Throw);
 			SetAxeDir();
 		}
@@ -263,6 +314,7 @@ namespace dru
 					mKissyface->GetAxeScript()->SetStateOn(eState::Recieve);
 					mKissyface->GetAxeScript()->SetStateOn(eState::Rotate);
 					mPattern2_RecieveWaitingTime = 1.f;
+					mKissyface->GetAxe()->GetComponent<CAudioSource>()->Play(L"kissyface_axereturn");
 				}
 			}
 		}
@@ -278,6 +330,7 @@ namespace dru
 			mKissyface->SetAfterImageColor(RED);
 
 			mAnimator->Play(L"kissyface_LungeReady", false);
+			mAudioSource->Play(L"kissyface_crouch");
 
 			mPattern3_LungeOrigin = GetOwnerWorldPos();
 			mPattern3_LungeDestination = mPlayer->GetWorldPos();
@@ -330,6 +383,8 @@ namespace dru
 	void CKissyfaceScript::LungeStart()
 	{
 		mAnimator->Play(L"kissyface_LungeAttack", false);
+		mAudioSource->Play(L"kissyface_voice_chop");
+
 		mbNoAxe = true;
 		AttackColliderOn();
 		SetStatePattern3On(ePattern3::LungeAttack);
@@ -409,6 +464,7 @@ namespace dru
 	void CKissyfaceScript::Block()
 	{
 		mState.reset();
+		mAudioSource->Play(L"kissyface_clash");
 		mAnimator->Play(L"kissyface_Block", false);
 		mState[(UINT)eBossState::Block] = true;
 
@@ -448,6 +504,7 @@ namespace dru
 		if (CInput::GetKeyTap(eKeyCode::LBTN))
 		{
 			StruggleOff();
+			mAudioSource->Stop(L"kissyface_struggle");
 		}
 
 		PushPlayer();
@@ -460,6 +517,7 @@ namespace dru
 		CStage::KeyUI_LClickOn(pos);
 		mbStruggling = true;
 		mAnimator->Play(L"kissyface_Struggle");
+		mAudioSource->Play(L"kissyface_struggle", true);
 		mPlayer->RemoveAfterImage();
 		mPlayer->SetAfterImageCount(0);
 		mPlayer->RenderingBlockOn();
@@ -478,41 +536,13 @@ namespace dru
 		{
 			mAnimator->Play(L"kissyface_GetUp", false);
 			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
+
 			PlayerReset();
 		}
 		else
 		{
 			mAnimator->Play(L"kissyface_CutArm", false);
-			mAnimator->GetCompleteEvent(L"kissyface_CutArm") = [this]
-			{
-				mAnimator->Play(L"kissyface_Dying");
-				AxeOff();
-				PlayerReset();
-
-				Vector3 pos = mPlayer->GetWorldPos();
-
-				if (GetOwner()->IsLeft())
-				{
-					pos.x -= 0.5f;
-				}
-				else
-				{
-					pos.x += 0.5f;
-				}
-				mPlayer->SetPos(pos);
-				SetSingleState(eBossState::Dead);
-			};
-			mAnimator->GetFrameEvent(L"kissyface_CutArm", 3) = [this]
-			{
-				CTimeMgr::BulletTime(0.1f);
-				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
-			};
-			mAnimator->GetFrameEvent(L"kissyface_CutArm", 7) = [this]
-			{
-				CTimeMgr::BulletTime(0.1f);
-				renderer::mainCamera->GetCamScript()->MakeCamShake(0.1f, 1.f);
-			};
-
+			mAudioSource->Play(L"kissyface_death");
 		}
 
 	}
@@ -547,6 +577,10 @@ namespace dru
 		if (!GetStatePattern1(ePattern1::Throw))
 		{
 			SetStatePattern1On(ePattern1::Throw);
+			mAudioSource->Play(L"kissyface_jump");
+			mAudioSource->Play(L"kissyface_voice_jump");
+			mKissyface->GetAxe()->GetComponent<CAudioSource>()->Play(L"kissyface_axeturn");
+
 			mAnimator->Play(L"kissyface_AirThrowAxe", false);
 			AxeOn();
 			mKissyface->GetAxeScript()->SetStateOn(eState::Orbit);
