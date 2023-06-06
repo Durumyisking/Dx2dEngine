@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "SceneMgr.h"
 #include "Scene.h"
+#include "Application.h"
 
 extern dru::CApplication application;
 

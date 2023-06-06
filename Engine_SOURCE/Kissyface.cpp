@@ -49,6 +49,7 @@ namespace dru
 		mAnimator->Create(L"kissyface_GetUp", Material->GetTexture(), { 6656.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 7, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_CutArm", Material->GetTexture(), { 2560.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 14, { 90.f, 90.f }, 0.1f);
 		mAnimator->Create(L"kissyface_Dying", Material->GetTexture(), { 1152.f, 0.f }, { 128.f, 128.f }, Vector2::Zero, 11, { 90.f, 90.f }, 0.1f);
+		mAnimator->Create(L"kissyface_Dead", Material->GetTexture(), { 3968.f, 128.f }, { 128.f, 128.f }, Vector2::Zero, 7, { 90.f, 90.f }, 0.1f);
 
 
 		// pattern 1
@@ -83,8 +84,8 @@ namespace dru
 
 	void CKissyface::Initialize()
 	{
-		mMaxHp = 5;
-		mHp = 5;
+		mMaxHp = 1;
+		mHp = 1;
 
 		CBoss::Initialize();
 	}

@@ -6,7 +6,7 @@
 #include "Object.h"
 #include "Stage.h"
 #include "PlayerScript.h"
-
+#include "KissyHead.h"
 
 namespace dru
 {
@@ -98,26 +98,42 @@ namespace dru
 		}
 		else if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			if (!GetState(eBossState::Hurt))
+			if (!mbDead)
 			{
-				if (BlockTest())
+				if (L"kissyface_Dying" == mAnimator->GetCurrentAnimation()->GetAnimationName())
 				{
-					SetSingleState(eBossState::Block);
-					Block();
+					AfterImageReset();
+					mAnimator->Play(L"kissyface_Dead", false);
+					mbDead = true;
+					SetSingleState(eBossState::Dead);
+
+					CKissyHead* head = object::Instantiate<CKissyHead>(eLayerType::Monster, L"kissyHead");
+					head->SetPos(GetOwner()->GetWorldPos());
+					head->Initialize();
+					return;
+				}
+
+				if (!GetState(eBossState::Hurt))
+				{
+					if (BlockTest())
+					{
+						SetSingleState(eBossState::Block);
+						Block();
+					}
+					else
+					{
+						SetSingleState(eBossState::Hurt);
+						mKissyface->Damaged();
+						mAudioSource->Play(L"kissyface_voice_hurt");
+
+						CTimeMgr::BulletTime(0.1f);
+						renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+					}
 				}
 				else
 				{
-					SetSingleState(eBossState::Hurt);
-					mKissyface->Damaged();
-					mAudioSource->Play(L"kissyface_voice_hurt");
-
-					CTimeMgr::BulletTime(0.1f);
-					renderer::mainCamera->GetCamScript()->MakeCamShake(0.5f, 0.1f);
+					StruggleOn();
 				}
-			}	
-			else
-			{
-				StruggleOn();
 			}
 		}
 
@@ -210,14 +226,14 @@ namespace dru
 			{
 				PatternEnd(3);
 			};
-			mAnimator->GetFrameEvent(L"kissyface_LungeAttack", 3) = [this]
+			mAnimator->GetFrameEvent(L"kissyface_LungeAttack", 2) = [this]
 			{
 				AttackColliderOff();
 			};
-			//mAnimator->GetEndEvent(L"kissyface_LungeAttack") = [this]
-			//{
-			//	AttackColliderOff();
-			//};
+			mAnimator->GetEndEvent(L"kissyface_LungeAttack") = [this]
+			{
+				AttackColliderOff();
+			};
 
 			mAnimator->GetCompleteEvent(L"kissyface_Hurt") = [this]
 			{			

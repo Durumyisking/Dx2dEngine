@@ -558,6 +558,12 @@
     <ClInclude Include="StringFunctions.h">
       <Filter>Common\StringFunctions</Filter>
     </ClInclude>
+    <ClInclude Include="KissyHead.h">
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
+    </ClInclude>
+    <ClInclude Include="KissyHeadScript.h">
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -885,6 +891,12 @@
     </ClCompile>
     <ClCompile Include="StringFunctions.cpp">
       <Filter>Common\StringFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="KissyHead.cpp">
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="KissyHeadScript.cpp">
+      <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

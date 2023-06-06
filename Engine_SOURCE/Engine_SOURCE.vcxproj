@@ -227,6 +227,8 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClInclude Include="Input.h" />
     <ClInclude Include="Kissyface.h" />
     <ClInclude Include="KissyfaceScript.h" />
+    <ClInclude Include="KissyHead.h" />
+    <ClInclude Include="KissyHeadScript.h" />
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightObject.h" />
@@ -340,6 +342,8 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Kissyface.cpp" />
     <ClCompile Include="KissyfaceScript.cpp" />
+    <ClCompile Include="KissyHead.cpp" />
+    <ClCompile Include="KissyHeadScript.cpp" />
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightObject.cpp" />
