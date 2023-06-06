@@ -1,10 +1,13 @@
 #include "Pomp.h"
 #include "PompScript.h"
+#include "Object.h"
+#include "HorizonGauge.h"
 
 namespace dru
 {
 	CPomp::CPomp()
-		: mAnimOffset(Vector2{0.f , -3.f})
+		: mAnimOffset(Vector2{ 0.f , -3.f })
+		, mBlockGauge(nullptr)
 	{
 		SetName(L"Pomp");
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
@@ -27,6 +30,8 @@ namespace dru
 		mAnimator->Play(L"Pomp_Idle");
 
 		AddComponent<CPompScript>(eComponentType::Script)->Initialize();
+
+		AddBlockGauge();
 	}
 
 	CPomp::~CPomp()
@@ -58,6 +63,21 @@ namespace dru
 	void CPomp::rewindRender()
 	{
 		CMonster::rewindRender();
+	}
+
+	void CPomp::AddBlockGauge()
+	{
+		mBlockGauge = object::Instantiate<CHorizonGauge>(eLayerType::None, this, L"BlockGauge");
+		mBlockGauge->SetPosAbs({ 0.f, 0.65f, -1.f });
+		mBlockGauge->SetScale({ 0.5f, 0.1f, 0.f });
+		mBlockGauge->SetTimer(1.f);
+		mBlockGauge->RenderingBlockOn();
+	}
+
+	void CPomp::PlayGauge()
+	{
+		mBlockGauge->Play();
+
 	}
 
 }

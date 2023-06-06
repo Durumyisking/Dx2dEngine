@@ -215,6 +215,9 @@
     <Filter Include="Common\StringFunctions">
       <UniqueIdentifier>{e1788ee6-93ce-4c47-b4fe-2255eaabd9b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\GameObj\HUD">
+      <UniqueIdentifier>{21dd7001-d19b-4f85-bc84-aa42a7d461ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -564,6 +567,12 @@
     <ClInclude Include="KissyHeadScript.h">
       <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
     </ClInclude>
+    <ClInclude Include="HorizonGaugeScript.h">
+      <Filter>Common\GameObj\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HorizonGauge.h">
+      <Filter>Common\GameObj\HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -897,6 +906,12 @@
     </ClCompile>
     <ClCompile Include="KissyHeadScript.cpp">
       <Filter>Common\GameObj\Monster\Boss\Kissysface</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizonGauge.cpp">
+      <Filter>Common\GameObj\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizonGaugeScript.cpp">
+      <Filter>Common\GameObj\HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

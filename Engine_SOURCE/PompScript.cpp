@@ -1,5 +1,6 @@
 #include "PompScript.h"
 #include "TimeMgr.h"
+#include "Pomp.h"
 
 namespace dru
 {
@@ -36,7 +37,7 @@ namespace dru
 
 	void CPompScript::update()
 	{
-		if (1.5f > mBlockTimer)
+		if (1.f > mBlockTimer)
 		{
 			mBlockTimer += CTimeMgr::DeltaTime();
 		}
@@ -98,6 +99,8 @@ namespace dru
 				mbCanBlock = false;
 				mAnimator->Play(L"Pomp_KnockedDown", false);
 				SetSingleState(eMonsterState::Block);
+
+				dynamic_cast<CPomp*>(GetOwner())->PlayGauge();
 
 				return;
 			}

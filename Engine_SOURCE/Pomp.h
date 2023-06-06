@@ -3,6 +3,7 @@
 
 namespace dru
 {
+	class CHorizonGauge;
     class CPomp :
         public CMonster
     {
@@ -16,7 +17,12 @@ namespace dru
 		virtual void render();
 		virtual void rewindRender();
 	
+		void AddBlockGauge();
+		void PlayGauge();
+
+
 	private:
 		Vector2 mAnimOffset;
+		CHorizonGauge* mBlockGauge;
 	};
 }
