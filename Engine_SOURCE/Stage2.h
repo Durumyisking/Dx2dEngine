@@ -30,7 +30,6 @@ namespace dru
 
 
     private:
-
         CMonster* mGrunt1;
         CMonster* mCop1;
         CMonster* mPomp1;

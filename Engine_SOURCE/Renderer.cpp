@@ -590,6 +590,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stagetutorial", L"MainScene/Background/Tutorialbg.png");
 		CResources::Load<CTexture>(L"stage1", L"MainScene/Background/Stage1bg.png");
 		CResources::Load<CTexture>(L"stage2", L"MainScene/Background/Stage2bg.png");
+		CResources::Load<CTexture>(L"stage3", L"MainScene/Background/Stage3bg.png");
 		CResources::Load<CTexture>(L"bossStage1", L"MainScene/Background/Boss1bg.png");
 		CResources::Load<CTexture>(L"bossStage2", L"MainScene/Background/Boss2bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");

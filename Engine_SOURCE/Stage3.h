@@ -24,6 +24,17 @@ namespace dru
         virtual void ReadyEndOperate();
         virtual void LoadUIOperate();
         virtual void LoadEndOperate();
+
+        void CreateOutWall();
+        void CreateFirstFloor();
+        void CreateSecondFloor();
+
+
+    private:
+        CMonster* mPomp1;
+
+        Vector3 mPomp1DefaultPos;
+
 	};
 
 }

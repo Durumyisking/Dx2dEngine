@@ -1322,14 +1322,14 @@ namespace dru
 
 		if (mState[(UINT)ePlayerState::Dead] == false)
 		{
-			if (!GetOwner_LiveObject()->IsRewindRePlaying())
-			{
-				mAudioSource->Play(L"player_land");
-			}
 
 			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
 			{
 				mAudioSource->Stop(L"player_wallslide");
+				if (!GetOwner_LiveObject()->IsRewindRePlaying())
+				{
+					mAudioSource->Play(L"player_land");
+				}
 				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 				SetPlayerSingleState(ePlayerState::RunToIdle);
 			}
