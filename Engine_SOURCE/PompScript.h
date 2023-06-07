@@ -25,6 +25,8 @@ namespace dru
 
         virtual void SetMonsterAttack();
 
+        void PushPlayer();
+
 
     private:
         CAnimator* mAnimator;

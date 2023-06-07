@@ -31,9 +31,11 @@ namespace dru
 		, mLRKeyupTime(0.f)
 		, mSlideDustCount(0.f)
 		, mHitTimer(0.f)
+		, mStunTimer(0.f)
 		, mHitDir(Vector3::Zero)
 		, mbLRKeyupTimerOn(false)
 		, mbInputBlock(false)
+		, mbStun(false)
 		, mbOnWall(false)
 		, mAnimator(nullptr)
 		, mRigidbody(nullptr)
@@ -91,6 +93,18 @@ namespace dru
 			dead();
 		}
 
+		if (mbStun)
+		{
+			mStunTimer += CTimeMgr::DeltaTime();
+
+			if (mStunTimer > 0.5f)
+			{
+				mRigidbody->SetMaxVelocity(VELOCITY_RUN);
+				mbStun = false;
+				mbInputBlock = false;
+				mStunTimer = 0.f;
+			}
+		}
 
 		if (!mbInputBlock)
 		{

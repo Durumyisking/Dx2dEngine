@@ -4,12 +4,14 @@
 #include "PlayerAfterImage.h"
 #include "GameObj.h"
 #include "Stage.h"
+#include "HorizonGauge.h"
 
 
 namespace dru
 {
 	CPlayer::CPlayer()
 		: mbPlayerDead(false)
+		, mBlockGauge(nullptr)
 
 	{
 		SetLayerType(eLayerType::Player);
@@ -84,6 +86,7 @@ namespace dru
 
 		AddComponent<CPlayerScript>(eComponentType::Script);
 	
+		AddBlockGauge();
 	}
 
 	CPlayer::~CPlayer()
@@ -123,6 +126,25 @@ namespace dru
 	void CPlayer::rewindRender()
 	{
 		CLiveGameObj::rewindRender();
+	}
+
+	void CPlayer::AddBlockGauge()
+	{
+		mBlockGauge = object::Instantiate<CHorizonGauge>(eLayerType::None, this, L"BlockGauge");
+		mBlockGauge->SetPosAbs({ 0.f, 0.65f, -1.f });
+		mBlockGauge->SetScale({ 0.5f, 0.1f, 0.f });
+		mBlockGauge->SetTimer(0.5f);
+		mBlockGauge->RenderingBlockOn();
+	}
+
+	void CPlayer::PlayGauge()
+	{
+		mBlockGauge->Play();
+	}
+
+	void CPlayer::SetPlayerStun()
+	{
+		GetScript<CPlayerScript>()->StunOn();
 	}
 
 

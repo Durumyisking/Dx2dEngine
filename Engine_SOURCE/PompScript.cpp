@@ -1,6 +1,7 @@
 #include "PompScript.h"
 #include "TimeMgr.h"
 #include "Pomp.h"
+#include "Player.h"
 
 namespace dru
 {
@@ -99,6 +100,7 @@ namespace dru
 				mbCanBlock = false;
 				mAnimator->Play(L"Pomp_KnockedDown", false);
 				SetSingleState(eMonsterState::Block);
+				PushPlayer();
 
 				dynamic_cast<CPomp*>(GetOwner())->PlayGauge();
 
@@ -129,6 +131,26 @@ namespace dru
 		else
 		{
 			runTrigger();
+		}
+	}
+
+	void CPompScript::PushPlayer()
+	{
+		CPlayer* player =  dynamic_cast<CPomp*>(GetOwner())->GetPlayer();
+		player->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
+		player->SetPlayerStun();
+		CAnimator* playerAnimator = player->GetComponent<CAnimator>();
+		{
+			CRigidBody* playerRigidBody = player->GetComponent<CRigidBody>();
+
+			if (player->GetWorldPos().x > GetOwnerWorldPos().x )
+			{
+				playerRigidBody->SetVelocity({ 10.f, 0.f, 0.f });
+			}
+			else
+			{
+				playerRigidBody->SetVelocity({ -10.f, 0.f, 0.f });
+			}
 		}
 	}
 

@@ -2,6 +2,7 @@
 #include "PompScript.h"
 #include "Object.h"
 #include "HorizonGauge.h"
+#include "Player.h"
 
 namespace dru
 {

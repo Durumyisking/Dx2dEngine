@@ -4,6 +4,7 @@
 namespace dru
 {
 	class CAfterImage;
+	class CHorizonGauge;
 	class CPlayer :
 		public CLiveGameObj
 	{
@@ -18,12 +19,17 @@ namespace dru
 		virtual void render();
 		virtual void rewindRender();
 
+		void AddBlockGauge();
+		void PlayGauge();
 
 	private:
 		bool mbPlayerDead;
+		CHorizonGauge* mBlockGauge;
 
 	public:
 		bool IsPlayerDead() const { return mbPlayerDead; }
 		void SetPlayerDead(bool _Value) { mbPlayerDead = _Value; }
+		void SetPlayerStun();
+
 	};
 }

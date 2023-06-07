@@ -105,7 +105,7 @@ namespace dru
 
             wchar_t szFloat[50] = {};
             float FPS = 1.f / mDeltaTime;
-            swprintf_s(szFloat, 50, L"DeltaTime : %d", iCount);
+            swprintf_s(szFloat, 50, L"Fps : %d", iCount);
             int iLen = static_cast<int>(wcsnlen_s(szFloat, 50));
             //TextOut(_dc, 10, 10, szFloat, iLen);
 

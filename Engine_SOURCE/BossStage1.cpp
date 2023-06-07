@@ -67,7 +67,7 @@ namespace dru
 
 	void CBossStage1::ReadyOperate()
 	{
-//		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
 		CStage::ReadyOperate();
 	}
 

@@ -81,6 +81,8 @@ namespace dru
         }
 
         CStage::AddStartingLiveObjects();
+
+        dynamic_cast<CPomp*>(mPomp1)->SetPlayer(mPlayer);
     }
 
     void CStage3::NotReadyOperate()

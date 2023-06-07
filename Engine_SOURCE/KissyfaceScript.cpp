@@ -552,7 +552,6 @@ namespace dru
 		{
 			mAnimator->Play(L"kissyface_GetUp", false);
 			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
-
 			PlayerReset();
 		}
 		else

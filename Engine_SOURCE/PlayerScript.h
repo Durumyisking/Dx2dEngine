@@ -162,8 +162,10 @@ namespace dru
 
         bool mbLRKeyupTimerOn;
         bool mbInputBlock;
+        bool mbStun;
 
         bool mbOnFloor2;
+        float mStunTimer;
 
         std::bitset<static_cast<UINT>(ePlayerState::End)> mState;        
 
@@ -178,6 +180,14 @@ namespace dru
         void InputBlocking() { mbInputBlock = true; }
         void UnInputBlocking() { mbInputBlock = false; }
 
+        void StunOn() 
+        {
+            dynamic_cast<CPlayer*>(GetOwner())->PlayGauge();
+            mbStun = true; 
+            mbInputBlock = true;
+            mRigidbody->SetMaxVelocity({ 10.f, 7.f, 0.f });
+            mState.reset();
+        }
 
         bool GetPlayerState(ePlayerState _state) const { return mState[(UINT)_state]; }
         void SetPlayerState(ePlayerState _state, bool _value) { mState[(UINT)_state] = _value; }
