@@ -21,6 +21,7 @@ namespace dru
         virtual void OnCollisionExit(CCollider2D* _oppo);
 
         void Reset();
+        bool IsOpen() const { return mbOpen; }
 
     private:
         CAnimator* mAnimator;

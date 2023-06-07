@@ -123,8 +123,19 @@ namespace dru
 			GetOwner_LiveObject()->SetStairOn(degree);
 		}
 
-		else if (L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName())
+		else if (L"col_wall" == _oppo->GetName() || L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
 		{
+			if (L"col_door" == _oppo->GetName())
+			{
+				if (dynamic_cast<CDoor*>(_oppo->GetOwner())->IsOpen())
+				{
+					if (doorHit())
+					{
+						return;
+					}
+				}
+			}
+
 			mbOnWall = true;
 
 			if (GetOwner()->IsLeft())
@@ -135,7 +146,6 @@ namespace dru
 			{
 				GetOwner()->SetLeft();
 			}
-
 
 			wallBound(_oppo);
 		}
@@ -524,6 +534,23 @@ namespace dru
 			CStage* stage = scene->GetCurrentStage();
 			stage->MonsterDead();
 		}
+	}
+
+	bool CMonsterScript::doorHit()
+	{
+		if (!mbDead)
+		{
+			SetHitDir();
+			if (0 != GetOwner()->GetCurrentStage()->GetStageNumber())
+			{
+				CreateDirBlood();
+				CreateDecalBlood();
+			}
+			hitSlash(0);
+
+			return true;
+		}
+		return false;
 	}
 
 	void CMonsterScript::collEnter_BulletSlash(CCollider2D* _oppo)

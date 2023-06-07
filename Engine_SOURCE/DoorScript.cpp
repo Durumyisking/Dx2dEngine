@@ -24,10 +24,17 @@ namespace dru
 		{
 			mAnimator->Play(L"DoorOpened", false);
 		};
+		mAnimator->GetFrameEvent(L"DoorOpen", 3) = [this]
+		{
+			mCollider->Off();
+			mCollider->RenderingOff();
+		};
+
 	}
 
 	void CDoorScript::update()
 	{
+		GetOwner()->Flip();
 	}
 
 	void CDoorScript::fixedUpdate()
@@ -46,7 +53,7 @@ namespace dru
 			{
 				mAnimator->Play(L"DoorOpen", false);
 				mbOpen = true;
-
+				mCollider->SetScale({1.f, 1.f});
 			}
 		}
 	}
@@ -62,6 +69,9 @@ namespace dru
 	void CDoorScript::Reset()
 	{
 		mAnimator->Play(L"DoorClosed", false);
+		mCollider->On();
+		mCollider->RenderingOn();
+		mCollider->SetScale({ 0.1f, 1.f });
 		mbOpen = false;
 	}
 

@@ -69,6 +69,7 @@ namespace dru
 			mStages[i]->SetOwner(this);
 		}
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::Platforms);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Objects, eLayerType::Ray);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Boss);

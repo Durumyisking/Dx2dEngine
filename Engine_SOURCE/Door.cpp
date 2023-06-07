@@ -66,4 +66,9 @@ namespace dru
 		CLiveGameObj::rewindRender();
 	}
 
+	bool CDoor::IsOpen() 
+	{
+		return GetScript<CDoorScript>()->IsOpen();
+	}
+
 }

@@ -4,8 +4,12 @@ namespace dru
 {
     CStage3::CStage3()
         : mPomp1(nullptr)
+        , mGrunt1(nullptr)
         , mDoor1(nullptr)
+        , mDoor2(nullptr)
+        , mDoor3(nullptr)
         , mPomp1DefaultPos{}
+        , mGrunt1DefaultPos{}
     {
         mStageNumbmer = 4;
     }
@@ -31,8 +35,9 @@ namespace dru
 
         mPlayerDefaultPos = Vector3(-6.f, 1.f, 3.f);
         mPomp1DefaultPos = Vector3(0.f, -4.f, 3.f);
+        mGrunt1DefaultPos = Vector3(1.5f, -4.f, 3.f);
 
-        mEnemyCount = 1;
+        mEnemyCount = 2;
         mStageState = eStageState::Ready;
 
         AddStartingLiveObjects();
@@ -70,7 +75,13 @@ namespace dru
         mPomp1->SetPos(mPomp1DefaultPos);
         mPomp1->GetScript<CMonsterScript>()->Reset();
 
+        mGrunt1->SetPos(mGrunt1DefaultPos);
+        mGrunt1->GetScript<CMonsterScript>()->Reset();
+
+
         mDoor1->GetScript<CDoorScript>()->Reset();
+        mDoor2->GetScript<CDoorScript>()->Reset();
+        mDoor3->GetScript<CDoorScript>()->Reset();
 
         CStage::Reset();
     }
@@ -85,9 +96,27 @@ namespace dru
             mRewindObjects.push_back(mPomp1);
         }
         {
-            mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"Pomp");
-            mDoor1->SetPos({1.1, -4.f, 0.f});
+            mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+            mGrunt1->SetPos(mGrunt1DefaultPos);
+            mGrunt1->SetRight();
+            mGrunt1->MonsterPatrolOn();
+            mRewindObjects.push_back(mGrunt1);
+        }
+        {
+            mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
+            mDoor1->SetPos({1.1f, -4.f, 0.f});
             mRewindObjects.push_back(mDoor1);
+        }
+        {
+            mDoor2 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
+            mDoor2->SetPos({ 1.1f, -8.8f, 0.f });
+            mDoor2->SetLeft();
+            mRewindObjects.push_back(mDoor2);
+        }
+        {
+            mDoor3 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
+            mDoor3->SetPos({ 1.1f, -13.6f, 0.f });
+            mRewindObjects.push_back(mDoor3);
         }
 
         CStage::AddStartingLiveObjects();

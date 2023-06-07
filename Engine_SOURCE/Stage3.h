@@ -34,9 +34,15 @@ namespace dru
 
     private:
         CMonster* mPomp1;
+        CMonster* mGrunt1;
+
+
         CDoor* mDoor1;
+        CDoor* mDoor2;
+        CDoor* mDoor3;
 
         Vector3 mPomp1DefaultPos;
+        Vector3 mGrunt1DefaultPos;
 
 	};
 

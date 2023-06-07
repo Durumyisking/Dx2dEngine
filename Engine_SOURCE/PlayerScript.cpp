@@ -249,11 +249,6 @@ namespace dru
 		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
 		{
-			if (L"col_door" == _oppo->GetName())
-			{
-				dynamic_cast<CDoor*>(_oppo->GetOwner());
-			}
-
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 				mbWallIsLeft = -1;
 			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
@@ -397,7 +392,7 @@ namespace dru
 			mbWallIsLeft = 0;
 		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
-		{
+		{ 
 			mbWallIsLeft = 0;
 		}
 	}

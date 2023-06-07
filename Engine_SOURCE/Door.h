@@ -16,6 +16,7 @@ namespace dru
 		virtual void render();
 		virtual void rewindRender();
 
+		bool IsOpen();
 
     };
 }

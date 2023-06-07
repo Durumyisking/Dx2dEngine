@@ -16,6 +16,7 @@ namespace dru
 		, mAnimator(nullptr)
 		, mRigidBody(nullptr)
 		, mMonsterScript(nullptr)
+		, mbThroughWall(false)
 	{
 
 	}
@@ -68,20 +69,37 @@ namespace dru
 		eStageState stagestate = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState();
 		if (stagestate == eStageState::LoadEnd)
 		{
+			if (L"col_door" == _oppo->GetName())
+			{
+				mbThroughWall = true;
+			}
+
+
 			if (L"col_player" == _oppo->GetName())
 			{
-				mMonsterScript->SetTarget(_oppo->GetOwner_LiveObject());
+				if (!mbThroughWall)
+				{
+					mMonsterScript->SetTarget(_oppo->GetOwner_LiveObject());
+				}
 			}
 		}
 	}
 
 	void CMonsterRayScript::OnCollision(CCollider2D* _oppo)
 	{
+		if (L"col_door" == _oppo->GetName())
+		{
+			mbThroughWall = true;
+		}
 
 	}
 
 	void CMonsterRayScript::OnCollisionExit(CCollider2D* _oppo)
 	{
+		if (L"col_door" == _oppo->GetName() )
+		{
+			mbThroughWall = false;
+		}
 
 	}
 	void CMonsterRayScript::SetMonster(CMonster* _monster)

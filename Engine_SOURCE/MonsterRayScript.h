@@ -1,10 +1,10 @@
 #pragma once
 #include "Script.h"
 
-class CMonsterScript;
 namespace dru
 {
-    class CMonsterRayScript :
+	class CMonsterScript;
+	class CMonsterRayScript :
         public CScript
     {
 	public:
@@ -35,7 +35,7 @@ namespace dru
 		CAnimator* mAnimator;
 		CRigidBody* mRigidBody;
 
-
+		bool mbThroughWall;
     };
 
 }

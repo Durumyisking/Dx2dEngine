@@ -75,6 +75,7 @@ namespace dru
         void run();
 
         void hitSlash(int _Type);
+        bool doorHit();
         void collEnter_BulletSlash(CCollider2D* _oppo);
         void wallBound(CCollider2D* _oppo);
         void dead();
