@@ -131,4 +131,9 @@ namespace dru
 		SetRayDie();
 	}
 
+	void CMonster::MonsterPatrolOn()
+	{
+		GetScript<CMonsterScript>()->PartolSwitchOn();
+	}
+
 }

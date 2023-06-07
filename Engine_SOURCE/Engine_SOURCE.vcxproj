@@ -209,6 +209,8 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClInclude Include="Cop.h" />
     <ClInclude Include="CopScript.h" />
     <ClInclude Include="CursorScript.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="DoorScript.h" />
     <ClInclude Include="druEnums.h" />
     <ClInclude Include="druMath.h" />
     <ClInclude Include="Dust.h" />
@@ -329,6 +331,8 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClCompile Include="Cop.cpp" />
     <ClCompile Include="CopScript.cpp" />
     <ClCompile Include="CursorScript.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="DoorScript.cpp" />
     <ClCompile Include="druMath.cpp" />
     <ClCompile Include="Dust.cpp" />
     <ClCompile Include="Entity.cpp" />

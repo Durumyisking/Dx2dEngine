@@ -15,6 +15,7 @@
 #include "Dust.h"
 #include "Object.h"
 #include "ParticleSystem.h"
+#include "Door.h"
 
 
 namespace dru
@@ -246,8 +247,13 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
-		else if (L"col_outWallside" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
 		{
+			if (L"col_door" == _oppo->GetName())
+			{
+				dynamic_cast<CDoor*>(_oppo->GetOwner());
+			}
+
 			if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x > _oppo->GetColliderPos().x)
 				mbWallIsLeft = -1;
 			else if (GetOwner()->GetComponent<CCollider2D>()->GetColliderPos().x < _oppo->GetColliderPos().x)
@@ -340,7 +346,7 @@ namespace dru
 			Vector3 vel = mRigidbody->GetVelocity();
 			mRigidbody->SetVelocity({ vel.x, 0.f, vel.z });
 		}
-		else if (L"col_outWallside" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
 		{
 			wallLRCheck();
 		}
@@ -390,7 +396,7 @@ namespace dru
 			}
 			mbWallIsLeft = 0;
 		}
-		else if (L"col_outWallside" == _oppo->GetName())
+		else if (L"col_outWallside" == _oppo->GetName() || L"col_door" == _oppo->GetName())
 		{
 			mbWallIsLeft = 0;
 		}

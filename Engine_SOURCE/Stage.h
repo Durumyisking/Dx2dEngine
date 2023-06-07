@@ -36,11 +36,13 @@
 #include "Stair.h"
 
 #include "LightObject.h" 
+#include "Door.h"
 
 #include "BackgroundColorScript.h"
 #include "FadeScript.h"
 #include "PlayerScript.h"
 #include "BossScript.h"
+#include "DoorScript.h"
 
 #include "PostProcess.h"
 #include "PostProcessWave.h"

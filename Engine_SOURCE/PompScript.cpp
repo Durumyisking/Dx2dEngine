@@ -68,28 +68,6 @@ namespace dru
 		}
 	}
 
-	void CPompScript::patrol()
-	{
-		if (!mTarget && mState[(UINT)eMonsterState::Block] == false)
-		{
-			if (mState[(UINT)eMonsterState::Patrol] == false)
-			{
-				mRigidbody->SetMaxVelocity(VELOCITY_WALK);
-				SetSingleState(eMonsterState::Patrol);
-			}
-			{
-				if (GetOwner()->IsLeft())
-				{
-					mRigidbody->AddForce(Vector3(-1.f, 0.f, 0.f) * 25.f);
-				}
-				else
-				{
-					mRigidbody->AddForce(Vector3(1.f, 0.f, 0.f) * 25.f);
-				}
-			}
-		}
-	}
-
 	void CPompScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		if (L"col_Player_Slash" == _oppo->GetName())

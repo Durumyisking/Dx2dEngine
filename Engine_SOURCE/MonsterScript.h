@@ -68,6 +68,8 @@ namespace dru
 
         void SetHitDir();
 
+        void PartolSwitchOn() { mbPatrolSwitch = true; }
+
     protected:
         void runTrigger();
         void run();
@@ -112,6 +114,7 @@ namespace dru
         std::bitset<static_cast<UINT>(eMonsterState::End)> mState;
 
         bool mbBodyBlood;
+        bool mbPatrolSwitch;
         float mBodyBloodTimer;
 
     public:

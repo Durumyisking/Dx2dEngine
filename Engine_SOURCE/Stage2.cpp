@@ -87,6 +87,7 @@ namespace dru
 			mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mGrunt1->SetPos(mGrunt1DefaultPos);
 			mRewindObjects.push_back(mGrunt1);
+			mGrunt1->MonsterPatrolOn();
 		}
 
 		{

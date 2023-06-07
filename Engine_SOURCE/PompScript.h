@@ -17,7 +17,6 @@ namespace dru
         virtual void render() override;
 
         virtual void attack();
-        virtual void patrol();
 
         virtual void OnCollisionEnter(CCollider2D* _oppo);
         virtual void OnCollision(CCollider2D* _oppo);

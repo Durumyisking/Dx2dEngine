@@ -603,7 +603,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"halogen", L"MainScene/Background/Object/halogen.png");
 		CResources::Load<CTexture>(L"desk", L"MainScene/Background/Object/desk.png");
 		CResources::Load<CTexture>(L"plant", L"MainScene/Background/Object/plant.png");
-	
+		CResources::Load<CTexture>(L"door", L"MainScene/Background/Object/door.png");
+
 
 		// player
 		CResources::Load<CTexture>(L"player", L"MainScene/Player.png");

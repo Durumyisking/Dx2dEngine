@@ -179,9 +179,6 @@
     <Filter Include="Common\GameObj\liveGameObj">
       <UniqueIdentifier>{9cd9dd30-a859-4d4e-ac95-05c5e50bb738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\GameObj\Light">
-      <UniqueIdentifier>{03a07a79-56f9-4141-b33a-d62e3f274e8b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\GameObj\PostProcess">
       <UniqueIdentifier>{1a063524-ba24-4df3-9686-60e8e18b272e}</UniqueIdentifier>
     </Filter>
@@ -217,6 +214,15 @@
     </Filter>
     <Filter Include="Common\GameObj\HUD">
       <UniqueIdentifier>{21dd7001-d19b-4f85-bc84-aa42a7d461ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Objects">
+      <UniqueIdentifier>{c981ddf3-0afb-4526-987d-67e21dc6e6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Objects\Light">
+      <UniqueIdentifier>{03a07a79-56f9-4141-b33a-d62e3f274e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\GameObj\Objects\Door">
+      <UniqueIdentifier>{2c346219-7b0c-42ea-8c36-067cfc75306e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -486,7 +492,7 @@
       <Filter>Common\GameObj\liveGameObj</Filter>
     </ClInclude>
     <ClInclude Include="LightObject.h">
-      <Filter>Common\GameObj\Light</Filter>
+      <Filter>Common\GameObj\Objects\Light</Filter>
     </ClInclude>
     <ClInclude Include="SceneTemp.h">
       <Filter>Common\Scene</Filter>
@@ -572,6 +578,12 @@
     </ClInclude>
     <ClInclude Include="HorizonGauge.h">
       <Filter>Common\GameObj\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Common\GameObj\Objects\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="DoorScript.h">
+      <Filter>Common\GameObj\Objects\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -826,7 +838,7 @@
       <Filter>Common\GameObj\liveGameObj</Filter>
     </ClCompile>
     <ClCompile Include="LightObject.cpp">
-      <Filter>Common\GameObj\Light</Filter>
+      <Filter>Common\GameObj\Objects\Light</Filter>
     </ClCompile>
     <ClCompile Include="SceneTemp.cpp">
       <Filter>Common\Scene</Filter>
@@ -912,6 +924,12 @@
     </ClCompile>
     <ClCompile Include="HorizonGaugeScript.cpp">
       <Filter>Common\GameObj\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Common\GameObj\Objects\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="DoorScript.cpp">
+      <Filter>Common\GameObj\Objects\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

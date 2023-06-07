@@ -99,12 +99,14 @@ namespace dru
 			mGrunt1->SetPos(mGrunt1DefaultPos);
 			mRewindObjects.push_back(mGrunt1);
 			mGrunt1->SetLeft();
+			mGrunt1->MonsterPatrolOn();
 		}
 		{
 			mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
 			mGrunt2->SetPos(mGrunt2DefaultPos);
 			mRewindObjects.push_back(mGrunt2);
 			mGrunt2->SetLeft();
+			mGrunt2->MonsterPatrolOn();
 		}
 
 		CStage::AddStartingLiveObjects();

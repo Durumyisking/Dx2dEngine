@@ -25,6 +25,7 @@ namespace dru
 		, mbDead(false)
 		, mbDeleteOn(false)
 		, mbBodyBlood(false)
+		, mbPatrolSwitch(false)
 		, mHitTimer(0.f)
 		, mAttackTimer(1.f)
 		, mMonsterName{}
@@ -457,6 +458,27 @@ namespace dru
 
 	void CMonsterScript::patrol()
 	{
+		if (mbPatrolSwitch)
+		{
+			if (!mTarget && mState[(UINT)eMonsterState::Block] == false)
+			{
+				if (mState[(UINT)eMonsterState::Patrol] == false)
+				{
+					mRigidbody->SetMaxVelocity(VELOCITY_WALK);
+					SetSingleState(eMonsterState::Patrol);
+				}
+				{
+					if (GetOwner()->IsLeft())
+					{
+						mRigidbody->AddForce(Vector3(-1.f, 0.f, 0.f) * 25.f);
+					}
+					else
+					{
+						mRigidbody->AddForce(Vector3(1.f, 0.f, 0.f) * 25.f);
+					}
+				}
+			}
+		}
 	}
 
 	void CMonsterScript::hitSlash(int _Type)

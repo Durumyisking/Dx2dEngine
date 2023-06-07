@@ -44,28 +44,6 @@ namespace dru
 		}
 	}
 
-	void CGruntScript::patrol()
-	{
-		if (!mTarget)
-		{
-			if (mState[(UINT)eMonsterState::Patrol] == false)
-			{
-				mRigidbody->SetMaxVelocity(VELOCITY_WALK);
-				SetSingleState(eMonsterState::Patrol);
-			}
-			{
-				if(GetOwner()->IsLeft())
-				{
-					mRigidbody->AddForce( Vector3(-1.f, 0.f, 0.f) * 25.f);
-				}
-				else
-				{
-					mRigidbody->AddForce(Vector3(1.f, 0.f, 0.f) * 25.f);
-				}
-			}
-		}
-	}
-
 	void CGruntScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 

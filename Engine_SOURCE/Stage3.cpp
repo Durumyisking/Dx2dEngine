@@ -3,8 +3,9 @@
 namespace dru
 {
     CStage3::CStage3()
-        :mPomp1(nullptr)
-        ,mPomp1DefaultPos{}
+        : mPomp1(nullptr)
+        , mDoor1(nullptr)
+        , mPomp1DefaultPos{}
     {
         mStageNumbmer = 4;
     }
@@ -66,10 +67,10 @@ namespace dru
         CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
         playerScript->Reset();
 
-
         mPomp1->SetPos(mPomp1DefaultPos);
         mPomp1->GetScript<CMonsterScript>()->Reset();
 
+        mDoor1->GetScript<CDoorScript>()->Reset();
 
         CStage::Reset();
     }
@@ -80,7 +81,13 @@ namespace dru
             mPomp1 = object::Instantiate<CPomp>(eLayerType::Monster, L"Pomp");
             mPomp1->SetPos(mPomp1DefaultPos);
             mPomp1->SetLeft();
+//          mPomp1->MonsterPatrolOn();
             mRewindObjects.push_back(mPomp1);
+        }
+        {
+            mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"Pomp");
+            mDoor1->SetPos({1.1, -4.f, 0.f});
+            mRewindObjects.push_back(mDoor1);
         }
 
         CStage::AddStartingLiveObjects();

@@ -74,6 +74,8 @@ namespace dru
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Boss);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Platforms);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Ray);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Objects);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::Objects);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Monster, eLayerType::Platforms);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Boss, eLayerType::Platforms);
 
@@ -82,12 +84,13 @@ namespace dru
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Boss, eLayerType::FX);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::FX);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Platforms, eLayerType::FX);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Objects, eLayerType::FX);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::FX);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Player);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Boss);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::Platforms);
-		CCollisionMgr::CollisionLayerCheck(eLayerType::Bullet, eLayerType::FX);
 
 		CScene::Initialize();
 	}
