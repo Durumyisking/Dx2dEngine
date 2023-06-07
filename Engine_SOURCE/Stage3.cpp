@@ -39,6 +39,9 @@ namespace dru
         CreateOutWall();
         CreateFirstFloor();
         CreateSecondFloor();
+        CreateThirdFloor();
+        CreateFourthFloor();
+
     }
 
     void CStage3::LoadinReady()
@@ -119,10 +122,9 @@ namespace dru
             LeftOutWall->SetColliderScale(Vector2(0.5f, 100.f));
         }
 
-
         {
             COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
-            RightOutWall->SetPos(Vector3(13.5f, 0.f, 4.999f));
+            RightOutWall->SetPos(Vector3(10.f, 0.f, 4.999f));
             RightOutWall->SetColliderScale(Vector2(0.5f, 100.f));
         }
 
@@ -175,20 +177,115 @@ namespace dru
     void CStage3::CreateSecondFloor()
     {
         {
+            CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+            Floor->SetPos(Vector3(-0.4f, -5.f, 3.f));
+            Floor->SetColliderScale({ 11.5f, 0.4f });
+        }
+        {
+            CFloor2* Floor = object::Instantiate<CFloor2>(eLayerType::Platforms, L"floor");
+            Floor->SetPos(Vector3(6.3f, -5.f, 3.f));
+            Floor->SetColliderScale({ 2.5f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(2.5f, -2.2f, 3.f));
+            Ceiling->SetColliderScale({ 12.f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(1.1f, -3.0f, 3.f));
+            Ceiling->SetColliderScale({ 0.5f, 0.4f });
+        }
+        {
             CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
-            Wall->SetPos(Vector3(-5.45f, -3.f, 3.f));
-            Wall->SetColliderScale({ 0.3f, 5.f });
+            Wall->SetPos(Vector3(1.1f, -2.4f, 3.f));
+            Wall->SetColliderScale({ 0.75f, 1.5f });
+        }
+
+        {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(-5.45f, -15.5f, 3.f));
+            Wall->SetColliderScale({ 0.3f, 30.f });
         }
         {
             CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
             Wall->SetPos(Vector3(-3.55f, -1.4f, 3.f));
             Wall->SetColliderScale({ 0.3f, 1.75f });
+        }      
+        {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(5.35f, -6.f, 3.f));
+            Wall->SetColliderScale({ 0.3f, 2.25f });
         }
         {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(7.275f, -5.f, 3.f));
+            Wall->SetColliderScale({ 0.3f, 12.25f });
+        }
+
+    }
+
+    void CStage3::CreateThirdFloor()
+    {
+        {
             CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-            Floor->SetPos(Vector3(-0.4f, -5.f, 3.f));
+            Floor->SetPos(Vector3(2.2f, -9.825f, 3.f));
             Floor->SetColliderScale({ 11.5f, 0.4f });
         }
+        {
+            CFloor2* Floor = object::Instantiate<CFloor2>(eLayerType::Platforms, L"floor");
+            Floor->SetPos(Vector3(-4.5f, -9.825f, 3.f));
+            Floor->SetColliderScale({ 2.5f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(-0.4f, -7.f, 3.f));
+            Ceiling->SetColliderScale({ 11.5f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(1.1f, -7.8f, 3.f));
+            Ceiling->SetColliderScale({ 0.5f, 0.4f });
+        }
+        {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(1.1f, -7.2f, 3.f));
+            Wall->SetColliderScale({ 0.75f, 1.5f });
+        }
+
+        {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(-3.525f, -10.75f, 3.f));
+            Wall->SetColliderScale({ 0.3f, 2.1f });
+        }
+
+    }
+
+    void CStage3::CreateFourthFloor()
+    {
+        {
+            CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+            Floor->SetPos(Vector3(3.f, -14.595f, 3.f));
+            Floor->SetColliderScale({ 20.5f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(-1.25f, -11.8f, 3.f));
+            Ceiling->SetColliderScale({ 4.5f, 0.4f });
+        }
+        {
+            CCeiling* Ceiling = object::Instantiate<CCeiling>(eLayerType::Platforms, L"ceiling");
+            Ceiling->SetPos(Vector3(1.1f, -12.6f, 3.f));
+            Ceiling->SetColliderScale({ 0.5f, 0.4f });
+        }
+        {
+            CWall* Wall = object::Instantiate<CWall>(eLayerType::Platforms, L"wall");
+            Wall->SetPos(Vector3(1.1f, -12.f, 3.f));
+            Wall->SetColliderScale({ 0.75f, 1.5f });
+        }
+
+
+        SetClearCollider({ 9.75f, -14.f, 0.f });
 
     }
 

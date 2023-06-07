@@ -28,6 +28,8 @@ namespace dru
         void CreateOutWall();
         void CreateFirstFloor();
         void CreateSecondFloor();
+        void CreateThirdFloor();
+        void CreateFourthFloor();
 
 
     private:
