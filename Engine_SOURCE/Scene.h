@@ -13,7 +13,7 @@
 
 #include "Background.h"
 #include "BackgroundColor.h"
-
+#include "FontWrapper.h"
 
 namespace dru
 {

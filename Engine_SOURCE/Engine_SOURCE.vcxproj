@@ -228,6 +228,8 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="GridScript.h" />
     <ClInclude Include="Grunt.h" />
     <ClInclude Include="GruntScript.h" />
+    <ClInclude Include="Headhunter.h" />
+    <ClInclude Include="HeadhunterScript.h" />
     <ClInclude Include="HorizonGauge.h" />
     <ClInclude Include="HorizonGaugeScript.h" />
     <ClInclude Include="Input.h" />
@@ -348,6 +350,8 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="GridScript.cpp" />
     <ClCompile Include="Grunt.cpp" />
     <ClCompile Include="GruntScript.cpp" />
+    <ClCompile Include="Headhunter.cpp" />
+    <ClCompile Include="HeadhunterScript.cpp" />
     <ClCompile Include="HorizonGauge.cpp" />
     <ClCompile Include="HorizonGaugeScript.cpp" />
     <ClCompile Include="Input.cpp" />

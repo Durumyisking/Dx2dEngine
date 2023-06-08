@@ -107,7 +107,7 @@ namespace dru
 					mbDead = true;
 					SetSingleState(eBossState::Dead);
 
-					CKissyHead* head = object::Instantiate<CKissyHead>(eLayerType::Monster, L"kissyHead");
+					CKissyHead* head = object::Instantiate<CKissyHead>(eLayerType::Boss, L"kissyHead");
 					head->SetPos(GetOwner()->GetWorldPos());
 					head->Initialize();
 					return;
@@ -558,6 +558,8 @@ namespace dru
 		{
 			mAnimator->Play(L"kissyface_CutArm", false);
 			mAudioSource->Play(L"kissyface_death");
+
+			GetOwner()->GetCurrentStage()->MonsterDead();
 		}
 
 	}

@@ -1,6 +1,7 @@
 #include "BossStage1.h"
 #include "Kissyface.h"
-#include "KissyfaceScript.h"
+#include "BossScript.h"
+
 
 namespace dru
 {
@@ -57,6 +58,7 @@ namespace dru
 
 	void CBossStage1::Exit()
 	{
+		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_boss_bgm");
 		CStage::Exit();
 	}
 
@@ -116,7 +118,7 @@ namespace dru
 
 		CStage::AddStartingLiveObjects();
 
-		mKissyface->GetScript<CKissyfaceScript>()->SetPlayer(mPlayer);
+		mKissyface->GetScript<CBossScript>()->SetPlayer(mPlayer);
 //		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
 	}
 
@@ -161,6 +163,9 @@ namespace dru
 			RightWall->SetPos(Vector3(8.f, 0.f, 4.999f));
 			RightWall->SetColliderScale(Vector2(0.6f, 30.f));
 		}
+
+		SetClearCollider({ 8.f, -2.f, 0.f });
+
 	}
 
 }

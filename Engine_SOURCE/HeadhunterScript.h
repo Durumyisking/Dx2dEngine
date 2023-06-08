@@ -3,8 +3,9 @@
 
 namespace dru
 {
-    class CKissyface;
-    class CKissyfaceScript :
+
+    class CHeadhunter;
+    class CHeadhunterScript :
         public CBossScript
     {
         enum class ePattern1
@@ -33,11 +34,9 @@ namespace dru
 
             End,
         };
-#define LUNGE_TIMER 0.5f
-
     public:
-        CKissyfaceScript();
-        virtual ~CKissyfaceScript();
+        CHeadhunterScript();
+        virtual ~CHeadhunterScript();
 
         virtual void Initialize() override;
         virtual void update() override;
@@ -70,74 +69,26 @@ namespace dru
         bool GetStatePattern3(ePattern3 _Type) { return  mStatePattern3[static_cast<UINT>(_Type)]; }
         void SetStatePattern3On(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern3Off(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = false; }
-        void Lunge();
-        void LungeStart();
 
         virtual void Pattern4();
         virtual void Pattern5();
 
         virtual void PatternEnd(UINT _PatternNumber);
 
-        void SetAxeDir();
-        void AxeOn();
-        void AxeOff();
-
-        void Block();
-        bool BlockTest();
-
-        void StruggleOperate();
-        void StruggleOn();
-        void StruggleOff();
-
-        void PushPlayer();
         void PlayerReset();
 
-        // animation Callback
-
-        // pattern 1   
-        void jumpStartComplete();
-        void airThrowAxeComplete();
-        void airThrowAxeEndEnd();
-
-        // pattern 2   
-        void throwAxeFrame5();
-
-        void PlayBulletReflect(Vector3 _Pos);
-
     private:
-        void InitializeBulletReflectComponent();
-        void PlayBulletReflect();
-        void BulletReflectPositioning();
-
-        void InitializeAttackColliderComponent();
-        void AttackColliderPositioning(bool _LeftLunge);
-        void AttackColliderOn();
-        void AttackColliderOff();
-
-    private:
-        CKissyface* mKissyface;
+        CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
-        float mPattern2_RecieveWaitingTime;
 
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
-        Vector3 mPattern3_LungeOrigin;
-        Vector3 mPattern3_LungeDestination;
-        float mPattern3_mLungeElapsedTime;
 
-
-        CGameObj* mBulletReflect;
         CGameObj* mAttackCollider;
-
-        bool mbNoAxe;
-        bool mbStruggling;
-
-    public:
-        CGameObj* GetOrCreateBulletReflectObject();
-        CGameObj* GetOrCreatemAttackColliderObject();
-
 
     };
 }
+
+

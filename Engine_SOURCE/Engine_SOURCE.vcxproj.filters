@@ -227,6 +227,9 @@
     <Filter Include="Common\Font">
       <UniqueIdentifier>{00f7409f-6c39-4951-b9ab-a5158a532e47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\GameObj\Monster\Boss\Headhunter">
+      <UniqueIdentifier>{b8d13e86-e0ef-49d6-9d2d-541261fbe007}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -591,6 +594,12 @@
     <ClInclude Include="FontWrapper.h">
       <Filter>Common\Font</Filter>
     </ClInclude>
+    <ClInclude Include="Headhunter.h">
+      <Filter>Common\GameObj\Monster\Boss\Headhunter</Filter>
+    </ClInclude>
+    <ClInclude Include="HeadhunterScript.h">
+      <Filter>Common\GameObj\Monster\Boss\Headhunter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -939,6 +948,12 @@
     </ClCompile>
     <ClCompile Include="FontWrapper.cpp">
       <Filter>Common\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Headhunter.cpp">
+      <Filter>Common\GameObj\Monster\Boss\Headhunter</Filter>
+    </ClCompile>
+    <ClCompile Include="HeadhunterScript.cpp">
+      <Filter>Common\GameObj\Monster\Boss\Headhunter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

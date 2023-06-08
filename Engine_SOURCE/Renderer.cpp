@@ -585,6 +585,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"Grass", L"TitleScene/bgGrass.png");
 		CResources::Load<CTexture>(L"Grass2", L"TitleScene/bgGrass2.png");
 		CResources::Load<CTexture>(L"TitleButton", L"TitleScene/TitleButtons.png");
+
 		// main
 		CResources::Load<CTexture>(L"texCursor", L"MainScene/Cursor.png");
 		CResources::Load<CTexture>(L"stagetutorial", L"MainScene/Background/Tutorialbg.png");
@@ -592,7 +593,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"stage2", L"MainScene/Background/Stage2bg.png");
 		CResources::Load<CTexture>(L"stage3", L"MainScene/Background/Stage3bg.png");
 		CResources::Load<CTexture>(L"bossStage1", L"MainScene/Background/Boss1bg.png");
-		CResources::Load<CTexture>(L"bossStage2", L"MainScene/Background/Boss2bg.png");
+		CResources::Load<CTexture>(L"bossStage2", L"MainScene/Background/Boss2_2bg.png");
 		CResources::Load<CTexture>(L"mask", L"MainScene/Background/transition_mask.png");
 
 

@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(2)
+		, mCurrentStage(5)
 		, mPlayer(nullptr)
 	{
 	}
@@ -60,6 +60,7 @@ namespace dru
 		mStages.push_back(new CStage2);
 		mStages.push_back(new CBossStage1);
 		mStages.push_back(new CStage3);
+		mStages.push_back(new CBossStage2);
 
 //		mStages.push_back(new CStage3);
 //		mStages.push_back(new CBossStage2);

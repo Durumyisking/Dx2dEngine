@@ -27,6 +27,10 @@ namespace dru
 
         void CreateOutWall();
         void CreateFirstFloor();
+
+    private:
+        CBoss* mHeadhunter;
+        Vector3 mHeadhunterDefaultPos;
     };
 
 }

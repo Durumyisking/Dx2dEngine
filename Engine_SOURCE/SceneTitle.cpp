@@ -316,13 +316,15 @@ namespace dru
 			{
 				// 선택메뉴
 				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
-				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+//				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-				std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
-				CResources::Insert<CMaterial>(L"TitleButtonMat", Material);
-				SpriteRenderer->SetMaterial(Material);
-				mUIMenu->SetPos(Vector3(0.f, 0.05f, 0.f));
-				mUIMenu->SetScale(Vector3(0.35f, 0.475f, 1.f));
+//				CFontWrapper::DrawFont(L"abcssssssd", 0.f, 0.f, 100.f, 1);
+
+				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
+				//CResources::Insert<CMaterial>(L"TitleButtonMat", Material);
+				//SpriteRenderer->SetMaterial(Material);
+				//mUIMenu->SetPos(Vector3(0.f, 0.05f, 0.f));
+				//mUIMenu->SetScale(Vector3(0.35f, 0.475f, 1.f));
 
 				mUIMenu->AddComponent<CAudioSource>(eComponentType::AudioSource)->AddClipByKey(L"SE_title_select");
 //				mUIMenu->GetComponent<CAudioSource>()->Play();

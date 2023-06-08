@@ -1,14 +1,14 @@
 #pragma once
-#include "LiveGameObj.h"
+#include "Boss.h"
 
 namespace dru
 {
-	class CKissyHead :
-		public CLiveGameObj
+	class CHeadhunter :
+		public CBoss
 	{
 	public:
-		CKissyHead();
-		virtual ~CKissyHead();
+		CHeadhunter();
+		virtual ~CHeadhunter();
 
 		virtual void Initialize();
 		virtual void update();
@@ -17,5 +17,7 @@ namespace dru
 		virtual void rewindRender();
 
 
+	private:
+		CAnimator* mAnimator;
 	};
 }

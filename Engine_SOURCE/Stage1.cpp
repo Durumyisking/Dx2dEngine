@@ -65,8 +65,8 @@ namespace dru
 
 	void CStage1::Exit()
 	{
-		CStage::Exit();
 		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_main_bgm");
+		CStage::Exit();
 	}
 
 	void CStage1::Reset()

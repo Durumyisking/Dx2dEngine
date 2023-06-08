@@ -1,4 +1,7 @@
 #include "BossStage2.h"
+#include "Headhunter.h"
+#include "BossScript.h"
+
 namespace dru
 {
 	CBossStage2::CBossStage2()
@@ -17,15 +20,19 @@ namespace dru
 			mStageBackground = object::Instantiate<CBackground>(eLayerType::BackGround, L"Stage2");
 			CSpriteRenderer* SpriteRenderer = mStageBackground->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"stage2", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"Stage2", Material);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bossStage2", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"bossStage2Mat", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(2.25f, 0.f, 5.f));
-			mStageBackground->SetScale(Vector3(1.f, 1.f, 1.f));
+			mStageBackground->SetPos(Vector3(0.f, -0.075f, 5.f));
+			mStageBackground->SetScale(Vector3(1.5f, 1.5f, 1.f));
 		}
 
+		mPlayerDefaultPos = Vector3(-3.5f, -1.25f, 3.f);
+		mHeadhunterDefaultPos = Vector3(3.f, -1.25f, 3.f);
 
 		mStageState = eStageState::Ready;
+
+		mEnemyCount = 1;
 
 		AddStartingLiveObjects();
 
@@ -39,47 +46,117 @@ namespace dru
 
 	void CBossStage2::Update()
 	{
+		CStage::Update();
 	}
 
 	void CBossStage2::Exit()
 	{
+		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_boss_bgm");
+		CStage::Exit();
 	}
 
 	void CBossStage2::NotReadyOperate()
 	{
+		CStage::NotReadyOperate();
 	}
 
 	void CBossStage2::ReadyOperate()
 	{
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
+		CStage::ReadyOperate();
 	}
 
 	void CBossStage2::ReadyEndOperate()
 	{
+		CStage::ReadyEndOperate();
+
+		if (CInput::GetKeyTap(eKeyCode::ENTER))
+		{
+			mHeadhunter->GetComponent<CAnimator>()->Play(L"Headhunter_WaitingEnd", false);
+		}
 	}
 
 	void CBossStage2::LoadUIOperate()
 	{
+		CStage::LoadUIOperate();
 	}
 
 	void CBossStage2::LoadEndOperate()
 	{
+		CStage::LoadEndOperate();
 	}
-
 
 	void CBossStage2::Reset()
 	{
+		mPlayer->SetPos(mPlayerDefaultPos);
+		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
+		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
+		playerScript->Reset();
+
+		mHeadhunter->SetPos(mHeadhunterDefaultPos);
+		mHeadhunter->GetScript<CBossScript>()->Reset();
+		mHeadhunter->SetRight();
+
+		CStage::Reset();
 	}
 
 	void CBossStage2::AddStartingLiveObjects()
 	{
+		mHeadhunter = object::Instantiate<CHeadhunter>(eLayerType::Boss, L"Headhunter");
+		mHeadhunter->SetPos(mHeadhunterDefaultPos);
+		mRewindObjects.push_back(mHeadhunter);
+		mHeadhunter->SetLeft();
+
+		CStage::AddStartingLiveObjects();
+
+		mHeadhunter->GetScript<CBossScript>()->SetPlayer(mPlayer);
+		//		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
 	}
 
 	void CBossStage2::CreateOutWall()
 	{
+		{
+			COutWallSide* LeftOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"LeftOutwall");
+			LeftOutWall->SetPos(Vector3(-8.f, 0.f, 4.999f));
+			LeftOutWall->SetColliderScale(Vector2(0.5f, 30.f));
+		}
+		{
+			COutWallSide* RightOutWall = object::Instantiate<COutWallSide>(eLayerType::Platforms, L"RightOutwall");
+			RightOutWall->SetPos(Vector3(8.f, 0.f, 4.999f));
+			RightOutWall->SetColliderScale(Vector2(0.5f, 30.f));
+		}
+		{
+			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
+			UpOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
+			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
+		{
+			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
+			DownOutWall->SetPos(Vector3(0.f, 3.85f, 4.999f));
+			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
+		}
 	}
 
 	void CBossStage2::CreateFirstFloor()
 	{
+		{
+			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+			Floor->SetPos(Vector3(0.f, -2.75f, 3.f));
+			Floor->SetColliderScale({ 20.f, 0.4f });
+		}
+		{
+			CWall* LeftWall = object::Instantiate<CWall>(eLayerType::Platforms, L"Leftwall");
+			LeftWall->SetPos(Vector3(-8.f, 0.f, 4.999f));
+			LeftWall->SetColliderScale(Vector2(0.6f, 30.f));
+		}
+		{
+			CWall* RightWall = object::Instantiate<CWall>(eLayerType::Platforms, L"Rightwall");
+			RightWall->SetPos(Vector3(8.f, 0.f, 4.999f));
+			RightWall->SetColliderScale(Vector2(0.6f, 30.f));
+		}
+
+		SetClearCollider({ 8.f, -2.f, 0.f });
+
 	}
 
 }
