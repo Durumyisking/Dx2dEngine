@@ -103,6 +103,7 @@ namespace dru
 		{
 			mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
 			mDoor1->SetPos({ -1.4f, 0.9f, 0.f });
+			mDoor1->SetLeft();
 			mRewindObjects.push_back(mDoor1);
 		}
 		CStage::AddStartingLiveObjects();

@@ -6,6 +6,7 @@
 #include "Resources.h"
 #include "CollisionMgr.h"
 #include "FMod.h"
+#include "FontWrapper.h"
 
 namespace dru
 {
@@ -26,7 +27,7 @@ namespace dru
 	{
 		CSceneMgr::release();
 		CFmod::Release();
-
+		CFontWrapper::Release();
 	}
 
 	void CApplication::Initialize()
@@ -34,6 +35,7 @@ namespace dru
 		CTimeMgr::Initialize();
 		CInput::Initialize();
 		CFmod::Initialize();
+		CFontWrapper::Initialize();
 		CCollisionMgr::Initialize();
 		renderer::Initialize();
 		CSceneMgr::Initialize();

@@ -140,7 +140,8 @@
     </Link>
     <PreBuildEvent>
       <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,7 +167,7 @@ copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     <PreBuildEvent>
       <Command>copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Release\"
 copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
-</Command>
+copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -220,6 +221,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Floor2.h" />
     <ClInclude Include="FMod.h" />
+    <ClInclude Include="FontWrapper.h" />
     <ClInclude Include="GameObj.h" />
     <ClInclude Include="GraphicDevice.h" />
     <ClInclude Include="Graphics.h" />
@@ -340,6 +342,7 @@ copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Floor2.cpp" />
     <ClCompile Include="FMod.cpp" />
+    <ClCompile Include="FontWrapper.cpp" />
     <ClCompile Include="GameObj.cpp" />
     <ClCompile Include="GraphicDevice.cpp" />
     <ClCompile Include="GridScript.cpp" />
