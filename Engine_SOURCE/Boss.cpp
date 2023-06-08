@@ -10,12 +10,6 @@ namespace dru
 		SetLayerType(eLayerType::Boss);
 
 		CRigidBody* rigidbody = AddComponent<CRigidBody>(eComponentType::RigidBody);
-
-		CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
-		// coll->Initialize();
-		coll->SetName(L"col_monster");
-		coll->SetType(eColliderType::Rect);
-		coll->SetScale(Vector2(0.2f, 0.6f));
 	}
 
 	CBoss::~CBoss()

@@ -95,7 +95,7 @@ namespace dru
 
 		mHeadhunter->SetPos(mHeadhunterDefaultPos);
 		mHeadhunter->GetScript<CBossScript>()->Reset();
-		mHeadhunter->SetRight();
+		mHeadhunter->SetLeft();
 
 		CStage::Reset();
 	}
@@ -105,7 +105,7 @@ namespace dru
 		mHeadhunter = object::Instantiate<CHeadhunter>(eLayerType::Boss, L"Headhunter");
 		mHeadhunter->SetPos(mHeadhunterDefaultPos);
 		mRewindObjects.push_back(mHeadhunter);
-		mHeadhunter->SetLeft();
+//		mHeadhunter->SetLeft();
 
 		CStage::AddStartingLiveObjects();
 

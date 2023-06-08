@@ -19,5 +19,6 @@ namespace dru
 
 	private:
 		CAnimator* mAnimator;
+		Vector2	mAnimOffset;
 	};
 }
