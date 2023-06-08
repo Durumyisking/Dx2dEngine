@@ -14,7 +14,6 @@
 //#include <SpriteFont.h>
 //#include <SpriteBatch.h>
 
-
 namespace dru
 {
 	class CFontWrapper

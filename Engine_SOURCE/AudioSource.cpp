@@ -35,7 +35,7 @@ namespace dru
 			CAudioClip* audioClip = clip.second;
 			if (audioClip->IsPlaying())
 			{
-				if (CTimeMgr::IsBulletTimeOn())
+				if (CTimeMgr::IsPlayerBulletTimeOn())
 				{
 					audioClip->SetPitch(0.333f);
 				}

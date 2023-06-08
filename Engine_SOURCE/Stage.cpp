@@ -1039,6 +1039,7 @@ namespace dru
 		if (!CTimeMgr::IsBulletTimeOn())
 		{
 			CTimeMgr::BulletTimeOn();
+			CTimeMgr::PlayerBulletTimeOn();
 			mBulletTimeMask->RenderingBlockOff();
 		}
 	}
@@ -1047,6 +1048,7 @@ namespace dru
 		if (CTimeMgr::IsBulletTimeOn())
 		{
 			CTimeMgr::BulletTimeOff();
+			CTimeMgr::PlayerBulletTimeOff();
 			mBulletTimeMask->RenderingBlockOn();
 		}
 	}

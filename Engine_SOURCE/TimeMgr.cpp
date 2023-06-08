@@ -15,10 +15,10 @@ namespace dru
     float			CTimeMgr::mbBulletTimeTimer= 0.0f;
     float			CTimeMgr::mbBulletTimeTimerMax = 0.0f;
     bool			CTimeMgr::mbBulletTime = false;
+    bool			CTimeMgr::mbPlayerBulletTime = false;
     UINT			CTimeMgr::mFramePass = 0;
     UINT			CTimeMgr::mFramePassCount = 0;
     bool            CTimeMgr::mbFramePassCheck = true;
-
 
     void CTimeMgr::Initialize()
     {
