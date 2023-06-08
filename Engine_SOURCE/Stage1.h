@@ -39,6 +39,8 @@ namespace dru
         CFloor* mLaserFloor;
         CTurret* mLaserTurret;
 
+        CDoor* mDoor1;
+
         Vector3 mGrunt1DefaultPos;
         Vector3 mGrunt2DefaultPos;
     };

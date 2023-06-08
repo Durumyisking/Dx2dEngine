@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "GameObj.h"
 #include "AudioClip.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -34,6 +35,14 @@ namespace dru
 			CAudioClip* audioClip = clip.second;
 			if (audioClip->IsPlaying())
 			{
+				if (CTimeMgr::IsBulletTimeOn())
+				{
+					audioClip->SetPitch(0.333f);
+				}
+				else
+				{
+					audioClip->SetPitch(1.f);
+				}
 				audioClip->Set3DAttributes(pos, forward);
 			}
 		}

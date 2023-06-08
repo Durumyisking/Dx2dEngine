@@ -674,7 +674,6 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"noise2", L"noise/noise_02.png");
 		CResources::Load<CTexture>(L"noise3", L"noise/noise_03.png");
 
-		// #Todo 번 노이즈 텍스처 추가
 		CResources::Load<CTexture>(L"burn", L"noise/burn.png");
 		CResources::Load<CTexture>(L"glitch", L"noise/glitch.png");
 
@@ -1090,6 +1089,7 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"bullethit2", L"Sound/Bullet/bullethit2.wav");
 		CResources::Load<CAudioClip>(L"bullethit3", L"Sound/Bullet/bullethit3.wav");
 		CResources::Load<CAudioClip>(L"bullet_die", L"Sound/Bullet/bullet_die.wav");
+		CResources::Load<CAudioClip>(L"bullet_slash", L"Sound/Bullet/bullet_slash.wav");
 
 		// laser
 		CResources::Load<CAudioClip>(L"laser_blast", L"Sound/Laser/laser_blast.wav");

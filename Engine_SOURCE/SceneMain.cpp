@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(4)
+		, mCurrentStage(2)
 		, mPlayer(nullptr)
 	{
 	}
@@ -69,7 +69,7 @@ namespace dru
 			mStages[i]->SetOwner(this);
 		}
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Camera, eLayerType::Platforms);
-		CCollisionMgr::CollisionLayerCheck(eLayerType::Objects, eLayerType::Ray);
+		CCollisionMgr::CollisionLayerCheck(eLayerType::Ray, eLayerType::Objects);
 
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster);
 		CCollisionMgr::CollisionLayerCheck(eLayerType::Player, eLayerType::Boss);

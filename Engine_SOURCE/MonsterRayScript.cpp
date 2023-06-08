@@ -91,6 +91,13 @@ namespace dru
 		{
 			mbThroughWall = true;
 		}
+		if (L"col_player" == _oppo->GetName())
+		{
+			if (!mbThroughWall)
+			{
+				mMonsterScript->SetTarget(_oppo->GetOwner_LiveObject());
+			}
+		}
 
 	}
 

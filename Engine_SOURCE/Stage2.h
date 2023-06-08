@@ -34,6 +34,8 @@ namespace dru
         CMonster* mCop1;
         CMonster* mPomp1;
 
+        CDoor* mDoor1;
+
         Vector3 mGrunt1DefaultPos;
         Vector3 mCop1DefaultPos;
 

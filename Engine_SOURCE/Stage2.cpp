@@ -6,6 +6,7 @@ namespace dru
 		: mGrunt1(nullptr)
 		, mCop1(nullptr)
 		, mPomp1(nullptr)
+		, mDoor1(nullptr)
 		, mGrunt1DefaultPos{}
 		, mCop1DefaultPos{}
 	{
@@ -33,7 +34,7 @@ namespace dru
 		}
 
 		mPlayerDefaultPos = Vector3(-6.f, -3.f, 3.f);
-		mGrunt1DefaultPos = Vector3(0.f, -3.f, 3.f);
+		mGrunt1DefaultPos = Vector3(0.f, 3.f, 3.f);
 		mCop1DefaultPos = Vector3(-5.f, 3.f, 3.f);
 
 		mEnemyCount = 2;
@@ -75,6 +76,9 @@ namespace dru
 		mCop1->SetPos(mCop1DefaultPos);
 		mCop1->GetScript<CMonsterScript>()->Reset();
 
+		mDoor1->GetScript<CDoorScript>()->Reset();
+
+
 		mEnemyCount = 2;
 
 
@@ -96,7 +100,11 @@ namespace dru
 			mCop1->SetRight();
 			mRewindObjects.push_back(mCop1);
 		}
-
+		{
+			mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
+			mDoor1->SetPos({ -1.4f, 0.9f, 0.f });
+			mRewindObjects.push_back(mDoor1);
+		}
 		CStage::AddStartingLiveObjects();
 	}
 
