@@ -1,5 +1,6 @@
 #include "HeadhunterScript.h"
 #include "Headhunter.h"
+#include "TimeMgr.h"
 
 namespace dru
 {
@@ -10,6 +11,7 @@ namespace dru
 		, mStatePattern1{}
 		, mStatePattern2{}
 		, mStatePattern3{}
+		, mPattern1_AimingTime(0.f)
 	{
 	}
 
@@ -91,10 +93,39 @@ namespace dru
 
 	void CHeadhunterScript::AddAnimationCallBack_Lamda()
 	{
+		mAnimator->GetCompleteEvent(L"Headhunter_TakeoutRifle") = [this]
+		{
+			SetStatePattern1Off(ePattern1::Takeout);
+			SetStatePattern1On(ePattern1::Aim);
+		};
+
 	}
 
 	void CHeadhunterScript::Pattern1()
 	{
+		if (!GetStatePattern1(ePattern1::Takeout))
+		{
+			mAnimator->Play(L"Headhunter_TakeoutRifle", false);
+			SetStatePattern1On(ePattern1::Takeout);
+		}
+		if (GetStatePattern1(ePattern1::Aim))
+		{
+			mPattern1_AimingTime += CTimeMgr::DeltaTime();
+
+			Vector3 vec = GetOwner()->GetWorldPos() - mPlayer->GetWorldPos();
+			float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
+
+			//if (  )
+			//{
+
+			//}
+			//else
+			//{
+
+			//}
+
+			std::cout << angle << std::endl;
+		}
 	}
 
 	void CHeadhunterScript::Pattern2()

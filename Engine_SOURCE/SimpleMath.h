@@ -14,6 +14,7 @@ namespace dru::math
 
 
 	float GetDegreeFromTwoPointZ(const Vector3& V1, const Vector3& V2);
+	float GetDegreeFromTwoPointZ_0180(const Vector3& V1, const Vector3& V2);
 
 	Vector3 ProjectOnPlane(Vector3 _Direction, Vector3 _PlaneNormal);
 	Vector3 AdjustDirectionToSlope(Vector3 _Direction, Vector3 _PlaneNormal);

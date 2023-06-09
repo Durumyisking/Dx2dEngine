@@ -10,11 +10,10 @@ namespace dru
     {
         enum class ePattern1
         {
-            Jump,
-            Throw,
-            ThrowEnd,
-            Land,
-
+            Takeout,
+            Aim,
+            Shoot,
+            Putback,
             End,
         };
         enum class ePattern2
@@ -77,16 +76,21 @@ namespace dru
 
         void PlayerReset();
 
+
     private:
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
+
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
+        float mPattern1_AimingTime;
+
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
 
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
 
         CGameObj* mAttackCollider;
+
 
     };
 }

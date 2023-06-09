@@ -22,6 +22,7 @@ namespace dru
         Fall,
         Hurt,
         Block,
+        Dodge,
         Dead,
         End,
     };

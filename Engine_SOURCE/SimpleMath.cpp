@@ -77,6 +77,21 @@ namespace dru::math
 		return rotation.z;
 	}
 
+	float GetDegreeFromTwoPointZ_0180(const Vector3& V1, const Vector3& V2)
+	{
+		Vector3 rotation = {};
+		rotation.z = atan2(V2.y - V1.y, V2.x - V1.x) * 180 / XM_PI;
+
+		// 0도에서 180도로 변환
+		if (rotation.z < 0)
+		{
+			rotation.z = 180 + rotation.z;
+		}
+
+
+		return rotation.z;
+	}
+
 	Vector3 ProjectOnPlane(Vector3 _Direction, Vector3 _PlaneNormal)
 	{
 		_PlaneNormal.Normalize();

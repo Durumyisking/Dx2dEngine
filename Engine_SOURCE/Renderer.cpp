@@ -987,6 +987,15 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
+		for (int i = 0; i <= 100; ++i)
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"headhunter", L"AfterImageShader");
+			std::wstring matName = L"HeadhunterMatAfterImage_";
+			std::wstring idx = std::to_wstring(i);
+			matName += idx;
+			CResources::Insert<CMaterial>(matName, Material);
+		}
+
 	}
 
 	void LoadAudio()

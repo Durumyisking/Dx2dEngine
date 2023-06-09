@@ -69,11 +69,6 @@ namespace dru
 	void CBossStage2::ReadyEndOperate()
 	{
 		CStage::ReadyEndOperate();
-
-		if (CInput::GetKeyTap(eKeyCode::ENTER))
-		{
-			mHeadhunter->GetComponent<CAnimator>()->Play(L"Headhunter_WaitingEnd", false);
-		}
 	}
 
 	void CBossStage2::LoadUIOperate()
@@ -105,12 +100,11 @@ namespace dru
 		mHeadhunter = object::Instantiate<CHeadhunter>(eLayerType::Boss, L"Headhunter");
 		mHeadhunter->SetPos(mHeadhunterDefaultPos);
 		mRewindObjects.push_back(mHeadhunter);
-//		mHeadhunter->SetLeft();
+		mHeadhunter->SetLeft();
 
 		CStage::AddStartingLiveObjects();
 
 		mHeadhunter->GetScript<CBossScript>()->SetPlayer(mPlayer);
-		//		mPlayer->SetScale(Vector3(1.f, 1.f, 0.f));
 	}
 
 	void CBossStage2::CreateOutWall()
