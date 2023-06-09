@@ -83,6 +83,8 @@ namespace dru
         bool mbDead;
         bool mbIsPlayerLeft;
 
+        bool mbBlockFlipWhilePattern;
+
         std::wstring mBossName;
         std::bitset<static_cast<UINT>(eBossState::End)> mState;
 

@@ -41,6 +41,8 @@ namespace dru
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
+		mbBlockFlipWhilePattern = true;
+
 		CBossScript::Initialize();
 	}
 

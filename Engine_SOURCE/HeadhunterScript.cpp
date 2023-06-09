@@ -99,6 +99,18 @@ namespace dru
 			SetStatePattern1On(ePattern1::Aim);
 		};
 
+		//for (int i = 0; i < 18; i++)
+		//{
+		//	std::wstring key = L"Headhunter_AimRifle";
+		//	key += std::to_wstring(i);
+		//	mAnimator->GetEndEvent(key) = [this]
+		//	{
+		//		SetStatePattern1Off(ePattern1::Aim);
+		//		SetStatePattern1On(ePattern1::Shoot);
+		//		mbBlockFlipWhilePattern = true;
+		//	};
+		//}
+
 	}
 
 	void CHeadhunterScript::Pattern1()
@@ -107,6 +119,7 @@ namespace dru
 		{
 			mAnimator->Play(L"Headhunter_TakeoutRifle", false);
 			SetStatePattern1On(ePattern1::Takeout);
+
 		}
 		if (GetStatePattern1(ePattern1::Aim))
 		{
@@ -115,16 +128,13 @@ namespace dru
 			Vector3 vec = GetOwner()->GetWorldPos() - mPlayer->GetWorldPos();
 			float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
 
-			//if (  )
-			//{
+			int idx = angle / 10.f;
+			std::wstring key = L"Headhunter_AimRifle";
+			std::wstring stridx = std::to_wstring(idx);
+			key += stridx;
+			mAnimator->Play(key);
 
-			//}
-			//else
-			//{
-
-			//}
-
-			std::cout << angle << std::endl;
+			std::cout << "angle : " << angle << ",     idx : " << idx << std::endl;
 		}
 	}
 

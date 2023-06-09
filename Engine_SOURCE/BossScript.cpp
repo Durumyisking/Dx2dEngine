@@ -17,6 +17,7 @@ namespace dru
 		, mAttackCooldown(1.f)
 		, mbDead(false)
 		, mbIsPlayerLeft(false)
+		, mbBlockFlipWhilePattern(false)
 		, mBossName{}
 		, mState{}
 
@@ -207,10 +208,23 @@ namespace dru
 
 	bool CBossScript::FlipTest()
 	{
-		if (!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3)
-			&& !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5) && !GetState(eBossState::Hurt))
+
+		if (!GetState(eBossState::Hurt))
 		{
 			return true;
+		}
+
+		if (!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3)
+			&& !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5))
+		{
+			if (mbBlockFlipWhilePattern)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 
 		return false;
