@@ -5,7 +5,7 @@ namespace dru
 {
 	CHeadhunter::CHeadhunter()
 		: mAnimator(nullptr)
-		, mAnimOffset(Vector2(0.f, 13.485f))
+		, mAnimOffset(Vector2(0.f, 9.f))
 	{
 		SetName(L"headhunter");
 		SetScale(Vector3(2.25f, 2.25f, 1.f));
@@ -28,7 +28,7 @@ namespace dru
 			std::wstring key = L"Headhunter_AimRifle";
 			key += std::to_wstring(i);
 			float LTx = 1664.f + (-64.f * i);
-			mAnimator->Create(key, Material->GetTexture(), { LTx, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
+			mAnimator->Create(key, Material->GetTexture(), { LTx, 0.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 1.f);
 		}
 		mAnimator->Create(L"Headhunter_PutbackRifle", Material->GetTexture(), { 960.f, 384.f }, { 64.f, 64.f }, mAnimOffset, 8, { 100.f, 100.f }, 0.1f);
 

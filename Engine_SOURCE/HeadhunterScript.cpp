@@ -124,18 +124,21 @@ namespace dru
 		if (GetStatePattern1(ePattern1::Aim))
 		{
 			mPattern1_AimingTime += CTimeMgr::DeltaTime();
-
-			Vector3 vec = GetOwner()->GetWorldPos() - mPlayer->GetWorldPos();
-			float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
-
-			int idx = angle / 10.f;
-			std::wstring key = L"Headhunter_AimRifle";
-			std::wstring stridx = std::to_wstring(idx);
-			key += stridx;
-			mAnimator->Play(key);
-
-			std::cout << "angle : " << angle << ",     idx : " << idx << std::endl;
+			
+			mAnimator->Play(GetAimRifleKey());
 		}
+	}
+
+	std::wstring CHeadhunterScript::GetAimRifleKey()
+	{
+		float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
+
+		int idx = angle / 10.f;
+		std::wstring key = L"Headhunter_AimRifle";
+		std::wstring stridx = std::to_wstring(idx);
+		key += stridx;
+
+		return key;
 	}
 
 	void CHeadhunterScript::Pattern2()
