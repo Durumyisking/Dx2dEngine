@@ -133,8 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-//		int pattern = GetRandomNumber(mPatternCount, 1);
-		int pattern = 1;
+		int pattern = GetRandomNumber(mPatternCount, 1);
+//		int pattern = 1;
 
 		switch (pattern)
 		{
@@ -215,25 +215,17 @@ namespace dru
 	bool CBossScript::FlipTest()
 	{
 
-		if (!GetState(eBossState::Hurt) && !GetState(eBossState::Dodge))
+		if (GetState(eBossState::Hurt) || GetState(eBossState::Dodge) || GetState(eBossState::Dead) || GetState(eBossState::Block))
 		{
-			return true;
+			return false;
 		}
-
 
 		if(Patterning())
 		{
-			if (mbBlockFlipWhilePattern)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			return mbBlockFlipWhilePattern;
 		}
 
-		return false;
+		return true;
 	}
 
 	void CBossScript::FlipCheck()

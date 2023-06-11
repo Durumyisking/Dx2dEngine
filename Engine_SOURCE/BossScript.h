@@ -8,7 +8,7 @@
 #define VELOCITY_WALK dru::math::Vector3(1.f, 7.f, 0.f)
 #define SCREEN_CENTER dru::math::Vector3(0.f, 0.f, 0.f)
 #define SCREEN_CENTERTOP dru::math::Vector3(0.f, 2.5f, 0.f)
-#define SCREEN_CENTERFLOOR dru::math::Vector3(0.f, -1.985f, 0.f)
+#define SCREEN_CENTERFLOOR dru::math::Vector3(0.f, -1.99f, 0.f)
 
 
 namespace dru

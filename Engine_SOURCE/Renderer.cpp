@@ -659,7 +659,8 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"fx_bulletReflect", L"MainScene/FX/fx_bulletReflect.png");
 		CResources::Load<CTexture>(L"fx_gunSmoke", L"MainScene/FX/fx_gunSmoke.png");
 		CResources::Load<CTexture>(L"fx_gunFire", L"MainScene/FX/fx_gunFire.png");
-
+		CResources::Load<CTexture>(L"fx_explosion", L"MainScene/FX/fx_explosion.png");
+		
 
 		// mission
 		CResources::Load<CTexture>(L"job_corner", L"MissionScene/job_corner.png");
@@ -827,6 +828,10 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_bulletReflect", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"BulletReflectMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"fx_explosion", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"ExplosionMat", Material);
 		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"wall", L"SpriteShader");

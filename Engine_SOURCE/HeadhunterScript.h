@@ -35,6 +35,7 @@ namespace dru
         };
 
 #define DASH_TIMER 0.25f
+#define DODGE_TIMER 0.1f
 
     public:
         CHeadhunterScript();
@@ -90,11 +91,19 @@ namespace dru
         virtual void PatternEnd();
 
         void PlayerReset();
+        void PushPlayer();
+
+        CGameObj* GetOrCreateExplosionObject();
+        void InitializeExplosionComponent();
+        void PlayExplosion();
+        void ExplosionPositioning();
+
 
 
     private:
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
+        CGameObj* mExplosion;
 
         Vector3 mDodgeDir;
         float mDodgeCooldown;

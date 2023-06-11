@@ -43,7 +43,7 @@ namespace dru
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
-		mbBlockFlipWhilePattern = true;
+		mbBlockFlipWhilePattern = false;
 
 		CBossScript::Initialize();
 	}
@@ -104,9 +104,9 @@ namespace dru
 		{
 			if (!mbDead)
 			{
+				AfterImageReset();
 				if (L"kissyface_Dying" == mAnimator->GetCurrentAnimation()->GetAnimationName())
 				{
-					AfterImageReset();
 					mAnimator->Play(L"kissyface_Dead", false);
 					mbDead = true;
 					SetSingleState(eBossState::Dead);
@@ -128,6 +128,7 @@ namespace dru
 					{
 						SetSingleState(eBossState::Hurt);
 						mKissyface->Damaged();
+						mAnimator->Play(L"kissyface_Hurt", false);
 						mAudioSource->Play(L"kissyface_voice_hurt");
 
 						CTimeMgr::BulletTime(0.1f);

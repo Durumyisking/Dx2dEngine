@@ -96,14 +96,14 @@ namespace dru
 			else
 			{
 				int randvalue = GetRandomNumber(2, 0);
-					if (0 == randvalue)
-					{
-						MulColor(Vector4(0.f, 2.5f, 2.5f, 0.5f));
-					}
-					else if (1 == randvalue)
-					{
-						MulColor(Vector4(2.5f, 0.f, 2.5f, 0.5f));
-					}
+				if (0 == randvalue)
+				{
+					MulColor(Vector4(0.f, 2.5f, 2.5f, 0.5f));
+				}
+				else if (1 == randvalue)
+				{
+					MulColor(Vector4(2.5f, 0.f, 2.5f, 0.5f));
+				}
 			}
 
 		}
@@ -113,7 +113,15 @@ namespace dru
 		}
 		else if (eLayerType::Boss == Owner->GetLayerType())
 		{
-			MulColor(LIGHT_MAGENTA);
+			int randvalue = GetRandomNumber(2, 0);
+			if (0 == randvalue)
+			{
+				MulColor(Vector4(0.f, 2.5f, 2.5f, 0.5f));
+			}
+			else if (1 == randvalue)
+			{
+				MulColor(Vector4(2.5f, 0.f, 2.5f, 0.5f));
+			}
 		}
 
 

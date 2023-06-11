@@ -2,12 +2,14 @@
 #include "Headhunter.h"
 #include "TimeMgr.h"
 #include "CameraScript.h"
+#include "Object.h"
 
 namespace dru
 {
 	CHeadhunterScript::CHeadhunterScript()
 		: mHeadhunter(nullptr)
 		, mAudioSource(nullptr)
+		, mExplosion(nullptr)
 		, mAttackCollider(nullptr)
 		, mStatePattern1{}
 		, mStatePattern2{}
@@ -112,6 +114,9 @@ namespace dru
 		mRigidbody->SwitchOn();
 		GetOwner()->RenderingBlockOff();
 		mDodgeCooldown = 5.f;
+		mDodgeTimer = 0.f;
+		mbBlockFlipWhilePattern = false;
+
 
 		AllPatternReset();
 		AfterImageReset();
@@ -141,12 +146,13 @@ namespace dru
 	{
 		mAnimator->GetCompleteEvent(L"Headhunter_TumbleLand") = [this]
 		{
-			mHeadhunter->SetAfterImageCount(0);
-			mDodgeTimer = 0.f;
-			SetSingleState(eBossState::Idle);
+			Reset();
+			mRigidbody->SetVelocity(Vector3::Zero);
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_HurtLand") = [this]
 		{
+			PlayExplosion();
+			PushPlayer();
 			mRigidbody->SwitchOff();
 			GetOwner()->SetPos(SCREEN_CENTERTOP);
 			GetOwner()->RenderingBlockOn();
@@ -157,6 +163,7 @@ namespace dru
 		{
 			SetStatePattern1Off(ePattern1::Takeout);
 			SetStatePattern1On(ePattern1::Aim);
+			mbBlockFlipWhilePattern = true;
 		};
 
 		mAnimator->GetCompleteEvent(L"Headhunter_PutbackRifle") = [this]
@@ -200,7 +207,7 @@ namespace dru
 		}
 		else
 		{
-			if (!Patterning() && !GetState(eBossState::Hide) && GetOwner()->IsOnFloor())
+			if (!Patterning() && !GetState(eBossState::Hide) && !GetState(eBossState::Hurt) && GetOwner()->IsOnFloor())
 			{
 				if (mDodgeRadius > GetDistanceOfPlayer())
 				{
@@ -242,7 +249,6 @@ namespace dru
 			{
 				mDodgeTimer += CTimeMgr::DeltaTime();
 			}
-
 			mRigidbody->AddVelocity(mDodgeDir);
 		}
 	}
@@ -298,13 +304,18 @@ namespace dru
 	void CHeadhunterScript::Hit()
 	{
 		CTimeMgr::BulletTime(0.5f);
+
 		ShakeParams sp = {};
 		sp.duration = 0.5f;
 		sp.magnitude = 0.0500f;
 		renderer::mainCamera->GetCamScript()->Shake(sp);
+
 		SetHitDir();
 		mRigidbody->SetVelocity(mMoveDir * 10.f);
 		mTransform->AddPositionY(1.f);
+
+		AfterImageReset();
+		mbBlockFlipWhilePattern = false;
 	}
 
 	void CHeadhunterScript::Pattern1()
@@ -352,7 +363,7 @@ namespace dru
 		{
 			SetStatePattern1Off(ePattern1::Aim);
 			SetStatePattern1On(ePattern1::Shoot);
-			mbBlockFlipWhilePattern = true;
+			mbBlockFlipWhilePattern = false;
 			mPattern1_AimingTime = 0.f;
 		}
 	}
@@ -387,6 +398,128 @@ namespace dru
 	{
 		mPlayer->RenderingBlockOff();
 		// mPlayer->GetScript<CPlayerScript>()->UnInputBlocking();
+	}
+
+	void CHeadhunterScript::PushPlayer()
+	{
+		if (1.f > GetDistanceOfPlayer())
+		{
+			mPlayer->GetComponent<CAnimator>()->Play(L"Player_Dead", false);
+			mPlayer->SetPlayerStun();
+			CAnimator* playerAnimator = mPlayer->GetComponent<CAnimator>();
+			{
+				CRigidBody* playerRigidBody = mPlayer->GetComponent<CRigidBody>();
+
+				if (mPlayer->GetWorldPos().x > GetOwnerWorldPos().x)
+				{
+					playerRigidBody->SetVelocity({ 10.f, 0.f, 0.f });
+				}
+				else
+				{
+					playerRigidBody->SetVelocity({ -10.f, 0.f, 0.f });
+				}
+			}
+		}
+	}
+
+	CGameObj* CHeadhunterScript::GetOrCreateExplosionObject()
+	{
+		if (!mExplosion)
+		{
+			// create
+			mExplosion = object::Instantiate<CGameObj>(eLayerType::FX, L"Explosion");
+			if (mExplosion)
+			{
+				// intialize
+				InitializeExplosionComponent();
+			}
+		}
+
+		return mExplosion;
+	}
+
+	void CHeadhunterScript::InitializeExplosionComponent()
+	{
+		CGameObj* ExplosionObject = GetOrCreateExplosionObject();
+		if (ExplosionObject)
+		{
+			ExplosionObject->SetScale({ 1.5f, 1.5f, 1.f });
+
+			std::shared_ptr<CTexture> ExplosionObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = ExplosionObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"ExplosionMat");
+				if (Material)
+				{
+					ExplosionObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			if (ExplosionObjectTexture)
+			{
+				CAnimator* ExplosionObjectAnimator = ExplosionObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (ExplosionObjectAnimator)
+				{
+					ExplosionObjectAnimator->Create(L"Explosion", ExplosionObjectTexture, { 0.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 11, { 50.f, 50.f }, 0.1f);
+					ExplosionObjectAnimator->GetCompleteEvent(L"Explosion") = [this]
+					{
+						mExplosion->RenderingBlockOn();
+					};
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			ExplosionObject->RenderingBlockOn();
+		}
+	}
+
+	void CHeadhunterScript::PlayExplosion()
+	{
+		CGameObj* ExplosionObject = GetOrCreateExplosionObject();
+		if (ExplosionObject)
+		{
+			ExplosionPositioning();
+
+			CAnimator* ExplosionObjectAnimator = ExplosionObject->GetComponent<CAnimator>();
+			if (ExplosionObjectAnimator)
+			{
+				ExplosionObject->RenderingBlockOff();
+				ExplosionObjectAnimator->Play(L"Explosion", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+
+	void CHeadhunterScript::ExplosionPositioning()
+	{
+		CGameObj* ExplosionObject = GetOrCreateExplosionObject();
+		if (ExplosionObject)
+		{
+			CAnimator* ExplosionObjectAnimator = ExplosionObject->GetComponent<CAnimator>();
+			if (ExplosionObjectAnimator)
+			{
+				ExplosionObject->RenderingBlockOff();
+				ExplosionObjectAnimator->Play(L"Explosion", false);
+				Vector3 pos = GetOwnerPos();
+				pos.y += 0.5f;
+				ExplosionObject->SetPos(pos);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
 	}
 
 }
