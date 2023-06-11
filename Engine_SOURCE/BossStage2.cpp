@@ -23,9 +23,13 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bossStage2", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"bossStage2Mat", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(0.f, -0.075f, 5.f));
-			mStageBackground->SetScale(Vector3(1.5f, 1.5f, 1.f));
+			mStageBackground->SetPos(Vector3(0.f, 0.5f, 5.f));
+			mStageBackground->SetScale(Vector3(1.75f, 1.75f, 1.f));
 		}
+
+		renderer::mainCamera->GetOwner()->SetPos({ 0.f, 0.75f, 0.f });
+		CCollider2D* coll = renderer::mainCamera->GetOwner()->GetComponent<CCollider2D>();
+		coll->SetScale(Vector2(GetDevice()->ViewportWidth() / 102.125f, GetDevice()->ViewportHeight() / 102.5f));
 
 		mPlayerDefaultPos = Vector3(-3.5f, -1.25f, 3.f);
 		mHeadhunterDefaultPos = Vector3(3.f, -1.25f, 3.f);
@@ -121,12 +125,12 @@ namespace dru
 		}
 		{
 			COutWall* UpOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"UpOutWall");
-			UpOutWall->SetPos(Vector3(0.f, -5.f, 4.999f));
+			UpOutWall->SetPos(Vector3(0.f, -3.75f, 4.999f));
 			UpOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
 		{
 			COutWall* DownOutWall = object::Instantiate<COutWall>(eLayerType::Platforms, L"DownOutWall");
-			DownOutWall->SetPos(Vector3(0.f, 3.85f, 4.999f));
+			DownOutWall->SetPos(Vector3(0.f, 5.85f, 4.999f));
 			DownOutWall->SetColliderScale(Vector2(20.f, 0.5f));
 		}
 	}
@@ -135,7 +139,7 @@ namespace dru
 	{
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(0.f, -2.75f, 3.f));
+			Floor->SetPos(Vector3(0.f, -2.575f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 		{

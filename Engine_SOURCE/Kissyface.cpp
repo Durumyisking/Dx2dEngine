@@ -100,7 +100,7 @@ namespace dru
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();
-			MakeAfterImage(true, 90);
+			MakeAfterImage(true, 90.f);
 		}
 
 		CBoss::update();

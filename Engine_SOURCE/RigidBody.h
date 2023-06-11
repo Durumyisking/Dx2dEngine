@@ -8,6 +8,14 @@ namespace dru
     class CRigidBody :
         public CComponent
     {
+		// 오른쪽 기준
+#define DEGREE_90 dru::math::Vector3(0.f, 1.f, 0.f)
+#define DEGREE_45 dru::math::Vector3(0.707f, 0.707f, 0.f)
+#define DEGREE_30 dru::math::Vector3(0.866f, 0.5f, 0.f)
+#define DEGREE_15 dru::math::Vector3(0.966f, 0.259f, 0.f)
+#define DEGREE_0 dru::math::Vector3(1.f, 0.f, 0.f)
+
+
     public:
         CRigidBody();
         ~CRigidBody();
@@ -56,6 +64,9 @@ namespace dru
 
 		void SetGravity(float _Value) { mOriginGravity.y = _Value; }
 
+		void SwitchOn() { mbSwitch = true; }
+		void SwitchOff() { mbSwitch = false; }
+
 	private:
 		void objMove();
 
@@ -75,6 +86,8 @@ namespace dru
 		bool		mbOnAir;
 
 		bool		mbAffectedGravity;
+
+		bool		mbSwitch;
     };
 
 }

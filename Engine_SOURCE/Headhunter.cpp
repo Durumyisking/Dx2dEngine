@@ -17,11 +17,20 @@ namespace dru
 
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Headhunter_Idle", Material->GetTexture(), { 960.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 12, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_Tumble", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 6, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_Tumble", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 6, { 100.f, 100.f }, 0.1f);	
+		mAnimator->Create(L"Headhunter_HurtAir", Material->GetTexture(), { 1600.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_HurtLand", Material->GetTexture(), { 1792.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 7, { 100.f, 100.f }, 0.1f);
 
+		mAnimator->Create(L"Headhunter_Dash", Material->GetTexture(), { 320.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_DashLand", Material->GetTexture(), { 384.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 10, { 100.f, 100.f }, 0.1f);
 
 		// pattern1
 		mAnimator->Create(L"Headhunter_TakeoutRifle", Material->GetTexture(), { 448.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 8, { 100.f, 100.f }, 0.1f);
+
+		// pattern2
+		mAnimator->Create(L"Headhunter_SweepRifleStart", Material->GetTexture(), { 1472.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_SweepRifle", Material->GetTexture(), { 768.f, 448.f }, { 64.f, 64.f }, mAnimOffset, 18, { 100.f, 100.f }, 0.1f);
+
 
 		for (UINT i = 0; i < 18; i++)
 		{
@@ -51,8 +60,8 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
-		mMaxHp = 1;
-		mHp = 1;
+		mMaxHp = 5;
+		mHp = 5;
 		CBoss::Initialize();
 	}
 
@@ -61,7 +70,7 @@ namespace dru
 		if (FrameCaptureCheck())
 		{
 			FrameCaptureOperate();
-			MakeAfterImage(true, 90);
+			MakeAfterImage(true, 100.f);
 		}
 		CBoss::update();
 	}

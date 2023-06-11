@@ -17,6 +17,7 @@ namespace dru
 		, mFricCoeff(20.f)
 		, mbOnAir(true)
 		, mbAffectedGravity(true)
+		, mbSwitch(true)
 		, mCurrentGravity(Vector3(0.f, -25.f, 0.f))
 		, mOriginGravity(Vector3(0.f, -25.f, 0.f))
 	{
@@ -32,37 +33,31 @@ namespace dru
 
 	void CRigidBody::update()
 	{
-		SetAccelFromForce();
-
-		if (ObjOnStair())
+		if (mbSwitch)
 		{
-			mCurrentGravity = Vector3::Zero;
+			SetAccelFromForce();
+
+			if (ObjOnStair())
+			{
+				mCurrentGravity = Vector3::Zero;
+			}
+			if (mbOnAir && mbAffectedGravity)
+			{
+				mAccel += mCurrentGravity;
+			}
+
+			mVelocity += mAccel * CTimeMgr::DeltaTime();
+
+			CalculateFriction();
+
+			MaxVelocityCheck();
+
+			objMove();
+
+			mForce = Vector3(0.f, 0.f, 0.f);
+			mAccel = Vector3(0.f, 0.f, 0.f);
+			mCurrentGravity = mOriginGravity;
 		}
-		if (mbOnAir && mbAffectedGravity)
-		{
-			mAccel += mCurrentGravity;
-		}
-
-		//else
-		//{
-		//	// 땅위에 있을때
-		//	Vector3 gravity = mCurrentGravity;
-		//	gravity.Normalize();
-		//	float dot = mVelocity.Dot(gravity);
-		//	mVelocity.x -= gravity.x * dot;
-		//}
-
-		mVelocity += mAccel * CTimeMgr::DeltaTime();
-
-		CalculateFriction();
-
-		MaxVelocityCheck();
-
-		objMove();
-
-		mForce = Vector3(0.f, 0.f, 0.f);
-		mAccel = Vector3(0.f, 0.f, 0.f);
-		mCurrentGravity = mOriginGravity;
 	}
 
 	void CRigidBody::fixedUpdate()

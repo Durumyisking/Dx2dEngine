@@ -27,7 +27,7 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bossStage1", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"bossStage1Mat", Material);
 			SpriteRenderer->SetMaterial(Material);
-			mStageBackground->SetPos(Vector3(-0.5f, -0.0625f, 5.f));
+			mStageBackground->SetPos(Vector3(0.f, 0.f, 5.f));
 			mStageBackground->SetScale(Vector3(7.9f, 7.9f, 1.f));
 		}
 
@@ -150,7 +150,7 @@ namespace dru
 	{
 		{
 			CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-			Floor->SetPos(Vector3(0.f, -2.25f, 3.f));
+			Floor->SetPos(Vector3(0.f, -2.175f, 3.f));
 			Floor->SetColliderScale({ 20.f, 0.4f });
 		}
 		{

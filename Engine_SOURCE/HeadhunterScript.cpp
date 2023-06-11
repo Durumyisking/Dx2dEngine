@@ -1,18 +1,24 @@
 #include "HeadhunterScript.h"
 #include "Headhunter.h"
 #include "TimeMgr.h"
+#include "CameraScript.h"
 
 namespace dru
 {
 	CHeadhunterScript::CHeadhunterScript()
-		: mHeadhunter(nullptr) 
+		: mHeadhunter(nullptr)
 		, mAudioSource(nullptr)
 		, mAttackCollider(nullptr)
 		, mStatePattern1{}
 		, mStatePattern2{}
 		, mStatePattern3{}
-		, mDodgeTimer(0.f)
+		, mDashOrigin{}
+		, mDashDest{}
+		, mDodgeDir{}
+		, mDodgeTimer(5.f)
 		, mDodgeRadius(2.5f)
+		, mHideTimer(0.f)
+		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
 	{
 	}
@@ -26,6 +32,8 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
+		mPatternCount = 1;
+
 		AddAnimationCallBack();
 		AddAnimationCallBack_Lamda();
 
@@ -38,7 +46,10 @@ namespace dru
 	{
 		if (!GetOwner_LiveObject()->IsRewindRePlaying())
 		{
-			DodgeStart();
+
+			DodgeOperate();
+
+			Hide();
 
 			CBossScript::update();
 		}
@@ -56,6 +67,29 @@ namespace dru
 
 	void CHeadhunterScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
+		if (L"col_Player_Slash" == _oppo->GetName())
+		{
+			if (!GetStatePattern2(ePattern2::Dash) && !GetState(eBossState::Hide) && !GetState(eBossState::Dodge) && !GetState(eBossState::Hurt))
+			{
+				Hit();
+				SetSingleState(eBossState::Hurt);
+				mAnimator->Play(L"Headhunter_HurtAir", false);
+			}
+		}
+		if (L"col_floor" == _oppo->GetName())
+		{
+			if (mAnimator->IsPlaying(L"Headhunter_HurtAir"))
+			{
+				mAnimator->Play(L"Headhunter_HurtLand", false);
+			}
+			if (GetStatePattern2(ePattern2::Dash))
+			{
+				SetStatePattern2Off(ePattern2::Dash);
+				SetStatePattern2On(ePattern2::DashLand);
+				mAnimator->Play(L"Headhunter_DashLand", false);
+			}
+		}
+
 		CBossScript::OnCollisionEnter(_oppo);
 	}
 
@@ -71,6 +105,10 @@ namespace dru
 
 	void CHeadhunterScript::Reset()
 	{
+		mRigidbody->SwitchOn();
+		GetOwner()->RenderingBlockOff();
+		mDodgeTimer = 5.f;
+
 		AllPatternReset();
 		AfterImageReset();
 
@@ -99,7 +137,15 @@ namespace dru
 	{
 		mAnimator->GetCompleteEvent(L"Headhunter_Tumble") = [this]
 		{
+			mHeadhunter->SetAfterImageCount(0);
 			SetSingleState(eBossState::Idle);
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_HurtLand") = [this]
+		{
+			mRigidbody->SwitchOff();
+			GetOwner()->SetPos(SCREEN_CENTERTOP);
+			GetOwner()->RenderingBlockOn();
+			SetSingleState(eBossState::Hide);
 		};
 
 		mAnimator->GetCompleteEvent(L"Headhunter_TakeoutRifle") = [this]
@@ -108,21 +154,37 @@ namespace dru
 			SetStatePattern1On(ePattern1::Aim);
 		};
 
-		for (int i = 0; i < 18; i++)
-		{
-			std::wstring key = L"Headhunter_AimRifle";
-			key += std::to_wstring(i);
-			mAnimator->GetEndEvent(key) = [this]
-			{
-				SetStatePattern1Off(ePattern1::Aim);
-				SetStatePattern1On(ePattern1::Shoot);
-				mbBlockFlipWhilePattern = true;
-			};
-		}
 		mAnimator->GetCompleteEvent(L"Headhunter_PutbackRifle") = [this]
 		{
 			PatternEnd();
 		};
+		mAnimator->GetCompleteEvent(L"Headhunter_SweepRifleStart") = [this]
+		{
+			SetStatePattern2Off(ePattern2::SweepStart);
+			SetStatePattern2On(ePattern2::Sweep);
+			mAnimator->Play(L"Headhunter_SweepRifle", false);
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_SweepRifle") = [this]
+		{
+			SetStatePattern2Off(ePattern2::Sweep);
+			SetStatePattern2On(ePattern2::Dash);
+			mHeadhunter->SetAfterImageColor(RED);
+			mHeadhunter->SetAfterImageCount(50);
+			mDashOrigin = GetOwnerWorldPos();
+			mAnimator->Play(L"Headhunter_Dash");
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_DashLand") = [this]
+		{
+			PatternEnd();
+		};
+
+		
+	}
+
+	void CHeadhunterScript::DodgeOperate()
+	{
+		DodgeStart();
+		Dodge();
 	}
 
 	void CHeadhunterScript::DodgeStart()
@@ -133,15 +195,108 @@ namespace dru
 		}
 		else
 		{
-			if (!Patterning())
+			if (!Patterning() && !GetState(eBossState::Hide) && GetOwner()->IsOnFloor())
 			{
 				if (mDodgeRadius > GetDistanceOfPlayer())
 				{
 					SetSingleState(eBossState::Dodge);
-					mAnimator->Play(L"Headhunter_Tumble");
+					mHeadhunter->SetAfterImageColor(MAGENTA);
+					mHeadhunter->SetAfterImageCount(30);
+					mAnimator->Play(L"Headhunter_Tumble", false);
+					mDodgeTimer = 0.f;
+					SetDodgeDir();	
 				}
 			}
 		}
+	}
+
+	void CHeadhunterScript::SetDodgeDir()
+	{
+		mDodgeDir = DEGREE_30;
+		if (GetOwnerWorldPos().x < 0.f)
+		{
+			mDodgeDir.x *= 1.f;
+		}
+		else
+		{
+			mDodgeDir.x *= -1.f;
+		}
+		mDodgeDir.x *= 10.f;
+		mDodgeDir.y *= 2.f;
+	}
+
+	void CHeadhunterScript::Dodge()
+	{
+		if (GetState(eBossState::Dodge))
+		{
+			mRigidbody->SetVelocity(mDodgeDir);
+		}
+	}
+
+	void CHeadhunterScript::Hide()
+	{
+		if (GetState(eBossState::Hide))
+		{
+			if (mHideTimer < 1.f)
+			{
+				mHideTimer += CTimeMgr::DeltaTime();
+			}
+			else
+			{
+				SetSingleState(eBossState::Pattern2);
+				SetStatePattern2On(ePattern2::SweepStart);
+				GetOwner()->RenderingBlockOff();
+				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+				mHideTimer = 0.f;
+			}
+		}
+	}
+
+	void CHeadhunterScript::DashOperate()
+	{
+		if (mDashElapsedTime <= DASH_TIMER)
+		{
+			DashOperate();
+		}
+		else
+		{
+			DashEnd();
+		}
+		Vector3 newPos = {};
+		mDashElapsedTime += CTimeMgr::DeltaTime();
+		newPos = Interpolation(0.f, DASH_TIMER, mDashElapsedTime, mDashOrigin, mDashDest);
+		Vector3 pos = GetOwnerWorldPos();
+		pos = newPos;
+		GetOwner()->SetPos(pos);
+	}
+
+	void CHeadhunterScript::Dash()
+	{
+		Vector3 newPos = {};
+		mDashElapsedTime += CTimeMgr::DeltaTime();
+		newPos = Interpolation(0.f, DASH_TIMER, mDashElapsedTime, mDashOrigin, mDashDest);
+		Vector3 pos = GetOwnerWorldPos();
+		pos = newPos;
+		GetOwner()->SetPos(pos);
+	}
+
+	void CHeadhunterScript::DashEnd()
+	{
+		mDashElapsedTime = 0.f;
+		mRigidbody->SwitchOn();
+		return;
+	}
+
+	void CHeadhunterScript::Hit()
+	{
+		CTimeMgr::BulletTime(0.5f);
+		ShakeParams sp = {};
+		sp.duration = 0.5f;
+		sp.magnitude = 0.0500f;
+		renderer::mainCamera->GetCamScript()->Shake(sp);
+		SetHitDir();
+		mRigidbody->SetVelocity(mMoveDir * 10.f);
+		mTransform->AddPositionY(1.f);
 	}
 
 	void CHeadhunterScript::Pattern1()
@@ -154,6 +309,7 @@ namespace dru
 		}
 		if (GetStatePattern1(ePattern1::Aim))
 		{
+			AimingOperate();
 			mAnimator->Play(GetAimRifleKey());
 		}
 		if (GetStatePattern1(ePattern1::Shoot))
@@ -177,8 +333,29 @@ namespace dru
 		return key;
 	}
 
+	void CHeadhunterScript::AimingOperate()
+	{
+		if (mPattern1_AimingTime < 1.f)
+		{
+			mPattern1_AimingTime += CTimeMgr::DeltaTime();
+
+		}
+		else
+		{
+			SetStatePattern1Off(ePattern1::Aim);
+			SetStatePattern1On(ePattern1::Shoot);
+			mbBlockFlipWhilePattern = true;
+			mPattern1_AimingTime = 0.f;
+		}
+	}
+
 	void CHeadhunterScript::Pattern2()
 	{
+		if (GetStatePattern2(ePattern2::Dash))
+		{
+			mDashDest = SCREEN_CENTERFLOOR;
+			DashOperate();
+		}
 	}
 
 	void CHeadhunterScript::Pattern3()

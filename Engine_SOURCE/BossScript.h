@@ -6,6 +6,9 @@
 
 #define VELOCITY_RUN dru::math::Vector3(5.f, 7.f, 0.f)
 #define VELOCITY_WALK dru::math::Vector3(1.f, 7.f, 0.f)
+#define SCREEN_CENTER dru::math::Vector3(0.f, 0.f, 0.f)
+#define SCREEN_CENTERTOP dru::math::Vector3(0.f, 2.5f, 0.f)
+#define SCREEN_CENTERFLOOR dru::math::Vector3(0.f, -1.985f, 0.f)
 
 
 namespace dru
@@ -23,6 +26,7 @@ namespace dru
         Hurt,
         Block,
         Dodge,
+        Hide,
         Dead,
         End,
     };
@@ -72,6 +76,9 @@ namespace dru
         float GetDistanceOfPlayer();
 //        eStageState GetStageState() { return dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState(); }
 
+        void SetHitDir();
+
+
     protected:
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
@@ -80,6 +87,8 @@ namespace dru
 
         Vector3 mPos;
         Vector3 mMoveDir;
+
+        UINT mPatternCount;
 
         float mAttackCooldown;
 

@@ -36,6 +36,8 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
+		mPatternCount = 3;
+
 		AddAnimationCallBack();
 		AddAnimationCallBack_Lamda();
 
@@ -378,8 +380,9 @@ namespace dru
 		mPattern3_mLungeElapsedTime += CTimeMgr::DeltaTime();
 		if (mPattern3_mLungeElapsedTime <= LUNGE_TIMER)
 		{
-			float t = std::clamp(mPattern3_mLungeElapsedTime / LUNGE_TIMER, 0.f, 1.f); // 0~1사이의 값으로 만든다.
-			newPosX = std::lerp(mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x, t); // startPos와 endPos의 거리내 t비율만큼의 위치로 설정한다.
+			newPosX = Interpolation(0.f, LUNGE_TIMER, mPattern3_mLungeElapsedTime, mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x);
+			//float t = std::clamp(mPattern3_mLungeElapsedTime / LUNGE_TIMER, 0.f, 1.f); // 0~1사이의 값으로 만든다.
+			//newPosX = std::lerp(mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x, t); // startPos와 endPos의 거리내 t비율만큼의 위치로 설정한다.
 		}
 		else
 		{

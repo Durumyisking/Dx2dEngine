@@ -15,6 +15,7 @@ namespace dru
 		, mPos(Vector3::Zero)
 		, mMoveDir(Vector3::Zero)
 		, mAttackCooldown(1.f)
+		, mPatternCount(0)
 		, mbDead(false)
 		, mbIsPlayerLeft(false)
 		, mbBlockFlipWhilePattern(false)
@@ -46,8 +47,6 @@ namespace dru
 			if (!mbDead)
 			{
 				CheckPlayerLeft();
-
-				//if(!GetState(eBossState::Dodge))
 				IdleOperate();
 				PatternOperate();
 				
@@ -87,10 +86,6 @@ namespace dru
 			{
 				GetOwner()->SetLeft();
 			}
-		}
-		else if (L"col_Player_Slash" == _oppo->GetName())
-		{
-			// hitSlash(0);
 		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
@@ -138,7 +133,7 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-//		int pattern = GetRandomNumber(3, 1);
+//		int pattern = GetRandomNumber(mPatternCount, 1);
 		int pattern = 1;
 
 		switch (pattern)
@@ -292,7 +287,6 @@ namespace dru
 			case dru::eBossState::Fall:
 				break;
 			case dru::eBossState::Hurt:
-				mAnimator->Play(GetOwner()->GetName() + L"_Hurt", false);
 				break;
 			case dru::eBossState::Block:
 				mAnimator->Play(GetOwner()->GetName() + L"_Block", false);
@@ -314,6 +308,16 @@ namespace dru
 		float dist = Vector2::Distance(vec2Player, vec2Boss);
 
 		return dist;
+	}
+
+	void CBossScript::SetHitDir()
+	{
+		Vector3 MousePos = CInput::GetMousePosition_world();
+
+		Vector3 monsterPos = GetOwner()->GetPos();
+
+		mMoveDir = MousePos - monsterPos;
+		mMoveDir.Normalize();
 	}
 
 }

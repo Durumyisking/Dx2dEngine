@@ -18,10 +18,10 @@ namespace dru
         };
         enum class ePattern2
         {
-            Throw,
-            ThrowEnd,
-            Recieve,
-            Land,
+            SweepStart,
+            Sweep,
+            Dash,
+            DashLand,
 
             End,
         };
@@ -33,6 +33,9 @@ namespace dru
 
             End,
         };
+
+#define DASH_TIMER 0.25f
+
     public:
         CHeadhunterScript();
         virtual ~CHeadhunterScript();
@@ -54,13 +57,22 @@ namespace dru
         void AddAnimationCallBack();
         void AddAnimationCallBack_Lamda();
 
+        void DodgeOperate();
         void DodgeStart();
+        void SetDodgeDir();
+        void Dodge();
+        void Hide();
+        void DashOperate();
+        void Dash();
+        void DashEnd();
+        void Hit();
 
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
         void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern1Off(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = false; }
         std::wstring GetAimRifleKey();
+        void AimingOperate();
 
         virtual void Pattern2();
         bool GetStatePattern2(ePattern2 _Type) { return mStatePattern2[static_cast<UINT>(_Type)]; }
@@ -84,8 +96,15 @@ namespace dru
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
 
+        Vector3 mDodgeDir;
         float mDodgeTimer;
         float mDodgeRadius;
+
+        float mDashElapsedTime;
+        Vector3 mDashOrigin;
+        Vector3 mDashDest;
+
+        float mHideTimer;
 
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;
