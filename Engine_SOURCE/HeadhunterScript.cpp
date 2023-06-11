@@ -15,8 +15,9 @@ namespace dru
 		, mDashOrigin{}
 		, mDashDest{}
 		, mDodgeDir{}
-		, mDodgeTimer(5.f)
+		, mDodgeCooldown(5.f)
 		, mDodgeRadius(2.5f)
+		, mDodgeTimer(0.f)
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
@@ -48,7 +49,6 @@ namespace dru
 		{
 
 			DodgeOperate();
-
 			Hide();
 
 			CBossScript::update();
@@ -82,12 +82,16 @@ namespace dru
 			{
 				mAnimator->Play(L"Headhunter_HurtLand", false);
 			}
+			if (mAnimator->IsPlaying(L"Headhunter_TumbleAir"))
+			{
+				mAnimator->Play(L"Headhunter_TumbleLand", false);
+			}
 			if (GetStatePattern2(ePattern2::Dash))
 			{
 				SetStatePattern2Off(ePattern2::Dash);
 				SetStatePattern2On(ePattern2::DashLand);
 				mAnimator->Play(L"Headhunter_DashLand", false);
-			}
+			}		
 		}
 
 		CBossScript::OnCollisionEnter(_oppo);
@@ -107,7 +111,7 @@ namespace dru
 	{
 		mRigidbody->SwitchOn();
 		GetOwner()->RenderingBlockOff();
-		mDodgeTimer = 5.f;
+		mDodgeCooldown = 5.f;
 
 		AllPatternReset();
 		AfterImageReset();
@@ -135,9 +139,10 @@ namespace dru
 
 	void CHeadhunterScript::AddAnimationCallBack_Lamda()
 	{
-		mAnimator->GetCompleteEvent(L"Headhunter_Tumble") = [this]
+		mAnimator->GetCompleteEvent(L"Headhunter_TumbleLand") = [this]
 		{
 			mHeadhunter->SetAfterImageCount(0);
+			mDodgeTimer = 0.f;
 			SetSingleState(eBossState::Idle);
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_HurtLand") = [this]
@@ -189,9 +194,9 @@ namespace dru
 
 	void CHeadhunterScript::DodgeStart()
 	{
-		if (mDodgeTimer < 5.f)
+		if (mDodgeCooldown < 5.f)
 		{
-			mDodgeTimer += CTimeMgr::DeltaTime();
+			mDodgeCooldown += CTimeMgr::DeltaTime();
 		}
 		else
 		{
@@ -202,8 +207,8 @@ namespace dru
 					SetSingleState(eBossState::Dodge);
 					mHeadhunter->SetAfterImageColor(MAGENTA);
 					mHeadhunter->SetAfterImageCount(30);
-					mAnimator->Play(L"Headhunter_Tumble", false);
-					mDodgeTimer = 0.f;
+					mAnimator->Play(L"Headhunter_TumbleAir", false);
+					mDodgeCooldown = 0.f;
 					SetDodgeDir();	
 				}
 			}
@@ -212,7 +217,7 @@ namespace dru
 
 	void CHeadhunterScript::SetDodgeDir()
 	{
-		mDodgeDir = DEGREE_30;
+		mDodgeDir = DEGREE_15;
 		if (GetOwnerWorldPos().x < 0.f)
 		{
 			mDodgeDir.x *= 1.f;
@@ -222,14 +227,23 @@ namespace dru
 			mDodgeDir.x *= -1.f;
 		}
 		mDodgeDir.x *= 10.f;
-		mDodgeDir.y *= 2.f;
+		mDodgeDir.y *= 1.f;
 	}
 
 	void CHeadhunterScript::Dodge()
 	{
 		if (GetState(eBossState::Dodge))
 		{
-			mRigidbody->SetVelocity(mDodgeDir);
+			if (mDodgeTimer > DODGE_TIMER)
+			{
+				mDodgeDir.y = 0.f;
+			}
+			else
+			{
+				mDodgeTimer += CTimeMgr::DeltaTime();
+			}
+
+			mRigidbody->AddVelocity(mDodgeDir);
 		}
 	}
 
@@ -256,18 +270,12 @@ namespace dru
 	{
 		if (mDashElapsedTime <= DASH_TIMER)
 		{
-			DashOperate();
+			Dash();
 		}
 		else
 		{
 			DashEnd();
 		}
-		Vector3 newPos = {};
-		mDashElapsedTime += CTimeMgr::DeltaTime();
-		newPos = Interpolation(0.f, DASH_TIMER, mDashElapsedTime, mDashOrigin, mDashDest);
-		Vector3 pos = GetOwnerWorldPos();
-		pos = newPos;
-		GetOwner()->SetPos(pos);
 	}
 
 	void CHeadhunterScript::Dash()

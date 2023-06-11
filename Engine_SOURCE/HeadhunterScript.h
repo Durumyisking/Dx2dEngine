@@ -97,8 +97,9 @@ namespace dru
         CAudioSource* mAudioSource;
 
         Vector3 mDodgeDir;
-        float mDodgeTimer;
+        float mDodgeCooldown;
         float mDodgeRadius;
+        float mDodgeTimer;
 
         float mDashElapsedTime;
         Vector3 mDashOrigin;

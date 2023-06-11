@@ -17,7 +17,8 @@ namespace dru
 
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Headhunter_Idle", Material->GetTexture(), { 960.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 12, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_Tumble", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 6, { 100.f, 100.f }, 0.1f);	
+		mAnimator->Create(L"Headhunter_TumbleAir", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 2, { 100.f, 100.f }, 0.1f);	
+		mAnimator->Create(L"Headhunter_TumbleLand", Material->GetTexture(), { 1280.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_HurtAir", Material->GetTexture(), { 1600.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_HurtLand", Material->GetTexture(), { 1792.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 7, { 100.f, 100.f }, 0.1f);
 
