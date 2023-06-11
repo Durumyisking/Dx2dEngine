@@ -47,6 +47,7 @@ namespace dru
 			{
 				CheckPlayerLeft();
 
+				//if(!GetState(eBossState::Dodge))
 				IdleOperate();
 				PatternOperate();
 				
@@ -206,16 +207,26 @@ namespace dru
 		}
 	}
 
+	bool CBossScript::Patterning()
+	{
+		if (GetState(eBossState::Pattern1) || GetState(eBossState::Pattern2) || GetState(eBossState::Pattern3)
+			|| GetState(eBossState::Pattern4) || GetState(eBossState::Pattern5))
+		{
+			return true;
+		}
+		return false;
+	}
+
 	bool CBossScript::FlipTest()
 	{
 
-		if (!GetState(eBossState::Hurt))
+		if (!GetState(eBossState::Hurt) && !GetState(eBossState::Dodge))
 		{
 			return true;
 		}
 
-		if (!GetState(eBossState::Pattern1) && !GetState(eBossState::Pattern2) && !GetState(eBossState::Pattern3)
-			&& !GetState(eBossState::Pattern4) && !GetState(eBossState::Pattern5))
+
+		if(Patterning())
 		{
 			if (mbBlockFlipWhilePattern)
 			{
@@ -293,6 +304,16 @@ namespace dru
 			}
 			mState[(UINT)_Type] = true;
 		}
+	}
+
+	float CBossScript::GetDistanceOfPlayer()
+	{
+		Vector2 vec2Boss = {GetOwnerWorldPos().x, GetOwnerWorldPos().y};
+		Vector2 vec2Player = { mPlayer->GetWorldPos().x, mPlayer->GetWorldPos().y };
+
+		float dist = Vector2::Distance(vec2Player, vec2Boss);
+
+		return dist;
 	}
 
 }

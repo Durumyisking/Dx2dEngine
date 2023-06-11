@@ -33,7 +33,6 @@ namespace dru
 		mAnimator->Create(L"Headhunter_PutbackRifle", Material->GetTexture(), { 960.f, 384.f }, { 64.f, 64.f }, mAnimOffset, 8, { 100.f, 100.f }, 0.1f);
 
 
-
 		mAnimator->Play(L"Headhunter_Idle");
 
 		AddComponent<CHeadhunterScript>(eComponentType::Script)->Initialize();

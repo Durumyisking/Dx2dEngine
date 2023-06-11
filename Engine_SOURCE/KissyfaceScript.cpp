@@ -207,10 +207,10 @@ namespace dru
 		{
 			mAnimator->GetCompleteEvent(L"kissyface_Block") = [this] {  Reset();	};
 			mAnimator->GetCompleteEvent(L"kissyface_WaitingEnd") = [this] { SetSingleState(eBossState::Idle);	};
-			mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd(2);	};
+			mAnimator->GetCompleteEvent(L"kissyface_RecieveAxe") = [this] { PatternEnd();	};
 			mAnimator->GetCompleteEvent(L"kissyface_Land") = [this]
 			{
-				PatternEnd(1);
+				PatternEnd();
 			};
 			mAnimator->GetCompleteEvent(L"kissyface_ThrowAxe") = [this]
 			{
@@ -226,7 +226,7 @@ namespace dru
 			};
 			mAnimator->GetCompleteEvent(L"kissyface_LungeAttack") = [this]
 			{
-				PatternEnd(3);
+				PatternEnd();
 			};
 			mAnimator->GetFrameEvent(L"kissyface_LungeAttack", 2) = [this]
 			{
@@ -417,27 +417,8 @@ namespace dru
 	{
 	}
 
-	void CKissyfaceScript::PatternEnd(UINT _PatternNumber)
+	void CKissyfaceScript::PatternEnd()
 	{
-		switch (_PatternNumber)
-		{
-		case 1:
-			mStatePattern1.reset();
-			break;
-		case 2:
-			mStatePattern2.reset();
-			break;
-		case 3:
-			mStatePattern3.reset();
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		default:
-			break;
-		}
-
 		Reset();
 	}
 

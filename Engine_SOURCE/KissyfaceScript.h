@@ -76,7 +76,7 @@ namespace dru
         virtual void Pattern4();
         virtual void Pattern5();
 
-        virtual void PatternEnd(UINT _PatternNumber);
+        virtual void PatternEnd();
 
         void SetAxeDir();
         void AxeOn();

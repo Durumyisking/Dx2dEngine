@@ -61,12 +61,15 @@ namespace dru
         void IdleOperate();
         void PatternOperate();
 
+        bool Patterning();
+
         bool FlipTest();
         void FlipCheck();
 
         void SetSingleState(eBossState _Type);
         bool GetState(eBossState _Type) const { return mState[static_cast<UINT>(_Type)]; }
 
+        float GetDistanceOfPlayer();
 //        eStageState GetStageState() { return dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene)->GetCurrentStage()->GetReadyState(); }
 
     protected:

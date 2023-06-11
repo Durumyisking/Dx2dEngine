@@ -11,6 +11,8 @@ namespace dru
 		, mStatePattern1{}
 		, mStatePattern2{}
 		, mStatePattern3{}
+		, mDodgeTimer(0.f)
+		, mDodgeRadius(2.5f)
 		, mPattern1_AimingTime(0.f)
 	{
 	}
@@ -36,6 +38,8 @@ namespace dru
 	{
 		if (!GetOwner_LiveObject()->IsRewindRePlaying())
 		{
+			DodgeStart();
+
 			CBossScript::update();
 		}
 	}
@@ -93,24 +97,51 @@ namespace dru
 
 	void CHeadhunterScript::AddAnimationCallBack_Lamda()
 	{
+		mAnimator->GetCompleteEvent(L"Headhunter_Tumble") = [this]
+		{
+			SetSingleState(eBossState::Idle);
+		};
+
 		mAnimator->GetCompleteEvent(L"Headhunter_TakeoutRifle") = [this]
 		{
 			SetStatePattern1Off(ePattern1::Takeout);
 			SetStatePattern1On(ePattern1::Aim);
 		};
 
-		//for (int i = 0; i < 18; i++)
-		//{
-		//	std::wstring key = L"Headhunter_AimRifle";
-		//	key += std::to_wstring(i);
-		//	mAnimator->GetEndEvent(key) = [this]
-		//	{
-		//		SetStatePattern1Off(ePattern1::Aim);
-		//		SetStatePattern1On(ePattern1::Shoot);
-		//		mbBlockFlipWhilePattern = true;
-		//	};
-		//}
+		for (int i = 0; i < 18; i++)
+		{
+			std::wstring key = L"Headhunter_AimRifle";
+			key += std::to_wstring(i);
+			mAnimator->GetEndEvent(key) = [this]
+			{
+				SetStatePattern1Off(ePattern1::Aim);
+				SetStatePattern1On(ePattern1::Shoot);
+				mbBlockFlipWhilePattern = true;
+			};
+		}
+		mAnimator->GetCompleteEvent(L"Headhunter_PutbackRifle") = [this]
+		{
+			PatternEnd();
+		};
+	}
 
+	void CHeadhunterScript::DodgeStart()
+	{
+		if (mDodgeTimer < 5.f)
+		{
+			mDodgeTimer += CTimeMgr::DeltaTime();
+		}
+		else
+		{
+			if (!Patterning())
+			{
+				if (mDodgeRadius > GetDistanceOfPlayer())
+				{
+					SetSingleState(eBossState::Dodge);
+					mAnimator->Play(L"Headhunter_Tumble");
+				}
+			}
+		}
 	}
 
 	void CHeadhunterScript::Pattern1()
@@ -123,17 +154,22 @@ namespace dru
 		}
 		if (GetStatePattern1(ePattern1::Aim))
 		{
-			mPattern1_AimingTime += CTimeMgr::DeltaTime();
-			
 			mAnimator->Play(GetAimRifleKey());
 		}
+		if (GetStatePattern1(ePattern1::Shoot))
+		{
+			SetStatePattern1Off(ePattern1::Shoot);
+			SetStatePattern1On(ePattern1::Putback);
+			mAnimator->Play(L"Headhunter_PutbackRifle", false);
+		}
+
 	}
 
 	std::wstring CHeadhunterScript::GetAimRifleKey()
 	{
 		float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
 
-		int idx = angle / 10.f;
+		int idx = static_cast<int>( angle / 10.f);
 		std::wstring key = L"Headhunter_AimRifle";
 		std::wstring stridx = std::to_wstring(idx);
 		key += stridx;
@@ -157,27 +193,8 @@ namespace dru
 	{
 	}
 
-	void CHeadhunterScript::PatternEnd(UINT _PatternNumber)
+	void CHeadhunterScript::PatternEnd()
 	{
-		switch (_PatternNumber)
-		{
-		case 1:
-			mStatePattern1.reset();
-			break;
-		case 2:
-			mStatePattern2.reset();
-			break;
-		case 3:
-			mStatePattern3.reset();
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		default:
-			break;
-		}
-
 		Reset();
 	}
 

@@ -54,6 +54,8 @@ namespace dru
         void AddAnimationCallBack();
         void AddAnimationCallBack_Lamda();
 
+        void DodgeStart();
+
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
         void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
@@ -73,7 +75,7 @@ namespace dru
         virtual void Pattern4();
         virtual void Pattern5();
 
-        virtual void PatternEnd(UINT _PatternNumber);
+        virtual void PatternEnd();
 
         void PlayerReset();
 
@@ -81,6 +83,9 @@ namespace dru
     private:
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
+
+        float mDodgeTimer;
+        float mDodgeRadius;
 
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;
