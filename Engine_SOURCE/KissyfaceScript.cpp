@@ -43,8 +43,6 @@ namespace dru
 
 		mKissyface = dynamic_cast<CKissyface*>(GetOwner());
 
-		mbBlockFlipWhilePattern = false;
-
 		CBossScript::Initialize();
 	}
 
@@ -107,6 +105,8 @@ namespace dru
 				AfterImageReset();
 				if (L"kissyface_Dying" == mAnimator->GetCurrentAnimation()->GetAnimationName())
 				{
+					GetOwner()->GetCurrentStage()->MonsterDead();
+
 					mAnimator->Play(L"kissyface_Dead", false);
 					mbDead = true;
 					SetSingleState(eBossState::Dead);
@@ -117,7 +117,7 @@ namespace dru
 					return;
 				}
 
-				if (!GetState(eBossState::Hurt))
+				if (!GetState(eBossState::Hurt))	
 				{
 					if (BlockTest())
 					{
@@ -382,8 +382,6 @@ namespace dru
 		if (mPattern3_mLungeElapsedTime <= LUNGE_TIMER)
 		{
 			newPosX = Interpolation(0.f, LUNGE_TIMER, mPattern3_mLungeElapsedTime, mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x);
-			//float t = std::clamp(mPattern3_mLungeElapsedTime / LUNGE_TIMER, 0.f, 1.f); // 0~1사이의 값으로 만든다.
-			//newPosX = std::lerp(mPattern3_LungeOrigin.x, mPattern3_LungeDestination.x, t); // startPos와 endPos의 거리내 t비율만큼의 위치로 설정한다.
 		}
 		else
 		{
@@ -546,7 +544,6 @@ namespace dru
 			mAnimator->Play(L"kissyface_CutArm", false);
 			mAudioSource->Play(L"kissyface_death");
 
-			GetOwner()->GetCurrentStage()->MonsterDead();
 		}
 
 	}

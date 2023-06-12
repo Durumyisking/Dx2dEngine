@@ -1,8 +1,11 @@
 #include "FontWrapper.h"
 #include "GraphicDevice.h"
+#include "Renderer.h"
 
 namespace dru
 {
+	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> renderer::samplerState[];
+
 	IFW1Factory* CFontWrapper::mFW1Factory = nullptr;
 	IFW1FontWrapper* CFontWrapper::mFontWrapper = nullptr;
 
@@ -31,6 +34,7 @@ namespace dru
 			rgb,// Text color, 0xAaBbGgRr
 			0      // Flags (for example FW1_RESTORESTATE to keep context states unchanged)
 		);
+		graphics::GetDevice()->BindSamplers((UINT)graphics::eSamplerType::Point, 1, renderer::samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 	}
 
 	void CFontWrapper::Release()

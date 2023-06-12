@@ -172,7 +172,7 @@ namespace dru::renderer
 	extern Vertex	RectVertexes[4];
 
 	extern CConstantBuffer* constantBuffers[];
-	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerState[];
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendState[];

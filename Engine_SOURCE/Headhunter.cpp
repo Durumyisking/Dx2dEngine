@@ -21,6 +21,7 @@ namespace dru
 		mAnimator->Create(L"Headhunter_TumbleLand", Material->GetTexture(), { 1280.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_HurtAir", Material->GetTexture(), { 1600.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_HurtLand", Material->GetTexture(), { 1792.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 7, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_Hide", Material->GetTexture(), { 256.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 
 		mAnimator->Create(L"Headhunter_Dash", Material->GetTexture(), { 320.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_DashLand", Material->GetTexture(), { 384.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 10, { 100.f, 100.f }, 0.1f);
@@ -29,6 +30,14 @@ namespace dru
 		mAnimator->Create(L"Headhunter_TakeoutRifle", Material->GetTexture(), { 448.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 8, { 100.f, 100.f }, 0.1f);
 
 		// pattern2
+		mAnimator->Create(L"Headhunter_BackJump", Material->GetTexture(), { 1792.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_WallKick", Material->GetTexture(), { 1024.f, 576.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_WallKickAttack", Material->GetTexture(), { 1280.f, 576.f }, { 64.f, 64.f }, mAnimOffset, 5, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_WallKickFall", Material->GetTexture(), { 1600.f, 576.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_WallKickLand", Material->GetTexture(), { 1664.f, 576.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
+
+
+		// pattern5
 		mAnimator->Create(L"Headhunter_SweepRifleStart", Material->GetTexture(), { 1472.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_SweepRifle", Material->GetTexture(), { 768.f, 448.f }, { 64.f, 64.f }, mAnimOffset, 18, { 100.f, 100.f }, 0.1f);
 

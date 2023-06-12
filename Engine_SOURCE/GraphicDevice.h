@@ -101,7 +101,7 @@ namespace dru::graphics
 		Microsoft::WRL::ComPtr <IDXGISwapChain> mSwapChain;
 
 		//텍스처 로딩할때 사용된다.
-		//ID3D11SamplerState* mSampler[];
+		// ID3D11SamplerState* mSampler[];
 
 		D3D11_VIEWPORT mViewPort;
 	};

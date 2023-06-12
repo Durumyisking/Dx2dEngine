@@ -318,7 +318,7 @@ namespace dru
 				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
 //				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-//				CFontWrapper::DrawFont(L"abcssssssd", 0.f, 0.f, 100.f, 1);
+				CFontWrapper::DrawFont(L"abcssssssd", 0.f, 0.f, 100.f, 1);
 
 				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
 				//CResources::Insert<CMaterial>(L"TitleButtonMat", Material);

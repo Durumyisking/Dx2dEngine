@@ -41,6 +41,8 @@ namespace dru
 		Vector3 GetVelocity() const { return mVelocity; }
 
 		void AddVelocity(Vector3 _Value) { mVelocity += _Value; }
+		void AddVelocityX(float _Value) { mVelocity.x += _Value; }
+		void AddVelocityY(float _Value) { mVelocity.y += _Value; }
 
 		void SetMaxVelocity(Vector3 _Value) { mMaxSpeed = _Value; }
 		Vector3 GetMaxVelocity() const { return  mMaxSpeed; }

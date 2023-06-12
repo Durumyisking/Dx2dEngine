@@ -18,7 +18,7 @@ namespace dru
 		, mPatternCount(0)
 		, mbDead(false)
 		, mbIsPlayerLeft(false)
-		, mbBlockFlipWhilePattern(false)
+		, mbFlipWhilePattern(false)
 		, mBossName{}
 		, mState{}
 
@@ -75,23 +75,22 @@ namespace dru
 			GetOwner()->SetFloorOn();
 
 		}
-		else if (L"col_wall" == _oppo->GetName())
-		{
-
-			if (GetOwner()->IsLeft())
-			{
-				GetOwner()->SetRight();
-			}
-			else
-			{
-				GetOwner()->SetLeft();
-			}
-		}
-		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
-		{
-			Vector3 vel = mRigidbody->GetVelocity();
-			mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
-		}
+		//else if (L"col_wall" == _oppo->GetName())
+		//{
+		//	if (GetOwner()->IsLeft())
+		//	{
+		//		GetOwner()->SetRight();
+		//	}
+		//	else
+		//	{
+		//		GetOwner()->SetLeft();
+		//	}
+		//}
+		//else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
+		//{
+		//	Vector3 vel = mRigidbody->GetVelocity();
+		//	mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
+		//}
 	}
 
 	void CBossScript::OnCollision(CCollider2D* _oppo)
@@ -108,13 +107,13 @@ namespace dru
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 		}
-		else if (L"col_wall" == _oppo->GetName())
-		{
-			if (mbDead)
-			{
-				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-			}
-		}
+		//else if (L"col_wall" == _oppo->GetName())
+		//{
+		//	if (mbDead)
+		//	{
+		//		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+		//	}
+		//}
 	}
 
 	void CBossScript::CheckPlayerLeft()
@@ -133,8 +132,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-		int pattern = GetRandomNumber(mPatternCount, 1);
-//		int pattern = 1;
+//		int pattern = GetRandomNumber(mPatternCount, 1);
+		int pattern = 2;
 
 		switch (pattern)
 		{
@@ -222,7 +221,7 @@ namespace dru
 
 		if(Patterning())
 		{
-			return mbBlockFlipWhilePattern;
+			return mbFlipWhilePattern;
 		}
 
 		return true;
