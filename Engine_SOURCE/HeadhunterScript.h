@@ -19,6 +19,7 @@ namespace dru
         enum class ePattern2
         {
             BackJump,
+            WallKickReady,
             WallKick,
             WallKickAttack,
             WallKickFall,
@@ -28,9 +29,10 @@ namespace dru
         };
         enum class ePattern3
         {
-            LungeReady,
-            Lunge,
-            LungeAttack,
+            Takeout,
+            Dash,
+            DashEnd,
+            PutBack,
 
             End,
         };
@@ -47,15 +49,17 @@ namespace dru
             SweepStart,
             Sweep,
             Dash,
-            DashLand,
+            DashEnd,
 
             End,
         };
 
 #define DASH_TIMER 0.25f
-#define BACKJUMP_FORCE_X 89.361702f
-#define BACKJUMP_TIMER 0.5f
-#define WALLKICK_TIMER 0.4f
+
+#define MV_BACKJUMP math::Vector3(1.7021f, 12.5f, 0.f)
+#define MV_WALLKICK math::Vector3(9.f, 12.f, 0.f)
+#define MV_DODGE math::Vector3(8.f, 6.f, 0.f)
+
 
 
     public:
@@ -101,6 +105,7 @@ namespace dru
         void SetStatePattern2Off(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = false; }
         void BackJump();
         void SetBackJumpForce();
+        void WallKickReady();
         void WallKick();
         void WallKickAttackStart();
 

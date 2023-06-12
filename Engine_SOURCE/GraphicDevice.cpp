@@ -54,7 +54,7 @@ namespace dru::graphics
 		swapChainDesc.BufferDesc.Width = application.GetWidth();
 		swapChainDesc.BufferDesc.Height = application.GetHeight();
 		swapChainDesc.BufferDesc.Format = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM; // 컬러 포멧 타입
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = 144; // 프레임 비율 분자
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;// 프레임 비율 분자
 		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; // 프레임 비율 분모
 		swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 		swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -494,8 +494,8 @@ namespace dru::graphics
 
 	void CGraphicDevice::Present()
 	{
-//		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
-		mSwapChain->Present(1, 0); // 수직동기화 on
+		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+		//mSwapChain->Present(1, 0); // 수직동기화 on
 	}
 
 

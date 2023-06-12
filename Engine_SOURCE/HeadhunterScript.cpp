@@ -36,7 +36,7 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
-		mPatternCount = 1;
+		mPatternCount = 2;
 
 		AddAnimationCallBack();
 		AddAnimationCallBack_Lamda();
@@ -75,7 +75,8 @@ namespace dru
 			if (!GetStatePattern5(ePattern5::Dash) && !GetState(eBossState::Hide) && !GetState(eBossState::Dodge) && !GetState(eBossState::Hurt))
 			{
 				Hit();
-				SetSingleState(eBossState::Hurt);
+				PatternEnd();
+				SetSingleState(eBossState::Hurt);		
 				mAnimator->Play(L"Headhunter_HurtAir", false);
 			}
 		}
@@ -93,7 +94,7 @@ namespace dru
 			{
 				PatternEnd();
 			}
-			if (GetStatePattern2(ePattern2::WallKickFall) || GetStatePattern2(ePattern2::WallKickAttack))
+			if (GetStatePattern2(ePattern2::WallKickFall))
 			{
 				SetStatePattern2Off(ePattern2::WallKickFall);
 				SetStatePattern2On(ePattern2::WallKickLand);
@@ -102,8 +103,8 @@ namespace dru
 			if (GetStatePattern5(ePattern5::Dash))
 			{
 				SetStatePattern5Off(ePattern5::Dash);
-				SetStatePattern5On(ePattern5::DashLand);
-				mAnimator->Play(L"Headhunter_DashLand", false);
+				SetStatePattern5On(ePattern5::DashEnd);
+				mAnimator->Play(L"Headhunter_DashEnd", false);
 			}		
 
 		}
@@ -112,7 +113,15 @@ namespace dru
 			if (mAnimator->IsPlaying(L"Headhunter_BackJump"))
 			{
 				mState[(UINT)eBossState::Dodge] = false;
-				WallKick();
+				mRigidbody->SetVelocityX(0.f);
+				mRigidbody->SetVelocityY(0.f);
+				WallKickReady();
+			}
+			if (GetStatePattern3(ePattern3::Dash))
+			{
+				SetStatePattern3Off(ePattern3::Dash);
+				SetStatePattern3On(ePattern3::DashEnd);
+				mAnimator->Play(L"Headhunter_DashEnd", false);
 			}
 
 		}
@@ -138,6 +147,9 @@ namespace dru
 		mDodgeTimer = 0.f;
 		mHideTimer = 0.f;
 		mbFlipWhilePattern = false;
+		mDashElapsedTime = 0.f;
+
+		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 
 		AllPatternReset();
 		AfterImageReset();
@@ -197,7 +209,15 @@ namespace dru
 		{
 			PatternEnd();
 		};
-			mAnimator->GetCompleteEvent(L"Headhunter_WallKick") = [this]
+		mAnimator->GetCompleteEvent(L"Headhunter_WallKickReady") = [this]
+		{
+			mRigidbody->SwitchOn();
+			SetStatePattern2Off(ePattern2::WallKickReady);
+			SetStatePattern2On(ePattern2::WallKick);
+			mAnimator->Play(L"Headhunter_WallKick", false);
+			WallKick();
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_WallKick") = [this]
 		{
 			SetStatePattern2Off(ePattern2::WallKick);
 			SetStatePattern2On(ePattern2::WallKickAttack);
@@ -209,10 +229,24 @@ namespace dru
 			SetStatePattern2On(ePattern2::WallKickFall);
 			mAnimator->Play(L"Headhunter_WallKickFall", false);
 		};
-
 		mAnimator->GetCompleteEvent(L"Headhunter_WallKickLand") = [this]
 		{
 			PatternEnd();
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_TakeoutDagger") = [this]
+		{
+			SetStatePattern3Off(ePattern3::Takeout);
+			SetStatePattern3On(ePattern3::Dash);
+			mHeadhunter->SetAfterImageColor(RED);
+			mHeadhunter->SetAfterImageCount(100);
+			mDashOrigin = GetOwnerWorldPos();
+			mDashDest = GetOwnerWorldPos();
+			mDashDest.x = 7.6f;
+			if (mbIsPlayerLeft)
+			{
+				mDashDest.x *= -1.f;
+			}
+			mAnimator->Play(L"Headhunter_Dash");
 		};
 
 		
@@ -227,11 +261,11 @@ namespace dru
 			SetStatePattern5Off(ePattern5::Sweep);
 			SetStatePattern5On(ePattern5::Dash);
 			mHeadhunter->SetAfterImageColor(RED);
-			mHeadhunter->SetAfterImageCount(50);
+			mHeadhunter->SetAfterImageCount(100);
 			mDashOrigin = GetOwnerWorldPos();
 			mAnimator->Play(L"Headhunter_Dash");
 		};
-		mAnimator->GetCompleteEvent(L"Headhunter_DashLand") = [this]
+		mAnimator->GetCompleteEvent(L"Headhunter_DashEnd") = [this]
 		{
 			PatternEnd();
 		};
@@ -269,15 +303,16 @@ namespace dru
 
 	void CHeadhunterScript::SetDodgeDir()
 	{
+		mRigidbody->SetMaxVelocity(MV_DODGE);
 		if (GetOwnerWorldPos().x < 0.f)
 		{
-			mRigidbody->AddForceX(500.f);
+			mRigidbody->AddForceX(100000.f);
 		}
 		else
 		{
-			mRigidbody->AddForceX(-500.f);
+			mRigidbody->AddForceX(-100000.f);
 		}
-		mRigidbody->AddForceY(500.f);
+		mRigidbody->AddForceY(100000.f);
 	}
 
 	void CHeadhunterScript::Hide()
@@ -419,6 +454,7 @@ namespace dru
 		float posX = GetOwnerPos().x;
 		float wallPos = 0.f;
 		float dist = 0.f;
+		float ForceX = 100000.f;
 		if (0.f < posX)
 		{
 			wallPos = 7.7f;
@@ -428,28 +464,35 @@ namespace dru
 		{
 			wallPos = -7.7f;
 			dist = wallPos - posX;
+			ForceX *= -1.f;
 		}
-		float ForceX = BACKJUMP_FORCE_X * dist;
+		mRigidbody->SetMaxVelocity({ MV_BACKJUMP.x * fabs(dist), MV_BACKJUMP.y, MV_BACKJUMP .z});
 
 		mRigidbody->AddForceX(ForceX);
-		mRigidbody->AddForceY(925.f);
+		mRigidbody->AddForceY(100000.f);
 	}
 
 
+	void CHeadhunterScript::WallKickReady()
+	{
+		mRigidbody->SwitchOff();
+		mAnimator->Play(L"Headhunter_WallKickReady", false);
+		SetStatePattern2On(ePattern2::WallKickReady);
+	}
+
 	void CHeadhunterScript::WallKick()
 	{
-		mAnimator->Play(L"Headhunter_WallKick", false);
-		SetStatePattern2On(ePattern2::WallKick);
+		mRigidbody->SetMaxVelocity(MV_WALLKICK);
 
 		if (GetOwner()->IsLeft())
 		{
-			mRigidbody->AddForceX(500.f);
+			mRigidbody->AddForceX(-100000.f);
 		}
 		else
 		{
-			mRigidbody->AddForceX(-500.f);
+			mRigidbody->AddForceX(100000.f);
 		}
-		mRigidbody->AddForceY(650.f);
+		mRigidbody->AddForceY(100000);
 	}
 
 	void CHeadhunterScript::WallKickAttackStart()
@@ -461,6 +504,16 @@ namespace dru
 
 	void CHeadhunterScript::Pattern3()
 	{
+		if (!GetStatePattern3(ePattern3::Takeout))
+		{
+			SetStatePattern3On(ePattern3::Takeout);
+			mAnimator->Play(L"Headhunter_TakeoutDagger", false);
+		}
+		if (GetStatePattern3(ePattern3::Dash))
+		{
+			DashOperate();
+		}
+
 	}
 
 	void CHeadhunterScript::Pattern4()

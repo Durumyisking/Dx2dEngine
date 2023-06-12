@@ -90,8 +90,7 @@ namespace dru
 		}
 		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
-			Vector3 vel = mRigidbody->GetVelocity();
-			mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
+			mRigidbody->SetVelocityX(0.f);
 		}
 	}
 
@@ -120,9 +119,9 @@ namespace dru
 
 	void CBossScript::CheckPlayerLeft()
 	{
-		float KissyPosX = GetOwnerWorldPos().x;
+		float BossPosX = GetOwnerWorldPos().x;
 		float PlayerPosX = mPlayer->GetWorldPos().x;
-		if (PlayerPosX < KissyPosX)
+		if (PlayerPosX < BossPosX)
 		{
 			mbIsPlayerLeft = true;
 		}
@@ -134,8 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-//		int pattern = GetRandomNumber(mPatternCount, 1);
-		int pattern = 2;
+		//int pattern = GetRandomNumber(mPatternCount, 1);
+		int pattern = 3;
 
 		switch (pattern)
 		{
