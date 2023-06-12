@@ -53,6 +53,15 @@ namespace dru
 
             End,
         };
+        enum class ePattern6
+        {
+            VerticalLaserAppear,
+            VerticalLaserDisappear,
+            SweepStart,
+            Sweep,
+
+            End,
+        };
 
 #define DASH_TIMER 0.25f
 
@@ -116,11 +125,19 @@ namespace dru
         void SetStatePattern3Off(ePattern3 _Type) { mStatePattern3[static_cast<UINT>(_Type)] = false; }
 
         virtual void Pattern4();
+        bool GetStatePattern4(ePattern5 _Type) { return  mStatePattern4[static_cast<UINT>(_Type)]; }
+        void SetStatePattern4On(ePattern5 _Type) { mStatePattern4[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern4Off(ePattern5 _Type) { mStatePattern4[static_cast<UINT>(_Type)] = false; }
 
         virtual void Pattern5();
         bool GetStatePattern5(ePattern5 _Type) { return  mStatePattern5[static_cast<UINT>(_Type)]; }
         void SetStatePattern5On(ePattern5 _Type) { mStatePattern5[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern5Off(ePattern5 _Type) { mStatePattern5[static_cast<UINT>(_Type)] = false; }
+
+        virtual void Pattern6();
+        bool GetStatePattern6(ePattern6 _Type) { return  mStatePattern6[static_cast<UINT>(_Type)]; }
+        void SetStatePattern6On(ePattern6 _Type) { mStatePattern6[static_cast<UINT>(_Type)] = true; }
+        void SetStatePattern6Off(ePattern6 _Type) { mStatePattern6[static_cast<UINT>(_Type)] = false; }
 
         virtual void PatternEnd();
 
@@ -159,6 +176,9 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern4::End)> mStatePattern4;
 
         std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern5;
+
+        std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern6;
+        UINT mVerticalShootCount;
 
         CGameObj* mAttackCollider;
 

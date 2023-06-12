@@ -24,6 +24,7 @@ namespace dru
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
+		, mVerticalShootCount(0)
 	{
 	}
 
@@ -36,7 +37,7 @@ namespace dru
 		mAnimator = GetOwner()->GetComponent<CAnimator>();
 		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
-		mPatternCount = 2;
+		mPatternCount = 3;
 
 		AddAnimationCallBack();
 		AddAnimationCallBack_Lamda();
@@ -117,12 +118,7 @@ namespace dru
 				mRigidbody->SetVelocityY(0.f);
 				WallKickReady();
 			}
-			if (GetStatePattern3(ePattern3::Dash))
-			{
-				SetStatePattern3Off(ePattern3::Dash);
-				SetStatePattern3On(ePattern3::DashEnd);
-				mAnimator->Play(L"Headhunter_DashEnd", false);
-			}
+
 
 		}
 
@@ -148,6 +144,7 @@ namespace dru
 		mHideTimer = 0.f;
 		mbFlipWhilePattern = false;
 		mDashElapsedTime = 0.f;
+		mVerticalShootCount = 0;
 
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 
@@ -164,6 +161,7 @@ namespace dru
 		mStatePattern3.reset();
 		mStatePattern4.reset();
 		mStatePattern5.reset();
+		mStatePattern6.reset();
 
 	}
 
@@ -241,7 +239,7 @@ namespace dru
 			mHeadhunter->SetAfterImageCount(100);
 			mDashOrigin = GetOwnerWorldPos();
 			mDashDest = GetOwnerWorldPos();
-			mDashDest.x = 7.6f;
+			mDashDest.x = 7.f;
 			if (mbIsPlayerLeft)
 			{
 				mDashDest.x *= -1.f;
@@ -269,8 +267,16 @@ namespace dru
 		{
 			PatternEnd();
 		};
-
-		
+		mAnimator->GetCompleteEvent(L"Headhunter_VerticalLaserAppear") = [this]
+		{
+			mAnimator->Play(L"Headhunter_VerticalLaserDisappear", false);
+			SetStatePattern6Off(ePattern6::VerticalLaserAppear);
+			SetStatePattern6On(ePattern6::VerticalLaserDisappear);
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_VerticalLaserDisappear") = [this]
+		{
+			SetStatePattern6Off(ePattern6::VerticalLaserDisappear);
+		};		
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -325,11 +331,20 @@ namespace dru
 			}
 			else
 			{
-				SetSingleState(eBossState::Pattern5);
-				SetStatePattern5On(ePattern5::SweepStart);
-				GetOwner()->RenderingBlockOff();
-				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
-				mHideTimer = 0.f;
+				if (2 == mHeadhunter->GetHp())
+				{
+					SetSingleState(eBossState::Pattern5);
+					SetStatePattern5On(ePattern5::SweepStart);
+					GetOwner()->RenderingBlockOff();
+					mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+					mHideTimer = 0.f;
+				}
+				else if (1 == mHeadhunter->GetHp())
+				{
+					SetSingleState(eBossState::Pattern6);
+					GetOwner()->RenderingBlockOff();
+					mHideTimer = 0.f;
+				}
 			}
 		}
 	}
@@ -360,6 +375,14 @@ namespace dru
 	{
 		mDashElapsedTime = 0.f;
 		mRigidbody->SwitchOn();
+
+		if (GetState(eBossState::Pattern3))
+		{
+			SetStatePattern3Off(ePattern3::Dash);
+			SetStatePattern3On(ePattern3::DashEnd);
+			mAnimator->Play(L"Headhunter_DashEnd", false);
+		}
+
 		return;
 	}
 
@@ -375,6 +398,8 @@ namespace dru
 		SetHitDir();
 		mRigidbody->SetVelocity(mMoveDir * 10.f);
 		mTransform->AddPositionY(1.f);
+
+		mHeadhunter->Damaged();
 
 		AfterImageReset();
 		mbFlipWhilePattern = false;
@@ -527,6 +552,23 @@ namespace dru
 			mDashDest = SCREEN_CENTERFLOOR;
 			DashOperate();
 		}
+	}
+
+	void CHeadhunterScript::Pattern6()
+	{
+		if (!GetStatePattern6(ePattern6::VerticalLaserAppear) && !GetStatePattern6(ePattern6::VerticalLaserDisappear))
+		{
+			if (7 > mVerticalShootCount)
+			{
+				SetStatePattern6On(ePattern6::VerticalLaserAppear);
+				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
+
+			}
+			
+		}
+
+
+
 	}
 
 	void CHeadhunterScript::PatternEnd()

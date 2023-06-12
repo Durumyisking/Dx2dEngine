@@ -419,6 +419,10 @@ namespace dru
 	{
 	}
 
+	void CKissyfaceScript::Pattern6()
+	{
+	}
+
 	void CKissyfaceScript::PatternEnd()
 	{
 		Reset();

@@ -22,6 +22,7 @@ namespace dru
         Pattern3,
         Pattern4,
         Pattern5,
+        Pattern6,
         Fall,
         Hurt,
         Block,
@@ -55,6 +56,7 @@ namespace dru
         virtual void Pattern3() = 0;
         virtual void Pattern4() = 0;
         virtual void Pattern5() = 0;
+        virtual void Pattern6() = 0;
 
         void CheckPlayerLeft();
 

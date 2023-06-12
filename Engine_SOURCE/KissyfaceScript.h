@@ -75,6 +75,7 @@ namespace dru
 
         virtual void Pattern4();
         virtual void Pattern5();
+        virtual void Pattern6();
 
         virtual void PatternEnd();
 

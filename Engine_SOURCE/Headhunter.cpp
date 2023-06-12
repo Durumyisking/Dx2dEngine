@@ -53,6 +53,9 @@ namespace dru
 		mAnimator->Create(L"Headhunter_SweepRifleStart", Material->GetTexture(), { 1472.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_SweepRifle", Material->GetTexture(), { 768.f, 448.f }, { 64.f, 64.f }, mAnimOffset, 18, { 100.f, 100.f }, 0.1f);
 
+		// pattern6
+		mAnimator->Create(L"Headhunter_VerticalLaserAppear", Material->GetTexture(), { 960.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_VerticalLaserDisappear", Material->GetTexture(), { 1728.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 
 
 
@@ -74,8 +77,8 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
-		mMaxHp = 5;
-		mHp = 5;
+		mMaxHp = 3;
+		mHp = 3;
 		
 		CBoss::Initialize();
 	}

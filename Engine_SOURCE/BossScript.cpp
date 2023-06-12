@@ -133,8 +133,8 @@ namespace dru
 
 	void CBossScript::ChoosePattern()
 	{
-		//int pattern = GetRandomNumber(mPatternCount, 1);
-		int pattern = 3;
+		int pattern = GetRandomNumber(mPatternCount, 1);
+		//int pattern = 3;
 
 		switch (pattern)
 		{
@@ -152,6 +152,9 @@ namespace dru
 			break;
 		case 5:
 			SetSingleState(eBossState::Pattern5);
+			break;
+		case 6:
+			SetSingleState(eBossState::Pattern6);
 			break;
 		default:
 			break;
@@ -200,12 +203,16 @@ namespace dru
 		{
 			Pattern5();
 		}
+		else if (GetState(eBossState::Pattern6))
+		{
+			Pattern6();
+		}
 	}
 
 	bool CBossScript::Patterning()
 	{
 		if (GetState(eBossState::Pattern1) || GetState(eBossState::Pattern2) || GetState(eBossState::Pattern3)
-			|| GetState(eBossState::Pattern4) || GetState(eBossState::Pattern5))
+			|| GetState(eBossState::Pattern4) || GetState(eBossState::Pattern5) || GetState(eBossState::Pattern6))
 		{
 			return true;
 		}
