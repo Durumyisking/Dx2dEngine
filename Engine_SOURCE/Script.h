@@ -15,8 +15,8 @@ namespace dru
 		virtual void fixedUpdate() override;
 		virtual void render() override;
 
-		virtual void OnCollisionEnter(CCollider2D* _oppo) {};
-		virtual void OnCollision(CCollider2D* _oppo) {};
+		virtual void OnCollisionEnter(CCollider2D* _oppo);
+		virtual void OnCollision(CCollider2D* _oppo);
 		virtual void OnCollisionExit(CCollider2D* _oppo) {};
 
 		virtual void OnTriggerEnter(CCollider2D* _oppo) {};
@@ -25,6 +25,8 @@ namespace dru
 
 
 		void CreateSlashShade(Vector3& _targetPos);
+
+//		void PushRect(CCollider2D* _oppo);
 
 	};
 }

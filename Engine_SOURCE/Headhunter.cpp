@@ -70,8 +70,10 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
+		GetComponent<CRigidBody>()->SetMaxVelocity( { 100.f, 100.f, 100.f });
 		mMaxHp = 5;
 		mHp = 5;
+		
 		CBoss::Initialize();
 	}
 

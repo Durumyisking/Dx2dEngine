@@ -494,7 +494,8 @@ namespace dru::graphics
 
 	void CGraphicDevice::Present()
 	{
-		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+//		mSwapChain->Present(0, 0); // 두번째 인자는 윈도우가 아예 표시되지않을때 렌더링 할까말까 고르는거
+		mSwapChain->Present(1, 0); // 수직동기화 on
 	}
 
 

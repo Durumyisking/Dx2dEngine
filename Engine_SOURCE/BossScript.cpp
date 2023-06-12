@@ -71,26 +71,28 @@ namespace dru
 	{
 		if (L"col_floor" == _oppo->GetName())
 		{
+			mRigidbody->SetVelocityY(0.f);
 			mRigidbody->SetGround();
 			GetOwner()->SetFloorOn();
 
 		}
-		//else if (L"col_wall" == _oppo->GetName())
-		//{
-		//	if (GetOwner()->IsLeft())
-		//	{
-		//		GetOwner()->SetRight();
-		//	}
-		//	else
-		//	{
-		//		GetOwner()->SetLeft();
-		//	}
-		//}
-		//else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
-		//{
-		//	Vector3 vel = mRigidbody->GetVelocity();
-		//	mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
-		//}
+		else if (L"col_wall" == _oppo->GetName())
+		{
+			mRigidbody->SetVelocityX(0.f);
+			if (GetOwner()->IsLeft())
+			{
+				GetOwner()->SetRight();
+			}
+			else
+			{
+				GetOwner()->SetLeft();
+			}
+		}
+		else if (L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
+		{
+			Vector3 vel = mRigidbody->GetVelocity();
+			mRigidbody->SetVelocity({ 0.f, vel.y, 0.f });
+		}
 	}
 
 	void CBossScript::OnCollision(CCollider2D* _oppo)
@@ -107,13 +109,13 @@ namespace dru
 		{
 			GetOwner()->GetComponent<CRigidBody>()->SetAir();
 		}
-		//else if (L"col_wall" == _oppo->GetName())
-		//{
-		//	if (mbDead)
-		//	{
-		//		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
-		//	}
-		//}
+		else if (L"col_wall" == _oppo->GetName())
+		{
+			if (mbDead)
+			{
+				mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
+			}
+		}
 	}
 
 	void CBossScript::CheckPlayerLeft()

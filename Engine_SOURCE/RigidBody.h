@@ -38,6 +38,9 @@ namespace dru
 		Vector3 GetForce() const { return mForce; }
 
 		void SetVelocity(Vector3 _Value) { mVelocity = _Value; }
+		void SetVelocityX(float _Value) { mVelocity.x = _Value; }
+		void SetVelocityY(float _Value) { mVelocity.y = _Value; }
+
 		Vector3 GetVelocity() const { return mVelocity; }
 
 		void AddVelocity(Vector3 _Value) { mVelocity += _Value; }

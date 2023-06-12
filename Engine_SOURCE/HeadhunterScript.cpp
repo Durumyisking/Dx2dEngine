@@ -18,15 +18,12 @@ namespace dru
 		, mStatePattern5{}
 		, mDashOrigin{}
 		, mDashDest{}
-		, mDodgeDir{}
 		, mDodgeCooldown(5.f)
 		, mDodgeRadius(2.5f)
 		, mDodgeTimer(0.f)
-		, mDodgeDuration(0.f)
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
-		, mPattern2_WallkickElapsedTime(0.f)
 	{
 	}
 
@@ -96,7 +93,7 @@ namespace dru
 			{
 				PatternEnd();
 			}
-			if (GetStatePattern2(ePattern2::WallKickFall))
+			if (GetStatePattern2(ePattern2::WallKickFall) || GetStatePattern2(ePattern2::WallKickAttack))
 			{
 				SetStatePattern2Off(ePattern2::WallKickFall);
 				SetStatePattern2On(ePattern2::WallKickLand);
@@ -114,10 +111,8 @@ namespace dru
 		{
 			if (mAnimator->IsPlaying(L"Headhunter_BackJump"))
 			{
-				mAnimator->Play(L"Headhunter_HurtLand", false);
-				SetStatePattern2On(ePattern2::WallKick);
 				mState[(UINT)eBossState::Dodge] = false;
-
+				WallKick();
 			}
 
 		}
@@ -138,10 +133,9 @@ namespace dru
 	void CHeadhunterScript::Reset()
 	{
 		mRigidbody->SwitchOn();
+		mRigidbody->SetVelocity(Vector3::Zero);
 		GetOwner()->RenderingBlockOff();
-//		mDodgeCooldown = 5.f;
 		mDodgeTimer = 0.f;
-		mDodgeDuration = 0.f;
 		mHideTimer = 0.f;
 		mbFlipWhilePattern = false;
 
@@ -203,6 +197,12 @@ namespace dru
 		{
 			PatternEnd();
 		};
+			mAnimator->GetCompleteEvent(L"Headhunter_WallKick") = [this]
+		{
+			SetStatePattern2Off(ePattern2::WallKick);
+			SetStatePattern2On(ePattern2::WallKickAttack);
+			mAnimator->Play(L"Headhunter_WallKickAttack", false);
+		};
 		mAnimator->GetCompleteEvent(L"Headhunter_WallKickAttack") = [this]
 		{
 			SetStatePattern2Off(ePattern2::WallKickAttack);
@@ -242,7 +242,6 @@ namespace dru
 	void CHeadhunterScript::DodgeOperate()
 	{
 		DodgeStart();
-		Dodge();
 	}
 
 	void CHeadhunterScript::DodgeStart()
@@ -257,47 +256,28 @@ namespace dru
 			{
 				if (mDodgeRadius > GetDistanceOfPlayer())
 				{
-					mDodgeDuration = DODGE_TIMER;
 					SetSingleState(eBossState::Dodge);
 					mHeadhunter->SetAfterImageColor(MAGENTA);
 					mHeadhunter->SetAfterImageCount(30);
 					mAnimator->Play(L"Headhunter_TumbleAir", false);
 					mDodgeCooldown = 0.f;
-					SetDodgeDir(DEGREE_15);
+					SetDodgeDir();
 				}
 			}
 		}
 	}
 
-	void CHeadhunterScript::SetDodgeDir(Vector3 _Dir)
+	void CHeadhunterScript::SetDodgeDir()
 	{
-		mDodgeDir = _Dir;
 		if (GetOwnerWorldPos().x < 0.f)
 		{
-			mDodgeDir.x *= 1.f;
+			mRigidbody->AddForceX(500.f);
 		}
 		else
 		{
-			mDodgeDir.x *= -1.f;
+			mRigidbody->AddForceX(-500.f);
 		}
-		mDodgeDir.x *= 10.f;
-		mDodgeDir.y *= 1.f;
-	}
-
-	void CHeadhunterScript::Dodge()
-	{
-		if (GetState(eBossState::Dodge))
-		{
-			if (mDodgeTimer > mDodgeDuration)
-			{
-				mDodgeDir.y = 0.f;
-			}
-			else
-			{
-				mDodgeTimer += CTimeMgr::DeltaTime();
-			}
-			mRigidbody->AddVelocity(mDodgeDir);
-		}
+		mRigidbody->AddForceY(500.f);
 	}
 
 	void CHeadhunterScript::Hide()
@@ -417,69 +397,59 @@ namespace dru
 	{
 		if (!GetStatePattern2(ePattern2::BackJump))
 		{
-			BackJumpOperate();
-		}
-		if (GetStatePattern2(ePattern2::WallKick))
-		{
-			WallKickOperate();
+			BackJump();
 		}
 	}
 
-	void CHeadhunterScript::BackJumpOperate()
+	void CHeadhunterScript::BackJump()
 	{
-		mDodgeDuration = BACKJUMP_TIMER;
 		mAnimator->Play(L"Headhunter_BackJump", false);
 		SetStatePattern2On(ePattern2::BackJump);
 		mState[(UINT)eBossState::Dodge] = true;
 		mHeadhunter->SetAfterImageColor(MAGENTA);
 		mHeadhunter->SetAfterImageCount(30);
-		SetBackJumpDir(DEGREE_30);
+
+		SetBackJumpForce();
 	}
 
-	void CHeadhunterScript::SetBackJumpDir(Vector3 _Dir)
+	void CHeadhunterScript::SetBackJumpForce()
 	{
-		mDodgeDir = _Dir;
-		if (GetOwnerWorldPos().x > 0.f)
+		// 벽과의 거리에 따라 X방향 힘 계산
+		// 7.7은 벽의 위치
+		float posX = GetOwnerPos().x;
+		float wallPos = 0.f;
+		float dist = 0.f;
+		if (0.f < posX)
 		{
-			mDodgeDir.x *= 1.f;
+			wallPos = 7.7f;
+			dist = wallPos - posX;
 		}
 		else
 		{
-			mDodgeDir.x *= -1.f;
+			wallPos = -7.7f;
+			dist = wallPos - posX;
 		}
-		mDodgeDir.x *= 10.f;
-		mDodgeDir.y *= 1.f;
+		float ForceX = BACKJUMP_FORCE_X * dist;
+
+		mRigidbody->AddForceX(ForceX);
+		mRigidbody->AddForceY(925.f);
 	}
 
-	void CHeadhunterScript::WallKickOperate()
-	{
-		mPattern2_WallkickElapsedTime += CTimeMgr::DeltaTime();
-		if (mPattern2_WallkickElapsedTime < WALLKICK_TIMER)
-		{
-			WallKick();
-		}
-		else
-		{
-			WallKickAttackStart();
-		}
-
-	}
 
 	void CHeadhunterScript::WallKick()
 	{
+		mAnimator->Play(L"Headhunter_WallKick", false);
+		SetStatePattern2On(ePattern2::WallKick);
+
 		if (GetOwner()->IsLeft())
 		{
-			mRigidbody->AddVelocityX(-35.f);
+			mRigidbody->AddForceX(500.f);
 		}
 		else
 		{
-			mRigidbody->AddVelocityX(35.f);
+			mRigidbody->AddForceX(-500.f);
 		}
-		
-		if (mPattern2_WallkickElapsedTime < (WALLKICK_TIMER / 2.f))
-		{
-			mRigidbody->AddForceY(35.f);
-		}
+		mRigidbody->AddForceY(650.f);
 	}
 
 	void CHeadhunterScript::WallKickAttackStart()
@@ -509,7 +479,6 @@ namespace dru
 	void CHeadhunterScript::PatternEnd()
 	{
 		mPattern1_AimingTime = 0.f;
-		mPattern2_WallkickElapsedTime = 0.f;
 
 		Reset();
 	}

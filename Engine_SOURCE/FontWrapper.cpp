@@ -34,6 +34,7 @@ namespace dru
 			rgb,// Text color, 0xAaBbGgRr
 			0      // Flags (for example FW1_RESTORESTATE to keep context states unchanged)
 		);
+
 		graphics::GetDevice()->BindSamplers((UINT)graphics::eSamplerType::Point, 1, renderer::samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 	}
 

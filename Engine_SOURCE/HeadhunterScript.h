@@ -53,7 +53,7 @@ namespace dru
         };
 
 #define DASH_TIMER 0.25f
-#define DODGE_TIMER 0.1f
+#define BACKJUMP_FORCE_X 89.361702f
 #define BACKJUMP_TIMER 0.5f
 #define WALLKICK_TIMER 0.4f
 
@@ -81,8 +81,7 @@ namespace dru
 
         void DodgeOperate();
         void DodgeStart();
-        void SetDodgeDir(Vector3 _Dir);
-        void Dodge();
+        void SetDodgeDir();
         void Hide();
         void DashOperate();
         void Dash();
@@ -100,9 +99,8 @@ namespace dru
         bool GetStatePattern2(ePattern2 _Type) { return mStatePattern2[static_cast<UINT>(_Type)]; }
         void SetStatePattern2On(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern2Off(ePattern2 _Type) { mStatePattern2[static_cast<UINT>(_Type)] = false; }
-        void BackJumpOperate();
-        void SetBackJumpDir(Vector3 _Dir);
-        void WallKickOperate();
+        void BackJump();
+        void SetBackJumpForce();
         void WallKick();
         void WallKickAttackStart();
 
@@ -136,11 +134,9 @@ namespace dru
         CAudioSource* mAudioSource;
         CGameObj* mExplosion;
 
-        Vector3 mDodgeDir;
         float mDodgeCooldown;
         float mDodgeRadius;
         float mDodgeTimer;
-        float mDodgeDuration;
 
         float mDashElapsedTime;
         Vector3 mDashOrigin;
@@ -152,7 +148,6 @@ namespace dru
         float mPattern1_AimingTime;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
-        float mPattern2_WallkickElapsedTime;
 
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
 

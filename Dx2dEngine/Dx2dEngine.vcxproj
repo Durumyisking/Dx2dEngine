@@ -124,6 +124,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MinFilesInUnityFile>8</MinFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)\Unity\</UnityFilesDirectory>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +147,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MinFilesInUnityFile>8</MinFilesInUnityFile>
       <UnityFilesDirectory>$(ProjectDir)\Unity\</UnityFilesDirectory>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
