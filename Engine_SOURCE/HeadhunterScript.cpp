@@ -137,6 +137,7 @@ namespace dru
 
 	void CHeadhunterScript::Reset()
 	{
+		
 		mRigidbody->SwitchOn();
 		mRigidbody->SetVelocity(Vector3::Zero);
 		GetOwner()->RenderingBlockOff();
@@ -250,18 +251,71 @@ namespace dru
 		
 		mAnimator->GetCompleteEvent(L"Headhunter_SweepRifleStart") = [this]
 		{
-			SetStatePattern5Off(ePattern5::SweepStart);
-			SetStatePattern5On(ePattern5::Sweep);
-			mAnimator->Play(L"Headhunter_SweepRifle", false);
+			if (GetState(eBossState::Pattern5))
+			{
+				SetStatePattern5Off(ePattern5::SweepStart);
+				SetStatePattern5On(ePattern5::Sweep);
+				mAnimator->Play(L"Headhunter_SweepRifle", false);
+			}
+			if (GetState(eBossState::Pattern6))
+			{
+				if (GetStatePattern6(ePattern6::SweepStartL))
+				{
+					SetStatePattern6Off(ePattern6::SweepStartL);
+					SetStatePattern6On(ePattern6::SweepL);
+				}
+				if (GetStatePattern6(ePattern6::SweepStartR))
+				{
+					SetStatePattern6Off(ePattern6::SweepStartR);
+					SetStatePattern6On(ePattern6::SweepR);
+				}
+				mAnimator->Play(L"Headhunter_SweepRifle", false);
+			}
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_SweepRifle") = [this]
 		{
-			SetStatePattern5Off(ePattern5::Sweep);
-			SetStatePattern5On(ePattern5::Dash);
-			mHeadhunter->SetAfterImageColor(RED);
-			mHeadhunter->SetAfterImageCount(100);
-			mDashOrigin = GetOwnerWorldPos();
-			mAnimator->Play(L"Headhunter_Dash");
+			if (GetState(eBossState::Pattern6))
+			{
+				if (GetStatePattern6(ePattern6::SweepL))
+				{
+					SetStatePattern6Off(ePattern6::SweepL);
+					SetStatePattern6On(ePattern6::SweepDisappearL);
+				}
+				if (GetStatePattern6(ePattern6::SweepR))
+				{
+					SetStatePattern6Off(ePattern6::SweepR);
+					SetStatePattern6On(ePattern6::SweepDisappearR);
+				}
+				mAnimator->Play(L"Headhunter_SweepRifleDisappear", false);
+			}
+			else
+			{
+				SetStatePattern5Off(ePattern5::Sweep);
+				SetStatePattern5On(ePattern5::Dash);
+				mHeadhunter->SetAfterImageColor(RED);
+				mHeadhunter->SetAfterImageCount(100);
+				mDashOrigin = GetOwnerWorldPos();
+				mAnimator->Play(L"Headhunter_Dash");
+			}
+		};
+		mAnimator->GetCompleteEvent(L"Headhunter_SweepRifleDisappear") = [this]
+		{
+			if (GetStatePattern6(ePattern6::SweepDisappearL))
+			{
+				GetOwner()->SetRight();
+				SetStatePattern6Off(ePattern6::SweepDisappearL);
+				SetStatePattern6On(ePattern6::SweepStartR);
+				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+			}
+			if (GetStatePattern6(ePattern6::SweepDisappearR))
+			{
+				SetStatePattern6Off(ePattern6::SweepDisappearR);
+				SetStatePattern6On(ePattern6::Dash);
+				mHeadhunter->SetAfterImageColor(RED);
+				mHeadhunter->SetAfterImageCount(100);
+				mDashOrigin = GetOwnerWorldPos();
+				mAnimator->Play(L"Headhunter_Dash");
+			}
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_DashEnd") = [this]
 		{
@@ -381,8 +435,11 @@ namespace dru
 			SetStatePattern3Off(ePattern3::Dash);
 			SetStatePattern3On(ePattern3::DashEnd);
 			mAnimator->Play(L"Headhunter_DashEnd", false);
+		} 
+		if (GetState(eBossState::Pattern6))
+		{
+			PatternEnd();
 		}
-
 		return;
 	}
 
@@ -556,15 +613,26 @@ namespace dru
 
 	void CHeadhunterScript::Pattern6()
 	{
-		if (!GetStatePattern6(ePattern6::VerticalLaserAppear) && !GetStatePattern6(ePattern6::VerticalLaserDisappear))
+		if (!GetStatePattern6(ePattern6::VerticalLaserAppear) && !GetStatePattern6(ePattern6::VerticalLaserDisappear) && !GetStatePattern6(ePattern6::Dash))
 		{
-			if (7 > mVerticalShootCount)
+			if (6 > mVerticalShootCount)
 			{
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
-
+				++mVerticalShootCount;
 			}
-			
+			else
+			{
+				GetOwner()->SetLeft();
+				SetStatePattern6On(ePattern6::VerticalLaserAppear);
+				SetStatePattern6On(ePattern6::SweepStartL);
+				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+			}
+		}
+		if (GetStatePattern6(ePattern6::Dash))
+		{
+			mDashDest = mPlayer->GetWorldPos();
+			DashOperate();
 		}
 
 

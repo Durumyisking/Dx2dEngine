@@ -263,7 +263,6 @@ namespace dru
 			}
 		}
 	}
-
 	void CBossScript::Reset()
 	{
 		SetSingleState(eBossState::Idle);

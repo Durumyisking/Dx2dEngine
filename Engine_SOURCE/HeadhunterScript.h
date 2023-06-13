@@ -57,8 +57,14 @@ namespace dru
         {
             VerticalLaserAppear,
             VerticalLaserDisappear,
-            SweepStart,
-            Sweep,
+            SweepStartL,
+            SweepL,
+            SweepDisappearL,
+            SweepStartR,
+            SweepR,
+            SweepDisappearR,
+            Dash,
+            DashEnd,
 
             End,
         };
@@ -177,7 +183,7 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern5;
 
-        std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern6;
+        std::bitset<static_cast<UINT>(ePattern6::End)> mStatePattern6;
         UINT mVerticalShootCount;
 
         CGameObj* mAttackCollider;
