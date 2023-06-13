@@ -144,6 +144,7 @@ namespace dru
         bool GetStatePattern6(ePattern6 _Type) { return  mStatePattern6[static_cast<UINT>(_Type)]; }
         void SetStatePattern6On(ePattern6 _Type) { mStatePattern6[static_cast<UINT>(_Type)] = true; }
         void SetStatePattern6Off(ePattern6 _Type) { mStatePattern6[static_cast<UINT>(_Type)] = false; }
+        void SwitchVerticalLaserLR();
 
         virtual void PatternEnd();
 

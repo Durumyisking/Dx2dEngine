@@ -6,8 +6,12 @@
 
 #define VELOCITY_RUN dru::math::Vector3(5.f, 7.f, 0.f)
 #define VELOCITY_WALK dru::math::Vector3(1.f, 7.f, 0.f)
+
 #define SCREEN_CENTER dru::math::Vector3(0.f, 0.f, 0.f)
 #define SCREEN_CENTERTOP dru::math::Vector3(0.f, 2.5f, 0.f)
+#define SCREEN_LEFTTOP dru::math::Vector3(-7.f, 2.5f, 0.f)
+#define SCREEN_RIGHTTOP dru::math::Vector3(7.f, 2.5f, 0.f)
+
 #define SCREEN_CENTERFLOOR dru::math::Vector3(0.f, -1.99f, 0.f)
 
 

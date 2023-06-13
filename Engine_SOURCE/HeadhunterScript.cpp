@@ -303,6 +303,7 @@ namespace dru
 			if (GetStatePattern6(ePattern6::SweepDisappearL))
 			{
 				GetOwner()->SetRight();
+				GetOwner()->SetPos(SCREEN_RIGHTTOP);
 				SetStatePattern6Off(ePattern6::SweepDisappearL);
 				SetStatePattern6On(ePattern6::SweepStartR);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
@@ -617,6 +618,7 @@ namespace dru
 		{
 			if (6 > mVerticalShootCount)
 			{
+				SwitchVerticalLaserLR();
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
 				++mVerticalShootCount;
@@ -624,6 +626,7 @@ namespace dru
 			else
 			{
 				GetOwner()->SetLeft();
+				GetOwner()->SetPos(SCREEN_LEFTTOP);
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				SetStatePattern6On(ePattern6::SweepStartL);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
@@ -637,6 +640,26 @@ namespace dru
 
 
 
+	}
+
+	void CHeadhunterScript::SwitchVerticalLaserLR()
+	{
+		if (0 == mVerticalShootCount % 2)
+		{
+			GetOwner()->SetLeft();
+			Vector3 pos = SCREEN_LEFTTOP;
+			int idx = mVerticalShootCount / 2;
+			pos.x += static_cast<float>(idx) * 1.f;
+			GetOwner()->SetPos(pos);
+		}
+		else
+		{
+			GetOwner()->SetRight();
+			Vector3 pos = SCREEN_RIGHTTOP;
+			int idx = mVerticalShootCount / 2;
+			pos.x -= static_cast<float>(idx) * 1.f;
+			GetOwner()->SetPos(pos);
+		}
 	}
 
 	void CHeadhunterScript::PatternEnd()
