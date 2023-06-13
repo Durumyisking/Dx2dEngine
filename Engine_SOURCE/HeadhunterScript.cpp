@@ -3,6 +3,7 @@
 #include "TimeMgr.h"
 #include "CameraScript.h"
 #include "Object.h"
+#include "Bullet.h"
 
 namespace dru
 {
@@ -463,6 +464,23 @@ namespace dru
 		mbFlipWhilePattern = false;
 	}
 
+	void CHeadhunterScript::CreateBullet(float _Angle)
+	{
+		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
+		bullet->Initialize();
+		Vector3 pos = GetOwnerWorldPos();
+		pos.y -= 0.5f;
+		bullet->SetPos(pos);
+
+		// bullet의 진행방향으로 head를 돌린다.
+		Vector3 Right = { 1.f, 0.f, 0.f };
+		Vector3 dir = RotateVector(Right, _Angle);
+
+		bullet->RotateBullet(dir, pos, _Angle);
+		bullet->RotateBulletCollider(_Angle);
+
+	}
+
 	void CHeadhunterScript::Pattern1()
 	{
 		if (!GetStatePattern1(ePattern1::Takeout))
@@ -516,6 +534,10 @@ namespace dru
 		if (!GetStatePattern2(ePattern2::BackJump))
 		{
 			BackJump();
+		}
+		if (GetStatePattern2(ePattern2::WallKickAttack))
+		{
+			CreateBullet(0.f);
 		}
 	}
 

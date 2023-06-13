@@ -30,30 +30,39 @@ namespace dru
         void BulletReflect();
 
         void InitializeBulletReflectComponent();
+        void InitializeGunFireComponent();
 
         void Disable();
 
+        void RotateBullet(Vector3 _Dir, Vector3 _Pos, float _Angle);
+        void RotateBulletCollider(float _Angle);
+
+        void SetGunfired(bool _flag) { mbGunfired = _flag; }
+
     private:
         void BulletReflectComplete();
-
         void PlayBulletReflect();
-
         void BulletReflectPositioning();
+
+        void GunFireComplete();
+        void PlayGunFire();
 
     private:
         CBullet* mBullet;
         CAudioSource* mAudioSource;
         CGameObj* mBulletReflect;
+        CGameObj* mGunFire;
         float mElapsedTime;
         Vector3 mDefaultBulletScale;
         Vector3 mDir;
 
         bool mbDisabled;
         bool mbScalingDone;
-        bool mbCreated;
+        bool mbGunfired;
 
     public:
         CGameObj* GetOrCreateBulletReflectObject();
-	};
+        CGameObj* GetOrCreateGunFireObject();
+    };
 }
 

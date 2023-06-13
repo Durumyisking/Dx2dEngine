@@ -118,8 +118,8 @@ namespace dru
 	{
 		CBullet* bullet = Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
 		bullet->Initialize();
-		bullet->SetTarget(mTarget);
 		bullet->SetPos(_StartPos);
+		bullet->SetGunfired(true);
 
 		Vector3 dir = GetPlayerTowardDir(bullet);
 
@@ -127,10 +127,8 @@ namespace dru
 		Vector3 Right = { 1.f, 0.f, 0.f };
 		mAngle = GetAngleFromDirection(dir, Right);
 
-		RotateBullet(dir, bullet);
-
-		// collider의 위치도 변경해줘야한다.
-		RotateBulletCollider(bullet);
+		bullet->RotateBullet(dir, mGunMuzzle->GetWorldPos(), mAngle);
+		bullet->RotateBulletCollider(mAngle);
 
 		PlayGunFire();
 		PlayGunSmoke();
@@ -156,28 +154,8 @@ namespace dru
 			mGunSmoke->SetRight();
 		}
 		mCopGun->Flip();
-		//mGunFire->Flip();
-		//mGunSmoke->Flip();
 	}
 
-	void CCopScript::RotateBullet(Vector3 _Dir, CBullet* _Bullet)
-	{
-		_Bullet->GetComponent<CTransform>()->SetRotationZ(mAngle);
-		_Bullet->SetDir(_Dir);
-
-		Vector3 pos = mGunMuzzle->GetWorldPos();
-		pos += (_Dir * 0.2325f); // 총구 위치 에서 미사일 나가게
-
-		_Bullet->SetPos(pos);
-	}
-	void CCopScript::RotateBulletCollider(CBullet* _Bullet)
-	{
-		CCollider2D* coll = _Bullet->GetComponent<CCollider2D>();
-		coll->SetCenter({ _Bullet->GetCollPosX(), 0.f });
-		Vector3 collPos = { coll->GetCenter().x, coll->GetCenter().y, 0.f };
-		collPos = RotateZ(collPos, mAngle);
-		coll->SetCenter({ collPos.x, collPos.y });
-	}
 	void CCopScript::RotateGun(Vector3 _Dir)
 	{
 		float angleTemp = 0.f;

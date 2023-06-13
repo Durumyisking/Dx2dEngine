@@ -29,8 +29,6 @@ namespace dru
         void CreateBullet(Vector3 _StartPos);
 
         void GunFlip();
-        void RotateBullet(Vector3 _Dir, CBullet* _Bullet);
-        void RotateBulletCollider(CBullet* _Bullet);
         void RotateGun(Vector3 _Dir);
 
         void InitializeGunFireComponent();

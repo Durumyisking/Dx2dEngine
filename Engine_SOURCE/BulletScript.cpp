@@ -10,10 +10,11 @@ namespace dru
 		: mBullet(nullptr)
 		, mAudioSource(nullptr)
 		, mBulletReflect(nullptr)
+		, mGunFire(nullptr)
 		, mElapsedTime(0.f)
 		, mDefaultBulletScale(Vector3( 0.025f, 0.025f, 1.f ))
 		, mbScalingDone(false)
-		, mbCreated(false)
+		, mbGunfired(false)
 		, mDir(Vector3::Zero)
 		, mbDisabled(false)
 	{
@@ -31,6 +32,11 @@ namespace dru
 
 	void CBulletScript::update()
 	{
+		if (!mbGunfired)
+		{
+			PlayGunFire();
+			mbGunfired = true;
+		}
 		if (!mbDisabled)
 		{
 			GetOwner()->RenderingBlockOff();
@@ -135,13 +141,12 @@ namespace dru
 
 	void CBulletScript::BulletMove()
 	{
-
 		mDir = mBullet->GetDir();
 		Vector3 pos = GetOwnerPos();
-
 		pos += mDir * CTimeMgr::DeltaTime() * mBullet->GetSpeed();
 
 		GetOwner()->SetPos(pos);
+
 	}
 
 	void CBulletScript::BulletReflect()
@@ -206,12 +211,73 @@ namespace dru
 		}
 	}
 
+	void CBulletScript::InitializeGunFireComponent()
+	{
+		CGameObj* GunFireObject = GetOrCreateGunFireObject();
+		if (GunFireObject)
+		{
+			GunFireObject->SetScale({ 1.f, 1.f, 1.f });
+
+			std::shared_ptr<CTexture> GunFireObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = GunFireObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"GunFire2Mat");
+				if (Material)
+				{
+					GunFireObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
+			}
+			else
+			{
+				assert(false);
+			}
+
+			if (GunFireObjectTexture)
+			{
+				CAnimator* GunFireObjectAnimator = GunFireObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (GunFireObjectAnimator)
+				{
+					GunFireObjectAnimator->Create(L"GunFire", GunFireObjectTexture, { 0.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);
+					GunFireObjectAnimator->GetCompleteEvent(L"GunFire") = std::bind(&CBulletScript::GunFireComplete, this);
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			GunFireObject->RenderingBlockOn();
+		}
+	}
+
 	void CBulletScript::Disable()
 	{
-		mbDisabled = true;
-		GetOwner()->RenderingBlockOn();
-		GetOwner()->GetComponent<CCollider2D>()->Off();
-		GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+		GetOwner()->Die();
+
+		//mbDisabled = true;
+		//GetOwner()->RenderingBlockOn();
+		//GetOwner()->GetComponent<CCollider2D>()->Off();
+		//GetOwner()->GetComponent<CCollider2D>()->RenderingOff();
+	}
+
+	void CBulletScript::RotateBullet(Vector3 _Dir, Vector3 _Pos, float _Angle)
+	{
+		mBullet->GetComponent<CTransform>()->SetRotationZ(_Angle);
+		mBullet->SetDir(_Dir);
+
+		_Pos += (_Dir * 0.2325f); // 총구 위치 에서 미사일 나가게
+
+		mBullet->SetPos(_Pos);
+	}
+
+	void CBulletScript::RotateBulletCollider(float _Angle)
+	{
+		CCollider2D* coll = mBullet->GetComponent<CCollider2D>();
+		coll->SetCenter({ mBullet->GetCollPosX(), 0.f });
+		Vector3 collPos = { coll->GetCenter().x, coll->GetCenter().y, 0.f };
+		collPos = RotateZ(collPos, _Angle);
+		coll->SetCenter({ collPos.x, collPos.y });
 	}
 
 	void CBulletScript::BulletReflectComplete()
@@ -245,6 +311,33 @@ namespace dru
 		mBulletReflect->SetPos(colPos);
 	}
 
+	void CBulletScript::GunFireComplete()
+	{
+		//mGunFire->RenderingBlockOn();
+	}
+
+	void CBulletScript::PlayGunFire()
+	{
+		CGameObj* GunFireObject = GetOrCreateGunFireObject();
+		if (GunFireObject)
+		{
+			GunFireObject->SetPos(GetOwnerWorldPos());
+
+			CAnimator* GunFireObjectAnimator = GunFireObject->GetComponent<CAnimator>();
+			if (GunFireObjectAnimator)
+			{
+				GunFireObject->RenderingBlockOff();
+				GunFireObjectAnimator->Play(L"GunFire", false);
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+
+
+
 	CGameObj* CBulletScript::GetOrCreateBulletReflectObject()
 	{
 		if (!mBulletReflect)
@@ -259,6 +352,22 @@ namespace dru
 		}
 
 		return mBulletReflect;
+	}
+
+	CGameObj* CBulletScript::GetOrCreateGunFireObject()
+	{
+		if (!mGunFire)
+		{
+			// create
+			mGunFire = object::Instantiate<CGameObj>(eLayerType::FX, L"GunFire");
+			if (mGunFire)
+			{
+				// intialize
+				InitializeGunFireComponent();
+			}
+		}
+
+		return mGunFire;
 	}
 
 }	

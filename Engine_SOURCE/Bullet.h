@@ -17,18 +17,14 @@ namespace dru
 		virtual void rewindRender();
 
 	private:
-		CLiveGameObj* mTarget;
 		bool mbReflected;
 		Vector3 mDir;
 		float mBulletSpeed;
 		float collScaleX;
 		float collPosX;
-		CGameObj* mBulletReflect;
+
 
 	public:
-		void SetTarget(CLiveGameObj* _Target) { mTarget = _Target; }
-		CLiveGameObj* GetTarget() const { return mTarget; }
-
 		void SetDir(Vector3 _Dir) { mDir = _Dir; }
 		Vector3 GetDir() const { return mDir; }
 
@@ -43,5 +39,8 @@ namespace dru
 		void ReflectOn() { mbReflected = true; }
 		void ReflectOff() { mbReflected = false; }
 
+		void SetGunfired(bool _flag);
+		void RotateBullet(Vector3 _Dir, Vector3 _Pos, float _Angle);
+		void RotateBulletCollider(float _Angle);
 	};
 }

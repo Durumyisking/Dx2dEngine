@@ -7,13 +7,11 @@
 namespace dru
 {
 	CBullet::CBullet()
-		:mTarget(nullptr)
-		, mbReflected(false)
+		: mbReflected(false)
 		, mDir(Vector3::Zero)
 		, mBulletSpeed(20.f)
 		, collScaleX(1.f / 17.f)
 		, collPosX(collScaleX * 3.5f)
-		, mBulletReflect(nullptr)
 
 	{
 	}
@@ -73,6 +71,21 @@ namespace dru
 	void CBullet::rewindRender()
 	{
 		CLiveGameObj::rewindRender();
+	}
+
+	void CBullet::SetGunfired(bool _flag)
+	{
+		GetScript<CBulletScript>()->SetGunfired(_flag);
+	}
+
+	void CBullet::RotateBullet(Vector3 _Dir, Vector3 _Pos, float _Angle)
+	{
+		GetScript<CBulletScript>()->RotateBullet(_Dir, _Pos, _Angle);
+	}
+
+	void CBullet::RotateBulletCollider(float _Angle)
+	{
+		GetScript<CBulletScript>()->RotateBulletCollider(_Angle);
 	}
 
 }

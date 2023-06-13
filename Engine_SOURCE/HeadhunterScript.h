@@ -107,6 +107,8 @@ namespace dru
         void DashEnd();
         void Hit();
 
+        void CreateBullet(float _Angle);
+
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
         void SetStatePattern1On(ePattern1 _Type) { mStatePattern1[static_cast<UINT>(_Type)] = true; }
@@ -162,6 +164,7 @@ namespace dru
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
         CGameObj* mExplosion;
+
 
         float mDodgeCooldown;
         float mDodgeRadius;
