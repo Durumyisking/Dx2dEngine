@@ -26,9 +26,9 @@ namespace dru
 	}
 	CApplication::~CApplication()
 	{
+		CFmod::Release();
 		CObjectPool::Release();
 		CSceneMgr::release();
-		CFmod::Release();
 		CFontWrapper::Release();
 	}
 

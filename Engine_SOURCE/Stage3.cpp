@@ -8,6 +8,10 @@ namespace dru
         , mDoor1(nullptr)
         , mDoor2(nullptr)
         , mDoor3(nullptr)
+        , mLaserFloor(nullptr)
+        , mLaserTurret1(nullptr)
+        , mLaserTurret2(nullptr)
+        , mLaserTurret3(nullptr)
         , mPomp1DefaultPos{}
         , mGrunt1DefaultPos{}
     {
@@ -78,6 +82,12 @@ namespace dru
         mGrunt1->SetPos(mGrunt1DefaultPos);
         mGrunt1->GetScript<CMonsterScript>()->Reset();
 
+        mLaserTurret1->Reset();
+        mLaserTurret2->Reset();
+        mLaserTurret3->Reset();
+
+        mEnemyCount = 5;
+
 
         mDoor1->GetScript<CDoorScript>()->Reset();
         mDoor2->GetScript<CDoorScript>()->Reset();
@@ -132,6 +142,9 @@ namespace dru
     void CStage3::ReadyOperate()
     {
         mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
+        mLaserTurret1->AdjustLaserTransform();
+        mLaserTurret2->AdjustLaserTransform();
+        mLaserTurret3->AdjustLaserTransform();
         CStage::ReadyOperate();
     }
 
@@ -264,9 +277,24 @@ namespace dru
     void CStage3::CreateThirdFloor()
     {
         {
-            CFloor* Floor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
-            Floor->SetPos(Vector3(2.2f, -9.825f, 3.f));
-            Floor->SetColliderScale({ 11.5f, 0.4f });
+            mLaserFloor = object::Instantiate<CFloor>(eLayerType::Platforms, L"floor");
+            mLaserFloor->SetPos(Vector3(2.2f, -9.825f, 3.f));
+            mLaserFloor->SetColliderScale({ 11.5f, 0.4f });
+
+            mLaserTurret1 = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
+            mLaserTurret1->SetPos(Vector3(3.9f, -7.35f, 3.f));
+            mLaserTurret1->SetScale({ 0.25f, 0.25f, 0.f });
+            mLaserTurret1->SetDestinationFloor(mLaserFloor);
+
+            mLaserTurret2 = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
+            mLaserTurret2->SetPos(Vector3(3.5f, -7.35f, 3.f));
+            mLaserTurret2->SetScale({ 0.25f, 0.25f, 0.f });
+            mLaserTurret2->SetDestinationFloor(mLaserFloor);
+
+            mLaserTurret3 = object::Instantiate<CTurret>(eLayerType::None, L"Laser");
+            mLaserTurret3->SetPos(Vector3(3.1f, -7.35f, 3.f));
+            mLaserTurret3->SetScale({ 0.25f, 0.25f, 0.f });
+            mLaserTurret3->SetDestinationFloor(mLaserFloor);
         }
         {
             CFloor2* Floor = object::Instantiate<CFloor2>(eLayerType::Platforms, L"floor");

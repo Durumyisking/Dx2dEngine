@@ -151,7 +151,7 @@ namespace dru
 		mDashElapsedTime = 0.f;
 		mPattern1_AimingTime = 0.f;
 		mPattern2_ShootedBulletCountL = 0;
-		mPattern2_ShootedBulletCountR = 24;
+		mPattern2_ShootedBulletCountR = 100;
 		mPattern6_VerticalShootCount = 0;
 
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
