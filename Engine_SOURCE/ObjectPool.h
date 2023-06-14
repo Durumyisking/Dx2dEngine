@@ -15,7 +15,7 @@ namespace dru
 
 
 	private:
-		static std::vector<CBullet*> mBulletPool;
+		static std::vector<CBullet*>* mBulletPool;
 
 	};
 }
