@@ -53,6 +53,16 @@ namespace dru::object
 	}
 
 	template <typename T>
+	static T* Instantiate_pooling(enums::eLayerType _LayerType, std::wstring _Name)
+	{
+		T* gameObj = new T();
+
+		gameObj->SetName(_Name);
+
+		return gameObj;
+	}
+
+	template <typename T>
 	static T* Instantiate(enums::eLayerType _LayerType, CGameObj* _Parent, std::wstring _Name)
 	{
 		T* gameObj = new T();

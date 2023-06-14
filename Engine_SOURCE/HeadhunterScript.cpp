@@ -4,6 +4,7 @@
 #include "CameraScript.h"
 #include "Object.h"
 #include "Bullet.h"
+#include "ObjectPool.h"
 
 namespace dru
 {
@@ -471,7 +472,7 @@ namespace dru
 
 	void CHeadhunterScript::CreateBullet(float _Angle)
 	{
-		CBullet* bullet = object::Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
+		CBullet* bullet = CObjectPool::PopBullet();
 		bullet->Initialize();
 		Vector3 pos = GetOwnerWorldPos();
 		pos.y -= 0.5f;

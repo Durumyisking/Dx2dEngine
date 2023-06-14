@@ -254,6 +254,7 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="MonsterRayScript.h" />
     <ClInclude Include="MonsterScript.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="OutWall.h" />
     <ClInclude Include="OutWallSide.h" />
     <ClInclude Include="PaintShader.h" />
@@ -375,6 +376,7 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="MonsterRay.cpp" />
     <ClCompile Include="MonsterRayScript.cpp" />
     <ClCompile Include="MonsterScript.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="OutWall.cpp" />
     <ClCompile Include="OutWallSide.cpp" />
     <ClCompile Include="PaintShader.cpp" />

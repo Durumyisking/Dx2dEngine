@@ -1,6 +1,7 @@
 #include "CopScript.h"
 #include "Bullet.h"
 #include "Object.h"
+#include "ObjectPool.h"
 
 using namespace dru::object;
 namespace dru
@@ -116,7 +117,7 @@ namespace dru
 	}
 	void CCopScript::CreateBullet(Vector3 _StartPos)
 	{
-		CBullet* bullet = Instantiate<CBullet>(eLayerType::Bullet, L"Bullet");
+		CBullet* bullet = CObjectPool::PopBullet();
 		bullet->Initialize();
 		bullet->SetPos(_StartPos);
 		bullet->SetGunfired(true);
