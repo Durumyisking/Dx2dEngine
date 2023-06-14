@@ -254,6 +254,8 @@ namespace dru
 	void CBulletScript::Disable()
 	{
 		GetOwner()->Die();
+		mBulletReflect->Die();
+		mGunFire->Die();
 
 		//mbDisabled = true;
 		//GetOwner()->RenderingBlockOn();
@@ -282,7 +284,7 @@ namespace dru
 
 	void CBulletScript::BulletReflectComplete()
 	{
-		mBulletReflect->RenderingBlockOn();
+		// mBulletReflect->RenderingBlockOn();
 	}
 
 	void CBulletScript::PlayBulletReflect()

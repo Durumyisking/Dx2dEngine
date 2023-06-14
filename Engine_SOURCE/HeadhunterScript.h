@@ -180,6 +180,8 @@ namespace dru
         float mPattern1_AimingTime;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
+        UINT mPattern2_ShootedBulletCountL;
+        UINT mPattern2_ShootedBulletCountR;
 
         std::bitset<static_cast<UINT>(ePattern3::End)> mStatePattern3;
 
@@ -188,7 +190,8 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern5;
 
         std::bitset<static_cast<UINT>(ePattern6::End)> mStatePattern6;
-        UINT mVerticalShootCount;
+        UINT mPattern6_VerticalShootCount;
+
 
         CGameObj* mAttackCollider;
 

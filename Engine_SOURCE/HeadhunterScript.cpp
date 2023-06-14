@@ -25,7 +25,9 @@ namespace dru
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
-		, mVerticalShootCount(0)
+		, mPattern2_ShootedBulletCountL(0)
+		, mPattern2_ShootedBulletCountR(100)
+		, mPattern6_VerticalShootCount(0)
 	{
 	}
 
@@ -146,7 +148,10 @@ namespace dru
 		mHideTimer = 0.f;
 		mbFlipWhilePattern = false;
 		mDashElapsedTime = 0.f;
-		mVerticalShootCount = 0;
+		mPattern1_AimingTime = 0.f;
+		mPattern2_ShootedBulletCountL = 0;
+		mPattern2_ShootedBulletCountR = 24;
+		mPattern6_VerticalShootCount = 0;
 
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 
@@ -537,7 +542,23 @@ namespace dru
 		}
 		if (GetStatePattern2(ePattern2::WallKickAttack))
 		{
-			CreateBullet(0.f);
+			if (GetOwner()->IsLeft())
+			{
+				if (0 < mPattern2_ShootedBulletCountR)
+				{
+					CreateBullet(static_cast<float>(-7.5f * mPattern2_ShootedBulletCountR));
+					--mPattern2_ShootedBulletCountR;
+				}
+			}
+			else
+			{
+				if (100 > mPattern2_ShootedBulletCountL)
+				{
+					CreateBullet(static_cast<float>(-7.5f * mPattern2_ShootedBulletCountL));
+					++mPattern2_ShootedBulletCountL;
+				}
+			}
+
 		}
 	}
 
@@ -638,12 +659,12 @@ namespace dru
 	{
 		if (!GetStatePattern6(ePattern6::VerticalLaserAppear) && !GetStatePattern6(ePattern6::VerticalLaserDisappear) && !GetStatePattern6(ePattern6::Dash))
 		{
-			if (6 > mVerticalShootCount)
+			if (6 > mPattern6_VerticalShootCount)
 			{
 				SwitchVerticalLaserLR();
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
-				++mVerticalShootCount;
+				++mPattern6_VerticalShootCount;
 			}
 			else
 			{
@@ -660,17 +681,15 @@ namespace dru
 			DashOperate();
 		}
 
-
-
 	}
 
 	void CHeadhunterScript::SwitchVerticalLaserLR()
 	{
-		if (0 == mVerticalShootCount % 2)
+		if (0 == mPattern6_VerticalShootCount % 2)
 		{
 			GetOwner()->SetLeft();
 			Vector3 pos = SCREEN_LEFTTOP;
-			int idx = mVerticalShootCount / 2;
+			int idx = mPattern6_VerticalShootCount / 2;
 			pos.x += static_cast<float>(idx) * 1.f;
 			GetOwner()->SetPos(pos);
 		}
@@ -678,7 +697,7 @@ namespace dru
 		{
 			GetOwner()->SetRight();
 			Vector3 pos = SCREEN_RIGHTTOP;
-			int idx = mVerticalShootCount / 2;
+			int idx = mPattern6_VerticalShootCount / 2;
 			pos.x -= static_cast<float>(idx) * 1.f;
 			GetOwner()->SetPos(pos);
 		}
@@ -686,8 +705,6 @@ namespace dru
 
 	void CHeadhunterScript::PatternEnd()
 	{
-		mPattern1_AimingTime = 0.f;
-
 		Reset();
 	}
 
