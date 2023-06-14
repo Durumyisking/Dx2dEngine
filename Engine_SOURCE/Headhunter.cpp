@@ -16,15 +16,15 @@ namespace dru
 		SpriteRenderer->SetMaterial(Material);
 
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
-		mAnimator->Create(L"Headhunter_Idle", Material->GetTexture(), { 960.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 12, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_Idle", Material->GetTexture(), { 960.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 12, { 100.f, 100.f },		0.1f);
 		mAnimator->Create(L"Headhunter_TumbleAir", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 2, { 100.f, 100.f }, 0.1f);	
-		mAnimator->Create(L"Headhunter_TumbleLand", Material->GetTexture(), { 1280.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_HurtAir", Material->GetTexture(), { 1600.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_HurtLand", Material->GetTexture(), { 1792.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 7, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_Hide", Material->GetTexture(), { 256.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_TumbleLand", Material->GetTexture(), { 1280.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f },0.1f);
+		mAnimator->Create(L"Headhunter_HurtAir", Material->GetTexture(), { 1600.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f },	0.1f);
+		mAnimator->Create(L"Headhunter_HurtLand", Material->GetTexture(), { 1792.f, 192.f }, { 64.f, 64.f }, mAnimOffset, 7, { 100.f, 100.f },	0.1f);
+		mAnimator->Create(L"Headhunter_Hide", Material->GetTexture(), { 256.f, 0.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f },			0.1f);
 
-		mAnimator->Create(L"Headhunter_Dash", Material->GetTexture(), { 320.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f }, 0.1f);
-		mAnimator->Create(L"Headhunter_DashEnd", Material->GetTexture(), { 384.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 10, { 100.f, 100.f }, 0.1f);
+		mAnimator->Create(L"Headhunter_Dash", Material->GetTexture(), { 320.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 1, { 100.f, 100.f },		0.1f);
+		mAnimator->Create(L"Headhunter_DashEnd", Material->GetTexture(), { 384.f, 64.f }, { 64.f, 64.f }, mAnimOffset, 10, { 100.f, 100.f },	0.1f);
 
 		// pattern1
 		mAnimator->Create(L"Headhunter_TakeoutRifle", Material->GetTexture(), { 448.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 8, { 100.f, 100.f }, 0.1f);

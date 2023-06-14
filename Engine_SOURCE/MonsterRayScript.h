@@ -28,6 +28,8 @@ namespace dru
 
 		bool IsPlayerDead();
 
+		void ExceptWallOn() { mbExceptWall = true; }
+
 	private:
 		CMonster* mRayOwner;
 		CMonsterScript* mMonsterScript;
@@ -36,6 +38,7 @@ namespace dru
 		CRigidBody* mRigidBody;
 
 		bool mbThroughWall;
+		bool mbExceptWall;
     };
 
 }

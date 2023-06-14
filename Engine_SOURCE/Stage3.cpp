@@ -4,7 +4,11 @@ namespace dru
 {
     CStage3::CStage3()
         : mPomp1(nullptr)
+        , mPomp2(nullptr)
         , mGrunt1(nullptr)
+        , mGrunt2(nullptr)
+        , mCop1(nullptr)
+        , mCop2(nullptr)
         , mDoor1(nullptr)
         , mDoor2(nullptr)
         , mDoor3(nullptr)
@@ -13,7 +17,11 @@ namespace dru
         , mLaserTurret2(nullptr)
         , mLaserTurret3(nullptr)
         , mPomp1DefaultPos{}
+        , mPomp2DefaultPos{}
         , mGrunt1DefaultPos{}
+        , mGrunt2DefaultPos{}
+        , mCop1DefaultPos{}
+        , mCop2DefaultPos{}
     {
         mStageNumbmer = 4;
     }
@@ -39,9 +47,13 @@ namespace dru
 
         mPlayerDefaultPos = Vector3(-6.f, 1.f, 3.f);
         mPomp1DefaultPos = Vector3(0.f, -4.f, 3.f);
+        mPomp2DefaultPos = Vector3(6.3f, -8.5f, 3.f);
         mGrunt1DefaultPos = Vector3(1.5f, -4.f, 3.f);
+        mGrunt2DefaultPos = Vector3(1.5f, -14.f, 3.f);
+        mCop1DefaultPos = Vector3(-4.f, -8.25f, 3.f);
+        mCop2DefaultPos = Vector3(6.5f, -14.f, 3.f);
 
-        mEnemyCount = 2;
+        mEnemyCount = 6;
         mStageState = eStageState::Ready;
 
         AddStartingLiveObjects();
@@ -79,14 +91,27 @@ namespace dru
         mPomp1->SetPos(mPomp1DefaultPos);
         mPomp1->GetScript<CMonsterScript>()->Reset();
 
+        mPomp2->SetPos(mPomp2DefaultPos);
+        mPomp2->RayExceptWallOn(); 
+        mPomp2->GetScript<CMonsterScript>()->Reset();
+        
         mGrunt1->SetPos(mGrunt1DefaultPos);
         mGrunt1->GetScript<CMonsterScript>()->Reset();
+
+        mGrunt2->SetPos(mGrunt2DefaultPos);
+        mGrunt2->GetScript<CMonsterScript>()->Reset();
+
+        mCop1->SetPos(mCop1DefaultPos);
+        mCop1->GetScript<CMonsterScript>()->Reset();
+
+        mCop2->SetPos(mCop2DefaultPos);
+        mCop2->GetScript<CMonsterScript>()->Reset();
 
         mLaserTurret1->Reset();
         mLaserTurret2->Reset();
         mLaserTurret3->Reset();
 
-        mEnemyCount = 5;
+        mEnemyCount = 6;
 
 
         mDoor1->GetScript<CDoorScript>()->Reset();
@@ -102,8 +127,13 @@ namespace dru
             mPomp1 = object::Instantiate<CPomp>(eLayerType::Monster, L"Pomp");
             mPomp1->SetPos(mPomp1DefaultPos);
             mPomp1->SetLeft();
-//          mPomp1->MonsterPatrolOn();
             mRewindObjects.push_back(mPomp1);
+        }
+        {
+            mPomp2 = object::Instantiate<CPomp>(eLayerType::Monster, L"Pomp");
+            mPomp2->SetPos(mPomp2DefaultPos);
+            mPomp2->SetLeft();
+            mRewindObjects.push_back(mPomp2);
         }
         {
             mGrunt1 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
@@ -111,6 +141,25 @@ namespace dru
             mGrunt1->SetRight();
             mGrunt1->MonsterPatrolOn();
             mRewindObjects.push_back(mGrunt1);
+        }
+        {
+            mGrunt2 = object::Instantiate<CGrunt>(eLayerType::Monster, L"Grunt");
+            mGrunt2->SetPos(mGrunt2DefaultPos);
+            mGrunt2->SetLeft();
+            mGrunt2->MonsterPatrolOn();
+            mRewindObjects.push_back(mGrunt2);
+        }
+        {
+            mCop1 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
+            mCop1->SetPos(mCop1DefaultPos);
+            mCop1->SetRight();
+            mRewindObjects.push_back(mCop1);
+        }
+        {
+            mCop2 = object::Instantiate<CCop>(eLayerType::Monster, L"Cop");
+            mCop2->SetPos(mCop2DefaultPos);
+            mCop2->SetLeft();
+            mRewindObjects.push_back(mCop2);
         }
         {
             mDoor1 = object::Instantiate<CDoor>(eLayerType::Objects, L"door");
@@ -132,6 +181,7 @@ namespace dru
         CStage::AddStartingLiveObjects();
 
         dynamic_cast<CPomp*>(mPomp1)->SetPlayer(mPlayer);
+        dynamic_cast<CPomp*>(mPomp2)->SetPlayer(mPlayer);
     }
 
     void CStage3::NotReadyOperate()
@@ -142,6 +192,7 @@ namespace dru
     void CStage3::ReadyOperate()
     {
         mPlayer->GetComponent<CAudioSource>()->Play(L"song_main_bgm", true);
+        mPomp2->RayExceptWallOn();
         mLaserTurret1->AdjustLaserTransform();
         mLaserTurret2->AdjustLaserTransform();
         mLaserTurret3->AdjustLaserTransform();

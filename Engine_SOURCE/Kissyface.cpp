@@ -89,8 +89,8 @@ namespace dru
 
 	void CKissyface::Initialize()
 	{
-		mMaxHp = 1;
-		mHp = 1;
+		mMaxHp = 3;
+		mHp = 3;
 
 		CBoss::Initialize();
 	}

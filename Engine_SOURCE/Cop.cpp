@@ -7,10 +7,11 @@ namespace dru
 	{
 		SetName(L"Cop");
 		SetScale(Vector3(1.15f, 1.15f, 1.f));
-		CSpriteRenderer* SpriteRenderer = this->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
-		std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"CopMat");
-		SpriteRenderer->SetMaterial(Material);
+		CSpriteRenderer* SpriteRenderer = AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"cop", L"SpriteShader");
+		CResources::Insert<CMaterial>(L"CopMat", Material);
+		SpriteRenderer->SetMaterial(Material);
 
 		CAnimator* mAnimator = this->AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Cop_Idle", Material->GetTexture(), { 2112.f, 0.f }, { 64.f, 64.f }, Vector2::Zero, 8, { 50.f, 50.f }, 0.1f);

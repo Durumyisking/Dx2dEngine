@@ -34,7 +34,11 @@ namespace dru
 
     private:
         CMonster* mPomp1;
+        CMonster* mPomp2;
         CMonster* mGrunt1;
+        CMonster* mGrunt2;
+        CMonster* mCop1;
+        CMonster* mCop2;
 
 
         CDoor* mDoor1;
@@ -47,7 +51,11 @@ namespace dru
         CTurret* mLaserTurret3;
 
         Vector3 mPomp1DefaultPos;
+        Vector3 mPomp2DefaultPos;
         Vector3 mGrunt1DefaultPos;
+        Vector3 mGrunt2DefaultPos;
+        Vector3 mCop1DefaultPos;
+        Vector3 mCop2DefaultPos;
 
 	};
 

@@ -17,6 +17,7 @@ namespace dru
 		, mRigidBody(nullptr)
 		, mMonsterScript(nullptr)
 		, mbThroughWall(false)
+		, mbExceptWall(false)
 	{
 
 	}
@@ -71,7 +72,10 @@ namespace dru
 		{
 			if (L"col_door" == _oppo->GetName())
 			{
-				mbThroughWall = true;
+				if (!mbExceptWall)
+				{
+					mbThroughWall = true;
+				}
 			}
 
 
@@ -89,7 +93,10 @@ namespace dru
 	{
 		if (L"col_door" == _oppo->GetName())
 		{
-			mbThroughWall = true;
+			if (!mbExceptWall)
+			{
+				mbThroughWall = true;
+			}
 		}
 		if (L"col_player" == _oppo->GetName())
 		{

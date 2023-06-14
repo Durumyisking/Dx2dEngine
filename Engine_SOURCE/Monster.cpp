@@ -136,4 +136,9 @@ namespace dru
 		GetScript<CMonsterScript>()->PartolSwitchOn();
 	}
 
+	void CMonster::RayExceptWallOn()
+	{
+		mRay->GetScript<CMonsterRayScript>()->ExceptWallOn();
+	}
+
 }

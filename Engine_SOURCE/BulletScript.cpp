@@ -153,7 +153,7 @@ namespace dru
 	{
 		mBullet->ReflectOn();
 
-		Vector3 MousePos = CInput::GetMousePosition_world();
+		Vector3 MousePos = CInput::GetMousePosition();
 
 		Vector3 dir = MousePos;
 		dir.Normalize();

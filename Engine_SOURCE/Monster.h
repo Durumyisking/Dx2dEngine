@@ -36,6 +36,8 @@ namespace dru
 		Vector3 GetRayScale() const { return mRayScale; }
 		void MonsterPatrolOn();
 
+		void RayExceptWallOn();
+
 	protected:
 		Vector3 mRayScale;
 
