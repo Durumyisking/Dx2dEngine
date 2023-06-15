@@ -343,82 +343,7 @@ namespace dru
 		};		
 		///////////////////////////////////////////////////////////////
 
-		mAnimator->GetStartEvent(L"Headhunter_AimRifle8") = [this]
-		{
-			CGameObj* BeamObject = GetOrCreateBeamObject();
-			if (BeamObject)
-			{
-				Vector3 pos = BeamObject->GetPos();
-				Vector3 scale = BeamObject->GetScale();
-				if (mHeadhunter->IsLeft())
-				{
-					pos.x = scale.x * -0.5f;
-					pos.y = 0.f;
-					pos.x -= 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-				else
-				{
-					pos.x = scale.x * 0.5f;
-					pos.y = 0.f;
-					pos.x += 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-			}
-		};
-		mAnimator->GetStartEvent(L"Headhunter_AimRifle9") = [this]
-		{
-			CGameObj* BeamObject = GetOrCreateBeamObject();
-			if (BeamObject)
-			{
-				Vector3 pos = BeamObject->GetPos();
-				Vector3 scale = BeamObject->GetScale();
-				if (mHeadhunter->IsLeft())
-				{
-					pos.x = scale.x * -0.5f;
-					pos.y = 0.f;
-					pos.x -= 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-				else
-				{
-					pos.x = scale.x * 0.5f;
-					pos.y = 0.f;
-					pos.x += 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-			}
-		};
-		mAnimator->GetStartEvent(L"Headhunter_AimRifle10") = [this]
-		{
-			CGameObj* BeamObject = GetOrCreateBeamObject();
-			if (BeamObject)
-			{
-				Vector3 pos = BeamObject->GetPos();
-				Vector3 scale = BeamObject->GetScale();
-				if (mHeadhunter->IsLeft())
-				{
-					pos.x = scale.x * -0.5f;
-					pos.y = 0.f;
-					pos.x -= 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-				else
-				{
-					pos.x = scale.x * 0.5f;
-					pos.y = 0.f;
-					pos.x += 0.2f;
-					pos.y += 0.075f;
-					BeamObject->SetPos(pos);
-				}
-			}
-		};
-
+	
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -567,6 +492,29 @@ namespace dru
 
 	}
 
+	void CHeadhunterScript::RotateBeam(float _Angle)
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			Vector3 scale = BeamObject->GetScale();
+			Vector3 newPos = GetOwnerWorldPos();
+
+			if (mHeadhunter->IsLeft())
+			{
+				newPos.x -= scale.x * 0.5f;
+			}
+			else
+			{
+				newPos.x += scale.x * 0.5f;
+				_Angle *= -1.f;
+			}
+			newPos = RotateVector(newPos, _Angle);
+			BeamObject->SetPos(newPos);
+			BeamObject->GetComponent<CTransform>()->SetRotationZ(_Angle);
+		}
+	}
+
 	void CHeadhunterScript::Pattern1()
 	{
 		if (!GetStatePattern1(ePattern1::Takeout))
@@ -580,6 +528,9 @@ namespace dru
 			mPattern1_ShootAnimName = GetAimRifleKey();
 			mAnimator->Play(mPattern1_ShootAnimName, false);
 			AimingOperate();
+
+			float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
+			RotateBeam(angle - 90.f);
 		}
 		if (GetStatePattern1(ePattern1::Shoot))
 		{
@@ -594,8 +545,8 @@ namespace dru
 
 	std::wstring CHeadhunterScript::GetAimRifleKey()
 	{
-		float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos());
-
+		float angle = GetDegreeFromTwoPointZ_0180(GetOwner()->GetWorldPos(), mPlayer->GetWorldPos()); 
+		
 		int idx = static_cast<int>(angle / 10.f);
 		std::wstring key = L"Headhunter_AimRifle";
 		std::wstring stridx = std::to_wstring(idx);
@@ -906,9 +857,9 @@ namespace dru
 		CGameObj* ExplosionObject = GetOrCreateExplosionObject();
 		if (ExplosionObject)
 		{
-				Vector3 pos = GetOwnerPos();
-				pos.y += 0.5f;
-				ExplosionObject->SetPos(pos);
+			Vector3 pos = GetOwnerPos();
+			pos.y += 0.5f;
+			ExplosionObject->SetPos(pos);
 		}
 	}
 
@@ -917,7 +868,7 @@ namespace dru
 		if (!mBeam)
 		{
 			// create
-			mBeam = object::Instantiate<CGameObj>(eLayerType::FX, mHeadhunter ,L"Beam");
+			mBeam = object::Instantiate<CGameObj>(eLayerType::FX ,L"Beam");
 			if (mBeam)
 			{
 				// intialize
@@ -933,7 +884,8 @@ namespace dru
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
-			BeamObject->SetScale({ 30.f, 0.25f, 1.f });
+			BeamObject->SetPos(GetOwnerWorldPos());
+			BeamObject->SetScale({ 30.f, 0.5f, 1.f });
 			mBeamTransform = BeamObject->GetComponent<CTransform>();
 
 			std::shared_ptr<CTexture> BeamObjectTexture = nullptr;
@@ -957,7 +909,7 @@ namespace dru
 			{
 				BeamObjectCollider->SetName(L"col_beam");
 				BeamObjectCollider->SetType(eColliderType::Rect);
-				BeamObjectCollider->SetScale(Vector2(1.f, 1.f));
+				BeamObjectCollider->SetScale(Vector2(1.f, 0.5f));
 				BeamObjectCollider->Off();
 				BeamObjectCollider->RenderingOff();
 			}
@@ -967,8 +919,8 @@ namespace dru
 				CAnimator* BeamObjectAnimator = BeamObject->AddComponent<CAnimator>(eComponentType::Animator);
 				if (BeamObjectAnimator)
 				{
-					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 45.f }, Vector2::Zero, 1, { 50.f, 50.f }, 1.f);
-					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 45.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 39.f }, Vector2::Zero, 1, { 50.f, 50.f }, 1.f);
+					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 39.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
 						mBeam->RenderingBlockOff();
@@ -980,7 +932,7 @@ namespace dru
 					{
 						mBeam->RenderingBlockOn();
 						BeamObjectCollider->Off();
-						//BeamObjectCollider->RenderingOff();
+						BeamObjectCollider->RenderingOff();
 					};
 				}
 				else

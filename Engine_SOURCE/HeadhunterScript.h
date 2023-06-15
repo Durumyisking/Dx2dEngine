@@ -108,6 +108,7 @@ namespace dru
         void Hit();
 
         void CreateBullet(float _Angle);
+        void RotateBeam(float _Angle);
 
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }

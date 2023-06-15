@@ -33,6 +33,4 @@ namespace dru::math
 
 		return Result;
 	}
-
 }
-
