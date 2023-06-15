@@ -233,6 +233,9 @@
     <Filter Include="Common\ObjectPool">
       <UniqueIdentifier>{9b5ee648-f478-4a3d-b958-1810d5e352b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\GameObj\Monster\Beam">
+      <UniqueIdentifier>{4950ce94-5c00-481e-b26e-1b161f71ef65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -606,6 +609,9 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Common\ObjectPool</Filter>
     </ClInclude>
+    <ClInclude Include="BossBeamScript.h">
+      <Filter>Common\GameObj\Monster\Beam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -963,6 +969,9 @@
     </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Common\ObjectPool</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBeamScript.cpp">
+      <Filter>Common\GameObj\Monster\Beam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

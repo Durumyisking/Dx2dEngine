@@ -623,6 +623,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"laserTurret", L"MainScene/Monster/laserTurret.png");
 		CResources::Load<CTexture>(L"laserShoot", L"MainScene/Monster/laserShoot.png");
 
+		CResources::Load<CTexture>(L"beam", L"MainScene/beam.png");
 
 		CResources::Load<CTexture>(L"hud_top", L"MainScene/Hud/hud_top.png");
 		CResources::Load<CTexture>(L"hud_timer", L"MainScene/Hud/hud_timer.png");
@@ -661,7 +662,7 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"fx_gunFire", L"MainScene/FX/fx_gunFire.png");
 		CResources::Load<CTexture>(L"fx_gunFire_2", L"MainScene/FX/fx_gunSpark2.png");
 		CResources::Load<CTexture>(L"fx_explosion", L"MainScene/FX/fx_explosion.png");
-		
+
 
 		// mission
 		CResources::Load<CTexture>(L"job_corner", L"MissionScene/job_corner.png");
@@ -901,6 +902,10 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"laserShoot", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"laserBeamMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"beam", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"BeamMat", Material);
 		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"bloodDecal1", L"SpriteShader");

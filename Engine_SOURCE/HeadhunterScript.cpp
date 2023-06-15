@@ -12,7 +12,9 @@ namespace dru
 		: mHeadhunter(nullptr)
 		, mAudioSource(nullptr)
 		, mExplosion(nullptr)
+		, mBeam(nullptr)
 		, mAttackCollider(nullptr)
+		, mBeamTransform(nullptr)
 		, mStatePattern1{}
 		, mStatePattern2{}
 		, mStatePattern3{}
@@ -339,6 +341,31 @@ namespace dru
 		{
 			SetStatePattern6Off(ePattern6::VerticalLaserDisappear);
 		};		
+
+
+		mAnimator->GetStartEvent(L"Headhunter_AimRifle9") = [this]
+		{
+			CGameObj* BeamObject = GetOrCreateBeamObject();
+			if (BeamObject)
+			{
+				Vector3 pos = BeamObject->GetPos();
+				Vector3 scale = BeamObject->GetScale();
+				pos.x = scale.x / 2.f;
+				BeamObject->SetPos(pos);
+			}
+		};
+		mAnimator->GetStartEvent(L"Headhunter_AimRifle10") = [this]
+		{
+			CGameObj* BeamObject = GetOrCreateBeamObject();
+			if (BeamObject)
+			{
+				Vector3 pos = BeamObject->GetPos();
+				Vector3 scale = BeamObject->GetScale();
+				pos.x = scale.x / 2.f; 
+				BeamObject->SetPos(pos);
+			}
+		};
+
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -528,6 +555,7 @@ namespace dru
 		}
 		else
 		{
+			PlayBeam();
 			SetStatePattern1Off(ePattern1::Aim);
 			SetStatePattern1On(ePattern1::Shoot);
 			mbFlipWhilePattern = false;
@@ -821,19 +849,122 @@ namespace dru
 		CGameObj* ExplosionObject = GetOrCreateExplosionObject();
 		if (ExplosionObject)
 		{
-			CAnimator* ExplosionObjectAnimator = ExplosionObject->GetComponent<CAnimator>();
-			if (ExplosionObjectAnimator)
-			{
-				ExplosionObject->RenderingBlockOff();
-				ExplosionObjectAnimator->Play(L"Explosion", false);
 				Vector3 pos = GetOwnerPos();
 				pos.y += 0.5f;
 				ExplosionObject->SetPos(pos);
+		}
+	}
+
+	CGameObj* CHeadhunterScript::GetOrCreateBeamObject()
+	{
+		if (!mBeam)
+		{
+			// create
+			mBeam = object::Instantiate<CGameObj>(eLayerType::FX, mHeadhunter ,L"Beam");
+			if (mBeam)
+			{
+				// intialize
+				InitializeBeamComponent();
+			}
+		}
+
+		return mBeam;
+	}
+
+	void CHeadhunterScript::InitializeBeamComponent()
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			BeamObject->SetScale({ 30.f, 0.5f, 1.f });
+			mBeamTransform = BeamObject->GetComponent<CTransform>();
+
+			std::shared_ptr<CTexture> BeamObjectTexture = nullptr;
+			CSpriteRenderer* SpriteRenderer = BeamObject->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			if (SpriteRenderer)
+			{
+				std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"BeamMat");
+				if (Material)
+				{
+					BeamObjectTexture = Material->GetTexture();
+					SpriteRenderer->SetMaterial(Material);
+				}
 			}
 			else
 			{
 				assert(false);
 			}
+
+			CCollider2D* BeamObjectCollider= BeamObject->AddComponent<CCollider2D>(eComponentType::Collider);
+			if (BeamObjectCollider)
+			{
+				BeamObjectCollider->SetName(L"col_bossBeam");
+				BeamObjectCollider->SetType(eColliderType::Rect);
+				BeamObjectCollider->SetScale(Vector2(1.f, 1.f));
+			}
+
+			if (BeamObjectTexture && BeamObjectCollider)
+			{
+				CAnimator* BeamObjectAnimator = BeamObject->AddComponent<CAnimator>(eComponentType::Animator);
+				if (BeamObjectAnimator)
+				{
+					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 45.f }, Vector2::Zero, 1, { 50.f, 50.f }, 1.f);
+					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 45.f }, Vector2::Zero, 1, { 50.f, 50.f }, 1.f);
+					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
+					{
+						mBeam->RenderingBlockOff();
+						BeamObjectCollider->On();
+						BeamObjectCollider->RenderingOn();
+						BeamObjectAnimator->Play(L"BeamShoot", false);
+					};
+					BeamObjectAnimator->GetCompleteEvent(L"BeamShoot") = [this, BeamObjectCollider]
+					{
+						mBeam->RenderingBlockOn();
+						BeamObjectCollider->Off();
+						BeamObjectCollider->RenderingOff();
+					};
+				}
+				else
+				{
+					assert(false);
+				}
+			}
+			BeamObject->RenderingBlockOn();
+		}
+	}
+
+	void CHeadhunterScript::PlayBeam()
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			// BeamPositioning();
+
+			CCollider2D* BeamObjectCollider = BeamObject->GetComponent<CCollider2D>();
+			CAnimator* BeamObjectAnimator = BeamObject->GetComponent<CAnimator>();
+			if (BeamObjectAnimator && BeamObjectCollider)
+			{
+				BeamObject->RenderingBlockOff();
+				BeamObjectAnimator->Play(L"BeamReady", false);
+				BeamObjectCollider->On();
+				BeamObjectCollider->RenderingOn();
+			}
+			else
+			{
+				assert(false);
+			}
+		}
+	}
+
+	void CHeadhunterScript::BeamPositioning()
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			Vector3 pos = BeamObject->GetPos();
+			Vector3 scale = BeamObject->GetScale();
+			pos.x = scale.x / 2.f;
+			BeamObject->SetPos(pos);
 		}
 	}
 

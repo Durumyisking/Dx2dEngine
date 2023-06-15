@@ -63,15 +63,15 @@ namespace dru
 		
 		AddComponent<CBloodScript>(eComponentType::Script);
 
-		int flag = GetRandomNumber(100, 0);
-		if (flag < 4)
-		{
-			CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
-			coll->Initialize();
-			coll->SetName(L"col_monster");
-			coll->SetType(eColliderType::Rect);
-			coll->SetScale(Vector2(0.1f, 0.1f));
-		}
+		//int flag = GetRandomNumber(100, 0);
+		//if (flag < 4)
+		//{
+		//	CCollider2D* coll = AddComponent<CCollider2D>(eComponentType::Collider);
+		//	coll->Initialize();
+		//	coll->SetName(L"col_monster");
+		//	coll->SetType(eColliderType::Rect);
+		//	coll->SetScale(Vector2(0.1f, 0.1f));
+		//}
 	}
 	CBlood::~CBlood()
 	{

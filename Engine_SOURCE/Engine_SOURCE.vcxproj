@@ -195,6 +195,7 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClInclude Include="BloodScript.h" />
     <ClInclude Include="BodyShadeScript.h" />
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossBeamScript.h" />
     <ClInclude Include="BossScript.h" />
     <ClInclude Include="BossStage1.h" />
     <ClInclude Include="BossStage2.h" />
@@ -322,6 +323,7 @@ copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     <ClCompile Include="BloodScript.cpp" />
     <ClCompile Include="BodyShadeScript.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossBeamScript.cpp" />
     <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="BossStage1.cpp" />
     <ClCompile Include="BossStage2.cpp" />

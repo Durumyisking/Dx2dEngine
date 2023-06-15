@@ -158,12 +158,18 @@ namespace dru
         void PlayExplosion();
         void ExplosionPositioning();
 
+        CGameObj* GetOrCreateBeamObject();
+        void InitializeBeamComponent();
+        void PlayBeam();
+        void BeamPositioning();
 
 
     private:
         CHeadhunter* mHeadhunter;
         CAudioSource* mAudioSource;
         CGameObj* mExplosion;
+        CGameObj* mBeam;
+        CTransform* mBeamTransform;
 
 
         float mDodgeCooldown;

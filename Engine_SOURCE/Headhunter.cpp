@@ -1,5 +1,6 @@
 #include "Headhunter.h"
 #include "HeadhunterScript.h"
+#include "Object.h"
 
 namespace dru
 {
@@ -106,5 +107,6 @@ namespace dru
 	{
 		CBoss::rewindRender();
 	}
+
 
 }

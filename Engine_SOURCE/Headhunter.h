@@ -16,9 +16,9 @@ namespace dru
 		virtual void render();
 		virtual void rewindRender();
 
-
 	private:
 		CAnimator* mAnimator;
+
 		Vector2	mAnimOffset;
 	};
 }
