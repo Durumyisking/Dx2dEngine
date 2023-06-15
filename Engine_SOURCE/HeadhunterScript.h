@@ -184,6 +184,7 @@ namespace dru
 
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;
+        std::wstring mPattern1_ShootAnimName;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
         UINT mPattern2_ShootedBulletCountL;
