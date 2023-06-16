@@ -30,6 +30,7 @@ namespace dru
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
+		, mPattern1_BeamElapsedTime(0.f)
 		, mBeamAngle(0.f)
 		, mPattern2_ShootedBulletCountL(0)
 		, mPattern2_ShootedBulletCountR(100)
@@ -348,7 +349,7 @@ namespace dru
 
 		for (UINT i = 0; i < 18; i++)
 		{
-			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this]
+			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this] 
 			{
 				Vector3 offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_90);
 				RepositionBeam(offset);
@@ -523,8 +524,6 @@ namespace dru
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
-			BeamObject->RenderingBlockOff();
-
 			Vector3 scale = BeamObject->GetScale();
 			Vector3 newPos;
 
@@ -568,9 +567,28 @@ namespace dru
 		{
 			if (mBeam->IsRenderingBlock())
 			{
+				mPattern1_BeamElapsedTime = 0.f;
 				SetStatePattern1Off(ePattern1::Shoot);
 				SetStatePattern1On(ePattern1::Putback);
 				mAnimator->Play(L"Headhunter_PutbackRifle", false);
+			}
+			else
+			{
+				mPattern1_BeamElapsedTime += CTimeMgr::DeltaTime();
+				CAnimator* anim =  mBeam->GetComponent<CAnimator>();
+				if (anim->IsPlaying(L"BeamReady"))
+				{
+					float scaleY = Interpolation<float>(0.f, 1.f, mPattern1_BeamElapsedTime, 0.f, 0.5f);
+					mBeamTransform->SetScaleY(scaleY);
+				}
+				else if (anim->IsPlaying(L"BeamShoot"))
+				{
+					if (1.25f <= mPattern1_BeamElapsedTime)
+					{
+						float scaleY = Interpolation<float>(1.25f, 1.5f, mPattern1_BeamElapsedTime, 0.5f, 0.f);
+						mBeamTransform->SetScaleY(scaleY);
+					}
+				}
 			}
 		}
 	}
@@ -955,6 +973,14 @@ namespace dru
 					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 39.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
+						CTimeMgr::BulletTime(0.5f);
+
+						ShakeParams sp = {};
+						sp.duration = 0.5f;
+						sp.magnitude = 0.0500f;
+						renderer::mainCamera->GetCamScript()->Shake(sp);
+
+
 						mBeam->RenderingBlockOff();
 						BeamObjectCollider->On();
 						BeamObjectCollider->RenderingOn();
@@ -985,6 +1011,7 @@ namespace dru
 			CAnimator* BeamObjectAnimator = BeamObject->GetComponent<CAnimator>();
 			if (BeamObjectAnimator && BeamObjectCollider)
 			{
+				mBeam->RenderingBlockOff();
 				BeamObjectAnimator->Play(L"BeamReady", false);
 			}
 			else

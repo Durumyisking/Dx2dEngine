@@ -75,7 +75,7 @@ namespace dru
 #define MV_WALLKICK math::Vector3(9.f, 12.f, 0.f)
 #define MV_DODGE math::Vector3(8.f, 6.f, 0.f)
 
-#define BEAM_OFFSET_0 math::Vector3( 0.4f, 0.15f, 0.f )
+#define BEAM_OFFSET_0 math::Vector3( 0.5f, 0.2f, 0.f )
 #define BEAM_OFFSET_90 math::Vector3( 0.825f, 0.f, 0.f )
 
 
@@ -190,6 +190,7 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;
         std::wstring mPattern1_ShootAnimName;
+        float mPattern1_BeamElapsedTime;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
         UINT mPattern2_ShootedBulletCountL;
