@@ -350,7 +350,8 @@ namespace dru
 		{
 			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this]
 			{
-				RepositionBeam({ 0.4f, 0.15f });
+				Vector3 offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_90);
+				RepositionBeam(offset);
 			};
 		}	
 	}
@@ -517,7 +518,7 @@ namespace dru
 		}
 	}
 
-	void CHeadhunterScript::RepositionBeam(Vector2 _XY)
+	void CHeadhunterScript::RepositionBeam(Vector3 _XY)
 	{
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
@@ -525,18 +526,23 @@ namespace dru
 			BeamObject->RenderingBlockOff();
 
 			Vector3 scale = BeamObject->GetScale();
-			//Vector3 newPos = GetOwnerWorldPos();
 			Vector3 newPos;
 
+			//_XY = RotateZ(_XY, mBeamAngle);
+		
 			if (mHeadhunter->IsLeft())
 			{
 				newPos.x -= scale.x * 0.5f;
+				newPos.x -= _XY.x;
 			}
 			else
 			{
 				newPos.x += scale.x * 0.5f;
+				newPos.x += _XY.x;
 			}
+			newPos.y += _XY.y;
 			newPos = RotateZ(newPos, mBeamAngle);
+
 			BeamObject->SetPos(newPos + GetOwnerWorldPos());
 		}
 	}
@@ -911,7 +917,7 @@ namespace dru
 		if (BeamObject)
 		{
 			BeamObject->SetPos(GetOwnerWorldPos());
-			BeamObject->SetScale({ 10.f, 0.5f, 1.f });
+			BeamObject->SetScale({ 30.f, 0.5f, 1.f });
 			mBeamTransform = BeamObject->GetComponent<CTransform>();
 
 			std::shared_ptr<CTexture> BeamObjectTexture = nullptr;

@@ -75,6 +75,8 @@ namespace dru
 #define MV_WALLKICK math::Vector3(9.f, 12.f, 0.f)
 #define MV_DODGE math::Vector3(8.f, 6.f, 0.f)
 
+#define BEAM_OFFSET_0 math::Vector3( 0.4f, 0.15f, 0.f )
+#define BEAM_OFFSET_90 math::Vector3( 0.825f, 0.f, 0.f )
 
 
     public:
@@ -109,7 +111,7 @@ namespace dru
 
         void CreateBullet(float _Angle);
         void RotateBeam(float _Angle);
-        void RepositionBeam(Vector2 _XY);
+        void RepositionBeam(Vector3 _XY);
 
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
