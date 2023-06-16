@@ -10,7 +10,7 @@ namespace dru::math
     float toRadian(float _degree);
 	float toDegree(float _radian);
 
-	Vector3 RotateVector(Vector3 vec, float theta);
+	Vector3 RotateVector(Vector3 _vec, float _degree);
 
 
 	float GetDegreeFromTwoPointZ(const Vector3& V1, const Vector3& V2);

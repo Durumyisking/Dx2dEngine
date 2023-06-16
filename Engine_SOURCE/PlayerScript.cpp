@@ -111,11 +111,6 @@ namespace dru
 		{
 			mPos = mTransform->GetPosition();
 
-			if (CInput::GetKeyTap(eKeyCode::Q))
-			{
-				mTransform->AddRotationZ(10.f);
-			}
-
 			if (CInput::GetKeyTap(eKeyCode::A) || CInput::GetKeyTap(eKeyCode::D))
 			{
 				mbLRKeyupTimerOn = false;

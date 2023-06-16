@@ -109,6 +109,7 @@ namespace dru
 
         void CreateBullet(float _Angle);
         void RotateBeam(float _Angle);
+        void RepositionBeam(Vector2 _XY);
 
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
@@ -182,6 +183,7 @@ namespace dru
         Vector3 mDashDest;
 
         float mHideTimer;
+        float mBeamAngle;
 
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;

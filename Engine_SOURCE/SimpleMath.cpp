@@ -41,28 +41,28 @@ namespace dru::math
 		return _radian * 180 / XM_PI;
 	}
 
-	Vector3 RotateVector(Vector3 vec, float theta)
+	Vector3 RotateVector(Vector3 _vec, float _degree)
 	{
 
 		// 회전 축 벡터를 설정합니다. 이 경우 Z축을 회전축으로 사용합니다.
 		Vector3 axis = { 0.f, 0.f, 1.f };
 
 		// 주어진 각도(theta)를 라디안으로 변환합니다.
-		float radians = toRadian(theta);
+		float radians = toRadian(_degree);
 
 		// 회전 행렬을 생성합니다.
 		XMMATRIX rotationMatrix = XMMatrixRotationAxis(axis, radians);
 
 		// 벡터를 XMVECTOR 형식으로 변환합니다.
-		XMVECTOR vecToRotate = XMLoadFloat3(&vec);
+		XMVECTOR vecToRotate = XMLoadFloat3(&_vec);
 
 		// 회전 행렬과 벡터를 곱해 회전시킵니다.
 		XMVECTOR rotatedVec = XMVector3Transform(vecToRotate, rotationMatrix);
 
 		// 회전된 벡터를 Vector3 형식으로 다시 변환합니다.
-		XMStoreFloat3(&vec, rotatedVec);
+		XMStoreFloat3(&_vec, rotatedVec);
 
-		return vec;
+		return _vec;
 	}
 
 	float GetDegreeFromTwoPointZ(const Vector3& V1, const Vector3& V2)

@@ -6,6 +6,8 @@
 #include "Bullet.h"
 #include "ObjectPool.h"
 
+#include "Input.h"
+
 namespace dru
 {
 	CHeadhunterScript::CHeadhunterScript()
@@ -28,6 +30,7 @@ namespace dru
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
+		, mBeamAngle(0.f)
 		, mPattern2_ShootedBulletCountL(0)
 		, mPattern2_ShootedBulletCountR(100)
 		, mPattern6_VerticalShootCount(0)
@@ -343,7 +346,13 @@ namespace dru
 		};		
 		///////////////////////////////////////////////////////////////
 
-	
+		for (UINT i = 0; i < 18; i++)
+		{
+			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this]
+			{
+				RepositionBeam({ 0.4f, 0.15f });
+			};
+		}	
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -498,7 +507,26 @@ namespace dru
 		if (BeamObject)
 		{
 			Vector3 scale = BeamObject->GetScale();
-			Vector3 newPos = GetOwnerWorldPos();
+
+			if (!mHeadhunter->IsLeft())
+			{
+				_Angle *= -1.f;
+			}
+			mBeamAngle = _Angle;
+			BeamObject->GetComponent<CTransform>()->SetRotationZ(_Angle);
+		}
+	}
+
+	void CHeadhunterScript::RepositionBeam(Vector2 _XY)
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			BeamObject->RenderingBlockOff();
+
+			Vector3 scale = BeamObject->GetScale();
+			//Vector3 newPos = GetOwnerWorldPos();
+			Vector3 newPos;
 
 			if (mHeadhunter->IsLeft())
 			{
@@ -507,11 +535,9 @@ namespace dru
 			else
 			{
 				newPos.x += scale.x * 0.5f;
-				_Angle *= -1.f;
 			}
-			newPos = RotateVector(newPos, _Angle);
-			BeamObject->SetPos(newPos);
-			BeamObject->GetComponent<CTransform>()->SetRotationZ(_Angle);
+			newPos = RotateZ(newPos, mBeamAngle);
+			BeamObject->SetPos(newPos + GetOwnerWorldPos());
 		}
 	}
 
@@ -885,7 +911,7 @@ namespace dru
 		if (BeamObject)
 		{
 			BeamObject->SetPos(GetOwnerWorldPos());
-			BeamObject->SetScale({ 30.f, 0.5f, 1.f });
+			BeamObject->SetScale({ 10.f, 0.5f, 1.f });
 			mBeamTransform = BeamObject->GetComponent<CTransform>();
 
 			std::shared_ptr<CTexture> BeamObjectTexture = nullptr;
@@ -953,7 +979,6 @@ namespace dru
 			CAnimator* BeamObjectAnimator = BeamObject->GetComponent<CAnimator>();
 			if (BeamObjectAnimator && BeamObjectCollider)
 			{
-				BeamObject->RenderingBlockOff();
 				BeamObjectAnimator->Play(L"BeamReady", false);
 			}
 			else
