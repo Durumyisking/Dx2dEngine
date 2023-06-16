@@ -76,7 +76,7 @@ namespace dru
 #define MV_DODGE math::Vector3(8.f, 6.f, 0.f)
 
 #define BEAM_OFFSET_0 math::Vector3( 0.5f, 0.2f, 0.f )
-#define BEAM_OFFSET_90 math::Vector3( 0.825f, 0.f, 0.f )
+#define BEAM_OFFSET_90 math::Vector3( 0.95f, 0.f, 0.f )
 
 
     public:
@@ -110,8 +110,6 @@ namespace dru
         void Hit();
 
         void CreateBullet(float _Angle);
-        void RotateBeam(float _Angle);
-        void RepositionBeam(Vector3 _XY);
 
         virtual void Pattern1();
         bool GetStatePattern1(ePattern1 _Type) { return mStatePattern1[static_cast<UINT>(_Type)]; }
@@ -165,8 +163,11 @@ namespace dru
         CGameObj* GetOrCreateBeamObject();
         void InitializeBeamComponent();
         void PlayBeam();
-        void BeamPositioning();
-
+        void RotateBeam(float _Angle);
+        void RepositionBeam(Vector3 _XY);
+        void BeamYScaling();
+        void BeamOn(float _duration, float _mag);
+        void BeamOff();
 
     private:
         CHeadhunter* mHeadhunter;
@@ -186,11 +187,11 @@ namespace dru
 
         float mHideTimer;
         float mBeamAngle;
+        float mBeamElapsedTime;
 
         std::bitset<static_cast<UINT>(ePattern1::End)> mStatePattern1;
         float mPattern1_AimingTime;
         std::wstring mPattern1_ShootAnimName;
-        float mPattern1_BeamElapsedTime;
 
         std::bitset<static_cast<UINT>(ePattern2::End)> mStatePattern2;
         UINT mPattern2_ShootedBulletCountL;
@@ -201,6 +202,7 @@ namespace dru
         std::bitset<static_cast<UINT>(ePattern4::End)> mStatePattern4;
 
         std::bitset<static_cast<UINT>(ePattern5::End)> mStatePattern5;
+        float mPattern5_SweepElapsedTime;
 
         std::bitset<static_cast<UINT>(ePattern6::End)> mStatePattern6;
         UINT mPattern6_VerticalShootCount;

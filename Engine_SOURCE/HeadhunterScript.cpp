@@ -30,10 +30,11 @@ namespace dru
 		, mHideTimer(0.f)
 		, mDashElapsedTime(0.f)
 		, mPattern1_AimingTime(0.f)
-		, mPattern1_BeamElapsedTime(0.f)
+		, mBeamElapsedTime(0.f)
 		, mBeamAngle(0.f)
 		, mPattern2_ShootedBulletCountL(0)
 		, mPattern2_ShootedBulletCountR(100)
+		, mPattern5_SweepElapsedTime(0.f)
 		, mPattern6_VerticalShootCount(0)
 	{
 	}
@@ -155,15 +156,18 @@ namespace dru
 		mHideTimer = 0.f;
 		mbFlipWhilePattern = false;
 		mDashElapsedTime = 0.f;
+		mBeamElapsedTime = 0.f;
 		mPattern1_AimingTime = 0.f;
 		mPattern2_ShootedBulletCountL = 0;
 		mPattern2_ShootedBulletCountR = 100;
+		mPattern5_SweepElapsedTime = 0.f;
 		mPattern6_VerticalShootCount = 0;
 
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 
 		AllPatternReset();
 		AfterImageReset();
+		BeamOff();
 
 		CBossScript::Reset();
 	}
@@ -303,6 +307,7 @@ namespace dru
 			}
 			else
 			{
+				BeamOff();
 				SetStatePattern5Off(ePattern5::Sweep);
 				SetStatePattern5On(ePattern5::Dash);
 				mHeadhunter->SetAfterImageColor(RED);
@@ -349,12 +354,21 @@ namespace dru
 
 		for (UINT i = 0; i < 18; i++)
 		{
-			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this] 
+			mAnimator->GetStartEvent(L"Headhunter_AimRifle" + std::to_wstring(i)) = [this]
 			{
 				Vector3 offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_90);
 				RepositionBeam(offset);
 			};
 		}	
+		for (UINT i = 0; i < 18; i++)
+		{
+			mAnimator->GetFrameEvent(L"Headhunter_SweepRifle", i) = [this]
+			{
+				mBeam->RenderingBlockOff();
+				Vector3 offset = Interpolation<Vector3>(0.f, 180.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_90);
+				RepositionBeam(offset);
+			};
+		}
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -415,6 +429,7 @@ namespace dru
 					SetStatePattern5On(ePattern5::SweepStart);
 					GetOwner()->RenderingBlockOff();
 					mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+					PlayBeam();
 					mHideTimer = 0.f;
 				}
 				else if (1 == mHeadhunter->GetHp())
@@ -503,49 +518,6 @@ namespace dru
 
 	}
 
-	void CHeadhunterScript::RotateBeam(float _Angle)
-	{
-		CGameObj* BeamObject = GetOrCreateBeamObject();
-		if (BeamObject)
-		{
-			Vector3 scale = BeamObject->GetScale();
-
-			if (!mHeadhunter->IsLeft())
-			{
-				_Angle *= -1.f;
-			}
-			mBeamAngle = _Angle;
-			BeamObject->GetComponent<CTransform>()->SetRotationZ(_Angle);
-		}
-	}
-
-	void CHeadhunterScript::RepositionBeam(Vector3 _XY)
-	{
-		CGameObj* BeamObject = GetOrCreateBeamObject();
-		if (BeamObject)
-		{
-			Vector3 scale = BeamObject->GetScale();
-			Vector3 newPos;
-
-			//_XY = RotateZ(_XY, mBeamAngle);
-		
-			if (mHeadhunter->IsLeft())
-			{
-				newPos.x -= scale.x * 0.5f;
-				newPos.x -= _XY.x;
-			}
-			else
-			{
-				newPos.x += scale.x * 0.5f;
-				newPos.x += _XY.x;
-			}
-			newPos.y += _XY.y;
-			newPos = RotateZ(newPos, mBeamAngle);
-
-			BeamObject->SetPos(newPos + GetOwnerWorldPos());
-		}
-	}
-
 	void CHeadhunterScript::Pattern1()
 	{
 		if (!GetStatePattern1(ePattern1::Takeout))
@@ -567,28 +539,14 @@ namespace dru
 		{
 			if (mBeam->IsRenderingBlock())
 			{
-				mPattern1_BeamElapsedTime = 0.f;
+				mBeamElapsedTime = 0.f;
 				SetStatePattern1Off(ePattern1::Shoot);
 				SetStatePattern1On(ePattern1::Putback);
 				mAnimator->Play(L"Headhunter_PutbackRifle", false);
 			}
 			else
 			{
-				mPattern1_BeamElapsedTime += CTimeMgr::DeltaTime();
-				CAnimator* anim =  mBeam->GetComponent<CAnimator>();
-				if (anim->IsPlaying(L"BeamReady"))
-				{
-					float scaleY = Interpolation<float>(0.f, 1.f, mPattern1_BeamElapsedTime, 0.f, 0.5f);
-					mBeamTransform->SetScaleY(scaleY);
-				}
-				else if (anim->IsPlaying(L"BeamShoot"))
-				{
-					if (1.25f <= mPattern1_BeamElapsedTime)
-					{
-						float scaleY = Interpolation<float>(1.25f, 1.5f, mPattern1_BeamElapsedTime, 0.5f, 0.f);
-						mBeamTransform->SetScaleY(scaleY);
-					}
-				}
+				BeamYScaling();
 			}
 		}
 	}
@@ -735,6 +693,19 @@ namespace dru
 
 	void CHeadhunterScript::Pattern5()
 	{
+
+		if (GetStatePattern5(ePattern5::SweepStart))
+		{
+			RotateBeam(0.f);
+			RepositionBeam(BEAM_OFFSET_0);
+			BeamYScaling();
+		}
+		if (GetStatePattern5(ePattern5::Sweep))
+		{
+			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
+			float angle = Interpolation<float>(0.f, 1.8f, mPattern5_SweepElapsedTime, 0.f, 180.f);
+			RotateBeam(angle);
+		}
 		if (GetStatePattern5(ePattern5::Dash))
 		{
 			mDashDest = SCREEN_CENTERFLOOR;
@@ -959,7 +930,7 @@ namespace dru
 			{
 				BeamObjectCollider->SetName(L"col_beam");
 				BeamObjectCollider->SetType(eColliderType::Rect);
-				BeamObjectCollider->SetScale(Vector2(1.f, 0.5f));
+				BeamObjectCollider->SetScale(Vector2(1.f, 0.25f));
 				BeamObjectCollider->Off();
 				BeamObjectCollider->RenderingOff();
 			}
@@ -969,23 +940,23 @@ namespace dru
 				CAnimator* BeamObjectAnimator = BeamObject->AddComponent<CAnimator>(eComponentType::Animator);
 				if (BeamObjectAnimator)
 				{
-					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 39.f }, Vector2::Zero, 1, { 50.f, 50.f }, 1.f);
-					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 39.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+					BeamObjectAnimator->Create(L"BeamReady2", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+					BeamObjectAnimator->Create(L"BeamShoot2", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+
+
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
-						CTimeMgr::BulletTime(0.5f);
-
-						ShakeParams sp = {};
-						sp.duration = 0.5f;
-						sp.magnitude = 0.0500f;
-						renderer::mainCamera->GetCamScript()->Shake(sp);
-
-
-						mBeam->RenderingBlockOff();
-						BeamObjectCollider->On();
-						BeamObjectCollider->RenderingOn();
+						BeamOn(0.5f, 0.0500f);
 						BeamObjectAnimator->Play(L"BeamShoot", false);
 					};
+					BeamObjectAnimator->GetCompleteEvent(L"BeamReady2") = [this, BeamObjectAnimator, BeamObjectCollider]
+					{
+						BeamOn(1.8f, 0.0250f);
+						BeamObjectAnimator->Play(L"BeamShoot2", false);
+					};
+
 					BeamObjectAnimator->GetCompleteEvent(L"BeamShoot") = [this, BeamObjectCollider]
 					{
 						mBeam->RenderingBlockOn();
@@ -1012,7 +983,14 @@ namespace dru
 			if (BeamObjectAnimator && BeamObjectCollider)
 			{
 				mBeam->RenderingBlockOff();
-				BeamObjectAnimator->Play(L"BeamReady", false);
+				if (GetState(eBossState::Pattern1))
+				{
+					BeamObjectAnimator->Play(L"BeamReady", false);
+				}
+				else if (GetState(eBossState::Pattern5))
+				{
+					BeamObjectAnimator->Play(L"BeamReady2", false);
+				}
 			}
 			else
 			{
@@ -1020,16 +998,122 @@ namespace dru
 			}
 		}
 	}
-
-	void CHeadhunterScript::BeamPositioning()
+	void CHeadhunterScript::RotateBeam(float _Angle)
 	{
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
-			Vector3 pos = BeamObject->GetPos();
 			Vector3 scale = BeamObject->GetScale();
-			pos.x = scale.x / 2.f;
-			BeamObject->SetPos(pos);
+
+			if (!mHeadhunter->IsLeft())
+			{
+				_Angle *= -1.f;
+			}
+			mBeamAngle = _Angle;
+			BeamObject->GetComponent<CTransform>()->SetRotationZ(_Angle);
+		}
+	}
+
+	void CHeadhunterScript::RepositionBeam(Vector3 _XY)
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			Vector3 scale = BeamObject->GetScale();
+			Vector3 newPos;
+
+			//_XY = RotateZ(_XY, mBeamAngle);
+
+			if (mHeadhunter->IsLeft())
+			{
+				newPos.x -= scale.x * 0.5f;
+				newPos.x -= _XY.x;
+			}
+			else
+			{
+				newPos.x += scale.x * 0.5f;
+				newPos.x += _XY.x;
+			}
+			newPos.y += _XY.y;
+			newPos = RotateZ(newPos, mBeamAngle);
+
+			BeamObject->SetPos(newPos + GetOwnerWorldPos());
+		}
+	}
+
+	void CHeadhunterScript::BeamYScaling()
+	{
+		mBeamElapsedTime += CTimeMgr::DeltaTime();
+		CAnimator* anim = mBeam->GetComponent<CAnimator>();
+		if (GetState(eBossState::Pattern1))
+		{
+			if (anim->IsPlaying(L"BeamReady"))
+			{
+				float scaleY = Interpolation<float>(0.f, 0.5f, mBeamElapsedTime, 0.f, 0.5f);
+				mBeamTransform->SetScaleY(scaleY);
+			}
+			else if (anim->IsPlaying(L"BeamShoot"))
+			{
+				if (0.75f <= mBeamElapsedTime)
+				{
+					float scaleY = Interpolation<float>(0.75f, 1.f, mBeamElapsedTime, 0.5f, 0.f);
+					mBeamTransform->SetScaleY(scaleY);
+				}
+			}
+		}
+		if (GetState(eBossState::Pattern5))
+		{
+			if (anim->IsPlaying(L"BeamReady2"))
+			{
+				float scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
+				mBeamTransform->SetScaleY(scaleY);
+			}
+			else if (anim->IsPlaying(L"BeamShoot2"))
+			{
+				if (0.35f <= mBeamElapsedTime)
+				{
+					float scaleY = Interpolation<float>(0.35f, 0.85f, mBeamElapsedTime, 0.5f, 0.f);
+					mBeamTransform->SetScaleY(scaleY);
+				}
+			}
+		}
+
+	}
+
+	void CHeadhunterScript::BeamOn(float _duration, float _mag)
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			CCollider2D* BeamObjectCollider = BeamObject->GetComponent<CCollider2D>();
+			if (BeamObjectCollider)
+			{
+				BeamObjectCollider->On();
+				BeamObjectCollider->RenderingOn();
+				ShakeParams sp = {};
+				sp.duration = _duration;
+				sp.magnitude = _mag;
+				renderer::mainCamera->GetCamScript()->Shake(sp);
+			}
+		}
+	}
+
+	void CHeadhunterScript::BeamOff()
+	{
+		CGameObj* BeamObject = GetOrCreateBeamObject();
+		if (BeamObject)
+		{
+			CCollider2D* BeamObjectCollider = BeamObject->GetComponent<CCollider2D>();
+			if (BeamObjectCollider)
+			{
+				mBeam->RenderingBlockOn();
+				BeamObjectCollider->Off();
+				BeamObjectCollider->RenderingOff();
+			}
+			else
+			{
+				assert(false);
+			}
 		}
 	}
 

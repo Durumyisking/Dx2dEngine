@@ -6,6 +6,7 @@ namespace dru
 {
 	CBossStage2::CBossStage2()
 	{
+		mStageNumbmer = 5;
 	}
 
 	CBossStage2::~CBossStage2()
