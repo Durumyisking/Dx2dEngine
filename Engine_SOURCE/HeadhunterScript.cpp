@@ -698,19 +698,8 @@ namespace dru
 		if (GetStatePattern5(ePattern5::Sweep))
 		{
 			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
-			float angle = Interpolation<float>(0.f, 1.8f, mPattern5_SweepElapsedTime, 0.f, 180.f);
-			RotateBeam(angle);
-			Vector3 offset;
-			if (0.f <= mBeamAngle && 90.f > mBeamAngle)
-			{
-				offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_M90);
-			}
-			else if (90.f <= mBeamAngle && 180.f > mBeamAngle)
-			{
-				offset = Interpolation<Vector3>(90.f, 180.f, fabs(mBeamAngle), BEAM_OFFSET_M90, BEAM_OFFSET_0);
-			}
-			RepositionBeam(offset);
-
+			BeamSwipeOffsetSetting();
+			BeamYScaling();
 		}
 		if (GetStatePattern5(ePattern5::Dash))
 		{
@@ -1018,6 +1007,22 @@ namespace dru
 		}
 	}
 
+	void CHeadhunterScript::BeamSwipeOffsetSetting()
+	{
+		float angle = Interpolation<float>(0.f, 1.8f, mPattern5_SweepElapsedTime, 0.f, 180.f);
+		RotateBeam(angle);
+		Vector3 offset;
+		if (0.f <= mBeamAngle && 90.f > mBeamAngle)
+		{
+			offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_M90);
+		}
+		else if (90.f <= mBeamAngle && 180.f > mBeamAngle)
+		{
+			offset = Interpolation<Vector3>(90.f, 180.f, fabs(mBeamAngle), BEAM_OFFSET_M90, BEAM_OFFSET_180);
+		}
+		RepositionBeam(offset);
+	}
+
 	void CHeadhunterScript::RepositionBeam(Vector3 _XY)
 	{
 		CGameObj* BeamObject = GetOrCreateBeamObject();
@@ -1072,9 +1077,9 @@ namespace dru
 			}
 			else if (anim->IsPlaying(L"BeamShoot2"))
 			{
-				if (0.35f <= mBeamElapsedTime)
+				if (2.f <= mBeamElapsedTime)
 				{
-					float scaleY = Interpolation<float>(0.35f, 0.85f, mBeamElapsedTime, 0.5f, 0.f);
+					float scaleY = Interpolation<float>(2.f, 2.1f, mBeamElapsedTime, 0.5f, 0.f);
 					mBeamTransform->SetScaleY(scaleY);
 				}
 			}

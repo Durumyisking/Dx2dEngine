@@ -78,7 +78,7 @@ namespace dru
 #define BEAM_OFFSET_0 math::Vector3( 0.5f, 0.2f, 0.f )
 #define BEAM_OFFSET_90 math::Vector3( 0.95f, 0.f, 0.f )
 #define BEAM_OFFSET_M90 math::Vector3( 0.55f, 0.f, 0.f )
-
+#define BEAM_OFFSET_180 math::Vector3( 0.5f, -0.25f, 0.f )
 
     public:
         CHeadhunterScript();
@@ -165,6 +165,7 @@ namespace dru
         void InitializeBeamComponent();
         void PlayBeam();
         void RotateBeam(float _Angle);
+        void BeamSwipeOffsetSetting();
         void RepositionBeam(Vector3 _XY);
         void BeamYScaling();
         void BeamOn(float _duration, float _mag);
