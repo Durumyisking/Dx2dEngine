@@ -360,15 +360,10 @@ namespace dru
 				RepositionBeam(offset);
 			};
 		}	
-		for (UINT i = 0; i < 18; i++)
+		mAnimator->GetStartEvent(L"Headhunter_SweepRifle") = [this]
 		{
-			mAnimator->GetFrameEvent(L"Headhunter_SweepRifle", i) = [this]
-			{
-				mBeam->RenderingBlockOff();
-				Vector3 offset = Interpolation<Vector3>(0.f, 180.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_90);
-				RepositionBeam(offset);
-			};
-		}
+			mBeam->RenderingBlockOff();
+		};
 	}
 
 	void CHeadhunterScript::DodgeOperate()
@@ -705,6 +700,17 @@ namespace dru
 			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
 			float angle = Interpolation<float>(0.f, 1.8f, mPattern5_SweepElapsedTime, 0.f, 180.f);
 			RotateBeam(angle);
+			Vector3 offset;
+			if (0.f <= mBeamAngle && 90.f > mBeamAngle)
+			{
+				offset = Interpolation<Vector3>(0.f, 90.f, fabs(mBeamAngle), BEAM_OFFSET_0, BEAM_OFFSET_M90);
+			}
+			else if (90.f <= mBeamAngle && 180.f > mBeamAngle)
+			{
+				offset = Interpolation<Vector3>(90.f, 180.f, fabs(mBeamAngle), BEAM_OFFSET_M90, BEAM_OFFSET_0);
+			}
+			RepositionBeam(offset);
+
 		}
 		if (GetStatePattern5(ePattern5::Dash))
 		{
@@ -1003,8 +1009,6 @@ namespace dru
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
-			Vector3 scale = BeamObject->GetScale();
-
 			if (!mHeadhunter->IsLeft())
 			{
 				_Angle *= -1.f;
@@ -1021,8 +1025,6 @@ namespace dru
 		{
 			Vector3 scale = BeamObject->GetScale();
 			Vector3 newPos;
-
-			//_XY = RotateZ(_XY, mBeamAngle);
 
 			if (mHeadhunter->IsLeft())
 			{

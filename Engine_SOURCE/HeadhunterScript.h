@@ -77,6 +77,7 @@ namespace dru
 
 #define BEAM_OFFSET_0 math::Vector3( 0.5f, 0.2f, 0.f )
 #define BEAM_OFFSET_90 math::Vector3( 0.95f, 0.f, 0.f )
+#define BEAM_OFFSET_M90 math::Vector3( 0.55f, 0.f, 0.f )
 
 
     public:
