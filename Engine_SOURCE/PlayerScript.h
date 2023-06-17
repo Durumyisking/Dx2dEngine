@@ -120,7 +120,6 @@ namespace dru
         void coll_Wall();
 
 
-        void hit(Vector3& _enemyPos, int _Type);
         void laserHit();
 
         bool towardToWallCheck_KeyTap();
@@ -130,7 +129,10 @@ namespace dru
 
         void SetAfterImageCount(int _Count);
 
+    public:
+        void hit(Vector3& _enemyPos, int _Type);
 
+    private:
         CAnimator* mAnimator;
         CRigidBody* mRigidbody;
         CTransform* mTransform;

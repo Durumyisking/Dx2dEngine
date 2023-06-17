@@ -22,6 +22,8 @@ namespace dru
 		void AddBlockGauge();
 		void PlayGauge();
 
+		void Hit(Vector3& _enemyPos, int _Type);
+
 	private:
 		bool mbPlayerDead;
 		CHorizonGauge* mBlockGauge;

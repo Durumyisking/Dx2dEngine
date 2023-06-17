@@ -142,6 +142,12 @@ namespace dru
 		mBlockGauge->Play();
 	}
 
+	void CPlayer::Hit(Vector3& _enemyPos, int _Type)
+	{
+		GetScript<CPlayerScript>()->hit(_enemyPos, _Type);
+
+	}
+
 	void CPlayer::SetPlayerStun()
 	{
 		GetScript<CPlayerScript>()->StunOn();

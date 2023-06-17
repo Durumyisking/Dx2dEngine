@@ -129,8 +129,14 @@ namespace dru
 				mRigidbody->SetVelocityY(0.f);
 				WallKickReady();
 			}
-
-
+		}
+		if (L"col_player" == _oppo->GetName())
+		{
+			if (GetStatePattern3(ePattern3::Dash) || GetStatePattern5(ePattern5::Dash) || GetStatePattern6(ePattern6::Dash))
+			{
+				Vector3 pos = mHeadhunter->GetWorldPos();
+				mPlayer->Hit(pos, 0);
+			}
 		}
 
 		CBossScript::OnCollisionEnter(_oppo);
@@ -718,6 +724,10 @@ namespace dru
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
 				++mPattern6_VerticalShootCount;
+				PlayBeam();
+				RotateBeam(90.f);
+				RepositionBeam(BEAM_OFFSET_M90);
+
 			}
 			else
 			{
@@ -726,6 +736,9 @@ namespace dru
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				SetStatePattern6On(ePattern6::SweepStartL);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+				PlayBeam();
+				RotateBeam(90.f);
+				RepositionBeam(BEAM_OFFSET_M90);
 			}
 		}
 		if (GetStatePattern6(ePattern6::Dash))
@@ -937,8 +950,10 @@ namespace dru
 				{
 					BeamObjectAnimator->Create(L"BeamReady", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
 					BeamObjectAnimator->Create(L"BeamReady2", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
+					BeamObjectAnimator->Create(L"BeamReady3", BeamObjectTexture, { 0.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.1f);
 					BeamObjectAnimator->Create(L"BeamShoot", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
 					BeamObjectAnimator->Create(L"BeamShoot2", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.5f);
+					BeamObjectAnimator->Create(L"BeamShoot3", BeamObjectTexture, { 2048.f, 0.f }, { 2048.f, 40.f }, Vector2::Zero, 1, { 50.f, 50.f }, 0.25f);
 
 
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
@@ -950,6 +965,11 @@ namespace dru
 					{
 						BeamOn(1.8f, 0.0250f);
 						BeamObjectAnimator->Play(L"BeamShoot2", false);
+					};
+					BeamObjectAnimator->GetCompleteEvent(L"BeamReady3") = [this, BeamObjectAnimator, BeamObjectCollider]
+					{
+						BeamOn(0.25f, 0.0250f);
+						BeamObjectAnimator->Play(L"BeamShoot3", false);
 					};
 
 					BeamObjectAnimator->GetCompleteEvent(L"BeamShoot") = [this, BeamObjectCollider]
@@ -985,6 +1005,10 @@ namespace dru
 				else if (GetState(eBossState::Pattern5))
 				{
 					BeamObjectAnimator->Play(L"BeamReady2", false);
+				}
+				else if (GetState(eBossState::Pattern6))
+				{
+					BeamObjectAnimator->Play(L"BeamReady3", false);
 				}
 			}
 			else
