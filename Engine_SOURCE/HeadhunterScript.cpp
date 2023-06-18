@@ -326,6 +326,7 @@ namespace dru
 		{
 			if (GetStatePattern6(ePattern6::SweepDisappearL))
 			{
+				PlayBeam();
 				GetOwner()->SetRight();
 				GetOwner()->SetPos(SCREEN_RIGHTTOP);
 				SetStatePattern6Off(ePattern6::SweepDisappearL);
@@ -720,6 +721,7 @@ namespace dru
 		{
 			if (6 > mPattern6_VerticalShootCount)
 			{
+				mBeamElapsedTime = 0.f;
 				SwitchVerticalLaserLR();
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				mAnimator->Play(L"Headhunter_VerticalLaserAppear", false);
@@ -727,20 +729,51 @@ namespace dru
 				PlayBeam();
 				RotateBeam(90.f);
 				RepositionBeam(BEAM_OFFSET_M90);
-
 			}
 			else
 			{
+				mBeamElapsedTime = 0.f;
 				GetOwner()->SetLeft();
 				GetOwner()->SetPos(SCREEN_LEFTTOP);
-				SetStatePattern6On(ePattern6::VerticalLaserAppear);
+				SetStatePattern6Off(ePattern6::VerticalLaserAppear);
 				SetStatePattern6On(ePattern6::SweepStartL);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
 				PlayBeam();
 				RotateBeam(90.f);
 				RepositionBeam(BEAM_OFFSET_M90);
 			}
+			if (GetStatePattern6(ePattern6::SweepStartL) || GetStatePattern6(ePattern6::SweepStartR))
+			{
+				RotateBeam(0.f);
+				RepositionBeam(BEAM_OFFSET_0);
+				BeamYScaling();
+			}
+			else if (GetStatePattern6(ePattern6::SweepL) || GetStatePattern6(ePattern6::SweepR))
+			{
+				mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
+				BeamSwipeOffsetSetting();
+				BeamYScaling();
+			}
+
 		}
+		else if (GetStatePattern6(ePattern6::VerticalLaserAppear))
+		{
+			BeamYScaling();
+		}
+
+		if (GetStatePattern6(ePattern6::SweepStartL))
+		{
+			RotateBeam(0.f);
+			RepositionBeam(BEAM_OFFSET_0);
+			BeamYScaling();
+		}
+		if (GetStatePattern6(ePattern6::SweepStartL))
+		{
+			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
+			BeamSwipeOffsetSetting();
+			BeamYScaling();
+		}
+
 		if (GetStatePattern6(ePattern6::Dash))
 		{
 			mDashDest = mPlayer->GetWorldPos();
@@ -968,7 +1001,7 @@ namespace dru
 					};
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady3") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
-						BeamOn(0.25f, 0.0250f);
+						BeamOn(0.125f, 0.0125f);
 						BeamObjectAnimator->Play(L"BeamShoot3", false);
 					};
 
@@ -989,7 +1022,7 @@ namespace dru
 	}
 
 	void CHeadhunterScript::PlayBeam()
-	{
+	{ 
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
@@ -1008,7 +1041,14 @@ namespace dru
 				}
 				else if (GetState(eBossState::Pattern6))
 				{
-					BeamObjectAnimator->Play(L"BeamReady3", false);
+					if (GetStatePattern6(ePattern6::SweepStartL) || GetStatePattern6(ePattern6::SweepStartR))
+					{
+						BeamObjectAnimator->Play(L"BeamReady2", false);
+					}
+					else
+					{
+						BeamObjectAnimator->Play(L"BeamReady3", false);
+					}
 				}
 			}
 			else
@@ -1108,6 +1148,28 @@ namespace dru
 				}
 			}
 		}
+		if (GetState(eBossState::Pattern6))
+		{
+			if (anim->IsPlaying(L"BeamReady2"))
+			{
+				float scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
+				mBeamTransform->SetScaleY(scaleY);
+			}
+			else if (anim->IsPlaying(L"BeamShoot2"))
+			{
+				if (2.f <= mBeamElapsedTime)
+				{
+					float scaleY = Interpolation<float>(2.f, 2.1f, mBeamElapsedTime, 0.5f, 0.f);
+					mBeamTransform->SetScaleY(scaleY);
+				}
+			}
+			else if (anim->IsPlaying(L"BeamReady3"))
+			{
+				float scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
+				mBeamTransform->SetScaleY(scaleY);
+			}
+		}
+
 
 	}
 
