@@ -326,12 +326,12 @@ namespace dru
 		{
 			if (GetStatePattern6(ePattern6::SweepDisappearL))
 			{
-				PlayBeam();
 				GetOwner()->SetRight();
 				GetOwner()->SetPos(SCREEN_RIGHTTOP);
 				SetStatePattern6Off(ePattern6::SweepDisappearL);
 				SetStatePattern6On(ePattern6::SweepStartR);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
+				PlayBeam();
 			}
 			if (GetStatePattern6(ePattern6::SweepDisappearR))
 			{
@@ -735,39 +735,25 @@ namespace dru
 				mBeamElapsedTime = 0.f;
 				GetOwner()->SetLeft();
 				GetOwner()->SetPos(SCREEN_LEFTTOP);
-				SetStatePattern6Off(ePattern6::VerticalLaserAppear);
+				mStatePattern6.reset();
+				SetStatePattern6On(ePattern6::VerticalLaserAppear);
 				SetStatePattern6On(ePattern6::SweepStartL);
 				mAnimator->Play(L"Headhunter_SweepRifleStart", false);
 				PlayBeam();
-				RotateBeam(90.f);
-				RepositionBeam(BEAM_OFFSET_M90);
 			}
-			if (GetStatePattern6(ePattern6::SweepStartL) || GetStatePattern6(ePattern6::SweepStartR))
-			{
-				RotateBeam(0.f);
-				RepositionBeam(BEAM_OFFSET_0);
-				BeamYScaling();
-			}
-			else if (GetStatePattern6(ePattern6::SweepL) || GetStatePattern6(ePattern6::SweepR))
-			{
-				mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
-				BeamSwipeOffsetSetting();
-				BeamYScaling();
-			}
-
 		}
 		else if (GetStatePattern6(ePattern6::VerticalLaserAppear))
 		{
 			BeamYScaling();
 		}
 
-		if (GetStatePattern6(ePattern6::SweepStartL))
+		if (GetStatePattern6(ePattern6::SweepStartL) || GetStatePattern6(ePattern6::SweepStartR))
 		{
 			RotateBeam(0.f);
 			RepositionBeam(BEAM_OFFSET_0);
 			BeamYScaling();
 		}
-		if (GetStatePattern6(ePattern6::SweepStartL))
+		if (GetStatePattern6(ePattern6::SweepL) || GetStatePattern6(ePattern6::SweepR))
 		{
 			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
 			BeamSwipeOffsetSetting();
@@ -1023,6 +1009,8 @@ namespace dru
 
 	void CHeadhunterScript::PlayBeam()
 	{ 
+		mPattern5_SweepElapsedTime = 0.f;
+		mBeamElapsedTime = 0.f;
 		CGameObj* BeamObject = GetOrCreateBeamObject();
 		if (BeamObject)
 		{
@@ -1114,20 +1102,21 @@ namespace dru
 
 	void CHeadhunterScript::BeamYScaling()
 	{
+		float scaleY = 0.f;
 		mBeamElapsedTime += CTimeMgr::DeltaTime();
 		CAnimator* anim = mBeam->GetComponent<CAnimator>();
 		if (GetState(eBossState::Pattern1))
 		{
 			if (anim->IsPlaying(L"BeamReady"))
 			{
-				float scaleY = Interpolation<float>(0.f, 0.5f, mBeamElapsedTime, 0.f, 0.5f);
+				scaleY = Interpolation<float>(0.f, 0.5f, mBeamElapsedTime, 0.f, 0.5f);
 				mBeamTransform->SetScaleY(scaleY);
 			}
 			else if (anim->IsPlaying(L"BeamShoot"))
 			{
 				if (0.75f <= mBeamElapsedTime)
 				{
-					float scaleY = Interpolation<float>(0.75f, 1.f, mBeamElapsedTime, 0.5f, 0.f);
+					scaleY = Interpolation<float>(0.75f, 1.f, mBeamElapsedTime, 0.5f, 0.f);
 					mBeamTransform->SetScaleY(scaleY);
 				}
 			}
@@ -1136,14 +1125,14 @@ namespace dru
 		{
 			if (anim->IsPlaying(L"BeamReady2"))
 			{
-				float scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
+				scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
 				mBeamTransform->SetScaleY(scaleY);
 			}
 			else if (anim->IsPlaying(L"BeamShoot2"))
 			{
 				if (2.f <= mBeamElapsedTime)
 				{
-					float scaleY = Interpolation<float>(2.f, 2.1f, mBeamElapsedTime, 0.5f, 0.f);
+					scaleY = Interpolation<float>(2.f, 2.1f, mBeamElapsedTime, 0.5f, 0.f);
 					mBeamTransform->SetScaleY(scaleY);
 				}
 			}
@@ -1152,14 +1141,14 @@ namespace dru
 		{
 			if (anim->IsPlaying(L"BeamReady2"))
 			{
-				float scaleY = Interpolation<float>(0.f, 0.1f, mBeamElapsedTime, 0.f, 0.5f);
+				scaleY = Interpolation<float>(0.f, 0.2f, mBeamElapsedTime, 0.f, 0.5f);
 				mBeamTransform->SetScaleY(scaleY);
 			}
 			else if (anim->IsPlaying(L"BeamShoot2"))
 			{
-				if (2.f <= mBeamElapsedTime)
+				if (4.5f <= mBeamElapsedTime)
 				{
-					float scaleY = Interpolation<float>(2.f, 2.1f, mBeamElapsedTime, 0.5f, 0.f);
+					scaleY = Interpolation<float>(4.5f, 4.6f, mBeamElapsedTime, 0.5f, 0.f);
 					mBeamTransform->SetScaleY(scaleY);
 				}
 			}

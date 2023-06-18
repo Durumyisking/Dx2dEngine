@@ -77,8 +77,8 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
-		mMaxHp = 2;
-		mHp = 2;
+		mMaxHp = 3;
+		mHp = 3;
 		
 		CBoss::Initialize();
 	}
