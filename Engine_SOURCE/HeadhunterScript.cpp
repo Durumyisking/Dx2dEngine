@@ -112,29 +112,36 @@ namespace dru
 			{
 				mAnimator->Play(L"Headhunter_HurtLand", false);
 			}
-			if (mAnimator->IsPlaying(L"Headhunter_TumbleAir"))
+			else if (mAnimator->IsPlaying(L"Headhunter_Dead"))
+			{
+				if (!GetOwner_LiveObject()->IsReplaying())
+				{
+					mAudioSource->Play(L"deadground", false);
+				}
+			}
+
+			else if (mAnimator->IsPlaying(L"Headhunter_TumbleAir"))
 			{
 				mAnimator->Play(L"Headhunter_TumbleLand", false);
 			}
-			if (mAnimator->IsPlaying(L"Headhunter_BackJump"))
+			else if (mAnimator->IsPlaying(L"Headhunter_BackJump"))
 			{
 				PatternEnd();
 			}
-			if (GetStatePattern2(ePattern2::WallKickFall))
+			else if (GetStatePattern2(ePattern2::WallKickFall))
 			{
 				SetStatePattern2Off(ePattern2::WallKickFall);
 				SetStatePattern2On(ePattern2::WallKickLand);
 				mAnimator->Play(L"Headhunter_WallKickLand", false);
 			}
-			if (GetStatePattern5(ePattern5::Dash))
+			else if (GetStatePattern5(ePattern5::Dash))
 			{
 				SetStatePattern5Off(ePattern5::Dash);
 				SetStatePattern5On(ePattern5::DashEnd);
 				mAnimator->Play(L"Headhunter_DashEnd", false);
 			}		
-
 		}
-		if (L"col_wall" == _oppo->GetName())
+		else if (L"col_wall" == _oppo->GetName())
 		{
 			if (mAnimator->IsPlaying(L"Headhunter_BackJump"))
 			{
@@ -144,7 +151,7 @@ namespace dru
 				WallKickReady();
 			}
 		}
-		if (L"col_player" == _oppo->GetName())
+		else if (L"col_player" == _oppo->GetName())
 		{
 			if (GetStatePattern3(ePattern3::Dash) || GetStatePattern5(ePattern5::Dash) || GetStatePattern6(ePattern6::Dash))
 			{
@@ -185,7 +192,7 @@ namespace dru
 
 		mRigidbody->SetMaxVelocity(VELOCITY_RUN);
 
-		AllPatternReset();
+		AllPatternReset(); 
 		AfterImageReset();
 		BeamOff();
 
@@ -247,6 +254,8 @@ namespace dru
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_WallKickReady") = [this]
 		{
+			std::wstring num = std::to_wstring(GetRandomNumber(1, 3));
+			mAudioSource->Play(L"walljump" + num, false);
 			mRigidbody->SwitchOn();
 			SetStatePattern2Off(ePattern2::WallKickReady);
 			SetStatePattern2On(ePattern2::WallKick);
@@ -255,6 +264,8 @@ namespace dru
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_WallKick") = [this]
 		{
+			mAudioSource->Play(L"gatling", false);
+			mAudioSource->SetVolume(L"gatling", 1.f);
 			SetStatePattern2Off(ePattern2::WallKick);
 			SetStatePattern2On(ePattern2::WallKickAttack);
 			mAnimator->Play(L"Headhunter_WallKickAttack", false);
@@ -271,6 +282,7 @@ namespace dru
 		};
 		mAnimator->GetCompleteEvent(L"Headhunter_TakeoutDagger") = [this]
 		{
+			mAudioSource->Play(L"lockon", false);
 			SetStatePattern3Off(ePattern3::Takeout);
 			SetStatePattern3On(ePattern3::Dash);
 			mHeadhunter->SetAfterImageColor(RED);
@@ -701,6 +713,7 @@ namespace dru
 		{
 			SetStatePattern3On(ePattern3::Takeout);
 			mAnimator->Play(L"Headhunter_TakeoutDagger", false);
+			mAudioSource->Play(L"lockon", false);
 		}
 		if (GetStatePattern3(ePattern3::Dash))
 		{
@@ -913,6 +926,7 @@ namespace dru
 			CAnimator* ExplosionObjectAnimator = ExplosionObject->GetComponent<CAnimator>();
 			if (ExplosionObjectAnimator)
 			{
+				mAudioSource->Play(L"vanish", false);
 				ExplosionObject->RenderingBlockOff();
 				ExplosionObjectAnimator->Play(L"Explosion", false);
 			}
@@ -1000,6 +1014,7 @@ namespace dru
 
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
+						mAudioSource->Play(L"lasershot", false);
 						BeamOn(0.5f, 0.0500f);
 						BeamObjectAnimator->Play(L"BeamShoot", false);
 					};
@@ -1010,6 +1025,7 @@ namespace dru
 					};
 					BeamObjectAnimator->GetCompleteEvent(L"BeamReady3") = [this, BeamObjectAnimator, BeamObjectCollider]
 					{
+						mAudioSource->Play(L"lasershot_vertical", false);
 						BeamOn(0.125f, 0.0125f);
 						BeamObjectAnimator->Play(L"BeamShoot3", false);
 					};

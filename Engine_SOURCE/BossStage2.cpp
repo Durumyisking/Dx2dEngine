@@ -53,6 +53,7 @@ namespace dru
 	{
 		if (mHeadhunter->IsDeadState())
 		{
+			mPlayer->GetComponent<CAudioSource>()->SetVolume(L"song_boss_bgm", 0.f);
 			mPlayer->GetComponent<CAudioSource>()->Stop(L"song_boss_bgm");
 		}
 
@@ -94,7 +95,7 @@ namespace dru
 	void CBossStage2::Reset()
 	{
 		mPlayer->SetPos(mPlayerDefaultPos);
-		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
+		mPlayer->GetComponent<CAudioSource>()->Play_NoInterrupt(L"song_boss_bgm", true);
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 

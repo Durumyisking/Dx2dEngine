@@ -64,8 +64,8 @@ namespace dru
 		if (L"col_floor" == _oppo->GetName() || L"col_stair" == _oppo->GetName() || L"col_wall" == _oppo->GetName()
 			|| L"col_outWallside" == _oppo->GetName() || L"col_outWall" == _oppo->GetName())
 		{
-			std::wstring key = L"bullet_die";
-			mAudioSource->Play(key);
+			//std::wstring key = L"bullet_die";
+			//mAudioSource->Play(key);
 
 			Disable();
 		}

@@ -96,7 +96,7 @@ namespace dru
 	void CBossStage1::Reset()
 	{
 		mPlayer->SetPos(mPlayerDefaultPos);
-		mPlayer->GetComponent<CAudioSource>()->Play(L"song_boss_bgm", true);
+		mPlayer->GetComponent<CAudioSource>()->Play_NoInterrupt(L"song_boss_bgm", true);
 		CPlayerScript* playerScript = mPlayer->GetScript<CPlayerScript>();
 		playerScript->Reset();
 
