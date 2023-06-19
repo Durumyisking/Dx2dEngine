@@ -16,6 +16,25 @@ namespace dru
 		CResources::Insert<CMaterial>(L"headhunterMat", Material);
 		SpriteRenderer->SetMaterial(Material);
 
+		CAudioSource* audioSource = AddComponent<CAudioSource>(eComponentType::AudioSource);
+		audioSource->AddClipByKey(L"appear1");
+		audioSource->AddClipByKey(L"appear2");
+		audioSource->AddClipByKey(L"appear3");
+		audioSource->AddClipByKey(L"deadground");
+		audioSource->AddClipByKey(L"gatling");
+		audioSource->AddClipByKey(L"hurt1");
+		audioSource->AddClipByKey(L"hurt2");
+		audioSource->AddClipByKey(L"jump");
+		audioSource->AddClipByKey(L"lasershot");
+		audioSource->AddClipByKey(L"lasershot_swipe");
+		audioSource->AddClipByKey(L"lasershot_vertical");
+		audioSource->AddClipByKey(L"lockon");
+		audioSource->AddClipByKey(L"vanish");
+		audioSource->AddClipByKey(L"walljump1");
+		audioSource->AddClipByKey(L"walljump2");
+		audioSource->AddClipByKey(L"walljump3");
+
+
 		mAnimator = AddComponent<CAnimator>(eComponentType::Animator);
 		mAnimator->Create(L"Headhunter_Idle", Material->GetTexture(), { 960.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 12, { 100.f, 100.f },		0.1f);
 		mAnimator->Create(L"Headhunter_TumbleAir", Material->GetTexture(), { 1152.f, 128.f }, { 64.f, 64.f }, mAnimOffset, 2, { 100.f, 100.f }, 0.1f);	
@@ -79,8 +98,8 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
-		mMaxHp = 1;
-		mHp = 1;
+		mMaxHp = 3;
+		mHp = 3;
 		
 		CBoss::Initialize();
 	}

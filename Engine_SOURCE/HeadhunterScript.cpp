@@ -85,6 +85,9 @@ namespace dru
 		{
 			if (!GetStatePattern5(ePattern5::Dash) && !GetState(eBossState::Hide) && !GetState(eBossState::Dodge) && !GetState(eBossState::Hurt) && !GetState(eBossState::Dead))
 			{
+				std::wstring num = std::to_wstring(GetRandomNumber(1, 2));
+				mAudioSource->Play(L"hurt" + num, false);
+
 				Hit();
 				PatternEnd();
 				if (0 == mHeadhunter->GetHp())
@@ -312,11 +315,13 @@ namespace dru
 			{
 				if (GetStatePattern6(ePattern6::SweepL))
 				{
+					mAudioSource->Stop(L"lasershot_swipe");
 					SetStatePattern6Off(ePattern6::SweepL);
 					SetStatePattern6On(ePattern6::SweepDisappearL);
 				}
 				if (GetStatePattern6(ePattern6::SweepR))
 				{
+					mAudioSource->Stop(L"lasershot_swipe");
 					SetStatePattern6Off(ePattern6::SweepR);
 					SetStatePattern6On(ePattern6::SweepDisappearR);
 				}
@@ -625,6 +630,7 @@ namespace dru
 
 	void CHeadhunterScript::BackJump()
 	{
+		mAudioSource->Play(L"jump", false);
 		mAnimator->Play(L"Headhunter_BackJump", false);
 		SetStatePattern2On(ePattern2::BackJump);
 		mState[(UINT)eBossState::Dodge] = true;
@@ -735,6 +741,8 @@ namespace dru
 		{
 			if (6 > mPattern6_VerticalShootCount)
 			{
+				std::wstring num = std::to_wstring(GetRandomNumber(1, 3));
+				mAudioSource->Play(L"appear" + num, false);
 				mBeamElapsedTime = 0.f;
 				SwitchVerticalLaserLR();
 				SetStatePattern6On(ePattern6::VerticalLaserAppear);
@@ -769,6 +777,7 @@ namespace dru
 		}
 		if (GetStatePattern6(ePattern6::SweepL) || GetStatePattern6(ePattern6::SweepR))
 		{
+			mAudioSource->Play(L"lasershot_swipe");
 			mPattern5_SweepElapsedTime += CTimeMgr::DeltaTime();
 			BeamSwipeOffsetSetting();
 			BeamYScaling();
@@ -1035,20 +1044,24 @@ namespace dru
 				mBeam->RenderingBlockOff();
 				if (GetState(eBossState::Pattern1))
 				{
+					mAudioSource->Play(L"lockon", false);
 					BeamObjectAnimator->Play(L"BeamReady", false);
 				}
 				else if (GetState(eBossState::Pattern5))
 				{
+					mAudioSource->Play(L"lockon", false);
 					BeamObjectAnimator->Play(L"BeamReady2", false);
 				}
 				else if (GetState(eBossState::Pattern6))
 				{
 					if (GetStatePattern6(ePattern6::SweepStartL) || GetStatePattern6(ePattern6::SweepStartR))
 					{
+						mAudioSource->Play(L"lockon", false);
 						BeamObjectAnimator->Play(L"BeamReady2", false);
 					}
 					else
 					{
+						mAudioSource->Play(L"lockon", false);
 						BeamObjectAnimator->Play(L"BeamReady3", false);
 					}
 				}

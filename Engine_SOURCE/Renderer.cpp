@@ -1100,6 +1100,24 @@ namespace dru::renderer
 		CResources::Load<CAudioClip>(L"kissyface_voice_lunge", L"Sound/Kissyface/kissyface_voice_lunge.wav");
 		CResources::Load<CAudioClip>(L"kissyface_voice_prepare", L"Sound/Kissyface/kissyface_voice_prepare.wav");
 
+		// headhunter
+		CResources::Load<CAudioClip>(L"appear1", L"Sound/Headhunter/appear1.wav");
+		CResources::Load<CAudioClip>(L"appear2", L"Sound/Headhunter/appear2.wav");
+		CResources::Load<CAudioClip>(L"appear3", L"Sound/Headhunter/appear3.wav");
+		CResources::Load<CAudioClip>(L"deadground", L"Sound/Headhunter/deadground.wav");
+		CResources::Load<CAudioClip>(L"gatling", L"Sound/Headhunter/gatling.wav");
+		CResources::Load<CAudioClip>(L"hurt1", L"Sound/Headhunter/hurt1.wav");
+		CResources::Load<CAudioClip>(L"hurt2", L"Sound/Headhunter/hurt2.wav");
+		CResources::Load<CAudioClip>(L"jump", L"Sound/Headhunter/jump.wav");
+		CResources::Load<CAudioClip>(L"lasershot", L"Sound/Headhunter/lasershot.wav");
+		CResources::Load<CAudioClip>(L"lasershot_swipe", L"Sound/Headhunter/lasershot_swipe.wav");
+		CResources::Load<CAudioClip>(L"lasershot_vertical", L"Sound/Headhunter/lasershot_vertical.wav");
+		CResources::Load<CAudioClip>(L"lockon", L"Sound/Headhunter/lockon.wav");
+		CResources::Load<CAudioClip>(L"vanish", L"Sound/Headhunter/vanish.wav");
+		CResources::Load<CAudioClip>(L"walljump1", L"Sound/Headhunter/walljump1.wav");
+		CResources::Load<CAudioClip>(L"walljump2", L"Sound/Headhunter/walljump2.wav");
+		CResources::Load<CAudioClip>(L"walljump3", L"Sound/Headhunter/walljump3.wav");
+
 		// blood
 		CResources::Load<CAudioClip>(L"blood_splat1", L"Sound/Blood/blood_splat1.wav");
 		CResources::Load<CAudioClip>(L"blood_splat2", L"Sound/Blood/blood_splat2.wav");
