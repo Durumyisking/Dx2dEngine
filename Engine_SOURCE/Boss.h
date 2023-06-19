@@ -29,6 +29,7 @@ namespace dru
 		void Damaged() { mHp--; }
 		void ResetHp() { mHp = mMaxHp; }
 		UINT GetHp() const { return mHp; }
+		bool IsDeadState();
 
     };
 }

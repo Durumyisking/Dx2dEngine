@@ -5,8 +5,7 @@
 #include "Object.h"
 #include "Bullet.h"
 #include "ObjectPool.h"
-
-#include "Input.h"
+#include "Stage.h"
 
 namespace dru
 {
@@ -84,12 +83,24 @@ namespace dru
 	{
 		if (L"col_Player_Slash" == _oppo->GetName())
 		{
-			if (!GetStatePattern5(ePattern5::Dash) && !GetState(eBossState::Hide) && !GetState(eBossState::Dodge) && !GetState(eBossState::Hurt))
+			if (!GetStatePattern5(ePattern5::Dash) && !GetState(eBossState::Hide) && !GetState(eBossState::Dodge) && !GetState(eBossState::Hurt) && !GetState(eBossState::Dead))
 			{
 				Hit();
 				PatternEnd();
-				SetSingleState(eBossState::Hurt);		
-				mAnimator->Play(L"Headhunter_HurtAir", false);
+				if (0 == mHeadhunter->GetHp())
+				{
+					GetOwner()->GetCurrentStage()->MonsterDead();
+					CTimeMgr::BulletTime(3.f);
+					CTimeMgr::PlayerBulletTimeOn();
+					SetSingleState(eBossState::Dead);
+					mAnimator->Play(L"Headhunter_Dead", false);
+					mbDead = true;
+				}
+				else
+				{
+					SetSingleState(eBossState::Hurt);
+					mAnimator->Play(L"Headhunter_HurtAir", false);
+				}
 			}
 		}
 		if (L"col_floor" == _oppo->GetName())
@@ -154,7 +165,7 @@ namespace dru
 
 	void CHeadhunterScript::Reset()
 	{
-		
+		mbDead = false;
 		mRigidbody->SwitchOn();
 		mRigidbody->SetVelocity(Vector3::Zero);
 		GetOwner()->RenderingBlockOff();
@@ -375,7 +386,10 @@ namespace dru
 
 	void CHeadhunterScript::DodgeOperate()
 	{
-		DodgeStart();
+		if (!mbDead && !GetState(eBossState::Hurt))
+		{
+			DodgeStart();
+		}
 	}
 
 	void CHeadhunterScript::DodgeStart()

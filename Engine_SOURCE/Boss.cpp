@@ -46,4 +46,9 @@ namespace dru
 		GetScript<CBossScript>()->Reset();
 	}
 
+	bool CBoss::IsDeadState()
+	{
+		return GetScript<CBossScript>()->IsDead();
+	}
+
 }

@@ -51,6 +51,11 @@ namespace dru
 
 	void CBossStage2::Update()
 	{
+		if (mHeadhunter->IsDeadState())
+		{
+			mPlayer->GetComponent<CAudioSource>()->Stop(L"song_boss_bgm");
+		}
+
 		CStage::Update();
 	}
 

@@ -1479,7 +1479,7 @@ namespace dru
 
 	void CPlayerScript::hit(Vector3& _enemyPos, int _Type)
 	{
-		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
+		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false && mState[(UINT)ePlayerState::Dead] == false)
 		{
 			mAudioSource->Play(L"player_die");
 

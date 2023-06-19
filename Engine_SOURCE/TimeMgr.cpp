@@ -55,6 +55,7 @@ namespace dru
             {
                 if (mbBulletTimeTimer > mbBulletTimeTimerMax)
                 {
+                    mbPlayerBulletTime = false;
                     mbBulletTime = false;
                     mbBulletTimeTimerMax = 0.f;
                     mbBulletTimeTimer = 0.f;

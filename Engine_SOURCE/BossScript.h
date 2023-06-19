@@ -84,6 +84,7 @@ namespace dru
 
         void SetHitDir();
 
+        bool IsDead() { return mbDead; }
 
     protected:
         CAnimator* mAnimator;

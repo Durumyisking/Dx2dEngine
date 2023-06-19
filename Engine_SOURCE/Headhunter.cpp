@@ -59,6 +59,8 @@ namespace dru
 		mAnimator->Create(L"Headhunter_VerticalLaserDisappear", Material->GetTexture(), { 1728.f, 512.f }, { 64.f, 64.f }, mAnimOffset, 4, { 100.f, 100.f }, 0.1f);
 		mAnimator->Create(L"Headhunter_SweepRifleDisappear", Material->GetTexture(), { 320.f, 576.f }, { 64.f, 64.f }, mAnimOffset, 3, { 100.f, 100.f }, 0.1f);
 
+		mAnimator->Create(L"Headhunter_Dead", Material->GetTexture(), { 320.f, 256.f }, { 64.f, 64.f }, mAnimOffset, 10, { 100.f, 100.f }, 0.1f);
+
 		mAnimator->Play(L"Headhunter_Idle");
 
 		AddComponent<CHeadhunterScript>(eComponentType::Script)->Initialize();
@@ -77,8 +79,8 @@ namespace dru
 
 	void CHeadhunter::Initialize()
 	{
-		mMaxHp = 3;
-		mHp = 3;
+		mMaxHp = 1;
+		mHp = 1;
 		
 		CBoss::Initialize();
 	}
