@@ -105,6 +105,14 @@ namespace dru
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}
+		if (CInput::GetKeyTap(eKeyCode::ESC))
+		{
+			if (!mbPause)
+				mbPause = true;
+			else
+				mbPause = false;
+		}
+
 		CScene::update();
 	}
 

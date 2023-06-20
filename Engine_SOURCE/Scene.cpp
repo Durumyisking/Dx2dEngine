@@ -6,6 +6,7 @@ namespace dru
 	CScene::CScene()
 		: mDeleteObj(false)
 		, mType(CSceneMgr::eSceneType::End)
+		, mbPause(false)
 	{
 		mLayers.resize((UINT)eLayerType::End);
 	}
@@ -32,7 +33,6 @@ namespace dru
 		{
 			layer.fixedUpdate();
 		}
-
 	}
 
 	void CScene::render()

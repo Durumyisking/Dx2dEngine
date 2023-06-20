@@ -58,11 +58,14 @@ namespace dru
 		{
 			if (nullptr == comp)
 				continue;
+			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
+				continue;
+
 			comp->update();
 		}
 		for (CComponent* script : mScripts)
 		{
-			if (nullptr == script)
+			if (nullptr == script || CSceneMgr::mActiveScene->mbPause)
 				continue;
 			script->update();
 		}
@@ -74,12 +77,14 @@ namespace dru
 		{
 			if (nullptr == comp)
 				continue;
+			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
+				continue;
 			comp->fixedUpdate();
 		}
 
 		for (CComponent* script : mScripts)
 		{
-			if (nullptr == script)
+			if (nullptr == script || CSceneMgr::mActiveScene->mbPause)
 				continue;
 			script->fixedUpdate();
 		}
@@ -119,8 +124,11 @@ namespace dru
 
 	void CLiveGameObj::FrameCaptureOperate()
 	{
-		MakeFrameCaptureData();
-		PushFrameCapturedData();
+		if (!CSceneMgr::mActiveScene->mbPause)
+		{
+			MakeFrameCaptureData();
+			PushFrameCapturedData();
+		}
 	}
 
 	void CLiveGameObj::PushFrameCapturedData()
@@ -323,20 +331,24 @@ namespace dru
 	}
 	void CLiveGameObj::MakeAfterImage(bool _IsAnimation, float _AnimSize)
 	{
-		CAfterImage* afterImage = CObjectPool::PopAfterImage();
-		afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
-
-		SetAfterImage(afterImage);
-		afterImage->SetOwner(this);
-		afterImage->Initialize();
-		afterImage->GetComponent<CAfterImageRenderer>()->SetMultableColor(mAfterImageColor);
-
-		if (_IsAnimation)
+		if (!CSceneMgr::mActiveScene->mbPause)
 		{
-			afterImage->CreateAnimator(_AnimSize);
-		}
 
-		FlipAfterImage(afterImage);
+			CAfterImage* afterImage = CObjectPool::PopAfterImage();
+			afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
+
+			SetAfterImage(afterImage);
+			afterImage->SetOwner(this);
+			afterImage->Initialize();
+			afterImage->GetComponent<CAfterImageRenderer>()->SetMultableColor(mAfterImageColor);
+
+			if (_IsAnimation)
+			{
+				afterImage->CreateAnimator(_AnimSize);
+			}
+
+			FlipAfterImage(afterImage);
+		}
 	}
 	void CLiveGameObj::FlipAfterImage(CAfterImage* _AfterImage)
 	{

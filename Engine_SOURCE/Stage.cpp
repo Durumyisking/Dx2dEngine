@@ -64,49 +64,52 @@ namespace dru
 
 	void CStage::Update()
 	{
-		if (CInput::GetKeyTap(eKeyCode::X))
+		if (!CSceneMgr::mActiveScene->mbPause)
 		{
-			renderer::mainCamera->GetCamScript()->CamFollowOff();
-			renderer::mainCamera->GetCamScript()->FreeViewOn();
-		}
-		if (CInput::GetKeyTap(eKeyCode::C))
-		{
-			renderer::mainCamera->GetCamScript()->CamFollowOn();
-			renderer::mainCamera->GetCamScript()->FreeViewOff();
-		}
 
-		if (mStageState == eStageState::NotReady)
-		{
-			NotReadyOperate();
-		}
-
-		else if (mStageState == eStageState::Ready)
-		{
-			ReadyOperate();
-		}
-
-		else if (mStageState == eStageState::ReadyEnd)
-		{
-			ReadyEndOperate();
-		}
-
-		else if (mStageState == eStageState::LoadUI)
-		{
-			LoadUIOperate();
-		}
-
-		else if (mStageState == eStageState::LoadEnd)
-		{
-			LoadEndOperate();
-			if (mbClear)
+			if (CInput::GetKeyTap(eKeyCode::X))
 			{
-				ClearOperate();
-				return;
+				renderer::mainCamera->GetCamScript()->CamFollowOff();
+				renderer::mainCamera->GetCamScript()->FreeViewOn();
 			}
-			BulletTimeBatteryOperation();
-			BulletTimeBatteryParticleOperation();
-		}
+			if (CInput::GetKeyTap(eKeyCode::C))
+			{
+				renderer::mainCamera->GetCamScript()->CamFollowOn();
+				renderer::mainCamera->GetCamScript()->FreeViewOff();
+			}
 
+			if (mStageState == eStageState::NotReady)
+			{
+				NotReadyOperate();
+			}
+
+			else if (mStageState == eStageState::Ready)
+			{
+				ReadyOperate();
+			}
+
+			else if (mStageState == eStageState::ReadyEnd)
+			{
+				ReadyEndOperate();
+			}
+
+			else if (mStageState == eStageState::LoadUI)
+			{
+				LoadUIOperate();
+			}
+
+			else if (mStageState == eStageState::LoadEnd)
+			{
+				LoadEndOperate();
+				if (mbClear)
+				{
+					ClearOperate();
+					return;
+				}
+				BulletTimeBatteryOperation();
+				BulletTimeBatteryParticleOperation();
+			}
+		}
 	}
 
 	void CStage::Exit()

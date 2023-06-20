@@ -65,12 +65,15 @@ namespace dru
 		for (CComponent* comp : mComponents)
 		{
 			if (nullptr == comp)
-				continue;			
+				continue;		
+			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
+				continue;
+
 			comp->update();
 		}
 		for (CComponent* script : mScripts)
 		{
-			if (nullptr == script)
+			if (nullptr == script || CSceneMgr::mActiveScene->mbPause )
 				continue;
 			script->update();
 		}
@@ -82,12 +85,14 @@ namespace dru
 		{
 			if (nullptr == comp)
 				continue;
+			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
+				continue;
 			comp->fixedUpdate();
 		}
 
 		for (CComponent* script : mScripts)
 		{
-			if (nullptr == script)
+			if (nullptr == script || CSceneMgr::mActiveScene->mbPause)
 				continue;
 			script->fixedUpdate();
 		}

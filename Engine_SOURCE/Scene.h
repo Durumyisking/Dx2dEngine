@@ -54,6 +54,9 @@ namespace dru
 
 		bool mDeleteObj;
 
+	public:
+		bool mbPause;
+
 	};
 
 }

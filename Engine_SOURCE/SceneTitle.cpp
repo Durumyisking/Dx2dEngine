@@ -57,7 +57,6 @@ namespace dru
 	{
 		if (!mCamMoveDone && mCamera->GetComponent<CCamera>()->GetTarget() == nullptr)
 		{
-			mbgO->GetComponent<CAudioSource>()->Play(L"SE_title_neon");
 			mCamMoveDone = true;
 		}
 	
@@ -318,7 +317,9 @@ namespace dru
 				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
 //				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
-				CFontWrapper::DrawFont(L"abcssssssd", 100.f, 100.f, 20.f, FONT_RGBA(255, 0, 255, 127));
+				CFontWrapper::DrawFont(L"abcssssssd", 100.f, 200.f, 10.f, FONT_RGBA(255, 0, 255, 127));
+				CFontWrapper::DrawFont(L"abcssssssd", 200.f, 300.f, 20.f, FONT_RGBA(255, 0, 255, 127));
+				CFontWrapper::DrawFont(L"abcssssssd", 300.f, 400.f, 30.f, FONT_RGBA(255, 0, 255, 127));
 
 				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
 				//CResources::Insert<CMaterial>(L"TitleButtonMat", Material);

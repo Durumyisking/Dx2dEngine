@@ -38,9 +38,9 @@ namespace dru
 		CTimeMgr::Initialize();
 		CInput::Initialize();
 		CFmod::Initialize();
-		CFontWrapper::Initialize();
 		CCollisionMgr::Initialize();
 		renderer::Initialize();
+		CFontWrapper::Initialize();
 		CSceneMgr::Initialize();
 
 	}
