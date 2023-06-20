@@ -5,6 +5,8 @@
 
 namespace dru
 {
+	UINT CAfterImage::midx;
+
 	CAfterImage::CAfterImage()
 		: mFrameCaptures{}
 		, mMaterial(nullptr)
@@ -23,7 +25,7 @@ namespace dru
 		// 인덱스마다 머티리얼 다르게해야함
 		std::wstring OwnerName = mOwner->GetName();
 		std::wstring matName = L"MatAfterImage_";
-		std::wstring idx = std::to_wstring(mIndex);
+		std::wstring idx = std::to_wstring(midx);
 		matName += idx;
 		OwnerName += matName;
 		mMaterial = CResources::Find<CMaterial>(OwnerName);
@@ -31,6 +33,8 @@ namespace dru
 		Renderer->SetMaterial(mMaterial);
 
 		Renderer->SetAfterImageOwner(this);
+
+		++midx;
 
 		CGameObj::Initialize();
 	}

@@ -5,7 +5,7 @@
 #include "GameObj.h"
 #include "Stage.h"
 #include "HorizonGauge.h"
-
+#include "SceneMain.h"
 
 namespace dru
 {
@@ -87,6 +87,8 @@ namespace dru
 		AddComponent<CPlayerScript>(eComponentType::Script);
 	
 		AddBlockGauge();
+
+		dynamic_cast<CSceneMain*>(CSceneMgr::mScenes[(UINT)CSceneMgr::eSceneType::Main])->SetPlayer(this);
 	}
 
 	CPlayer::~CPlayer()

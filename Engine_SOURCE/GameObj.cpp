@@ -67,7 +67,12 @@ namespace dru
 			if (nullptr == comp)
 				continue;		
 			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
-				continue;
+			{
+				if (eLayerType::UI != mType)
+				{
+					continue;
+				}
+			}
 
 			comp->update();
 		}
@@ -86,7 +91,12 @@ namespace dru
 			if (nullptr == comp)
 				continue;
 			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
-				continue;
+			{
+				if (eLayerType::UI != mType)
+				{
+					continue;
+				}
+			}
 			comp->fixedUpdate();
 		}
 
@@ -187,6 +197,9 @@ namespace dru
 					_Value.z = 0.1f;
 					break;
 				case dru::enums::eLayerType::PostProcess:
+					break;
+				case dru::enums::eLayerType::MainMenu:
+					_Value.z = 0.05f;
 					break;
 				case dru::enums::eLayerType::End:
 					break;

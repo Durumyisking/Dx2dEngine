@@ -43,7 +43,12 @@ namespace dru
 		, mScreenMask(nullptr)
 		, mStages{}
 		, mCurrentStage(4)
+		, mPauseMenuNumber(0)
+		, mPauseMenuDepth(0)
+		, mPauseMenuPlayerAfterimageColor(0)
 		, mPlayer(nullptr)
+		, mPauseMenuBg(nullptr)
+		, mPauseMenuSelector(nullptr)
 	{
 	}
 	CSceneMain::~CSceneMain()
@@ -108,10 +113,22 @@ namespace dru
 		if (CInput::GetKeyTap(eKeyCode::ESC))
 		{
 			if (!mbPause)
+			{
+				mPauseMenuSelector->SetPos(Vector3(0.f, 3.15f, 0.1f));
+				mPauseMenuNumber = 0;
+				mPauseMenuDepth = 0;
+				mPauseMenuBg->RenderingBlockOff();
+				mPauseMenuSelector->RenderingBlockOff();
 				mbPause = true;
+			}
 			else
+			{
+				mPauseMenuBg->RenderingBlockOn();
+				mPauseMenuSelector->RenderingBlockOn();
 				mbPause = false;
+			}
 		}
+		PauseMenuOperate();
 
 		CScene::update();
 	}
@@ -123,6 +140,26 @@ namespace dru
 
 	void CSceneMain::render()
 	{
+		if (mbPause)
+		{
+			switch (mPauseMenuDepth)
+			{
+			case 0:
+				CFontWrapper::DrawFont(L"Continue", 50.f, 115.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				CFontWrapper::DrawFont(L"Change AfterImeage Color", 50.f, 165.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				CFontWrapper::DrawFont(L"Exit Game", 50.f, 215.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				break;
+			case 1:
+				CFontWrapper::DrawFont(L"Default", 50.f, 115.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				CFontWrapper::DrawFont(L"Red", 50.f, 165.f, 30.f, FONT_RGBA(255, 0, 0, 255));
+				CFontWrapper::DrawFont(L"Green", 50.f, 215.f, 30.f, FONT_RGBA(0, 255, 0, 255));
+				CFontWrapper::DrawFont(L"Blue", 50.f, 265.f, 30.f, FONT_RGBA(0, 0, 255, 255));
+				CFontWrapper::DrawFont(L"Gold", 50.f, 315.f, 30.f, FONT_RGBA(191, 140, 38, 255));
+				break;
+			default:
+				break;
+			}
+		}
 		CScene::render();
 	}
 
@@ -202,12 +239,147 @@ namespace dru
 			mScreenMask->AddComponent<CMaskScript>(eComponentType::Script)->SetTarget(mMaskTarget->GetComponent<CTransform>());
 		}
 
+		{
+			mPauseMenuBg = object::Instantiate<CBackground>(eLayerType::UI, L"PauseMenuBg");
+
+			CSpriteRenderer* SpriteRenderer = mPauseMenuBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"UIShader");
+			CResources::Insert<CMaterial>(L"PauseMenuBgMat", Material);
+
+			SpriteRenderer->SetMaterial(Material);
+			SpriteRenderer->ChangeColor(LIGHT_BLUE);
+
+			mPauseMenuBg->SetPos(Vector3(0.f, 0.f, 0.1f));
+			mPauseMenuBg->SetScale(Vector3(10.f, 10.f, 1.f));
+
+			mPauseMenuBg->RenderingBlockOn();
+		}
+		{
+			mPauseMenuSelector = object::Instantiate<CBackground>(eLayerType::UI, L"PauseMenuSelector");
+
+			CSpriteRenderer* SpriteRenderer = mPauseMenuSelector->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"UIShader");
+			CResources::Insert<CMaterial>(L"PauseMenuSelectorMat", Material);
+
+			SpriteRenderer->SetMaterial(Material);
+			SpriteRenderer->ChangeColor(LIGHT_MAGENTA);
+
+			mPauseMenuSelector->SetPos(Vector3(0.f, 3.15f, 0.1f));
+			mPauseMenuSelector->SetScale(Vector3(10.f, 0.05f, 1.f));
+
+			mPauseMenuSelector->RenderingBlockOn();
+
+		}
+
 		CScene::Enter();
 	}
 
 	void CSceneMain::Exit()
 	{
 		CScene::Exit();
+	}
+
+	void CSceneMain::PauseMenuOperate()
+	{
+		if (mbPause)
+		{
+			if (CInput::GetKeyTap(eKeyCode::ENTER))
+			{
+				if (0 == mPauseMenuDepth)
+				{
+					switch (mPauseMenuNumber)
+					{
+					case 0:
+						mPauseMenuBg->RenderingBlockOn();
+						mPauseMenuSelector->RenderingBlockOn();
+						mbPause = false;
+						break;
+					case 1:
+						mPauseMenuDepth = 1;
+						mPauseMenuNumber = mPauseMenuPlayerAfterimageColor;
+						mPauseMenuSelector->SetPos(Vector3(0.f, 3.15f - 0.5f * mPauseMenuPlayerAfterimageColor, 0.1f));
+
+						break;
+					default:
+						break;
+					}
+				}
+				else if (1 == mPauseMenuDepth)
+				{
+					switch (mPauseMenuNumber)
+					{
+					case 0:
+						mPauseMenuPlayerAfterimageColor = 0;
+						mPlayer->SetAfterImageColor(Vector4::Zero);
+						break;
+					case 1:
+						mPauseMenuPlayerAfterimageColor = 1;
+						mPlayer->SetAfterImageColor(RED);
+						break;
+					case 2:
+						mPauseMenuPlayerAfterimageColor = 2;
+						mPlayer->SetAfterImageColor(GREEN);
+						break;
+					case 3:
+						mPauseMenuPlayerAfterimageColor = 3;
+						mPlayer->SetAfterImageColor(BLUE);
+						break;
+					case 4:
+						mPauseMenuPlayerAfterimageColor = 4;
+						mPlayer->SetAfterImageColor(GOLD);
+						break;
+					default:
+						break;
+					}
+
+					mPauseMenuDepth = 0;
+					mPauseMenuNumber = 1;
+					mPauseMenuSelector->SetPos(Vector3(0.f, 2.65f, 0.1f));
+				}
+			}
+			switch (mPauseMenuDepth)
+			{
+			case 0:
+				if (CInput::GetKeyTap(eKeyCode::UP))
+				{
+					if (0 != mPauseMenuNumber)
+					{
+						mPauseMenuSelector->GetComponent<CTransform>()->AddPositionY(0.5f);
+						--mPauseMenuNumber;
+					}
+				}
+				if (CInput::GetKeyTap(eKeyCode::DOWN))
+				{
+					if (2 != mPauseMenuNumber)
+					{
+						mPauseMenuSelector->GetComponent<CTransform>()->AddPositionY(-0.5f);
+						++mPauseMenuNumber;
+					}
+				}
+				break;
+			case 1:
+				if (CInput::GetKeyTap(eKeyCode::UP))
+				{
+					if (0 != mPauseMenuNumber)
+					{
+						mPauseMenuSelector->GetComponent<CTransform>()->AddPositionY(0.5f);
+						--mPauseMenuNumber;
+					}
+				}
+				if (CInput::GetKeyTap(eKeyCode::DOWN))
+				{
+					if (4 != mPauseMenuNumber)
+					{
+						mPauseMenuSelector->GetComponent<CTransform>()->AddPositionY(-0.5f);
+						++mPauseMenuNumber;
+					}
+				}
+				break;
+			default:
+				break;
+			}
+
+		}
 	}
 
 }

@@ -59,8 +59,12 @@ namespace dru
 			if (nullptr == comp)
 				continue;
 			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
-				continue;
-
+			{
+				if (eLayerType::MainMenu != mType)
+				{
+					continue;
+				}
+			}
 			comp->update();
 		}
 		for (CComponent* script : mScripts)
@@ -78,7 +82,12 @@ namespace dru
 			if (nullptr == comp)
 				continue;
 			if (CSceneMgr::mActiveScene->mbPause && (eComponentType::Renderer != comp->GetOrder() && eComponentType::Camera != comp->GetOrder() && eComponentType::Light != comp->GetOrder()))
-				continue;
+			{
+				if (eLayerType::MainMenu != mType)
+				{
+					continue;
+				}
+			}
 			comp->fixedUpdate();
 		}
 

@@ -31,8 +31,6 @@ namespace dru
 		static bool lineRect(CCollider2D* _left, CCollider2D* _right);
 
 	private:
-
-
 		static std::bitset<static_cast<UINT>(eLayerType::End)> mLayerCollisionMatrix[static_cast<UINT>(eLayerType::End)];
 		static std::map<UINT64, bool> mCollisionMap;
 

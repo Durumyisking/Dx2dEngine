@@ -22,7 +22,8 @@ namespace dru::enums
 		FX,
 		UI,
 		PostProcess,
-		End = 17,
+		MainMenu,
+		End = 18,
 	};
 
 

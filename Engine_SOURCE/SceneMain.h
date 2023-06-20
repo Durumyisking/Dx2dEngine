@@ -19,6 +19,8 @@ namespace dru
 		virtual void Enter();
 		virtual void Exit();
 
+		void PauseMenuOperate();
+
 		CStage* GetCurrentStage() { return mStages[mCurrentStage]; }
 		
 		UINT GetCurrentStageNumber() { return mCurrentStage; }
@@ -35,6 +37,12 @@ namespace dru
 
 		CGameObj* mUICursor;
 
+		CGameObj* mPauseMenuBg;
+		CGameObj* mPauseMenuSelector;
+		UINT mPauseMenuNumber;
+		UINT mPauseMenuDepth;
+		UINT mPauseMenuPlayerAfterimageColor;
+
 		CGameObj* mMaskTarget;
 		
 		CBackground* mScreenMask;
@@ -44,6 +52,7 @@ namespace dru
 
 		std::vector<CStage*> mStages;
 		UINT mCurrentStage;
+
 	};
 
 }

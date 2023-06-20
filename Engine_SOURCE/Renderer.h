@@ -16,6 +16,7 @@ using namespace dru::graphics;
 #define RED		Vector4{1.f, 0.f, 0.f, 1.f}
 #define GREEN	Vector4{0.f, 1.f, 0.f, 1.f}
 #define BLUE	Vector4{0.f, 0.f, 1.f, 1.f}
+#define GOLD	Vector4{0.75f, 0.55f, 0.15f, 1.f}
 #define MAGENTA Vector4{1.f, 0.f, 1.f, 1.f}
 #define PEARL	Vector4{0.f, 1.f, 1.f, 1.f}
 #define ORANGE	Vector4{0.9f, 0.72f, 0.31f, 1.f}

@@ -23,6 +23,9 @@ namespace dru
 		CLiveGameObj* mOwner;
 		UINT mIndex;
 
+		static UINT midx;
+
+
 	public:
 		UINT GetIndex() { return mIndex; }
 		void SetIndex(UINT _Idx) { mIndex = _Idx; }
