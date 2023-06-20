@@ -48,6 +48,7 @@ namespace dru
 
 		int mMenu;
 
+		float mFontAlpha;
 	};
 
 }

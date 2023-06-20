@@ -37,10 +37,8 @@ namespace dru
 
 	void CScene::render()
 	{
-		for (CLayer& layer : mLayers)
-		{
-			layer.render();
-		}
+
+
 	}
 
 	void CScene::destroy()

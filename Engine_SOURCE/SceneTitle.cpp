@@ -38,6 +38,7 @@ namespace dru
 		, mbgO(nullptr)
 		, mbgGrass2(nullptr)
 		, mMenu(1)
+		, mFontAlpha(0.f)
 	{
 	}
 
@@ -171,7 +172,18 @@ namespace dru
 
 	void CSceneTitle::render()
 	{
-		CScene::render();
+		if (mUIMoveDone)
+		{
+			if (255.f >= mFontAlpha)
+			{
+				mFontAlpha += CTimeMgr::DeltaTime() * 255.f;
+			}
+			if(!mCamMoveStart)
+			{
+				CFontWrapper::DrawFont(L"Game Start", 730.f, 535.f, 30.f, FONT_RGBA(255, 255, 255, mFontAlpha));
+				CFontWrapper::DrawFont(L"ExitGame", 736.f, 765.f, 30.f, FONT_RGBA(255, 255, 255, mFontAlpha));
+			}
+		}
 	}
 
 	void CSceneTitle::Enter()
@@ -316,10 +328,6 @@ namespace dru
 				// 선택메뉴
 				mUIMenu = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, mUIBg, L"UITitleSelect");
 //				CSpriteRenderer* SpriteRenderer = mUIMenu->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
-
-				CFontWrapper::DrawFont(L"abcssssssd", 100.f, 200.f, 10.f, FONT_RGBA(255, 0, 255, 127));
-				CFontWrapper::DrawFont(L"abcssssssd", 200.f, 300.f, 20.f, FONT_RGBA(255, 0, 255, 127));
-				CFontWrapper::DrawFont(L"abcssssssd", 300.f, 400.f, 30.f, FONT_RGBA(255, 0, 255, 127));
 
 				//std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"TitleButton", L"SpriteShader");
 				//CResources::Insert<CMaterial>(L"TitleButtonMat", Material);

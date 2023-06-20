@@ -612,6 +612,9 @@
     <ClInclude Include="BossBeamScript.h">
       <Filter>Common\GameObj\Monster\Beam</Filter>
     </ClInclude>
+    <ClInclude Include="SceneEnding.h">
+      <Filter>Common\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -972,6 +975,9 @@
     </ClCompile>
     <ClCompile Include="BossBeamScript.cpp">
       <Filter>Common\GameObj\Monster\Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEnding.cpp">
+      <Filter>Common\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

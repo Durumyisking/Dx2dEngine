@@ -60,13 +60,12 @@ namespace dru
 	{
 		CTimeMgr::Render(mHdc);
 		CInput::Render(mHdc);
-		CCollisionMgr::render();
+//		CCollisionMgr::render();
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-		//CSceneMgr::render();
 		renderer::Render();
-
+		CSceneMgr::render();
 	}
 
 	void CApplication::destroy()
@@ -87,9 +86,6 @@ namespace dru
 	{
 		graphicDevice->Present();
 	}
-
-
-
 
 	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
 	{
