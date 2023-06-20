@@ -1,6 +1,7 @@
 #include "LiveGameObj.h"
 #include "SceneMain.h"
 #include "AfterImageRenderer.h"
+#include "ObjectPool.h"
 
 namespace dru
 {
@@ -322,7 +323,7 @@ namespace dru
 	}
 	void CLiveGameObj::MakeAfterImage(bool _IsAnimation, float _AnimSize)
 	{
-		CAfterImage* afterImage = object::Instantiate<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
+		CAfterImage* afterImage = CObjectPool::PopAfterImage();
 		afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
 
 		SetAfterImage(afterImage);

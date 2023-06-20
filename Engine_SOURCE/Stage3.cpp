@@ -50,7 +50,7 @@ namespace dru
         mPomp2DefaultPos = Vector3(6.3f, -8.5f, 3.f);
         mGrunt1DefaultPos = Vector3(1.5f, -4.f, 3.f);
         mGrunt2DefaultPos = Vector3(1.5f, -14.f, 3.f);
-        mCop1DefaultPos = Vector3(-4.f, -8.25f, 3.f);
+        mCop1DefaultPos = Vector3(-4.f, -8.f, 3.f);
         mCop2DefaultPos = Vector3(6.5f, -14.f, 3.f);
 
         mEnemyCount = 6;
