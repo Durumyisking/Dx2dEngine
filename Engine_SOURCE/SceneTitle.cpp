@@ -141,26 +141,6 @@ namespace dru
 			mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}
-		if (CInput::GetKeyTap(eKeyCode::N_1))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
-			dynamic_cast<CSceneMain*>(CSceneMgr::mScenes[(UINT)CSceneMgr::eSceneType::Main])->SetStage(0);
-		}
-		if (CInput::GetKeyTap(eKeyCode::N_2))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
-			dynamic_cast<CSceneMain*>(CSceneMgr::mScenes[(UINT)CSceneMgr::eSceneType::Main])->SetStage(1);
-		}
-		if (CInput::GetKeyTap(eKeyCode::N_3))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
-		}
-
-
-		if (CInput::GetKeyTap(eKeyCode::M))
-		{
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Mission);
-		}
 
 		CScene::update();
 	}

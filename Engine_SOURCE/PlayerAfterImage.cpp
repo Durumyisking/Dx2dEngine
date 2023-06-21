@@ -36,6 +36,11 @@ namespace dru
 
 		++midx;
 
+		if (1000000 < midx)
+		{
+			midx = 0;
+		}
+
 		CGameObj::Initialize();
 	}
 

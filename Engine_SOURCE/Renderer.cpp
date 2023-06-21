@@ -672,6 +672,9 @@ namespace dru::renderer
 		CResources::Load<CTexture>(L"job_right", L"MissionScene/job_right.png");
 		CResources::Load<CTexture>(L"job_profile", L"MissionScene/job_profile.png");
 
+		// ending
+		CResources::Load<CTexture>(L"endingBg", L"EndingScene/endingBg.png");
+		CResources::Load<CTexture>(L"endingSmoke", L"Ending/smoke.png");
 
 		// noise
 		CResources::Load<CTexture>(L"noise1", L"noise/noise_01.png");
@@ -978,7 +981,7 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
 		}
 
-		for (int i = 0; i <= 10000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
 			std::wstring matName = L"PlayerMatAfterImage_";
@@ -986,7 +989,7 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 10000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"AfterImageShader");
 			std::wstring matName = L"kissyfaceMatAfterImage_";
@@ -994,7 +997,7 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 10000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"AfterImageShader");
 			std::wstring matName = L"AxeMatAfterImage_";
@@ -1002,7 +1005,7 @@ namespace dru::renderer
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 10000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"headhunter", L"AfterImageShader");
 			std::wstring matName = L"HeadhunterMatAfterImage_";
@@ -1011,6 +1014,14 @@ namespace dru::renderer
 			CResources::Insert<CMaterial>(matName, Material);
 		}
 
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingBg", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"endingBgMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingSmoke", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"endingSmoke2Mat", Material);
+		}
 	}
 
 	void LoadAudio()

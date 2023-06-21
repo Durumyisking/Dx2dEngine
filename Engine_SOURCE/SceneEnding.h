@@ -14,12 +14,14 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
-		virtual void destroy();
 
 		virtual void Enter();
 		virtual void Exit();
 
-
+	private:
+		CGameObj* mCamera;
+		CBackground* mBg;
+		CGameObj*	 mSmoke;
 
     };
 }

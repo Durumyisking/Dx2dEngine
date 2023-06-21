@@ -47,8 +47,6 @@ namespace dru
 			transform->SetScale(scale);
 
 			mbIsChanged = false;
-
-
 		}
 	}
 
