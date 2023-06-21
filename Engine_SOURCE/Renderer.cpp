@@ -674,7 +674,7 @@ namespace dru::renderer
 
 		// ending
 		CResources::Load<CTexture>(L"endingBg", L"EndingScene/endingBg.png");
-		CResources::Load<CTexture>(L"endingSmoke", L"Ending/smoke.png");
+		CResources::Load<CTexture>(L"endingSmoke", L"EndingScene/smoke.png");
 
 		// noise
 		CResources::Load<CTexture>(L"noise1", L"noise/noise_01.png");

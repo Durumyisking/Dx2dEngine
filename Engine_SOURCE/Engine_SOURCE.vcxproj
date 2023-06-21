@@ -144,7 +144,10 @@
     <PreBuildEvent>
       <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
 copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)fmod.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -131,6 +131,7 @@ namespace dru
 		PauseMenuOperate();
 
 		CScene::update();
+
 	}
 
 	void CSceneMain::fixedUpdate()

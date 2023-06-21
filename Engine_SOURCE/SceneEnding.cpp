@@ -1,8 +1,13 @@
 #include "SceneEnding.h"
 #include "Object.h"
+#include "Input.h"
+
+
+extern dru::CApplication application;
 
 namespace dru
 {
+
 	CSceneEnding::CSceneEnding()
 		: mBg(nullptr)
 		, mCamera(nullptr)
@@ -22,6 +27,12 @@ namespace dru
 	void CSceneEnding::update()
 	{
 		CScene::update();
+
+		if (CInput::GetKeyTap(eKeyCode::ENTER))
+		{
+			PostQuitMessage(0);
+		}
+
 	}
 
 	void CSceneEnding::fixedUpdate()
@@ -70,18 +81,18 @@ namespace dru
 		}
 
 		{
-			mSmoke = object::Instantiate<CBackground>(eLayerType::UI, L"smoke");
+			mSmoke = object::Instantiate<CBackground>(eLayerType::None, L"smoke");
 			CSpriteRenderer* Renderer = mSmoke->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"endingSmokeMat");
 			Renderer->SetMaterial(Material);
 
 			CAnimator* animator = mSmoke->AddComponent<CAnimator>(eComponentType::Animator);
-			animator->Create(L"smoke", Material->GetTexture(), { 0.f, 0.f }, { 507.f, 232.f }, Vector2::Zero, 6, { 1000.f, 1000.f }, 0.1f);
+			animator->Create(L"smoke", Material->GetTexture(), { 0.f, 0.f }, { 507.f, 116.f }, Vector2::Zero, 6, { 507.f, 116.f }, 0.1f);
 			animator->Play(L"smoke");
 
-			mSmoke->SetPos(Vector3(0.f, 0.f, 2.f));
-			mSmoke->SetScale(Vector3(3.f, 3.f, 1.f));
+			mSmoke->SetPos(Vector3(0.f, 0.25f, 2.f));
+			mSmoke->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
 
 		CScene::Enter();

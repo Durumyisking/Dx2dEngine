@@ -25,6 +25,7 @@
 [Dd]ebugPublic/
 [Rr]eleases/
 x86/
+x64/
 build/
 bld/
 [Oo]bj/
