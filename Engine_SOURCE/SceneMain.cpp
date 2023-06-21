@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(5)
+		, mCurrentStage(0)
 		, mPauseMenuNumber(0)
 		, mPauseMenuDepth(0)
 		, mPauseMenuPlayerAfterimageColor(0)
