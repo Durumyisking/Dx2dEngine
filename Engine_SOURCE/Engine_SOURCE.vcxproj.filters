@@ -388,9 +388,6 @@
     <ClInclude Include="RigidBody.h">
       <Filter>Common\Component\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="SceneMission.h">
-      <Filter>Common\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="MaskScript.h">
       <Filter>Common\GameObj\Scripts%28ETC%29</Filter>
     </ClInclude>
@@ -751,9 +748,6 @@
     </ClCompile>
     <ClCompile Include="RigidBody.cpp">
       <Filter>Common\Component\RigidBody</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneMission.cpp">
-      <Filter>Common\Scene</Filter>
     </ClCompile>
     <ClCompile Include="MaskScript.cpp">
       <Filter>Common\GameObj\Scripts%28ETC%29</Filter>

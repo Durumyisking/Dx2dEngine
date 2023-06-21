@@ -718,6 +718,7 @@ namespace dru
 		{
 			mRewindObjects[i]->RenderingBlockOn();
 			mRewindObjects[i]->SetRewindOn();
+			mRewindObjects[i]->RemoveAfterImage();
 
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())
 			{
@@ -829,6 +830,8 @@ namespace dru
 		mPlayer->RemoveAfterImage();
 		for (size_t i = 0; i < mRewindObjects.size(); i++)
 		{
+			mRewindObjects[i]->RemoveAfterImage();
+
 			mRewindObjects[i]->SetReplayOn();
 			mRewindObjects[i]->RenderingBlockOn();
 			if (eLayerType::Monster == mRewindObjects[i]->GetLayerType())

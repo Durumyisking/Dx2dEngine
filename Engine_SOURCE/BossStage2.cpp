@@ -63,7 +63,9 @@ namespace dru
 	void CBossStage2::Exit()
 	{
 		mPlayer->GetComponent<CAudioSource>()->Stop(L"song_boss_bgm");
-		CStage::Exit();
+		CamReset();
+		mStageState = eStageState::NotReady;
+		CSceneMgr::LoadScene(CSceneMgr::eSceneType::Ending);
 	}
 
 	void CBossStage2::NotReadyOperate()

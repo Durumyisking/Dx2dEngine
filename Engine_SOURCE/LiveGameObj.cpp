@@ -340,7 +340,7 @@ namespace dru
 	}
 	void CLiveGameObj::MakeAfterImage(bool _IsAnimation, float _AnimSize)
 	{
-		if (!CSceneMgr::mActiveScene->mbPause)
+		if (!CSceneMgr::mActiveScene->mbPause || !IsRewindRePlaying())
 		{
 
 			CAfterImage* afterImage = CObjectPool::PopAfterImage();

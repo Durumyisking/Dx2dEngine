@@ -1020,7 +1020,7 @@ namespace dru::renderer
 		}
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingSmoke", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"endingSmoke2Mat", Material);
+			CResources::Insert<CMaterial>(L"endingSmokeMat", Material);
 		}
 	}
 

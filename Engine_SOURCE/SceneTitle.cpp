@@ -142,6 +142,12 @@ namespace dru
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
 		}
 
+		if (CInput::GetKeyTap(eKeyCode::M))
+		{
+			mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Ending);
+		}
+
 		CScene::update();
 	}
 
