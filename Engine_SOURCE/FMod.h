@@ -12,8 +12,8 @@
 #pragma comment(lib, "../External/Fmod/lib/Debug/fmodL_vc.lib")
 #pragma comment(lib, "../External/Fmod/lib/Debug/fmodstudioL_vc.lib")
 #else
-#pragma comment(lib, "../External/Fmod/lib/ibrary/Release/fmod_vc.lib")
-#pragma comment(lib, "../External/Fmod/lib/ibrary/Release/fmodstudio_vc.lib")
+#pragma comment(lib, "../External/Fmod/lib/Release/fmod_vc.lib")
+#pragma comment(lib, "../External/Fmod/lib/Release/fmodstudio_vc.lib")
 #endif
 
 

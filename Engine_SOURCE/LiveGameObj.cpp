@@ -343,6 +343,16 @@ namespace dru
 	{
 		if (!CSceneMgr::mActiveScene->mbPause || !IsRewindRePlaying())
 		{
+			if (_IsAnimation)
+			{
+				CAnimator* anim = GetComponent<CAnimator>();
+				if (anim)
+				{
+					if (anim->IsPause())
+						return;
+				}
+			}
+
 			++mAfterImageIndex;
 			CAfterImage* afterImage = CObjectPool::PopAfterImage();
 			afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());

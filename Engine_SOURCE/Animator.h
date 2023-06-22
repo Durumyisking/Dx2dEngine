@@ -50,6 +50,7 @@ namespace dru
 		void Play(std::wstring _name, bool _bLoop = true);
 		void PauseOn() { mbPause = true; }
 		void PauseOff() { mbPause = false; }
+		bool IsPause() const { return mbPause; }
 
 		void Binds();
 		void BindSprite(renderer::AnimationCB _Sprite);
