@@ -42,7 +42,7 @@ namespace dru
 		, mPlayerDefaultPos{}
 		, mDefaultTimerBarPos{}
 		, mDefaultTimerBarScale{}
-		, mTimer(100.f)
+		, mTimer(150.f)
 		, mElapsedTime(0.f)
 		, mbRewinding(false)
 		, mbReplaying(false)

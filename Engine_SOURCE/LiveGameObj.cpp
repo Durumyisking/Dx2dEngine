@@ -17,6 +17,7 @@ namespace dru
 		, mRewindTime(2.f)
 		, mAfterImages{}
 		, mAfterImageCount(0)
+		, mAfterImageIndex(0)
 		, mAfterImageColor(Vector4::Zero)
 	{
 		mObjectType = eObjectType::Live;
@@ -342,7 +343,7 @@ namespace dru
 	{
 		if (!CSceneMgr::mActiveScene->mbPause || !IsRewindRePlaying())
 		{
-
+			++mAfterImageIndex;
 			CAfterImage* afterImage = CObjectPool::PopAfterImage();
 			afterImage->SetScale(GetComponent<CTransform>()->GetWorldScale());
 

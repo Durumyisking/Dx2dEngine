@@ -83,12 +83,13 @@ namespace dru
 		renderer::AnimationCB GetCurrentAnimData() const { return mCurrentAnimData; }
 
 		void RemoveAfterImage();
+		UINT GetAfterImageIndex() const { return mAfterImageIndex; }
+		void SetAfterImageIndex(UINT _IdxCount) { mAfterImageIndex = _IdxCount; }
 
 	protected:
 		void MakeAfterImage(bool _IsAnimation, float _AnimSize = 0.f);
 		void FlipAfterImage(CAfterImage* _AfterImage);
 		void SetAfterImage(CAfterImage* _AfterImage);
-
 
 	protected:
 		std::deque<FrameCapturedData> mFrameCaptureData;
@@ -108,6 +109,8 @@ namespace dru
 		UINT mAfterImageCount;
 
 		Vector4 mAfterImageColor;
+
+		UINT mAfterImageIndex;
 
 	public:
 		void SetAfterImageCount(UINT _Count)

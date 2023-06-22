@@ -45,6 +45,7 @@ namespace dru
 		, mAudioSource(nullptr)
 		, mbOnFloor2(false)
 		, mbLaserParticleStart(false)
+		, mbInvisible(false)
 		, mLaserHitElapsedTimeX(0.f)
 		, mLaserHitElapsedTimeY(0.f)
 		, mPrevLaserHitElapsedTimeY(0.f)
@@ -92,6 +93,14 @@ namespace dru
 		if (mState[(UINT)ePlayerState::Dead] == true)
 		{
 			dead();
+		}
+
+		if (CInput::GetKeyTap(eKeyCode::I))
+		{
+			if(!mbInvisible)
+				mbInvisible = true;
+			else
+				mbInvisible = false;
 		}
 
 		if (mbStun)
@@ -1479,70 +1488,76 @@ namespace dru
 
 	void CPlayerScript::hit(Vector3& _enemyPos, int _Type)
 	{
-		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false && mState[(UINT)ePlayerState::Dead] == false)
+		if (!mbInvisible)
 		{
-			mAudioSource->Play(L"player_die");
-
-			SetAfterImageCount(0);
-			BulletTimeSwitchOff();
-			mState.reset();
-			mState[(UINT)ePlayerState::Dead] = true;
-			mAnimator->Play(L"Player_Dead", false);
-			mbInputBlock = true;
-			mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
-			mHitDir = GetOwnerPos() - _enemyPos;
-			mHitDir.Normalize();
-			GetOwner()->GetCurrentStage()->BulletTimeOff();
-
-			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
-
-			// timeslow
-			CTimeMgr::BulletTime(0.5f);
-
-			// CamShake
-			ShakeParams sp = {};
-			sp.duration = 0.5f;
-			sp.magnitude = 0.0125f;
-			renderer::mainCamera->GetCamScript()->Shake(sp);
-
-			// slash hit
-			if (0 == _Type)
-			{  
-				CreateSlashShade(_enemyPos);
-			}
-			// bullet hit
-			else if (1 == _Type)
+			if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false && mState[(UINT)ePlayerState::Dead] == false)
 			{
+				mAudioSource->Play(L"player_die");
 
+				SetAfterImageCount(0);
+				BulletTimeSwitchOff();
+				mState.reset();
+				mState[(UINT)ePlayerState::Dead] = true;
+				mAnimator->Play(L"Player_Dead", false);
+				mbInputBlock = true;
+				mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
+				mHitDir = GetOwnerPos() - _enemyPos;
+				mHitDir.Normalize();
+				GetOwner()->GetCurrentStage()->BulletTimeOff();
+
+				dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
+
+				// timeslow
+				CTimeMgr::BulletTime(0.5f);
+
+				// CamShake
+				ShakeParams sp = {};
+				sp.duration = 0.5f;
+				sp.magnitude = 0.0125f;
+				renderer::mainCamera->GetCamScript()->Shake(sp);
+
+				// slash hit
+				if (0 == _Type)
+				{
+					CreateSlashShade(_enemyPos);
+				}
+				// bullet hit
+				else if (1 == _Type)
+				{
+
+				}
 			}
 		}
 	}
 
 	void CPlayerScript::laserHit()
 	{
-		if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
+		if (!mbInvisible)
 		{
-			mAudioSource->Play(L"player_die");
-			mAudioSource->Play(L"laser_blast");
+			if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
+			{
+				mAudioSource->Play(L"player_die");
+				mAudioSource->Play(L"laser_blast");
 
-			mbLaserParticleStart = true;
-			mAnimator->PauseOn();
-			CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
-			sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
+				mbLaserParticleStart = true;
+				mAnimator->PauseOn();
+				CSpriteRenderer* sprRenderer = GetOwner()->GetComponent<CSpriteRenderer>();
+				sprRenderer->GetMaterial().get()->SetShaderByKey(L"LaserHitShader");
 
-			BulletTimeSwitchOff();
-			GetOwner()->GetCurrentStage()->BulletTimeOff();
+				BulletTimeSwitchOff();
+				GetOwner()->GetCurrentStage()->BulletTimeOff();
 
-			mState.reset();
-			mState[(UINT)ePlayerState::Dead] = true;
-			mbInputBlock = true;
-			mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
-			mHitDir = Vector3::Zero;
-			mHitDir.Normalize();
+				mState.reset();
+				mState[(UINT)ePlayerState::Dead] = true;
+				mbInputBlock = true;
+				mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
+				mHitDir = Vector3::Zero;
+				mHitDir.Normalize();
 
-			SetAfterImageCount(0);
-			dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
-			CreateLaserParticleSystem();
+				SetAfterImageCount(0);
+				dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
+				CreateLaserParticleSystem();
+			}
 		}
 	}
 

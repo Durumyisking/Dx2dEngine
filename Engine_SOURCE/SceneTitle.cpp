@@ -136,18 +136,6 @@ namespace dru
 		}
 
 
-		if (CInput::GetKeyTap(eKeyCode::N))
-		{
-			mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Main);
-		}
-
-		if (CInput::GetKeyTap(eKeyCode::M))
-		{
-			mCamera->GetComponent<CAudioSource>()->Stop(L"song_title_bgm");
-			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Ending);
-		}
-
 		CScene::update();
 	}
 

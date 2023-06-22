@@ -5,8 +5,6 @@
 
 namespace dru
 {
-	UINT CAfterImage::midx;
-
 	CAfterImage::CAfterImage()
 		: mFrameCaptures{}
 		, mMaterial(nullptr)
@@ -21,24 +19,27 @@ namespace dru
 
 	void CAfterImage::Initialize()
 	{
-		CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::Renderer);
-		// 인덱스마다 머티리얼 다르게해야함
-		std::wstring OwnerName = mOwner->GetName();
-		std::wstring matName = L"MatAfterImage_";
-		std::wstring idx = std::to_wstring(midx);
-		matName += idx;
-		OwnerName += matName;
-		mMaterial = CResources::Find<CMaterial>(OwnerName);
-	
-		Renderer->SetMaterial(mMaterial);
-
-		Renderer->SetAfterImageOwner(this);
-
-		++midx;
-
-		if (1000000 < midx)
+		if (mOwner)
 		{
-			midx = 0;
+			UINT idxCount = mOwner->GetAfterImageIndex();
+			if (250000 < idxCount)
+			{
+				mOwner->SetAfterImageIndex(0);
+				idxCount = mOwner->GetAfterImageIndex();
+			}
+
+			CAfterImageRenderer* Renderer = this->AddComponent<CAfterImageRenderer>(eComponentType::Renderer);
+			// 인덱스마다 머티리얼 다르게해야함
+			std::wstring OwnerName = mOwner->GetName();
+			std::wstring matName = L"MatAfterImage_";
+			std::wstring idx = std::to_wstring(idxCount);
+			matName += idx;
+			OwnerName += matName;
+			mMaterial = CResources::Find<CMaterial>(OwnerName);
+
+			Renderer->SetMaterial(mMaterial);
+
+			Renderer->SetAfterImageOwner(this);
 		}
 
 		CGameObj::Initialize();
