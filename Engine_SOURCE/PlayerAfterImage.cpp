@@ -22,7 +22,7 @@ namespace dru
 		if (mOwner)
 		{
 			UINT idxCount = mOwner->GetAfterImageIndex();
-			if (250000 < idxCount)
+			if (500000 < idxCount)
 			{
 				mOwner->SetAfterImageIndex(0);
 				idxCount = mOwner->GetAfterImageIndex();

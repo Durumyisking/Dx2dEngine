@@ -1555,6 +1555,7 @@ namespace dru
 				mHitDir.Normalize();
 
 				SetAfterImageCount(0);
+				GetOwner_LiveObject()->RemoveAfterImage();
 				dynamic_cast<CPlayer*>(GetOwner())->SetPlayerDead(true);
 				CreateLaserParticleSystem();
 			}
