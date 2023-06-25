@@ -53,7 +53,7 @@ namespace dru
 		// 메뉴
 		HMENU	mHmenu; // Tool Scene에서만 사용하고싶은 menu
 		math::Vector2 mResolution;
-	
+
 
 	};
 }

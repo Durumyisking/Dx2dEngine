@@ -5,6 +5,7 @@
 #include "SceneMain.h"
 #include "SceneTemp.h"
 #include "SceneEnding.h"
+#include "SceneLoading.h"
 
 namespace dru
 {
@@ -21,17 +22,18 @@ namespace dru
 		mScenes[static_cast<UINT>(eSceneType::Ending)]->SetType(eSceneType::Ending);
 		mScenes[static_cast<UINT>(eSceneType::Temp)] = new CSceneTemp;
 		mScenes[static_cast<UINT>(eSceneType::Temp)]->SetType(eSceneType::Temp);
-
+		mScenes[static_cast<UINT>(eSceneType::Loading)] = new CSceneLoading;
+		mScenes[static_cast<UINT>(eSceneType::Loading)]->SetType(eSceneType::Loading);
 
 		for (UINT i = 0; i < static_cast<UINT>(eSceneType::End); i++)
 		{
 			mScenes[i]->Initialize();
 		}
 
-		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Title)];
+		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Loading)];
 		mActiveScene->Enter();
 
-		
+
 	}
 
 	void CSceneMgr::update()
@@ -65,7 +67,7 @@ namespace dru
 
 	void CSceneMgr::LoadScene(eSceneType _Type)
 	{
-		if(mActiveScene)
+		if (mActiveScene)
 			mActiveScene->Exit();
 
 		std::vector<CGameObj*> gameObjs = mActiveScene->GetDontDestroyObjects();

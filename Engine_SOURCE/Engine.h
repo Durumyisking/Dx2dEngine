@@ -18,6 +18,7 @@
 #include <limits>
 #include <memory>
 #include <filesystem>
+#include <thread>
 
 #include "CommonInclude.h"
 #include "druEnums.h"
