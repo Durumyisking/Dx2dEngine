@@ -19,6 +19,8 @@
 #include <memory>
 #include <filesystem>
 #include <thread>
+#include <future>
+
 
 #include "CommonInclude.h"
 #include "druEnums.h"

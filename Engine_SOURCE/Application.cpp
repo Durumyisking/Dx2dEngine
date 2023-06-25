@@ -1,94 +1,140 @@
+#include "Application.h"
+#include "Renderer.h"
+#include "TimeMgr.h"
+#include "Input.h"
 #include "SceneMgr.h"
-
-#include "Scene.h"
-#include "SceneTitle.h"
-#include "SceneMain.h"
-#include "SceneTemp.h"
-#include "SceneEnding.h"
-#include "SceneLoading.h"
+#include "Resources.h"
+#include "CollisionMgr.h"
+#include "FMod.h"
+#include "FontWrapper.h"
+#include "ObjectPool.h"
 
 namespace dru
 {
-	CScene* CSceneMgr::mScenes[(static_cast<UINT>(CSceneMgr::eSceneType::End))] = {};
-	CScene* CSceneMgr::mActiveScene = nullptr;
+	using namespace graphics;
 
-	void CSceneMgr::Initialize()
+	CApplication::CApplication()
+		: initalized(false)
+		, graphicDevice(nullptr)
+		, mHwnd{}
+		, mHdc{}
+		, mWidth(0)
+		, mHeight(0)
+		, mHmenu{}
+		, mResolution(Vector2::Zero)
 	{
-		mScenes[static_cast<UINT>(eSceneType::Title)] = new CSceneTitle;
-		mScenes[static_cast<UINT>(eSceneType::Title)]->SetType(eSceneType::Title);
-		mScenes[static_cast<UINT>(eSceneType::Main)] = new CSceneMain;
-		mScenes[static_cast<UINT>(eSceneType::Main)]->SetType(eSceneType::Main);
-		mScenes[static_cast<UINT>(eSceneType::Ending)] = new CSceneEnding;
-		mScenes[static_cast<UINT>(eSceneType::Ending)]->SetType(eSceneType::Ending);
-		mScenes[static_cast<UINT>(eSceneType::Temp)] = new CSceneTemp;
-		mScenes[static_cast<UINT>(eSceneType::Temp)]->SetType(eSceneType::Temp);
-		mScenes[static_cast<UINT>(eSceneType::Loading)] = new CSceneLoading;
-		mScenes[static_cast<UINT>(eSceneType::Loading)]->SetType(eSceneType::Loading);
+	}
+	CApplication::~CApplication()
+	{
+		CFmod::Release();
+		CObjectPool::Release();
+		CSceneMgr::release();
+		CFontWrapper::Release();
+	}
 
-		for (UINT i = 0; i < static_cast<UINT>(eSceneType::End); i++)
+	void CApplication::Initialize()
+	{
+		CTimeMgr::Initialize();
+		CInput::Initialize();
+		CFmod::Initialize();
+		CCollisionMgr::Initialize();
+		renderer::Initialize();
+		CFontWrapper::Initialize();
+		CSceneMgr::Initialize();
+
+	}
+	void CApplication::update()
+	{
+		CTimeMgr::update();
+		CInput::update();
+		CCollisionMgr::update();
+		CSceneMgr::update();
+	}
+	void CApplication::fixedUpdate()
+	{
+		CCollisionMgr::fixedUpdate();
+		CSceneMgr::fixedUpdate();
+	}
+	void CApplication::render()
+	{
+		CTimeMgr::Render(mHdc);
+		CInput::Render(mHdc);
+		//		CCollisionMgr::render();
+		graphicDevice->Clear();
+		graphicDevice->AdjustViewPorts();
+
+		renderer::Render();
+		CSceneMgr::render();
+	}
+
+	void CApplication::destroy()
+	{
+		CSceneMgr::destory();
+
+	}
+
+	void CApplication::Run()
+	{
+		update();
+		fixedUpdate();
+		render();
+		destroy();
+	}
+
+	void CApplication::Present()
+	{
+		graphicDevice->Present();
+	}
+
+	void CApplication::SetWindow(HWND _hwnd, UINT _width, UINT _height)
+	{
+		if (graphicDevice == nullptr)
 		{
-			mScenes[i]->Initialize();
+			mHwnd = _hwnd;
+			mHdc = GetDC(mHwnd);
+			mWidth = _width;
+			mHeight = _height;
+
+			eValidationMode vaildationMode = eValidationMode::Disabled;
+			graphicDevice = std::make_unique<CGraphicDevice>();
+			//graphics::GetDevice() = graphicDevice.get();
 		}
 
-		mActiveScene = mScenes[static_cast<UINT>(eSceneType::Loading)];
-		mActiveScene->Enter();
-
-
+		RECT rt = { 0, 0, (LONG)_width , (LONG)_height };
+		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+		SetWindowPos(mHwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
+		ShowWindow(mHwnd, true);
+		UpdateWindow(mHwnd);
 	}
 
-	void CSceneMgr::update()
+	Vector2 CApplication::GetResolutionRatio()
 	{
-		mActiveScene->update();
+		RECT	windowRC;
+
+		GetClientRect(mHwnd, &windowRC);
+
+		float width = static_cast<float>(windowRC.right - windowRC.left);
+		float height = static_cast<float>(windowRC.bottom - windowRC.top);
+
+		return Vector2(mWidth / width, mHeight / height);
+
 	}
 
-	void CSceneMgr::fixedUpdate()
+
+	void CApplication::DockingMenu()
 	{
-		mActiveScene->fixedUpdate();
+		SetMenu(mHwnd, mHmenu);
+		ChangeWindowSize(true);
 	}
-
-	void CSceneMgr::render()
+	void CApplication::DivideMenu()
 	{
-		mActiveScene->render();
+		SetMenu(mHwnd, nullptr);
+		ChangeWindowSize(false);
 	}
-
-	void CSceneMgr::destory()
+	void CApplication::ChangeWindowSize(bool _bMenu)
 	{
-		mActiveScene->destroy();
+		RECT rt = { 0, 0, static_cast<LONG>(mResolution.x), static_cast<LONG>(mResolution.y) };
+		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, _bMenu);
+		SetWindowPos(mHwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 	}
-
-	void CSceneMgr::release()
-	{
-		for (CScene* scene : mScenes)
-		{
-			if (nullptr != scene)
-				delete scene;
-		}
-	}
-
-	void CSceneMgr::LoadScene(eSceneType _Type)
-	{
-		if (mActiveScene)
-			mActiveScene->Exit();
-
-		std::vector<CGameObj*> gameObjs = mActiveScene->GetDontDestroyObjects();
-
-		mActiveScene = mScenes[static_cast<UINT>(_Type)];
-
-		for (CGameObj* obj : gameObjs)
-		{
-			mActiveScene->AddGameObject(obj, obj->GetLayerType());
-		}
-
-		if (mActiveScene)
-			mActiveScene->Enter();
-	}
-
-	void CSceneMgr::DontDestroyOnLoad(CGameObj* _GameObj)
-	{
-		if (nullptr == _GameObj)
-			return;
-
-		_GameObj->DontDestroy();
-	}
-
 }

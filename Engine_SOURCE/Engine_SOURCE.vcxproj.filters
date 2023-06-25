@@ -612,6 +612,12 @@
     <ClInclude Include="SceneEnding.h">
       <Filter>Common\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="AsyncLoad.h">
+      <Filter>High Level Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneLoading.h">
+      <Filter>Common\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -971,6 +977,12 @@
       <Filter>Common\GameObj\Monster\Beam</Filter>
     </ClCompile>
     <ClCompile Include="SceneEnding.cpp">
+      <Filter>Common\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="AsyncLoad.cpp">
+      <Filter>High Level Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneLoading.cpp">
       <Filter>Common\Scene</Filter>
     </ClCompile>
   </ItemGroup>

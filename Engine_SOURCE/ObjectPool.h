@@ -10,7 +10,7 @@ namespace dru
 	{
 
 	public:
-		static void Initialize();
+		static void Initialize(std::promise<bool>& promiseObj);
 		static void Release();
 		static CBullet* PopBullet();
 		static CAfterImage* PopAfterImage();

@@ -127,4 +127,19 @@ namespace dru
 		mAxe->SetKissyface(this);
 	}
 
+	CAxeScript* CKissyface::GetAxeScript() const
+	{
+		return mAxe->GetScript<CAxeScript>();
+	}
+
+	CAxe* CKissyface::GetAxe() const
+	{
+		return mAxe;
+	}
+
+	CLiveGameObj* CKissyface::GetAxe()
+	{
+		return mAxe;
+	}
+
 }

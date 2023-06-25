@@ -25,9 +25,9 @@ namespace dru
 		CAxe* mAxe;
 
 	public:
-		CAxeScript* GetAxeScript() const { return mAxe->GetScript<CAxeScript>(); }
-		CAxe* GetAxe() const { return mAxe; }
-		CLiveGameObj* GetAxe() { return mAxe; }
+		CAxeScript* GetAxeScript() const; 
+		CAxe* GetAxe() const;
+		CLiveGameObj* GetAxe();
 	};
 
 }

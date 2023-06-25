@@ -25,7 +25,17 @@ namespace dru
 		CBackground* mBg;
 		CGameObj* mSmoke;
 
-		bool mbThreadMade;
+		std::promise<bool> promise_ResourceLoad;
+		std::promise<bool> promise_ObjectPoolLoad;
+
+		std::future<bool> future_ResourceLoad;
+		std::future<bool> future_ObjectPoolLoad;
+
+
+		bool mbResourceLoadEnd;
+		bool mbObjectPoolLoadEnd;
+
+		bool mbLoadStart;
 
 	};
 }

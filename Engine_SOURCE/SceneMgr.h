@@ -12,9 +12,8 @@ namespace dru
 			Title,
 			Main,
 			Ending,
-
-
 			Temp,
+			Loading,
 			End,
 		};
 

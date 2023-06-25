@@ -9,7 +9,14 @@ namespace dru
 		: mBg(nullptr)
 		, mCamera(nullptr)
 		, mSmoke(nullptr)
-		, mbThreadMade(false)
+		, mbResourceLoadEnd(false)
+		, mbObjectPoolLoadEnd(false)
+		, mbLoadStart(false)
+		, promise_ResourceLoad{}
+		, promise_ObjectPoolLoad{}
+		, future_ResourceLoad{}
+		, future_ObjectPoolLoad{}
+
 	{
 	}
 
@@ -24,15 +31,14 @@ namespace dru
 
 	void CSceneLoading::update()
 	{
-		if (!mbThreadMade)
-		{
-			std::thread thread(CAsyncLoad::Initialize);
-			thread.join();
-			mbThreadMade = true;
+		mbResourceLoadEnd = future_ResourceLoad.get();
+		mbObjectPoolLoadEnd = future_ObjectPoolLoad.get();
 
-			std::thread thread2(CObjectPool::Initialize);
-			thread2.join();
+		if (mbResourceLoadEnd && mbObjectPoolLoadEnd)
+		{
+			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}
+
 
 		CScene::update();
 	}
@@ -51,13 +57,17 @@ namespace dru
 	{
 
 		{
-			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, this, L"MainCam");
+			// main 카메라
+			mCamera = object::Instantiate<CGameObj>(eLayerType::Camera, L"MainCam");
 			CCamera* cameraComp = mCamera->AddComponent<CCamera>(eComponentType::Camera);
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
+			cameraComp->SmoothOn();
 			mCamera->AddComponent<CCameraScript>(eComponentType::Script);
 			renderer::mainCamera = cameraComp;
-			mCamera->DontDestroy();
+			cameraComp->SetProjectionType(eProjectionType::Orthographic);
+			mCamera->SetPos(Vector3(0.f, 0.f, 0.f));
 		}
+
 
 		{
 			CGameObj* directionalLight = object::Instantiate<CGameObj>(eLayerType::None, this, L"DirectionalLightTitleScene");
@@ -76,6 +86,21 @@ namespace dru
 			mBg->SetPos(Vector3(0.f, 0.f, 5.f));
 			mBg->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
+
+		future_ResourceLoad = promise_ResourceLoad.get_future();
+		future_ObjectPoolLoad = promise_ObjectPoolLoad.get_future();
+
+		std::thread thread1(CAsyncLoad::Initialize, std::ref(promise_ResourceLoad));
+		std::thread thread2(CObjectPool::Initialize, std::ref(promise_ObjectPoolLoad));
+
+		// 스레드 함수가 완료될 때까지 대기하지 않고 탈출
+		thread1.detach();
+		thread2.detach();
+
+		// 비동기 쓰레드 호출
+		//std::future<void> thread1 = std::async(std::launch::async, CAsyncLoad::Initialize, std::ref(promise_ResourceLoad));
+		//std::future<void> thread2 = std::async(std::launch::async, CObjectPool::Initialize, std::ref(promise_ObjectPoolLoad));
+
 
 		CScene::Enter();
 	}
