@@ -18,7 +18,7 @@ namespace dru
 		}
 
 		mAfterImagePool = new std::vector<CAfterImage*>;
-		for (size_t i = 0; i < 3000000; i++)
+		for (size_t i = 0; i < 1000000; i++)
 		{
 			CAfterImage* afterimage = object::Instantiate_pooling<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
 			mAfterImagePool->push_back(afterimage);

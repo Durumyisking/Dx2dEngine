@@ -365,7 +365,7 @@ namespace dru
 			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
 		}
 
-		for (int i = 0; i <= 25000; ++i)
+		for (int i = 0; i <= 250000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
 			std::wstring matName = L"PlayerMatAfterImage_";
@@ -373,7 +373,7 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 25000; ++i)
+		for (int i = 0; i <= 250000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"AfterImageShader");
 			std::wstring matName = L"kissyfaceMatAfterImage_";
@@ -381,7 +381,7 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 25000; ++i)
+		for (int i = 0; i <= 250000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"AfterImageShader");
 			std::wstring matName = L"AxeMatAfterImage_";
@@ -389,7 +389,7 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 25000; ++i)
+		for (int i = 0; i <= 250000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"headhunter", L"AfterImageShader");
 			std::wstring matName = L"HeadhunterMatAfterImage_";
