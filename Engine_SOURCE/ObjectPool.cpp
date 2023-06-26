@@ -8,7 +8,7 @@ namespace dru
 	std::vector<CBullet*>* CObjectPool::mBulletPool = {};
 	std::vector<CAfterImage*>* CObjectPool::mAfterImagePool = {};
 
-	void CObjectPool::Initialize(std::promise<bool>& promiseObj)
+	void CObjectPool::Initialize(bool* _flag)
 	{
 		mBulletPool = new std::vector<CBullet*>;
 		for (size_t i = 0; i < 10000; i++)
@@ -18,13 +18,13 @@ namespace dru
 		}
 
 		mAfterImagePool = new std::vector<CAfterImage*>;
-		for (size_t i = 0; i < 1000000; i++)
+		for (size_t i = 0; i < 3000000; i++)
 		{
 			CAfterImage* afterimage = object::Instantiate_pooling<CAfterImage>(eLayerType::AfterImage, L"AfterImage");
 			mAfterImagePool->push_back(afterimage);
 		}
 
-		promiseObj.set_value(true);
+		*_flag = true;
 	}
 
 	void CObjectPool::Release()

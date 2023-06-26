@@ -6,16 +6,11 @@
 namespace dru
 {
 	CSceneLoading::CSceneLoading()
-		: mBg(nullptr)
-		, mCamera(nullptr)
+		: mCamera(nullptr)
 		, mSmoke(nullptr)
 		, mbResourceLoadEnd(false)
 		, mbObjectPoolLoadEnd(false)
 		, mbLoadStart(false)
-		, promise_ResourceLoad{}
-		, promise_ObjectPoolLoad{}
-		, future_ResourceLoad{}
-		, future_ObjectPoolLoad{}
 
 	{
 	}
@@ -31,9 +26,6 @@ namespace dru
 
 	void CSceneLoading::update()
 	{
-		mbResourceLoadEnd = future_ResourceLoad.get();
-		mbObjectPoolLoadEnd = future_ObjectPoolLoad.get();
-
 		if (mbResourceLoadEnd && mbObjectPoolLoadEnd)
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
@@ -78,7 +70,7 @@ namespace dru
 		}
 
 		{
-			mBg = object::Instantiate<CBackground>(eLayerType::BackGround, L"bg");
+			CBackground* mBg = object::Instantiate<CBackground>(eLayerType::BackGround, L"bg");
 			CSpriteRenderer* Renderer = mBg->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
 
 			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"loadingMat");
@@ -87,19 +79,28 @@ namespace dru
 			mBg->SetScale(Vector3(1.f, 1.f, 1.f));
 		}
 
-		future_ResourceLoad = promise_ResourceLoad.get_future();
-		future_ObjectPoolLoad = promise_ObjectPoolLoad.get_future();
+		{
+			CBackground* mFont = object::Instantiate<CBackground>(eLayerType::BackGround, L"bgfont");
+			CSpriteRenderer* Renderer = mFont->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+			std::shared_ptr<CMaterial> Material = CResources::Find<CMaterial>(L"loadingfontMat");
 
-		std::thread thread1(CAsyncLoad::Initialize, std::ref(promise_ResourceLoad));
-		std::thread thread2(CObjectPool::Initialize, std::ref(promise_ObjectPoolLoad));
+			CAnimator* mAnimator = mFont->AddComponent<CAnimator>(eComponentType::Animator);
+			mAnimator->Create(L"loadingFont", Material->GetTexture(), { 0.f, 0.f }, { 305.f, 92.f }, Vector2::Zero, 4, { 305.f, 92.f }, 1.f);
+
+			Renderer->SetMaterial(Material);
+			mFont->SetPos(Vector3(6.25f, -3.75f, 5.f));
+			mFont->SetScale(Vector3(0.125f, 0.5f, 1.f));
+
+			mAnimator->Play(L"loadingFont");
+		}
+
+
+		std::thread thread1(CAsyncLoad::Initialize, &mbResourceLoadEnd);
+		std::thread thread2(CObjectPool::Initialize, &mbObjectPoolLoadEnd);
 
 		// 스레드 함수가 완료될 때까지 대기하지 않고 탈출
 		thread1.detach();
 		thread2.detach();
-
-		// 비동기 쓰레드 호출
-		//std::future<void> thread1 = std::async(std::launch::async, CAsyncLoad::Initialize, std::ref(promise_ResourceLoad));
-		//std::future<void> thread2 = std::async(std::launch::async, CObjectPool::Initialize, std::ref(promise_ObjectPoolLoad));
 
 
 		CScene::Enter();

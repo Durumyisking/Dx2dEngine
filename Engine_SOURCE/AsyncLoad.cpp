@@ -541,13 +541,13 @@ namespace dru
 
 	}
 
-	void CAsyncLoad::Initialize(std::promise<bool>& promiseObj)
+	void CAsyncLoad::Initialize(bool* _flag)
 	{
 		LoadTexture();
 		LoadMaterial();
 		LoadAudio();
 
-		promiseObj.set_value(true);
+		*_flag = true;
 	}
 
 }

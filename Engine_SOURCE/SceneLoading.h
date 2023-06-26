@@ -22,15 +22,7 @@ namespace dru
 
 	private:
 		CGameObj* mCamera;
-		CBackground* mBg;
 		CGameObj* mSmoke;
-
-		std::promise<bool> promise_ResourceLoad;
-		std::promise<bool> promise_ObjectPoolLoad;
-
-		std::future<bool> future_ResourceLoad;
-		std::future<bool> future_ObjectPoolLoad;
-
 
 		bool mbResourceLoadEnd;
 		bool mbObjectPoolLoadEnd;

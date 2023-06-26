@@ -574,6 +574,7 @@ namespace dru::renderer
 	void LoadTexture()
 	{
 		CResources::Load<CTexture>(L"loading", L"Loading.png");
+		CResources::Load<CTexture>(L"loadingfont", L"LoadingFont.png");
 
 		
 		CResources::Load<CTexture>(L"noise1", L"noise/noise_01.png");
@@ -599,6 +600,10 @@ namespace dru::renderer
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"loading", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"loadingMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"loadingfont", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"loadingfontMat", Material);
 		}
 
 		std::shared_ptr<CShader> DebugShader = CResources::Find<CShader>(L"DebugShader");
