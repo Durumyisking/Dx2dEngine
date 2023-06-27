@@ -10,6 +10,8 @@ namespace dru::math
     float toRadian(float _degree);
 	float toDegree(float _radian);
 
+	Vector3 WorldToScreen(Vector3 _WorldPos);
+
 	Vector3 RotateVector(Vector3 _vec, float _degree);
 
 

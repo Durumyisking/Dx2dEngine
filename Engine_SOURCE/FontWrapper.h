@@ -23,6 +23,7 @@ namespace dru
 	public:
 		static bool Initialize();
 		static void DrawFont(const wchar_t* str, float x, float y, float size, UINT rgb);
+		static void DrawFont_World(const wchar_t* str, dru::math::Vector3 pos, float size, UINT rgb);
 		static void Release();
 
 

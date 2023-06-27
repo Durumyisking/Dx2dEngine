@@ -1,4 +1,7 @@
 #include "SimpleMath.h"
+#include "Application.h"
+
+extern dru::CApplication application;
 
 namespace dru::math
 {
@@ -39,6 +42,35 @@ namespace dru::math
 	float toDegree(float _radian)
 	{
 		return _radian * 180 / XM_PI;
+	}
+
+	Vector3 WorldToScreen(Vector3 _WorldPos)
+	{
+		POINT Presult = {};
+		Vector3 screenPos = {};
+
+		RECT windowRect;
+		GetClientRect(application.GetHwnd(), &windowRect);
+
+		Vector2 resolutionRatio = application.GetResolutionRatio();
+
+		Presult.x = static_cast<LONG>(ptMouse.x - (windowRect.right - windowRect.left) * 0.5f) * resolutionRatio.x;
+		Presult.y = static_cast<LONG>((windowRect.bottom - windowRect.top) * 0.5f - ptMouse.y) * resolutionRatio.y;
+
+		if (renderer::mainCamera)
+		{
+			Vector3 camPos = renderer::mainCamera->GetOwner()->GetWorldPos();
+
+			mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
+			mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
+		}
+
+		ClientToScreen(application.GetHwnd(), &Presult);
+
+		screenPos.x = (float)Presult.x;
+		screenPos.y = (float)Presult.y;
+
+		return screenPos;
 	}
 
 	Vector3 RotateVector(Vector3 _vec, float _degree)

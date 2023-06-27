@@ -112,6 +112,8 @@ namespace dru
 
 		UINT mAfterImageIndex;
 
+		UINT mDebugFrameNumber;
+
 	public:
 		void SetAfterImageCount(UINT _Count)
 		{

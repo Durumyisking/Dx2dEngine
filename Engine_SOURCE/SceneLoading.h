@@ -27,7 +27,8 @@ namespace dru
 		bool mbResourceLoadEnd1;
 		bool mbResourceLoadEnd2;
 		bool mbResourceLoadEnd3;
-		bool mbObjectPoolLoadEnd;
+		bool mbObjectPoolLoadEnd1;
+		bool mbObjectPoolLoadEnd2;
 
 		bool mbLoadStart;
 

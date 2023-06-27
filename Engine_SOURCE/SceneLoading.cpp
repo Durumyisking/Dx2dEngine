@@ -11,7 +11,8 @@ namespace dru
 		, mbResourceLoadEnd1(false)
 		, mbResourceLoadEnd2(false)
 		, mbResourceLoadEnd3(false)
-		, mbObjectPoolLoadEnd(false)
+		, mbObjectPoolLoadEnd1(false)
+		, mbObjectPoolLoadEnd2(false)
 		, mbLoadStart(false)
 
 	{
@@ -28,7 +29,7 @@ namespace dru
 
 	void CSceneLoading::update()
 	{
-		if (mbResourceLoadEnd1 && mbResourceLoadEnd2 && mbObjectPoolLoadEnd)
+		if (mbResourceLoadEnd1 && mbResourceLoadEnd2 && mbResourceLoadEnd3 && mbObjectPoolLoadEnd1 && mbObjectPoolLoadEnd2)
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}
@@ -96,18 +97,20 @@ namespace dru
 			mAnimator->Play(L"loadingFont");
 		}
 
+		CObjectPool::Initialize();
 		std::thread thread1(CAsyncLoad::Initialize, &mbResourceLoadEnd1);
 		thread1.join();
 
 		std::thread thread2(CAsyncLoad::LoadAfterImageMaterial1, &mbResourceLoadEnd2);
 		std::thread thread3(CAsyncLoad::LoadAfterImageMaterial2, &mbResourceLoadEnd3);
-		std::thread thread4(CObjectPool::Initialize, &mbObjectPoolLoadEnd);
+		std::thread thread4(CObjectPool::InitializeSub1, &mbObjectPoolLoadEnd1);
+		std::thread thread5(CObjectPool::InitializeSub2, &mbObjectPoolLoadEnd2);
 
 		// 스레드 함수가 완료될 때까지 대기하지 않고 탈출
 		thread2.detach();
 		thread3.detach();
 		thread4.detach();
-
+		thread5.detach();
 
 		CScene::Enter();
 	}

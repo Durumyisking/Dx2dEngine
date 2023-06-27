@@ -364,6 +364,14 @@ namespace dru
 			Material->SetShader(particleShader);
 			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
 		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingBg", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"endingBgMat", Material);
+		}
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingSmoke", L"SpriteShader");
+			CResources::Insert<CMaterial>(L"endingSmokeMat", Material);
+		}
 	
 	}
 
@@ -381,14 +389,6 @@ namespace dru
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"AfterImageShader");
 			std::wstring matName = L"kissyfaceMatAfterImage_";
-			std::wstring idx = std::to_wstring(i);
-			matName += idx;
-			CResources::Insert<CMaterial>(matName, Material);
-		}
-		for (int i = 0; i <= 25000; ++i)
-		{
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"AfterImageShader");
-			std::wstring matName = L"AxeMatAfterImage_";
 			std::wstring idx = std::to_wstring(i);
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
@@ -413,15 +413,6 @@ namespace dru
 			std::wstring idx = std::to_wstring(i);
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
-		}
-
-		{
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingBg", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"endingBgMat", Material);
-		}
-		{
-			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingSmoke", L"SpriteShader");
-			CResources::Insert<CMaterial>(L"endingSmokeMat", Material);
 		}
 		*_flag = true;
 	}

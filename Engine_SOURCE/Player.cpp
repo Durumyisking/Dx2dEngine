@@ -125,6 +125,50 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CPlayer::fontRender()
+	{
+#ifdef _DEBUG
+		if (!IsRewindRePlaying())
+		{
+			std::wstring str = L"Player FrameCount : ";
+			std::wstring strFrameCount = std::to_wstring(mFrameCapture.FrameNumber);
+			str += strFrameCount;
+			const wchar_t* result = str.c_str();
+			CFontWrapper::DrawFont(result, 40.f, 155.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+		}
+		else
+		{
+			if (!mFrameCaptureData.empty())
+			{
+				if (IsRewinding())
+				{
+					CFontWrapper::DrawFont(L"Rewind", 40.f, 155.f, 30.f, FONT_RGBA(0, 255, 255, 255));
+					std::wstring str = L"Player FrameCount : ";
+					std::wstring strFrameCount = std::to_wstring(mDebugFrameNumber);
+					str += strFrameCount;
+					const wchar_t* result = str.c_str();
+					CFontWrapper::DrawFont(result, 40.f, 185.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				}
+				if (IsReplaying())
+				{
+					CFontWrapper::DrawFont(L"Replay", 40.f, 155.f, 30.f, FONT_RGBA(255, 0, 0, 255));
+					std::wstring str = L"Player FrameCount : ";
+					std::wstring strFrameCount = std::to_wstring(mDebugFrameNumber);
+					str += strFrameCount;
+					const wchar_t* result = str.c_str();
+					CFontWrapper::DrawFont(result, 40.f, 185.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+				}
+			}
+		}
+		std::wstring strAfterImageCount = std::to_wstring(mAfterImageCount);
+		const wchar_t* afterImageResult = strAfterImageCount.c_str();
+		CFontWrapper::DrawFont(afterImageResult, 40.f, 185.f, 10.f, FONT_RGBA(255, 255, 255, 255));
+
+#endif
+
+
+	}
+
 	void CPlayer::rewindRender()
 	{
 		CLiveGameObj::rewindRender();

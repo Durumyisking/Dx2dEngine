@@ -38,6 +38,23 @@ namespace dru
 		graphics::GetDevice()->BindSamplers((UINT)graphics::eSamplerType::Point, 1, renderer::samplerState[(UINT)eSamplerType::Point].GetAddressOf());
 	}
 
+	void CFontWrapper::DrawFont_World(const wchar_t* str, dru::math::Vector3 pos, float size, UINT rgb)
+	{
+		//RGB();
+		ID3D11DeviceContext* pContext = graphics::GetDevice()->GetDeviceContext().Get();
+		mFontWrapper->DrawString(
+			pContext,
+			str, 
+			size,
+			pos.x,
+			pos.y,
+			rgb,
+			0 
+		);
+
+		graphics::GetDevice()->BindSamplers((UINT)graphics::eSamplerType::Point, 1, renderer::samplerState[(UINT)eSamplerType::Point].GetAddressOf());
+	}
+
 	void CFontWrapper::Release()
 	{
 		mFW1Factory->Release();

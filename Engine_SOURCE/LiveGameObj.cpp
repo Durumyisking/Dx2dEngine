@@ -18,6 +18,7 @@ namespace dru
 		, mAfterImages{}
 		, mAfterImageCount(0)
 		, mAfterImageIndex(0)
+		, mDebugFrameNumber(0)
 		, mAfterImageColor(Vector4::Zero)
 	{
 		mObjectType = eObjectType::Live;
@@ -172,7 +173,7 @@ namespace dru
 				{
 					RenderingBlockOff();
 				}
-
+				mDebugFrameNumber = mFrameCaptureData.front().FrameNumber;
 				// 캡쳐큐을 front부터 pop하면서 로꾸꺼함
 				mCurrentAnimData = mFrameCaptureData.front().AnimData;
 
@@ -224,7 +225,7 @@ namespace dru
 				{
 					RenderingBlockOff();
 				}
-
+				mDebugFrameNumber = mFrameCaptureData.back().FrameNumber;
 				// 캡쳐큐를 back부터 pop
 				mCurrentAnimData = mFrameCaptureData.back().AnimData;
 

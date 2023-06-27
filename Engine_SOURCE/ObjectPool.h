@@ -10,7 +10,9 @@ namespace dru
 	{
 
 	public:
-		static void Initialize(bool* _flag);
+		static void Initialize();
+		static void InitializeSub1(bool* _flag);
+		static void InitializeSub2(bool* _flag);
 		static void Release();
 		static CBullet* PopBullet();
 		static CAfterImage* PopAfterImage();
@@ -19,7 +21,8 @@ namespace dru
 
 	private:
 		static std::vector<CBullet*>* mBulletPool;
-		static std::vector<CAfterImage*>* mAfterImagePool;
+		static std::vector<CAfterImage*>* mAfterImagePool1;
+		static std::vector<CAfterImage*>* mAfterImagePool2;
 
 	};
 }
