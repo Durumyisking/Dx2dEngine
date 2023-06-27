@@ -69,6 +69,7 @@ namespace dru
         virtual void InitStage() = 0;
         virtual void LoadinReady() = 0;
         virtual void Update();
+        virtual void fontRender();
         virtual void Exit();
 
      
@@ -219,6 +220,8 @@ namespace dru
         CGameObj* mHudRightHand;
 
         CBackgroundColor* mBulletTimeMask;
+
+        CBackgroundColor* mFontBackground;
 
         eStageState mStageState;
 

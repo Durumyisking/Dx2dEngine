@@ -42,7 +42,7 @@ namespace dru
 		, mMaskTarget(nullptr)
 		, mScreenMask(nullptr)
 		, mStages{}
-		, mCurrentStage(0)
+		, mCurrentStage(1)
 		, mPauseMenuNumber(0)
 		, mPauseMenuDepth(0)
 		, mPauseMenuPlayerAfterimageColor(0)
@@ -141,6 +141,7 @@ namespace dru
 
 	void CSceneMain::render()
 	{
+
 		if (mbPause)
 		{
 			switch (mPauseMenuDepth)
@@ -161,7 +162,15 @@ namespace dru
 				break;
 			}
 		}
+
 		CScene::render();
+	}
+
+	void CSceneMain::fontRender()
+	{
+		mStages[mCurrentStage]->fontRender();
+
+		CScene::fontRender();
 	}
 
 	void CSceneMain::Enter()

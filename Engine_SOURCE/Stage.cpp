@@ -17,6 +17,7 @@ namespace dru
 		: mStageState(eStageState::NotReady)
 		, mStageBackground(nullptr)
 		, mbClear(false)
+		, mbBatteryParticleStart(false)
 		, mPostProcess_Rewind(nullptr)
 		, mPostProcess_Replay(nullptr)
 		, mPostProcess_Snow(nullptr)
@@ -37,6 +38,7 @@ namespace dru
 		, mHudLeftHand(nullptr)
 		, mHudRightHand(nullptr)
 		, mBulletTimeMask(nullptr)
+		, mFontBackground(nullptr)
 		, mBulletTimeGaugePrev(10)
 		, mBulletTimeGaugeCurrent(10)
 		, mPlayerDefaultPos{}
@@ -110,6 +112,18 @@ namespace dru
 				BulletTimeBatteryParticleOperation();
 			}
 		}
+	}
+
+	void CStage::fontRender()
+	{
+#ifdef _DEBUG
+		std::wstring str = L"Stage FrameCount : ";
+		std::wstring strFrameCount = std::to_wstring(mFrameCount);
+		str += strFrameCount;
+		const wchar_t* result = str.c_str();
+		CFontWrapper::DrawFont(result, 50.f, 165.f, 30.f, FONT_RGBA(255, 255, 255, 255));
+#endif
+
 	}
 
 	void CStage::Exit()
@@ -255,7 +269,20 @@ namespace dru
 			mBulletTimeMask->SetScale(Vector3(30.f, 30.f, 0.f));
 			mBulletTimeMask->RenderingBlockOn();
 		}
+		
+#ifdef _DEBUG
+		mFontBackground = object::Instantiate<CBackgroundColor>(eLayerType::BackGround, L"FontBackground");
 
+		CSpriteRenderer* SpriteRenderer = mBulletTimeMask->AddComponent<CSpriteRenderer>(eComponentType::Renderer);
+		std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"Black", L"ColorShader");
+		CResources::Insert<CMaterial>(L"FontBackgroundMat", Material);
+		SpriteRenderer->SetMaterial(Material);
+
+		SpriteRenderer->ChangeColor(Vector4{ 0.f, 0.f, 0.f, 0.75f });
+		mBulletTimeMask->SetPos(Vector3(-4.f, 3.f, 4.f));
+		mBulletTimeMask->SetScale(Vector3(2.5f, 3.f, 0.f));
+		mBulletTimeMask->RenderingBlockOn();
+#endif
 	}
 
 	void CStage::LoadKeyUI()

@@ -8,6 +8,8 @@ namespace dru
 
 	public:
 		static void Initialize(bool* _flag);
+		static void LoadAfterImageMaterial1(bool* _flag);
+		static void LoadAfterImageMaterial2(bool* _flag);
 
 	};
 }

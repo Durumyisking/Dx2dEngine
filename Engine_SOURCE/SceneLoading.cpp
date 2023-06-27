@@ -8,7 +8,9 @@ namespace dru
 	CSceneLoading::CSceneLoading()
 		: mCamera(nullptr)
 		, mSmoke(nullptr)
-		, mbResourceLoadEnd(false)
+		, mbResourceLoadEnd1(false)
+		, mbResourceLoadEnd2(false)
+		, mbResourceLoadEnd3(false)
 		, mbObjectPoolLoadEnd(false)
 		, mbLoadStart(false)
 
@@ -26,7 +28,7 @@ namespace dru
 
 	void CSceneLoading::update()
 	{
-		if (mbResourceLoadEnd && mbObjectPoolLoadEnd)
+		if (mbResourceLoadEnd1 && mbResourceLoadEnd2 && mbObjectPoolLoadEnd)
 		{
 			CSceneMgr::LoadScene(CSceneMgr::eSceneType::Title);
 		}
@@ -94,13 +96,17 @@ namespace dru
 			mAnimator->Play(L"loadingFont");
 		}
 
+		std::thread thread1(CAsyncLoad::Initialize, &mbResourceLoadEnd1);
+		thread1.join();
 
-		std::thread thread1(CAsyncLoad::Initialize, &mbResourceLoadEnd);
-		std::thread thread2(CObjectPool::Initialize, &mbObjectPoolLoadEnd);
+		std::thread thread2(CAsyncLoad::LoadAfterImageMaterial1, &mbResourceLoadEnd2);
+		std::thread thread3(CAsyncLoad::LoadAfterImageMaterial2, &mbResourceLoadEnd3);
+		std::thread thread4(CObjectPool::Initialize, &mbObjectPoolLoadEnd);
 
 		// 스레드 함수가 완료될 때까지 대기하지 않고 탈출
-		thread1.detach();
 		thread2.detach();
+		thread3.detach();
+		thread4.detach();
 
 
 		CScene::Enter();

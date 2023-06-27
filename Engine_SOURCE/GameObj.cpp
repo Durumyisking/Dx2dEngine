@@ -125,6 +125,10 @@ namespace dru
 		}
 	}
 
+	void CGameObj::fontRender()
+	{
+	}
+
 	void CGameObj::AddComponent(CComponent* _Component)
 	{
 		eComponentType order = _Component->GetOrder();

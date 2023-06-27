@@ -24,6 +24,7 @@ namespace dru
 		static void update();
 		static void fixedUpdate();
 		static void render();
+		static void fontRender();
 		static void destory();
 		static void release();
 		static void LoadScene(eSceneType _Type);

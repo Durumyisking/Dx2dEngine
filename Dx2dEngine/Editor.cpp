@@ -6,6 +6,7 @@
 #include "MeshRenderer.h"
 #include "Object.h"
 #include "GridScript.h"
+#include "Input.h"
 
 namespace dru
 {
@@ -81,16 +82,18 @@ namespace dru
 
 	void CEditor::render()
 	{
-		for (CEditorObject* obj : mEditorObjects)
+		if (CInput::GetKeyDown(eKeyCode::V))
 		{
-			obj->render();
-		}
+			for (CEditorObject* obj : mEditorObjects)
+			{
+				obj->render();
+			}
 
-		for (DebugMesh& mesh : renderer::debugMeshes)
-		{
-			debugRender(mesh);
+			for (DebugMesh& mesh : renderer::debugMeshes)
+			{
+				debugRender(mesh);
+			}
 		}
-
 		renderer::debugMeshes.clear();
 	}
 

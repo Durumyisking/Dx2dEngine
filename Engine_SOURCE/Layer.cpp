@@ -87,6 +87,19 @@ namespace dru
 		}
 	}
 
+	void CLayer::fontRender()
+	{
+		for (CGameObj* Obj : mGameObjs)
+		{
+			if (nullptr == Obj)
+				continue;
+
+			if (CGameObj::eState::Active == Obj->GetState())
+				Obj->fontRender();
+
+		}
+	}
+
 	void CLayer::destroy()
 	{
 		std::set<CGameObj*> DeadObjs;

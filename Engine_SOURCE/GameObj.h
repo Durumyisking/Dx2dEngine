@@ -47,6 +47,7 @@ namespace dru
 		virtual void update();
 		virtual void fixedUpdate();
 		virtual void render();
+		virtual void fontRender();
 
 		template <typename T>
 		T* AddComponent(eComponentType _eType)

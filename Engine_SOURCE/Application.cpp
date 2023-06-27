@@ -65,6 +65,7 @@ namespace dru
 
 		renderer::Render();
 		CSceneMgr::render();
+		CSceneMgr::fontRender();
 	}
 
 	void CApplication::destroy()

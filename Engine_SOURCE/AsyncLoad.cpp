@@ -364,7 +364,11 @@ namespace dru
 			Material->SetShader(particleShader);
 			CResources::Insert<CMaterial>(L"BatteryParticleMat", Material);
 		}
+	
+	}
 
+	void CAsyncLoad::LoadAfterImageMaterial1(bool* _flag)
+	{
 		for (int i = 0; i <= 250000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"player", L"AfterImageShader");
@@ -373,7 +377,7 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 250000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface", L"AfterImageShader");
 			std::wstring matName = L"kissyfaceMatAfterImage_";
@@ -381,7 +385,7 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 250000; ++i)
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"AfterImageShader");
 			std::wstring matName = L"AxeMatAfterImage_";
@@ -389,7 +393,20 @@ namespace dru
 			matName += idx;
 			CResources::Insert<CMaterial>(matName, Material);
 		}
-		for (int i = 0; i <= 250000; ++i)
+		*_flag = true;
+	}
+
+	void CAsyncLoad::LoadAfterImageMaterial2(bool* _flag)
+	{
+		for (int i = 0; i <= 25000; ++i)
+		{
+			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"kissyface_axe", L"AfterImageShader");
+			std::wstring matName = L"AxeMatAfterImage_";
+			std::wstring idx = std::to_wstring(i);
+			matName += idx;
+			CResources::Insert<CMaterial>(matName, Material);
+		}
+		for (int i = 0; i <= 25000; ++i)
 		{
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"headhunter", L"AfterImageShader");
 			std::wstring matName = L"HeadhunterMatAfterImage_";
@@ -406,7 +423,9 @@ namespace dru
 			std::shared_ptr<CMaterial> Material = std::make_shared<CMaterial>(L"endingSmoke", L"SpriteShader");
 			CResources::Insert<CMaterial>(L"endingSmokeMat", Material);
 		}
+		*_flag = true;
 	}
+
 
 	void LoadAudio()
 	{

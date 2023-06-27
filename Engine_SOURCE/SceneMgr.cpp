@@ -51,6 +51,11 @@ namespace dru
 		mActiveScene->render();
 	}
 
+	void CSceneMgr::fontRender()
+	{
+		mActiveScene->fontRender();
+	}
+
 	void CSceneMgr::destory()
 	{
 		mActiveScene->destroy();

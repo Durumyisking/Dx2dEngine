@@ -24,7 +24,9 @@ namespace dru
 		CGameObj* mCamera;
 		CGameObj* mSmoke;
 
-		bool mbResourceLoadEnd;
+		bool mbResourceLoadEnd1;
+		bool mbResourceLoadEnd2;
+		bool mbResourceLoadEnd3;
 		bool mbObjectPoolLoadEnd;
 
 		bool mbLoadStart;

@@ -37,8 +37,14 @@ namespace dru
 
 	void CScene::render()
 	{
+	}
 
-
+	void CScene::fontRender()
+	{
+		for (CLayer& layer : mLayers)
+		{
+			layer.fontRender();
+		}
 	}
 
 	void CScene::destroy()
