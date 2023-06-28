@@ -111,6 +111,37 @@ namespace dru
 		CLiveGameObj::render();
 	}
 
+	void CBlood::fontRender()
+	{
+#ifdef _DEBUG
+		Vector3 fontPos = GetWorldPos();
+		if (!IsRewindRePlaying())
+		{
+			std::wstring strFrameCount = std::to_wstring(mFrameCapture.FrameNumber);
+			const wchar_t* result = strFrameCount.c_str();
+			CFontWrapper::DrawFont(result, fontPos, 10.f, FONT_RGBA(255, 255, 255, 255));
+		}
+		else
+		{
+			if (!mFrameCaptureData.empty())
+			{
+				if (IsRewinding())
+				{
+					std::wstring strFrameCount = std::to_wstring(mFrameCapture.FrameNumber);
+					const wchar_t* result = strFrameCount.c_str();
+					CFontWrapper::DrawFont(result, fontPos, 10.f, FONT_RGBA(0, 255, 255, 255));
+				}
+				if (IsReplaying())
+				{
+					std::wstring strFrameCount = std::to_wstring(mFrameCapture.FrameNumber);
+					const wchar_t* result = strFrameCount.c_str();
+					CFontWrapper::DrawFont(result, fontPos, 10.f, FONT_RGBA(255, 0, 0, 255));
+				}
+			}
+		}
+#endif
+	}
+
 	void CBlood::rewindRender()
 	{
 		CLiveGameObj::rewindRender();

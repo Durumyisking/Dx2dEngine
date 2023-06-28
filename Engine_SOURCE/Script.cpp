@@ -34,6 +34,9 @@ namespace dru
 	{
 
 	}
+	void CScript::fontRender()
+	{
+	}
 	void CScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		if (L"col_floor" == _oppo->GetName() && GetOwner()->GetComponent<CRigidBody>())

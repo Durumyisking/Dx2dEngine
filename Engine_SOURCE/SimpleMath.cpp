@@ -58,7 +58,9 @@ namespace dru::math
 		{
 			Vector3 camPos = renderer::mainCamera->GetOwner()->GetWorldPos();
 			windowPos.x = (worldPos.x - camPos.x) * 100.f; 
-			windowPos.y = (worldPos.y - camPos.y) * 100.f; 
+			windowPos.y = (worldPos.y - camPos.y) * -100.f; 
+			//windowPos.x = (worldPos.x) * 100.f;
+			//windowPos.y = (worldPos.y) * 100.f;
 		}
 		windowPos.x /= resolutionRatio.x;
 		windowPos.y /= resolutionRatio.y;

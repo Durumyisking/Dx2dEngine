@@ -37,6 +37,7 @@ namespace dru
         virtual void update() override;
         virtual void fixedUpdate() override;
         virtual void render() override;
+        virtual void fontRender();
 
         virtual void attack();
         virtual void patrol();

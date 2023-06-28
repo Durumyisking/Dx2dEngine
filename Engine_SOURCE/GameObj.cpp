@@ -127,6 +127,12 @@ namespace dru
 
 	void CGameObj::fontRender()
 	{
+		for (CScript* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->fontRender();
+		}
 	}
 
 	void CGameObj::AddComponent(CComponent* _Component)

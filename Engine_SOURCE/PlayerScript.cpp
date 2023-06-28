@@ -227,6 +227,7 @@ namespace dru
 		}
 
 	}
+
 	void CPlayerScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		if (L"col_floor" == _oppo->GetName())

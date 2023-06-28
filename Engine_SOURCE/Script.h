@@ -14,6 +14,7 @@ namespace dru
 		virtual void update() override;
 		virtual void fixedUpdate() override;
 		virtual void render() override;
+		virtual void fontRender();
 
 		virtual void OnCollisionEnter(CCollider2D* _oppo);
 		virtual void OnCollision(CCollider2D* _oppo);

@@ -97,6 +97,40 @@ namespace dru
 	{
 	}
 
+	void CMonsterScript::fontRender()
+	{
+
+#ifdef _DEBUG
+		std::wstring StateOutput = {};
+
+		if (GetSingleState(eMonsterState::Idle))
+		{
+			StateOutput = L"Idle";
+		}
+		else if (GetSingleState(eMonsterState::Patrol))
+		{
+			StateOutput = L"Patrol";
+		}
+		else if (GetSingleState(eMonsterState::Run))
+		{
+			StateOutput = L"Run";
+		}
+		else if (GetSingleState(eMonsterState::Attack))
+		{
+			StateOutput = L"Attack";
+		}
+		else if (GetSingleState(eMonsterState::DieGround))
+		{
+			StateOutput = L"DieGround";
+		}
+		const wchar_t* afterImageResult = StateOutput.c_str();
+		Vector3 fontPos = GetOwnerWorldPos();
+		fontPos.y += 1.f;
+		CFontWrapper::DrawFont(afterImageResult, fontPos, 15.f, FONT_RGBA(255, 255, 255, 255));
+#endif
+	
+	}
+
 	void CMonsterScript::OnCollisionEnter(CCollider2D* _oppo)
 	{
 		if (L"col_floor" == _oppo->GetName())
