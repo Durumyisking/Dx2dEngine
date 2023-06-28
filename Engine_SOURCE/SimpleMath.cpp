@@ -1,5 +1,7 @@
 #include "SimpleMath.h"
 #include "Application.h"
+#include "Renderer.h"
+#include "GameObj.h"
 
 extern dru::CApplication application;
 
@@ -44,38 +46,36 @@ namespace dru::math
 		return _radian * 180 / XM_PI;
 	}
 
-	Vector3 WorldToScreen(Vector3 _WorldPos)
+	POINT WorldToWindowPos(const Vector3& worldPos)
 	{
-		POINT Presult = {};
-		Vector3 screenPos = {};
-
 		RECT windowRect;
 		GetClientRect(application.GetHwnd(), &windowRect);
 
 		Vector2 resolutionRatio = application.GetResolutionRatio();
 
-		Presult.x = static_cast<LONG>(ptMouse.x - (windowRect.right - windowRect.left) * 0.5f) * resolutionRatio.x;
-		Presult.y = static_cast<LONG>((windowRect.bottom - windowRect.top) * 0.5f - ptMouse.y) * resolutionRatio.y;
-
+		Vector2 windowPos;
 		if (renderer::mainCamera)
 		{
 			Vector3 camPos = renderer::mainCamera->GetOwner()->GetWorldPos();
-
-			mWorldMousePosition.x = (mMousePosition.x / 100.f) + camPos.x;
-			mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
+			windowPos.x = (worldPos.x - camPos.x) * 100.f; 
+			windowPos.y = (worldPos.y - camPos.y) * 100.f; 
 		}
+		windowPos.x /= resolutionRatio.x;
+		windowPos.y /= resolutionRatio.y;
+		windowPos.x += (windowRect.right - windowRect.left) * 0.5f;
+		windowPos.y += (windowRect.bottom - windowRect.top) * 0.5f;
 
-		ClientToScreen(application.GetHwnd(), &Presult);
+		POINT ptResult;
+		ptResult.x = static_cast<LONG>(windowPos.x);
+		ptResult.y = static_cast<LONG>(windowPos.y);
 
-		screenPos.x = (float)Presult.x;
-		screenPos.y = (float)Presult.y;
+		ClientToScreen(application.GetHwnd(), &ptResult);
 
-		return screenPos;
+		return ptResult;
 	}
 
 	Vector3 RotateVector(Vector3 _vec, float _degree)
 	{
-
 		// 회전 축 벡터를 설정합니다. 이 경우 Z축을 회전축으로 사용합니다.
 		Vector3 axis = { 0.f, 0.f, 1.f };
 

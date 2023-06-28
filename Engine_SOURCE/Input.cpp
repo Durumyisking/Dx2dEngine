@@ -137,5 +137,4 @@ namespace dru
 			mWorldMousePosition.y = (mMousePosition.y / 100.f) + camPos.y;
 		}
 	}
-
 }

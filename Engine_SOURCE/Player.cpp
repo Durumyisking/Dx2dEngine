@@ -160,9 +160,11 @@ namespace dru
 				}
 			}
 		}
-		std::wstring strAfterImageCount = std::to_wstring(mAfterImageCount);
+		std::wstring strAfterImageCount = std::to_wstring(mAfterImages.size());
 		const wchar_t* afterImageResult = strAfterImageCount.c_str();
-		CFontWrapper::DrawFont(afterImageResult, 40.f, 185.f, 10.f, FONT_RGBA(255, 255, 255, 255));
+		Vector3 fontPos = GetWorldPos();
+		fontPos.y += 2.f;
+		CFontWrapper::DrawFont(afterImageResult, fontPos, 10.f, FONT_RGBA(255, 255, 255, 255));
 
 #endif
 
