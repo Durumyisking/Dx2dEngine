@@ -133,17 +133,17 @@ namespace dru
 				mLRKeyupTime += CTimeMgr::DeltaTime();
 
 			bulletTime();
-			if (mState[(UINT)ePlayerState::Idle] == true)
+			if (mState[static_cast<UINT>(ePlayerState::Idle)])
 			{
 				SetAfterImageCount(20);
 			}
 
 			// set left right
-			if (mState[(UINT)ePlayerState::Attack] == false)
+			if (!mState[static_cast<UINT>(ePlayerState::Attack)])
 			{
-				if (mState[(UINT)ePlayerState::WallKick] == false)
+				if (!mState[static_cast<UINT>(ePlayerState::WallKick)])
 				{
-					if (mState[(UINT)ePlayerState::Roll] == false)
+					if (!mState[static_cast<UINT>(ePlayerState::Roll)])
 					{
 						if (CInput::GetKeyDown(eKeyCode::A))
 							GetOwner()->SetLeft();
@@ -152,7 +152,7 @@ namespace dru
 					}
 					if (!mRigidbody->IsOnAir())
 					{
-						if (mState[(UINT)ePlayerState::Roll] == false)
+						if (!mState[static_cast<UINT>(ePlayerState::Roll)])
 						{
 							idleToRun();
 							run();
@@ -364,7 +364,8 @@ namespace dru
 			bool onStair = dynamic_cast<CLiveGameObj*>(GetOwner())->IsOnStair();
 			if (!mbOnFloor2 && !onStair)
 			{
-				if (mState[(UINT)ePlayerState::Idle] == true || mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true || mState[(UINT)ePlayerState::RunToIdle] == true)
+				if (mState[static_cast<UINT>(ePlayerState::Idle)] == true || mState[mState[static_cast<UINT>(ePlayerState::Run)] 
+					|| mState[mState[static_cast<UINT>(ePlayerState::IdleToRun)] || mState[mState[static_cast<UINT>(ePlayerState::RunToIdle)] )
 				{
 					fallStart();
 				}
@@ -419,7 +420,7 @@ namespace dru
 	void CPlayerScript::SetPlayerSingleState(ePlayerState _state)
 	{
 		mState.reset();
-		mState[(UINT)_state] = true;
+		mState[static_cast<UINT>(_state)] = true;
 
 		switch (_state)
 		{
@@ -690,13 +691,13 @@ namespace dru
 		if (GetOwner()->IsLeft())
 		{
 			if (CInput::GetKeyUp(eKeyCode::A))
-				if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+				if (mState[static_cast<UINT>(ePlayerState::Run)] || mState[static_cast<UINT>(ePlayerState::IdleToRun)])
 					mAnimator->Play(L"Player_RunToIdle", false);
 		}
 		else
 		{
 			if (CInput::GetKeyUp(eKeyCode::D))
-				if (mState[(UINT)ePlayerState::Run] == true || mState[(UINT)ePlayerState::IdleToRun] == true)
+				if (mState[static_cast<UINT>(ePlayerState::Run)] || mState[static_cast<UINT>(ePlayerState::IdleToRun)])
 					mAnimator->Play(L"Player_RunToIdle", false);
 		}
 	}
