@@ -61,7 +61,7 @@ namespace dru
 		mTransform = GetOwner()->GetComponent<CTransform>();
 		mAudioSource = GetOwner()->GetComponent<CAudioSource>();
 
-		mState[(UINT)ePlayerState::Idle] = true;
+		mState[static_cast<UINT>(ePlayerState::Idle)] = true;
 
 		InputBlocking();
 
@@ -90,7 +90,7 @@ namespace dru
 	void CPlayerScript::update()
 	{
 		CSceneMain* scene = dynamic_cast<CSceneMain*>(CSceneMgr::mActiveScene);
-		if (mState[(UINT)ePlayerState::Dead] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Dead)] == true)
 		{
 			dead();
 		}
@@ -215,7 +215,7 @@ namespace dru
 
 				mLaserHitElapsedTimeX = 0.f;
 			}
-			CConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::LaserHit];
+			CConstantBuffer* cb = renderer::constantBuffers[static_cast<UINT>(eCBType::LaserHit)];
 			renderer::LaserHitCB data = {};
 
 			data.ElapsedTimeX = mLaserHitElapsedTimeX;
@@ -306,7 +306,7 @@ namespace dru
 		}
 		else if (L"col_beam" == _oppo->GetName())
 		{
-			if (mState[(UINT)ePlayerState::Dead] == false)
+			if (mState[static_cast<UINT>(ePlayerState::Dead)] == false)
 			{
 				if (!GetOwner_LiveObject()->IsRewindRePlaying())
 				{
@@ -364,8 +364,8 @@ namespace dru
 			bool onStair = dynamic_cast<CLiveGameObj*>(GetOwner())->IsOnStair();
 			if (!mbOnFloor2 && !onStair)
 			{
-				if (mState[static_cast<UINT>(ePlayerState::Idle)] == true || mState[mState[static_cast<UINT>(ePlayerState::Run)] 
-					|| mState[mState[static_cast<UINT>(ePlayerState::IdleToRun)] || mState[mState[static_cast<UINT>(ePlayerState::RunToIdle)] )
+				if (mState[static_cast<UINT>(ePlayerState::Idle)] == true || mState[static_cast<UINT>(ePlayerState::Run)] 
+					|| mState[static_cast<UINT>(ePlayerState::IdleToRun)] || mState[static_cast<UINT>(ePlayerState::RunToIdle)] )
 				{
 					fallStart();
 				}
@@ -391,7 +391,8 @@ namespace dru
 		{
 			mbOnWall = false;
 
-			if (mState[(UINT)ePlayerState::WallSlideUp] == true || mState[(UINT)ePlayerState::WallSlideDown] == true)
+			if (mState[static_cast<UINT>(ePlayerState::WallSlideUp)] == true 
+				|| mState[static_cast<UINT>(ePlayerState::WallSlideDown)] == true)
 			{
 				mAudioSource->Stop(L"player_wallslide");
 				//if ((CInput::GetKeyDown(eKeyCode::D) && (mbWallIsLeft == -1))
@@ -673,7 +674,7 @@ namespace dru
 
 	void CPlayerScript::run()
 	{
-		if (mState[(UINT)ePlayerState::Run] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Run)] == true)
 		{
 			std::wstring num = std::to_wstring(GetRandomNumber(1, 4));
 			if (CInput::GetKeyDown(eKeyCode::A) && (mbWallIsLeft != -1))
@@ -691,13 +692,15 @@ namespace dru
 		if (GetOwner()->IsLeft())
 		{
 			if (CInput::GetKeyUp(eKeyCode::A))
-				if (mState[static_cast<UINT>(ePlayerState::Run)] || mState[static_cast<UINT>(ePlayerState::IdleToRun)])
+				if (mState[static_cast<UINT>(ePlayerState::Run)]
+					|| mState[static_cast<UINT>(ePlayerState::IdleToRun)])
 					mAnimator->Play(L"Player_RunToIdle", false);
 		}
 		else
 		{
 			if (CInput::GetKeyUp(eKeyCode::D))
-				if (mState[static_cast<UINT>(ePlayerState::Run)] || mState[static_cast<UINT>(ePlayerState::IdleToRun)])
+				if (mState[static_cast<UINT>(ePlayerState::Run)]
+					|| mState[static_cast<UINT>(ePlayerState::IdleToRun)])
 					mAnimator->Play(L"Player_RunToIdle", false);
 		}
 	}
@@ -706,12 +709,12 @@ namespace dru
 	{
 		if (CInput::GetKeyDown(eKeyCode::S))
 		{
-			if (mState[(UINT)ePlayerState::Idle] == true)
+			if (mState[static_cast<UINT>(ePlayerState::Idle)])
 			{
 				SetPlayerSingleState(ePlayerState::Crouch);
 			}
 		}
-		if (mState[(UINT)ePlayerState::Crouch] == true && !mState[(UINT)ePlayerState::Run] == true && CInput::GetKeyUp(eKeyCode::S))
+		if (mState[static_cast<UINT>(ePlayerState::Crouch)] && !mState[static_cast<UINT>(ePlayerState::Run)] && CInput::GetKeyUp(eKeyCode::S))
 		{
 			mAnimator->Play(L"Player_PostCrouch", false);
 		}
@@ -719,7 +722,7 @@ namespace dru
 
 	void CPlayerScript::fall()
 	{
-		if (mState[(UINT)ePlayerState::Fall] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Fall)])
 		{
 			if (CInput::GetKeyTap(eKeyCode::S))
 			{
@@ -740,14 +743,14 @@ namespace dru
 	void CPlayerScript::fallStart()
 	{
 		mState.reset();
-		mState[(UINT)ePlayerState::Fall] = true;
+		mState[static_cast<UINT>(ePlayerState::Fall)] = true;
 		mAnimator->Play(L"Player_Fall");
 		mRigidbody->SetMaxVelocity(DEFAULT_VELOCITY);
 	}
 
 	void CPlayerScript::rollTrigger()
 	{
-		if (mState[(UINT)ePlayerState::Roll] == false)
+		if (!mState[static_cast<UINT>(ePlayerState::Roll)])
 		{
 			if (CInput::GetKeyDown(eKeyCode::S))
 			{
@@ -785,7 +788,7 @@ namespace dru
 	}
 	void CPlayerScript::roll()
 	{
-		if (mState[(UINT)ePlayerState::Roll] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Roll)] )
 		{
 			mRollTime += CTimeMgr::DeltaTime();
 			if (0.35f <= mRollTime)
@@ -834,16 +837,16 @@ namespace dru
 
 
 		}
-		if (mState[(UINT)ePlayerState::Jump] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Jump)] )
 		{
 			mAirTime += CTimeMgr::DeltaTime();
 			// 점프 시간 끝나면 Fall
 			if (0.15f <= mAirTime)
 			{
-				mState[(UINT)ePlayerState::Jump] = false;
-				if (mState[(UINT)ePlayerState::WallSlideUp] == false)
+				mState[static_cast<UINT>(ePlayerState::Jump)] = false;
+				if (!mState[static_cast<UINT>(ePlayerState::WallSlideUp)])
 				{
-					mState[(UINT)ePlayerState::Fall] = true;
+					mState[static_cast<UINT>(ePlayerState::Fall)] = true;
 					mAnimator->Play(L"Player_Fall", true);
 				}
 				mAirTime = 0.f;
@@ -859,7 +862,7 @@ namespace dru
 			// 공중에서 점프 키 일찍떼면 fall
 			if (CInput::GetKeyUp(eKeyCode::W))
 			{
-				if (mState[(UINT)ePlayerState::WallSlideUp] == false)
+				if (!mState[static_cast<UINT>(ePlayerState::WallSlideUp)])
 				{
 					fallStart();
 				}
@@ -875,7 +878,7 @@ namespace dru
 			{
 				if (CInput::GetKeyDown(eKeyCode::W))
 				{
-					mState[(UINT)ePlayerState::WallSlideUp] = true;
+					mState[static_cast<UINT>(ePlayerState::WallSlideUp)] = true;
 					mAnimator->Play(L"Player_WallSlide");
 				}
 
@@ -883,7 +886,7 @@ namespace dru
 
 		}
 
-		if (mState[(UINT)ePlayerState::WallSlideUp] == true)
+		if (mState[static_cast<UINT>(ePlayerState::WallSlideUp)])
 		{			
 			if (0.4f <= mWallSlideUpTime && 0.5f > mWallSlideUpTime)
 			{
@@ -891,8 +894,8 @@ namespace dru
 			}
 			else if (0.6f <= mWallSlideUpTime)
 			{
-				mState[(UINT)ePlayerState::WallSlideUp] = false;
-				mState[(UINT)ePlayerState::WallSlideDown] = true;
+				mState[static_cast<UINT>(ePlayerState::WallSlideUp)] = false;
+				mState[static_cast<UINT>(ePlayerState::WallSlideDown)] = true;
 			}
 			else
 			{
@@ -908,7 +911,7 @@ namespace dru
 				}
 			}
 		}
-		if (mState[(UINT)ePlayerState::WallSlideDown] == true)
+		if (mState[static_cast<UINT>(ePlayerState::WallSlideDown)] )
 		{
 			mAudioSource->Play_NoInterrupt(L"player_wallslide", true);
 			mRigidbody->SetMaxVelocity({ 5.f, 3.f, 0.f });
@@ -928,7 +931,7 @@ namespace dru
 	}
 	void CPlayerScript::wallKickTrigger()
 	{
-		if (mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
+		if (mState[static_cast<UINT>(ePlayerState::WallSlideDown)]  || mState[static_cast<UINT>(ePlayerState::WallSlideUp)])
 		{
 			if (CInput::GetKeyTap(eKeyCode::W))
 			{
@@ -959,7 +962,7 @@ namespace dru
 	}
 	void CPlayerScript::wallKick()
 	{
-		if (mState[(UINT)ePlayerState::WallKick] == true)
+		if (mState[static_cast<UINT>(ePlayerState::WallKick)])
 		{
 			{
 				if (GetOwner()->IsLeft())
@@ -1008,12 +1011,12 @@ namespace dru
 				mAttackCooldown = 0.f;
 			}
 		}
-		if (mState[(UINT)ePlayerState::Attack] == true)
+		if (mState[static_cast<UINT>(ePlayerState::Attack)] )
 		{
 			mAttackTime += CTimeMgr::DeltaTime();
 			if (0.15f <= mAttackTime)
 			{
-				mState[(UINT)ePlayerState::Attack] = false;
+				mState[static_cast<UINT>(ePlayerState::Attack)] = false;
 				mAttackTime = 0.f;
 				mbFirstAttack = false;
 				mAttackDir = Vector3::Zero;
@@ -1102,7 +1105,7 @@ namespace dru
 	void CPlayerScript::jumpdustSlideCheck()
 	{
 		Vector3 playerPos = GetOwnerWorldPos();
-		if (mState[(UINT)ePlayerState::WallKick] == true)
+		if (mState[static_cast<UINT>(ePlayerState::WallKick)] )
 		{
 			if (GetOwner()->IsLeft())
 			{
@@ -1346,10 +1349,10 @@ namespace dru
 		mbFirstAttack = true;
 		mWallSlideUpTime = 0.f;
 
-		if (mState[(UINT)ePlayerState::Dead] == false)
+		if (!mState[static_cast<UINT>(ePlayerState::Dead)])
 		{
 
-			if (mState[(UINT)ePlayerState::Fall] == true || mState[(UINT)ePlayerState::WallSlideDown] == true || mState[(UINT)ePlayerState::WallSlideUp] == true)
+			if (mState[static_cast<UINT>(ePlayerState::Fall)]  || mState[static_cast<UINT>(ePlayerState::WallSlideDown)]  || mState[static_cast<UINT>(ePlayerState::WallSlideUp)])
 			{
 				mAudioSource->Stop(L"player_wallslide");
 				if (!GetOwner_LiveObject()->IsRewindRePlaying())
@@ -1410,28 +1413,28 @@ namespace dru
 
 		wallLRCheck();
 
-		if (mState[(UINT)ePlayerState::Dead] == false)
+		if (!mState[static_cast<UINT>(ePlayerState::Dead)] )
 		{
 			if (mLRKeyupTime < 0.2f)
 			{
-				if (mState[(UINT)ePlayerState::WallKick] == false)
+				if (!mState[static_cast<UINT>(ePlayerState::WallKick)] )
 				{
 					if (mRigidbody->GetVelocity().y > 0.f)
-						mState[(UINT)ePlayerState::WallSlideUp] = true;
+						mState[static_cast<UINT>(ePlayerState::WallSlideUp)] = true;
 					else
 					{
-						mState[(UINT)ePlayerState::WallSlideDown] = true;
+						mState[static_cast<UINT>(ePlayerState::WallSlideDown)] = true;
 						mRigidbody->SetVelocity(Vector3::Zero);
 					}
 					mAnimator->Play(L"Player_WallSlide");
 				}
 			}
 
-			if (mState[(UINT)ePlayerState::WallKick] == true)
+			if (mState[static_cast<UINT>(ePlayerState::WallKick)] )
 			{
 				mRigidbody->SetVelocity(Vector3::Zero);
-				mState[(UINT)ePlayerState::WallKick] = false;
-				mState[(UINT)ePlayerState::WallSlideDown] = true;
+				mState[static_cast<UINT>(ePlayerState::WallKick)] = false;
+				mState[static_cast<UINT>(ePlayerState::WallSlideDown)] = true;
 				mAnimator->Play(L"Player_WallSlide");
 			}
 
@@ -1446,7 +1449,7 @@ namespace dru
 
 	void CPlayerScript::collEnter_MonsterSlash(CCollider2D* _oppo)
 	{
-		if (mState[(UINT)ePlayerState::Dead] == false)
+		if (!mState[static_cast<UINT>(ePlayerState::Dead)] )
 		{
 			Vector3 pos = _oppo->GetOwnerPos();
 			hit(pos, 0);
@@ -1455,7 +1458,7 @@ namespace dru
 
 	void CPlayerScript::collEnter_BulletSlash(CCollider2D* _oppo)
 	{
-		if (mState[(UINT)ePlayerState::Dead] == false)
+		if (!mState[static_cast<UINT>(ePlayerState::Dead)] )
 		{
 			CBullet* bullet = dynamic_cast<CBullet*>(_oppo->GetOwner());
 			if (!bullet->IsReflect())
@@ -1474,13 +1477,13 @@ namespace dru
 		{
 			if (towardToWallCheck_KeyDown())
 			{
-				if (mState[(UINT)ePlayerState::WallKick] == false)
+				if (!mState[static_cast<UINT>(ePlayerState::WallKick)])
 				{
 					if (mRigidbody->GetVelocity().y > 0.f)
-						mState[(UINT)ePlayerState::WallSlideUp] = true;
+						mState[static_cast<UINT>(ePlayerState::WallSlideUp)] = true;
 					else
 					{
-						mState[(UINT)ePlayerState::WallSlideDown] = true;
+						mState[static_cast<UINT>(ePlayerState::WallSlideDown)] = true;
 					}
 					mAnimator->Play(L"Player_WallSlide");
 				}
@@ -1492,14 +1495,14 @@ namespace dru
 	{
 		if (!mbInvisible)
 		{
-			if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false && mState[(UINT)ePlayerState::Dead] == false)
+			if (!mState[static_cast<UINT>(ePlayerState::Roll)]  && !mState[static_cast<UINT>(ePlayerState::WallKick)] && !mState[static_cast<UINT>(ePlayerState::Dead)])
 			{
 				mAudioSource->Play(L"player_die");
 
 				SetAfterImageCount(0);
 				BulletTimeSwitchOff();
 				mState.reset();
-				mState[(UINT)ePlayerState::Dead] = true;
+				mState[static_cast<UINT>(ePlayerState::Dead)] = true;
 				mAnimator->Play(L"Player_Dead", false);
 				mbInputBlock = true;
 				mRigidbody->SetMaxVelocity({ 5.f, 5.f, 0.f });
@@ -1536,7 +1539,7 @@ namespace dru
 	{
 		if (!mbInvisible)
 		{
-			if (mState[(UINT)ePlayerState::Roll] == false && mState[(UINT)ePlayerState::WallKick] == false)
+			if (!mState[static_cast<UINT>(ePlayerState::Roll)] && !mState[static_cast<UINT>(ePlayerState::WallKick)])
 			{
 				mAudioSource->Play(L"player_die");
 				mAudioSource->Play(L"laser_blast");
@@ -1550,7 +1553,7 @@ namespace dru
 				GetOwner()->GetCurrentStage()->BulletTimeOff();
 
 				mState.reset();
-				mState[(UINT)ePlayerState::Dead] = true;
+				mState[static_cast<UINT>(ePlayerState::Dead)] = true;
 				mbInputBlock = true;
 				mRigidbody->SetMaxVelocity({ 0.f, 0.f, 0.f });
 				mHitDir = Vector3::Zero;
